@@ -1,0 +1,367 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/ds002-pid-sd-jwt.json",
+  "title": "ds002 - Person Identification Data (PID) – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a PID as defined in the ds002 PID Rulebook (Chapter 4). This models the JSON claims set prior to SD-JWT disclosure/packing.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type. Base type is 'urn:eudi:pid:1'. Domestic types MAY be of the form 'urn:eudi:pid:<cc>:1'.",
+      "examples": [
+        "urn:eudi:pid:1",
+        "urn:eudi:pid:de:1"
+      ]
+    },
+    "given_name": {
+      "type": "string",
+      "description": "Current first name(s) of the user.",
+      "examples": ["Alice"]
+    },
+    "family_name": {
+      "type": "string",
+      "description": "Current last name(s) of the user.",
+      "examples": ["Müller"]
+    },
+    "birthdate": {
+      "type": "string",
+      "description": "Date of birth in ISO 8601-1 YYYY-MM-DD format.",
+      "format": "date",
+      "examples": ["1990-05-23"]
+    },
+    "place_of_birth": {
+      "type": "object",
+      "description": "Place of birth object as per EKYC: at least one of country, region, locality.",
+      "additionalProperties": false,
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Alpha-2 country code",
+          "minLength": 2,
+          "maxLength": 2,
+          "examples": ["DE"]
+        },
+        "region": {
+          "type": "string",
+          "examples": ["Bavaria"]
+        },
+        "locality": {
+          "type": "string",
+          "examples": ["Munich"]
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "country"
+          ]
+        },
+        {
+          "required": [
+            "region"
+          ]
+        },
+        {
+          "required": [
+            "locality"
+          ]
+        }
+      ],
+      "examples": [
+        { "country": "DE", "region": "Bavaria", "locality": "Munich" }
+      ]
+    },
+    "nationalities": {
+      "type": "array",
+      "description": "Array of alpha-2 nationality codes.",
+      "items": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2,
+        "examples": ["DE"]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "examples": [["DE", "FR"]]
+    },
+    "address": {
+      "type": "object",
+      "description": "OIDC-style address object.",
+      "additionalProperties": true,
+      "properties": {
+        "formatted": {
+          "type": "string",
+          "examples": ["123 Main St 5A, 80331 Munich, DE"]
+        },
+        "street_address": {
+          "type": "string",
+          "examples": ["123 Main St"]
+        },
+        "house_number": {
+          "type": "string",
+          "examples": ["5A"]
+        },
+        "locality": {
+          "type": "string",
+          "examples": ["Munich"]
+        },
+        "region": {
+          "type": "string",
+          "examples": ["Bavaria"]
+        },
+        "postal_code": {
+          "type": "string",
+          "examples": ["80331"]
+        },
+        "country": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 2,
+          "examples": ["DE"]
+        }
+      },
+      "examples": [
+        {
+          "formatted": "123 Main St 5A, 80331 Munich, DE",
+          "street_address": "123 Main St",
+          "house_number": "5A",
+          "locality": "Munich",
+          "region": "Bavaria",
+          "postal_code": "80331",
+          "country": "DE"
+        }
+      ]
+    },
+    "birth_family_name": {
+      "type": "string",
+      "examples": ["Schmidt"]
+    },
+    "birth_given_name": {
+      "type": "string",
+      "examples": ["Alice"]
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "examples": ["alice.mueller@example.com"]
+    },
+    "phone_number": {
+      "type": "string",
+      "description": "Mobile phone number starting with '+, and OICD / E.164 format compliant",
+      "pattern": "^\\+[0-9]{4,15}$",
+      "examples": ["+4915112345678"]
+    },
+    "picture": {
+      "type": "string",
+      "description": "Data URL with base64-encoded JPEG portrait.",
+      "pattern": "^data:image/jpeg;base64,[A-Za-z0-9+/=]+$",
+      "examples": [
+        "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAA....2gAIAQEABj8Cf//Z"
+      ]
+    },
+    "sex": {
+      "type": "integer",
+      "description": "Sex code per rulebook: 0,1,2,3,4,5,6,9.",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9
+      ],
+      "examples": [2]
+    },
+    "date_of_expiry": {
+      "type": "string",
+      "description": "Administrative expiry date in YYYY-MM-DD format.",
+      "format": "date",
+      "examples": ["2030-12-31"]
+    },
+    "date_of_issuance": {
+      "type": "string",
+      "description": "Administrative issuance date in YYYY-MM-DD format.",
+      "format": "date",
+      "examples": ["2025-01-15"]
+    },
+    "personal_administrative_number": {
+      "type": "string",
+      "examples": ["1234567890"]
+    },
+    "issuing_authority": {
+      "type": "string",
+      "examples": ["Stadt München"]
+    },
+    "issuing_country": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 2,
+      "examples": ["DE"]
+    },
+    "document_number": {
+      "type": "string",
+      "examples": ["X1234567"]
+    },
+    "issuing_jurisdiction": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 6,
+      "examples": ["DE-BY"]
+    },
+    "trust_anchor": {
+      "type": "string",
+      "format": "uri",
+      "examples": ["https://trust.example.org/anchors/eidas"]
+    },
+    "cnf": {
+      "type": "object",
+      "description": "Key binding confirmation per SD-JWT VC.",
+      "additionalProperties": true,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "kty": {
+              "type": "string",
+              "examples": ["EC", "RSA"]
+            },
+            "crv": {
+              "type": "string",
+              "examples": ["P-256"]
+            },
+            "x": {
+              "type": "string",
+              "examples": ["f83OJ3D2xF4wKJ1i8xWcQWfYVYVxG3lI8p3G5h1D2Vw"]
+            },
+            "y": {
+              "type": "string",
+              "examples": ["x_FEzRu9H1lq3eV6K0U2f1u3a9eJXl7J8m2bQ9k4oZk"]
+            },
+            "e": {
+              "type": "string",
+              "examples": ["AQAB"]
+            },
+            "n": {
+              "type": "string",
+              "examples": ["sXchp8G7uG0m7V9mZrGZb1hS0ZQyqZxZr7m2yq8tJv0"]
+            },
+            "kid": {
+              "type": "string",
+              "examples": ["key-1"]
+            },
+            "alg": {
+              "type": "string",
+              "examples": ["ES256", "RS256"]
+            }
+          },
+          "required": [
+            "kty"
+          ],
+          "examples": [
+            {
+              "kty": "EC",
+              "crv": "P-256",
+              "x": "f83OJ3D2xF4wKJ1i8xWcQWfYVYVxG3lI8p3G5h1D2Vw",
+              "y": "x_FEzRu9H1lq3eV6K0U2f1u3a9eJXl7J8m2bQ9k4oZk",
+              "kid": "key-1",
+              "alg": "ES256"
+            }
+          ]
+        }
+      },
+      "required": [
+        "jwk"
+      ],
+      "examples": [
+        {
+          "jwk": {
+            "kty": "EC",
+            "crv": "P-256",
+            "x": "f83OJ3D2xF4wKJ1i8xWcQWfYVYVxG3lI8p3G5h1D2Vw",
+            "y": "x_FEzRu9H1lq3eV6K0U2f1u3a9eJXl7J8m2bQ9k4oZk",
+            "kid": "key-1",
+            "alg": "ES256"
+          }
+        }
+      ]
+    },
+    "nbf": {
+      "type": "integer",
+      "description": "Not-before (epoch seconds).",
+      "examples": [1730200000]
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Expiry (epoch seconds).",
+      "examples": [1732800000]
+    },
+    "iss": {
+      "type": "string",
+      "examples": ["https://issuer.example.org"]
+    },
+    "sub": {
+      "type": "string",
+      "examples": ["did:example:alice"]
+    },
+    "iat": {
+      "type": "integer",
+      "examples": [1730195000]
+    },
+    "jti": {
+      "type": "string",
+      "examples": ["2f1c4c9e-8b3a-4a9e-9f8e-1234567890ab"]
+    },
+    "status": {
+      "type": "object",
+      "description": "Credential status following SD-JWT VC Status List.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'."
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating status."
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential."
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For PID this is 'revocation'."
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ],
+      "examples": [
+        {
+          "type": "status-list",
+          "status_list_credential": "https://issuer.example.com/status/1",
+          "status_list_index": 42,
+          "status_purpose": "revocation"
+        }
+      ]
+    }
+  },
+  "required": [
+    "given_name",
+    "family_name",
+    "birthdate",
+    "place_of_birth",
+    "nationalities",
+    "vct"
+  ]
+}

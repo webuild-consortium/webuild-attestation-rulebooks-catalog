@@ -1,0 +1,62 @@
+{
+  "vct": "urn:eudi:pid:de:1",
+
+  "given_name": "Jean",
+  "family_name": "Dupont",
+  "birthdate": "1980-05-23",
+
+  "address": {
+    "street_address": "123 Via Appia",
+    "house_number": "123",
+    "locality": "Rome",
+    "region": "Lazio",
+    "postal_code": "00100",
+    "country": "IT",
+    "formatted": "123 Via Appia 123, 00100 Rome, Lazio, IT"
+  },
+
+  "nationalities": ["FR"],
+
+  "sex": 5,
+
+  "place_of_birth": {
+    "country": "DE"
+  },
+
+  "email": "jean.dupont@example.fr",
+  "phone_number": "+33123456789",
+
+  "picture": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2w==",
+
+  "issuing_authority": "DE",
+  "issuing_country": "DE",
+  "issuing_jurisdiction": "DE-BE",
+
+  "date_of_issuance": "2025-01-15",
+  "date_of_expiry": "2030-01-14",
+
+  "personal_administrative_number": "DE-19800523-123456",
+  "document_number": "PID-DE-00001234",
+  "trust_anchor": "https://example.org/trust/pid-ta.json",
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "52aDI_ur05n1f_p3jiYGUU82oKZr3m4LsAErM536crQ",
+      "y": "ckhZ-KQ5aXNL91R8Eufg1aOf8Z5pZJnIvuCzNGfdnzo"
+    }
+  },
+
+  "iss": "https://pid-issuer.example.de",
+  "nbf": 1767139200,
+  "iat": 1767135600,
+  "exp": 1767740400,
+  "jti": "b3f6f1f2-55a8-4d5f-9a0d-1a3b1a0d0c9e",
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/1",
+    "status_list_index": 42,
+    "status_purpose": "revocation"
+  }
+}

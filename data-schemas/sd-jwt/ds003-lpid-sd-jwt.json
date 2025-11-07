@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/ds003-lpid-sd-jwt.json",
+  "title": "ds003 - Legal Person Identification Data (LPID) – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of an LPID as defined in the ds003 LPID Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type.",
+      "examples": [
+        "uri:eu.eudi.lpid.1",
+        "uri:eu.eudi.lpid.no.1"
+      ]
+    },
+
+    "id": {
+      "type": "string",
+      "description": "Cross-border unique identifier. In WeBuild context, EUID if available, else issuer-unique ID constructed in the same format as EUID.",
+      "examples": ["NOFOR.123456789"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Registered legal name of the Economic Operator.",
+      "examples": ["Example AS"]
+    },
+
+    "date_of_expiry": {
+      "type": "string",
+      "description": "Administrative expiry date in YYYY-MM-DD format.",
+      "format": "date",
+      "examples": ["2026-12-31"]
+    },
+    "issuing_authority": {
+      "type": "string",
+      "description": "Name of the administrative authority or ISO 3166-1 alpha-2 of Member State if no separate body.",
+      "examples": ["Brønnøysundregistrene", "DE"]
+    },
+    "issuing_country": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 code of the provider’s country/territory.",
+      "minLength": 2,
+      "maxLength": 2,
+      "examples": ["NO", "DE"]
+    },
+
+    "document_number": {
+      "type": "string",
+      "description": "Administrative number assigned by the provider; not related to status list numbering.",
+      "examples": ["LPID-2025-000123"]
+    },
+    "issuing_jurisdiction": {
+      "type": "string",
+      "description": "ISO 3166-2 subdivision code; first part equals issuing country.",
+      "minLength": 2,
+      "maxLength": 6,
+      "examples": ["NO-03", "DE-BE"]
+    },
+
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "examples": ["status-list"]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "examples": ["https://issuer.example.com/status/1"]
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "examples": [42]
+        },
+        "status_purpose": {
+          "type": "string",
+          "examples": ["revocation"]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ],
+      "examples": [
+        {
+          "type": "status-list",
+          "status_list_credential": "https://issuer.example.com/status/1",
+          "status_list_index": 42,
+          "status_purpose": "revocation"
+        }
+      ]
+    },
+
+    "trust_anchor": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of machine‑readable trust anchor as per Annex V/VII point h).",
+      "examples": ["https://tl.eidas.europa.eu/tl-browser/#/"]
+    },
+
+    "address": {
+      "type": "string",
+      "description": "Officially registered business address (full, formatted).",
+      "examples": ["Storgata 1, 9008 Tromsø, NO"]
+    },
+    "vat": {
+      "type": "string",
+      "description": "VAT registration number.",
+      "examples": ["123456789MVA"]
+    },
+    "tin": {
+      "type": "string",
+      "description": "Tax reference number.",
+      "examples": ["NO-ORG-123456789"]
+    },
+    "euid": {
+      "type": "string",
+      "description": "European Unique Identifier (BRIS EUID).",
+      "examples": ["NOFOR.987654321"]
+    },
+    "lei": {
+      "type": "string",
+      "description": "Legal Entity Identifier (LEI).",
+      "examples": ["5493001KJTIIGC8Y1R12"]
+    },
+    "eori": {
+      "type": "string",
+      "description": "Economic Operator Registration and Identification (EORI).",
+      "examples": ["NO123456789012"]
+    },
+    "excise": {
+      "type": "string",
+      "description": "Excise number.",
+      "examples": ["GBWK123456789000"]
+    },
+
+    "cnf": {
+      "type": "object",
+      "description": "Key binding confirmation per SD-JWT VC.",
+      "additionalProperties": true,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "kty": { "type": "string", "examples": ["EC", "RSA"] },
+            "crv": { "type": "string", "examples": ["P-256"] },
+            "x":   { "type": "string" },
+            "y":   { "type": "string" },
+            "e":   { "type": "string" },
+            "n":   { "type": "string" },
+            "kid": { "type": "string" },
+            "alg": { "type": "string", "examples": ["ES256", "RS256"] }
+          },
+          "required": ["kty"],
+          "examples": [
+            {
+              "kty": "EC",
+              "crv": "P-256",
+              "x": "52aDI_ur05n1f_p3jiYGUU82oKZr3m4LsAErM536crQ",
+              "y": "ckhZ-KQ5aXNL91R8Eufg1aOf8Z5pZJnIvuCzNGfdnzo",
+              "alg": "ES256"
+            }
+          ]
+        }
+      },
+      "required": ["jwk"]
+    },
+
+    "nbf": { "type": "integer", "description": "Not-before (epoch seconds).", "examples": [1767139200] },
+    "iat": { "type": "integer", "description": "Issued-at (epoch seconds).", "examples": [1767135600] },
+    "exp": { "type": "integer", "description": "Expiry (epoch seconds).", "examples": [1767740400] },
+    "iss": { "type": "string", "description": "Issuer identifier (URL or DID).", "examples": ["https://lpid-issuer.example.no"] },
+    "sub": { "type": "string", "description": "Subject identifier.", "examples": ["did:example:legal-person:NOFOR.123456789"] },
+    "jti": { "type": "string", "description": "JWT ID.", "examples": ["b3f6f1f2-55a8-4d5f-9a0d-1a3b1a0d0c9e"] }
+  },
+
+  "required": [
+    "vct",
+    "id",
+    "name",
+    "date_of_expiry",
+    "issuing_authority",
+    "issuing_country"
+  ]
+}
