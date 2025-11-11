@@ -8,7 +8,7 @@ subtitle: "ARF Annex 3.01 - PID Rulebook"
 | Version | Date        | Description                                                                                                                                                                                                                                                                                                                                                                                                                      |
 |---------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |
-| 0.1.3   | 27 Oct 2025 | Transferred main structure and content from [EUDI repository](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md) and modified template to closer align to [EUDI template](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/template/attestation-rulebook-template.md). First specific draft for WeBuild |
+| 0.1.3   | 27 Oct 2025 | Transferred main structure and content from [EUDI repository](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md) and modified template to closer align to [EUDI template](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/template/attestation-rulebook-template.md). First specific draft for WE BUILD |
 
 <!-- Usage help: (Name LastName, Affiliation) -->
 *  Authors
@@ -19,7 +19,7 @@ subtitle: "ARF Annex 3.01 - PID Rulebook"
 * 
 ### Feedback and contact
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
-Alternative: Contact workpackage 4 in WeBuild, or/and the author of the document. 
+Alternative: Contact workpackage 4 in WE BUILD, or/and the author of the document. 
 
 ## 1 Introduction
 
@@ -57,13 +57,13 @@ attributes and metadata are encoded in the required formats
 attributes and metadata are encoded in case the PID complies with [SD-JWT VC].
 - **TODO: Add Chapter for W3C Json-ld** 
 - [Chapter 5](#4-attestation-usage) describes attestation usage guidelines, user
-and RP behaviours, and applicability scenarios. TODO: WeBuild addition on the EUDI rulebook document based on the EUDI rulebook template.
+and RP behaviours, and applicability scenarios. TODO: WE BUILD addition on the EUDI rulebook document based on the EUDI rulebook template.
 - [Chapter 6](#5-trust-anchors) describes trust anchor distribution and lookup
-mechanisms. TODO: WeBuild addition on the EUDI rulebook document based on the EUDI rulebook template.
+mechanisms. TODO: WE BUILD addition on the EUDI rulebook document based on the EUDI rulebook template.
 - [Chapter 7](#6-revocation) describes revocation strategy and mechanisms.
-TODO: WeBuild addition on the EUDI rulebook document based on the EUDI rulebook template.
+TODO: WE BUILD addition on the EUDI rulebook document based on the EUDI rulebook template.
 - [Chapter 8](#7-compliance) describes compliance criteria and conformance
-statements. TODO: WeBuild addition on the EUDI rulebook document based on the EUDI rulebook template.
+statements. TODO: WE BUILD addition on the EUDI rulebook document based on the EUDI rulebook template.
 - [Chapter 9](#8-references) lists references.
 
 ### 1.3 Keywords
@@ -86,7 +86,7 @@ This document uses the terminology specified in [Annex 1](https://eu-digital-ide
 
 In addition, the following terms are used in this document:
 
-| Term | Definition in WeBuild Context                                                                                                                                                                                                   |
+| Term | Definition in WE BUILD Context                                                                                                                                                                                                   |
 |------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | CDDL | CDDL stands for Concise Data Definition Language. It’s a formal notation used to describe the structure and constraints of data, especially in contexts where data is encoded using CBOR (Concise Binary Object Representation) |
 
@@ -388,10 +388,10 @@ in this document. Requirement PID_15 in [Annex 2, Topic 3](https://eu-digital-id
 common EU-wide type as well as on any domestic types is published and
 accessible in a catalogue.
 
-**Further clarification added in this rulebook for WeBuild**: We encourage the use of the EUDI standard for WeBuild Pilots, over national standards and extensions.
+**Further clarification added in this rulebook for WE BUILD**: We encourage the use of the EUDI standard for WE BUILD Pilots, over national standards and extensions.
 
 ### 3.3 SD-JWT version 
-For WeBuild we focus on following the sd-jwt standard draft version 12, [which can be found here](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/)
+For WE BUILD we focus on following the sd-jwt standard draft version 12, [which can be found here](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/)
 
 ### 3.4 Example
 
@@ -450,15 +450,15 @@ references to the issuer and more.
 
 ## 4 Attestation usage
 
-TODO: Webuild WP4 - PID/LPID group task 3?
+TODO: WE BUILD WP4 - PID/LPID group task 3?
 
 ## 5 Trust anchors
 
-TODO: Webuild WP4 - Trust Registry Infrastucture / Architecture group?
+TODO: WE BUILD WP4 - Trust Registry Infrastucture / Architecture group?
 
 ## 6 Revocation
 
-TODO: Webuild WP4 - PID/LPID group task 5
+TODO: WE BUILD WP4 - PID/LPID group task 5
 
 ## 7 Compliance
 

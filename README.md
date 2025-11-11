@@ -1,7 +1,7 @@
-# eudi-wallet-rulebooks-and-schemas
+# WEBUILD Attestation Rulebooks and Schemas
 
 ## Repository description
-This repository hosts the rulebooks and data schemas used across the WeBuild Large Scale Pilot (LSP) use cases for the European Digital Identity (EUDI) ecosystem. It serves as a single source of truth for governance, interoperability, and compliance materials, including:
+This repository hosts the rulebooks and data schemas used across the WE BUILD Large Scale Pilot (LSP) use cases for the European Digital Identity (EUDI) ecosystem. It serves as a single source of truth for governance, interoperability, and compliance materials, including:
 
 - Rulebooks that describe requirements, roles, processes, and conformance criteria for specific credentials and attestation types.
 - Data schemas (e.g. SD-JWT based) that define how credential data is structured and validated.

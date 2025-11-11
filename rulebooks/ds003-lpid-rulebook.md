@@ -17,7 +17,7 @@
 
 **Feedback:**
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
-Alternative: Contact workpackage 4 in WeBuild, or/and the author of the document.
+Alternative: Contact workpackage 4 in WE BUILD, or/and the author of the document.
 
 
 ## 1 Introduction
@@ -63,9 +63,9 @@ This document uses the terminology specified in [Annex 1](https://eu-digital-ide
 
 The terminology is extended as follows:
 
-| Term              | Definition in WeBuild Context                                                                                                              |
-|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| Economic Operator | Any organisation, governmental or private, including single-person companies that is a participant in the local, national or global economy |
+| Term                      | Definition in WE BUILD Context                                                                                                    |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| Legal Person/Legal Entity | A self-employed person, company, or organization that has legal rights and obligations. [Following the EU Core business vocabulary](https://semiceu.github.io/Core-Business-Vocabulary/releases/2.2.0/#LegalEntity) |
 
 ## 2 Attestation attributes and metadata
 
@@ -131,7 +131,7 @@ The Legal Person Identification Data (LPID) is a structured digital attribute de
 This rulebook defines in this chapter the legally required minimum attributes, as well as the legally optional attributes. National adoptions can be done by allowing for national extensions to meet domestic needs. 
 
 
-**In the Webuild context**, LPIDs can be issued to any Economic Operator, provided the operator is registered in an authentic source (such as government entities, Company branches and other). This ensures that even non-traditional entities participating in procurement, supply chains, or public services can be digitally identified and verified with confidence.
+**In the WE BUILD context**, LPIDs can be issued to any Legal Entity, provided the operator is registered in an authentic source (such as government entities, Company branches and other). 
 
 All data identifiers and definitions in this chapter are independent of any
 encoding used. Consequently,
@@ -148,24 +148,24 @@ encoding used. Consequently,
 
 ### 2.2 Mandatory attributes specified in CIR 2024/2977
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                                                                                                                                                              |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| name                 | The current, registered name of the Economic Operator                                                                                                                                                                                                                                                                                       |
-| id                   | A unique identifier constructed by the sending Member State in accordance with the technical specifications for the purposes of cross-border identification and which is as persistent as possible in time **In WeBuild context** we use the EUID as identificator if available, or a similar constructed, unique per issuer identifier. |
+| **Data Identifier**  | **Definition**                                                                                                                                                                                                                                                                                                                            |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| name                 | The current, registered name of the Legal Person                                                                                                                                                                                                                                                                                          |
+| id                   | A unique identifier constructed by the sending Member State in accordance with the technical specifications for the purposes of cross-border identification and which is as persistent as possible in time **In WE BUILD context** we use the EUID as identificator if available, or a similar constructed, unique per issuer identifier. |
 
 
 
 ### 2.3 Optional attributes specified in CIR 2024/2977
 
-| **Data Identifier**          | **Definition**                                                                                                                |
-|------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| address                      | The officially registered business address of the company, as recorded with government authorities.                           | 
-| vat                          | VAT registration number                                                                                                       |
-| tin                          | tax reference number, and registered for TIN if possible                                                                      |
-| euid                         | European unique identifier referred to in Directive (EU) 2017/1132 of the European Parliament and  of the Council             |
-| lei                          | Legal Entity Identifier (LEI) referred to in Commission Implementing Regulation (EU) 2022/1860                                |
+| **Data Identifier**          | **Definition**                                                                                                 |
+|------------------------------|----------------------------------------------------------------------------------------------------------------|
+| address                      | The officially registered business address of the company, as recorded with government authorities.            | 
+| vat                          | VAT registration number                                                                                        |
+| tin                          | tax reference number, and registered for TIN if possible                                                       |
+| euid                         | European unique identifier referred to in Directive (EU) 2017/1132 of the European Parliament and  of the Council |
+| lei                          | Legal Entity Identifier (LEI) referred to in Commission Implementing Regulation (EU) 2022/1860                 |
 | eori                         | Economic Operator Registration and Identification (EORI) referred to in Commission Implementing  Regulation (EU) No 1352/2013 |
-| excise                       | excise number provided in Article 2(12) of Council Regulation (EU) No 389/2012                                                |
+| excise                       | excise number provided in Article 2(12) of Council Regulation (EU) No 389/2012                                 |
 
 ### 2.4 Mandatory metadata specified in CIR 2024/2977
 
@@ -204,24 +204,24 @@ Verifiable Credential Type (vct): `uri:eu.eudi.lpid.1`
 
 Claim names and disclosure policy (aligned with Chapter 2 attributes):
 
-| Data Identifier      | Attribute Identifier | Encoding format | Reference/Notes                                                                                                                |
-|----------------------|----------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------|
-| id                   | id                   | string          | Cross-border unique identifier. In WeBuild context, EUID if available, or a similar constructed, unique per issuer identifier. |
-| name                 | name                 | string          | Registered legal name of the Economic Operator.                                                                                |
-| expiry_date          | date_of_expiry       | string          | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema]                                       |
-| issuing_authority    | issuing_authority    | string          | Name of the administrative authority or ISO 3166-1 alpha-2 of Member State if no separate body.                                |
-| issuing_country      | issuing_country      | string          | ISO 3166‑1 alpha‑2 code of the provider’s country/territory.                                                                   |
-| document_number      | document_number      | string          | Administrative number assigned by the provider; not related to status list numbering.                                          |
-| issuing_jurisdiction | issuing_jurisdiction | string          | ISO 3166‑2 subdivision code; first part equals issuing country.                                                                |
-| location_status      | status               | JSON Object     | Se Section [Section 3.2.1](#321-attribute-status)                                                                              |
-| trust_anchor         | trust_anchor         | string (URI)    | URL of machine‑readable trust anchor as per Annex V/VII point h).                                                              |
-| address              | address              | string          | The full, registered business address                                                                                          |
-| vat                  | vat                  | string          | VAT registration number.                                                                                                       |
-| tin                  | tin                  | string          | Tax reference number.                                                                                                          |
-| euid                 | euid                 | string          | European Unique Identifier (EUID as used by BRIS).                                                                             |
-| lei                  | lei                  | string          | Legal Entity Identifier (LEI).                                                                                                 |
-| eori                 | eori                 | string          | Economic Operator Registration and Identification (EORI).                                                                      |
-| excise               | excise               | string          | Excise number.                                                                                                                 |
+| Data Identifier      | Attribute Identifier | Encoding format | Reference/Notes                                                                                                                                                                                              |
+|----------------------|----------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                   | id                   | string          | Cross-border unique identifier. In WE BUILD context, EUID if available, or a similar constructed, unique per issuer identifier.                                                                              |
+| name                 | name                 | string          | Registered legal name of the Legal Person.                                                                                                                                                                   |
+| expiry_date          | date_of_expiry       | string          | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema]                                                                                                                     |
+| issuing_authority    | issuing_authority    | string          | Name of the administrative authority or ISO 3166-1 alpha-2 of Member State if no separate body.                                                                                                              |
+| issuing_country      | issuing_country      | string          | ISO 3166‑1 alpha‑2 code of the provider’s country/territory.                                                                                                                                                 |
+| document_number      | document_number      | string          | Administrative number assigned by the provider; not related to status list numbering.                                                                                                                        |
+| issuing_jurisdiction | issuing_jurisdiction | string          | ISO 3166‑2 subdivision code; first part equals issuing country.                                                                                                                                              |
+| location_status      | status               | JSON Object     | Se Section [Section 3.2.1](#321-attribute-status)                                                                                                                                                            |
+| trust_anchor         | trust_anchor         | string (URI)    | URL of machine‑readable trust anchor as per Annex V/VII point h).                                                                                                                                            |
+| address              | address              | Json Object     | The full, registered business address, following the [OIDC section 5.1.1](https://openid.net/specs/openid-connect-core-1_0-final.html#AddressClaim) definintion. See [Section 3.2.2](#322-attribute-address) |
+| vat                  | vat                  | string          | VAT registration number.                                                                                                                                                                                     |
+| tin                  | tin                  | string          | Tax reference number.                                                                                                                                                                                        |
+| euid                 | euid                 | string          | European Unique Identifier (EUID as used by BRIS).                                                                                                                                                           |
+| lei                  | lei                  | string          | Legal Entity Identifier (LEI).                                                                                                                                                                               |
+| eori                 | eori                 | string          | Economic Operator Registration and Identification (EORI).                                                                                                                                                    |
+| excise               | excise               | string          | Excise number.                                                                                                                                                                                               |
 
 Selective Disclosure: Core identity claims of LPID (`id`, `name`) SHALL NOT be selectively disclosable to preserve the atomic nature of LPID. Other attributes MAY be selectively disclosable, according to issuer policy. This remains technically compatible with SD‑JWT VC while enforcing the atomic presentation requirement for LPID.
 
@@ -248,6 +248,39 @@ Example:
 }
 ```
 
+### 3.2.2 Attribute address
+
+The address attribute follows the OpenID Connect Core 1.0 address claim structure defined
+in [OIDC section 5.1.1](https://openid.net/specs/openid-connect-core-1_0-final.html#AddressClaim). It is represented as
+a JSON object containing the following fields:
+
+| Field          | Type   | Description                                               |
+|----------------|--------|-----------------------------------------------------------|
+| street_address | string | Full street address component                             |
+| house_number   | string | House number component                                    |
+| locality       | string | City or locality component                                |
+| region         | string | State, province, prefecture, or region component          |
+| postal_code    | string | Zip or postal code component                              |
+| country        | string | Country component as ISO 3166-1 alpha-2 code              |
+| formatted      | string | Full mailing address with all components in correct order |
+
+Example:
+
+```json
+{
+  "address": {
+    "street_address": "123 Via Appia",
+    "house_number": "123",
+    "locality": "Rome", 
+    "region": "Lazio",
+    "postal_code": "00100",
+    "country": "IT",
+    "formatted": "123 Via Appia 123, 00100 Rome, Lazio, IT"
+  }
+}
+```
+
+### 3.3 Example
 
 Illustrative examples:
 - Example claim set (human‑readable):
@@ -293,7 +326,7 @@ TODO: Add W3C VC encoding.
 
 ## 4 Attestation usage
 
-TODO: Webuild WP4 - PID/LPID group task 3?
+TODO: WE BUILD WP4 - PID/LPID group task 3?
 
 
 Primary use cases:
@@ -315,7 +348,7 @@ Transactional data:
 
 ## 5 Trust anchors
 
-TODO: Webuild WP4 - Trust Registry Infrastucture / Architecture group? 
+TODO: WE BUILD WP4 - Trust Registry Infrastucture / Architecture group? 
 
 
 For LPID as a PuB‑EAA, Relying Parties SHALL verify the LPID using the public‑body issuer certificate issued by a Qualified Trust Service Provider (QTSP), and SHALL verify the QTSP certificate chain up to the trust anchor present in the QTSP Trusted List.
@@ -333,7 +366,7 @@ Issuers MAY use intermediate signing certificates. RPs SHALL handle such chains.
 
 ## 6 Revocation
 
-TODO: Webuild WP4 - PID/LPID group task 5
+TODO: WE BUILD WP4 - PID/LPID group task 5
 
 LPIDs are expected to be long‑lived but revocable. This Rulebook adopts the following policy:
 - LPIDs SHALL include `exp`. Validity longer than 24 hours is permitted; therefore, revocation MUST be supported.

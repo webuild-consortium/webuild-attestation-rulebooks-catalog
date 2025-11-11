@@ -18,18 +18,24 @@
     "given_name": {
       "type": "string",
       "description": "Current first name(s) of the user.",
-      "examples": ["Alice"]
+      "examples": [
+        "Alice"
+      ]
     },
     "family_name": {
       "type": "string",
       "description": "Current last name(s) of the user.",
-      "examples": ["Müller"]
+      "examples": [
+        "Müller"
+      ]
     },
     "birthdate": {
       "type": "string",
       "description": "Date of birth in ISO 8601-1 YYYY-MM-DD format.",
       "format": "date",
-      "examples": ["1990-05-23"]
+      "examples": [
+        "1990-05-23"
+      ]
     },
     "place_of_birth": {
       "type": "object",
@@ -41,15 +47,21 @@
           "description": "Alpha-2 country code",
           "minLength": 2,
           "maxLength": 2,
-          "examples": ["DE"]
+          "examples": [
+            "DE"
+          ]
         },
         "region": {
           "type": "string",
-          "examples": ["Bavaria"]
+          "examples": [
+            "Bavaria"
+          ]
         },
         "locality": {
           "type": "string",
-          "examples": ["Munich"]
+          "examples": [
+            "Munich"
+          ]
         }
       },
       "anyOf": [
@@ -70,7 +82,11 @@
         }
       ],
       "examples": [
-        { "country": "DE", "region": "Bavaria", "locality": "Munich" }
+        {
+          "country": "DE",
+          "region": "Bavaria",
+          "locality": "Munich"
+        }
       ]
     },
     "nationalities": {
@@ -80,11 +96,18 @@
         "type": "string",
         "minLength": 2,
         "maxLength": 2,
-        "examples": ["DE"]
+        "examples": [
+          "DE"
+        ]
       },
       "minItems": 1,
       "uniqueItems": true,
-      "examples": [["DE", "FR"]]
+      "examples": [
+        [
+          "DE",
+          "FR"
+        ]
+      ]
     },
     "address": {
       "type": "object",
@@ -93,33 +116,47 @@
       "properties": {
         "formatted": {
           "type": "string",
-          "examples": ["123 Main St 5A, 80331 Munich, DE"]
+          "examples": [
+            "123 Main St 5A, 80331 Munich, DE"
+          ]
         },
         "street_address": {
           "type": "string",
-          "examples": ["123 Main St"]
+          "examples": [
+            "123 Main St"
+          ]
         },
         "house_number": {
           "type": "string",
-          "examples": ["5A"]
+          "examples": [
+            "5A"
+          ]
         },
         "locality": {
           "type": "string",
-          "examples": ["Munich"]
+          "examples": [
+            "Munich"
+          ]
         },
         "region": {
           "type": "string",
-          "examples": ["Bavaria"]
+          "examples": [
+            "Bavaria"
+          ]
         },
         "postal_code": {
           "type": "string",
-          "examples": ["80331"]
+          "examples": [
+            "80331"
+          ]
         },
         "country": {
           "type": "string",
           "minLength": 2,
           "maxLength": 2,
-          "examples": ["DE"]
+          "examples": [
+            "DE"
+          ]
         }
       },
       "examples": [
@@ -136,22 +173,30 @@
     },
     "birth_family_name": {
       "type": "string",
-      "examples": ["Schmidt"]
+      "examples": [
+        "Schmidt"
+      ]
     },
     "birth_given_name": {
       "type": "string",
-      "examples": ["Alice"]
+      "examples": [
+        "Alice"
+      ]
     },
     "email": {
       "type": "string",
       "format": "email",
-      "examples": ["alice.mueller@example.com"]
+      "examples": [
+        "alice.mueller@example.com"
+      ]
     },
     "phone_number": {
       "type": "string",
       "description": "Mobile phone number starting with '+, and OICD / E.164 format compliant",
       "pattern": "^\\+[0-9]{4,15}$",
-      "examples": ["+4915112345678"]
+      "examples": [
+        "+4915112345678"
+      ]
     },
     "picture": {
       "type": "string",
@@ -174,48 +219,67 @@
         6,
         9
       ],
-      "examples": [2]
+      "examples": [
+        2
+      ]
     },
     "date_of_expiry": {
       "type": "string",
       "description": "Administrative expiry date in YYYY-MM-DD format.",
       "format": "date",
-      "examples": ["2030-12-31"]
+      "examples": [
+        "2030-12-31"
+      ]
     },
     "date_of_issuance": {
       "type": "string",
       "description": "Administrative issuance date in YYYY-MM-DD format.",
       "format": "date",
-      "examples": ["2025-01-15"]
+      "examples": [
+        "2025-01-15"
+      ]
     },
     "personal_administrative_number": {
       "type": "string",
-      "examples": ["1234567890"]
+      "examples": [
+        "1234567890"
+      ]
     },
     "issuing_authority": {
       "type": "string",
-      "examples": ["Stadt München"]
+      "examples": [
+        "Stadt München"
+      ]
     },
     "issuing_country": {
       "type": "string",
       "minLength": 2,
       "maxLength": 2,
-      "examples": ["DE"]
+      "examples": [
+        "DE"
+      ]
     },
     "document_number": {
       "type": "string",
-      "examples": ["X1234567"]
+      "examples": [
+        "X1234567"
+      ]
     },
     "issuing_jurisdiction": {
       "type": "string",
       "minLength": 2,
       "maxLength": 6,
-      "examples": ["DE-BY"]
+      "examples": [
+        "DE-BY"
+      ]
     },
     "trust_anchor": {
       "type": "string",
       "format": "uri",
-      "examples": ["https://trust.example.org/anchors/eidas"]
+      "description": "URL of machine‑readable trust anchor as per Annex V/VII point h).",
+      "examples": [
+        "https://trust.example.org/anchors/eidas"
+      ]
     },
     "cnf": {
       "type": "object",
@@ -228,35 +292,53 @@
           "properties": {
             "kty": {
               "type": "string",
-              "examples": ["EC", "RSA"]
+              "examples": [
+                "EC",
+                "RSA"
+              ]
             },
             "crv": {
               "type": "string",
-              "examples": ["P-256"]
+              "examples": [
+                "P-256"
+              ]
             },
             "x": {
               "type": "string",
-              "examples": ["f83OJ3D2xF4wKJ1i8xWcQWfYVYVxG3lI8p3G5h1D2Vw"]
+              "examples": [
+                "f83OJ3D2xF4wKJ1i8xWcQWfYVYVxG3lI8p3G5h1D2Vw"
+              ]
             },
             "y": {
               "type": "string",
-              "examples": ["x_FEzRu9H1lq3eV6K0U2f1u3a9eJXl7J8m2bQ9k4oZk"]
+              "examples": [
+                "x_FEzRu9H1lq3eV6K0U2f1u3a9eJXl7J8m2bQ9k4oZk"
+              ]
             },
             "e": {
               "type": "string",
-              "examples": ["AQAB"]
+              "examples": [
+                "AQAB"
+              ]
             },
             "n": {
               "type": "string",
-              "examples": ["sXchp8G7uG0m7V9mZrGZb1hS0ZQyqZxZr7m2yq8tJv0"]
+              "examples": [
+                "sXchp8G7uG0m7V9mZrGZb1hS0ZQyqZxZr7m2yq8tJv0"
+              ]
             },
             "kid": {
               "type": "string",
-              "examples": ["key-1"]
+              "examples": [
+                "key-1"
+              ]
             },
             "alg": {
               "type": "string",
-              "examples": ["ES256", "RS256"]
+              "examples": [
+                "ES256",
+                "RS256"
+              ]
             }
           },
           "required": [
@@ -293,28 +375,44 @@
     "nbf": {
       "type": "integer",
       "description": "Not-before (epoch seconds).",
-      "examples": [1730200000]
+      "examples": [
+        1767139200
+      ]
+    },
+    "iat": {
+      "type": "integer",
+      "description": "Issued-at (epoch seconds).",
+      "examples": [
+        1767135600
+      ]
     },
     "exp": {
       "type": "integer",
       "description": "Expiry (epoch seconds).",
-      "examples": [1732800000]
+      "examples": [
+        1767740400
+      ]
     },
     "iss": {
       "type": "string",
-      "examples": ["https://issuer.example.org"]
+      "description": "Issuer identifier (URL or DID).",
+      "examples": [
+        "https://lpid-issuer.example.no"
+      ]
     },
     "sub": {
       "type": "string",
-      "examples": ["did:example:alice"]
-    },
-    "iat": {
-      "type": "integer",
-      "examples": [1730195000]
+      "description": "Subject identifier of the holder (e.g., DID).",
+      "examples": [
+        "did:example:legal-person:NOFOR.123456789"
+      ]
     },
     "jti": {
       "type": "string",
-      "examples": ["2f1c4c9e-8b3a-4a9e-9f8e-1234567890ab"]
+      "description": "JWT ID.",
+      "examples": [
+        "b3f6f1f2-55a8-4d5f-9a0d-1a3b1a0d0c9e"
+      ]
     },
     "status": {
       "type": "object",
@@ -362,6 +460,10 @@
     "birthdate",
     "place_of_birth",
     "nationalities",
-    "vct"
+    "date_of_expiry",
+    "issuing_authority",
+    "issuing_country",
+    "vct",
+    "cnf"
   ]
 }
