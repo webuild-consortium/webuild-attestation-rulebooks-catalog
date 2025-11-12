@@ -1,0 +1,272 @@
+
+name: Validate data-schemas JSON Schemas
+
+on:
+  pull_request:
+    paths:
+      - 'data-schemas/**'
+      - 'sample-data/**'
+      - '.github/workflows/validate-schemas.yml'
+
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'data-schemas/**'
+      - 'sample-data/**'
+      - '.github/workflows/validate-schemas.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  discover-folders:
+    name: Discover data-schemas subfolders
+    runs-on: ubuntu-latest
+    outputs:
+      folders: ${{ steps.discover.outputs.folders }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: discover
+        name: List immediate subfolders of data-schemas
+        run: |
+          python - << 'PY'
+          import json, os, sys
+          root = 'data-schemas'
+          try:
+              entries = sorted([d for d in os.listdir(root) if os.path.isdir(os.path.join(root, d))])
+          except FileNotFoundError:
+              entries = []
+          # Fallback to root if there are JSONs directly under data-schemas (no subfolders)
+          if not entries and any(fn.endswith('.json') for fn in os.listdir(root)):
+              entries = ['.']
+          print('Found subfolders:', entries)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"folders={json.dumps(entries)}\n")
+          PY
+
+  validate-schemas:
+    name: Validate JSON Schemas in '${{ matrix.folder }}'
+    needs: discover-folders
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folder: ${{ fromJSON(needs.discover-folders.outputs.folders) }}
+
+    steps:
+      - name: Check out merge result
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install jsonschema
+
+      - name: Validate schemas under data-schemas/${{ matrix.folder }}/**
+        run: |
+          python - << 'PY'
+          import os, sys, json
+          from jsonschema import Draft7Validator
+          
+          try:
+              from jsonschema import Draft202012Validator, Draft201909Validator, Draft4Validator
+          except Exception:
+              Draft202012Validator = Draft201909Validator = Draft4Validator = Draft7Validator
+          
+          validators_by_meta = {
+              "http://json-schema.org/draft-07/schema#": Draft7Validator,
+              "http://json-schema.org/draft-04/schema#": Draft4Validator,
+              "https://json-schema.org/draft/2020-12/schema": Draft202012Validator,
+              "https://json-schema.org/draft/2019-09/schema": Draft201909Validator,
+              # Some schemas omit the trailing # or use http/https variants; add a few common aliases
+              "http://json-schema.org/draft-07/schema": Draft7Validator,
+              "https://json-schema.org/draft-07/schema#": Draft7Validator,
+              "https://json-schema.org/draft-07/schema": Draft7Validator,
+          }
+          
+          root = "data-schemas/${{ matrix.folder }}"
+          found = False
+          failed = False
+          
+          # Only consider files directly within `root`, ignore subfolders
+          for fn in os.listdir(root):
+              if not fn.endswith('.json'):
+                  continue
+              path = os.path.join(root, fn)
+              if not os.path.isfile(path):
+                  continue
+              found = True
+              try:
+                  with open(path, 'r', encoding='utf-8') as f:
+                      schema = json.load(f)
+              except Exception as e:
+                  print(f" {path}: invalid JSON: {e}")
+                  failed = True
+                  continue
+          
+              meta = schema.get("$schema")
+              Validator = validators_by_meta.get(meta, Draft7Validator)
+          
+              try:
+                  Validator.check_schema(schema)
+                  meta_name = getattr(Validator, 'META_SCHEMA', {}).get('$id', None) or meta or 'Draft-07 (default)'
+                  print(f"[OK] {path} is a valid JSON Schema ({meta_name}).")
+              except Exception as e:
+                  print(f" {path}: invalid JSON Schema: {e}")
+                  failed = True
+          
+          if not found:
+              print(f"No JSON files found under {root}; nothing to validate.")
+          
+          if failed:
+              print("One or more schemas are invalid.")
+              sys.exit(1)
+          PY
+
+  validate-samples:
+    name: Validate samples in '${{ matrix.folder }}' against schemas in same folder
+    needs: [discover-folders, validate-schemas]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folder: ${{ fromJSON(needs.discover-folders.outputs.folders) }}
+
+    steps:
+      - name: Check out merge result
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install jsonschema
+
+      - name: Validate sample-data in data-schemas/${{ matrix.folder }} against matching schemas
+        run: |
+          python - << 'PY'
+          import os, sys, json
+          from jsonschema import Draft7Validator
+          try:
+              from jsonschema import Draft202012Validator, Draft201909Validator, Draft4Validator, RefResolver
+          except Exception:
+              Draft202012Validator = Draft201909Validator = Draft4Validator = Draft7Validator
+              from jsonschema import RefResolver
+
+          validators_by_meta = {
+              "http://json-schema.org/draft-07/schema#": Draft7Validator,
+              "http://json-schema.org/draft-04/schema#": Draft4Validator,
+              "https://json-schema.org/draft/2020-12/schema": Draft202012Validator,
+              "https://json-schema.org/draft/2019-09/schema": Draft201909Validator,
+              "http://json-schema.org/draft-07/schema": Draft7Validator,
+              "https://json-schema.org/draft-07/schema#": Draft7Validator,
+              "https://json-schema.org/draft-07/schema": Draft7Validator,
+          }
+
+          def build_schema_map(root):
+              mapping = {}
+              for dirpath, _, filenames in os.walk(root):
+                  # Exclude any files under a 'sample-data' directory to avoid mapping samples as schemas
+                  rel = os.path.relpath(dirpath, root)
+                  parts = [] if rel == '.' else rel.split(os.sep)
+                  if 'sample-data' in parts:
+                      continue
+                  for fn in filenames:
+                      if not fn.endswith('.json'):
+                          continue
+                      # Heuristic: only consider files that look like schema definitions, not samples
+                      if not (fn.endswith('-sd-jwt.json') or fn.endswith('.schema.json')):
+                          continue
+                      prefix = os.path.basename(fn)[:5]
+                      mapping[prefix] = os.path.join(dirpath, fn)
+              return mapping
+
+          schema_root = 'data-schemas/${{ matrix.folder }}'
+          sample_root = os.path.join(schema_root, 'sample-data')
+          schema_map = build_schema_map(schema_root)
+
+          found_any_samples = False
+          failed = False
+
+          # Track prefixes present in schemas and samples (within the same folder tree only)
+          schema_prefixes = set(schema_map.keys())
+          sample_prefixes = set()
+
+          if os.path.isdir(sample_root):
+              for dirpath, _, filenames in os.walk(sample_root):
+                  for fn in filenames:
+                      if not fn.endswith('.json'):
+                          continue
+                      found_any_samples = True
+                      sample_path = os.path.join(dirpath, fn)
+                      prefix = os.path.basename(fn)[:5]
+                      sample_prefixes.add(prefix)
+                      schema_path = schema_map.get(prefix)
+                      if not schema_path:
+                          print(f" {sample_path}: No matching schema found in '{schema_root}' using prefix '{prefix}'.")
+                          failed = True
+                          continue
+
+                      try:
+                          with open(schema_path, 'r', encoding='utf-8') as f:
+                              schema = json.load(f)
+                      except Exception as e:
+                          print(f" {sample_path}: Failed to load schema '{schema_path}': {e}")
+                          failed = True
+                          continue
+
+                      try:
+                          with open(sample_path, 'r', encoding='utf-8') as f:
+                              instance = json.load(f)
+                      except Exception as e:
+                          print(f" {sample_path}: Invalid JSON: {e}")
+                          failed = True
+                          continue
+
+                      meta = schema.get("$schema")
+                      Validator = validators_by_meta.get(meta, Draft7Validator)
+
+                      base_uri = 'file://' + os.path.abspath(os.path.dirname(schema_path)).rstrip('/') + '/'
+
+                      try:
+                          validator = Validator(schema, resolver=RefResolver(base_uri=base_uri, referrer=schema))
+                          errors = sorted(validator.iter_errors(instance), key=lambda e: list(e.path))
+                          if errors:
+                              print(f" {sample_path}: does not conform to {schema_path}:")
+                              for err in errors:
+                                  loc = '/'.join([str(p) for p in err.path]) or '<root>'
+                                  print(f"  - at {loc}: {err.message}")
+                              failed = True
+                          else:
+                              print(f"[OK] {sample_path} conforms to {schema_path}.")
+                      except Exception as e:
+                          print(f" {sample_path}: Validation failed with an unexpected error: {e}")
+                          failed = True
+          else:
+              print(f"No sample-data directory found at {sample_root}; skipping sample validation for this folder.")
+
+          # After validating existing samples, ensure every schema has at least one sample within this folder
+          missing_prefixes = sorted(schema_prefixes - sample_prefixes)
+          if missing_prefixes:
+              print("The following schema(s) do not have corresponding sample data in this folder (based on file prefix):")
+              for pfx in missing_prefixes:
+                  print(f"  - {pfx}: {schema_map[pfx]}")
+              failed = True
+
+          if failed:
+              sys.exit(1)
+          PY
