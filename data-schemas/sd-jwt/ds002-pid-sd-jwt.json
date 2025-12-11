@@ -4,7 +4,7 @@
   "title": "ds002 - Person Identification Data (PID) – SD-JWT VC payload",
   "description": "Schema for the SD-JWT VC payload of a PID as defined in the ds002 PID Rulebook (Chapter 4). This models the JSON claims set prior to SD-JWT disclosure/packing.",
   "type": "object",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "additionalProperties": true,
   "properties": {
     "vct": {

@@ -5,11 +5,11 @@ subtitle: "ARF Annex 3.01 - PID Rulebook"
 
 #  Attestation Rulebook for attestations of type Personal Identification Data (PID)
 
-| Version | Date        | Description                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|---------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Version | Date        | Description                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|---------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |
 | 0.1.3   | 27 Oct 2025 | Transferred main structure and content from [EUDI repository](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md) and modified template to closer align to [EUDI template](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/template/attestation-rulebook-template.md). First specific draft for WE BUILD |
-
+|0.9.0| 2025-12-12  | Feedback of WeBuild WP 4 Task 2 implemented                                                                                                                                                                                                                                                                                                                                                                                       |
 <!-- Usage help: (Name LastName, Affiliation) -->
 *  Authors
     * Jonas Toennis , [Brønnøysund Registry Center](https://www.brreg.no)

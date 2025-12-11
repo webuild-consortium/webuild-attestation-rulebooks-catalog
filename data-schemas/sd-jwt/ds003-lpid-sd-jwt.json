@@ -4,7 +4,7 @@
   "title": "ds003 - Legal Person Identification Data (LPID) – SD-JWT VC payload",
   "description": "Schema for the SD-JWT VC payload of an LPID as defined in the ds003 LPID Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing.",
   "type": "object",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "additionalProperties": true,
   "properties": {
     "vct": {

@@ -13,6 +13,7 @@
 | Version          | Date               | Description                                                                        |
 |------------------|--------------------|------------------------------------------------------------------------------------|
 | 0.1.0            | 06.11.2025         | Initial Description based on the IS 2024/2977, Potential Rulebook and EWC rulebook |
+|0.9.0| 2025-12-12  | Feedback of WeBuild WP 4 Task 2 implemented                                        |
 
 
 **Feedback:**
