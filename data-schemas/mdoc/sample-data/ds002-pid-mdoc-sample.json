@@ -1,0 +1,29 @@
+{
+  "docType": "eu.europa.ec.eudi.pid.1",
+  "namespace": "eu.europa.ec.eudi.pid.1",
+  "family_name": "Dupont",
+  "given_name": "Jean",
+  "birth_date": "1980-05-23",
+  "place_of_birth": {
+    "country": "FR",
+    "locality": "Paris"
+  },
+  "nationality": ["FR"],
+  "resident_address": "123 Via Appia, 00100 Rome, Italy",
+  "resident_country": "IT",
+  "resident_state": "Lazio",
+  "resident_city": "Rome",
+  "resident_postal_code": "00100",
+  "resident_street": "Via Appia",
+  "resident_house_number": "123",
+  "sex": 1,
+  "email_address": "jean.dupont@example.com",
+  "mobile_phone_number": "+33612345678",
+  "expiry_date": "2030-12-31",
+  "issuance_date": "2025-01-15",
+  "issuing_authority": "Prefecture de Paris",
+  "issuing_country": "FR",
+  "document_number": "PID-FR-123456",
+  "issuing_jurisdiction": "FR-75",
+  "trust_anchor": "https://trust.eidas.europa.eu/tl-browser/#/"
+}

@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/ds002-pid-mdoc.json",
+  "title": "ds002 - Person Identification Data (PID) – ISO/IEC 18013-5 mdoc",
+  "description": "Schema for the mdoc representation of a PID as defined in the ds002 PID Rulebook (Section 3.1). This models the conceptual structure of attributes within the mdoc namespace. Note: Actual mdoc credentials use CBOR encoding; this JSON Schema documents the attribute structure and constraints.",
+  "type": "object",
+  "version": "0.9.0",
+  "$defs": {
+    "cddl_tstr": {
+      "type": "string",
+      "description": "CDDL tstr: UTF-8 text string, max 150 characters per rulebook.",
+      "maxLength": 150
+    },
+    "cddl_uint": {
+      "type": "integer",
+      "description": "CDDL uint: unsigned integer.",
+      "minimum": 0
+    },
+    "cddl_bstr": {
+      "type": "string",
+      "description": "CDDL bstr: byte string. In JSON representation, base64-encoded.",
+      "contentEncoding": "base64"
+    },
+    "cddl_full_date": {
+      "type": "string",
+      "description": "CDDL full-date (#6.1004(tstr)): RFC 3339 full-date (YYYY-MM-DD) with CBOR tag 1004.",
+      "format": "date"
+    },
+    "cddl_tdate": {
+      "type": "string",
+      "description": "CDDL tdate: RFC 3339 date-time string. No fractions of seconds; time-offset SHALL be 'Z'.",
+      "format": "date-time"
+    },
+    "country_code": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code.",
+      "minLength": 2,
+      "maxLength": 2,
+      "pattern": "^[A-Z]{2}$"
+    },
+    "nationalities": {
+      "type": "array",
+      "description": "Array of ISO 3166-1 alpha-2 country codes representing nationalities.",
+      "items": {
+        "$ref": "#/$defs/country_code"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "place_of_birth": {
+      "type": "object",
+      "description": "Place of birth structure. At least one of country, region, or locality SHALL be present.",
+      "additionalProperties": false,
+      "properties": {
+        "country": {
+          "$ref": "#/$defs/country_code",
+          "description": "Alpha-2 country code as specified in ISO 3166-1."
+        },
+        "region": {
+          "$ref": "#/$defs/cddl_tstr",
+          "description": "The name of a state, province, district, or local area."
+        },
+        "locality": {
+          "$ref": "#/$defs/cddl_tstr",
+          "description": "The name of a municipality, city, town, or village."
+        }
+      },
+      "anyOf": [
+        { "required": ["country"] },
+        { "required": ["region"] },
+        { "required": ["locality"] }
+      ]
+    }
+  },
+  "properties": {
+    "docType": {
+      "type": "string",
+      "const": "eu.europa.ec.eudi.pid.1",
+      "description": "Document type identifier for PID mdoc credentials."
+    },
+    "namespace": {
+      "type": "string",
+      "const": "eu.europa.ec.eudi.pid.1",
+      "description": "Namespace for PID attributes. All attributes below belong to this namespace."
+    },
+    "family_name": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Current last name(s) or surname(s) of the user.",
+      "examples": ["Müller"]
+    },
+    "given_name": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Current first name(s), including middle name(s), of the user.",
+      "examples": ["Alice"]
+    },
+    "birth_date": {
+      "$ref": "#/$defs/cddl_full_date",
+      "description": "Date of birth encoded as full-date (CBOR tag 1004). Partial dates not supported; PID Provider may adopt policy for unknown elements.",
+      "examples": ["1990-05-23"]
+    },
+    "place_of_birth": {
+      "$ref": "#/$defs/place_of_birth",
+      "description": "Place of birth structure with at least one of: country, region, locality.",
+      "examples": [
+        {
+          "country": "DE",
+          "region": "Bavaria",
+          "locality": "Munich"
+        }
+      ]
+    },
+    "nationality": {
+      "$ref": "#/$defs/nationalities",
+      "description": "Array of ISO 3166-1 alpha-2 nationality codes. Note: Entire array is disclosed atomically in mdoc (no selective disclosure of individual nationalities).",
+      "examples": [["DE", "FR"]]
+    },
+    "resident_address": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Full address of the place where the user currently resides.",
+      "examples": ["123 Main St 5A, 80331 Munich, Germany"]
+    },
+    "resident_country": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Country where the user currently resides (ISO 3166-1 alpha-2).",
+      "examples": ["DE"]
+    },
+    "resident_state": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "State, province, district, or local area where the user currently resides.",
+      "examples": ["Bavaria"]
+    },
+    "resident_city": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Municipality, city, town, or village where the user currently resides.",
+      "examples": ["Munich"]
+    },
+    "resident_postal_code": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Postal code of the place where the user currently resides.",
+      "examples": ["80331"]
+    },
+    "resident_street": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Street name where the user currently resides.",
+      "examples": ["Main Street"]
+    },
+    "resident_house_number": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "House number where the user currently resides, including any affix or suffix.",
+      "examples": ["123A"]
+    },
+    "personal_administrative_number": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "A value assigned to the natural person that is unique among all personal administrative numbers issued by the PID provider.",
+      "examples": ["1234567890"]
+    },
+    "portrait": {
+      "$ref": "#/$defs/cddl_bstr",
+      "description": "Facial image of the wallet user as raw binary (bstr), compliant with ISO 19794-5 or ISO 39794 specifications.",
+      "examples": ["/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgH..."]
+    },
+    "family_name_birth": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Last name(s) or surname(s) of the user at the time of birth.",
+      "examples": ["Schmidt"]
+    },
+    "given_name_birth": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "First name(s), including middle name(s), of the user at the time of birth.",
+      "examples": ["Alice"]
+    },
+    "sex": {
+      "$ref": "#/$defs/cddl_uint",
+      "description": "Sex code: 0=not known, 1=male, 2=female, 3=other, 4=inter, 5=diverse, 6=open, 9=not applicable. ISO/IEC 5218 applies for 0,1,2,9.",
+      "enum": [0, 1, 2, 3, 4, 5, 6, 9],
+      "examples": [2]
+    },
+    "email_address": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Electronic mail address of the user, in conformance with RFC 5322.",
+      "format": "email",
+      "examples": ["alice.mueller@example.com"]
+    },
+    "mobile_phone_number": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Mobile telephone number starting with '+' as international code prefix, followed by country code and numbers only.",
+      "pattern": "^\\+[0-9]{4,15}$",
+      "examples": ["+4915112345678"]
+    },
+    "expiry_date": {
+      "type": "string",
+      "description": "Administrative expiry date/time of the PID. Can be tdate (RFC 3339 date-time) or full-date (YYYY-MM-DD).",
+      "examples": ["2030-12-31", "2030-12-31T23:59:59Z"]
+    },
+    "issuing_authority": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Name of the administrative authority that issued the PID, or ISO 3166 alpha-2 country code if no separate authority.",
+      "examples": ["Stadt München"]
+    },
+    "issuing_country": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "ISO 3166-1 alpha-2 country code of the country or territory of the PID provider.",
+      "minLength": 2,
+      "maxLength": 2,
+      "examples": ["DE"]
+    },
+    "document_number": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "A number for the PID, assigned by the provider. Administrative purpose only.",
+      "examples": ["X1234567"]
+    },
+    "issuing_jurisdiction": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "Country subdivision code (ISO 3166-2:2020) of the jurisdiction that issued the PID. First part SHALL match issuing_country.",
+      "minLength": 2,
+      "maxLength": 6,
+      "examples": ["DE-BY"]
+    },
+    "issuance_date": {
+      "type": "string",
+      "description": "Date/time when the PID was issued or when the administrative validity period began. Can be tdate (RFC 3339 date-time) or full-date (YYYY-MM-DD).",
+      "examples": ["2025-01-15", "2025-01-15T10:30:00Z"]
+    },
+    "trust_anchor": {
+      "$ref": "#/$defs/cddl_tstr",
+      "description": "URL at which a machine-readable version of the trust anchor to be used for verifying the PID can be found or looked up.",
+      "format": "uri",
+      "examples": ["https://trust.example.org/anchors/eidas"]
+    }
+  },
+  "required": [
+    "docType",
+    "namespace",
+    "family_name",
+    "given_name",
+    "birth_date",
+    "place_of_birth",
+    "nationality",
+    "expiry_date",
+    "issuing_authority",
+    "issuing_country"
+  ],
+  "additionalProperties": false,
+  "$comment": "Note on location_status: Per Section 3.1.3 of the rulebook, location_status is absent for ISO/IEC 18013-5-compliant PIDs. The PID issuer adds revocation information to the MSO (Mobile Security Object) as specified in ISO/IEC 18013-5, not as a separate attribute."
+}
