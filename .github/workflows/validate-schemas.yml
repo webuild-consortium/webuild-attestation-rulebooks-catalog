@@ -189,7 +189,7 @@ jobs:
                       if not fn.endswith('.json'):
                           continue
                       # Heuristic: only consider files that look like schema definitions, not samples
-                      if not (fn.endswith('-sd-jwt.json') or fn.endswith('.schema.json')):
+                      if not (fn.endswith('-sd-jwt.json') or fn.endswith('-mdoc.json') or fn.endswith('.schema.json')):
                           continue
                       prefix = os.path.basename(fn)[:5]
                       mapping[prefix] = os.path.join(dirpath, fn)
