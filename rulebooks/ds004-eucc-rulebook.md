@@ -283,7 +283,7 @@ The . notation is used to indicate the nesting of attributes.
 
 
 #### 3.2.1 Attribute status
-For SD-JWT VC-compliant LPIDs, the LPID MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/).
+For SD-JWT VC-compliant EUCCs, the EUCC MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/).
 
 The status claim SHALL be a JSON object with the following members:
 

@@ -37,7 +37,7 @@ not included in the CIR.
 This document also specifies how a PID and all attributes in it are encoded if
 the PID complies with [ISO/IEC 18013-5] and if it complies with [SD-JWT VC].
 
-Person identification data for the legal person is out of the scope of this document and is specified in the [Legal Person Identification Data Rulebook](../rulebooks/ds003-lpid-rulebook.md).
+European Business Wallet – Owner Identification Data (formerly known as Legal Person Identification Data, LPID, or Person identification data for the legal person) is out of the scope of this document and is specified in the [European Business Wallet - Owner Identification Data Rulebook](../rulebooks/ds001-ebw-oid-rulebook.md).
 
 This PID Rulebook complies with all applicable requirements in Topic 12
 (Attestation Rulebooks) in Annex 2 of the Architecture Reference Framework.
@@ -450,7 +450,7 @@ references to the issuer and more.
 
 ## 4 Attestation usage
 
-TODO: WE BUILD WP4 - PID/LPID group task 3?
+TODO: WE BUILD WP4 - PID/EBW-OID group task 3?
 
 ## 5 Trust anchors
 
@@ -458,7 +458,7 @@ TODO: WE BUILD WP4 - Trust Registry Infrastucture / Architecture group?
 
 ## 6 Revocation
 
-TODO: WE BUILD WP4 - PID/LPID group task 5
+TODO: WE BUILD WP4 - PID/EBW-OID group task 5
 
 ## 7 Compliance
 

@@ -322,7 +322,7 @@
       "type": "string",
       "description": "Issuer identifier (URL or DID).",
       "examples": [
-        "https://lpid-issuer.example.no"
+        "https://eucc-issuer.example.no"
       ]
     },
     "sub": {
