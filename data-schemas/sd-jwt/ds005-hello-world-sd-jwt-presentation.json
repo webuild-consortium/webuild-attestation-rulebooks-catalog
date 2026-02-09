@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Hello World Attestation SD-JWT Presentation Schema",
+  "description": "Schema for the SD-JWT presentation wrapper of the Hello World Attestation (HWA). This models the SD-JWT string, disclosures, and optional key binding JWT.",
+  "type": "object",
+  "version": "1.0.0",
+  "properties": {
+    "sd_jwt": {
+      "type": "string",
+      "$comment": "Issued SD-JWT string (header.payload.signature)"
+    },
+    "disclosures": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "$comment": "Array of disclosure strings for selectively disclosed claims"
+    },
+    "kb_jwt": {
+      "type": ["string", "null"],
+      "$comment": "Optional key-binding JWT; null if not used"
+    }
+  },
+  "required": ["sd_jwt", "disclosures", "kb_jwt"],
+  "additionalProperties": false
+}

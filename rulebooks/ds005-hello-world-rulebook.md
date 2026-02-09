@@ -18,7 +18,8 @@ Jochem Oosterlee, Cleverbase
 | 0.4     | 2025-10-14 | Removed `deviceSigned` from §3.1 mdoc issuance example; added mdoc presentation guidance and example in §4 |
 | 0.5     | 2025-11-04 | aligned `docType`/`namespace`, corrected `elementIdentifier`/`elementValue`, clarified `validityInfo` vs `iat`/`exp`, added full `DeviceResponse`, fixed `_sd` encoding, added salt warning, removed `cty`, and finalized all examples (`issuance.json`, `device_response.json`, `presentation.json`) |
 | 1.0 | 2025-11-07 | First stable release — publication of finalized Hello World Attestation Rulebook and data schema (QEAA profile v1.0). |
-| 1.0.1 | 2025-11-07 | Continuation of version in the WEBUILD - QTSP repository: https://github.com/webuild-consortium/wp4-qtsp-group/blob/main/docs/qeaa/rulebooks/rb100_hello_world_attestation.md |
+| 1.0.1 | 2026-02-02 | Continuation of version in the WEBUILD - QTSP repository: https://github.com/webuild-consortium/wp4-qtsp-group/blob/main/docs/qeaa/rulebooks/rb100_hello_world_attestation.md |
+| 1.0.2 | 2026-02-09 | Separated mdoc and SD-JWT schema/example references for issuance vs presentation, and added missing schema references. |
 
 **Feedback:**  
 https://github.com/webuild-consortium/wp4-qtsp-group/issues
@@ -154,7 +155,7 @@ _None._
 | **expiry_date**      | **exp**                  | number (epoch) | **≤24h after iat** | MUST NOT |
 
 - **Validity:** The JWT claims `iat` and `exp` **SHALL** be the **sole source of truth** for validity. Verifiers **SHALL** enforce them.
-- Note (ARB_31/ARB_32): TMD and JSON Schema required — see `ds005-hello-world-sd-jwt.json`.
+- Note (ARB_31/ARB_32): TMD and JSON Schema required — see `data-schemas/sd-jwt/ds005-hello-world-sd-jwt-issuance.json` (issuance) and `data-schemas/sd-jwt/ds005-hello-world-sd-jwt-presentation.json` (presentation).
 - Illustrative example:
   ```json
   {
@@ -184,8 +185,8 @@ _None._
 - PID binding not required.
 - The HWA is intended for testing within the WEBUILD consortium and has limited production trust value.
 - No transactional data defined as per Topic 20.
-- **mdoc Issuance**: The full attestation SHALL be provided in the `issuerSigned` structure, containing all attributes (`message`, `attestation_legal_category`) and metadata (`issuing_authority`, `issuer_legal_id`, `trust_anchor_url`, `attestation_scheme`), with validity conveyed via MSO `validityInfo` (`signed`, `validFrom`, `validUntil`), signed with `issuerAuth` (COSE_Sign1) by a QTSP key (§3.1). See illustrative example in `data-schemas/mdoc/sample-data/ds005-hello-world-issuance-sample.json`.
-- **mdoc Presentation**: Holders MAY selectively disclose the `message` attribute in the `deviceSigned` structure, signed with `deviceAuth` (COSE_Sign1) to prove possession. The full `issuerSigned` structure from issuance SHALL be included to allow verification of all attributes and metadata. See illustrative example in `data-schemas/mdoc/sample-data/ds005-hello-world-device-response-sample.json`.
+- **mdoc Issuance**: The full attestation SHALL be provided in the `issuerSigned` structure, containing all attributes (`message`, `attestation_legal_category`) and metadata (`issuing_authority`, `issuer_legal_id`, `trust_anchor_url`, `attestation_scheme`), with validity conveyed via MSO `validityInfo` (`signed`, `validFrom`, `validUntil`), signed with `issuerAuth` (COSE_Sign1) by a QTSP key (§3.1). See illustrative example in `data-schemas/mdoc/sample-data/ds005-hello-world-mdoc-issuance-sample.json` and schema `data-schemas/mdoc/ds005-hello-world-mdoc-issuance.json`.
+- **mdoc Presentation**: Holders MAY selectively disclose the `message` attribute in the `deviceSigned` structure, signed with `deviceAuth` (COSE_Sign1) to prove possession. The full `issuerSigned` structure from issuance SHALL be included to allow verification of all attributes and metadata. See illustrative example in `data-schemas/mdoc/sample-data/dss05-hello-world-mdoc-device-response-sample.json` and schema `data-schemas/mdoc/ds005-hello-world-mdoc-device-response.json`.
   - DeviceResponse envelope: The example is wrapped in an ISO/IEC 18013-5 DeviceResponse with `version` = `"1.0"`, a `documents` array containing the presented document, and `status` = `"ok"`.
   - Illustrative example:
     ```json
@@ -225,8 +226,8 @@ _None._
       "status": "ok"
     }
     ```
-- **SD-JWT Issuance**: The attestation SHALL include the `message` attribute as a selectively disclosable claim via the `_sd` collection, with non-disclosable metadata (`attestation_legal_category`, `iss`, `issuer_legal_id`, `trust_anchor_url`, `attestation_scheme`, `iat`, `exp`) in the main payload, signed by a QTSP key (§3.2). See illustrative example in `data-schemas/sd-jwt/sample-data/ds005-hello-world-sd-jwt-issuance-sample.json`.
-- **SD-JWT Presentation**: Holders MAY selectively disclose the `message` attribute via disclosures, with non-disclosable metadata included in the main payload. See illustrative example in `data-schemas/sd-jwt/sample-data/ds005-hello-world-sd-jwt-presentation-sample.json`.
+- **SD-JWT Issuance**: The attestation SHALL include the `message` attribute as a selectively disclosable claim via the `_sd` collection, with non-disclosable metadata (`attestation_legal_category`, `iss`, `issuer_legal_id`, `trust_anchor_url`, `attestation_scheme`, `iat`, `exp`) in the main payload, signed by a QTSP key (§3.2). See illustrative example in `data-schemas/sd-jwt/sample-data/ds005-hello-world-sd-jwt-issuance-sample.json` and schema `data-schemas/sd-jwt/ds005-hello-world-sd-jwt-issuance.json`.
+- **SD-JWT Presentation**: Holders MAY selectively disclose the `message` attribute via disclosures, with non-disclosable metadata included in the main payload. See illustrative example in `data-schemas/sd-jwt/sample-data/ds005-hello-world-sd-jwt-presentation-sample.json` and schema `data-schemas/sd-jwt/ds005-hello-world-sd-jwt-presentation.json`.
 
 ---
 

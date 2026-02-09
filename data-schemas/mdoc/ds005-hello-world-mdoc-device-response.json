@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/ds005-hello-world-device-response.json",
+  "title": "ds005 - Hello World Attestation (HWA) - ISO/IEC 18013-5 DeviceResponse",
+  "description": "Schema for the mdoc presentation (DeviceResponse) of the Hello World Attestation (HWA) as defined in the ds005 rulebook. This models the DeviceResponse envelope, issuerSigned, and deviceSigned structures. Note: Actual mdoc credentials use CBOR encoding; this JSON Schema documents the attribute structure and constraints.",
+  "type": "object",
+  "version": "1.0.0",
+  "$defs": {
+    "cddl_tstr": {
+      "type": "string",
+      "description": "CDDL tstr: UTF-8 text string, max 150 characters per rulebook.",
+      "maxLength": 150
+    },
+    "cddl_uint": {
+      "type": "integer",
+      "description": "CDDL uint: unsigned integer.",
+      "minimum": 0
+    },
+    "issuer_signed_item": {
+      "type": "object",
+      "description": "Issuer-signed namespace item with element identifier and value.",
+      "additionalProperties": false,
+      "properties": {
+        "elementIdentifier": {
+          "type": "string",
+          "enum": [
+            "message",
+            "attestation_legal_category",
+            "issuing_authority",
+            "issuer_legal_id",
+            "trust_anchor_url",
+            "attestation_scheme"
+          ]
+        },
+        "elementValue": {
+          "type": "string"
+        }
+      },
+      "required": ["elementIdentifier", "elementValue"],
+      "allOf": [
+        {
+          "if": {
+            "properties": { "elementIdentifier": { "const": "message" } },
+            "required": ["elementIdentifier"]
+          },
+          "then": {
+            "properties": { "elementValue": { "type": "string", "const": "Hello World!" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "elementIdentifier": { "const": "attestation_legal_category" } },
+            "required": ["elementIdentifier"]
+          },
+          "then": {
+            "properties": { "elementValue": { "type": "string", "const": "QEAA" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "elementIdentifier": { "const": "issuing_authority" } },
+            "required": ["elementIdentifier"]
+          },
+          "then": {
+            "properties": { "elementValue": { "type": "string", "format": "uri" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "elementIdentifier": { "const": "issuer_legal_id" } },
+            "required": ["elementIdentifier"]
+          },
+          "then": {
+            "properties": { "elementValue": { "$ref": "#/$defs/cddl_tstr" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "elementIdentifier": { "const": "trust_anchor_url" } },
+            "required": ["elementIdentifier"]
+          },
+          "then": {
+            "properties": { "elementValue": { "type": "string", "format": "uri" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "elementIdentifier": { "const": "attestation_scheme" } },
+            "required": ["elementIdentifier"]
+          },
+          "then": {
+            "properties": { "elementValue": { "type": "string", "const": "QEAA:HelloWorld" } }
+          }
+        }
+      ]
+    },
+    "device_signed_item": {
+      "type": "object",
+      "description": "Device-signed namespace item; for HWA only the message attribute is disclosed.",
+      "additionalProperties": false,
+      "properties": {
+        "elementIdentifier": {
+          "type": "string",
+          "const": "message"
+        },
+        "elementValue": {
+          "type": "string",
+          "const": "Hello World!"
+        }
+      },
+      "required": ["elementIdentifier", "elementValue"]
+    },
+    "issuer_namespace_items": {
+      "type": "array",
+      "description": "Issuer namespace items for HWA presentation; order is not significant.",
+      "items": { "$ref": "#/$defs/issuer_signed_item" },
+      "minItems": 6,
+      "allOf": [
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "elementIdentifier": { "const": "message" },
+              "elementValue": { "const": "Hello World!" }
+            },
+            "required": ["elementIdentifier", "elementValue"]
+          },
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "elementIdentifier": { "const": "attestation_legal_category" },
+              "elementValue": { "const": "QEAA" }
+            },
+            "required": ["elementIdentifier", "elementValue"]
+          },
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "elementIdentifier": { "const": "issuing_authority" }
+            },
+            "required": ["elementIdentifier"]
+          },
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "elementIdentifier": { "const": "issuer_legal_id" }
+            },
+            "required": ["elementIdentifier"]
+          },
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "elementIdentifier": { "const": "trust_anchor_url" }
+            },
+            "required": ["elementIdentifier"]
+          },
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "elementIdentifier": { "const": "attestation_scheme" },
+              "elementValue": { "const": "QEAA:HelloWorld" }
+            },
+            "required": ["elementIdentifier", "elementValue"]
+          },
+          "minContains": 1
+        }
+      ]
+    },
+    "device_namespace_items": {
+      "type": "array",
+      "description": "Device namespace items for HWA presentation; only message is disclosed.",
+      "items": { "$ref": "#/$defs/device_signed_item" },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "issuer_name_spaces_v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "eu.webuildconsortium.helloworld.v1": {
+          "$ref": "#/$defs/issuer_namespace_items"
+        }
+      },
+      "required": ["eu.webuildconsortium.helloworld.v1"]
+    },
+    "issuer_name_spaces_legacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "eu.webuildconsortium.helloworld": {
+          "$ref": "#/$defs/issuer_namespace_items"
+        }
+      },
+      "required": ["eu.webuildconsortium.helloworld"]
+    },
+    "device_name_spaces_v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "eu.webuildconsortium.helloworld.v1": {
+          "$ref": "#/$defs/device_namespace_items"
+        }
+      },
+      "required": ["eu.webuildconsortium.helloworld.v1"]
+    },
+    "device_name_spaces_legacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "eu.webuildconsortium.helloworld": {
+          "$ref": "#/$defs/device_namespace_items"
+        }
+      },
+      "required": ["eu.webuildconsortium.helloworld"]
+    }
+  },
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "ISO/IEC 18013-5 DeviceResponse version."
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "docType": {
+            "type": "string",
+            "const": "eu.webuildconsortium.helloworld.v1",
+            "description": "Document type identifier for the Hello World Attestation."
+          },
+          "issuerSigned": {
+            "type": "object",
+            "description": "Issuer-signed structure containing namespace attributes, validityInfo, and issuerAuth.",
+            "additionalProperties": false,
+            "properties": {
+              "nameSpaces": {
+                "oneOf": [
+                  { "$ref": "#/$defs/issuer_name_spaces_v1" },
+                  { "$ref": "#/$defs/issuer_name_spaces_legacy" }
+                ]
+              },
+              "validityInfo": {
+                "type": "object",
+                "description": "Validity information in epoch seconds; source of truth for validity.",
+                "additionalProperties": false,
+                "properties": {
+                  "signed": { "$ref": "#/$defs/cddl_uint" },
+                  "validFrom": { "$ref": "#/$defs/cddl_uint" },
+                  "validUntil": { "$ref": "#/$defs/cddl_uint" }
+                },
+                "required": ["signed", "validFrom", "validUntil"]
+              },
+              "issuerAuth": {
+                "type": "string",
+                "description": "COSE_Sign1 structure for issuer authentication (encoded as a string in this JSON representation)."
+              }
+            },
+            "required": ["nameSpaces", "validityInfo", "issuerAuth"]
+          },
+          "deviceSigned": {
+            "type": "object",
+            "description": "Device-signed structure containing selectively disclosed attributes and deviceAuth.",
+            "additionalProperties": false,
+            "properties": {
+              "nameSpaces": {
+                "oneOf": [
+                  { "$ref": "#/$defs/device_name_spaces_v1" },
+                  { "$ref": "#/$defs/device_name_spaces_legacy" }
+                ]
+              },
+              "deviceAuth": {
+                "type": "string",
+                "description": "COSE_Sign1 structure for device authentication (encoded as a string in this JSON representation)."
+              }
+            },
+            "required": ["nameSpaces", "deviceAuth"]
+          }
+        },
+        "required": ["docType", "issuerSigned", "deviceSigned"]
+      }
+    },
+    "status": {
+      "type": "string",
+      "const": "ok",
+      "description": "DeviceResponse status."
+    }
+  },
+  "required": ["version", "documents", "status"],
+  "additionalProperties": false,
+  "$comment": "This schema models the ds005 mdoc DeviceResponse example. It allows legacy namespace key 'eu.webuildconsortium.helloworld' and v1 key 'eu.webuildconsortium.helloworld.v1'. Enforce validity relationships in implementation."
+}
