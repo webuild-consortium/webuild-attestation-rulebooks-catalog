@@ -118,16 +118,13 @@ All data identifiers and definitions in this chapter are independent of any enco
 
 ### 2.5 Optional metadata
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                  |
-|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| location_status      | The location of validity status information on the EBWOID used for revocation/suspension checks.                                                                                               |
-| expiry_date          | Administrave Date when the EBWOID will expire, following ISO 8601 **Clarification** This is in case the administrative validity is different from the technical expiry date of the credential. |
-
-### 2.6 Additional conditional attributes specified in this Rulebook
-
-| **Data Identifier**  | **Definition**                                                                                                                                                                                                                                                                                    |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Data Identifier**  | **Definition**                                                                                                                                                                                                                                                                                              |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| location_status      | The location of validity status information on the EBWOID used for revocation/suspension checks.                                                                                                                                                                                                            |
+| expiry_date          | Administrave Date when the EBWOID will expire, following ISO 8601 **Clarification** This is in case the administrative validity is different from the technical expiry date of the credential.                                                                                                              |
 | trust_anchor         | This meta-data attribute indicates at least the URL at which a machine‑readable version of the trust anchor to be used for verifying the EBW‑OID can be found or looked up. This corresponds to Annex V/VII point h) of the [European Digital Identity Regulation] and EBW Article 8 issuance as EAA/QEAA.  |
+
+
 
 
 # 3 Attestation encoding
