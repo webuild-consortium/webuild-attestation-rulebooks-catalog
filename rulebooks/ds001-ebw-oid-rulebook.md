@@ -59,7 +59,7 @@ The terminology is extended as follows:
 | Term               | Definition in WE BUILD Context                                                                                                                                                                                                |
 |--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | EBW                | European Business Wallet                                                                                                                                                                                                      |
-| EBW owner          | An economic operator or public sector body that owns an EBW, including Union entities; corresponds to the bearer of EBW‑OID.                                                                                                  |
+| EBW owner          | An economic operator or public sector body that owns an EBW, including Union entities; corresponds to the bearer of EBWOID.                                                                                                  |
 | EWBOID            | European Business Wallet owner identification data. a set of data that enables the establishment of the identity of a European Business Wallet owner                                                                          |
 | economic operator  | any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession |
 
