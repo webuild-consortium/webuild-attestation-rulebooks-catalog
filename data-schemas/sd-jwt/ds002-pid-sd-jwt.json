@@ -126,12 +126,6 @@
             "123 Main St"
           ]
         },
-        "house_number": {
-          "type": "string",
-          "examples": [
-            "5A"
-          ]
-        },
         "locality": {
           "type": "string",
           "examples": [
@@ -162,8 +156,7 @@
       "examples": [
         {
           "formatted": "123 Main St 5A, 80331 Munich, DE",
-          "street_address": "123 Main St",
-          "house_number": "5A",
+          "street_address": "123 Main St 5A",
           "locality": "Munich",
           "region": "Bavaria",
           "postal_code": "80331",

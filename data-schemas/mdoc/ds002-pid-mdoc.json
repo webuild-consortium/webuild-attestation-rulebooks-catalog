@@ -144,11 +144,6 @@
       "description": "Street name where the user currently resides.",
       "examples": ["Main Street"]
     },
-    "resident_house_number": {
-      "$ref": "#/$defs/cddl_tstr",
-      "description": "House number where the user currently resides, including any affix or suffix.",
-      "examples": ["123A"]
-    },
     "personal_administrative_number": {
       "$ref": "#/$defs/cddl_tstr",
       "description": "A value assigned to the natural person that is unique among all personal administrative numbers issued by the PID provider.",
