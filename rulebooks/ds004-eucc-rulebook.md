@@ -307,30 +307,122 @@ Example:
 #### 3.2.3 Example Payload 
 Sample payloads provided under `../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json`
 
-
-
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
-*If the attestation type supports the format specified in W3C Verifiable Credentials 
-Data Model, then in this section the corresponding encoding of attributes and 
-metadata should be defined.* 
 
-*It is noted that only a a non-qualified EAA can use this format (see ARB_01a in [Topic 12])*
+W3C Verifiable Credentials are defined using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) are SHACL (data graph) can be used to validate data.
 
-*Tables similar to the ones specified in section 4 SHALL be defined.*
+#### Metadata
+The metadata of an W3C Verifiable Credential are defined in the [Verifiable Credentials Vocabulary v2.0](https://www.w3.org/2018/credentials/). The following extensions are defined in the [European Business Wallet Vocabulary v0.1](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary) in order to support Electronic Attestions of Attributes:
+* [attestationLegalCategory](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#attestationLegalCategory) in order to specify the category of the EAA (QEAA, Pub-EAA or EAA).
 
-*This section SHALL reference one or more documents specifying in detail how a 
-Relying Party can request attributes from a such an attestation, and how a User 
-can selectively disclose attributes from such an attestation. Moreover, these 
-referenced documents SHALL be approved by an EU standardisation body or by the European 
-Digital Identity Cooperation Group established pursuant to Article 46e(1) of the 
-[European Digital Identity Regulation] (see ARB_04 in [Topic 12]).*
+#### Credential Subject
 
-*Finally, illustrative examples SHALL be included.*
+There are two different flavors of European Business Certificates:
+* for limit liability companies and
+* for partnerships.
 
-[RULEBOOK AUTHOR TO PROVIDE HUMAN READABLE EXAMPLE OF THE ISSUED ATTESTATION]
+Both are modeled by their own classes:
+* [EuccLimitLiabilityCompany](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#EuccLimitLiabilityCompany) - EU Company Certificate for limited liability companies
+* [EuccPartnership](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#EuccPartnership) - EU Company Certificate for partnerships 
 
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE PROOF TYPE]
+#### Holder Binding
 
+EUCC credentials are hold by the organization and their legal representatives. Corresponding key binding is provided by using DID's. Please note that every node of JSON-LD tree is addressable by its own locally or globally unique identifier `@id`. Using [Decentralized Identifiers (DIDs) v1.0](https://www.w3.org/TR/did-1.0/) as identifiers allows to cryptographically bind any node to its underlying identity:
+
+example of key binding using DID's:
+
+```json5
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://ebw-vocabulary.spherity.dev/ebw-context/v0.1"
+  ],
+  "@id": "urn:d5dfeb39-edc7-40b1-a2fc-3968dbd3eac8",
+  "@type": [
+    "VerifiableCredential",
+    "ElectronicAttestationOfAttributes"
+  ],
+  "attestationLegalCategory": "QEAA",
+  "credentialSubject": {
+    "@id": "did:key:$publicKeyOfHolder$", // credential subject is bound to organisation   
+    "@type": "EuccPartnership",
+    "legalIdentifier": "NOFOR.987654321",
+    "legalName": "acme Partnership",
+    "registeredAddress": {
+      "@type":"Address",
+      "fullAddress": "Via Appia 123, 00100 Rome, Italy",
+      "thoroughfare": "Via Appia",
+      "locatorDesignator": "123",
+      "postName": "Rome",
+      "adminUnitL2": "Lazio",
+      "postCode": "00100",
+      "adminUnitL1": "IT"
+    },
+    "correspondenceAddress": {
+      "@type":"Address",
+      "fullAddress": "Via Appia 123, 00100 Rome, Italy",
+      "thoroughfare": "Via Appia",
+      "locatorDesignator": "123",
+      "postName": "Rome",
+      "adminUnitL2": "Lazio",
+      "postCode": "00100",
+      "adminUnitL1": "IT"
+    },
+    "dateOfRegistration": "2023-10-11",
+    "companyStatus": "active",
+    "economicActivity": {
+      "@type": "Nace021",
+      "naceCode": "01.12",
+      "naceDescription": "Growing of rice"
+    },
+    "partner": [
+      {
+        "@type": "GeneralPartner",
+        "partnerId": "did:key:$publicKeyOfPartner1$" // general partner is bound to natural person 1
+      },
+      {
+        "@type": "LimitedPartner",
+        "partnerId": "did:key:$publicKeyOfPartner2$", // limited partner is bound to natural person 2
+        "liabilityOrContribution": {
+          "@type": "Capital",
+          "amount": 100000,
+          "currency": "Euro"
+        }
+      },
+      {
+        "@type": "StatutoryPartner",
+        "partnerId": "did:key:$publicKeyOfPartner3$",
+        "role": "Head of HR",
+        "scopeOfAuthorization": "Jointly"
+      }
+    ]
+  },
+  "validUntil": "2029-12-03T12:19:52Z",
+  "validFrom": "2019-12-03T12:19:52Z",
+  "issuer": "did:key:$publicKeyOfIssuer$"
+}
+```
+
+The Verifiable Credential Data Model (VCDM) doesn't dictate any specific DID-method. Instead, any did method that supports the underlying trust framework and is able to provide the required level of assurance can be used:
+* PKI-Infrastructure (e.g. EU-TLOL based on X.509 certificates): [did:key](https://github.com/digitalbazaar/did-method-key) - the public key is directly encoded in the identifier
+* DTL (e.g.: Ethereum): [did:ethr](https://github.com/uport-project/ethr-did)
+* European Block Chain Infrastructure: [did:ebsi](https://hub.ebsi.eu/vc-framework/did/legal-entities)
+* Domain Name System (DNS): [did:web](https://w3c-ccg.github.io/did-method-web/)
+* Domain Name System verifiable history: [did:webvh](https://identity.foundation/didwebvh/v1.0/)
+
+#### Proof mechanisms
+
+The preferred proof mechanism for the EUCC Attesation is [ecdsa-sd-2023](https://www.w3.org/TR/vc-di-ecdsa/#ecdsa-sd-2023-functions) as specified in [Data Integrity ECDSA Cryptosuites v1.0](https://www.w3.org/TR/vc-di-ecdsa). ecdsa-sd-2023 supports selective disclosure out of the box. The issuer doesn't need the select disclosable claims, create disclosures or manipulate the payload of the credential. The issuer just applies the ecdsa-sd-2023 data integrity proof to the credential. The holder chooses which claims he wants to disclose and derives a proof from the original assertion proof.
+
+For backward compatibility and for trust frameworks whose policies require a particular proof mechanism, [JOSE](https://www.w3.org/TR/vc-jose-cose/#with-jose) and [SD-JWT](https://www.w3.org/TR/vc-jose-cose/#with-sd-jwt) as specified in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) should be supported, too.
+
+The [Security Vocabulary](https://www.w3.org/2025/credentials/vcdi/vocab/v2/vocabulary.html) is used to embed the proofs into the credentials.
+
+A [side-by-side comparision](https://www.w3.org/TR/vc-data-model-2.0/#example-use-of-the-credentialsubject-property) of the proofs is provided in the [Verifiable Credentials Data Model v2.0](https://www.w3.org/TR/vc-data-model-2.0).
+
+#### Credential status
+
+The EUCC SHALL include a status claim `credentialStatus` if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [Bitstring Status List v1.0](https://www.w3.org/TR/vc-bitstring-status-list/).
 
 ## 4 Attestation usage
 
