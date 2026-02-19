@@ -224,7 +224,7 @@
     "attestation_legal_category": {
       "$ref": "#/$defs/cddl_tstr",
       "const": "PID",
-      "description": "Indication that this attestation has been issued as a PID, as required by ARB_11 in Topic 12 of Annex 2 of the ARF."
+      "description": "Indication of the attestation legal category, one of QEAA, PUB-EAA or EAA. as required by  ARB_25 in Topic 12 of Annex 2 of the ARF."
     },
     "trust_anchor": {
       "$ref": "#/$defs/cddl_tstr",
