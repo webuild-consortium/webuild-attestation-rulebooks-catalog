@@ -1,11 +1,11 @@
 {
   "vct": "urn:eudi:pid:de:1",
+  "attestation_legal_category": "PUB-EAA",
   "given_name": "Jean",
   "family_name": "Dupont",
   "birthdate": "1980-05-23",
   "address": {
-    "street_address": "123 Via Appia",
-    "house_number": "123",
+    "street_address": "123 Via Appia 123",
     "locality": "Rome",
     "region": "Lazio",
     "postal_code": "00100",

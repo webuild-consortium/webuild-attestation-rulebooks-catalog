@@ -144,11 +144,6 @@
       "description": "Street name where the user currently resides.",
       "examples": ["Main Street"]
     },
-    "resident_house_number": {
-      "$ref": "#/$defs/cddl_tstr",
-      "description": "House number where the user currently resides, including any affix or suffix.",
-      "examples": ["123A"]
-    },
     "personal_administrative_number": {
       "$ref": "#/$defs/cddl_tstr",
       "description": "A value assigned to the natural person that is unique among all personal administrative numbers issued by the PID provider.",
@@ -223,6 +218,11 @@
       "description": "Date/time when the PID was issued or when the administrative validity period began. Can be tdate (RFC 3339 date-time) or full-date (YYYY-MM-DD).",
       "examples": ["2025-01-15", "2025-01-15T10:30:00Z"]
     },
+    "attestation_legal_category": {
+      "$ref": "#/$defs/cddl_tstr",
+      "const": "PUB-EAA",
+      "description": "Indication of the attestation legal category, one of QEAA, PUB-EAA or EAA. as required by  ARB_25 in Topic 12 of Annex 2 of the ARF."
+    },
     "trust_anchor": {
       "$ref": "#/$defs/cddl_tstr",
       "description": "URL at which a machine-readable version of the trust anchor to be used for verifying the PID can be found or looked up.",
@@ -238,6 +238,7 @@
     "birth_date",
     "place_of_birth",
     "nationalities",
+    "attestation_legal_category",
     "expiry_date",
     "issuing_authority",
     "issuing_country"

@@ -221,7 +221,17 @@ TODO: Add W3C VC encoding.
 
 ## 4 Attestation usage
 
-TODO: WE BUILD WP4 - EBW owner identification data task 3?
+### 4.1 Use-case context
+
+The EBW-OID attestation serves diverse types of EBW owners across European digital services:
+
+- **Public sector body** — a Union entity, a national, state, regional or local authority, a body governed by public law or an association formed by one or several such entities or bodies , or a private entity mandated by at least one such entities, authorities, bodies or associations to provide public services, when acting under such a mandate.
+- **Economic operator** — any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession
+
+EBW-OID is profiled for **SD-JWT VC** and **W3C VCDM** because these formats:
+- Are mandated or recommended by the ARF and applicable implementing acts for electronic attestations of attributes.
+- Support selective disclosure (SD-JWT VC) and linked-data integrity (W3C VCDM), enabling both privacy and semantical presentations.
+
 
 
 Primary use cases:
