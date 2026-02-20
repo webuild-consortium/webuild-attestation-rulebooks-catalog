@@ -452,7 +452,42 @@ references to the issuer and more.
 
 ## 4 Attestation usage
 
-TODO: WE BUILD WP4 - PID/EBW-OID group task 3?
+### 4.1 Use-case context
+
+PID is used to identify a natural person (User) in national and cross-border digital services within the EUDI Wallet ecosystem.
+
+Primary use cases:
+- Proving the identity of a natural person (User) to a Relying Party (RP) in online services.
+- Supporting regulated or high-trust onboarding and access control flows where identification is required.
+- Supporting attribute verification (e.g., residency, age) subject to data minimisation and proportionality.
+
+Issuance requirements and expectations:
+- PID Providers SHALL issue PID only after identity verification according to the applicable Member State PID issuance framework.
+- PID Providers SHALL bind PID to the Wallet Unit key material as defined in Chapter 3 (e.g., `cnf` for SD-JWT VC).
+- PID Providers SHALL set technical validity (`exp`, and `nbf` if present) and SHALL provide status/revocation capability as defined in Chapter 6.
+- For SD-JWT VC PIDs, the PID SHALL include a `status` claim when required by Section 3.2.2 (technical validity period > 25 hours).
+
+Expected user behaviours:
+- The User SHOULD approve PID presentation only when the Wallet Unit shows the RP identity, intended use, and a privacy policy reference.
+- The User SHOULD approve presentation only when the requested attributes are necessary for the transaction.
+- Preferably, the User SHOULD either approve all requested attributes or deny the request. If the User does not want to disclose a requested attribute, the User SHOULD deny the request and allow the RP to send a revised request (see Section 2.1).
+- Where selective disclosure is supported by the format, the User SHOULD disclose only the minimum attributes required by the transaction.
+
+Relying Party behaviours:
+- The RP SHALL be registered as a Wallet RP and SHALL request only attributes justified for the intended use.
+- The RP SHALL authenticate to the Wallet Unit (e.g., using its access certificate chain) in the applicable presentation protocol.
+- The RP SHOULD include (or enable retrieval of) the registered intended use information and privacy policy reference so the Wallet Unit can inform the User.
+- The RP SHALL verify the PID signature according to Chapter 3 and SHALL validate issuer trust and authorisation using applicable trust anchors (Chapter 5).
+- The RP SHALL validate technical validity (check `exp`, and `nbf` if present) and SHALL apply revocation/status checks as defined in Chapter 6.
+- The RP MAY verify device binding / proof of possession where supported. If the RP requests cryptographic holder binding in the presentation protocol, it SHALL NOT accept a non-device-bound PID.
+
+Presentation requirements:
+- The RP SHOULD request only the minimum attributes needed for the transaction (data minimisation).
+- The RP SHALL NOT rely on non-unique contact attributes (e.g., `email_address`) as unique identifiers, as already stated in Chapter 3.
+
+Transactional data:
+- The RP MAY keep minimal logs necessary to demonstrate verification events and security-relevant auditability (e.g., timestamps, verification outcome, issuer identifier, status-check result).
+- The RP SHOULD avoid storing full PID payloads unless required by law or strictly necessary for dispute handling.
 
 ## 5 Trust anchors
 
