@@ -460,7 +460,29 @@ TODO: WE BUILD WP4 - Trust Registry Infrastucture / Architecture group?
 
 ## 6 Revocation
 
-TODO: WE BUILD WP4 - PID/EBW-OID group task 5
+PIDs MAY be either (a) short-lived and non-revocable, or (b) long-lived and revocable, in line with ARF Annex 2 Topic 7.
+
+Revocation strategy:
+- A PID Provider SHALL use one of the following approaches:
+  - Issue short-lived PIDs with a technical validity period of 24 hours or less; or
+  - Support revocation using an Attestation Status List (ASL) or Attestation Revocation List (ARL) mechanism.
+- If a PID is revocable, the PID Provider SHALL be the only party responsible for executing revocation of that PID, and SHALL NOT reverse revocation once executed.
+- The PID Provider MAY support temporary suspension before permanent revocation, with a maximum suspension period defined in the revocation policy.
+- The PID Provider SHALL maintain a revocation policy specifying under which conditions it revokes a PID (e.g. compromise, attribute changes, explicit User request, death of the subject), notification procedures for Users, and User rights including the right to request revocation at any time.
+
+Technical mechanisms:
+- For SD-JWT VC-based PIDs, revocation is expressed via the `status` claim (see Section 3.2.2) using the status-list mechanism.
+- For ISO/IEC 18013-5-compliant PIDs, revocation information is provided via the MSO as defined in ISO/IEC 18013-5; no `location_status` attribute is used (see Section 3.1.3).
+
+Relying Party (RP) checks:
+- A Relying Party Instance SHOULD verify revocation status when the PID is revocable, and SHALL perform a risk analysis if it decides not to.
+- Relying Parties SHOULD NOT fetch status information at presentation time. Instead, they SHOULD periodically retrieve and cache the relevant ASL/ARL and distribute it to their Relying Party Instances.
+- If reliable revocation information is unavailable or indeterminate, the RP SHALL decide whether to accept or refuse the PID based on its risk analysis. The RP SHALL log such incidents and MAY report recurring failures to the PID Provider.
+- Revocation status checking SHALL be designed to prevent correlation of User identity across Relying Parties (e.g., using batch status lists rather than per-credential status endpoints).
+
+Timing:
+- Where revocation is supported, the PID Provider SHOULD ensure that revocation is reflected in published status information within 24 hours of the revocation decision.
+- For emergency revocations (e.g., security compromise), the PID Provider SHOULD propagate revocation within a shorter timeframe where technically feasible.
 
 ## 7 Compliance
 
