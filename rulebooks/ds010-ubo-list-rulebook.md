@@ -126,12 +126,12 @@ on the nature of the mechanism used for distributing trust anchors, detailed in 
 
 UBO-List (Ultimate Beneficial Owner(s) List)
 
-| **Data Identifier**     | **Definition**                                                      |
-|-------------------------|---------------------------------------------------------------------|
-| ubo_info                | Information about the beneficial owner(s)                           |
+| **Data Identifier** | **Definition**                                                      |
+|--------------------|---------------------------------------------------------------------|
+| ubo                | Information about the beneficial owner(s)                           |
 | ubo_residential_address | Information about the residential address of the beneficial owner(s)| 
-| ubo_identification      | Information about the identification of the beneficial owner(s)     |
-| ubo_stake               | Information about the stake information of the beneficial owner(s)  |
+| ubo_identification | Information about the identification of the beneficial owner(s)     |
+| ubo_stake          | Information about the stake information of the beneficial owner(s)  |
 
 ### 2.2 UBO
 
@@ -205,34 +205,34 @@ The UBO attestation uses the SD-JWT VC format to allow for selective disclosure 
 
 The . notation is used to indicate the nesting of attributes.
 
-| **Data Identifier**                                    | **Attribute identifier**                                                                                                                                                                                                    | **Encoding format** | **Reference/Notes**                                                                                                                                                                                                        |
-|--------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ubo                                                    	| ubo                                             	        |Array 	|List of beneficial owners|
-| ubo_first name(s)                                      	| ubo_first name(s)                                      	|String	|the beneficial owner’s first names in full;|
-| ubo_surname(s)                                         	| ubo_surname(s)                                         	|String	|beneficial owner’s surnames in full;|
-| ubo_date of birth                                      	| ubo_date of birth                                      	|String	|Day, month, and year of birth of natural person|
-| ubo_citizenship(s)                                     	| ubo_citizenship(s)                                     	||Array	|Citizenship(s) held by the UBO.|
-| ubo_birthplace                                         	| ubo_birthplace                                         	|String||
-| ubo_birthplace_locality                                	| ubo_birthplace_locality                                	|String	|locality where the natural person was born.|
-| ubo_birthplace_country                                 	| ubo_birthplace_country                                 	|String	|Country where the natural person was born.|
-| ubo_residential_address                                	| ubo_residential_address                                	|Object||
-| ubo_residential_address_street                         	| ubo_residential_address_street                         	|String	|The street where the UBO currently resides or can be contacted|
-| ubo_residential_address_house_number	                   | ubo_residential_address_house_number	                    |String	|The street number where the UBO currently resides or can be contacted|
-| ubo_residential_address_city	                           | ubo_residential_address_city	                            |String	|The city where the UBO currently resides or can be contacted|
-| ubo_residential_address_state                          	| ubo_residential_address_state                          	|String	|The state where the UBO currently resides or can be contacted|
-| ubo_residential_address_postal_code 	                   | ubo_residential_address_postal_code 	                    |String	|The postal code where the UBO currently resides or can be contacted|
-| ubo_residential_address_country                        	| ubo_residential_address_country                        	|Array	|The country() where the UBO currently resides or can be contacted|
-| ubo_identification                                      	| ubo_identification                                      	|Object||
-| ubo_identification_type	                                | ubo_identification_type	                                |String	|the type of the identity document|
-| ubo_identification_document_number              	       | ubo_identification_document_number              	        ||String|	document number|
-| ubo_identification_issuing_country              	       | ubo_identification_issuing_country              	        |String	|issuing country|
-| ubo_identification_expiredate	                          | ubo_identification_expiredate	                            |String	|expire date for the identification document|
-| ubo_identification_unique_personal_identification_number 	| ubo_identification_unique_personal_identification_number 	|String	|unique personal identification nr|
-| ubo_identification _revocation link	                    | ubo_identification _revocation link	                    |String	|the revocation link for the identification nr (optional)|
-| ubo_stake                                              	| ubo_stake                                              	|Object||
-| ubo_stake_determination_methodology                     	| ubo_stake_determination_methodology                     	|Array	|the calculation methodology applied|
-| ubo_stake_ownership_stake	                              | ubo_stake_ownership_stake	                                |String	|The percentage or level of ownership|
-| ubo_stake_ownership_held_date	                          | ubo_stake_ownership_held_date	                            |String	|date of which beneficial interest is held|
+| **Data Identifier**                      | **Attribute identifier**                                  | **Encoding format** | **Reference/Notes**                                                                                                                                                                                                        |
+|------------------------------------------|-----------------------------------------------------------|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ubo                                                    	| ubo                                             	         |Array 	|List of beneficial owners|
+| ubo_first name(s)                                      	| ubo_first name(s)                                      	  |String	|the beneficial owner’s first names in full;|
+| ubo_surname(s)                                         	| ubo_surname(s)                                         	  |String	|beneficial owner’s surnames in full;|
+| ubo_date of birth                                      	| ubo_date of birth                                      	  |String	|Day, month, and year of birth of natural person|
+| ubo_citizenship(s)                                     	| ubo_citizenship(s)                                     	  ||Array	|Citizenship(s) held by the UBO.|
+| ubo_birthplace                                         	| ubo_birthplace                                         	  |String||
+| ubo_birthplace_locality                                	| ubo_birthplace_locality                                	  |String	|locality where the natural person was born.|
+| ubo_birthplace_country                                 	| ubo_birthplace_country                                 	  |String	|Country where the natural person was born.|
+| ubo_residential_address                                	| ubo_residential_address                                	  |Object||
+| ubo_residential_address_street                         	| ubo_residential_address_street                         	  |String	|The street where the UBO currently resides or can be contacted|
+| ubo_residential_address_house_number	    | ubo_residential_address_house_number	                     |String	|The street number where the UBO currently resides or can be contacted|
+| ubo_residential_address_city	            | ubo_residential_address_city	                             |String	|The city where the UBO currently resides or can be contacted|
+| ubo_residential_address_state                          	| ubo_residential_address_state                          	  |String	|The state where the UBO currently resides or can be contacted|
+| ubo_residential_address_postal_code 	    | ubo_residential_address_postal_code 	                     |String	|The postal code where the UBO currently resides or can be contacted|
+| ubo_residential_address_country                        	| ubo_residential_address_country                        	  |Array	|The country() where the UBO currently resides or can be contacted|
+| ubo_identification                                      	| ubo_identification                                      	 |Object||
+| ubo_identification_type	                 | ubo_identification_type	                                  |String	|the type of the identity document|
+| ubo_identification_document_number     	 | ubo_identification_document_number              	         ||String|	document number|
+| ubo_identification_issuing_country       | ubo_identification_issuing_country              	         |String	|issuing country|
+| ubo_identification_expiredate            | ubo_identification_expiredate	                            |String	|expire date for the identification document|
+| ubo_identification_unique_personal_number 	| ubo_identification_unique_personal_number 	               |String	|unique personal identification nr|
+| ubo_identification _revocation link	     | ubo_identification _revocation link	                      |String	|the revocation link for the identification nr (optional)|
+| ubo_stake                                    	| ubo_stake                                              	  |Object||
+| ubo_stake_determination_methodology            	| ubo_stake_determination_methodology                     	 |Array	|the calculation methodology applied|
+| ubo_stake_ownership_stake	               | ubo_stake_ownership_stake	                                |String	|The percentage or level of ownership|
+| ubo_stake_ownership_held_date	           | ubo_stake_ownership_held_date	                            |String	|date of which beneficial interest is held|
 
 
 For SD-JWT VC-compliant UBOs, the EUCC MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
