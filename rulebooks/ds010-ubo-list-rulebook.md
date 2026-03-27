@@ -34,11 +34,6 @@ The Ultimate Beneficial Owner (UBO) List Attestation identifies and verifies the
 
 Understanding who ultimately owns or controls a legal entity is essential to assess the true risk profile of a customer or supplier, detect potential money laundering, terrorism financing, sanctions exposure, or conflicts of interest, and comply with anti-money laundering (AML) and counter-terrorist financing (CTF) regulations. 
 
-*Prerequisites:*
-- The legal entity has obtained an EU Company Certificate (EUCC) attestation.
-- The legal entity has submitted UBO data to the national Transparency Register (beneficial ownership register) as required by AMLR Article 60.
-- in case of KYC-Financial: The legal entity has prepared Ownership List and Control List attestations documenting all ownership and control interests.
-
 **Design Decisions**
 
 This UBO List Attestation Rulebook is based on:
@@ -54,7 +49,6 @@ This Rulebook is structured as follows:
 
 - Chapter 2 describes the UBO List attestation attributes and metadata in an encoding-independent manner, including the flat-list UBO data model.
 - Chapter 3 specifies how the attestation attributes and metadata are encoded:Section 3.1: ISO/IEC 18013-5-compliant encoding (applicability assessment)
-- Section 3.2: SD-JWT VC-based encoding
 - Chapter 4 specifies attestation usage scenarios, Relying Party obligations (including UBO identity verification procedures per AMLR), and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization, including integration with Transparency Registers.
 - Chapter 6 defines revocation mechanisms for the attestation.
@@ -128,8 +122,9 @@ This attestation type MAY be classified as:
 | ubo_ownership_info          | Information about the stake information of the beneficial owner(s)   | Object        |
 
 ### 2.2 Mandatory attributes
-@TODO Florin still to confirmed with Barh the type (after matching in vocabulary document) 
-#### 2.2.1 UBO Personal Identification Attributes  
+@TODO Florin still to confirmed with Barth the type (after matching in vocabulary document) 
+
+**UBO Personal Identification Attributes**  
 
 | **Data Identifier**          | **Definition**      | **Data type**                       |
 |------------------------------|------------------------------------------------------------------------------|-------------------------------------|
@@ -139,7 +134,7 @@ This attestation type MAY be classified as:
 | citizenships                 |Citizenship(s) held by the UBO (one or more nationalities)| Array of Strings (ISO 3166-1 alpha-3) |
 | attestation_legal_category   |Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA") | String                              |
 
-#### 2.2.2 Birthplace Attributes 
+**Birthplace Attributes** 
 
 | **Data Identifier**   | **Definition**      | **Data type**                       |
 |-----------------------|----------------------------------------------------------|------------------------------|
@@ -148,7 +143,7 @@ This attestation type MAY be classified as:
 
 Note: AMLR Article 62(b) requires "place and full date of birth." This Rulebook interprets "place" as locality + country.
 
-#### 2.2.3 ResidentialAddress Attributes
+**ResidentialAddress Attributes**
 
 | **Data Identifier**   | **Definition**      | **Data type**                          |
 |--------------------------|---------------------------------------------------------------------|----------------------------------------|
@@ -161,7 +156,7 @@ Note: AMLR Article 62(b) requires "place and full date of birth." This Rulebook 
 
 Note: AMLR Article 62(c) requires "residential address" and (d) requires "country or countries of residence." This Rulebook provides full address breakdown for structured data.
 
-#### 2.2.4 IdentityInformation Attributes
+** IdentityInformation Attributes**
 
 | **Data Identifier**       | **Definition**      | **Data type**                          |
 |---------------------------|---------------------------------------------------------------------|----------------------------------------|
@@ -172,7 +167,7 @@ Note: AMLR Article 62(c) requires "residential address" and (d) requires "countr
 @TODO Florin -> check in the verification process
 | identity_revocation_link  | The revocation link or status endpoint for verifying the identity document's validity (e.g., PID revocation status, passport ICAO revocation endpoint—future, driver's license mdoc revocation) |String (URI) |
 
-#### 2.2.5 Ownership Attributes
+**Ownership Attributes**
 
 Each UBO entry SHALL contain an OwnershipInfo nested object with the following mandatory attribute:
 
@@ -185,7 +180,7 @@ Note: A UBO may be identified through multiple determination methodologies simul
 
 ### 2.3 Optional attributes
 
-#### 2.3.1 UBO Optional Attributes
+**UBO Optional Attributes**
 
 | **Data Identifier**                                                                                                                                                                                                                                                                  | **Definition**                                                                                                                                                                                                                                  | **Data type**                          |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
@@ -200,16 +195,13 @@ No conditional attributes are defined for this attestation type. All attributes 
 
 #### 2.5 Mandatory metadata
 
-| **Data Identifier**                                                                                                                                                               | **Definition**      | **Data type**                          |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------------|
-| issuance_date The date and time when the attestation was issued ISO 8601                                                                                                          |DateTime|
-| expiry_date The date and time when the attestation expires ISO 8601                                                                                                               |DateTime|
-| issuing_entity The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String| 
-| issuing_entity_name The official name of the issuing entity                                                                                                                       |String|
-| issuer_country ISO 3166-1 alpha-2 country code of the issuing entity's jurisdiction                                                                                               |String (2 characters) |
-| subject_entity The identifier of the legal entity whose UBOs are attested (SHALL match the EUCC identifier)                                                                       |String|
+| **Data Identifier** | **Definition**                                              | **Data type**                          |
+|---------------------|-------------------------------------------------------------|----------------------------------------|
+| issuance_date       |  The date and time when the attestation was issued ISO 8601 |DateTime|
+| expiry_date         | The date and time when the attestation expires ISO 8601                                                                                                               | DateTime                                                    |
+| issuing_entity      | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String                                                      | 
 
-#### 2.6 Optional metadata
+### 2.6 Optional metadata
 
 | **Data Identifier**                 | **Definition**      | **Data type**                          |
 |-------------------------------------|---------------------------------------------------------------------|----------------------------------------|
@@ -380,31 +372,31 @@ The first 4 steps are basic verification - similar for all attestations:
 - Validate the digital signature over the attestation using the issuer's public key
 - For SD-JWT VC: Verify JWT signature and validate all disclosed claims
 ### 4.2.2 Validate Issuer ###
-#### 4.2.2.1 Authentification ####
+
 @TODO Werner
-#### 4.2.2.2 Identification ####
-@TODO Werner
-#### 4.2.2.3 Authorization ####
-- Verify that the issuer is authorized to issue Payment Terms Attestations
-- Check the issuer's credentials against the appropriate trust framework (see Chapter 5)
-- For "EAA": Confirm issuer authorization mechanisms
+- Issuer Authentification
+- Issuer Identification
+- Issuer  Authorization
+  - Verify that the issuer is authorized to issue Payment Terms Attestations
+  - Check the issuer's credentials against the appropriate trust framework (see Chapter 5)
+  - For "EAA": Confirm issuer authorization mechanisms
 
 ### 4.2.3 Holder Related check ###
-#### 4.2.3.1. Revocation status check ####
-- Query the designated revocation/status mechanism (Cap 6)
-- Treat revoked or suspended attestations as invalid
-- @TODO Forin Check Handle indeterminate status according to organizational risk policy
+- Revocation status check
+  - Query the designated revocation/status mechanism (Cap 6)
+  - Treat revoked or suspended attestations as invalid
+  - @TODO Forin Check Handle indeterminate status according to organizational risk policy
 
-#### 4.2.3.2. Check Temporal Validity ####
-- Validate issuanceDate / iat to ensure the attestation was issued in the past
-- Validate expirationDate / exp to ensure the attestation has not expired
-- Consider attestation age in relation to business risk (e.g., payment terms updated recently vs. stale data)
+- Check Temporal Validity ####
+  - Validate issuanceDate / iat to ensure the attestation was issued in the past
+  - Validate expirationDate / exp to ensure the attestation has not expired
+  - Consider attestation age in relation to business risk (e.g., payment terms updated recently vs. stale data)
 
 ### 4.2.4  Holder Wallet Related check ###
 #### 4.2.4.1.Device binding  ####
-@TODO Werner  avoid copy & reply
-#### 4.2.4.1.WUA check ####
-@TODO WUA check
+@TODO Werner
+- avoid copy & reply
+- WUA check
 
 #### 4.2.5 Validate Integrity Rules ####
 - Verify that at least one UBO is present
@@ -427,45 +419,35 @@ AMLR compliance requires independent verification of UBO calculations.
   - If UBOs are missing from presented list → notify entity to recalculate and update
   - If extra UBOs appear in presented list (not in calculated list) → request justification or evidence
   - If discrepancies relate to Transparency Register submission → report to register authority per AMLR Article 60
-  - If discrepancies cannot be resolved → reject attestation; apply enhanced due diligence or decline relationship
+  - If discrepancies cannot be resolved -> risk cases: apply enhanced due diligence or decline relationship
 
 #### 4.2.7 UseCaseSpecific: UBO Identity Verification (AMLR Article 21 Procedure) ####
 For each UBO in the UBO List Attestation, the RP SHALL perform identity verification following this hierarchical procedure:
 
 @TODO Florin Specify the process 
+
 **Step 1: PID-Based Verification (Preferred Method)**
 - Request PID Attestation from the UBO (via EUDI Wallet)
 - Cross-Check PID Against UBO List :identification & other attributes
 - Check PID revocation status via the PID's revocation mechanism
 - Validate PID expiry date
 
-*Conclusion:*
-- If PID matches UBO List: Identity verification complete
-- If PID unavailable or does not match: Proceed to Step 2
+**Step 2: non-PID Based Verification ( e.g., mdoc for driver's license, future passport mdoc))**
+- Request presentation of identity document attestation
+- Cross-Check data against UBO List :identification & other attributes
 
-**Step 2: Identity Document Verification (Fallback Method)**
+**Step 3: Identity Document Verification (PoA)**
+- Request presentation of identity document attestation (PoA)
+- Cross-Check data against UBO List :identification & other attributes
 
-*Use UBO List Identity Information and request Identity Document Verification:*
-- Option A: Request presentation of identity document attestation (e.g., mdoc for driver's license, future passport mdoc)
-- Option B: PID Binding for Representative (PoX)
-- Option B: Manual/physical identity document verification (in-person or certified copy)
-@Todo Florin -> details
+**Step 4: Manual/physical verification (in-person or certified copy)**
+- Manual/physical identity document verification (in-person or certified copy)
 
-**Step 3: Unique Personal Identification Number Verification**
+**Step 5: Unique Personal Identification Number Verification (if available)**
 - Check if unique_personal_identification_number is available in UBO List
 - If available:Use the unique ID number for identity verification
 - Cross-reference with national ID databases (where legally permitted and accessible to RPs)
 - Verify unique_id_number_source to understand the number's origin (e.g., Spanish DNI, German Tax ID, French Social Security Number)
-
-*Conclusion:*
-- If unique ID number successfully verifies: Identity verification complete
-- If unique ID number is unavailable or verification fails: High-risk scenario or Reject the UBO verification; request additional documentation or in-person verification
-
-**Step 4: If Standard Verification Fails **
-@TODO write details
-
-*Important Notes:*
-- Identity Document Nationality Alignment: The type_of_identity_document and identity_issuing_country SHOULD correspond to the UBO's nationality (from citizenships), not the subject entity's jurisdiction. This ensures the identity document is issued by an authoritative source for that individual.
 
 ## 5 Trust anchors
 
