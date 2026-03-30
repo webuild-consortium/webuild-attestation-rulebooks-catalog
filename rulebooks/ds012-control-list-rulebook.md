@@ -1,28 +1,19 @@
-* Template version: 1.1, 20-08-2025
 # Attestation Rulebook for attestations of type Control List Attestation
-
-*Provide information about the author(s) of this Rulebook in the following form:*
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
-* Previous Authors
 
 * Reviewer(s):
   * [......, Deutsche Bank]
 
-*Provide versioning information about the Rulebook in the following form:*
-
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
-| 0.1     | 13.03.2026 | Initial draft based on the WeBuild design attestations mettings |
+| 0.1     | 23.03.2026 | Initial draft based on the WeBuild design attestations mettings |
 
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
+* Contact:
+  <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
 
-Contact: florin.coptil@bosch.com
-
-**Feedback:**
-*  https://example.com/tracker
+* Feedback:
 
 ## 1 Introduction
 
@@ -83,8 +74,7 @@ Data Model:
 The Conrol List follows a hierarchical structure:
 
 Data Model
-```json
-
+````
 Control List
 ├─ ControlNaturalPerson   [1...n]   (at least one natural person controller required)
 │   ├─ ControlAddress     [1]       (one address per natural person controller)
@@ -93,7 +83,7 @@ Control List
 │   ├─ ControlAddress     [1]       (one address per legal entity controller)
 │   └─ ControlStake       [1]       (one stake record per legal entity controller)
 └─ Evidence               [1...n]   (at least one piece of supporting evidence required)
-```
+````
 
 *Explanation:*
 - The Control List SHALL contain at least one control interest held by a natural person (to comply with AML requirements that mandate identification of natural persons who ultimately control the entity).

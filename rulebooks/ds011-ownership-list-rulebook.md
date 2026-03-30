@@ -1,29 +1,19 @@
-* Template version: 1.1, 20-08-2025
-
 # Attestation Rulebook for attestations of type Ownership List Attestation
 
-*Provide information about the author(s) of this Rulebook in the following form:*
-
 * Author(s): 
-    * [Florin Coptil, Robert Bosch GmbH]
-* Previous Authors
+    * [Florin Coptil, Robert Bosch GmbH] 
 
 * Reviewer(s):
     * [......, Deutsche Bank]
 
-*Provide versioning information about the Rulebook in the following form:*
-
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
-| 0.1     | 13.03.2026 | Initial draft based on the WeBuild design attestations mettings |
+| 0.1     | 23.03.2026 | Initial draft based on the WeBuild design attestations mettings |
 
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
-
-Contact: florin.coptil@bosch.com
-
-**Feedback:**
-  *  https://example.com/tracker 
+* Contact:
+  <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
+  
+* Feedback:* 
 
 ## 1 Introduction
 
@@ -80,8 +70,8 @@ The Ownership List Attestation is designed to provide a complete, verifiable rep
 
 ### 2.1 Introduction
 
-Data Model
-```json
+Data Model:
+````
 Ownership List
 ├─ OwnerNaturalPerson   [1...n]   (at least one natural person owner required)
 │   ├─ OwnerAddress     [1]       (one address per natural person owner)
@@ -90,7 +80,7 @@ Ownership List
 │   ├─ OwnerAddress     [1]       (one address per legal entity owner)
 │   └─ OwnerStake       [1]       (one stake record per legal entity owner)
 └─ Evidence             [1...n]   (at least one piece of supporting evidence required)
-```
+````
 
 *Explanation:*
 - The Ownership List SHALL contain at least one ownership interest held by a natural person (to comply with beneficial ownership transparency requirements that mandate identification of ultimate natural person beneficiaries).

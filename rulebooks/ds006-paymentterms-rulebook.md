@@ -1,27 +1,19 @@
-* Template version: 1.1, 20-08-2025
-
 # Attestation Rulebook for attestations of type Payment Terms
-
-*Provide information about the author(s) of this Rulebook in the following form:*
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
+
 * Previous Authors
-
-* Reviewer(s):*
-
-* Template version: 1.1, 20-08-2025
-
-*Provide versioning information about the Rulebook in the following form:*
+* Reviewer(s): 
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 13.03.2026 | Initial draft based on the WeBuild design attestations mettings |
 
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
+* Contact:
+  <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
 
-Contact: florin.coptil@bosch.com
+* Feedback:*
 
 ## 1 Introduction
 
@@ -192,7 +184,7 @@ example
 "payment_reference_event": "invoice_date",
 "contract_reference": "PO-2024-0123",
 "transaction_amount": 50000.00,
-"delivery_location": "Rotterdam, Netherlands",
+"delivery_location": "Rotterdam, Netherlands"
 }
 ```
 
@@ -219,6 +211,7 @@ The first 4 steps are basic verification - similar for all attestations:
 - Validate the digital signature over the attestation using the issuer's public key
 - For SD-JWT VC: Verify JWT signature and validate all disclosed claims
 ### 4.2.2 Validate Issuer ###
+
 
 @TODO Werner
 - Issuer Authentification 

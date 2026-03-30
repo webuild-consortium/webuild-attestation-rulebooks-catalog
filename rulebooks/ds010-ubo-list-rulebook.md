@@ -1,30 +1,21 @@
-* Template version: 1.1, 20-08-2025
-
 # Attestation Rulebook for attestations of type Ultimate Beneficial Owner(s) List (UBO-List)*
-
-*Provide information about the author(s) of this Rulebook in the following form:*
 
 * Author(s): 
     * [Florin Coptil, Robert Bosch GmbH]
 * Previous Authors
 
 * Reviewer(s):
-    * [...., Bundesanzeiger]
+    * [......, Bundesanzeiger]
     * [......, Deutsche Bank]
-
-*Provide versioning information about the Rulebook in the following form:*
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 13.03.2026 | Initial draft based on the WeBuild design attestations mettings |
 
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
+* Contact:
+  <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
 
-Contact: florin.coptil@bosch.com
-
-**Feedback:**
-  *  https://example.com/tracker 
+* Feedback:*
 
 ## 1 Introduction
 
@@ -90,7 +81,8 @@ The UBO List Attestation is designed to provide a complete, verifiable represent
 ### 2.1 Introduction
 Unlike Ownership List and Control List attestations (which use hierarchical structures with nested ownership/control layers), the UBO List uses a flat list structure where each entry represents a single UBO with all associated attributes:
 
-```json
+Data Model:
+````
 UBO List
 ├─ UBO [1...n]   (at least one UBO; typically 1-5 UBOs for most entities)
 │   ├─ Personal Identification Attributes (first name, surname, date of birth, citizenship(s))
@@ -98,7 +90,7 @@ UBO List
 │   ├─ ResidentialAddress (street, house number, city, state, postal code, country(ies) of residence)
 │   ├─ IdentityInformation (type of identity document, document number, issuing country, expiry date, unique personal identification number, revocation link)
 │   └─ OwnershipInfo (determination methodology, ownership stake, ownership held date)
-```
+````
 
 **Explanation:**
 - The UBO List SHALL contain at least one UBO (natural person meeting the UBO definition per AMLR Article 3(17))
@@ -318,7 +310,7 @@ The . notation is used to indicate the nesting of attributes.
 For SD-JWT VC-compliant UBOs, the UBO List MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
 
 The status claim SHALL be a JSON object with the following members:
-```json
+````
 'type' (string): SHALL be "status-list".
 'status_list_credential' (string, URI): The URI of the Status List Credential document that contains the status bitstring.
 'status_list_index' (integer, >= 0): The zero-based index into the status list bitstring that corresponds to this credential.
@@ -333,7 +325,7 @@ Example:
 "status_purpose": "revocation"
 }
 }
-```
+````
 
 #### 3.2.3 Example Payload####
 Sample payloads provided under ../data-schemas/sd-jwt-vc/sample-data/ds010-ubo-list-sd-jwt-sample.json
@@ -366,6 +358,8 @@ The UBO List Attestation serves the core AML/CTF compliance requirement of ident
 ### 4.2 Relying Party Obligations ###
 
 When receiving and processing a UBO List Attestation, a Relying Party SHALL:
+
+TODOO FLO make a mermai diagramm
 
 The first 4 steps are basic verification - similar for all attestations:
 ### 4.2.1 Verify Cryptographic Integrity ###
