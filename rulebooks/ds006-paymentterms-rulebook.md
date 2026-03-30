@@ -2,9 +2,9 @@
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
-
 * Previous Authors
-* Reviewer(s): 
+
+* Reviewer(s):
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
@@ -13,7 +13,7 @@
 * Contact:
   <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
 
-* Feedback:*
+* Feedback:
 
 ## 1 Introduction
 

@@ -13,7 +13,7 @@
 * Contact:
   <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
 
-* Feedback:
+* Feedback: 
 
 ## 1 Introduction
 
