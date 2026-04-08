@@ -2,6 +2,7 @@
 |---------|------------|------------|
 | 0.9 | 02-04-2026 | Copy created from the EUDI attestation rulebook template as the basis for the WE BUILD template. |
 | 1.0 | 02-04-2026 | Added WE BUILD v1 author guidance in Sections 1.1 and 2.1 and introduced Sections 2.8 Code lists and 2.9 Integrity rules. |
+| 1.1 | 08-04-2026 | Added a Semantic Reference column to Chapter 2 attribute and metadata tables. |
 
 # WE BUILD Attestation Rulebook Template for attestations of type *ADD THE ATTESTATION TYPE HERE*
 
@@ -193,48 +194,51 @@ mandatory, optional, and conditional attributes and metadata. In each subsection
 provide a table of the following form. When applicable, use Sections 2.8 and 2.9 to document
 code lists and integrity rules that are needed to interpret these attributes consistently:*
 
-| **Data Identifier** | **Definition** |**Data type** |**Example value** |
-|------------------------|--------------|--------------|--------------|
-| *Provide a unique attribute identifier* | *Briefly describe the semantic of this attribute*|*Provide a type, e.g., integer, string, boolean, date.*|*Give an example value* |
+*Where available, authors SHOULD include a stable semantic term reference (for example a URI,
+IRI, or controlled identifier from an agreed semantics catalogue) for each attribute or metadata item.*
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| *Provide a unique attribute identifier* | *Provide a stable semantics term reference* | *Briefly describe the semantic of this attribute* | *Provide a type, e.g., integer, string, boolean, date.* | *Give an example value* |
 
 *NOTE Data identifiers should be unambiguous, machine-readable where possible, and
 avoid natural-language ambiguities.*
 
 ### 2.2 Mandatory attributes
 
-| **Data Identifier** | **Definition** |**Data type** |**Example value** |
-|------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide succinct text*|*Provide a value*|*Provide a value* |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
 
 ### 2.3 Optional attributes
 
-| **Data Identifier** | **Definition** |**Data type** |**Example value** |
-|------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide succinct text*|*Provide a value*|*Provide a value* |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
 
 ### 2.4 Conditional attributes
 
-| **Data Identifier** | **Definition** |**Data type** |**Example value** |
-|------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide succinct text*|*Provide a value*|*Provide a value* |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
 
 ### 2.5 Mandatory metadata
 
-| **Data Identifier** | **Definition** |**Data type** |**Example value** |
-|------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide succinct text*|*Provide a value*|*Provide a value* |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
 
 ### 2.6 Optional metadata
 
-| **Data Identifier** | **Definition** |**Data type** |**Example value** |
-|------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide succinct text*|*Provide a value*|*Provide a value* |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
 
 ### 2.7 Conditional metadata
 
-| **Data Identifier** | **Definition** |**Data type** |**Example value** |
-|------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide succinct text*|*Provide a value*|*Provide a value* |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
 
 ### 2.8 Code lists
 
