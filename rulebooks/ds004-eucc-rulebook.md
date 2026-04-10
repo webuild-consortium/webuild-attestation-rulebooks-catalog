@@ -7,17 +7,19 @@
 
 * Author(s):
     <!-- Usage help: (Name LastName, Affiliation) -->
-  * Jonas Toennis , [Brønnøysund Registry Center](https://www.brreg.no)
+  * Jonas Toennis, [Brønnøysund Registry Center](https://www.brreg.no)
+  * Erwin Nieuwlaar, [KVK](https://www.kvk.nl)
 
 * Previous Authors
      <!-- Usage help: (Name LastName, Affiliation) -->
-    * [celiacouson](https://github.com/celiacouson), Unknown Affiliation
+    * [celiacouson](https://github.com/celiacouson)
 
 *Provide versioning information about the Rulebook in the following form:*
 
 | Version          | Date               | Description                                      |
 |------------------|--------------------|--------------------------------------------------|
 | 01                | 12.01.2025         | Initial Draft based on the previous [work of EWC ](https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/rulebooks/rb002_eu_company_certificate.md) |
+| 02                | 10.04.2026         | Updated according to the work done in WE BUILD, using the [WE BUILD EUCC attestation description](https://portal.webuildconsortium.eu/group/bu2-create-company-branch/files?mid=7087&fid%5B0%5D=56&fid%5B1%5D=58&fid%5B2%5D=62) |
 
 **Feedback:**
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
@@ -25,7 +27,7 @@ Alternative: Contact Business usecase 2 contact points in WE BUILD.
 
 ## 1 Introduction
 
-### 1.1 Document scope and purpose
+### 1.1 <mark style="background-color: yellow">Attestation introduction</mark>
 
 This document is the EU Company Certificate Data Rulebook (referred to as EUCC) based on
 the [EU Company Law regulation](https://eur-lex.europa.eu/eli/dir/2025/25/oj/eng). It contains the specific requirements, issuance process, formatting and content of the EUCC. 
@@ -33,7 +35,29 @@ This document is created and used by the WEBUILD consortium to provide a common 
 
 This document MAY be used as one of multiple innputs toward a final EUCC definition for the EBW ecosystem but that is up so the sole decisision of the EU commission or any other relevant authority with delgated power from the commission.
 
-### 1.2 Document structure
+<mark style="background-color: lightgreen">This attestation represents a legally valid European Company Certificate (EUCC).
+It embodies:</mark>
+- <mark style="background-color: lightgreen">Information of a legal person registered in a Member State</mark>
+- <mark style="background-color: lightgreen">The legal form of the entity</mark>
+- <mark style="background-color: lightgreen">The unique company identifier (EUID structure)</mark>
+- <mark style="background-color: lightgreen">The Member State of registration</mark>
+- <mark style="background-color: lightgreen">The official registered address</mark>
+- <mark style="background-color: lightgreen">The registration date</mark>
+- <mark style="background-color: lightgreen">The legal status of the entity</mark>
+- <mark style="background-color: lightgreen">The main economic activity (e.g. NACE classification)</mark>
+- <mark style="background-color: lightgreen">The legal representatives authorized to bind the company</mark>
+- <mark style="background-color: lightgreen">The applicable signatory rules</mark>
+
+### <mark style="background-color: lightgreen">1.2 Introduction attribute specification</mark>
+
+<mark style="background-color: lightgreen">The attestation attributes are defined in the tables of Chapter 2 of this document. These tables contain the following information:</mark>
+- <mark style="background-color: lightgreen">The first column specifies the identifiers of the attestation attributes. The attribute identifiers in this column SHALL be used in requests and responses. There SHALL be at most one attribute with the same attribute identifier in each attestation attribute.</mark>
+- <mark style="background-color: lightgreen">The second column describes the meaning of the attribute.</mark>
+- <mark style="background-color: lightgreen">The third column specifies whether the presence of the attribute in an attestation is mandatory (M), or optional (O).</mark>
+    - <mark style="background-color: lightgreen">NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.</mark>
+- <mark style="background-color: lightgreen">The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].</mark>
+
+### 1.<mark style="background-color: yellow">3</mark> Document structure
 
 - Chapter 2, Attestation attributes and metadata in an encoding-independent manner. 
 - Chapter 3, Attestation attributes for the specific encodings [SD-JWT VC] and [W3C VCDM v2.0].
@@ -42,7 +66,8 @@ This document MAY be used as one of multiple innputs toward a final EUCC definit
 - Chapter 6, Revocation mechanisms
 - Chapter 7, Compliance information
 
-### 1.3 Keywords
+
+### 1.<mark style="background-color: yellow">4</mark> Keywords
 
 
 This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as
@@ -55,18 +80,18 @@ instance, by an external document. The word 'can' indicates a capability,
 whereas other words, such as 'will', and 'is' or 'are' are intended as
 statements of fact.
 
-### 1.4 Terminology
+### 1.<mark style="background-color: yellow">5</mark> Terminology
 
 This document uses terminology specified in [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/eli/reg/2024/1183/oj/eng).
 
-In addition to the attributes definition necessary to understand the data schema, it’s important to understand:
+In addition to the attributes definition necessary to understand the data schema, it's important to understand:
 
 | Term                 | Definition in WE BUILD Context                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Natural person       | an individual human being who has legal rights and obligations. Unlike a legal person (which refers to an organization or entity), a natural person is a human with the capacity to engage in legal relationships, enter into contracts, own property, and be subject to legal actions. Natural persons are distinct from artificial entities (like corporations or governments). In legal terms, a natural person is someone who exists as a human being, as opposed to a corporate or fictional entity.                                                                                                                                                                                                                                                                                           | 
 | Legal person         | an entity that has legal rights and obligations, similar to a natural person (an individual). It is an organization or group recognized by law as having the capacity to enter into contracts, sue, and be sued, and own property. Legal persons are distinct from the individuals who may own, manage, or be part of them. Examples of legal persons include Corporations, Government agencies, public entities (that are granted legal recognition to act on behalf of the state), Nonprofit organizations A legal person exists as a separate legal entity, meaning it can perform legal actions in its own name, distinct from the actions of its members.                                                                                                                                      | 
 | Legal entity         | an organization or structure that is recognized by law as having legal rights and responsibilities distinct from those of its members or owners. A legal entity can enter into contracts, own property, incur debts, and be held liable for legal actions in its own name. Legal entities include various forms of organizations such as Corporations, Limited liability companies (LLCs), Nonprofit organizations, Partnerships The key characteristic of a legal entity is that it has its own legal existence, allowing it to perform actions independently of the individuals who are involved with it.                                                                                                                                                                                         |
- | Legal representative | Natural or legal person authorized to act on behalf of another person or organization in legal matters. This person has the legal authority to represent the interests of the entity, such as a company, in dealings with other parties, including signing contracts, making decisions, and appearing in legal proceedings. For businesses, a legal representative can be a director, officer, or another person designated by the company’s governing body (like the board of directors) to represent the company in legal matters. In the case of individuals, a legal representative might include a guardian, power of attorney holder, or someone with similar legal authority to act on behalf of the person.                                                                                 |
+ | Legal representative | Natural or legal person authorized to act on behalf of another person or organization in legal matters. This person has the legal authority to represent the interests of the entity, such as a company, in dealings with other parties, including signing contracts, making decisions, and appearing in legal proceedings. For businesses, a legal representative can be a director, officer, or another person designated by the company's governing body (like the board of directors) to represent the company in legal matters. In the case of individuals, a legal representative might include a guardian, power of attorney holder, or someone with similar legal authority to act on behalf of the person.                                                                                 |
  | Signatory rights     | the authority or power granted to an individual or entity to legally bind an organization or company by signing contracts, agreements, or other formal documents. This authority can be granted to a specific person, such as an executive, director, or authorized representative, and can be either individual (where one person alone can sign) or joint (where multiple individuals are required to sign together). Signatory rights are important because they ensure that any commitments made by the organization are legally valid and enforceable. The terms and scope of signatory rights are usually outlined in the organization's internal governance documents, such as its bylaws, and can vary based on the level of responsibility and the nature of the agreements being signed.  | 
 
 
@@ -128,76 +153,107 @@ looked up SHOULD be defined. What this location indicates precisely is dependent
 on the nature of the mechanism used for distributing trust anchors, detailed in section 
 5 (see ARB_21 in [Topic 12])
 
-### 2.1 Introduction
+### 2.1 <mark style="background-color: yellow">Overview attributes attestation</mark>
 
-#TODO: 
+<mark style="background-color: yellow">The following table combines all attestation attributes for the EUCC (mandatory, optional, and conditional) in a single overview. Attribute identifiers SHALL be used in requests and responses.</mark>
+
+| **Data Identifier** | **Definition** | <mark style="background-color: lightgreen">**Optionality**</mark> | <mark style="background-color: lightgreen">**Encoding format**</mark> |
+|---|---|---|---|
+| attestation_legal_category | One of EAA, Pub-EAA or QEAA | M | <mark style="background-color: lightgreen">string</mark> |
+| legal_person_name | Official current legal person name as registered in the business register. | M | <mark style="background-color: lightgreen">string</mark> |
+| legal_person_id | Unique ID for the legal person in the EUID structure. | M | <mark style="background-color: lightgreen">string</mark> |
+| legal_form_type | Legal form of the company. | M | <mark style="background-color: lightgreen">string</mark> |
+| registration_member_state | The member state where the company is registered (Alpha-2 country code). | M | <mark style="background-color: lightgreen">string</mark> |
+| registered_address | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | <mark style="background-color: lightgreen">object</mark> |
+| registration_date | Date of company registration. | M | <mark style="background-color: lightgreen">string (date)</mark> |
+| legal_person_status | Status of the company as defined in national law. | M | <mark style="background-color: lightgreen">string</mark> |
+| legal_person_activity | Main activity of the company (NACE). | M | <mark style="background-color: lightgreen">string</mark> |
+| legal_representative | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | <mark style="background-color: lightgreen">array&lt;object&gt;</mark> |
+| share_capital | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | <mark style="background-color: lightgreen">object</mark> |
+| legal_person_duration | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | <mark style="background-color: lightgreen">string (date)</mark> |
+| digital_contact_point | Correspondence address of the company, such as electronic mail and/or website | O | <mark style="background-color: lightgreen">object</mark> |
+
+### <mark style="background-color: lightgreen">2.2 Code lists</mark>
+
+<mark style="background-color: lightgreen">The following code lists apply to specific attributes:</mark>
+
+<mark style="background-color: lightgreen">**legal_person_status**</mark>
+
+<mark style="background-color: lightgreen">Examples (Member-State specific):</mark>
+- <mark style="background-color: lightgreen">active</mark>
+- <mark style="background-color: lightgreen">dissolved</mark>
+- <mark style="background-color: lightgreen">in_liquidation</mark>
+- <mark style="background-color: lightgreen">insolvent</mark>
+- <mark style="background-color: lightgreen">struck_off</mark>
+
+<mark style="background-color: lightgreen">**legal_person_activity**</mark>
+
+<mark style="background-color: lightgreen">Values:</mark>
+- <mark style="background-color: lightgreen">NACE codes (EU)</mark>
+- <mark style="background-color: lightgreen">ATECO (Italy)</mark>
+
+<mark style="background-color: lightgreen">**registration_member_state**</mark>
+
+<mark style="background-color: lightgreen">ISO 3166-1 alpha-2 country codes</mark>
+
+<mark style="background-color: lightgreen">**signatory_rule**</mark>
+
+<mark style="background-color: lightgreen">Values:</mark>
+- <mark style="background-color: lightgreen">sole</mark>
+- <mark style="background-color: lightgreen">joint</mark>
+- <mark style="background-color: lightgreen">joint_two</mark>
+- <mark style="background-color: lightgreen">joint_all</mark>
+- <mark style="background-color: lightgreen">limited</mark>
+
+### <mark style="background-color: lightgreen">2.3 Integrity rules</mark>
+
+- <mark style="background-color: lightgreen">registration_member_state MUST be a valid ISO 3166-1 alpha-2 code.</mark>
+- <mark style="background-color: lightgreen">registration_date MUST be equal to or earlier than the issuance date of the attestation.</mark>
+- <mark style="background-color: lightgreen">legal_person_id MUST follow the EUID structure.</mark>
+- <mark style="background-color: lightgreen">At least one legal_representative MUST be present.</mark>
+- <mark style="background-color: lightgreen">signatory_rule MUST be defined for each legal representative.</mark>
 
 
-### 2.2 Mandatory attributes
-
-| **Data Identifier**        | **Definition**                                                                                                                                                    |
-|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| attestation_legal_category | One of EAA, Pub-EAA or QEAA                                                                                                                                       |
-| legal_person_name          | Official current legal person name as registered in the business register.                                                                                        |
-| legal_person_id            | Unique ID for the legal person in the EUID structure.                                                                                                             |
-| legal_form_type            | Legal form of the company.                                                                                                                                        |
-| registration_member_state  | The member state where the company is registered (Alpha-2 country code).                                                                                          |
-| registered_address         | The official address of the company as registered by public authority. See [section 2.5](#25-Address)                                                             |
-| registration_date          | Date of company registration.                                                                                                                                     |
-| legal_person_status        | Status of the company as defined in national law.       #TODO: Can we limit this to the BRIS accepted groups for a better international representative aproach ?  |
-| legal_person_activity      | Main activity of the company (NACE).                                                                                                                              |
-| legal_representative       | Information about the natural og legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required.    |
-
-
-### 2.3 Optional attributes
-
-| **Data Identifier**   | **Definition**                                                                                                            |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------|
-| share_capital         | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 |
-| legal_person_duration | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601        |
-| digital_contact_point | Correspondence address of the company, such as electronic mail and/or website                                             |
-
-
-
-### 2.4 Conditional attributes
+### 2.<mark style="background-color: yellow">4</mark> Conditional attributes
 
 If a Natural Person is representative of a legal person, the following attributes SHALL be included:
 
-| **Data Identifier** | **Definition**                                                                      |
-|---------------------|-------------------------------------------------------------------------------------|
-| full_name           | Full name of the natural person representing the company.                           |
-| date_of_birth       | Date of birth of the natural person representing the company.                       |
-| nationality         | OPTIONAL: Nationality of the natural person representing the company.               |
-| signatory_rule      | Information on whether the representative can engage the company alone or jointly.  | 
+| **Data Identifier** | **Definition** | <mark style="background-color: lightgreen">**Optionality**</mark> | <mark style="background-color: lightgreen">**Encoding format**</mark> |
+|---|---|---|---|
+| full_name | Full name of the natural person representing the company. | M | <mark style="background-color: lightgreen">string</mark> |
+| date_of_birth | Date of birth of the natural person representing the company. | M | <mark style="background-color: lightgreen">string (date)</mark> |
+| <mark style="background-color: lightgreen">identifier</mark> | <mark style="background-color: lightgreen">Natural person representative identifier</mark> | <mark style="background-color: lightgreen">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| nationality | OPTIONAL: Nationality of the natural person representing the company. | O | <mark style="background-color: lightgreen">string</mark> |
+| signatory_rule | Information on whether the representative can engage the company alone or jointly. | M | <mark style="background-color: lightgreen">string</mark> |
 
 
 
 If a Legal Person is representative of a legal person, the following attributes SHALL be included:
 
-| **Data Identifier** | **Definition**                                                                     |
-|---------------------|------------------------------------------------------------------------------------|
-| name                | Details about the legal person representing the company.                           |
-| id                  | Unique ID for the legal person in the EUID structure.                              |
-| legal_form_type     | Legal form of the legal person representing the company.                           |
-| signatory_rule      | Information on whether the representative can engage the company alone or jointly. | 
+| **Data Identifier** | **Definition** | <mark style="background-color: lightgreen">**Optionality**</mark> | <mark style="background-color: lightgreen">**Encoding format**</mark> |
+|---|---|---|---|
+| name | Details about the legal person representing the company. | M | <mark style="background-color: lightgreen">string</mark> |
+| id | Unique ID for the legal person in the EUID structure. | M | <mark style="background-color: lightgreen">string</mark> |
+| legal_form_type | Legal form of the legal person representing the company. | M | <mark style="background-color: lightgreen">string</mark> |
+| signatory_rule | Information on whether the representative can engage the company alone or jointly. | M | <mark style="background-color: lightgreen">string</mark> |
 
 A combination of natural and legal persons can be legal representatives of a legal person.
 
 ### 2.5 Address
 There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.
 
-| **Data Identifier** | **Definition**                                                                  | Required |
-|---------------------|---------------------------------------------------------------------------------|----------|
-| full_address        | Complete address of the company, written as a string, separated by semicolons.  | Yes      | 
-| care_of             | Used when the address is at the address of another person or legal person.      | No       |
-| thorough_fare       | The name of a passage or way through from one location to another.              | No       |
-| locator_designator  | A number or sequence that uniquely identifies the locator.                      | No       |
-| post_code           | The code created and maintained for postal purposes.                            | No       |
-| post_name           | A name identifying a subdivision of addresses (e.g., city).                     | No       |
-| post_office_box     | A location designator for a postal delivery point at a post office.             | No       |
-| locator_name        | Proper noun(s) applied to the real-world entity.                                | No       |
-| admin_unit_level_1  | The uppermost administrative unit (typically country).                          | No       |
-| admin_unit_level_2  | Secondary level/region (typically county or state).                             | No       |
+| **Data Identifier** | **Definition** | <mark style="background-color: yellow">**Optionality**</mark> | <mark style="background-color: lightgreen">**Encoding format**</mark> |
+|---|---|---|---|
+| full_address | Complete address of the company, written as a string, separated by semicolons. | <mark style="background-color: yellow">M</mark> | <mark style="background-color: lightgreen">string</mark> |
+| care_of | Used when the address is at the address of another person or legal person. | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| thorough_fare | The name of a passage or way through from one location to another. | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| locator_designator | A number or sequence that uniquely identifies the locator. | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| post_code | The code created and maintained for postal purposes. | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| post_name | A name identifying a subdivision of addresses (e.g., city). | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| post_office_box | A location designator for a postal delivery point at a post office. | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| locator_name | Proper noun(s) applied to the real-world entity. | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| admin_unit_level_1 | The uppermost administrative unit (typically country). | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
+| admin_unit_level_2 | Secondary level/region (typically county or state). | <mark style="background-color: yellow">O</mark> | <mark style="background-color: lightgreen">string</mark> |
 
 
 ### 2.6 Mandatory metadata 
@@ -208,7 +264,7 @@ There is currently no open standard for addresses. As such, the definitions from
 | issuing_authority    | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.             |
 | issuing_country      | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                         |
 
-### 2.8 Conditional metadata 
+### 2.<mark style="background-color: yellow">7</mark> Conditional metadata 
 
 | **Data Identifier**  | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -270,9 +326,10 @@ The . notation is used to indicate the nesting of attributes.
 | legal_representative.legal_person.signatory_rule   | legal_representative.legal_person.signatory_rule  | string              |                                                                            |
 | legal_representative.natural_person                | legal_representative.natural_person               | object              |                                                                            |
 | legal_representative.natural_person.full_name      | legal_representative.natural_person.full_name     | string              |                                                                            |
+| <mark style="background-color: lightgreen">legal_representative.natural_person.identifier</mark> | <mark style="background-color: lightgreen">legal_representative.natural_person.identifier</mark> | <mark style="background-color: lightgreen">string</mark> | <mark style="background-color: lightgreen">Natural person representative identifier</mark> |
 | legal_representative.natural_person.date_of_birth  | legal_representative.natural_person.date_of_birth | string              |                                                                            |
 | legal_representative.natural_person.nationality    | legal_representative.natural_person.nationality   | string              |                                                                            |
-| legal_representative.natural_person.signatory_rule | legal_representative.natural_person               | string              |                                                                            |
+| legal_representative.natural_person.signatory_rule | <mark style="background-color: yellow">legal_representative.natural_person.signatory_rule</mark> | string   |                                                                            |
 | share_capital                                      | share_capital                                     | object              |                                                                            |
 | share_capital.amount                               | share_capital.amount                              | string              |                                                                            |
 | share_capital.currency                             | share_capital.currency                            | string              |                                                                            |
@@ -426,7 +483,7 @@ The EUCC SHALL include a status claim `credentialStatus` if the technical validi
 
 ## 4 Attestation usage
 
-The EUCC is intended to be used as a standardised, machine-verifiable proof of a company’s incorporation and registered company information, to be presented by a Wallet User to an RP in cross-border and domestic contexts.
+The EUCC is intended to be used as a standardised, machine-verifiable proof of a company's incorporation and registered company information, to be presented by a Wallet User to an RP in cross-border and domestic contexts.
 
 Typical scenarios include, but are not limited to:
 
@@ -555,12 +612,3 @@ that will be specified by the Commission.
 | [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks>|
 | [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments>|
 | [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.  |
-
-
-
-
-
-
-
-
- 
