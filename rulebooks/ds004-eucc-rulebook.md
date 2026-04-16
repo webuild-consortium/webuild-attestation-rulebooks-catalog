@@ -9,6 +9,7 @@
     <!-- Usage help: (Name LastName, Affiliation) -->
   * Jonas Toennis, [Brønnøysund Registry Center](https://www.brreg.no)
   * Erwin Nieuwlaar, [KVK](https://www.kvk.nl)
+  * Astrid Verhallen, [Infogreffe](https://www.infogreffe.fr/)
 
 * Previous Authors
      <!-- Usage help: (Name LastName, Affiliation) -->
