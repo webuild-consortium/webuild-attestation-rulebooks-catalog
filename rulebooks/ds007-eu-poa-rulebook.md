@@ -4,7 +4,8 @@
 # Attestation Rulebook for attestations of type EU Power of Attorney (EU PoA)
 
 * Author(s):
-    * BU2
+    * Erwin Nieuwlaar, [KVK](https://kvk.nl)
+    * Astrid Verhallen, [Infogreffe](https://www.infogreffe.fr/)
 
 
 | Version          | Date               | Description                                      |
