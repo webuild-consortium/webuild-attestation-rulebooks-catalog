@@ -34,7 +34,7 @@ This document is the EU Company Certificate Data Rulebook (referred to as EUCC) 
 the [EU Company Law regulation](https://eur-lex.europa.eu/eli/dir/2025/25/oj/eng). It contains the specific requirements, issuance process, formatting and content of the EUCC. 
 This document is created and used by the WEBUILD consortium to provide a common understanding, data schema, format and usage guidlines for the WEBUILD eco system. 
 
-This document MAY be used as one of multiple innputs toward a final EUCC definition for the EBW ecosystem but that is up so the sole decisision of the EU commission or any other relevant authority with delgated power from the commission.
+This document MAY be used as one of multiple innputs toward a final EUCC definition for the EBW ecosystem. That is under the sole discreation of the EU commission or any other relevant authority with delgated power from the commission.
 
 <mark style="background-color: lightgreen">This attestation represents a legally valid European Company Certificate (EUCC).
 It embodies:</mark>
@@ -502,7 +502,7 @@ The EUCC is **not** intended to be used as a standalone authentication mechanism
 
 ### 4.1 Issuance of the EUCC
 
-* The Issuer of the EUCC SHALL be the company register or an authority appointed by the company register to issue EUCCs on their behalf. 
+* The Authentic Source of the data contained in the EUCC MUST be the company register.   The company register can or MUST authorize an issuer to issue EUCCs on their behalf. 
 * The Issuance SHALL be based on up to date, authoritive data from the authorative source as defined by ????? #TODO
 * The EUCC SHALL be key bound to the wallet, IF the wallet belongs to the company that the EUCC is issued for.
 * If the EUCC is issued to a wallet that is not owned by the company that the EUCC is issued for, the EUCC SHALL NOT be  key bound to the wallet.
