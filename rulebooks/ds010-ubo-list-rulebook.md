@@ -11,6 +11,7 @@
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 13.03.2026 | Initial draft based on the WeBuild design attestations mettings |
+| 0.2     | 20.04.2026 | updates in regard to the comments and legislation              |
 
 * Contact:
   <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
@@ -119,9 +120,9 @@ This attestation type MAY be classified as:
 
 **UBO Personal Identification Attributes**  
 
-| **Data Identifier**          | **Semantic Reference** | **Definition**                                                                          | **Data type**                       |
-|------------------------------|------------------------|-----------------------------------------------------------------------------------------|-------------------------------------|
-| first_names                  | ...                    | The beneficial owner's first names in full (including all given names and middle names) | String                                                                               |
+| **Data Identifier**          | **Semantic Reference** | **Definition**                                                                         | **Data type**                       |
+|------------------------------|------------------------|----------------------------------------------------------------------------------------|-------------------------------------|
+| first_names                  | ...                    |The beneficial owner's first names in full (including all given names and middle names) | String                                                                               |
 | surnames                     | ...                    |The beneficial owner's surnames in full (all family names/last names)                   | String                                                                                  |
 | date_of_birth                | ...                    |Day, month, and year of birth of the UBO ISO 8601                                       | Date (YYYY-MM-DD)                                                                       |
 | citizenships                 | ...                    |Citizenship(s) held by the UBO (one or more nationalities)                              | Array of Strings (ISO 3166-1 alpha-3)                                                   |
@@ -167,6 +168,7 @@ Each UBO entry SHALL contain an OwnershipInfo nested object with the following m
 | determination_methodology | ...                    | Specifies the calculation methodology applied in accordance with the AMLR and applicable Transparency Register requirement. This attribute classifies how the UBO was determined. String or | Array of Strings (enumeration) ["Direct ownership", "Control through voting rights"]                                                                                                |
 | ownership_stake           | ...                    | The percentage or level of ownership/control held by the UBO (≥25% per AMLR threshold, but may be higher)                                                                                       | Decimal (25.0-100.0)                                                                                                                                                                        |
 | ownership_held_date       | ...                    | Date on which the beneficial interest is held (as of when the UBO calculation was performed)                                                                                                    | ISO 8601 Date (YYYY-MM-DD)                                                                                                                                                                  |
+
 Note: A UBO may be identified through multiple determination methodologies simultaneously (e.g., both direct ownership ≥25% AND control through voting rights ≥50%). Therefore, determination_methodology MAY be encoded as an array of strings.
 
 ### 2.3 Optional attributes
@@ -349,7 +351,7 @@ The UBO List Attestation serves the core AML/CTF compliance requirement of ident
 ### 4.2 Relying Party Obligations ###
 
 When receiving and processing a UBO List Attestation, a Relying Party SHALL:
-TODOO FLO make a mermaid diagramm to describe the verification process
+@TODO FLO make a mermaid diagramm to describe the verification process
 
 
 The first 4 steps are basic verification - similar for all attestations:
