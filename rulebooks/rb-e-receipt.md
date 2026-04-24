@@ -7,8 +7,8 @@ An **eReceipt** is the digital, cryptographically verifiable equivalent of a pap
 This document is the Rulebook that defines what data goes into an eReceipt, how that data is encoded, how the credential is issued, presented and revoked, and how the trust in the issuer is established. It is structured to follow the EUDI Attestation Rulebook Template and, where relevant, points to the EUDI Architecture and Reference Framework (ARF) for further detail.
 
 - Author(s):
-  - Teemu Varpanen, ReceiptHero, Finland (WE BUILD Consortium, WP3)
-  - Tomi Rusi, Valtiokonttori (State Treasury), Finland (WE BUILD Consortium, WP3)
+  - Teemu Varpanen, ReceiptHero, Finland
+  - Tomi Rusi, Valtiokonttori (State Treasury), Finland
   - Lal Chandran, iGrant.io, Sweden
 
 | Version | Date       | Description                                                                                                                                                                                                                                                                                                    |
