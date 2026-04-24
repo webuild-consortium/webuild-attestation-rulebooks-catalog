@@ -646,6 +646,9 @@ For the **non-qualified EAA** profile defined here (see ARB_26 in [Topic 12]), t
 
 If, in a future version of this Rulebook, the eReceipt is profiled as a **PuB-EAA** issued by a QTSP, the standard ARF mechanism applies: the Relying Party Instance verifies the signature of the PuB-EAA Provider over the eReceipt using a PuB-EAA Provider certificate issued by a QTSP, and verifies that certificate against the corresponding trust anchor from the QTSP Trusted List. Intermediate signing certificates may be used by both the PuB-EAA Provider and the QTSP.
 
+> [!NOTE]
+> The eReceipt provides three layers of assurance between the receipt data and the underlying payment: (i) EMV cryptographic evidence captured in `verifications[]`, which proves that a genuine terminal event occurred at the stated merchant, terminal and timestamp; (ii) issuer-side integrity rules `IR-01`, `IR-02` and `IR-03` (Section 2.9), which reconcile line items, VAT and payments against the receipt total; and (iii) process-level assurance that issuance occurs only after the PSP or acquirer has confirmed settlement (Section 2.3). An independent cryptographic binding between the PSP-confirmed authorised amount and the receipt total is not defined in this version of the Rulebook. Cross-verification against a separate Payment Data Confirmation attestation (DS-008) is under consideration for a future revision, and Relying Parties with heightened assurance requirements (for example, tax authorities performing VAT deduction verification) should take this limitation into account.
+
 ## 6 Revocation
 
 (See [Topic 7] of the ARF for the high-level requirements related to revocation.)
