@@ -1,4 +1,4 @@
-# WE BUILD Rulebook for attestations of type _eReceipt (vReceipt)_
+# WE BUILD Rulebook for attestations of type _eReceipt_
 
 ## Abstract
 
@@ -24,7 +24,7 @@ This document is the Rulebook that defines what data goes into an eReceipt, how 
 - <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues>
 
 ## Table of contents
-- [WE BUILD Rulebook for attestations of type _eReceipt (vReceipt)_](#we-build-rulebook-for-attestations-of-type-ereceipt-vreceipt)
+- [WE BUILD Rulebook for attestations of type _eReceipt_](#we-build-rulebook-for-attestations-of-type-ereceipt)
   - [Abstract](#abstract)
   - [Table of contents](#table-of-contents)
   - [1 Introduction](#1-introduction)
@@ -67,7 +67,7 @@ This document is the Rulebook that defines what data goes into an eReceipt, how 
 
 ### 1.1 Document scope and purpose
 
-The eReceipt (vReceipt) attestation enables a merchant, or a Payment Service Provider (PSP) acting on behalf of the merchant, to issue a verifiable, structured proof of purchase to a Holder's EUDI Wallet following a completed card-based point-of-sale (POS) payment transaction. It expresses, in machine-readable and cryptographically verifiable form, the same real-world
+The eReceipt attestation enables a merchant, or a Payment Service Provider (PSP) acting on behalf of the merchant, to issue a verifiable, structured proof of purchase to a Holder's EUDI Wallet following a completed card-based point-of-sale (POS) payment transaction. It expresses, in machine-readable and cryptographically verifiable form, the same real-world
 fact that a paper till receipt expresses: that a particular merchant accepted a card payment from a particular cardholder for a particular set of itemised goods or services at a specific date, time and location, and captured the EMV/PSP cryptographic evidence of that transaction.
 
 The attestation is intended for use in both Business-to-Consumer (B2C) and Business-to-Business (B2B) flows, with the primary B2B use case being _expense management_: an employee purchases goods or services (travel, meals, office supplies, etc.) using a personal or corporate card and subsequently submits the receipt for reimbursement, VAT reclaim, or accounting purposes. The eReceipt credential replaces the paper receipt in this process, providing a credential that can be routed directly to an employer's expense system or organisational wallet.
@@ -108,7 +108,7 @@ The terms _credential_ and _attestation_ are used interchangeably in this docume
 
 This document uses the terminology specified in Annex 1 of the ARF. In addition, the following terms are used with the meaning given here:
 
-- **eReceipt / vReceipt**: the attestation defined by this Rulebook, providing cryptographically verifiable proof of a card-based point-of-sale purchase.
+- **eReceipt**: the attestation defined by this Rulebook, providing cryptographically verifiable proof of a card-based point-of-sale purchase.
 - **Individual Wallet**: an EUDI Wallet Unit held by a natural person.
 - **Organisational Wallet**: a Wallet Unit held by a legal person (typically an employer) used to receive, store and process attestations on behalf of the organisation.
 - **PSP**: Payment Service Provider, including the acquirer responsible for authorising and settling card transactions on behalf of the merchant.
@@ -246,7 +246,7 @@ In the following subsections 2.2 to 2.7 the mandatory, optional and conditional 
 | `iss`               | JWT (IANA registered)  | Issuer URL. SHALL resolve to the merchant or PSP's OIDC4VCI metadata endpoint.                                                         | tstr                | `"https://issuer.merchant.example"`                              |
 | `iat`               | JWT (IANA registered)  | Unix timestamp at which the credential was issued.                                                                                     | int (epoch seconds) | `1745402075`                                                     |
 | `exp`               | JWT (IANA registered)  | Unix timestamp at which the credential technically expires.                                                                            | int (epoch seconds) | `1761127275`                                                     |
-| `vct`               | SD-JWT VC              | Verifiable Credential Type. SHALL be a URL that uniquely identifies the eReceipt attestation type within the EUDI Wallet ecosystem.    | tstr                | `"https://issuer.merchant.example/credentials/vreceipt/2.2"`     |
+| `vct`               | SD-JWT VC              | Verifiable Credential Type. SHALL be a URL that uniquely identifies the eReceipt attestation type within the EUDI Wallet ecosystem.    | tstr                | `"https://issuer.merchant.example/credentials/ereceipt/2.2"`     |
 | `cnf`               | SD-JWT VC key binding  | Confirmation claim. JSON object containing the JWK of the Holder's public key, used to bind the credential to the Holder's wallet key. | JSON object         | `{ "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } }` |
 
 ### 2.6 Optional metadata
@@ -343,9 +343,9 @@ The eReceipt attestation **SHALL** be issued in SD-JWT VC format and SHALL compl
 
 A Verifiable Credential Type (`vct`) SHALL be defined and SHALL be unique within the EUDI Wallet ecosystem (see ARB_05 in [Topic 12]). The base `vct` for this attestation is:
 
-> `https://<domain to be defined>/vreceipt/<version>`
+> `https://<domain to be defined>/ereceipt/<version>`
 
-Actual eReceipt attestations issued by a merchant or PSP SHALL use an issuer-specific `vct` URL (e.g., `https://issuer.merchant.example/credentials/vreceipt/2.2`) that extends this base type via the `extends` field of the corresponding Type Metadata Document (Chapter 6 of [SD-JWT VC]).
+Actual eReceipt attestations issued by a merchant or PSP SHALL use an issuer-specific `vct` URL (e.g., `https://issuer.merchant.example/credentials/ereceipt/2.2`) that extends this base type via the `extends` field of the corresponding Type Metadata Document (Chapter 6 of [SD-JWT VC]).
 
 Versioning of the `vct` follows the `x.y` model:
 
@@ -466,7 +466,7 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
   "iss": "https://issuer.merchant.example",
   "iat": 1745402075,
   "exp": 1761127275,
-  "vct": "https://issuer.merchant.example/credentials/vreceipt/2.2",
+  "vct": "https://issuer.merchant.example/credentials/ereceipt/2.2",
   "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } },
   "attestation_legal_category": "non-qualified-EAA",
   "type": "PURCHASE",
@@ -680,7 +680,7 @@ The revocation approach in Chapter 6 is aligned with Topic 7 of Annex 2 of the A
 The semantics of receipt-level attributes are aligned with HeroJSON, EN 16931-1 and CEN/TS 16931-8; country, currency, date, unit-of-measure and barcode codes are aligned with ISO 3166-1, ISO 4217, ISO 8601, UN/ECE Recommendation 20 and GS1. The
 _Semantic Reference_ column in the Chapter 2 tables and the code-list table in Section 2.8 record these alignments per attribute.
 
-The canonical SD-JWT data schema for this attestation is maintained by the EWC consortium at the URL referenced in Section 1.1 and in the [EWC ds011-vReceipts] entry in Chapter 8. Any divergence between this Rulebook and that schema SHALL be resolved in favour of the EWC schema for normative encoding details, and shall be reflected in a subsequent revision of this Rulebook.
+The canonical SD-JWT data schema for this attestation is maintained by the EWC consortium at the URL referenced in Section 1.1 and in the [EWC ds011] entry in Chapter 8. Any divergence between this Rulebook and that schema SHALL be resolved in favour of the EWC schema for normative encoding details, and shall be reflected in a subsequent revision of this Rulebook.
 
 ## 8 References
 
@@ -699,7 +699,7 @@ The canonical SD-JWT data schema for this attestation is maintained by the EWC c
 | [EWC RFC001]                           | EWC OIDC4VCI Issuance Profile.                                                                                                                                                                                                                                                                     |
 | [EWC RFC002]                           | EWC OIDC4VP Presentation Profile.                                                                                                                                                                                                                                                                  |
 | [EWC RFC011]                           | EWC eReceipt Issuance and Delivery Profile.                                                                                                                                                                                                                                                        |
-| [EWC ds011-vReceipts]                  | EWC canonical SD-JWT schema for the eReceipt attestation: <https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds011-vReceipts.json>.                                                                                                                       |
+| [EWC ds011]                            | EWC canonical SD-JWT schema for the eReceipt attestation: <https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds011-vReceipts.json>.                                                                                                                       |
 | [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. <https://openid.net/specs/openid-connect-core-1_0.html>.                                                                                                                                                                        |
 | [RFC 3339]                             | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002.                                                                                                                                                                                                                   |
 | [RFC 8610]                             | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express CBOR and JSON Data Structures, H. Birkholz et al., June 2019.                                                                                                                                                |
