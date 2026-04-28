@@ -53,6 +53,6 @@ Existing rulebooks move into the new structure as follows:
 | `rulebooks/ds004-eucc-rulebook.md` | `rulebooks/rb-eucc/README.md` |
 | `rulebooks/ds005-hello-world-rulebook.md` | `rulebooks/rb-hello-world/README.md` |
 | `rulebooks/ds007-eu-poa-rulebook.md` | `rulebooks/rb-eu-poa/README.md` |
-| `rulebooks/rb-ereceipts.md` (in progress) | `rulebooks/rb-ereceipt/README.md` |
+| `rulebooks/rb-e-receipt.md` | `rulebooks/rb-e-receipt/README.md` |
 
 The migration itself will be carried out in a separate pull request. Slugs in this table can be revised before the migration lands; once merged, they are stable.
