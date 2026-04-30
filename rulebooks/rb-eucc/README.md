@@ -363,7 +363,7 @@ Example:
 ```
 
 #### 3.2.3 Example Payload 
-Sample payloads provided under `../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json`
+Sample payloads provided under `../../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json`
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
