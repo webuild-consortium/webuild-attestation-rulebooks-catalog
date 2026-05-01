@@ -10,6 +10,7 @@ This document is the Rulebook that defines what data goes into an eReceipt, how 
   - Teemu Varpanen, ReceiptHero, Finland
   - Tomi Rusi, Valtiokonttori (State Treasury), Finland
   - Lal Chandran, iGrant.io, Sweden
+  - Florin Coptil, Bosch, Germany
 
 | Version | Date       | Description                                                                                                                                                                                                                                                                                                    |
 | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
