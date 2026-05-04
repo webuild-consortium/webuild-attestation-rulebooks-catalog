@@ -37,7 +37,7 @@ not included in the CIR.
 This document also specifies how a PID and all attributes in it are encoded if
 the PID complies with [ISO/IEC 18013-5] and if it complies with [SD-JWT VC].
 
-European Business Wallet – Owner Identification Data (formerly known as Legal Person Identification Data, LPID, or Person identification data for the legal person) is out of the scope of this document and is specified in the [European Business Wallet - Owner Identification Data Rulebook](../rulebooks/ds001-ebw-oid-rulebook.md).
+European Business Wallet – Owner Identification Data (formerly known as Legal Person Identification Data, LPID, or Person identification data for the legal person) is out of the scope of this document and is specified in the [European Business Wallet - Owner Identification Data Rulebook](../rb-ebw-oid/README.md).
 
 This PID Rulebook complies with all applicable requirements in Topic 12
 (Attestation Rulebooks) in Annex 2 of the Architecture Reference Framework.
