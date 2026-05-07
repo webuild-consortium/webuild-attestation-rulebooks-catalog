@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/paymentterms-sd-jwt.json",
+  "title": "WeBuild – Payment Terms (PaymentTerms) – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a PaymentTerms attestation as defined in the PaymentTerms Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The Payment Terms attestation provides a standardized, verifiable representation of the financial conditions agreed between a buyer and a supplier, including payment due period, currency, Incoterm, and party identifiers, enabling structured exchange of payment term attributes for KYS, KYC, supplier onboarding, financial risk assessment, and regulatory compliance processes.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type. Base type is 'eu.we-build.paymentterms.1'.",
+      "examples": [
+        "eu.we-build.paymentterms.1"
+      ]
+    },
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "The legal category of the attestation as defined by eIDAS 2. For PaymentTerms attestations this MAY be 'EAA' when self-issued by the legal entity, or 'QEAA' when issued by a qualified trust service provider (QTSP) or authorized competent body that can independently attest the payment terms.",
+      "enum": [
+        "EAA"
+      ]
+    },
+    "issuing_entity": {
+      "type": "string",
+      "description": "The identifier of the legal entity that issued the attestation. For self-issued EAA attestations this is typically the subject entity itself; for QEAA attestations this is the QTSP identifier.",
+      "examples": [
+        "did:example:legal-entity-456",
+        "did:example:qtsp-issuer-789"
+      ]
+    },
+    "payment_due": {
+      "type": "string",
+      "description": "The number of days within which payment must be made, expressed as a valid ISO 8601 duration (e.g., P30D for 30 days). SHALL be a non-negative ISO 8601 duration string in PnD format.",
+      "pattern": "^P([0-9]+D|([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?)$",
+      "examples": [
+        "P30D",
+        "P14D",
+        "P60D",
+        "P0D"
+      ]
+    },
+    "currency": {
+      "type": "string",
+      "description": "The currency in which the payment is to be executed. SHALL be a valid ISO 4217 alphabetic currency code (3 uppercase letters).",
+      "pattern": "^[A-Z]{3}$",
+      "examples": [
+        "EUR",
+        "USD",
+        "GBP",
+        "CHF",
+        "JPY"
+      ]
+    },
+    "incoterm": {
+      "type": "string",
+      "description": "The delivery and risk transfer term agreed between buyer and seller. SHALL be a valid Incoterms 2020 three-letter code as defined in Section 2.8.1 of the PaymentTerms Rulebook (International Chamber of Commerce).",
+      "enum": [
+        "EXW",
+        "FCA",
+        "CPT",
+        "CIP",
+        "DAP",
+        "DPU",
+        "DDP",
+        "FAS",
+        "FOB",
+        "CFR",
+        "CIF"
+      ],
+      "examples": [
+        "DAP",
+        "FOB",
+        "CIF",
+        "EXW"
+      ]
+    },
+    "buyer_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier of the buyer party obligated to make payment under the agreed payment terms (e.g., EUID, VAT number, or DUNS number). SHALL be a non-empty string. SHALL NOT be identical to supplier_identifier within the same attestation.",
+      "examples": [
+        "DE-HRB-123456",
+        "DE123456789",
+        "123456789"
+      ]
+    },
+    "supplier_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier of the supplier party entitled to receive payment under the agreed payment terms (e.g., EUID, VAT number, or DUNS number). SHALL be a non-empty string. SHALL NOT be identical to buyer_identifier within the same attestation.",
+      "examples": [
+        "NL-KVK-987654",
+        "NL123456789",
+        "987654321"
+      ]
+    },
+    "agreement_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when the payment terms were agreed upon. SHALL follow ISO 8601 format (YYYY-MM-DD). SHALL NOT be a future date at the time of attestation issuance.",
+      "examples": [
+        "2025-01-10",
+        "2024-06-15"
+      ]
+    },
+    "payment_reference_event": {
+      "type": "string",
+      "description": "The event that triggers the start of the payment due period. If provided, SHOULD use one of the standardized values defined in Section 2.8.3 of the PaymentTerms Rulebook. Optional.",
+      "enum": [
+        "invoice_date",
+        "delivery_date",
+        "order_date",
+        "acceptance_date",
+        "shipment_date"
+      ],
+      "examples": [
+        "invoice_date",
+        "delivery_date",
+        "order_date"
+      ]
+    },
+    "contract_reference": {
+      "type": "string",
+      "description": "Reference to the underlying contract or purchase order associated with these payment terms. Optional.",
+      "examples": [
+        "PO-2025-00123",
+        "CONTRACT-2024-XYZ-001"
+      ]
+    },
+    "transaction_amount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "The monetary value of the transaction to which these payment terms apply. If provided, SHALL be a non-negative decimal value. The currency is specified by the 'currency' attribute. Optional.",
+      "examples": [
+        250000.00,
+        1500000.50,
+        0.00
+      ]
+    },
+    "delivery_location": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The agreed location for delivery of goods or services, specified as a full address or standardized location identifier. If provided, SHALL be a non-empty string. Optional.",
+      "examples": [
+        "Hauptstraße 12, 10115 Berlin, Germany",
+        "Port of Rotterdam, Netherlands",
+        "Industrieweg 5, 80331 Munich, DEU"
+      ]
+    },
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period is greater than 24 hours.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status.",
+          "examples": [
+            "https://issuer.example.com/status/paymentterms/2025"
+          ]
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential.",
+          "examples": [
+            789
+          ]
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For PaymentTerms attestation this SHALL be 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the PaymentTerms attestation can be found or looked up. Optional.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the PaymentTerms attestation schema used. Optional.",
+      "examples": [
+        "1.0",
+        "0.1.0"
+      ]
+    },
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": { "type": "string" },
+            "crv": { "type": "string" },
+            "x": { "type": "string" },
+            "y": { "type": "string" },
+            "n": { "type": "string" },
+            "e": { "type": "string" }
+          }
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+  },
+  "required": [
+    "vct",
+    "attestation_legal_category",
+    "issuing_entity",
+    "payment_due",
+    "currency",
+    "incoterm",
+    "buyer_identifier",
+    "supplier_identifier",
+    "agreement_date"
+  ]
+}
