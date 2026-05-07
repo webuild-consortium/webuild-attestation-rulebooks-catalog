@@ -1,0 +1,541 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/ownershiplist-sd-jwt.json",
+  "title": "WeBuild – Ownership List (OwnershipList) – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of an OwnershipList attestation as defined in the OwnershipList Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The Ownership List records all natural and legal persons holding direct or indirect ownership or control in a legal entity, providing comprehensive transparency on beneficial ownership structures and economic interests in support of KYC/KYS processes and AML obligations.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type. Base type is 'eu.we-build.ownershiplist.1'.",
+      "examples": [
+        "eu.we-build.ownershiplist.1"
+      ]
+    },
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "The legal category of the attestation as defined by eIDAS 2. For OwnershipList attestations this SHALL be 'EAA', as the attestation is typically self-issued by the legal entity subject to the ownership disclosure.",
+      "enum": [
+        "EAA"
+      ]
+    },
+    "issuing_entity": {
+      "type": "string",
+      "description": "The identifier of the legal entity that issued the attestation. For OwnershipList attestations this is typically the subject entity itself (self-issued EAA).",
+      "examples": [
+        "did:example:legal-entity-123"
+      ]
+    },
+    "owner_natural_person": {
+      "type": "array",
+      "description": "List of natural persons holding direct or indirect ownership or control in the legal entity. At least one natural person owner SHALL be present to comply with beneficial ownership transparency requirements that mandate identification of ultimate natural person beneficiaries.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "A single natural person who holds ownership or control interests in the legal entity, including their identification, address, and stake details.",
+        "additionalProperties": false,
+        "properties": {
+          "family_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Last name(s) or surname(s) of the natural person who holds ownership or control. SHALL be a non-empty string.",
+            "examples": [
+              "Müller"
+            ]
+          },
+          "given_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "First name(s), including middle name(s) where applicable, of the natural person who holds ownership or control. SHALL be a non-empty string.",
+            "examples": [
+              "Hans Peter"
+            ]
+          },
+          "birth_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Day, month, and year of birth of the natural person. SHALL follow ISO 8601 format (YYYY-MM-DD). Optional.",
+            "examples": [
+              "1975-04-12"
+            ]
+          },
+          "nationality": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code representing the nationality of the natural person. Optional.",
+            "pattern": "^[A-Z]{2}$",
+            "examples": [
+              "DE",
+              "FR",
+              "NL"
+            ]
+          },
+          "national_id_number": {
+            "type": "string",
+            "description": "National identification number (e.g., passport number, social security number, national ID number). Optional.",
+            "examples": [
+              "L01X00T47"
+            ]
+          },
+          "address": {
+            "type": "object",
+            "description": "Contact and residence address of the natural person owner. All address sub-fields are optional.",
+            "additionalProperties": false,
+            "properties": {
+              "address": {
+                "type": "string",
+                "description": "The street address where the owner currently resides or can be contacted. Optional.",
+                "examples": [
+                  "Hauptstraße 12"
+                ]
+              },
+              "locality": {
+                "type": "string",
+                "description": "The city where the owner currently resides or can be contacted. Optional.",
+                "examples": [
+                  "Berlin"
+                ]
+              },
+              "postal_code": {
+                "type": "string",
+                "description": "The postal or ZIP code of the owner's address. Optional.",
+                "examples": [
+                  "10115"
+                ]
+              },
+              "region": {
+                "type": "string",
+                "description": "The state, province, or region of the owner's address. Optional.",
+                "examples": [
+                  "Berlin"
+                ]
+              },
+              "country": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-3 country code where the owner currently resides or can be contacted. Optional.",
+                "pattern": "^[A-Z]{3}$",
+                "examples": [
+                  "DEU",
+                  "FRA",
+                  "NLD"
+                ]
+              }
+            }
+          },
+          "stake": {
+            "type": "object",
+            "description": "Quantitative ownership data and ownership category classification for the natural person owner.",
+            "additionalProperties": false,
+            "properties": {
+              "direct_ownership": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The percentage of direct ownership held by this owner in the subject entity. SHALL be a decimal value between 0.00 and 100.00 (inclusive).",
+                "examples": [
+                  30.00,
+                  25.50,
+                  100.00
+                ]
+              },
+              "indirect_ownership": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The percentage of indirect ownership held by this owner through one or more intermediate entities. SHALL be a decimal value between 0.00 and 100.00 (inclusive).",
+                "examples": [
+                  25.00,
+                  0.00,
+                  15.75
+                ]
+              },
+              "total_ownership": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The complete percentage of ownership (direct + indirect across all layers). SHALL be a decimal value between 0.00 and 100.00 (inclusive). SHALL be equal to or greater than direct_ownership and equal to or greater than indirect_ownership.",
+                "examples": [
+                  55.00,
+                  25.50,
+                  100.00
+                ]
+              },
+              "legal_entity_identifiers": {
+                "type": "array",
+                "description": "The list of unique legal entity identifier(s) where this owner holds interests — includes the direct legal entity and all indirect legal entities in the ownership chain. SHALL contain at least one non-empty string identifier.",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "examples": [
+                  ["DE-HRB-123456"],
+                  ["DE-HRB-123456", "DE-HRB-654321"]
+                ]
+              },
+              "ownership_category": {
+                "type": "string",
+                "description": "Classification of the type of ownership or control relationship. SHALL use one of the standardized values defined in Section 2.8.1 of the OwnershipList Rulebook.",
+                "enum": [
+                  "Direct shareholder",
+                  "Indirect shareholder",
+                  "Controller via voting or governance rights",
+                  "Trustee / beneficiary in fiduciary arrangements",
+                  "Partner in partnership structures",
+                  "Holder of convertible rights",
+                  "Person exercising dominant influence"
+                ],
+                "examples": [
+                  "Direct shareholder",
+                  "Indirect shareholder",
+                  "Controller via voting or governance rights"
+                ]
+              }
+            },
+            "required": [
+              "direct_ownership",
+              "indirect_ownership",
+              "total_ownership",
+              "legal_entity_identifiers",
+              "ownership_category"
+            ]
+          }
+        },
+        "required": [
+          "family_name",
+          "given_name",
+          "stake"
+        ]
+      }
+    },
+    "owner_legal_person": {
+      "type": "array",
+      "description": "List of legal entities (intermediate entities in the ownership chain) holding direct or indirect ownership interests in the subject legal entity. MAY contain zero or more entries.",
+      "items": {
+        "type": "object",
+        "description": "A single legal entity that holds ownership interests in the subject legal entity, including its identification, address, and stake details.",
+        "additionalProperties": false,
+        "properties": {
+          "legal_entity_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The complete official name of the legal entity which holds ownership interests in the subject entity. SHALL be a non-empty string.",
+            "examples": [
+              "Holding GmbH"
+            ]
+          },
+          "legal_form": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The legal form of the owning legal entity. SHALL be a non-empty string.",
+            "examples": [
+              "GmbH",
+              "AG",
+              "Ltd",
+              "SA",
+              "BV"
+            ]
+          },
+          "identification": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The unique identifier of the legal entity which owns the subject entity (e.g., EUID, national tax ID, LEI). SHALL be a non-empty string.",
+            "examples": [
+              "DE-HRB-654321",
+              "DE123456789",
+              "52990079W74X20Y90210"
+            ]
+          },
+          "lei": {
+            "type": "string",
+            "description": "Legal Entity Identifier (LEI) of the owning legal entity per ISO 17442. SHALL be exactly 20 characters when provided. Optional.",
+            "pattern": "^[A-Z0-9]{20}$",
+            "examples": [
+              "52990079W74X20Y90210"
+            ]
+          },
+          "registration_number": {
+            "type": "string",
+            "description": "National company registration number of the owning legal entity. Optional.",
+            "examples": [
+              "HRB 654321"
+            ]
+          },
+          "address": {
+            "type": "object",
+            "description": "Registered address or contact address of the owning legal entity. All address sub-fields are optional.",
+            "additionalProperties": false,
+            "properties": {
+              "address": {
+                "type": "string",
+                "description": "Street address where the owning entity is registered or can be contacted. Optional.",
+                "examples": [
+                  "Industrieweg 5"
+                ]
+              },
+              "locality": {
+                "type": "string",
+                "description": "City where the owning entity is registered or can be contacted. Optional.",
+                "examples": [
+                  "Munich"
+                ]
+              },
+              "postal_code": {
+                "type": "string",
+                "description": "Postal or ZIP code of the owning entity's address. Optional.",
+                "examples": [
+                  "80331"
+                ]
+              },
+              "region": {
+                "type": "string",
+                "description": "State, province, or region of the owning entity's address. Optional.",
+                "examples": [
+                  "Bavaria"
+                ]
+              },
+              "country": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-3 country code where the owning entity is registered or can be contacted. Optional.",
+                "pattern": "^[A-Z]{3}$",
+                "examples": [
+                  "DEU",
+                  "FRA",
+                  "NLD"
+                ]
+              }
+            }
+          },
+          "stake": {
+            "type": "object",
+            "description": "Quantitative ownership data and ownership category classification for the legal entity owner.",
+            "additionalProperties": false,
+            "properties": {
+              "direct_ownership": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The percentage of direct ownership held by this legal entity owner in the subject entity. SHALL be a decimal value between 0.00 and 100.00 (inclusive).",
+                "examples": [
+                  45.00,
+                  51.00,
+                  100.00
+                ]
+              },
+              "indirect_ownership": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The percentage of indirect ownership held by this legal entity owner through one or more intermediate entities. SHALL be a decimal value between 0.00 and 100.00 (inclusive).",
+                "examples": [
+                  0.00,
+                  20.00,
+                  15.75
+                ]
+              },
+              "total_ownership": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The complete percentage of ownership (direct + indirect across all layers). SHALL be a decimal value between 0.00 and 100.00 (inclusive). SHALL be equal to or greater than direct_ownership and equal to or greater than indirect_ownership.",
+                "examples": [
+                  45.00,
+                  51.00,
+                  100.00
+                ]
+              },
+              "legal_entity_identifiers": {
+                "type": "array",
+                "description": "The list of unique legal entity identifier(s) where this owner holds interests — includes the direct legal entity and all indirect legal entities in the ownership chain. SHALL contain at least one non-empty string identifier.",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "examples": [
+                  ["DE-HRB-123456"],
+                  ["DE-HRB-123456", "DE-HRB-999999"]
+                ]
+              },
+              "ownership_category": {
+                "type": "string",
+                "description": "Classification of the type of ownership or control relationship. SHALL use one of the standardized values defined in Section 2.8.1 of the OwnershipList Rulebook.",
+                "enum": [
+                  "Direct shareholder",
+                  "Indirect shareholder",
+                  "Controller via voting or governance rights",
+                  "Trustee / beneficiary in fiduciary arrangements",
+                  "Partner in partnership structures",
+                  "Holder of convertible rights",
+                  "Person exercising dominant influence"
+                ],
+                "examples": [
+                  "Direct shareholder",
+                  "Indirect shareholder"
+                ]
+              }
+            },
+            "required": [
+              "direct_ownership",
+              "indirect_ownership",
+              "total_ownership",
+              "legal_entity_identifiers",
+              "ownership_category"
+            ]
+          }
+        },
+        "required": [
+          "legal_entity_name",
+          "legal_form",
+          "identification",
+          "stake"
+        ]
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "description": "List of supporting documentation substantiating the ownership structure calculation (e.g., shareholder register, organizational chart, trust deed). At least one piece of evidence SHALL be present. Evidence MAY be provided as a URI reference or as an embedded base64-encoded document.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "A single piece of supporting evidence for the ownership structure.",
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "URI reference to the evidence document (e.g., organizational chart, shareholder register). SHALL be a non-empty string. If evidence_data is not provided, this SHALL be a URI pointing to an accessible document location.",
+            "examples": [
+              "https://company-register.example.com/docs/shareholder-register-2024.pdf"
+            ]
+          },
+          "evidence_type": {
+            "type": "string",
+            "description": "Defines the type of the object. SHALL be 'Evidence'.",
+            "const": "Evidence",
+            "examples": [
+              "Evidence"
+            ]
+          },
+          "evidence_data": {
+            "type": "string",
+            "description": "The actual organizational structure document as a base64-encoded string. Required if evidence_id does not contain a URI to an accessible location. Optional.",
+            "contentEncoding": "base64",
+            "examples": [
+              "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoK..."
+            ]
+          },
+          "evidence_confirmation": {
+            "type": "boolean",
+            "description": "Boolean confirmation that the organizational structure document is current and has been used as the basis for the ownership calculation. Optional.",
+            "examples": [
+              true
+            ]
+          },
+          "evidence_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The date when the evidence document was created or last updated. SHALL follow ISO 8601 format (YYYY-MM-DD). Optional.",
+            "examples": [
+              "2024-12-01"
+            ]
+          }
+        },
+        "required": [
+          "evidence_id",
+          "evidence_type"
+        ]
+      }
+    },
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period is greater than 24 hours.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status.",
+          "examples": [
+            "https://issuer.example.com/status/ownershiplist/2025"
+          ]
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential.",
+          "examples": [
+            456
+          ]
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For OwnershipList attestation this SHALL be 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the OwnershipList attestation can be found or looked up. Optional.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the OwnershipList attestation schema used. Optional.",
+      "examples": [
+        "1.0",
+        "0.1.0"
+      ]
+    },
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": { "type": "string" },
+            "crv": { "type": "string" },
+            "x": { "type": "string" },
+            "y": { "type": "string" },
+            "n": { "type": "string" },
+            "e": { "type": "string" }
+          }
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+  },
+  "required": [
+    "vct",
+    "attestation_legal_category",
+    "issuing_entity",
+    "owner_natural_person",
+    "evidence"
+  ]
+}
