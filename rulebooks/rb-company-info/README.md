@@ -389,6 +389,7 @@ When receiving and processing the attestation, a Relying Party SHALL:
 
 ### 4.2.1- 4.2.4 - Base verification process
 A base verification for the attestation should be made.
+https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/base-verification.md#42-relying-party-obligations
 
 #### 4.2.5 Validate Integrity Rules ####
 This chapter will be completed in a future version of this Rulebook.
