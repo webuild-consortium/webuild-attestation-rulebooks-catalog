@@ -34,26 +34,18 @@ Important Note: This checklist represents the base verification applicable to al
 The EBWOID rulebook in particular extends these base checks with the detailed mutual authentication process described in the EBWOID Attestation .
 
 ## 4.2 Relying Party Obligations ##
-The attestation verification process can be divided into the following steps:
-
-4.2.1 Cryptographic Integrity Verification
+The attestation verification process can be divided into the following 8 steps:
+-
 - Verification of the cryptographic integrity and signature validity of the attestation.
-4.2.2 Issuer-Related – Authentication Check
 - Verification of the authenticity of the issuer.
-4.2.3 Issuer-Related – Identification Check
 - Verification of the issuer’s identity and identifier information.
-4.2.4 Issuer-Related – Authorization Check
 - Verification that the issuer is authorized to issue the attestation.
-4.2.5 Holder-Related – Temporal Validity Check
 - Verification of validity periods, expiration, and issuance timestamps.
-4.2.6 Holder-Related – Revocation Status Check
 - Verification that the attestation has not been revoked or suspended.
-4.2.7 Holder Wallet-Related – Wallet Unit Attestation (WUA) Check
 - Verification of the wallet integrity and associated wallet attestation.
-4.2.8 Holder Wallet-Related – Device Binding Check
 - Verification that the attestation is cryptographically bound to the holder’s device or wallet instance.
 
-### 4.2.1 Verify Cryptographic Integrity ###
+### 4.2.1 Cryptographic Integrity Verification ###
 ### Purpose
 This step answers the fundamental question: Are the received attestation data falsified or corrupted during transmission?
 
@@ -73,7 +65,7 @@ Steps
 - Validate all disclosed claims against the signed commitment (hash comparison)
 5. If hashes match → integrity confirmed; if not → REJECT the attestation
 
-#### 4.2.2. Issuer Related - Authentification ####
+#### 4.2.2. Issuer Related - Authentification Verification ####
 
 ### Purpose
 Confirm that the issuer actually possesses the private key corresponding to the public key used to sign the attestation. This is analogous to the verification performed today for a QESEAL certificate.
@@ -111,7 +103,7 @@ Steps
 - Verify certificate usage constraints (e.g., key usage, extended key usage)
 4. Confirm the leaf certificate's public key matches the key used to sign the attestation
 
-#### 4.2.3 Issuer Related - Identification ####
+#### 4.2.3 Issuer Related - Identification Verification ####
 
 ### Purpose
 Verify that the EBWOID Provider is the entity they claim to be, and that they were listed in the Trust List of Trust Lists (TLOL) at the time the attestation was issued. This check must consider TLOL history since the TLOL may have changed since issuance.
@@ -146,7 +138,7 @@ participant TLOL as Trust List of Trust Lists (TLOL)
 5. If both current and historical checks pass → EBWOID genuinity confirmed
 6. If either check fails → REJECT
 
-#### 4.2.4 Issuer Related - Authorization ####
+#### 4.2.4 Issuer Related - Authorization Verification ####
 
 ### Purpose
 Verify that the issuer is authorized to issue the specific type of attestation being presented (e.g., EBWOID, UBO, Payment Terms). This goes beyond identity verification to check whether the issuer has the legal and regulatory right to issue the specific attestation.
@@ -185,7 +177,7 @@ Check the issuer's credentials against the appropriate trust framework
 Verify the issuer is listed as an authorized EAA issuer for the relevant jurisdiction/domain
 5. If all authorization checks pass → proceed; otherwise → REJECT
 
-#### 4.2.5 Holder Related - Validity Check ####
+#### 4.2.5 Holder Related - Validity Verification ####
 #### Purpose
 Verify that the attestation is within its stated validity window. An attestation that has not yet taken effect or has already expired MUST NOT be accepted, regardless of other checks.
 
@@ -226,7 +218,7 @@ Steps
 - Apply organizational policy for acceptable attestation age thresholds
 
 
-#### 4.2.6 Holder Related - Revocation status check ####
+#### 4.2.6 Holder Related - Revocation Verification ####
 ### Purpose
 Answer the question: Was the attestation revoked since the beginning of the validity period?
 
@@ -273,7 +265,7 @@ The Wallet Unit Attestation (WUA) confirms the wallet is a legitimate, certified
 "The EBW wallet is much more secure and prevent impersonation fraud much better than an unknown, uncertified Relying Party software without any conformity declaration."
 
 
-#### 4.2.6. Holder Wallet Related - WUA check ####
+#### 4.2.6. Holder Wallet Related - WUA Verification ####
 ### Purpose
 Answer the question: Is the EBW authentic and valid based on the Wallet Unit Attestation (WUA)?
 
@@ -311,7 +303,7 @@ Steps
    If all checks pass → wallet confirmed as authentic and valid EBW
 7. If any check fails → REJECT
 
-### 4.2.8. Holder Wallet Related - Device binding  ####
+### 4.2.8. Holder Wallet Related - Device binding Verification ####
 
 ### Purpose
 Answer the question: Does the EBW Relying Party wallet control, at the moment of the check, the private key associated with the public key from the EBWOID?
