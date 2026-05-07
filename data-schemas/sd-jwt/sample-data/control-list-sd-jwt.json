@@ -1,0 +1,108 @@
+{
+  "vct": "eu.we-build.controllist.1",
+  "iss": "https://issuer.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:legal-entity-123",
+  "issuing_country": "DE",
+  "attestation_legal_category": "EAA",
+  "schema_version": "1.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+
+  "control_natural_person": [
+    {
+      "family_name": "Müller",
+      "given_name": "Hans Peter",
+      "birth_date": "1975-04-12",
+      "nationality": "DE",
+      "national_id_number": "L01X00T47",
+      "address": {
+        "address": "Hauptstraße 12",
+        "locality": "Berlin",
+        "postal_code": "10115",
+        "region": "Berlin",
+        "country": "DEU"
+      },
+      "stake": {
+        "effective_control": 60.00,
+        "legal_entity_identifier": "DE-HRB-123456",
+        "control_mechanism": [
+          "Voting rights",
+          "Power to appoint/remove management"
+        ]
+      }
+    },
+    {
+      "family_name": "Dupont",
+      "given_name": "Marie Anne",
+      "birth_date": "1982-09-23",
+      "nationality": "FR",
+      "national_id_number": "FR9876543",
+      "address": {
+        "address": "Rue de la Paix 8",
+        "locality": "Paris",
+        "postal_code": "75001",
+        "region": "Île-de-France",
+        "country": "FRA"
+      },
+      "stake": {
+        "effective_control": 25.00,
+        "legal_entity_identifier": "DE-HRB-123456",
+        "control_mechanism": [
+          "Board control",
+          "Contractual rights"
+        ]
+      }
+    }
+  ],
+
+  "control_legal_person": [
+    {
+      "legal_entity_name": "Holding GmbH",
+      "legal_form": "GmbH",
+      "identification": "DE-HRB-654321",
+      "Legal_Entity_Identifier": "52990079W74X20Y90210",
+      "registration_number": "HRB 654321",
+      "address": {
+        "address": "Industrieweg 5",
+        "locality": "Munich",
+        "postal_code": "80331",
+        "region": "Bavaria",
+        "country": "DEU"
+      },
+      "stake": {
+        "effective_control": 40.00,
+        "legal_entity_identifier": "DE-HRB-123456",
+        "control_mechanism": [
+          "Voting rights",
+          "Influence via parent or holding company"
+        ]
+      }
+    }
+  ],
+
+  "evidence": [
+    {
+      "evidence_id": "https://company-register.example.com/docs/governance-chart-2024.pdf",
+      "evidence_type": "Evidence",
+      "evidence_confirmation": true,
+      "evidence_date": "2024-12-01"
+    }
+  ],
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/controllist/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}
