@@ -26,7 +26,7 @@ Contact:
    This document defines the Holder Authorization & Consent Handshake workflow, which governs the mutual authentication between a Holder Wallet (Buyer) and a Relying Party Wallet (Seller) in the context of the WeBuild ecosystem.
 
 The workflow consists of two complementary obligations:
-- Relying Party (RP / Verifier)	MUST verify the Holder's attestation (EBWOID + EAA) using base verification steps
+- Relying Party (RP / Verifier)	MUST verify the Holder's attestation (EBWOID + WUA + EAA) using base verification steps
 - Holder	MUST validate the RP's identity, authorization, and wallet integrity before releasing any credentials
 
 Relationship to Base Verification:
@@ -35,7 +35,7 @@ This document builds directly upon the base-verification rulebook. All verificat
 ### 2. Scope
 This rulebook applies to scenarios where:
 
-- A Seller Portal (RP) requests an EBWOID and/or an EAA (e.g., UBO, IBAN, Payment Terms) from a Buyer Wallet (Holder)
+- A Seller Portal (RP) requests an EBWOID+WUA and/or an (Q)EAA (e.g., UBO, IBAN, Payment Terms) from a Buyer Wallet (Holder)
 - Mutual trust must be established before any credential is disclosed
 - Both parties operate within a certified European Business Wallet (EBW) ecosystem
 
@@ -64,7 +64,7 @@ sequenceDiagram
     participant WR as WUA Revocation Service
     end
 
-    SP->>SW: Request EBWOID + Attestation (EAA) from Business Partner
+    SP->>SW: Request EBWOID + WUA + Attestation (EAA) from Business Partner
     SW->>SW: Prepare Authorization Request
     SW->>HW: Authorization Request (client_id, request_uri, state)
     HW->>SW: GET Request Object (wallet_metadata, wallet_nonce, state)
