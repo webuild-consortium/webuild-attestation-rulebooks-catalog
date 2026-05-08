@@ -25,6 +25,7 @@ This document is the Rulebook that defines what data goes into an eReceipt, how 
 - <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues>
 
 ## Table of contents
+
 - [WE BUILD Rulebook for attestations of type _eReceipt_](#we-build-rulebook-for-attestations-of-type-ereceipt)
   - [Abstract](#abstract)
   - [Table of contents](#table-of-contents)
@@ -33,6 +34,7 @@ This document is the Rulebook that defines what data goes into an eReceipt, how 
     - [1.2 Document structure](#12-document-structure)
     - [1.3 Key words](#13-key-words)
     - [1.4 Terminology](#14-terminology)
+    - [1.5 Primary use cases](#15-primary-use-cases)
   - [2 Attestation attributes and metadata](#2-attestation-attributes-and-metadata)
     - [Chapter overview](#chapter-overview)
     - [2.1 Introduction](#21-introduction)
@@ -50,15 +52,33 @@ This document is the Rulebook that defines what data goes into an eReceipt, how 
       - [3.2.1 IANA-registered claims](#321-iana-registered-claims)
       - [3.2.2 Public names](#322-public-names)
       - [3.2.3 Private names (specific to the eReceipt attestation)](#323-private-names-specific-to-the-ereceipt-attestation)
-      - [3.2.4 Illustrative example](#324-illustrative-example)
+      - [3.2.4 Ontology binding (`extend` attribute)](#324-ontology-binding-extend-attribute)
+      - [3.2.5 Illustrative example](#325-illustrative-example)
     - [3.3 W3C Verifiable Credentials Data Model-based encoding](#33-w3c-verifiable-credentials-data-model-based-encoding)
   - [4 Attestation usage](#4-attestation-usage)
-    - [4.1 Primary use cases](#41-primary-use-cases)
-    - [4.2 Delivery methods](#42-delivery-methods)
-    - [4.3 Relying-party obligations](#43-relying-party-obligations)
+    - [4.1 Issuer obligations](#41-issuer-obligations)
+      - [4.1.1 Issuer authorisation](#411-issuer-authorisation)
+      - [4.1.2 Attestation construction](#412-attestation-construction)
+      - [4.1.3 Signing and key management](#413-signing-and-key-management)
+      - [4.1.4 Holder binding](#414-holder-binding)
+      - [4.1.5 Delivery](#415-delivery)
+      - [4.1.6 Lifecycle and revocation](#416-lifecycle-and-revocation)
+    - [4.2 Relying Party obligations](#42-relying-party-obligations)
+      - [4.2.1 Verify cryptographic integrity](#421-verify-cryptographic-integrity)
+      - [4.2.2 Validate issuer](#422-validate-issuer)
+        - [4.2.2.1 Authentication](#4221-authentication)
+        - [4.2.2.2 Identification](#4222-identification)
+        - [4.2.2.3 Authorization](#4223-authorization)
+      - [4.2.3 Holder Wallet related check](#423-holder-wallet-related-check)
+        - [4.2.3.1 Device binding](#4231-device-binding)
+          - [4.2.3.1.1 WUA check](#42311-wua-check)
+      - [4.2.4 Holder related check](#424-holder-related-check)
+        - [4.2.4.1 Revocation status check](#4241-revocation-status-check)
+        - [4.2.4.2 Temporal validity check](#4242-temporal-validity-check)
+      - [4.2.5 Use-case dependent identity binding](#425-use-case-dependent-identity-binding)
+    - [4.3 Delivery methods](#43-delivery-methods)
     - [4.4 Presentation requirements](#44-presentation-requirements)
-    - [4.5 Device binding](#45-device-binding)
-    - [4.6 Transactional data](#46-transactional-data)
+    - [4.5 Transactional data](#45-transactional-data)
   - [5 Trust anchors](#5-trust-anchors)
   - [6 Revocation](#6-revocation)
   - [7 Compliance](#7-compliance)
@@ -83,7 +103,7 @@ This attestation is **distinct from the Invoice Payment Confirmation (IPC) attes
 
 The functional description, actor terminology and field names are aligned with the HeroJSON and CEN/TS 16931-8 semantics, and follow the EWC RFC011 delivery model. The canonical SD-JWT data schema is maintained by the EWC consortium at:
 
-> <https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds011-vReceipts.json>
+> <https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/rulebooks/rb-e-receipt/README.md>
 
 ### 1.2 Document structure
 
@@ -91,7 +111,7 @@ This Rulebook is structured as follows:
 
 - **Chapter 2** describes the eReceipt attestation attributes and metadata in an encoding-independent manner, including code lists (Section 2.8) and integrity rules (Section 2.9).
 - **Chapter 3** specifies how the attestation attributes and metadata are encoded. The primary encoding is SD-JWT VC (Section 3.2). An informational ISO/IEC 18013-5 mDoc encoding is outlined in Section 3.1. The W3C VCDM v2.0 encoding (Section 3.3) is not currently in scope for this Rulebook.
-- **Chapter 4** specifies attestation usage, including delivery methods, presentation scenarios and device-binding requirements.
+- **Chapter 4** specifies issuer and Relying Party obligations, together with the supporting attestation-usage material (delivery methods, presentation requirements and transactional-data handling).
 - **Chapter 5** defines how trust anchors for attestation verification can be obtained.
 - **Chapter 6** defines attestation revocation mechanisms.
 - **Chapter 7** provides compliance information against the EUDI ARF and the European Digital Identity Regulation.
@@ -114,6 +134,16 @@ This document uses the terminology specified in Annex 1 of the ARF. In addition,
 - **Organisational Wallet**: a Wallet Unit held by a legal person (typically an employer) used to receive, store and process attestations on behalf of the organisation.
 - **PSP**: Payment Service Provider, including the acquirer responsible for authorising and settling card transactions on behalf of the merchant.
 - **EMV**: the chip-card payment standard governing card-based POS transactions; provides the cryptographic data captured in `verifications[]`.
+
+### 1.5 Primary use cases
+
+The eReceipt attestation is intended for the following scenarios:
+
+- **B2B expense management**: the primary use case. An employee or company cardholder pays at a merchant POS terminal (physical or online) using a personal or corporate card. Within 2 to 4 seconds of payment confirmation, the merchant or PSP issues the eReceipt to the Holder's EUDI Wallet. The employee subsequently presents the eReceipt to their employer's expense management system or organisational wallet, which can verify the credential without contacting the merchant, match it against a corporate-card transaction, and approve reimbursement. The structured product line data supports automated categorisation and policy checks. Note that, particularly in the SME sector, personal cards are widely used for business purchases; the card payer and the buying entity (company) are frequently different parties.
+- **VAT reclaim and bookkeeping**: the eReceipt provides itemised VAT amounts per line (`products[].vats[]`) and a receipt-level VAT summary (`vats[]`), enabling direct import into accounting software for VAT reclaim submissions.
+- **Tax authority submission and ViDA-aligned digital reporting**: the eReceipt may be presented directly to a tax authority or sustainability reporting system. The `journey` object (Section 2.4) supports CO₂ emission data for travel receipts, supporting CSRD Scope 3 emissions reporting.
+- **B2C proof of purchase**: for warranty claims, returns and consumer rights.
+- **Cross-border B2B payment verification**, combined with IBAN and LPID attestations.
 
 ## 2 Attestation attributes and metadata
 
@@ -247,7 +277,7 @@ In the following subsections 2.2 to 2.7 the mandatory, optional and conditional 
 | `iss`               | JWT (IANA registered)  | Issuer URL. SHALL resolve to the merchant or PSP's OIDC4VCI metadata endpoint.                                                         | tstr                | `"https://issuer.merchant.example"`                              |
 | `iat`               | JWT (IANA registered)  | Unix timestamp at which the credential was issued.                                                                                     | int (epoch seconds) | `1745402075`                                                     |
 | `exp`               | JWT (IANA registered)  | Unix timestamp at which the credential technically expires.                                                                            | int (epoch seconds) | `1761127275`                                                     |
-| `vct`               | SD-JWT VC              | Verifiable Credential Type. SHALL be a URL that uniquely identifies the eReceipt attestation type within the EUDI Wallet ecosystem.    | tstr                | `"https://issuer.merchant.example/credentials/ereceipt/2.2"`     |
+| `vct`               | SD-JWT VC              | Verifiable Credential Type. SHALL uniquely identify the eReceipt attestation type within the EUDI Wallet ecosystem (see Section 3.2).  | tstr                | `"eu.we-build.ereceipt.1"`                                       |
 | `cnf`               | SD-JWT VC key binding  | Confirmation claim. JSON object containing the JWK of the Holder's public key, used to bind the credential to the Holder's wallet key. | JSON object         | `{ "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } }` |
 
 ### 2.6 Optional metadata
@@ -344,9 +374,9 @@ The eReceipt attestation **SHALL** be issued in SD-JWT VC format and SHALL compl
 
 A Verifiable Credential Type (`vct`) SHALL be defined and SHALL be unique within the EUDI Wallet ecosystem (see ARB_05 in [Topic 12]). The base `vct` for this attestation is:
 
-> `https://<domain to be defined>/ereceipt/<version>`
+> `eu.we-build.ereceipt.1`
 
-Actual eReceipt attestations issued by a merchant or PSP SHALL use an issuer-specific `vct` URL (e.g., `https://issuer.merchant.example/credentials/ereceipt/2.2`) that extends this base type via the `extends` field of the corresponding Type Metadata Document (Chapter 6 of [SD-JWT VC]).
+This follows the WE BUILD reverse-DNS naming convention `eu.we-build.<attestation_name>.<major-version>` used across WE BUILD attestations. Issuer-specific subtypes, if defined, SHALL extend this base type via the `extends` field of the corresponding Type Metadata Document (Chapter 6 of [SD-JWT VC]).
 
 Versioning of the `vct` follows the `x.y` model:
 
@@ -458,7 +488,23 @@ For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NO
 | `attachments[].validUntil`            | `validUntil`                 | string (ISO 8601)   | Section 2.3                                                         | MAY                                                          |
 | `cryptographically_bound_to`          | `cryptographically_bound_to` | string              | Section 2.6; per ARB_28 in [Topic 12]                               | MUST NOT                                                     |
 
-#### 3.2.4 Illustrative example
+#### 3.2.4 Ontology binding (`extend` attribute)
+
+To support semantic interoperability across WE BUILD attestations, claims defined in this Rulebook MAY include an `extend` attribute pointing to the corresponding term in the WE BUILD WP4 semantics vocabulary, published at:
+
+> <https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html>
+
+Where a matching term exists in the current vocabulary, the binding SHOULD be expressed as a fragment URI of the form `…/vocabulary.html#<term>`. The mappings below cover the eReceipt claims for which a direct term is currently published; remaining claims will be bound as the WP4 vocabulary is extended to cover receipt-specific terminology.
+
+| **Data Identifier** | **`extend` URI**                                                                         |
+| ------------------- | ---------------------------------------------------------------------------------------- |
+| `currencyISOCode`   | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#currency` |
+| `payments[].amount` | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#amount`   |
+| `merchant`          | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#supplier` |
+
+Until the corresponding terms are published in the WP4 vocabulary, additional bindings are added manually to this section as the vocabulary evolves. Ontology bindings appear in this Rulebook only and are **not** carried in the issued attestation document.
+
+#### 3.2.5 Illustrative example
 
 The following non-normative example shows the JWT claim set (before SD-JWT processing) of an eReceipt issued for a small B2B expense purchase (a coffee and a sandwich at an Acme Helsinki Centre café), paid with a corporate card.
 
@@ -467,7 +513,7 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
   "iss": "https://issuer.merchant.example",
   "iat": 1745402075,
   "exp": 1761127275,
-  "vct": "https://issuer.merchant.example/credentials/ereceipt/2.2",
+  "vct": "eu.we-build.ereceipt.1",
   "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } },
   "attestation_legal_category": "non-qualified-EAA",
   "type": "PURCHASE",
@@ -568,6 +614,7 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
 In the issued SD-JWT, the disclosable claims listed in Section 3.2.3 are wrapped in `_sd` arrays per [SD-JWT VC]; the non-disclosable claims (`iss`, `iat`, `exp`, `vct`, `cnf`, `status`, `attestation_legal_category`, all of `verifications[]`) appear as plain JWT claims.
 
 > [RULEBOOK AUTHOR TO PROVIDE THE FULL ISSUED SD-JWT (BASE64-ENCODED) AND THE LIST OF
+>
 > > DISCLOSURES INCLUDED IN THE EXAMPLE.]
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
@@ -576,17 +623,114 @@ The W3C VCDM v2.0-based encoding is **out of scope** for the current version of 
 
 ## 4 Attestation usage
 
-### 4.1 Primary use cases
+### 4.1 Issuer obligations
 
-The eReceipt attestation is intended for the following scenarios:
+When issuing an eReceipt, the issuer (the merchant, or the PSP/acquirer acting on behalf of the merchant) SHALL meet the obligations below.
 
-- **B2B expense management**: the primary use case. An employee or company cardholder pays at a merchant POS terminal (physical or online) using a personal or corporate card. Within 2 to 4 seconds of payment confirmation, the merchant or PSP issues the eReceipt to the Holder's EUDI Wallet. The employee subsequently presents the eReceipt to their employer's expense management system or organisational wallet, which can verify the credential without contacting the merchant, match it against a corporate-card transaction, and approve reimbursement. The structured product line data supports automated categorisation and policy checks. Note that, particularly in the SME sector, personal cards are widely used for business purchases; the card payer and the buying entity (company) are frequently different parties.
-- **VAT reclaim and bookkeeping**: the eReceipt provides itemised VAT amounts per line (`products[].vats[]`) and a receipt-level VAT summary (`vats[]`), enabling direct import into accounting software for VAT reclaim submissions.
-- **Tax authority submission and ViDA-aligned digital reporting**: the eReceipt may be presented directly to a tax authority or sustainability reporting system. The `journey` object (Section 2.4) supports CO₂ emission data for travel receipts, supporting CSRD Scope 3 emissions reporting.
-- **B2C proof of purchase**: for warranty claims, returns and consumer rights.
-- **Cross-border B2B payment verification**, combined with IBAN and LPID attestations.
+#### 4.1.1 Issuer authorisation
 
-### 4.2 Delivery methods
+- The issuer SHALL be authorised, under the legal regime applicable to its jurisdiction, to issue an eReceipt under the legal category recorded in the `attestation_legal_category` claim (Section 2.2). The default profile of this Rulebook is `non-qualified-EAA`. Issuers operating under a `QEAA` or `PuB-EAA` profile SHALL additionally be a Qualified Trust Service Provider (QTSP) or a Public Body authorised to issue PuB-EAAs, respectively.
+- The issuer SHALL be registered or otherwise listed in the applicable WE BUILD trust framework so that Relying Parties can resolve issuer authorisation as described in Chapter 5.
+
+#### 4.1.2 Attestation construction
+
+- The issuer SHALL construct the eReceipt in accordance with the attribute and metadata definitions of Chapter 2, including all mandatory attributes (Section 2.2) and mandatory metadata (Section 2.5), and SHALL respect the conditional-presence rules of Sections 2.4 and 2.7.
+- The issuer SHALL apply the integrity rules of Section 2.9 (in particular `IR-01` to `IR-07`) before issuance and SHALL refuse to issue an eReceipt that fails any of those checks.
+- The issuer SHALL use the base `vct` `eu.we-build.ereceipt.1` (Section 3.2). Issuer-specific subtypes, where defined, SHALL extend this base type via the `extends` field of the corresponding Type Metadata Document (Chapter 6 of [SD-JWT VC]).
+- The issuer SHALL publish a Type Metadata Document whose Claim Selective Disclosure Metadata matches the **Disclosable** column of Section 3.2.3.
+
+#### 4.1.3 Signing and key management
+
+- The issuer SHALL sign the eReceipt SD-JWT with a private key whose corresponding public key is discoverable from the issuer's OIDC4VCI metadata endpoint, resolved from the `iss` claim (per `IR-09` in Section 2.9).
+- The OIDC4VCI metadata SHALL publish the issuer's signing key(s) (or a JWKS URI from which they can be retrieved) and SHALL identify the issuer using a domain name that a Relying Party can validate via TLS using an X.509 server certificate from a publicly-trusted CA.
+- The issuer SHALL operate key rotation in line with its trust-framework obligations, and SHALL ensure that historical keys remain resolvable for the validity period of any eReceipt previously signed with them.
+
+#### 4.1.4 Holder binding
+
+- The issuer SHALL bind the eReceipt to the Holder's wallet key by populating the `cnf` claim (Section 2.5) with the JWK of the public key supplied by the Wallet Unit during OIDC4VCI issuance.
+- Where an issuer policy or use-case profile requires the eReceipt to be cryptographically bound to another attestation (e.g., a PID), the issuer SHALL include the `cryptographically_bound_to` optional metadata (Section 2.6) referencing the `vct` of the bound attestation. Otherwise, the metadata SHALL be omitted.
+
+#### 4.1.5 Delivery
+
+- The issuer SHALL deliver the eReceipt using one of the methods specified in Section 4.3 (Embedded / deferred, Pull, or Push).
+- Issuance SHALL use OIDC4VCI (per EWC RFC001).
+- For `push` and `pull` delivery methods, the endpoint URIs SHALL use TLS (per `IR-08` in Section 2.9). Delivery failures SHALL be surfaced to the user, and the issuer SHALL NOT consider an eReceipt delivered until the Wallet has acknowledged receipt.
+
+#### 4.1.6 Lifecycle and revocation
+
+- The issuer SHALL operate the status mechanism described in Chapter 6 (IETF Token Status List) and SHALL include the `status_list` optional metadata (Section 2.6) referencing the issued credential's status entry.
+- The issuer SHALL use accurate values for the `iat` and `exp` claims, with `exp > iat`, and SHALL define an expiry policy consistent with the long-term presentation requirements of the eReceipt (typically several years for VAT reclaim and tax submission use cases; see Chapter 6).
+
+### 4.2 Relying Party obligations
+
+When receiving and processing an eReceipt, a Relying Party SHALL perform the checks defined in this section.
+
+#### 4.2.1 Verify cryptographic integrity
+
+- Validate the digital signature over the eReceipt SD-JWT using the issuer's public key, resolved as described in Section 4.2.2 and Chapter 5.
+- Process the SD-JWT VC payload according to [SD-JWT VC], including verification of the `_sd` digest array(s) for any selectively-disclosed claims presented by the Holder.
+- Validate the integrity rules of Section 2.9 (in particular `IR-01` to `IR-07`).
+
+#### 4.2.2 Validate issuer
+
+##### 4.2.2.1 Authentication
+
+- Verify the certification chain over the issuer's signing certificate (or, for the `non-qualified-EAA` profile, the TLS server certificate of the issuer's OIDC4VCI metadata endpoint) up to a trust anchor as defined in Chapter 5.
+
+##### 4.2.2.2 Identification
+
+- Verify the intermediate certifications in the chain against the applicable EU Trust List(s) — in particular the active **TLOL** (Trusted List of Lists) and, where required for credentials issued in the past, the corresponding **TLOL-historic** snapshot for the time at which the eReceipt was issued.
+
+> NOTE: TLOL-based identification applies primarily to the `QEAA` and `PuB-EAA` profiles. For the default `non-qualified-EAA` profile defined in this Rulebook, identification reduces to TLS server-certificate validation of the issuer's OIDC4VCI metadata endpoint against a publicly-trusted CA (Chapter 5).
+
+##### 4.2.2.3 Authorization
+
+- Verify that the issuer is authorised to issue eReceipt attestations under the legal category recorded in the `attestation_legal_category` claim (Section 2.2).
+- Check the issuer's credentials against the appropriate trust framework as described in Chapter 5. For the `non-qualified-EAA` profile this consists of resolving the `iss` URL to the issuer's OIDC4VCI metadata and validating the published signing key(s); for `QEAA` it consists of confirming the issuer's QTSP qualification status; for `PuB-EAA` it consists of confirming the issuer's authorisation as a Public Body authorised to issue PuB-EAAs.
+
+#### 4.2.3 Holder Wallet related check
+
+##### 4.2.3.1 Device binding
+
+- Verify the Holder's key binding via the `cnf` claim (Section 2.5). An eReceipt **SHALL** be device-bound (see ARB_34 in [Topic 12]); the `cnf` claim carries the JWK of the Holder's public key, and the Holder MUST demonstrate possession of the corresponding private key at presentation time. This prevents replay of a copied credential by another party.
+- Where the eReceipt carries the `cryptographically_bound_to` optional metadata (Section 2.6), verify the binding to the referenced attestation on the same Wallet Unit.
+
+> EXAMPLE: where a tax authority requires the eReceipt to be bound to the PID of the
+> Holder, the value of `cryptographically_bound_to` would be set to `"urn:eudi:pid:1"`
+> (or, equivalently, to the PID `vct` value).
+
+In all other cases, the `cryptographically_bound_to` metadata is OMITTED, and the eReceipt remains bound only to the Holder's wallet key via `cnf`.
+
+###### 4.2.3.1.1 WUA check
+
+- Where required by the use case or by the Relying Party's risk policy, verify the Wallet Unit Attestation (WUA) presented alongside the eReceipt against the applicable Wallet Provider trust framework, to confirm that the Holder's wallet is a conformant EUDI Wallet Unit.
+
+> NOTE: WUA verification is governed by the EUDI Wallet ARF (Topic 6 / Topic 8) and is not eReceipt-specific. The detailed protocol is out of scope for this Rulebook.
+
+#### 4.2.4 Holder related check
+
+##### 4.2.4.1 Revocation status check
+
+- Query the designated revocation / status mechanism described in Chapter 6 (IETF Token Status List), resolved via the `status_list` optional metadata (Section 2.6).
+- Treat revoked or suspended attestations as invalid.
+- Handle the status outcome according to the Relying Party's organisational risk policy.
+
+##### 4.2.4.2 Temporal validity check
+
+- Validate `iat` to ensure the attestation was issued in the past.
+- Validate `exp` to ensure the attestation has not expired.
+- Where the use case implies long-term presentation (e.g., VAT reclaim or tax submission spanning several years), the Relying Party SHOULD additionally verify the issuer's key history (Section 4.1.3) to confirm the credential was valid at the time it was relied upon.
+
+#### 4.2.5 Use-case dependent identity binding
+
+Whether the Relying Party must additionally request and verify a PID (per ARB_27 in
+[Topic 12]) depends on the use case:
+
+- For **B2B expense management** flows where the Relying Party is the employer's expense system or organisational wallet, requesting a PID is **NOT REQUIRED** at the receipt level: identification of the employee is established through the corporate authentication context (e.g., SSO into the expense system), and the eReceipt itself is intentionally not bound to the Holder's identity in order to preserve flexibility for personal-card / company-cardholder mismatches (see Section 1.5).
+- For **tax authority submission** flows, the Relying Party SHOULD request a PID and bind the eReceipt presentation to the verified holder identity, in line with national tax reporting requirements.
+- For **B2C consumer flows** (e.g., warranty claims, returns), the Relying Party MAY request a PID at its discretion.
+
+### 4.3 Delivery methods
 
 In line with EWC RFC011, three delivery methods are supported:
 
@@ -599,40 +743,11 @@ In line with EWC RFC011, three delivery methods are supported:
 Issuance SHALL use OIDC4VCI (per EWC RFC001) and presentation SHALL use OIDC4VP
 (per EWC RFC002).
 
-### 4.3 Relying-party obligations
-
-When processing an eReceipt, a Relying Party SHALL:
-
-- verify the SD-JWT signature using a trust anchor obtained as described in Chapter 5;
-- verify the freshness of the credential against `iat`/`exp`;
-- verify the Holder's key binding via the `cnf` claim;
-- check the credential against the status mechanism described in Chapter 6;
-- validate the integrity rules in Section 2.9 (in particular `IR-01` to `IR-07`).
-
-Whether the Relying Party must additionally request and verify a PID (per ARB_27 in
-[Topic 12]) depends on the use case:
-
-- For **B2B expense management** flows where the Relying Party is the employer's expense system or organisational wallet, requesting a PID is **NOT REQUIRED** at the receipt level: identification of the employee is established through the corporate authentication context (e.g., SSO into the expense system), and the eReceipt itself is intentionally not bound to the Holder's identity in order to preserve flexibility for personal-card / company-cardholder mismatches (see Section 4.1).
-- For **tax authority submission** flows, the Relying Party SHOULD request a PID and bind the eReceipt presentation to the verified holder identity, in line with national tax reporting requirements.
-- For **B2C consumer flows** (e.g., warranty claims, returns), the Relying Party MAY request a PID at its discretion.
-
 ### 4.4 Presentation requirements
 
 The eReceipt is intended to be presented **online**, using OIDC4VP. Offline / proximity presentation per [ISO/IEC 18013-5] is **not in scope** for this version of the Rulebook (see Section 3.1).
 
-### 4.5 Device binding
-
-An eReceipt **SHALL** be device-bound (see ARB_34 in [Topic 12]). Device binding is expressed via the `cnf` claim defined in Section 2.5, which carries the JWK of the Holder's public key. This allows the Holder to demonstrate possession of the corresponding private key at presentation time and prevents replay of a copied credential by another party.
-
-The eReceipt **MAY** be cryptographically bound to another attestation type on the same Wallet Unit. When such binding is required by the issuer or by a use-case profile, the optional metadata `cryptographically_bound_to` (Section 2.6) SHALL be included.
-
-> EXAMPLE: where a tax authority requires the eReceipt to be bound to the PID of the
-> Holder, the value of `cryptographically_bound_to` would be set to `"urn:eudi:pid:1"`
-> (or, equivalently, to the PID `vct` value).
-
-In all other cases, the `cryptographically_bound_to` metadata is OMITTED, and the eReceipt remains bound only to the Holder's wallet key via `cnf`.
-
-### 4.6 Transactional data
+### 4.5 Transactional data
 
 The eReceipt itself records transactional data (the `payments[]` and `verifications[]` arrays) as part of its core payload. No additional transactional-data signing requirement under [Topic 20] of Annex 2 of the ARF applies to the _presentation_ of the eReceipt: the credential is consumed as evidence of a past transaction rather than as authorisation of a new one.
 
@@ -672,7 +787,7 @@ A revoked eReceipt SHALL be treated as invalid by all Relying Parties.
 
 This Rulebook complies with the EUDI Architecture and Reference Framework (ARF), with the [European Digital Identity Regulation], and with the EUDI Attestation Rulebook Template. In particular:
 
-The structure of this document follows the Attestation Rulebook Template, with the attribute and metadata definitions in Chapter 2, encoding rules in Chapter 3, usage in Chapter 4, trust anchors in Chapter 5, revocation in Chapter 6, and references in Chapter 8.
+The structure of this document follows the Attestation Rulebook Template, with the attribute and metadata definitions in Chapter 2, encoding rules in Chapter 3, issuer and Relying Party obligations in Chapter 4, trust anchors in Chapter 5, revocation in Chapter 6, and references in Chapter 8.
 
 The high-level requirements for attestation rulebooks (Topic 12 of Annex 2 of the ARF) are met across Chapters 2 to 6: every attribute is defined in an encoding-independent form first; mandatory, optional and conditional attributes are clearly marked; both ISO/IEC 18013-5 and SD-JWT VC encodings are addressed; selective-disclosure metadata is specified per claim; trust-anchor and revocation mechanisms are defined; and any attribute that is not part of an EU-wide namespace is placed in the WE BUILD eReceipt domestic namespace.
 
