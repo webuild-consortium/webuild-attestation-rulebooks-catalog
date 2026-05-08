@@ -1,4 +1,4 @@
-# Rulebook for base-verification of the attestation  
+# Rulebook for common verification steps for all attestations  
 
 *Provide information about the author(s) of this Rulebook in the following form:*
 
@@ -17,12 +17,12 @@
 
 *Provide a contact email address and/or a link to an issue tracking system that can be used for
 providing feedback, e.g.:*
-Contact: 
+Contact: werner.folkendt@de.bosch.com
 
 **Feedback:**
 
 ## Intro
-When a Relying Party (RP) receives an attestation, the immediate challenge is to determine whether the information it contains can be genuinely trusted. This document establishes the essential verification processes that an RP SHALL implement to ensure the integrity and authenticity of attestation data.
+When a Relying Party (RP) receives a presentation, the RP EBW must verify the received attestations from the presentation. This document defines the common verification steps that an RP EBW SHALL implement for all attestations independent from their type. 
 
 These foundational checks serve as the universal starting point for evaluating any attestation. The verification framework addresses two complementary perspectives:
 
@@ -33,50 +33,69 @@ This dual-pronged approach is critical for establishing confidence and clarifyin
 Important Note: This checklist represents the base verification applicable to all attestations. Specific attestation types (e.g., IBAN, EBWOID) may define additional verification steps in their respective rulebooks. 
 The EBWOID rulebook in particular extends these base checks with the detailed mutual authentication process described in the EBWOID Attestation .
 
+Some of the described verification steps differ on the implementation level for EAAs and QEAAs. However the purpose and motivation (questions to be answered) of the verification steps are the same. The differencies are described in corresponding subchapters.
+
+Assumptions related the content of the header of each attestation are:
+For QEAA (e.g. EBWOID):
+- the header includes the X509 certificate chain of the QTSP who issues the attestation. The chain contains:
+  - the "root certificate"
+  - the "sealing trust service certificate" as an intermediate certificate from which the different sealing certificates for different trust servides are derived. This intermediate certificate is also included in the TLOL
+  - the "sealing certificate" which is used by the qTSP for signign QEAAs
+For EAA (e.g. IBAN,UBO,...):
+- the header also includes a certificate chain 
+- the first certificate in the chain is the EBWOID (or an equivalent x.509 certificate) In the header of the EBWOID the above described x.509 certificates are included.
+   
 ## 4.2 Relying Party Obligations ##
-The attestation verification process can be divided into the following 8 steps:
--
+The attestation verification process which is implemented in the RP EBW can be divided into the following 8 steps:
+Data integrity verification step
 - Verification of the cryptographic integrity and signature validity of the attestation.
+Issuer related verfication steps
 - Verification of the authenticity of the issuer.
 - Verification of the issuer’s identity and identifier information.
 - Verification that the issuer is authorized to issue the attestation.
+Holder related verification steps
 - Verification of validity periods, expiration, and issuance timestamps.
 - Verification that the attestation has not been revoked or suspended.
+ Holder EBW related  verification steps
 - Verification of the wallet integrity and associated wallet attestation.
 - Verification that the attestation is cryptographically bound to the holder’s device or wallet instance.
 
-### 4.2.1 Cryptographic Integrity Verification ###
+### 4.2.1 Data integrity verification ###
 ### Purpose
-This step answers the fundamental question: Are the received attestation data falsified or corrupted during transmission?
 
-This is the first and most fundamental verification step. Before any semantic trust decision is made, the Relying Party MUST confirm that the attestation data has not been tampered with since it was issued.
+The Relying Party MUST verify that the attestation data has not been tampered with since it was issued and that the received public key corresponds to the issuers private key used during signature creation. 
+This is the first and fundamental verification step. 
 
-### Questions to be Covered
-- Has the attestation been altered or corrupted during transmission?
-- Does the digital signature over the attestation validate correctly against the issuer's public key?
+### Questions that are answered
+- Has the attestation data received been tampered with or corrupted during transmission?
+- Does the received public key corresponds to the issuers private key used during signature creation?
 - For SD-JWT VC: Are the disclosed claims consistent with the signed payload?
 
 Steps
-1. Extract the issuer's public key from the attestation header (e.g., from the x5c certificate chain embedded in the EBWOID header)
+1. Extract the issuer's public key from the received attestation header (e.g., from the x5c certificate chain embedded in the EBWOID header)
 2. Decrypt/verify the digital signature over the attestation using the extracted public key
-3. Hash the attestation payload and compare against the decrypted signature value
+3. Hash the attestation payload and header and compare against the decrypted signature value
 4. For SD-JWT VC:
 - Verify the JWT signature
 - Validate all disclosed claims against the signed commitment (hash comparison)
 5. If hashes match → integrity confirmed; if not → REJECT the attestation
 
-#### 4.2.2. Issuer Related - Authentification Verification ####
+#### 4.2.2. Issuer Related - authentification verification ####
 
 ### Purpose
-Confirm that the issuer actually possesses the private key corresponding to the public key used to sign the attestation. This is analogous to the verification performed today for a QESEAL certificate.
+Verify that a qualified Trust Service Provider has confirmed that the attestation issuer has owned the public key whose corresponding private key was used to sign the verified attestation. This is analogous to the verification performed today for a QESEAL certificate in which a QTSP confirms that a public key is owned by the QESEAL. 
 
-#### Questions to be Covered
-- Does the certificate chain in the attestation header form a valid, unbroken chain up to a trusted root?
-- Has each certificate in the chain been verified for integrity and validity?
+#### Questions that are answered
+- Is the attestation “genuine”? Does the attestation provider has owned the private key used to sign the received attestation when the attesation was issued?
+
 
 Case QEAA:
-Case EAA: check if the public attesed by 3rd Party (openid federation?)
-
+Important remark: For QEAAs all the issuer related steps described in 4.2.2, 4.2.3 and 4.2.4 are implemented by doing a 
+a complete verification of each x.509 certificate included in the header up to the root certificate based on the TLOL.
+The above mentioned chapters describe different logical verification steps performed during header chain verification.
+#### Questions that are answered during certicate chain check
+- Does the certificate chain in the attestation header form a valid, unbroken chain up to a trusted root?
+- Has each certificate in the chain been verified for integrity and validity?
 ### Process
 ```mermaid
 flowchart TD
@@ -94,6 +113,8 @@ D -- No --> I([❌ REJECT: Broken\ncertificate chain])
     style I fill:#FFB6C1
 ```
 
+
+
 Steps
 1. Extract the x5c certificate chain from the EBWOID header
 2. Perform x5c header certificate verification as performed today for a QESEAL certificate
@@ -103,6 +124,7 @@ Steps
 - Verify certificate usage constraints (e.g., key usage, extended key usage)
 4. Confirm the leaf certificate's public key matches the key used to sign the attestation
 
+Case EAA: check if the public attesed by 3rd Party (attestation chaining)
 #### 4.2.3 Issuer Related - Identification Verification ####
 
 ### Purpose
