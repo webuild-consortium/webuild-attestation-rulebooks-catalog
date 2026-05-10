@@ -1,20 +1,27 @@
-# Attestation Rulebook for attestations of type Ultimate Beneficial Owner(s) List (UBO-List)*
+# Attestation Rulebook for attestations of type Ultimate Beneficial Ownership Attestation*
 
 * Author(s): 
     * [Florin Coptil, Robert Bosch GmbH]
 * Previous Authors
 
 * Reviewer(s):
-    * [......, Bundesanzeiger]
-    * [......, Deutsche Bank]
+  * [Auth Sources]
+      * [ ......Bundesanzeiger, Germany ]
+      * [..... KVK, Holland ]
+      * [ ..., Italy ]
+  * [Banks]
+      * [Bastek-Margon Jenny, CommerzBank ]
+      * [Baumgardt, Michaela, Commerzbank ]
+      * [Stephan-A Fuchs, Deutsche Bank  ]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 13.03.2026 | Initial draft based on the WeBuild design attestations mettings |
-| 0.2     | 20.04.2026 | updates in regard to the comments and legislation              |
+| 0.2     | 20.04.2026 | updates in regard to the comments and legislation               |
+| 0.3     | 09.05.2026 | regenerate chapter 1 and 2 in regard to address topics review   |
 
 * Contact:
-  <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
+  * [Contact the authors](mailto:florin.coptil@bosch.com?subject=UBO%20Attestation&body=Body%20text)
 
 * Feedback:
 
@@ -84,13 +91,15 @@ Unlike Ownership List and Control List attestations (which use hierarchical stru
 
 _Data Model:
 ````
-UBO List
 ├─ UBO [1...n]   (at least one UBO; typically 1-5 UBOs for most entities)
-│   ├─ Personal Identification Attributes (first name, surname, date of birth, citizenship(s))
-│   ├─ Birthplace (locality, country)
-│   ├─ ResidentialAddress (street, house number, city, state, postal code, country(ies) of residence)
-│   ├─ IdentityInformation (type of identity document, document number, issuing country, expiry date, unique personal identification number, revocation link)
-│   └─ OwnershipInfo (determination methodology, ownership stake, ownership held date)
+│   ├─ NaturalPerson (first name(M), surname(M), date of birth(M)) - mandatory
+│   ├─ BirthPlace (locality(M), country(M), region (O)) - mandatory
+│   ├─ Citizenship ( citizenship(s)) (1-n) - mandatory
+│   ├─ ResidenceAddress (street(M), house number(M), city(M), state(M), postal code(M), country(M)) - mandatory 
+│   ├─ ContactAddress (street(M), house number(M), city(M), state(M), postal code(M), country(s)) - optional  
+│   ├─ Natural Person Identifier (document type(M), document number(M), issuing country(M), expiry date(M) ) - mandatory
+│   ├─ Natural Person Unique  Identifier (identifierUnique(0), identifierIssuingAuthority (0) ) - optional
+│   └─ Ownership (determination methodology(M), ownership stake(M), ownership held date(M)) - mandatory
 ````
 
 **Explanation:**
@@ -106,56 +115,69 @@ This attestation type MAY be classified as:
 - "QEAA" when issued by a national Transparency Register or competent authority which can attest the information in case that a RP require it (ex. Bank in KYC process by cross-check of discrepancy) 
 
 
-| **Data Identifier**         | **Semantic Reference** | **Definition**                                                       | **Data type** |
-|-----------------------------|------------------------|----------------------------------------------------------------------|---------------|
-| ubo_personal_identification | ...                    | Information about the beneficial owner(s)                            | Object                                                             |
-| ubo_birthplace              | ...                    | Information about the birth place                                    | Object                                    |
-| ubo_residential_address     | ...                    | Information about the residential address of the beneficial owner(s) | Object                                    |
-| ubo_identification          | ...                    | Information about the identification of the beneficial owner(s)      | Object                                                               |
-| ubo_ownership_info          | ...                    | Information about the stake information of the beneficial owner(s)   | Object                                                               |
+| **Data Identifier**   | **Semantic Reference** | **Definition**                                                              | **Data type** |
+|-----------------------|------------------------|-----------------------------------------------------------------------------|---------|
+| ubo_person            | ...                    | Information about the beneficial owner(s)                                   | Object  |
+| ubo_birthplace        | ...                    | Information about the birth place                                           | Object  |
+| ubo_citizenship       | ...                    | Citizenship(s) held by the UBO (one or more nationalities)                  | Array of Strings (ISO 3166-1 alpha-3)                                                   |
+| ubo_residence_address | ...                    | Information about the residential address of the beneficial owner(s)        | Object  |
+| ubo_contact_address   | ...                    | Information about the contact address of the beneficial owner(s) (optional) | Object  |
+| ubo_identification    | ...                    | Information about the identification of the beneficial owner(s)             | Object  |
+| ubo_ownership_info    | ...                    | Information about the stake information of the beneficial owner(s)          | Object  |
 
 ### 2.2 Mandatory attributes
 @TODO Florin still to confirmed with Barth the type (after matching in vocabulary document) 
 
-**UBO Personal Identification Attributes**  
+**NaturalPerson Attributes **  
 
-| **Data Identifier**          | **Semantic Reference** | **Definition**                                                                         | **Data type**                       |
-|------------------------------|------------------------|----------------------------------------------------------------------------------------|-------------------------------------|
-| first_names                  | ...                    |The beneficial owner's first names in full (including all given names and middle names) | String                                                                               |
-| surnames                     | ...                    |The beneficial owner's surnames in full (all family names/last names)                   | String                                                                                  |
-| date_of_birth                | ...                    |Day, month, and year of birth of the UBO ISO 8601                                       | Date (YYYY-MM-DD)                                                                       |
-| citizenships                 | ...                    |Citizenship(s) held by the UBO (one or more nationalities)                              | Array of Strings (ISO 3166-1 alpha-3)                                                   |
+| **Data Identifier**        | **Semantic Reference** | **Definition**                                                                         | **Data type**                       |
+|----------------------------|------------------------|----------------------------------------------------------------------------------------|-------------------------------------|
+| first_name                 | ...                    |The beneficial owner's first names in full (including all given names and middle names) | String                                                                               |
+| surname                    | ...                    |The beneficial owner's surnames in full (all family names/last names)                   | String                                                                                  |
+| date_of_birth              | ...                    |Day, month, and year of birth of the UBO ISO 8601                                       | Date (YYYY-MM-DD)                                                                       |
 
 **Birthplace Attributes** 
 
-| **Data Identifier**   | **Semantic Reference** | **Definition**                                            | **Data type**                       |
-|-----------------------|------------------------|-----------------------------------------------------------|------------------------------|
-| birth_place_locality  | ...                    | Locality (city or town) where the natural person was born | String                                               |
-| birth_place_country   | ...                    | Country where the natural person was born                 | String (ISO 3166-1 alpha-3)                               |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                            | **Data type**                       |
+|---------------------|------------------------|-----------------------------------------------------------|------------------------------|
+| locality            | ...                    | Locality (city or town) where the natural person was born | String                                               |
+| country             | ...                    | Country where the natural person was born                 | String (ISO 3166-1 alpha-3)                               |
 
 Note: AMLR Article 62(b) requires "place and full date of birth." This Rulebook interprets "place" as locality + country.
 
-**ResidentialAddress Attributes**
+**ResidenceAddress Attributes**
 
-| **Data Identifier**      | **Semantic Reference** | **Definition**                                                                     | **Data type**                          |
-|--------------------------|------------------------|------------------------------------------------------------------------------------|----------------------------------------|
-| residential_street       | ...                    | The street where the UBO currently resides or can be contacted                     | String                                                                            |
-| residential_house_number | ...                    | The house/building number where the UBO currently resides or can be contacted      | String                                                         |
-| residential_city         | ...                    | The city where the UBO currently resides or can be contacted                       | String                                                         |
-| residential_state        | ...                    | The state, province, or region where the UBO currently resides or can be contacted | String                                                         |
-| residential_postal_code  | ...                    | The postal code where the UBO currently resides or can be contacted                | String                                                         |
-| countries_of_residence   | ...                    | The country or countries where the UBO currently resides or can be contacted       | Array of Strings (ISO 3166-1 alpha-3)                          |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                     | **Data type**                          |
+|---------------------|------------------------|------------------------------------------------------------------------------------|----------------------------------------|
+| street              | ...                    | The street where the UBO currently resides                      | String                                                                            |
+| house_number        | ...                    | The house/building number where the UBO currently resides       | String                                                         |
+| city                | ...                    | The city where the UBO currently resides                       | String                                                         |
+| state               | ...                    | The state, province, or region where the UBO currently resides  | String                                                         |
+| code                | ...                    | The postal code where the UBO currently resides            | String                                                         |
+| country             | ...                    | The country or countries where the UBO currently resides        | Array of Strings (ISO 3166-1 alpha-3)                          |
 
 Note: AMLR Article 62(c) requires "residential address" and (d) requires "country or countries of residence." This Rulebook provides full address breakdown for structured data.
 
-** IdentityInformation Attributes**
 
-| **Data Identifier**       | **Semantic Reference** | **Definition**                                                                                                                                        | **Data type**                          |
-|---------------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| type_of_identity_document | ...                    | A value defining the type of the identity document according to the nationality of the UBO (e.g., Passport, National identity card, Driver's license) | String                                                             |
-| identity_document_number  | ...                    | The number of the identity document (passport number, national ID number, driver's license number, etc.)                                                 | String                                                                                                                                                |
-| identity_issuing_country  | ...                    | The country that issued the identity document (ISO 3166-1 alpha-3 code)                                                                                  | String                                                                                                                                                |
-| identity_expiry_date      | ...                    | The expiration date of the identity document ISO 8601                                                                                                    | Date (YYYY-MM-DD)                                                                                                                                     |
+**ContactAddress Attributes**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                               | **Data type**                          |
+|---------------------|------------------------|--------------------------------------------------------------|----------------------------------------|
+| street              | ...                    | The street where the UBO  or can be contacted                | String                                                                            |
+| house_number        | ...                    | The house/building number where the UBO can be contacted     | String                                                         |
+| city                | ...                    | The city where the UBO  can be contacted                     | String                                                         |
+| state               | ...                    | The state, province, or region where the UBO can be contacted | String                                                         |
+| code                | ...                    | The postal code where the UBO  can be contacted              | String                                                         |
+| country             | ...                    | The country or countries where the UBO can be contacted      | Array of Strings (ISO 3166-1 alpha-3)                          |
+
+**NaturalPersonIdentifier Attributes**
+
+| **Data Identifier**  | **Semantic Reference** | **Definition**                                                                                                                                        | **Data type**                          |
+|----------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
+| document_type        | ...                    | A value defining the type of the identity document according to the nationality of the UBO (e.g., Passport, National identity card, Driver's license) | String                                                             |
+| document_number      | ...                    | The number of the identity document (passport number, national ID number, driver's license number, etc.)                                                 | String                                                                                                                                                |
+| issuing_country      | ...                    | The country that issued the identity document (ISO 3166-1 alpha-3 code)                                                                                  | String                                                                                                                                                |
+| document_expiry_date | ...                    | The expiration date of the identity document ISO 8601                                                                                                    | Date (YYYY-MM-DD)                                                                                                                                     |
 
 **Ownership Attributes**
 
@@ -164,21 +186,25 @@ Each UBO entry SHALL contain an OwnershipInfo nested object with the following m
 | **Data Identifier**       | **Semantic Reference** | **Definition**                                                                                                                                                                              | **Data type**                          |
 |---------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
 | determination_methodology | ...                    | Specifies the calculation methodology applied in accordance with the AMLR and applicable Transparency Register requirement. This attribute classifies how the UBO was determined. String or | Array of Strings (enumeration) ["Direct ownership", "Control through voting rights"]                                                                                                |
-| ownership_stake           | ...                    | The percentage or level of ownership/control held by the UBO (≥25% per AMLR threshold, but may be higher)                                                                                       | Decimal (25.0-100.0)                                                                                                                                                                        |
-| ownership_held_date       | ...                    | Date on which the beneficial interest is held (as of when the UBO calculation was performed)                                                                                                    | ISO 8601 Date (YYYY-MM-DD)                                                                                                                                                                  |
+| stake                     | ...                    | The percentage or level of ownership/control held by the UBO (≥25% per AMLR threshold, but may be higher)                                                                                       | Decimal (25.0-100.0)                                                                                                                                                                        |
+| held_date                 | ...                    | Date on which the beneficial interest is held (as of when the UBO calculation was performed)                                                                                                    | ISO 8601 Date (YYYY-MM-DD)                                                                                                                                                                  |
 
 Note: A UBO may be identified through multiple determination methodologies simultaneously (e.g., both direct ownership ≥25% AND control through voting rights ≥50%). Therefore, determination_methodology MAY be encoded as an array of strings.
 
 ### 2.3 Optional attributes
 
-**UBO Optional Attributes**
+**NaturalPerson Attributes**
 
 | **Data Identifier**                   | **Semantic Reference** | **Definition**                                                                                                                                                                                                                                | **Data type**                          |
 |---------------------------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| unique_personal_identification_number | ...                    | A government-assigned number uniquely linked to the individual,independent of any specific ID document, and valid for the person's lifetime (e.g., social security number, national ID, fiscal code). This SHALL be included where available. | String |
-| unique_id_number_source               | ...                    | General description of the source of the unique personal identification number (e.g., "Spanish National ID (DNI)", "French Social Security Number", "German Tax ID")                                                                          |String|
 | birth_place_region                    | ...                    | Optional additional detail on the region/state where the UBO was born                                                                                                                                                                         |String |
 
+**NaturalPerson Unique Identifier Attributes**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                                                                                                                                | **Data type**                          |
+|---------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
+| id_number           | ...                    | A government-assigned number uniquely linked to the individual,independent of any specific ID document, and valid for the person's lifetime (e.g., social security number, national ID, fiscal code). This SHALL be included where available. | String |
+| id_source           | ...                    | General description of the source of the unique personal identification number (e.g., "Spanish National ID (DNI)", "French Social Security Number", "German Tax ID")                                                                          |String|
 Note: unique_personal_identification_number and unique_id_number_source are optional in this Rulebook because AMLR Article 62(g) states "where available." However, issuers SHOULD include this information whenever it is available, as it significantly enhances identity verification reliability.
 
 #### 2.4 Conditional attributes
@@ -277,7 +303,7 @@ The following integrity rules **SHALL** be enforced:
 *   `ownership_held_date` **SHALL** be a valid ISO 8601 date (YYYY-MM-DD).
 *   `type_of_identity_document` **SHALL** be one of the values defined in Section 2.8.1.
 *   Each element in `determination_methodology` **SHALL** be one of the values defined in Section 2.8.2.
-*   `unique_personal_identification_number` and `unique_id_number_source` **SHALL** only be present if the information is available.
+*   `id_number` and `id_source` **SHALL** only be present if the information is available.
 *   Each attribute **SHALL** appear at most once within its scope (e.g., within a `UBO` object or `OwnershipInfo` object).
 *   `issuance_date` and `expiry_date` **SHALL** be valid ISO 8601 DateTimes.
 *   `issuance_date` **SHALL** be in the past.
@@ -300,41 +326,56 @@ The UBO List attestation uses the SD-JWT VC format to allow for selective disclo
 
 The `.` notation is used to indicate the nesting of attributes.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build.ubolist.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build.ubo.1`
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**                           | **Attribute identifier**                               | **Encoding format**                     | **Reference/Notes**                                                                                                                                                                        | **Disclosable** |
-| :-------------------------------------------- | :----------------------------------------------------- | :-------------------------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :-------------- |
-| ubos                                          | `ubos`                                                 | Array [UBO]                             | Array of UBO objects; **SHALL** contain at least one UBO.                                                                                                                                  | MUST            |
-| ubo_personal_identification.first_names       | `ubos[n].first_names`                                  | String                                  | The beneficial owner's first names in full (including all given names and middle names)                                                                                                    | MUST            |
-| ubo_personal_identification.surnames          | `ubos[n].surnames`                                     | String                                  | The beneficial owner's surnames in full (all family names/last names)                                                                                                                      | MUST            |
-| ubo_personal_identification.date_of_birth     | `ubos[n].date_of_birth`                                | String (ISO 8601 YYYY-MM-DD)            | Day, month, and year of birth of the UBO                                                                                                                                                   | MUST            |
-| ubo_personal_identification.citizenships      | `ubos[n].citizenships`                                 | Array of Strings (ISO 3166-1 alpha-3)   | Citizenship(s) held by the UBO (one or more nationalities)                                                                                                                                 | MUST            |
-| ubo_birthplace.birth_place_locality           | `ubos[n].birth_place_locality`                         | String                                  | Locality (city or town) where the natural person was born                                                                                                                                  | MUST            |
-| ubo_birthplace.birth_place_country            | `ubos[n].birth_place_country`                          | String (ISO 3166-1 alpha-3)             | Country where the natural person was born                                                                                                                                                  | MUST            |
-| ubo_birthplace.birth_place_region             | `ubos[n].birth_place_region`                           | String                                  | Optional additional detail on the region/state where the UBO was born                                                                                                                      | MAY             |
-| ubo_residential_address.residential_street      | `ubos[n].residential_street`                           | String                                  | The street where the UBO currently resides or can be contacted                                                                                                                             | MUST            |
-| ubo_residential_address.residential_house_number | `ubos[n].residential_house_number`                   | String                                  | The house/building number where the UBO currently resides or can be contacted                                                                                                              | MUST            |
-| ubo_residential_address.residential_city      | `ubos[n].residential_city`                             | String                                  | The city where the UBO currently resides or can be contacted                                                                                                                               | MUST            |
-| ubo_residential_address.residential_state     | `ubos[n].residential_state`                            | String                                  | The state, province, or region where the UBO currently resides or can be contacted                                                                                                         | MAY             |
-| ubo_residential_address.residential_postal_code | `ubos[n].residential_postal_code`                    | String                                  | The postal code where the UBO currently resides or can be contacted                                                                                                                        | MUST            |
-| ubo_residential_address.countries_of_residence | `ubos[n].countries_of_residence`                     | Array of Strings (ISO 3166-1 alpha-3)   | The country or countries where the UBO currently resides or can be contacted                                                                                                               | MUST            |
-| ubo_identification.type_of_identity_document  | `ubos[n].type_of_identity_document`                    | String                                  | A value defining the type of the identity document according to the nationality of the UBO (e.g., Passport, National identity card, Driver's license)                                      | MUST            |
-| ubo_identification.identity_document_number   | `ubos[n].identity_document_number`                     | String                                  | The number of the identity document (passport number, national ID number, driver's license number, etc.)                                                                                   | MUST            |
-| ubo_identification.identity_issuing_country   | `ubos[n].identity_issuing_country`                     | String (ISO 3166-1 alpha-3)             | The country that issued the identity document                                                                                                                                              | MUST            |
-| ubo_identification.identity_expiry_date       | `ubos[n].identity_expiry_date`                         | String (ISO 8601 YYYY-MM-DD)            | The expiration date of the identity document                                                                                                                                               | MUST            |
-| ubo_identification.unique_personal_identification_number | `ubos[n].unique_personal_identification_number` | String                                  | A government-assigned number uniquely linked to the individual, independent of any specific ID document, and valid for the person's lifetime. Included where available.                    | MAY             |
-| ubo_identification.unique_id_number_source    | `ubos[n].unique_id_number_source`                      | String                                  | General description of the source of the unique personal identification number (e.g., "Spanish National ID (DNI)", "French Social Security Number"). Included where available.             | MAY             |
-| ubo_ownership_info.determination_methodology  | `ubos[n].ownership_info.determination_methodology`     | Array of Strings (enumeration)          | Specifies the calculation methodology applied (e.g., "Direct ownership", "Control through voting rights"). **SHALL** use codes from Section 2.8.2.                                         | MUST            |
-| ubo_ownership_info.ownership_stake            | `ubos[n].ownership_info.ownership_stake`               | Decimal (25.0-100.0)                    | The percentage or level of ownership/control held by the UBO (≥25% per AMLR threshold, but may be higher)                                                                                  | MUST            |
-| ubo_ownership_info.ownership_held_date        | `ubos[n].ownership_info.ownership_held_date`           | String (ISO 8601 YYYY-MM-DD)            | Date on which the beneficial interest is held (as of when the UBO calculation was performed)                                                                                               | MUST            |
-| issuance_date                                 | `iat`                                                  | Number (Unix timestamp)                 | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                                                                                                       | MUST NOT        |
-| expiry_date                                   | `exp`                                                  | Number (Unix timestamp)                 | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                                                                                                          | MUST NOT        |
-| issuing_entity                                | `iss`                                                  | String (URI or DID)                     | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA). RFC 7519 / Section 2.5 | MUST NOT        |
-| attestation_legal_category                    | `attestation_legal_category`                           | String                                  | One of `EAA` or `QEAA` as defined by eIDAS 2                                                                                                                                               | MUST NOT        |
-| schema_version                                | `schema_version`                                       | String                                  | Version of the schema used for this attestation.                                                                                                                                           | MAY             |
-| trust_anchor_url                              | `trust_anchor_url`                                     | URI                                     | URL where the trust anchor for verifying this attestation can be retrieved.                                                                                                                | MAY             |
+| **Data Identifier**                     | **Attribute identifier**                                     | **Encoding format**                    | **Reference/Notes**                                                                                                                                                                        | **Disclosable** |
+|:----------------------------------------|:-------------------------------------------------------------|:---------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :-------------- |
+| ubo                                     | `ubo`                                                        | Array [UBO]                            | Array of UBO objects; **SHALL** contain at least one UBO.                                                                                                                                  | MUST            |
+| **Person**                              |                                                              |                              |                                                                                                                                                         |                 |
+| ubo.person.first_names                  | `ubo[n].person.first_name`                                   | String                                 | The beneficial owner's first names in full (including all given names and middle names)                                                                                                    | MUST            |
+| ubo.person.surnames                     | `ubo[n].person.surname`                                      | String                                 | The beneficial owner's surnames in full (all family names/last names)                                                                                                                      | MUST            |
+| ubo.person.date_of_birth                | `ubo[n].person.date_of_birth`                                | String (ISO 8601 YYYY-MM-DD)           | Day, month, and year of birth of the UBO                                                                                                                                                   | MUST            |
+| ubo.citizenships                        | `ubo[n].citizenships`                                        | Array of Strings (ISO 3166-1 alpha-3)  | Citizenship(s) held by the UBO (one or more nationalities)                                                                                                                                 | MUST            |
+| **BirthPlace**                          |                                                              |                              |                                                                                                                                                         |                 |
+| ubo.birth_place.locality                | `ubo[n].birth_place.locality`                                | String                                 | Locality (city or town) where the natural person was born                                                                                                                                  | MUST            |
+| ubo.birth_place.country                 | `ubo[n].birth_place.country`                                 | String (ISO 3166-1 alpha-3)            | Country where the natural person was born                                                                                                                                                  | MUST            |
+| ubo.birth_place.region                  | `ubo[n].birth_place.region`                                  | String                                 | Optional additional detail on the region/state where the UBO was born                                                                                                                      | MAY             |
+| **ResidenceAddress**                    |                                                              |                              |                                                                                                                                                         |                 |
+| ubo.residence_address.street            | `ubo[n].residence_address.street`                            | String                                 | The street where the UBO currently resides                                                                                                                                                 | MUST            |
+| ubo.residence_address.house_number      | `ubo[n].residence_address.house_number`                      | String                                 | The house/building number where the UBO currently resides                                                                                                                                  | MUST            |
+| ubo.residence_address.city              | `ubo[n].residence_address.city`                              | String                                 | The city where the UBO currently resides                                                                                                                                                   | MUST            |
+| ubo.residence_address.state             | `ubo[n].residence_address.state`                             | String                                 | The state, province, or region where the UBO currently resides                                                                                                                             | MAY             |
+| ubo.residence_address.postal_code       | `ubo[n].residence_address.postal_code`                       | String                                 | The postal code where the UBO currently resides                                                                                                                                            | MUST            |
+| ubo.residence_address.country           | `ubo[n].residence_address.country`                           | Strings (ISO 3166-1 alpha-3)  | The country  where the UBO currently resides                                                                                                                                               | MUST            |
+| **ContactAddress**                      |                                                              |                              |                                                                                                                                                         |                 |
+| ubo.contact_address.street              | `ubo[n].contact_address.street`                              | String                                 | The street where the UBO  can be contacted                                                                                                                                                 | MUST            |
+| ubo.contact_address.house_number        | `ubo[n].contact_address.house_number`                        | String                                 | The house/building number where the UBO can be contacted                                                                                                                                   | MUST            |
+| ubo.contact_address.city                | `ubo[n].contact_address.city`                                | String                                 | The city where the UBO  can be contacted                                                                                                                                                   | MUST            |
+| ubo.contact_address.state               | `ubo[n].contact_address.state`                               | String                                 | The state, province, or region where the UBO can be contacted                                                                                                                              | MAY             |
+| ubo.contact_address.postal_code         | `ubo[n].contact_address.postal_code`                         | String                                 | The postal code where the UBO can be contacted                                                                                                                                             | MUST            |
+| ubo.contact_address.country             | `ubo[n].contact_address.country`                             | String (ISO 3166-1 alpha-3)            | The country or countries where the UBO  can be contacted                                                                                                                                   | MUST            |
+| **NaturalPersonIdentifier**             |                                                              |                              |                                                                                                                                                         |                 |
+| ubo.identifier.document_type            | `ubo[n].identifier.document_type`                            | String                                 | A value defining the type of the identity document according to the nationality of the UBO (e.g., Passport, National identity card, Driver's license)                                      | MUST            |
+| ubo.identifier.document_number          | `ubo[n].identifier.document_number`                          | String                                 | The number of the identity document (passport number, national ID number, driver's license number, etc.)                                                                                   | MUST            |
+| ubo.identifier.issuing_country          | `ubo[n].identifier.issuing_country`                        / | String (ISO 3166-1 alpha-3)            | The country that issued the identity document                                                                                                                                              | MUST            |
+| ubo.identifier.expiry_date              | `ubo[n].identifier.expiry_date`                              | String (ISO 8601 YYYY-MM-DD)           | The expiration date of the identity document                                                                                                                                               | MUST            |
+| **NaturalPersonUniqueIdentifier**       |                                                              |                              |                                                                                                                                                         |                 |
+| ubo.unique_identifier.id_number         | `ubo[n].unique_identifier.id_number`                         | String                                 | A government-assigned number uniquely linked to the individual, independent of any specific ID document, and valid for the person's lifetime. Included where available.                    | MAY             |
+| ubo.unique_identifier.id_source         | `ubo[n].unique_identifier.id_source`                         | String                                 | General description of the source of the unique personal identification number (e.g., "Spanish National ID (DNI)", "French Social Security Number"). Included where available.             | MAY             |
+| **Ownership**                           |                                                              |                              |                                                                                                                                                         |                 |
+| ubo.ownership.determination_methodology | `ubo[n].ownership.determination_methodology`                 | Array of Strings (enumeration)         | Specifies the calculation methodology applied (e.g., "Direct ownership", "Control through voting rights"). **SHALL** use codes from Section 2.8.2.                                         | MUST            |
+| ubo.ownership.ownership_stake           | `ubo[n].ownership.ownership_stake`                           | Decimal (25.0-100.0)                   | The percentage or level of ownership/control held by the UBO (≥25% per AMLR threshold, but may be higher)                                                                                  | MUST            |
+| ubo.ownership.ownership_held_date       | `ubo[n].ownership.ownership_held_date`                       | String (ISO 8601 YYYY-MM-DD)           | Date on which the beneficial interest is held (as of when the UBO calculation was performed)                                                                                               | MUST            |
+| **Metadata**                            |                                                              |                              |                                                                                                                                                         |                 |
+| issuance_date                           | `iat`                                                        | Number (Unix timestamp)                | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                                                                                                       | MUST NOT        |
+| expiry_date                             | `exp`                                                        | Number (Unix timestamp)                | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                                                                                                          | MUST NOT        |
+| issuing_entity                          | `iss`                                                        | String (URI or DID)                    | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA). RFC 7519 / Section 2.5 | MUST NOT        |
+| attestation_legal_category              | `attestation_legal_category`                                 | String                                 | One of `EAA` or `QEAA` as defined by eIDAS 2                                                                                                                                               | MUST NOT        |
+| schema_version                          | `schema_version`                                             | String                                 | Version of the schema used for this attestation.                                                                                                                                           | MAY             |
+| trust_anchor_url                        | `trust_anchor_url`                                           | URI                                    | URL where the trust anchor for verifying this attestation can be retrieved.                                                                                                                | MAY             |
+
 
 **Notes:**
 
@@ -368,7 +409,7 @@ The `status` claim **SHALL** be a JSON object with the following members:
 ```
 
 #### 3.2.3 Example Payload
-The following is a non-normative example of a UBO List SD-JWT VC payload:
+The following is a non-normative example of a UBO  SD-JWT VC payload:
 
 ```
 {
@@ -378,72 +419,106 @@ The following is a non-normative example of a UBO List SD-JWT VC payload:
   "exp": 1705411200,
   "attestation_legal_category": "EAA",
   "schema_version": "1.0",
-  "ubos": [
- {
-   "first_names": "John",
-   "surnames": "Doe",
-   "date_of_birth": "1980-05-15",
-   "citizenships": ["DEU"],
-   "birth_place_locality": "Berlin",
-   "birth_place_country": "DEU",
-   "birth_place_region": "Berlin",
-   "residential_street": "Main Street",
-   "residential_house_number": "10",
-   "residential_city": "Berlin",
-   "residential_state": "Berlin",
-   "residential_postal_code": "10115",
-   "countries_of_residence": ["DEU"],
-   "type_of_identity_document": "National identity card",
-   "identity_document_number": "123456789",
-   "identity_issuing_country": "DEU",
-   "identity_expiry_date": "2030-12-31",
-   "unique_personal_identification_number": "DE1234567890123",
-   "unique_id_number_source": "German Tax ID",
-   "ownership_info": {
-     "determination_methodology": ["Direct ownership", "Control through voting rights"],
-     "ownership_stake": 35.5,
-     "ownership_held_date": "2024-01-01"
-   }
- },
- {
-   "first_names": "Jane",
-   "surnames": "Smith",
-   "date_of_birth": "1975-11-20",
-   "citizenships": ["FRA"],
-   "birth_place_locality": "Paris",
-   "birth_place_country": "FRA",
-   "residential_street": "Rue de la Paix",
-   "residential_house_number": "5",
-   "residential_city": "Paris",
-   "residential_postal_code": "75002",
-   "countries_of_residence": ["FRA"],
-   "type_of_identity_document": "Passport",
-   "identity_document_number": "ABC987654",
-   "identity_issuing_country": "FRA",
-   "identity_expiry_date": "2028-06-30",
-   "ownership_info": {
-     "determination_methodology": ["Indirect ownership"],
-     "ownership_stake": 28.0,
-     "ownership_held_date": "2023-07-15"
-   }
- }
+  "ubo": [
+    {
+      "person": {
+        "first_name": "John",
+        "surname": "Doe",
+        "date_of_birth": "1980-05-15"
+      },
+      "citizenships": ["DEU"],
+      "birth_place": {
+        "birth_place_locality": "Berlin",
+        "birth_place_country": "DEU",
+        "birth_place_region": "Berlin"
+      },
+      "residence_address": {
+        "street": "Main Street",
+        "house_number": "10",
+        "city": "Berlin",
+        "state": "Berlin",
+        "postal_code": "10115",
+        "countries": ["DEU"]
+      },
+      "contact_address": {
+        "street": "Alternate Contact Str.",
+        "house_number": "5A",
+        "city": "Hamburg",
+        "state": "Hamburg",
+        "postal_code": "20095",
+        "countries": ["DEU"]
+      },
+      "identification": {
+        "document_type": "National identity card",
+        "document_number": "123456789",
+        "issuing_country": "DEU",
+        "expiry_date": "2030-12-31"
+      },
+      "permanent_identifier": {
+        "unique_personal_identification_number": "DE1234567890123",
+        "unique_id_number_source": "German Tax ID"
+      },
+      "ownership_info": {
+        "determination_methodology": ["Direct ownership", "Control through voting rights"],
+        "ownership_stake": 35.5,
+        "ownership_held_date": "2024-01-01"
+      }
+    },
+    {
+      "person": {
+        "first_name": "Jane",
+        "surname": "Smith",
+        "date_of_birth": "1975-11-20"
+      },
+      "citizenships": ["FRA"],
+      "birth_place": {
+        "birth_place_locality": "Paris",
+        "birth_place_country": "FRA"
+      },
+      "residence_address": {
+        "street": "Rue de la Paix",
+        "house_number": "5",
+        "city": "Paris",
+        "postal_code": "75002",
+        "countries": ["FRA"]
+      },
+      "identification": {
+        "document_type": "Passport",
+        "document_number": "ABC987654",
+        "issuing_country": "FRA",
+        "expiry_date": "2028-06-30"
+      },
+      "ownership_info": {
+        "determination_methodology": ["Indirect ownership"],
+        "ownership_stake": 28.0,
+        "ownership_held_date": "2023-07-15"
+      }
+    }
   ],
   "status": {
- "type": "status-list",
- "status_list_credential": "https://issuer.example.com/status/ubolist/2025",
- "status_list_index": 456,
- "status_purpose": "revocation"
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/ubolist/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
   }
 }
 ```
-Sample payloads are provided under ../data-schemas/sd-jwt-vc/sample-data/ubolist-sd-jwt-sample.json
+Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/ubo-sd-jwt.json
 
 #### 3.3 W3C Verifiable Credentials Data Model-based encoding
 @TODO — To be discussed: which stakeholders will support this format and which use cases require it.        
 
 ## 4 Attestation usage
 
-The UBO List Attestation serves the core AML/CTF compliance requirement of identifying ultimate beneficial owners across European financial and business ecosystems:
+The UBO Attestation serves the core AML/CTF compliance requirement of identifying ultimate beneficial owners across European financial and business ecosystems:
 
 *Primary use cases:*
 - Bank KYC for Corporate Account Opening (per AMLR Articles 20-25)
@@ -457,132 +532,83 @@ The UBO List Attestation serves the core AML/CTF compliance requirement of ident
 **Issuance Flow:**
 
 *Calculation and Issuance:*
-- The legal entity calculates its UBO list by:Applying the ≥25% threshold to the Ownership List (identifying natural persons with ≥25% direct or indirect ownership)
+- The legal entity calculates its UBO  by:Applying the ≥25% threshold to the Ownership List (identifying natural persons with ≥25% direct or indirect ownership)
 - Analyzing the Control List for natural persons exercising ultimate control through other means (even if ownership <25%)
 - Applying AMLR determination methodologies (direct ownership, indirect ownership, legal arrangement roles, nature of control)
-- The legal entity self-issues the UBO List Attestation into its Company Wallet OR a QTSP issues the UBO List Attestation to the company's wallet (as a QEAA), certifying the UBO calculation
+- The legal entity self-issues the UBO  Attestation into its Company Wallet OR a QTSP issues the UBO  Attestation to the company's wallet (as a QEAA), certifying the UBO calculation
 - Classification: "EAA" (self-issued) or "QEAA (Transparency Reqister/QTSP issued)
 
-### 4.2 Relying Party Obligations ###
-When receiving and processing the attestation, a Relying Party SHALL:
+### 4.2 Relying Party Obligations
+When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+### 4.2.1 – 4.2.8 Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
-A reference to rb-attestation-core verification should be made
-### 4.2.1- 4.2.4 - Base verication process
-
-This block should be removed when the core-verification is available
-````
-
-The first 4 steps are basic verification - similar for all attestations:
-### 4.2.1 Verify Cryptographic Integrity ###
-- Validate the digital signature over the attestation using the issuer's public key
-- For SD-JWT VC: Verify JWT signature and validate all disclosed claims
-### 4.2.2 Validate Issuer ###
-
-@TODO Werner
-- Issuer Authentification
-- Issuer Identification
-- Issuer  Authorization
-  - Verify that the issuer is authorized to issue Payment Terms Attestations
-  - Check the issuer's credentials against the appropriate trust framework (see Chapter 5)
-  - For "EAA": Confirm issuer authorization mechanisms
-
-### 4.2.3 Holder Related check ###
-- Revocation status check
-  - Query the designated revocation/status mechanism (Cap 6)
-  - Treat revoked or suspended attestations as invalid
-  - @TODO Forin Check Handle indeterminate status according to organizational risk policy
-
-- Check Temporal Validity ####
-  - Validate issuanceDate / iat to ensure the attestation was issued in the past
-  - Validate expirationDate / exp to ensure the attestation has not expired
-  - Consider attestation age in relation to business risk (e.g., payment terms updated recently vs. stale data)
-
-### 4.2.4  Holder Wallet Related check ###
-#### 4.2.4.1.Device binding  ####
-@TODO Werner
-- avoid copy & reply
-- WUA check
-````
-
-#### 4.2.5 Validate Integrity Rules ####
+### 4.2.9 Validate Integrity Rules
+@TODO Florin Integrity rules ? 
 - Verify that at least one UBO is present
 - Verify that all AMLR Article 62 mandatory attributes are present for each UBO
 - Verify that each UBO has at least one determination_methodology
 
-#### 4.2.6 UseCaseSpecific: Cross-Reference with Ownership and Control Lists (AMLR Article 60) ###
-AMLR compliance requires independent verification of UBO calculations.
+#### 4.2.10 UseCaseSpecific: Cross-Reference with Ownership and Control Lists (AMLR Article 60) ###
+@TODO Florin -> review with the banks in regard of banks obligation for Discrepancy
+The AMLR compliance requires independent verification of UBO calculations.
 
 *RPs SHALL:*
-- Request Ownership List and Control List in addition to UBO List
+- Request Ownership List and Control List in addition to UBO 
 - Perform Independent UBO Calculation:Apply ≥25% threshold to Ownership List → Identify natural persons with ≥25% total ownership
 - Analyze Control List for natural persons exercising ultimate control (even if <25% ownership)
 - Apply AMLR determination methodologies 
-- Cross-Check Against Presented UBO List:
-  - Compare UBO data: Verify that all independently calculated UBOs appear in the presented UBO List
+- Cross-Check Against Presented UBO :
+  - Compare UBO data: Verify that all independently calculated UBOs appear in the presented UBO 
   - Compare determination methodologies: Verify consistency
   - Compare ownership stakes (if disclosed)
-- Discrepancy Handling*
+- Discrepancy Handling
   - If UBOs are missing from presented list → notify entity to recalculate and update
   - If extra UBOs appear in presented list (not in calculated list) → request justification or evidence
   - If discrepancies relate to Transparency Register submission → report to register authority per AMLR Article 60
   - If discrepancies cannot be resolved -> risk cases: apply enhanced due diligence or decline relationship
 
-#### 4.2.7 UseCaseSpecific: UBO Identity Verification (AMLR Article 21 Procedure) ####
-For each UBO in the UBO List Attestation, the RP SHALL perform identity verification following this hierarchical procedure:
-
-@TODO Florin Specify the process 
+#### 4.2.12 UseCaseSpecific: UBO Identity Verification (AMLR Article 21 Procedure) ####
+For each UBO in the UBO  Attestation, the RP SHALL perform identity verification following this hierarchical procedure:
+@TODO Florin Specify the process (relevant in MVP+) 
 
 **Step 1: PID-Based Verification (Preferred Method)**
 - Request PID Attestation from the UBO (via EUDI Wallet)
-- Cross-Check PID Against UBO List :identification & other attributes
-- Check PID revocation status via the PID's revocation mechanism
-- Validate PID expiry date
+- Cross-Check PID Against UBO  :identification & other attributes
+- PID Attestation verification (Section 4.2)
 
 **Step 2: non-PID Based Verification ( e.g., mdoc for driver's license, future passport mdoc))**
 - Request presentation of identity document attestation
-- Cross-Check data against UBO List :identification & other attributes
+- Cross-Check data against UBO  :identification & other attributes
+- mDOC  Attestation verification (Section 4.2)
 
 **Step 3: Identity Document Verification (PoA)**
 - Request presentation of identity document attestation (PoA)
-- Cross-Check data against UBO List :identification & other attributes
-
+- Cross-Check data against UBO  :identification & other attributes
+- POA  Attestation verification (Section 4.2)
+- 
 **Step 4: Manual/physical verification (in-person or certified copy)**
 - Manual/physical identity document verification (in-person or certified copy)
 
 **Step 5: Unique Personal Identification Number Verification (if available)**
-- Check if unique_personal_identification_number is available in UBO List
+- Check if unique_personal_identification_number is available in UBO 
 - If available:Use the unique ID number for identity verification
-- Cross-reference with national ID databases (where legally permitted and accessible to RPs)
-- Verify unique_id_number_source to understand the number's origin (e.g., Spanish DNI, German Tax ID, French Social Security Number)
 
 ## 5 Trust anchors
 
-### 5.1 Trust Model for UBO List Attestations
-
-**For "EAA" - Self-Issued Attestations:**
-
-*The trust model relies on:*
-- EUCC prerequisite: The subject entity has a valid EUCC establishing its legal identity
-- Cross-verification: RPs independently verify UBO calculations by comparing against Ownership List and Control List
-- Transparency Register cross-reference: RPs may cross-check against national Transparency Register submissions
-
-**For "QEAA" Issued Attestations (QEAA):**
-
-*The trust model follows the standard eIDAS trust framework:*
-- Certificate Chain Verification: RP verifies the Issuer certificate chain to an eIDAS Trust List trust anchor
-- QEAA" Authorization: RP confirms the Issuer is authorized to issue UBO List Attestations ("QEAA")
-- Enhanced Assurance: "QEAA" issued UBO Lists provide higher assurance because the QTSP independently verifies the UBO calculation against source data (Ownership/Control Lists, company register data)
+### 5.1 Trust Model for UBO  Attestations
 
 ### 5.2 Trust Anchor Location Metadata
-UBO List Attestations SHOULD include the trust_anchor_url metadata attribute (see Section 2.6).
+UBO  Attestations SHOULD include the trust_anchor_url metadata attribute (see Section 2.6).
 @Florin -> trust topic 
 
 ## 6 Revocation
-Details on the revocation mechanisms and processes for UBO List attestations will be completed in a future version of this Rulebook. This will cover how Relying Parties can check the revocation status of an attestation.
+Details on the revocation mechanisms and processes for UBO  attestations will be completed in a future version of this Rulebook. This will cover how Relying Parties can check the revocation status of an attestation.
 @Florin -> revocation  topic
 
 ## 7 References
-This chapter will be completed in a future version of this Rulebook to include specific references relevant to UBO List attestations.
+This chapter will be completed in a future version of this Rulebook to include specific references relevant to UBO  attestations.
 
 ## 7 Compliance
 This chapter will be completed in a future version of this Rulebook.

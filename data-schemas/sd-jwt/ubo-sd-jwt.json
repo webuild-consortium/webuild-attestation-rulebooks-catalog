@@ -1,0 +1,325 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/ubolist-sd-jwt.json",
+  "title": "WeBuild – Ultimate Beneficial Owner – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a UBO List attestation as defined in the UBO List Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type. Base type is 'eu.we-build.ubo.1'."
+    },
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "The legal category of the attestation as defined by eIDAS 2."
+    },
+    "issuing_entity": {
+      "type": "string",
+      "description": "The identifier of the legal entity that issued the attestation. Typically the subject entity itself for self-issued EAA attestations, or the QTSP identifier for QEAA attestations."
+    },
+    "ubo": {
+      "type": "array",
+      "description": "List of Ultimate Beneficial Owner (UBO) objects. SHALL contain at least one UBO.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "A single Ultimate Beneficial Owner (UBO) with all associated attributes.",
+        "additionalProperties": false,
+        "properties": {
+          "person": {
+            "type": "object",
+            "description": "Information about the beneficial owner's natural person details.",
+            "additionalProperties": false,
+            "properties": {
+              "first_name": {
+                "type": "string",
+                "description": "The beneficial owner's first names in full (including all given names and middle names)."
+              },
+              "surname": {
+                "type": "string",
+                "description": "The beneficial owner's surnames in full (all family names/last names)."
+              },
+              "date_of_birth": {
+                "type": "string",
+                "format": "date",
+                "description": "Day, month, and year of birth of the UBO. SHALL follow ISO 8601 format (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "first_name",
+              "surname",
+              "date_of_birth"
+            ]
+          },
+          "citizenship": {
+            "type": "array",
+            "description": "Citizenship(s) held by the UBO (one or more nationalities). SHALL be an array of valid ISO 3166-1 alpha-3 country codes.",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            "minItems": 1
+          },
+          "birth_place": {
+            "type": "object",
+            "description": "Information about the birth place.",
+            "additionalProperties": false,
+            "properties": {
+              "locality": {
+                "type": "string",
+                "description": "Locality (city or town) where the natural person was born."
+              },
+              "country": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$",
+                "description": "Country where the natural person was born. SHALL be a valid ISO 3166-1 alpha-3 country code."
+              },
+              "region": {
+                "type": "string",
+                "description": "Optional additional detail on the region/state where the UBO was born."
+              }
+            },
+            "required": [
+              "locality",
+              "country"
+            ]
+          },
+          "residence_address": {
+            "type": "object",
+            "description": "Residence address where the owner currently resides. All sub-fields are optional.",
+            "additionalProperties": false,
+            "properties": {
+              "address": { "type": "string", "description": "The street address where the owner currently resides. Optional." },
+              "locality": { "type": "string", "description": "The city where the owner currently resides. Optional." },
+              "postal_code": { "type": "string", "description": "The postal or ZIP code of the owner's residence address. Optional." },
+              "region": { "type": "string", "description": "The state, province, or region of the owner's residence address. Optional." },
+              "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the owner currently resides. Optional." }
+            },
+            "required": [
+              "street",
+              "house_number",
+              "city",
+              "state",
+              "postal_code",
+              "country"
+            ]
+          },
+          "contact_address": {
+            "type": "object",
+            "description": "Contact address where the owner can be contacted, if different from residence address. All sub-fields are optional.",
+            "additionalProperties": false,
+            "properties": {
+              "address": { "type": "string", "description": "The street address where the owner can be contacted. Optional." },
+              "locality": { "type": "string", "description": "The city where the owner can be contacted. Optional." },
+              "postal_code": { "type": "string", "description": "The postal or ZIP code of the owner's contact address. Optional." },
+              "region": { "type": "string", "description": "The state, province, or region of the owner's contact address. Optional." },
+              "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the owner can be contacted. Optional." }
+            },
+            "required": [ ]
+          },
+          "natural_person_identifier": {
+            "type": "object",
+            "description": "Information about the identification of the beneficial owner(s).",
+            "additionalProperties": false,
+            "properties": {
+              "document_type": {
+                "type": "string",
+                "description": "A value defining the type of the identity document according to the nationality of the UBO.",
+                "enum": [
+                  "Passport",
+                  "National identity card",
+                  "Driver's license",
+                  "Residence permit",
+                  "Other official identity document"
+                ]
+              },
+              "document_number": {
+                "type": "string",
+                "description": "The number of the identity document (passport number, national ID number, driver's license number, etc.). Optional."
+              },
+              "issuing_country": {
+                "type": "string",
+                "description": "The country that issued the identity document (ISO 3166-1 alpha-3 code). Optional.",
+                "pattern": "^[A-Z]{3}$"
+              },
+              "document_expiry_date": {
+                "type": "string",
+                "format": "date",
+                "description": "The expiration date of the identity document. SHALL follow ISO 8601 format (YYYY-MM-DD)."
+              }
+            },
+            "required": [
+              "document_type",
+              "document_number",
+              "issuing_country",
+              "document_expiry_date"
+            ]
+          },
+          "natural_person_unique_identifier": {
+            "type": "object",
+            "description": "Information about government-assigned national unique identifiers for the UBO (optional).",
+            "additionalProperties": false,
+            "properties": {
+              "id_number": {
+                "type": "string",
+                "description": "A government-assigned number uniquely linked to the individual, independent of any specific ID document, and valid for the person's lifetime (e.g., social security number, national ID, fiscal code). This SHALL be included where available."
+              },
+              "id_source": {
+                "type": "string",
+                "description": "General description of the source of the unique personal identification number (e.g., 'Spanish National ID (DNI)', 'French Social Security Number', 'German Tax ID')."
+              }
+            },
+            "required": []
+          },
+          "ownership": {
+            "type": "object",
+            "description": "Information about the ownership stake and determination methodology of the beneficial owner.",
+            "additionalProperties": false,
+            "properties": {
+              "determination_methodology": {
+                "type": "array",
+                "description": "Specifies the calculation methodology applied in accordance with the AMLR and applicable Transparency Register requirement. This attribute classifies how the UBO was determined. SHALL use values from Section 2.8.2.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Direct ownership",
+                    "Indirect ownership",
+                    "Settlor",
+                    "Trustee",
+                    "Beneficiary",
+                    "Object of a power",
+                    "Default taker",
+                    "Protector",
+                    "Other",
+                    "Control through ownership",
+                    "Control through voting rights",
+                    "Control through right of appointments",
+                    "Control through veto rights",
+                    "Control through distribution of profits",
+                    "Control through formal or informal agreements",
+                    "Control through relationships between family members",
+                    "Control through acting in concert",
+                    "Control through nominee arrangements"
+                  ]
+                },
+                "minItems": 1,
+                "examples": [
+                  ["Direct ownership", "Control through voting rights"]
+                ]
+              },
+              "stake": {
+                "type": "number",
+                "minimum": 25.0,
+                "maximum": 100.0,
+                "description": "The percentage or level of ownership/control held by the UBO (≥25% per AMLR threshold, but may be higher).",
+                "examples": [
+                  35.5,
+                  50.0
+                ]
+              },
+              "held_date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date on which the beneficial interest is held (as of when the UBO calculation was performed). SHALL follow ISO 8601 format (YYYY-MM-DD).",
+                "examples": [
+                  "2024-01-01"
+                ]
+              }
+            },
+            "required": [
+              "determination_methodology",
+              "stake",
+              "held_date"
+            ]
+          }
+        },
+        "required": [
+          "person",
+          "citizenship",
+          "birth_place",
+          "residence_address",
+          "natural_person_identifier",
+          "ownership"
+        ]
+      }
+    },
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when validity period is greater than 24 hours.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'."
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status."
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential."
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For UBO List attestation this SHALL be 'revocation'."
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the UBO List attestation can be found or looked up.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the UBO List attestation schema used.",
+      "examples": [
+        "1.0",
+        "0.1.0"
+      ]
+    },
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": { "type": "string" },
+            "crv": { "type": "string" },
+            "x": { "type": "string" },
+            "y": { "type": "string" },
+            "n": { "type": "string" },
+            "e": { "type": "string" }
+          }
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+  },
+  "required": [
+    "vct",
+    "attestation_legal_category",
+    "issuing_entity",
+    "ubo"
+  ]
+}
