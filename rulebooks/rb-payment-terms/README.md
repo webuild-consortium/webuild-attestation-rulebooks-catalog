@@ -1,27 +1,23 @@
 # Attestation Rulebook for attestations of type Payment Terms
 
 * Author(s):
+  * [WeBuild Consortium]
 * Previous Authors
+
 * Reviewer(s):
-  * [Dominic Hurni, SBB]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
+  <a href="mailto:webuild@consortium.eu">WeBuild Consortium</a>
 
 * Feedback:
 
 ---
 
 ## 1 Introduction
-
-This attestation addresses the following question:
-
-**What are the agreed financial conditions — including payment due date, currency, and delivery terms — between a buyer and a supplier?**
-
-The Payment Terms Attestation provides a standardized, verifiable representation of the financial conditions agreed between a buyer and a supplier, enabling structured exchange of payment term attributes for use in KYS, KYC, supplier onboarding, financial risk assessment, and regulatory compliance processes
 
 ### 1.1 Document scope and purpose
 
@@ -129,6 +125,9 @@ following information:
 
 **Data Model:**
 
+The attestation structure is defined as a flat object:
+
+
 PaymentTerms
 ├─ payment_due
 ├─ currency
@@ -140,11 +139,9 @@ PaymentTerms
 ├─ contract_reference (optional)
 ├─ transaction_amount (optional)
 └─ delivery_location (optional)
-```
 
 
 **Explanation:**
-
 - `payment_due`, `currency`, `incoterm`, `buyer_identifier`, `supplier_identifier`, and
   `agreement_date` are mandatory top-level attributes.
 - `payment_reference_event`, `contract_reference`, `transaction_amount`, and
@@ -162,6 +159,7 @@ This attestation type MAY be classified as:
 #### 2.2.1 PaymentTerms Attributes
 
 | **Data Identifier**  | **Semantic Reference** | **Definition**                                                                                        | **Optionality** | **Encoding format**       |
+|----------------------|------------------------|-------------------------------------------------------------------------------------------------------|-----------------|---------------------------|
 | payment_due          | --                     | The number of days within which payment must be made, defined as a duration (e.g., P30D)              | M               | ISO 8601 duration (PnD)   |
 | currency             | --                     | The currency in which the payment is to be executed, following international standards                | M               | String (ISO 4217)         |
 | incoterm             | --                     | The delivery and risk transfer term agreed between buyer and seller                                   | M               | String (3-letter ICC code)|
@@ -172,6 +170,7 @@ This attestation type MAY be classified as:
 ### 2.3 Optional attributes
 
 | **Data Identifier**      | **Semantic Reference** | **Definition**                                                                                                                          | **Optionality** | **Encoding format**       |
+|--------------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-----------------|---------------------------|
 | payment_reference_event  | --                     | The event that triggers the start of the payment due period (e.g., "invoice_date", "delivery_date", "order_date")                      | O               | Enum (String)             |
 | contract_reference       | --                     | Reference to the underlying contract or purchase order                                                                                  | O               | String                    |
 | transaction_amount       | --                     | The monetary value of the transaction                                                                                                   | O               | Decimal (ISO 4217)        |
@@ -185,11 +184,11 @@ mandatory or optional as specified above.
 ### 2.5 Mandatory metadata
 
 | **Data Identifier**        | **Definition**                                                                                                                                                    | **Data type** |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
 | issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                      | DateTime      |
 | expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                         | DateTime      |
 | issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String        |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                           | String        |
-| vct                          | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed              | String        |
+| attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                   | String        |
 
 ### 2.6 Optional metadata
 
@@ -210,6 +209,7 @@ The `incoterm` attribute SHALL use one of the following standardized values as d
 Incoterms 2020 (International Chamber of Commerce):
 
 | **Code** | **Description**                  |
+|----------|----------------------------------|
 | EXW      | Ex Works                         |
 | FCA      | Free Carrier                     |
 | CPT      | Carriage Paid To                 |
@@ -240,6 +240,7 @@ The `payment_reference_event` attribute, when present, SHOULD use one of the fol
 standardized values:
 
 | **Code**          | **Definition**                                                              |
+|-------------------|-----------------------------------------------------------------------------|
 | invoice_date      | Payment due period starts from the date of the invoice                      |
 | delivery_date     | Payment due period starts from the date of delivery of goods or services    |
 | order_date        | Payment due period starts from the date the order was placed                |
@@ -294,6 +295,23 @@ The `.` notation is used to indicate the nesting of attributes.
 #### 3.2.1 Attribute Encoding Table
 
 | **Data Identifier**     | **Attribute identifier**    | **Encoding format**             | **Reference/Notes**                                                                                       | **Disclosable** |
+|-------------------------|-----------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------|-----------------|
+| payment_due             | `payment_due`               | String (ISO 8601 duration PnD)  | Duration in days within which payment must be made; SHALL be a non-negative ISO 8601 duration             | MUST            |
+| currency                | `currency`                  | String (ISO 4217)               | Currency of payment; SHALL be a valid ISO 4217 alphabetic code                                            | MUST            |
+| incoterm                | `incoterm`                  | String (3-letter ICC code)      | Delivery and risk transfer term; SHALL be a valid Incoterms 2020 code as defined in Section 2.8.1         | MUST            |
+| buyer_identifier        | `buyer_identifier`          | String                          | Unique identifier of the buyer party (e.g., EUID, VAT number, DUNS number)                               | MUST            |
+| supplier_identifier     | `supplier_identifier`       | String                          | Unique identifier of the supplier party (e.g., EUID, VAT number, DUNS number)                            | MUST            |
+| agreement_date          | `agreement_date`            | String (ISO 8601 YYYY-MM-DD)    | Date when the payment terms were agreed upon; SHALL NOT be a future date at issuance                      | MUST            |
+| payment_reference_event | `payment_reference_event`   | String (Enum)                   | Event triggering the start of the payment due period; optional; SHALL use values from Section 2.8.3       | MUST            |
+| contract_reference      | `contract_reference`        | String                          | Reference to the underlying contract or purchase order; optional                                          | MUST            |
+| transaction_amount      | `transaction_amount`        | Decimal (number)                | Monetary value of the transaction; SHALL be non-negative if present; optional                             | MUST            |
+| delivery_location       | `delivery_location`         | String (Address)                | Agreed delivery location as full address or standardized location identifier; optional                    | MUST            |
+| issuance_date           | `iat`                       | Number (Unix timestamp)         | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                      | MUST NOT        |
+| expiry_date             | `exp`                       | Number (Unix timestamp)         | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                        | MUST NOT        |
+| issuing_entity          | `issuing_entity`            | String                          | Identifier of the legal entity that issued the attestation (subject entity for EAA )     | MUST NOT        |
+| attestation_legal_category | `attestation_legal_category` | String                       | One of `EAA` as defined by eIDAS 2                                                    | MUST NOT        |
+| trust_anchor_url        | `trust_anchor_url`          | String (URI)                    | URL where the trust anchor for verifying this attestation can be retrieved; optional                      | MUST NOT        |
+| schema_version          | `schema_version`            | String                          | Version of the schema used; optional                                                                      | MUST NOT        |
 
 **Notes:**
 
@@ -359,23 +377,25 @@ The following is a non-normative example of a Payment Terms SD-JWT VC payload:
   "delivery_location": "Hauptstraße 12, 10115 Berlin, Germany",
 
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/paymentterms/2025",
-    "status_list_index": 789,
-    "status_purpose": "revocation"
+ "type": "status-list",
+ "status_list_credential": "https://issuer.example.com/status/paymentterms/2025",
+ "status_list_index": 789,
+ "status_purpose": "revocation"
   },
 
   "cnf": {
-    "jwk": {
-      "kty": "EC",
-      "crv": "P-256",
-      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-    }
+ "jwk": {
+   "kty": "EC",
+   "crv": "P-256",
+   "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+   "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+ }
   }
 }
 ```
 
+Sample payloads are provided under
+../data-schemas/sd-jwt/sample-data/payment-terms-sd-jwt-sample.json
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
@@ -384,8 +404,13 @@ The following is a non-normative example of a Payment Terms SD-JWT VC payload:
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
 
-
-
+### 4.2 Relying Party Obligations
+When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+### 4.2.1 – 4.2.8 Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+### 4.2.9 Validate Integrity Rules
+Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
 This chapter will be completed in a future version of this Rulebook.
