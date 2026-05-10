@@ -28,68 +28,82 @@
         "did:example:webuild-company-456"
       ]
     },
-    "economic_operator": {
+    "legal_person_id": {
       "type": "string",
-      "description": "Identifier of the employing organization according to the European Business Wallet (EBW) framework. SHALL be a non-empty string uniquely identifying the employing legal entity. Examples include EUID (e.g., DE-HRB-123456) or VAT number (e.g., DE123456789).",
+      "description": "Identifier of the employing legal entity according to the European Business Wallet (EBW) framework. SHALL be a non-empty string uniquely identifying the employing legal entity. Examples include EUID (e.g., DE-HRB-123456) or VAT number (e.g., DE123456789).",
       "examples": [
         "DE-HRB-123456",
         "DE123456789"
       ]
     },
-    "given_name": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Given name of the contact person. In the U.S., the first name of a Person. SHALL be a non-empty string. Semantic reference: https://schema.org/givenName.",
-      "examples": [
-        "Anna"
-      ]
-    },
-    "family_name": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Family name of the contact person. In the U.S., the last name of a Person. SHALL be a non-empty string. Semantic reference: https://schema.org/familyName.",
-      "examples": [
-        "Schmidt"
-      ]
-    },
-    "role": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Denotes a role that the contact person takes in the organization (e.g., sales, finance, quality, logistics). SHALL be a non-empty string describing the function within the organization. Semantic reference: https://www.w3.org/TR/vocab-org/.",
-      "examples": [
-        "sales",
-        "finance",
-        "quality",
-        "logistics",
-        "production",
-        "procurement",
-        "legal",
-        "technical"
-      ]
-    },
-    "employee_identifier": {
-      "type": "string",
-      "minLength": 1,
-      "description": "An alphanumeric identifier of the employee assigned by the employing organization. SHALL be a non-empty alphanumeric string unique within the organization.",
-      "examples": [
-        "EMP-DE-00789"
-      ]
-    },
-    "email": {
-      "type": "string",
-      "format": "email",
-      "description": "An electronic address through which the contact person can be contacted. SHALL be a valid email address conforming to RFC 4021. Semantic reference: Core Public Organisation Vocabulary (CPOV) – https://joinup.ec.europa.eu/collection/cpov.",
-      "examples": [
-        "anna.schmidt@example.com"
-      ]
-    },
-    "telephone": {
-      "type": "string",
-      "description": "A telephone number through which the contact person can be contacted. If provided, SHALL conform to ITU-T E.164 including the country code prefix (e.g., +49123456789). Semantic reference: Core Public Organisation Vocabulary (CPOV) – https://joinup.ec.europa.eu/collection/cpov.",
-      "pattern": "^\\+[1-9]\\d{1,14}$",
-      "examples": [
-        "+4915123456789"
-      ]
+    "contact_person": {
+      "type": "array",
+      "description": "An array of objects, each representing an individual contact person. At least one contact person object is required.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "Details for a single contact person.",
+        "additionalProperties": false,
+        "properties": {
+          "given_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Given name of the contact person. In the U.S., the first name of a Person. SHALL be a non-empty string. Semantic reference: https://schema.org/givenName.",
+            "examples": [
+              "Anna"
+            ]
+          },
+          "family_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Family name of the contact person. In the U.S., the last name of a Person. SHALL be a non-empty string. Semantic reference: https://schema.org/familyName.",
+            "examples": [
+              "Schmidt"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Denotes a role that the contact person takes in the organization (e.g., sales, finance, quality, logistics). SHALL be a non-empty string describing the function within the organization. Semantic reference: https://www.w3.org/TR/vocab-org/.",
+            "examples": [
+              "sales",
+              "finance",
+              "logistics"
+            ]
+          },
+          "employee_identifier": {
+            "type": "string",
+            "minLength": 1,
+            "description": "An alphanumeric identifier of the employee assigned by the employing organization. SHALL be a non-empty alphanumeric string unique within the organization.",
+            "examples": [
+              "EMP-DE-00789"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "An electronic address through which the contact person can be contacted. SHALL be a valid email address conforming to RFC 4021. Semantic reference: Core Public Organisation Vocabulary (CPOV) – https://joinup.ec.europa.eu/collection/cpov.",
+            "examples": [
+              "anna.schmidt@example.com"
+            ]
+          },
+          "telephone": {
+            "type": "string",
+            "description": "A telephone number through which the contact person can be contacted. If provided, SHALL conform to ITU-T E.164 including the country code prefix (e.g., +49123456789). Semantic reference: Core Public Organisation Vocabulary (CPOV) – https://joinup.ec.europa.eu/collection/cpov.",
+            "pattern": "^\\+[1-9]\\d{1,14}$",
+            "examples": [
+              "+4915123456789"
+            ]
+          }
+        },
+        "required": [
+          "given_name",
+          "family_name",
+          "role",
+          "employee_identifier",
+          "email"
+        ]
+      }
     },
     "status": {
       "type": "object",
@@ -178,11 +192,7 @@
     "vct",
     "attestation_legal_category",
     "issuing_entity",
-    "economic_operator",
-    "given_name",
-    "family_name",
-    "role",
-    "employee_identifier",
-    "email"
+    "legal_person_id",
+    "contact_person"
   ]
 }
