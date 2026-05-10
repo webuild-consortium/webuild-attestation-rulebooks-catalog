@@ -95,8 +95,8 @@ _Data Model:
 │   ├─ NaturalPerson (first name(M), surname(M), date of birth(M)) - mandatory
 │   ├─ BirthPlace (locality(M), country(M), region (O)) - mandatory
 │   ├─ Citizenship ( citizenship(s)) (1-n) - mandatory
-│   ├─ ResidenceAddress (street(M), house number(M), city(M), state(M), postal code(M), country(M)) - mandatory 
-│   ├─ ContactAddress (street(M), house number(M), city(M), state(M), postal code(M), country(s)) - optional  
+│   ├─ ResidenceAddress (street(M), house number(M), locality(M), region(M), postal_code(M), country(M)) - mandatory 
+│   ├─ ContactAddress (street(M), house number(M), locality(M), region(M), postal code(M), country(s)) - optional  
 │   ├─ Natural Person Identifier (document type(M), document number(M), issuing country(M), expiry date(M) ) - mandatory
 │   ├─ Natural Person Unique  Identifier (identifierUnique(0), identifierIssuingAuthority (0) ) - optional
 │   └─ Ownership (determination methodology(M), ownership stake(M), ownership held date(M)) - mandatory
@@ -147,28 +147,27 @@ Note: AMLR Article 62(b) requires "place and full date of birth." This Rulebook 
 
 **ResidenceAddress Attributes**
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                                     | **Data type**                          |
-|---------------------|------------------------|------------------------------------------------------------------------------------|----------------------------------------|
-| street              | ...                    | The street where the UBO currently resides                      | String                                                                            |
-| house_number        | ...                    | The house/building number where the UBO currently resides       | String                                                         |
-| city                | ...                    | The city where the UBO currently resides                       | String                                                         |
-| state               | ...                    | The state, province, or region where the UBO currently resides  | String                                                         |
-| code                | ...                    | The postal code where the UBO currently resides            | String                                                         |
-| country             | ...                    | The country or countries where the UBO currently resides        | Array of Strings (ISO 3166-1 alpha-3)                          |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                 | **Data type**                          |
+|---------------------|------------------------|----------------------------------------------------------------|----------------------------------------|
+| street              | ...                    | The street where the UBO currently resides                     | String                                                                            |
+| house_number        | ...                    | The house/building number where the UBO currently resides      | String                                                         |
+| locality            | ...                    | The city where the UBO currently resides                       | String                                                         |
+| region              | ...                    | The state, province, or region where the UBO currently resides | String                                                         |
+| postal_code         | ...                    | The postal code where the UBO currently resides                | String                                                         |
+| country             | ...                    | The country where the UBO currently resides                    | Array of Strings (ISO 3166-1 alpha-3)                          |
 
 Note: AMLR Article 62(c) requires "residential address" and (d) requires "country or countries of residence." This Rulebook provides full address breakdown for structured data.
 
-
 **ContactAddress Attributes**
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                               | **Data type**                          |
-|---------------------|------------------------|--------------------------------------------------------------|----------------------------------------|
-| street              | ...                    | The street where the UBO  or can be contacted                | String                                                                            |
-| house_number        | ...                    | The house/building number where the UBO can be contacted     | String                                                         |
-| city                | ...                    | The city where the UBO  can be contacted                     | String                                                         |
-| state               | ...                    | The state, province, or region where the UBO can be contacted | String                                                         |
-| code                | ...                    | The postal code where the UBO  can be contacted              | String                                                         |
-| country             | ...                    | The country or countries where the UBO can be contacted      | Array of Strings (ISO 3166-1 alpha-3)                          |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                           | **Data type**                          |
+|---------------------|------------------------|----------------------------------------------------------|----------------------------------------|
+| street              | ...                    | The street where the UBO  or can be contacted            | String                                                                            |
+| house_number        | ...                    | The house/building number where the UBO can be contacted | String                                                         |
+| locality                | ...                    | The city where the UBO  can be contacted                 | String                                                         |
+| region              | ...                    | The state, province, or region where the UBO can be contacted | String                                                         |
+| postal_code         | ...                    | The postal code where the UBO  can be contacted          | String                                                         |
+| country             | ...                    | The country where the UBO can be contacted      | Array of Strings (ISO 3166-1 alpha-3)                          |
 
 **NaturalPersonIdentifier Attributes**
 
@@ -345,15 +344,15 @@ The `.` notation is used to indicate the nesting of attributes.
 | **ResidenceAddress**                    |                                                              |                              |                                                                                                                                                         |                 |
 | ubo.residence_address.street            | `ubo[n].residence_address.street`                            | String                                 | The street where the UBO currently resides                                                                                                                                                 | MUST            |
 | ubo.residence_address.house_number      | `ubo[n].residence_address.house_number`                      | String                                 | The house/building number where the UBO currently resides                                                                                                                                  | MUST            |
-| ubo.residence_address.city              | `ubo[n].residence_address.city`                              | String                                 | The city where the UBO currently resides                                                                                                                                                   | MUST            |
-| ubo.residence_address.state             | `ubo[n].residence_address.state`                             | String                                 | The state, province, or region where the UBO currently resides                                                                                                                             | MAY             |
+| ubo.residence_address.locality              | `ubo[n].residence_address.locality`                              | String                                 | The city where the UBO currently resides                                                                                                                                                   | MUST            |
+| ubo.residence_address.region             | `ubo[n].residence_address.region`                             | String                                 | The state, province, or region where the UBO currently resides                                                                                                                             | MAY             |
 | ubo.residence_address.postal_code       | `ubo[n].residence_address.postal_code`                       | String                                 | The postal code where the UBO currently resides                                                                                                                                            | MUST            |
 | ubo.residence_address.country           | `ubo[n].residence_address.country`                           | Strings (ISO 3166-1 alpha-3)  | The country  where the UBO currently resides                                                                                                                                               | MUST            |
 | **ContactAddress**                      |                                                              |                              |                                                                                                                                                         |                 |
 | ubo.contact_address.street              | `ubo[n].contact_address.street`                              | String                                 | The street where the UBO  can be contacted                                                                                                                                                 | MUST            |
 | ubo.contact_address.house_number        | `ubo[n].contact_address.house_number`                        | String                                 | The house/building number where the UBO can be contacted                                                                                                                                   | MUST            |
-| ubo.contact_address.city                | `ubo[n].contact_address.city`                                | String                                 | The city where the UBO  can be contacted                                                                                                                                                   | MUST            |
-| ubo.contact_address.state               | `ubo[n].contact_address.state`                               | String                                 | The state, province, or region where the UBO can be contacted                                                                                                                              | MAY             |
+| ubo.contact_address.locality                | `ubo[n].contact_address.locality`                                | String                                 | The city where the UBO  can be contacted                                                                                                                                                   | MUST            |
+| ubo.contact_address.region              | `ubo[n].contact_address.region`                               | String                                 | The state, province, or region where the UBO can be contacted                                                                                                                              | MAY             |
 | ubo.contact_address.postal_code         | `ubo[n].contact_address.postal_code`                         | String                                 | The postal code where the UBO can be contacted                                                                                                                                             | MUST            |
 | ubo.contact_address.country             | `ubo[n].contact_address.country`                             | String (ISO 3166-1 alpha-3)            | The country or countries where the UBO  can be contacted                                                                                                                                   | MUST            |
 | **NaturalPersonIdentifier**             |                                                              |                              |                                                                                                                                                         |                 |

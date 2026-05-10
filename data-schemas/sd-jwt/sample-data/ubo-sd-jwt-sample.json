@@ -1,7 +1,7 @@
 {
   "vct": "eu.we-build.ubo.1",
-  "attestation_legal_category": "QEAA",
-  "issuing_entity": "did:example:qtsp-123",
+  "attestation_legal_category": "EAA",
+  "issuing_entity": "did:example:legal-entity-456",
   "ubo": [
     {
       "person": {
@@ -9,71 +9,79 @@
         "surname": "Smith",
         "date_of_birth": "1975-03-20"
       },
-      "citizenship": ["USA", "GBR"],
       "birth_place": {
-        "locality": "New York",
-        "country": "USA",
-        "region": "NY"
+        "locality": "London",
+        "country": "GBR",
+        "region": "England"
       },
+      "citizenship": ["GBR"],
       "residence_address": {
         "street": "10 Downing St",
         "house_number": "10",
-        "city": "London",
-        "state": "England",
+        "locality": "London",
+        "region": "England",
         "postal_code": "SW1A 2AA",
+        "country": "GBR"
+      },
+      "contact_address": {
+        "street": "123 Business Rd",
+        "house_number": "A",
+        "locality": "Reading",
+        "region": "England",
+        "postal_code": "RG1 1AB",
         "country": "GBR"
       },
       "natural_person_identifier": {
         "document_type": "Passport",
-        "document_number": "P123456789",
+        "document_number": "GB12345678",
         "issuing_country": "GBR",
-        "document_expiry_date": "2030-12-31"
+        "document_expiry_date": "2030-10-26"
       },
       "natural_person_unique_identifier": {
-        "id_number": "GB12345678A",
+        "id_number": "NI123456C",
         "id_source": "UK National Insurance Number"
       },
       "ownership": {
         "determination_methodology": ["Direct ownership", "Control through voting rights"],
-        "stake": 30.5,
-        "held_date": "2024-01-01"
+        "stake": 60.5,
+        "held_date": "2023-01-15"
       }
     },
     {
       "person": {
-        "first_name": "Robert",
+        "first_name": "Bob",
         "surname": "Johnson",
-        "date_of_birth": "1988-11-05"
+        "date_of_birth": "1982-06-10"
       },
-      "citizenship": ["DEU"],
       "birth_place": {
-        "locality": "Berlin",
-        "country": "DEU"
+        "locality": "Paris",
+        "country": "FRA"
       },
+      "citizenship": ["FRA", "DEU"],
       "residence_address": {
-        "street": "Hauptstrasse",
-        "house_number": "5",
-        "city": "Berlin",
-        "state": "Berlin",
-        "postal_code": "10115",
-        "country": "DEU"
+        "street": "Rue de la Paix",
+        "house_number": "25",
+        "locality": "Paris",
+        "region": "Ile-de-France",
+        "postal_code": "75002",
+        "country": "FRA"
       },
       "natural_person_identifier": {
         "document_type": "National identity card",
-        "document_number": "D987654321",
-        "issuing_country": "DEU",
-        "document_expiry_date": "2028-06-15"
+        "document_number": "FR987654321",
+        "issuing_country": "FRA",
+        "document_expiry_date": "2028-05-01"
       },
       "ownership": {
-        "determination_methodology": ["Indirect ownership", "Control through nominee arrangements"],
-        "stake": 27.0,
-        "held_date": "2024-01-01"
+        "determination_methodology": ["Indirect ownership", "Control through formal or informal agreements"],
+        "stake": 35.0,
+        "held_date": "2023-02-01"
       }
     }
   ],
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://example.com/status/ubo-list-1",
+    "status_list_credential": "https://issuer.example.com/status/ubolist/2025",
     "status_list_index": 45,
     "status_purpose": "revocation"
   },

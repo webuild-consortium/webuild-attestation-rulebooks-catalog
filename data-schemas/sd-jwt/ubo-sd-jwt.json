@@ -13,7 +13,8 @@
     },
     "attestation_legal_category": {
       "type": "string",
-      "description": "The legal category of the attestation as defined by eIDAS 2."
+      "description": "The legal category of the attestation as defined by eIDAS 2.",
+      "enum": ["EAA", "QEAA"]
     },
     "issuing_entity": {
       "type": "string",
@@ -88,36 +89,37 @@
           },
           "residence_address": {
             "type": "object",
-            "description": "Residence address where the owner currently resides. All sub-fields are optional.",
+            "description": "Residence address where the UBO currently resides.",
             "additionalProperties": false,
             "properties": {
-              "address": { "type": "string", "description": "The street address where the owner currently resides. Optional." },
-              "locality": { "type": "string", "description": "The city where the owner currently resides. Optional." },
-              "postal_code": { "type": "string", "description": "The postal or ZIP code of the owner's residence address. Optional." },
-              "region": { "type": "string", "description": "The state, province, or region of the owner's residence address. Optional." },
-              "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the owner currently resides. Optional." }
+              "street": { "type": "string", "description": "The street where the UBO currently resides." },
+              "house_number": { "type": "string", "description": "The house/building number where the UBO currently resides." },
+              "locality": { "type": "string", "description": "The city where the UBO currently resides." },
+              "region": { "type": "string", "description": "The state, province, or region where the UBO currently resides. Optional." },
+              "postal_code": { "type": "string", "description": "The postal code where the UBO currently resides." },
+              "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "The country where the UBO currently resides (ISO 3166-1 alpha-3 code)." }
             },
             "required": [
               "street",
               "house_number",
-              "city",
-              "state",
+              "locality",
               "postal_code",
               "country"
             ]
           },
           "contact_address": {
             "type": "object",
-            "description": "Contact address where the owner can be contacted, if different from residence address. All sub-fields are optional.",
+            "description": "Contact address where the UBO can be contacted, if different from residence address. All sub-fields are optional.",
             "additionalProperties": false,
             "properties": {
-              "address": { "type": "string", "description": "The street address where the owner can be contacted. Optional." },
-              "locality": { "type": "string", "description": "The city where the owner can be contacted. Optional." },
-              "postal_code": { "type": "string", "description": "The postal or ZIP code of the owner's contact address. Optional." },
-              "region": { "type": "string", "description": "The state, province, or region of the owner's contact address. Optional." },
-              "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the owner can be contacted. Optional." }
+              "street": { "type": "string", "description": "The street where the UBO can be contacted." },
+              "house_number": { "type": "string", "description": "The house/building number where the UBO can be contacted." },
+              "locality": { "type": "string", "description": "The city where the UBO can be contacted." },
+              "region": { "type": "string", "description": "The state, province, or region where the UBO can be contacted. Optional." },
+              "postal_code": { "type": "string", "description": "The postal code where the UBO can be contacted." },
+              "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "The country where the UBO can be contacted (ISO 3166-1 alpha-3 code)." }
             },
-            "required": [ ]
+            "required": []
           },
           "natural_person_identifier": {
             "type": "object",
@@ -137,11 +139,11 @@
               },
               "document_number": {
                 "type": "string",
-                "description": "The number of the identity document (passport number, national ID number, driver's license number, etc.). Optional."
+                "description": "The number of the identity document (passport number, national ID number, driver's license number, etc.)."
               },
               "issuing_country": {
                 "type": "string",
-                "description": "The country that issued the identity document (ISO 3166-1 alpha-3 code). Optional.",
+                "description": "The country that issued the identity document (ISO 3166-1 alpha-3 code).",
                 "pattern": "^[A-Z]{3}$"
               },
               "document_expiry_date": {
@@ -204,28 +206,18 @@
                     "Control through nominee arrangements"
                   ]
                 },
-                "minItems": 1,
-                "examples": [
-                  ["Direct ownership", "Control through voting rights"]
-                ]
+                "minItems": 1
               },
               "stake": {
                 "type": "number",
                 "minimum": 25.0,
                 "maximum": 100.0,
-                "description": "The percentage or level of ownership/control held by the UBO (≥25% per AMLR threshold, but may be higher).",
-                "examples": [
-                  35.5,
-                  50.0
-                ]
+                "description": "The percentage or level of ownership/control held by the UBO (≥25% per AMLR threshold, but may be higher)."
               },
               "held_date": {
                 "type": "string",
                 "format": "date",
-                "description": "Date on which the beneficial interest is held (as of when the UBO calculation was performed). SHALL follow ISO 8601 format (YYYY-MM-DD).",
-                "examples": [
-                  "2024-01-01"
-                ]
+                "description": "Date on which the beneficial interest is held (as of when the UBO calculation was performed). SHALL follow ISO 8601 format (YYYY-MM-DD)."
               }
             },
             "required": [
@@ -279,41 +271,11 @@
     "trust_anchor_url": {
       "type": "string",
       "format": "uri",
-      "description": "URL at which a machine-readable version of the trust anchor used for verifying the UBO List attestation can be found or looked up.",
-      "examples": [
-        "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl"
-      ]
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the UBO List attestation can be found or looked up."
     },
     "schema_version": {
       "type": "string",
-      "description": "Version of the UBO List attestation schema used.",
-      "examples": [
-        "1.0",
-        "0.1.0"
-      ]
-    },
-    "cnf": {
-      "type": "object",
-      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
-      "additionalProperties": false,
-      "properties": {
-        "jwk": {
-          "type": "object",
-          "description": "Public key bound to the holder.",
-          "additionalProperties": true,
-          "properties": {
-            "kty": { "type": "string" },
-            "crv": { "type": "string" },
-            "x": { "type": "string" },
-            "y": { "type": "string" },
-            "n": { "type": "string" },
-            "e": { "type": "string" }
-          }
-        }
-      },
-      "required": [
-        "jwk"
-      ]
+      "description": "Version of the UBO List attestation schema used."
     }
   },
   "required": [
