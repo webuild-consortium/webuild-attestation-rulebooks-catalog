@@ -375,7 +375,7 @@ The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
   }
 }
 ```
-Sample payloads are provided under ../data-schemas/sd-jwt-vc/sample-data/companyinfo-sd-jwt-sample.json
+Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/company-info-sd-jwt-sample.json
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
@@ -384,15 +384,13 @@ Sample payloads are provided under ../data-schemas/sd-jwt-vc/sample-data/company
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
 
-### 4.2 Relying Party Obligations ###
-When receiving and processing the attestation, a Relying Party SHALL:
-
-### 4.2.1- 4.2.4 - Base verification process
-A base verification for the attestation should be made.
-https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/base-verification.md#42-relying-party-obligations
-
-#### 4.2.5 Validate Integrity Rules ####
-This chapter will be completed in a future version of this Rulebook.
+### 4.2 Relying Party Obligations
+When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+### 4.2.1 – 4.2.8 Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+### 4.2.9 Validate Integrity Rules
+Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
 This chapter will be completed in a future version of this Rulebook.

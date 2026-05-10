@@ -408,110 +408,102 @@ The `status` claim **SHALL** be a JSON object with the following members:
 }
 ```
 
-#### 3.2.3 Example Payload
-The following is a non-normative example of a UBO  SD-JWT VC payload:
+### 3.2.3 Example Payload
 
+The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
 ```
 {
-  "vct": "eu.we-build.ubolist.1",
-  "iss": "https://issuer.example.com",
-  "iat": 1673875200,
-  "exp": 1705411200,
+  "vct": "eu.we-build.ubo.1",
   "attestation_legal_category": "EAA",
-  "schema_version": "1.0",
+  "issuing_entity": "did:example:qtsp-123",
   "ubo": [
     {
       "person": {
-        "first_name": "John",
-        "surname": "Doe",
-        "date_of_birth": "1980-05-15"
+        "first_name": "Alice",
+        "surname": "Smith",
+        "date_of_birth": "1975-03-20"
       },
-      "citizenships": ["DEU"],
+      "citizenship": ["USA", "GBR"],
       "birth_place": {
-        "birth_place_locality": "Berlin",
-        "birth_place_country": "DEU",
-        "birth_place_region": "Berlin"
+        "locality": "New York",
+        "country": "USA",
+        "region": "NY"
       },
       "residence_address": {
-        "street": "Main Street",
+        "street": "10 Downing St",
         "house_number": "10",
-        "city": "Berlin",
-        "state": "Berlin",
-        "postal_code": "10115",
-        "countries": ["DEU"]
+        "city": "London",
+        "state": "England",
+        "postal_code": "SW1A 2AA",
+        "country": "GBR"
       },
-      "contact_address": {
-        "street": "Alternate Contact Str.",
-        "house_number": "5A",
-        "city": "Hamburg",
-        "state": "Hamburg",
-        "postal_code": "20095",
-        "countries": ["DEU"]
+      "natural_person_identifier": {
+        "document_type": "Passport",
+        "document_number": "P123456789",
+        "issuing_country": "GBR",
+        "document_expiry_date": "2030-12-31"
       },
-      "identification": {
-        "document_type": "National identity card",
-        "document_number": "123456789",
-        "issuing_country": "DEU",
-        "expiry_date": "2030-12-31"
+      "natural_person_unique_identifier": {
+        "id_number": "GB12345678A",
+        "id_source": "UK National Insurance Number"
       },
-      "permanent_identifier": {
-        "unique_personal_identification_number": "DE1234567890123",
-        "unique_id_number_source": "German Tax ID"
-      },
-      "ownership_info": {
+      "ownership": {
         "determination_methodology": ["Direct ownership", "Control through voting rights"],
-        "ownership_stake": 35.5,
-        "ownership_held_date": "2024-01-01"
+        "stake": 30.5,
+        "held_date": "2024-01-01"
       }
     },
     {
       "person": {
-        "first_name": "Jane",
-        "surname": "Smith",
-        "date_of_birth": "1975-11-20"
+        "first_name": "Robert",
+        "surname": "Johnson",
+        "date_of_birth": "1988-11-05"
       },
-      "citizenships": ["FRA"],
+      "citizenship": ["DEU"],
       "birth_place": {
-        "birth_place_locality": "Paris",
-        "birth_place_country": "FRA"
+        "locality": "Berlin",
+        "country": "DEU"
       },
       "residence_address": {
-        "street": "Rue de la Paix",
+        "street": "Hauptstrasse",
         "house_number": "5",
-        "city": "Paris",
-        "postal_code": "75002",
-        "countries": ["FRA"]
+        "city": "Berlin",
+        "state": "Berlin",
+        "postal_code": "10115",
+        "country": "DEU"
       },
-      "identification": {
-        "document_type": "Passport",
-        "document_number": "ABC987654",
-        "issuing_country": "FRA",
-        "expiry_date": "2028-06-30"
+      "natural_person_identifier": {
+        "document_type": "National identity card",
+        "document_number": "D987654321",
+        "issuing_country": "DEU",
+        "document_expiry_date": "2028-06-15"
       },
-      "ownership_info": {
-        "determination_methodology": ["Indirect ownership"],
-        "ownership_stake": 28.0,
-        "ownership_held_date": "2023-07-15"
+      "ownership": {
+        "determination_methodology": ["Indirect ownership", "Control through nominee arrangements"],
+        "stake": 27.0,
+        "held_date": "2024-01-01"
       }
     }
   ],
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/ubolist/2025",
-    "status_list_index": 456,
+    "status_list_credential": "https://example.com/status/ubo-list-1",
+    "status_list_index": 45,
     "status_purpose": "revocation"
   },
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl",
+  "schema_version": "0.1.0",
   "cnf": {
     "jwk": {
       "kty": "EC",
       "crv": "P-256",
-      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+      "x": "abc-123_def-456_ghi-789_jkl-012",
+      "y": "mno-345_pqr-678_stu-901_vwx-234"
     }
   }
 }
 ```
-Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/ubo-sd-jwt.json
+Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/ubo-sd-jwt-sample.json
 
 #### 3.3 W3C Verifiable Credentials Data Model-based encoding
 @TODO — To be discussed: which stakeholders will support this format and which use cases require it.        

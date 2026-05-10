@@ -119,23 +119,20 @@ procurement, and onboarding processes.
 
 The attestation structure is defined as follows:
 
-ContactPerson
-├─ economic_operator (mandatory – organization identifier per EBW)
-├─ given_name (mandatory)
-├─ family_name (mandatory)
-├─ role (mandatory)
-├─ employee_identifier (mandatory)
-├─ email (mandatory)
-└─ telephone (optional)
-
+├─ legal_person_id (mandatory)
+├─ contact_person (1-n) 
+├─── given_name (mandatory)
+├─── family_name (mandatory)
+├─── role (mandatory)
+├─── employee_identifier (mandatory)
+├─── email (mandatory)
+└─── telephone (optional)
 
 **Explanation:**
-- `economic_operator` links the contact person to their employing organization, identified per
-  the European Business Wallet (EBW) framework.
-- `given_name`, `family_name`, `role`, `employee_identifier`, and `email` are mandatory
-  attributes required to establish a valid, actionable contact person record.
-- `telephone` is optional and may be provided to support direct voice communication.
-- The attestation is a flat object — no nested sub-objects are required.
+- `legal_person_id` links the contact person to their employing legal entity, identified per the European Business Wallet (EBW) framework.
+- The `contact_person` object encapsulates all details for a specific contact, including `given_name`, `family_name`, `role`, `employee_identifier`, and `email` which are mandatory for a valid, actionable contact person record.
+- `telephone` is an optional attribute within the contact_person object and may be provided for direct voice communication.
+- The attestation structure allows for one or more contact_person entries, each being a distinct object.
 
 **Attestation Classification:**
 
@@ -146,15 +143,24 @@ This attestation type is classified as:
 
 ### 2.2 Mandatory attributes
 
-#### 2.2.1 ContactPerson Attributes
+#### 2.2.1 ContactPerson List Attributes
 
-| **Data Identifier**   | **Semantic Reference**                                                                     | **Definition**                                                                         | **Optionality** | **Encoding format** |
-|-----------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|-----------------|---------------------|
-| economic_operator     | EBW Organization Identifier                                                                | Identifier of the employing organization according to the European Business Wallet (EBW) framework | M | tstr        |
-| given_name            | [givenName – Schema.org Property](https://schema.org/givenName)                            | Given name. In the U.S., the first name of a Person.                                   | M               | tstr                |
+
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                  | **Optionality**  | **Encoding format** |
+|---------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------|------------------|---------------------|
+| legal_person_id     | --                     | EBW Organization Identifier	Identifier of the employing legal entity according to the European Business Wallet (EBW) framework  | M                | 	tstr               |
+| contact_person	   | --	                    | Object representing details of an individual contact person. This can be repeated for multiple contacts.	                       | M (at least one) | 	Object             |
+
+
+** ContactPerson ** Attributes
+
+| **Data Identifier**   | **Semantic Reference**                                                                    | **Definition**                                                                         | **Optionality** | **Encoding format** |
+|-----------------------|-------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|-----------------|---------------------|
+| given_name            | [givenName – Schema.org Property](https://schema.org/givenName)                           | Given name. In the U.S., the first name of a Person.                                   | M               | tstr                |
 | family_name           | [familyName – Schema.org Property](https://schema.org/familyName)                         | Family name. In the U.S., the last name of a Person.                                   | M               | tstr                |
-| role                  | [The Organization Ontology](https://www.w3.org/TR/vocab-org/)                              | Denotes a role that a Person takes in an organization (e.g., sales, finance, quality, logistics) | M      | tstr                |
-| employee_identifier   | --                                                                                         | An alphanumeric identifier of the employee assigned by the organization                | M               | tstr                |
+| role                  | [The Organization Ontology](https://www.w3.org/TR/vocab-org/)                             | Denotes a role that a Person takes in an organization (e.g., sales, finance, quality, logistics) | M      | tstr                |
+| employee_identifier   | --                                          | An alphanumeric identifier of the employee assigned by the organization                | M               | tstr                |
 | email                 | [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | An electronic address through which the Contact Person can be contacted                | M               | tstr                |
 
 ### 2.3 Optional attributes
@@ -192,7 +198,7 @@ No conditional metadata elements are defined for this attestation type.
 
 #### 2.8.1 Organization Identifier
 
-The `economic_operator` attribute SHALL use identifiers from official company registers or
+The `legal_person_id ` attribute SHALL use identifiers from official company registers or
 commercial registers, consistent with the European Business Wallet (EBW) framework. Examples
 include:
 
@@ -238,13 +244,13 @@ The following integrity rules SHALL be enforced:
   MIME Header Fields).
 - `telephone`, if provided, SHALL conform to **ITU-T E.164** (The international public
   telecommunication numbering plan), including the country code prefix (e.g., +49123456789).
-- `economic_operator` SHALL be a non-empty string uniquely identifying the employing
+- `legal_person_id ` SHALL be a non-empty string uniquely identifying the employing
   organization.
 - Each attribute SHALL appear at most once in the attestation.
 - The attestation SHALL be issued by the employing organization (self-issued EAA) or by an
   authorized issuer.
 - The contact person named in the attestation SHALL be an active employee of the
-  `economic_operator` at the time of issuance.
+  `legal_person_id ` at the time of issuance.
 
 
 ## 3 Attestation encoding
@@ -269,21 +275,28 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**        | **Attribute identifier**    | **Encoding format** | **Reference/Notes**                                                                                                    | **Disclosable** |
-|----------------------------|-----------------------------|---------------------|------------------------------------------------------------------------------------------------------------------------|-----------------|
-| economic_operator          | `economic_operator`         | String              | Identifier of the employing organization per EBW framework (e.g., EUID, VAT number)                                   | MUST            |
-| given_name                 | `given_name`                | String              | Given name of the contact person; [givenName – Schema.org](https://schema.org/givenName)                              | MUST            |
-| family_name                | `family_name`               | String              | Family name of the contact person; [familyName – Schema.org](https://schema.org/familyName)                           | MUST            |
-| role                       | `role`                      | String              | Role of the contact person within the organization; [Organization Ontology](https://www.w3.org/TR/vocab-org/)          | MUST            |
-| employee_identifier        | `employee_identifier`       | String              | Alphanumeric employee identifier assigned by the employing organization                                                | MUST            |
-| email                      | `email`                     | String              | Email address of the contact person; SHALL conform to RFC 4021; [CPOV](https://joinup.ec.europa.eu/collection/cpov)   | MUST            |
-| telephone                  | `telephone`                 | String              | Telephone number; SHALL conform to ITU-T E.164; [CPOV](https://joinup.ec.europa.eu/collection/cpov); optional         | MUST            |
-| issuance_date              | `iat`                       | Number (Unix timestamp) | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                               | MUST NOT        |
-| expiry_date                | `exp`                       | Number (Unix timestamp) | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                                  | MUST NOT        |
-| issuing_entity             | `issuing_entity`            | String              | Identifier of the legal entity that issued the attestation (employing organization for EAA)                           | MUST NOT        |
-| attestation_legal_category | `attestation_legal_category` | String             | One of `EAA` as defined by eIDAS 2                                                                 | MUST NOT        |
-| trust_anchor_url           | `trust_anchor_url`          | String (URI)        | URL where the trust anchor for verifying this attestation can be retrieved; optional                                   | MUST NOT        |
-| schema_version             | `schema_version`            | String              | Version of the schema used; optional                                                                                   | MUST NOT        |
+
+legal_person_id	legal_person_id	String	Identifier of the employing legal entity per EBW framework (e.g., EUID, VAT number)	MUST
+contact_person	contact_person	JSON Array	Array of contact person objects. Each object in the array is itself disclosable, and its members are individually disclosable.	MUST (Array itself)
+**ControlNaturalPerson**
+
+| **Data Identifier**        | **Attribute identifier**     | **Encoding format**     | **Reference/Notes**                                                                                                              | **Disclosable** |
+|----------------------------|------------------------------|-------------------------|----------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| legal_person_id            | legal_person_id	             | String	               | Identifier of the employing legal entity per EBW framework (e.g., EUID, VAT number)	                                             |MUST|
+| contact_person	          | contact_person	              | Array                  | Array of contact person objects. Each object in the array is itself disclosable, and its members are individually disclosable. 	 |MUST (Array itself)|
+| **ControlNaturalPerson**   |                              |                         |                                                                                                                                  |                 |
+| given_name                 | `given_name`                 | String                  | Given name of the contact person; [givenName – Schema.org](https://schema.org/givenName)                                         | MUST            |
+| family_name                | `family_name`                | String                  | Family name of the contact person; [familyName – Schema.org](https://schema.org/familyName)                                      | MUST            |
+| role                       | `role`                       | String                  | Role of the contact person within the organization; [Organization Ontology](https://www.w3.org/TR/vocab-org/)                    | MUST            |
+| employee_identifier        | `employee_identifier`        | String                  | Alphanumeric employee identifier assigned by the employing organization                                                          | MUST            |
+| email                      | `email`                      | String                  | Email address of the contact person; SHALL conform to RFC 4021; [CPOV](https://joinup.ec.europa.eu/collection/cpov)              | MUST            |
+| telephone                  | `telephone`                  | String                  | Telephone number; SHALL conform to ITU-T E.164; [CPOV](https://joinup.ec.europa.eu/collection/cpov); optional                    | MUST            |
+| issuance_date              | `iat`                        | Number (Unix timestamp) | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                                             | MUST NOT        |
+| expiry_date                | `exp`                        | Number (Unix timestamp) | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                                                | MUST NOT        |
+| issuing_entity             | `issuing_entity`             | String                  | Identifier of the legal entity that issued the attestation (employing organization for EAA)                                      | MUST NOT        |
+| attestation_legal_category | `attestation_legal_category` | String                  | One of `EAA` as defined by eIDAS 2                                                                                               | MUST NOT        |
+| trust_anchor_url           | `trust_anchor_url`           | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved; optional                                             | MUST NOT        |
+| schema_version             | `schema_version`             | String                  | Version of the schema used; optional                                                                                             | MUST NOT        |
 
 **Notes:**
 
@@ -338,6 +351,25 @@ The following is a non-normative example of a Contact Person SD-JWT VC payload:
   "schema_version": "1.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
 
+  "legal_person_id": "DE-HRB-123456",
+  "contact_person": [
+    {
+      "given_name": "Anna",
+      "family_name": "Schmidt",
+      "role": "logistics",
+      "employee_identifier": "EMP-DE-00789",
+      "email": "anna.schmidt@example.com",
+      "telephone": "+4915123456789"
+    },
+    {
+      "given_name": "Max",
+      "family_name": "Mustermann",
+      "role": "finance",
+      "employee_identifier": "EMP-DE-00790",
+      "email": "max.mustermann@example.com",
+      "telephone": "+4915298765432"
+    }
+  ],
   "economic_operator": "DE-HRB-123456",
   "given_name": "Anna",
   "family_name": "Schmidt",
@@ -364,7 +396,7 @@ The following is a non-normative example of a Contact Person SD-JWT VC payload:
 }
 ```
 Sample payloads are provided under
-../data-schemas/sd-jwt-vc/sample-data/contactperson-sd-jwt-sample.json
+../data-schemas/sd-jwt/sample-data/contact-person-sd-jwt-sample.json
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
@@ -373,14 +405,13 @@ Sample payloads are provided under
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
 
-### 4.2 Relying Party Obligations ###
-When receiving and processing the attestation, a Relying Party SHALL:
-
-### 4.2.1- 4.2.4 - Base verification process
-A base verification for the attestation should be made.
-
-#### 4.2.5 Validate Integrity Rules ####
-This chapter will be completed in a future version of this Rulebook.
+### 4.2 Relying Party Obligations
+When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+### 4.2.1 – 4.2.8 Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+### 4.2.9 Validate Integrity Rules
+Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
 This chapter will be completed in a future version of this Rulebook.
