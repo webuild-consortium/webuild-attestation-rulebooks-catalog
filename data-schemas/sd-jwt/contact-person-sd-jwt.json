@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/contactperson-sd-jwt.json",
+  "title": "WeBuild – Contact Person (ContactPerson) – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a ContactPerson attestation as defined in the ContactPerson Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type. Base type is 'eu.we-build.contactperson.1'.",
+      "examples": [
+        "eu.we-build.contactperson.1"
+      ]
+    },
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "The legal category of the attestation as defined by eIDAS 2.",
+      "enum": [
+        "EAA"
+      ]
+    },
+    "issuing_entity": {
+      "type": "string",
+      "description": "The identifier of the legal entity that issued the attestation. For Contact Person attestations this is typically the employing organization (self-issued EAA).",
+      "examples": [
+        "did:example:webuild-company-456"
+      ]
+    },
+    "legal_person_id": {
+      "type": "string",
+      "description": "Identifier of the employing legal entity according to the European Business Wallet (EBW) framework. SHALL be a non-empty string uniquely identifying the employing legal entity. Examples include EUID (e.g., DE-HRB-123456) or VAT number (e.g., DE123456789).",
+      "examples": [
+        "DE-HRB-123456",
+        "DE123456789"
+      ]
+    },
+    "contact_person": {
+      "type": "array",
+      "description": "An array of objects, each representing an individual contact person. At least one contact person object is required.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "Details for a single contact person.",
+        "additionalProperties": false,
+        "properties": {
+          "given_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Given name of the contact person. In the U.S., the first name of a Person. SHALL be a non-empty string. Semantic reference: https://schema.org/givenName.",
+            "examples": [
+              "Anna"
+            ]
+          },
+          "family_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Family name of the contact person. In the U.S., the last name of a Person. SHALL be a non-empty string. Semantic reference: https://schema.org/familyName.",
+            "examples": [
+              "Schmidt"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Denotes a role that the contact person takes in the organization (e.g., sales, finance, quality, logistics). SHALL be a non-empty string describing the function within the organization. Semantic reference: https://www.w3.org/TR/vocab-org/.",
+            "examples": [
+              "sales",
+              "finance",
+              "logistics"
+            ]
+          },
+          "employee_identifier": {
+            "type": "string",
+            "minLength": 1,
+            "description": "An alphanumeric identifier of the employee assigned by the employing organization. SHALL be a non-empty alphanumeric string unique within the organization.",
+            "examples": [
+              "EMP-DE-00789"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "An electronic address through which the contact person can be contacted. SHALL be a valid email address conforming to RFC 4021. Semantic reference: Core Public Organisation Vocabulary (CPOV) – https://joinup.ec.europa.eu/collection/cpov.",
+            "examples": [
+              "anna.schmidt@example.com"
+            ]
+          },
+          "telephone": {
+            "type": "string",
+            "description": "A telephone number through which the contact person can be contacted. If provided, SHALL conform to ITU-T E.164 including the country code prefix (e.g., +49123456789). Semantic reference: Core Public Organisation Vocabulary (CPOV) – https://joinup.ec.europa.eu/collection/cpov.",
+            "pattern": "^\\+[1-9]\\d{1,14}$",
+            "examples": [
+              "+4915123456789"
+            ]
+          }
+        },
+        "required": [
+          "given_name",
+          "family_name",
+          "role",
+          "employee_identifier",
+          "email"
+        ]
+      }
+    },
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period is greater than 24 hours.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status.",
+          "examples": [
+            "https://issuer.example.com/status/contactperson/2025"
+          ]
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential.",
+          "examples": [
+            321
+          ]
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For ContactPerson attestation this SHALL be 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the ContactPerson attestation can be found or looked up.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the ContactPerson attestation schema used.",
+      "examples": [
+        "1.0",
+        "0.1.0"
+      ]
+    },
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": { "type": "string" },
+            "crv": { "type": "string" },
+            "x": { "type": "string" },
+            "y": { "type": "string" },
+            "n": { "type": "string" },
+            "e": { "type": "string" }
+          }
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+  },
+  "required": [
+    "vct",
+    "attestation_legal_category",
+    "issuing_entity",
+    "legal_person_id",
+    "contact_person"
+  ]
+}

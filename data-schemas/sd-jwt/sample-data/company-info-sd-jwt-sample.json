@@ -1,0 +1,67 @@
+{
+  "vct": "eu.we-build.companyinfo.1",
+  "attestation_legal_category": "EAA",
+  "issuing_authority": "Chamber of Commerce Germany",
+  "issuing_country": "DEU",
+  "issuing_entity": "did:example:webuild-legal-entity-456",
+  "employee_number": 1250,
+  "trade_alias": [
+    "BuildCo",
+    "WeBuild Solutions"
+  ],
+  "previous_legal_name": [
+    "Former Company Name GmbH"
+  ],
+  "financial_statements": {
+    "taxonomy": "IFRS",
+    "facts": [
+      {
+        "id": "fact-001",
+        "concept": "Revenue",
+        "value": 45000000.00,
+        "unit": "EUR",
+        "period_start": "2023-01-01",
+        "period_end": "2023-12-31"
+      },
+      {
+        "id": "fact-002",
+        "concept": "NetIncome",
+        "value": 3200000.00,
+        "unit": "EUR",
+        "period_start": "2023-01-01",
+        "period_end": "2023-12-31"
+      },
+      {
+        "id": "fact-003",
+        "concept": "Assets",
+        "value": 60000000.00,
+        "unit": "EUR",
+        "period_start": "2023-01-01",
+        "period_end": "2023-12-31"
+      },
+      {
+        "id": "fact-004",
+        "concept": "GrossMargin",
+        "value": 37.78,
+        "unit": "%",
+        "period_start": "2023-01-01",
+        "period_end": "2023-12-31"
+      }
+    ]
+  },
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.webuildconsortium.eu/status/companyinfo/2025",
+    "status_list_index": 123,
+    "status_purpose": "revocation"
+  },
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl",
+  "schema_version": "0.1.0",
+  "cnf": {
+    "jwk": {
+      "kty": "RSA",
+      "n": "q_u_X8P_S0_0F8_C_f83_oX1f8m5y_B7D9S9-C_0R5-Q0_u_X8P_S0_0F8_C",
+      "e": "AQAB"
+    }
+  }
+}

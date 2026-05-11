@@ -1,0 +1,78 @@
+{
+  "vct": "eu.we-build.control.1",
+  "attestation_legal_category": "EAA",
+  "issuing_entity": "did:example:legal-entity-456",
+  "control": [
+    {
+      "natural_person": {
+        "family_name": "Garcia",
+        "given_name": "Maria",
+        "birth_date": "1968-07-22",
+        "natural_person_identifier": {
+          "document_type": "National identity card",
+          "document_number": "ES12345678X",
+          "issuing_country": "ESP"
+        },
+        "residence_address": {
+          "address": "Calle Mayor 10",
+          "locality": "Madrid",
+          "postal_code": "28001",
+          "country": "ESP"
+        },
+        "stake": {
+          "effective_control": 55.00,
+          "legal_person_id": "54321098765432109876",
+          "control_mechanism": ["Voting rights", "Board control"]
+        }
+      }
+    },
+    {
+      "legal_person": {
+        "legal_person_name": "Global Solutions Ltd.",
+        "legal_form_type": "Private Limited Company",
+        "legal_person_identifier": {
+          "lei": "54321098765432109876"
+        },
+        "registered_address": {
+          "address": "1 Global Plaza",
+          "locality": "London",
+          "postal_code": "EC2Y 5AU",
+          "country": "GBR"
+        },
+        "stake": {
+          "effective_control": 30.00,
+          "legal_person_id": "54321098765432109876",
+          "control_mechanism": ["Influence via parent or holding company"]
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "https://example.com/governance-chart-2024.pdf",
+      "evidence_type": "Evidence",
+      "evidence_confirmation": true,
+      "evidence_date": "2024-03-01"
+    },
+    {
+      "evidence_id": "urn:webuild:articles-of-association",
+      "evidence_type": "Evidence",
+      "evidence_data": "PGh0bWw+DQogIDxoZWFkPg0KICAgIDx0aXRsZT5BcnRpY2xlcyBvZiBBc3NvY2lhdGlvbjwvdGl0bGU+DQogIDwvaGVhZD4NCiAgPGJvZHk+DQogICAgPHA+VGhpcyBpcyBhIGxhdyBkb2N1bWVudC48L3A+DQogIDwvYm9keT4NCjwvaHRtbD4="
+    }
+  ],
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://example.com/status/control-list-1",
+    "status_list_index": 789,
+    "status_purpose": "revocation"
+  },
+  "trust_anchor_url": "https://webuildconsortium.eu/trust-anchor.json",
+  "schema_version": "0.1.0",
+  "cnf": {
+    "jwk": {
+      "kty": "RSA",
+      "n": "q_u_X8P_S0_0F8_C_f83_oX1f8m5y_B7D9S9-C_0R5-Q0_u_X8P_S0_0F8_C",
+      "e": "AQAB"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "vct": "eu.we-build.contactperson.1",
+  "attestation_legal_category": "EAA",
+  "issuing_entity": "did:example:webuild-company-456",
+  "legal_person_id": "DE-HRB-123456",
+  "contact_person": [
+    {
+      "given_name": "Anna",
+      "family_name": "Schmidt",
+      "role": "sales",
+      "employee_identifier": "EMP-DE-00789",
+      "email": "anna.schmidt@example.com",
+      "telephone": "+4915123456789"
+    },
+    {
+      "given_name": "Max",
+      "family_name": "Mustermann",
+      "role": "finance",
+      "employee_identifier": "EMP-DE-00790",
+      "email": "max.mustermann@example.com",
+      "telephone": "+4930987654321"
+    }
+  ],
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/contactperson/2025",
+    "status_list_index": 321,
+    "status_purpose": "revocation"
+  },
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+  "schema_version": "0.1.0",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "f83_oX1f8m5y_B7D9S9-C_0R5-Q0_u_X8P_S0_0F8_C",
+      "y": "e6_z_C8D_D9S9-C_0R5-Q0_u_X8P_S0_0F8_C"
+    }
+  }
+}
