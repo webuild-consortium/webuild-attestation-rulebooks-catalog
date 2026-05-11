@@ -1,5 +1,5 @@
 # Rulebook for Holder Authorization & Consent Handshake   
-
+# Rulebook for Mutual Identification & Consent Handshake [What is consent handshake]
 *Provide information about the author(s) of this Rulebook in the following form:*
 
 * Author(s):
@@ -16,28 +16,28 @@
 | 0.1     | 	06.05.2026	 |Initial draft based on the WeBuild design attestations meetings|
 | 0.2     | 	06.05.2026	 |Updated with Base Verification integration (steps 4.2.1–4.2.8) from base-verification rulebook|
 
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
+*Contact email address and/or a link to an issue tracking system that can be used for
+providing feedback: werner.folkendt@de.bosch.com*
 Contact: 
 
 **Feedback:**
 
 ### 1. Introduction
-   This document defines the Holder Authorization & Consent Handshake workflow, which governs the mutual authentication between a Holder Wallet (Buyer) and a Relying Party Wallet (Seller) in the context of the WeBuild ecosystem.
+   This document defines the Holder Authorization & Consent Handshake workflow, which governs the mutual authentication between a Holder Wallet (e.g. Buyer) and a Relying Party Wallet (e.g. Seller).
 
 The workflow consists of two complementary obligations:
-- Relying Party (RP / Verifier)	MUST verify the Holder's attestation (EBWOID + WUA + EAA) using base verification steps
-- Holder	MUST validate the RP's identity, authorization, and wallet integrity before releasing any credentials
+- Relying Party EBW backend (RP / Verifier)	MUST verify the requested Holder's attestation (EBWOID, WUA and additional (Q)EAAs) using base verification steps
+- Holder	EBW backend MUST validate the RP's identity, authorization, and wallet integrity before presenting any **confidential** attestations
 
 Relationship to Base Verification:
-This document builds directly upon the base-verification rulebook. All verification steps referenced here (4.2.1–4.2.8) are fully defined in that document. The Holder Authorization & Consent Handshake applies those steps in both directions — the Holder validates the RP, and the RP validates the Holder.
+This document builds directly upon the base-verification rulebook. All verification steps referenced here (4.2.1–4.2.8) are fully defined in that document. The Holder Authorization & Consent Handshake applies those steps in both directions — the Holder EBW validates the RP, and the RP EBW validates the Holder EBW.
 
 ### 2. Scope
 This rulebook applies to scenarios where:
 
-- A Seller Portal (RP) requests an EBWOID+WUA and/or an (Q)EAA (e.g., UBO, IBAN, Payment Terms) from a Buyer Wallet (Holder)
-- Mutual trust must be established before any credential is disclosed
-- Both parties operate within a certified European Business Wallet (EBW) ecosystem
+- A Seller Portal (RP) [@Florin: Stimmst du der Änderung in "RP EBW backend" statt "seller portal" zu?] requests an EBWOID+WUA and/or an (Q)EAA (e.g., UBO, IBAN, Payment Terms) from a Buyer Wallet (Holder)
+- Mutual trust must be established before any **confidential** credential is disclosed
+- Both parties operate within a certified European Business Wallet (EBW) ecosystem [Was ist damit gemeint? EBW will not be "certified"! Muss geändert werden]
 
 ### 3. Overall Interaction Overview
 
