@@ -81,14 +81,15 @@ sequenceDiagram
     box Wallet Provider
     participant WR as WUA Revocation Service
     end
-
+rect rgb(255, 140, 100)
+Note over HW,WR: Preparation phase — Relying Party prepares attestation request
     SP->>SW: Request attestations (EBWOID + WUA + (Q)EAAs) from Holder EBW backend
     SW->>SW: Prepare Authorization Request
     SW->>HW: Authorization Request (client_id, request_uri, state)
     HW->>SW: POST: GET Request Object from request_URI (by reference)Supplies (wallet_metadata, wallet_nonce, state)
     SW->>SW: Generate VerifierInfo (incl. EBWOID,WUA,...)  + Request Object (JWT)  
 SW->>HW: Return signed/encrypted Request Object (metadata, nonce, DCQL query, verifierInfo attestations)
-
+end
     rect rgb(255, 240, 200)
         Note over HW,WR: PHASE 1 — Holder validates RP identity based on the RP EBWOID (Base Verification Steps 4.2.1–4.2.8)
         HW->>HW: 4.2.1 Cryptographic Integrity Verification of RP EBWOID from verifierInfo object
@@ -138,11 +139,22 @@ SW->>HW: Return signed/encrypted Request Object (metadata, nonce, DCQL query, ve
 
 
 ### 4. Workflow Phases
+## 4.1 Preparation phase - Relying Party prepares attestation request
+
+Trigger: The RP EBW backend receives a request from an internal system to request(Q)EAAs from an EBW owner. 
+
+The internal system has created the DCQL query object and the verifierInfo object. The verifierInfo object MUST contain the EBWOID, the WUA and if required by the Holder optional additional authorization attestations.
+The DCQL query MUST include the query for the holders EBWOID and the WUA to enable holder identity and holder EBW integrity verification. 
+
+[Open topics: 
+- Which data need to be provided via the internal system API of the EBW wallet? Only the EUID or also the endpoint of the Holder EBW?
+- Do we need a HAIP document to define the verifierInfo object]
+
 
 ## 4.1 Phase 1 — Holder Validates the Relying Party
 Trigger: The Holder Wallet receives a signed/encrypted Authorization Request Object from the RP Wallet.
 
-Obligation: Before disclosing any credentials, the Holder MUST validate the RP's trustworthiness by applying the base verification steps to the RP's presented identity and attestation.
+Obligation: Before disclosing any credentials, the Holder MUST validate the RP's trustworthiness by applying the base verification steps to the RP's attestations include in the verifierInfo object.
 
 All steps below reference the base-verification rulebook for their full definition, process diagrams, and acceptance/rejection criteria.
 
