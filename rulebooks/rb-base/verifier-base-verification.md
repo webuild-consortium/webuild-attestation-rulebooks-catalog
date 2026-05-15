@@ -67,20 +67,20 @@ For EAAs (that are sealed based on the QESEAL):
 The attestation verification process which is implemented in the RP EBW can be divided into the following 8 steps:
 
 Data integrity verification step
-- Verification of the cryptographic integrity and signature validity of the attestation.
+- 4.2.1 Verification of the cryptographic integrity and signature validity of the attestation.
 
 Issuer related verfication steps
-- Verification of the authenticity of the issuer (public-private key match).
-- Verification of the issuer’s identity
-- Verification that the issuer is authorized to issue the attestation.
+- 4.2.2 Verification of the authenticity of the issuer (public-private key match).
+- 4.2.3 Verification of the issuer’s identity
+- 4.2.4 Verification that the issuer is authorized to issue the attestation.
 
 Holder/attestation related verification steps
-- Verification of validity periods, expiration, and issuance timestamps.
-- Verification that the attestation has not been revoked or suspended.
+- 4.2.5 Verification of validity periods, expiration, and issuance timestamps.
+- 4.2.6 Verification that the attestation has not been revoked or suspended.
 
 Holder EBW related  verification steps
-- Verification of the wallet integrity and associated wallet attestation.
-- Verification that the attestation is cryptographically bound to the holder’s wallet instance.
+- 4.2.7 Verification of the wallet integrity and associated wallet attestation.
+- 4.2.8 Verification that the attestation is cryptographically bound to the holder’s wallet instance.
 
 Important note: 
 
