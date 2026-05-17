@@ -196,11 +196,23 @@ After successfully completing Phase 1 validation, the Holder EBW backend perform
 - Minimal Disclosure: Only the attributes required by the RP need to be disclosed. 
 - Consent decision based on internal policy check: Decides if the requested attestations can be presented according to the EBW owners internal policies.
 
+The consent decision can be made:
+- automatically based on the EBW wallet configuration
+- automatically based on additional authorization attestation included in the verifierInfo object
+- manually by one or more employees of the EBW owner
+The decision will allway be based on the EBW owner internal policies that are based on EU and national regulations.
+
 If the internal policy check is successful consent is granted → the Holder creates Verifiable Presentations (VP Token) containing the EBWOID and the requested (Q)EAA(s) and sends them to the RP.
 
 If the internal policy check is not successful consent is denied → the workflow terminates; no attestations are presented.
 
-## 4.3 Phase 2 — RP EBW backend identifies the Holder and checks Holder EBW integrity
+[Opent topics: 
+- The mechanism to notify EBW owner employees is not defined
+- the messages for answering the request of the RP is not defined for the case that the consent is denied
+- the configuration of the wallet that enables automatic decisions is not defined
+- the authorization attestation in the verifierInfo object are not defined and also the wallet behaviour for this case is not specified.]
+
+## 4.4 Phase 2 — RP EBW backend identifies the Holder and checks Holder EBW integrity
 Trigger: The RP Wallet receives the VP Token (Authorization Response) from the Holder Wallet.
 
 Obligation: The RP MUST apply the full base verification steps to the Holder's presented EBWOID and WUA before accepting the transaction.
@@ -208,15 +220,22 @@ Obligation: The RP MUST apply the full base verification steps to the Holder's p
 All steps below reference the basic verification rulebook. In this rulebook they are defined in detail and the rationals behind each step is described. The rationales were formulated in the Architecture and Reference Framework V1.3. The following steps are listed to show for which attestations the steps are performed.
 
 4.2.1 Cryptographic integrity verification of Holder EBWOID from verifierInfo object
+
 4.2.2 Holder EBWOID Provider authentication - Does the EBWOID Provider has owned the public key used to sign the EBWOID?
+
 4.2.3 Holder EBWOID Provider identification - Verify Name and EUID of the Holder EBWOID Provider
+
 4.2.4 Holder EBWOID Provider authorization — Was the Holder EBWOID Provider authorized to issue EBWOIDs?
+
 4.2.5 Validity Period Check for Holder EBWOID  (iat / exp)
+
 4.2.6 Revocation Status Check for Holder EBWOID
+
 4.2.7 Holder Wallet Unit Attestation Verification — perform complete verfication (4.2.1 to 4.2.6) for WUA to check WUA revocation state and that the Holder EBW unit components are valid and authenticated.
+
 4.2.8 Holder EBWOID device binding ("copy or reply") verification to avoid impersonation
 
-## 4.4 Additional (Q)EAA verification
+## 4.5 Additional (Q)EAA verification
 Each presented (Q)EAA is validated according the attestation specific rulebook containing the reference to the basic verification rulebook.
 
 Outcome of Phase 2 and the additional (Q)EAA verification
