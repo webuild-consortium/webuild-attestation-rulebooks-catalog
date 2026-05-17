@@ -31,23 +31,24 @@ The workflow consists of two complementary steps:
 
 The first step requires that the Relying Party provides with each attestation request also a verifierInfo object (according to "OpenID for Verifiable Presentations (OID4VP)" specification) containing RP identity (EBWOID), wallet intgrity (WUA) attestations and optionaly additional authorization attestations. After these attestations are verified by the Holder EBW the holder can decide according to his policies and regulatory constraints if he presents the requested attestations.
 
-This document builds directly upon the base-verification rulebook [... link] in which the common mandatory verification steps for all attestations are defined. All verification steps referenced here (4.2.1–4.2.8) are fully defined in that document. 
+This document builds directly upon the base-verification rulebook [(https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md)]
+in which the common mandatory verification steps for all attestations are defined. All verification steps referenced here (4.2.1–4.2.8) are defined in that document. 
 
 
 ### 2. Scope
 
-This rulebook applies when a RP EBW backend requests attestations from a Holder EBW backend.
+This rulebook applies when a RP EBW backend requests attestations from a Holder EBW backend and also during additional wallet to wallet transactions that needs to be defined (e.g. attestation issuing initiated by the issuer,...)
 The described flow applies the above verifications steps in both directions — the Holder EBW identifies the RP and decides if the requested attestations can be presented according to the holder EBW owners internal policies and regulatory constraints.The RP EBW verifies the Holder EBW identity and wallet integrity before verifying additional received attestations.
 
 ### 3. Overall Interaction Overview
 The actors in the interaction diagram are the following software systems:
 
 Software systems owned by the holder EBW owner
-- Holder EBW Backend: EBW wallet backend of the Holder that acts  in the holder role during this workflow
+- Holder EBW Backend: EBW wallet backend of the Holder that acts in the holder role during this workflow and also verifies attestations presented by a requester wallet to identify the requester and to trust the RP EBW
 
 Software systems owned by the RP EBW owner
-- RB EBW Backend: EBW wallet backend of the RP that acts primarily in the  Relying Party role and provides the verifierInfo object
-- RP Portal: Web application owned by the RP legal entity that may act as a frontend for Holder EBW owner employees and includes UC (e.g. KyC) specific logic. The RB Portal triggers the Attestation requests and performs additional attestation type speicfic requests
+- RB EBW Backend: EBW wallet backend of the RP that acts primarily in the Relying Party role but also provides attestations included in the the verifierInfo object that enable the holder to identify and trust the RP EBW
+- RP Portal: Web application owned by the RP legal entity that may act as a frontend for Holder EBW owner employees and includes UC (e.g. KyC) specific logic. The RB Portal triggers the attestation requests and performs additional attestation type speicfic requests
 - RP Internal System: ICT systems owned by the RP, in which the presented data are transferred e.g. enterprise relationship management system or customer master data management system.
 
 Software systems owned by the EBWOID provider
@@ -87,17 +88,17 @@ Note over HW,WR: Preparation phase — Relying Party prepares attestation reques
     SW->>SW: Prepare Authorization Request
     SW->>HW: Authorization Request (client_id, request_uri, state)
     HW->>SW: POST: GET Request Object from request_URI (by reference)Supplies (wallet_metadata, wallet_nonce, state)
-    SW->>SW: Generate VerifierInfo (incl. EBWOID,WUA,...)  + Request Object (JWT)  
+    SW->>SW: Generate VerifierInfo (incl. EBWOID,WUA,...)  + Request Object (JWT) including the DCQL query 
 SW->>HW: Return signed/encrypted Request Object (metadata, nonce, DCQL query, verifierInfo attestations)
 end
     rect rgb(255, 240, 200)
-        Note over HW,WR: PHASE 1 — Holder validates RP identity based on the RP EBWOID (Base Verification Steps 4.2.1–4.2.8)
+        Note over HW,WR: PHASE 1 — Holder validates RP identity based on the RP EBWOID and WUA (Base Verification Steps 4.2.1–4.2.8)
         HW->>HW: 4.2.1 Cryptographic Integrity Verification of RP EBWOID from verifierInfo object
-        HW->>TLOL: 4.2.2 EBWOID Provider authentication - EBWOID Provider owns the public key used to sign the EBWOID?
+        HW->>TLOL: 4.2.2 EBWOID Provider authentication - Does the EBWOID Provider has owned the public key used to sign the EBWOID?
         TLOL-->>HW: EBWOID Provider owns the public key used to sign the EBWOID
         HW->>TLOL: 4.2.3 RP EBWOID Provider Identification - Verify Name and EUID of the RP EBWOID Provider
         TLOL-->>HW: Supervisory Body has confirmed name and EUID of the RP EBWOID Provider by integrating his certificate in the TLOL
-        HW->>TLOL: 4.2.4 RP EBWOID Provider Authorization — RP EBWOID Provider authorized to issue EBWOIDs?
+        HW->>TLOL: 4.2.4 RP EBWOID Provider Authorization — Was the RP EBWOID Provider authorized to issue EBWOIDs?
         TLOL-->>HW: Authorization confirmed by the Subervisory Body by integrating his certificate in the TLOL
         HW->>HW: 4.2.5 Validity Period Check for RP EBWOID  (iat / exp)
         HW->>OR: 4.2.6 Revocation Status Check for RB EBWOID 
@@ -116,30 +117,29 @@ end
 
     rect rgb(200, 240, 255)
         Note over SW,WR: PHASE 2 — RP validates Holder EBWOID,WUA (Base Verification Steps 4.2.1–4.2.8) 
-        SW->>SW: 4.2.1 Cryptographic Integrity Verification of Holder EBWOID from verifierInfo object
-        SW->>TLOL: Holder EBWOID Provider authentication - EBWOID Provider owns the public key used to sign the EBWOID?
-        TLOL-->>SW: EBWOID Provider owns the public key used to sign the EBWOID
-        SW->>TLOL: 4.2.3 Holder EBWOID Provider Identification - Verify Name and EUID of the Holder EBWOID Provider
+        SW->>SW: 4.2.1 Cryptographic integrity verification of Holder EBWOID from verifierInfo object
+        SW->>TLOL: Holder EBWOID Provider authentication - Does the EBWOID Provider has owned the public key used to sign the EBWOID?
+        TLOL-->>SW: Does the EBWOID Provider owns the public key used to sign the EBWOID
+        SW->>TLOL: 4.2.3 Holder EBWOID Provider identification - Verify Name and EUID of the Holder EBWOID Provider
         TLOL-->>SW: Supervisory Body has confirmed name and EUID of the Holder EBWOID Provider by integrating his certificate in the TLOL
-        SW->>TLOL: 4.2.4 Holder EBWOID Provider Authorization — Holder EBWOID Provider authorized to issue EBWOIDs?
+        SW->>TLOL: 4.2.4 Holder EBWOID Provider authorization — Was the Holder EBWOID Provider authorized to issue EBWOIDs?
         TLOL-->>SW:  Authorization confirmed by the Subervisory Body by integrating his certificate in the TLOL
         SW->>SW: 4.2.5 Validity Period Check for Holder EBWOID  (iat / exp)
         SW->>OR: 4.2.6 Revocation Status Check for Holder EBWOID
         OR-->>SW: Revocation status returned
-        SW->>WR: 4.2.7 RP Wallet Unit Attestation Verification — perform complete verfication (4.2.1 to 4.2.6) for WUA
-        WR-->>SW: WUA not revoked, RP EBW unit components valid and authenticated
-        SW->>HW: 4.2.8 RP EBWOID device binding ("copy or reply") verification - Send fresh hash (nonce)
+        SW->>WR: 4.2.7 Holder Wallet Unit Attestation Verification — perform complete verfication (4.2.1 to 4.2.6) for WUA
+        WR-->>SW: Holder WUA not revoked, RP EBW unit components valid and authenticated
+        SW->>HW: 4.2.8 Holder EBWOID device binding ("copy or reply") verification - Send fresh hash (nonce)
         SW->>HW: Return signed hash (proof of private key control)
-        HW->>HW: 4.2.8 Compare hashes — Confirm RP EBW controls private key
-        SW->>SW: EAA Data Integrity Verification perform complete verificatio (4.2.1-4.2.8) for each EAA presented
+        HW->>HW: 4.2.8 Compare hashes — Confirm Holder EBW controls private key    
     end
-
+    SW->>SW: EAA Data Integrity Verification perform complete verification (4.2.1-4.2.8) for each EAA presented
     SW->>SIS: Requested certificate available and verified — Business transaction authorized
 ```
 
 
 ### 4. Workflow Phases
-## 4.1 Preparation phase - Relying Party prepares attestation request
+## 4.1 Preparation phase - Relying Party prepares attestation request including own attestations
 
 Trigger: The RP EBW backend receives a request from an internal system to request(Q)EAAs from an EBW owner. 
 
@@ -151,22 +151,29 @@ The DCQL query MUST include the query for the holders EBWOID and the WUA to enab
 - Do we need a HAIP document to define the verifierInfo object]
 
 
-## 4.1 Phase 1 — Holder Validates the Relying Party
+## 4.2 Phase 1 — Holder identifies the Relying Party and checks RP EBW integrity
 Trigger: The Holder Wallet receives a signed/encrypted Authorization Request Object from the RP Wallet.
 
-Obligation: Before disclosing any credentials, the Holder MUST validate the RP's trustworthiness by applying the base verification steps to the RP's attestations include in the verifierInfo object.
+Obligation: Before disclosing any credentials, the Holder MUST validate the RP's trustworthiness by applying the base verification steps to the RP's attestations included in the verifierInfo object.
 
-All steps below reference the base-verification rulebook for their full definition, process diagrams, and acceptance/rejection criteria.
+All steps below reference the basic verification rulebook. In this rulebook they are defined in detail and the rationals behind each step is described. The rationales were formulated in the Architecture and Reference Framework V1.3. The following steps are listed to show for which attestations the steps are performed.
 
-Step	Base Verification Reference	What the Holder Checks
-4.2.1	Cryptographic Integrity Verification	Signature of the RP Request Object is valid and untampered
-4.2.2	Issuer Authentication Verification	RP certificate chain is complete, unbroken, and valid
-4.2.3	Issuer Identification Verification	RP EBWOID Provider is listed in TLOL (current and historical)
-4.2.4	Issuer Authorization Verification	RP is authorized to request this attestation type
-4.2.5	Validity Period Verification	RP attestation iat and exp are within acceptable range
-4.2.6	Revocation Verification	RP EBWOID has not been revoked or suspended
-4.2.7	WUA Verification	RP Wallet Unit Attestation is valid and not revoked
-4.2.8	Device Binding Verification	RP Wallet currently controls the private key bound to the RP EBWOID
+4.2.1 Cryptographic integrity verification of Holder EBWOID from verifierInfo object
+
+4.2.2 Holder EBWOID Provider authentication - Does the EBWOID Provider has owned the public key used to sign the EBWOID?
+
+4.2.3 Holder EBWOID Provider identification - Verify Name and EUID of the Holder EBWOID Provider
+
+4.2.4 Holder EBWOID Provider authorization — Was the Holder EBWOID Provider authorized to issue EBWOIDs?
+
+4.2.5 Validity Period Check for Holder EBWOID  (iat / exp)
+
+4.2.6 Revocation Status Check for Holder EBWOID
+
+4.2.7 RP Wallet Unit Attestation Verification — perform complete verfication (4.2.1 to 4.2.6 and 4.2.8) for WUA to check revocation and that RB EBW unit componants are valid and authentic 
+
+4.2.8 RP EBWOID device binding ("copy or reply") verification 
+
 Outcome of Phase 1:
 
 ```mermaid
@@ -183,46 +190,36 @@ E -- No --> G([❌ Holder denies — no credentials disclosed])
     style G fill:#FFB6C1
 ```
 
-## 4.2 Holder Consent Decision
-After successfully completing Phase 1 validation, the Holder Wallet evaluates the authorization scope of the request:
+## 4.3 Holder consent decision
+After successfully completing Phase 1 validation, the Holder EBW backend performs the following steps:
+- DCQL Query Match: Match the request to the own attestations stored in the wallet.
+- Minimal Disclosure: Only the attributes required by the RP need to be disclosed. 
+- Consent decision based on internal policy check: Decides if the requested attestations can be presented according to the EBW owners internal policies.
 
-| Check                | Description                                                     |
-|----------------------|-----------------------------------------------------------------|
-| DCQL Query Match	    |The requested credential types and attributes match what the Holder possesses
-| Minimal Disclosure   |Only the attributes required for the RP's stated purpose are disclosed
-| Authorization Scope  |The request does not exceed the scope the Holder has pre-authorized
+If the internal policy check is successful consent is granted → the Holder creates Verifiable Presentations (VP Token) containing the EBWOID and the requested (Q)EAA(s) and sends them to the RP.
 
-User Consent	The Holder (user or automated policy) explicitly approves the disclosure
-If consent is granted → the Holder creates Verifiable Presentations (VP Token) containing the EBWOID and the requested EAA(s) and sends them to the RP.
-If consent is denied → the workflow terminates; no credentials are released.
+If the internal policy check is not successful consent is denied → the workflow terminates; no attestations are presented.
 
-## 4.3 Phase 2 — RP Validates the Holder's Attestation
+## 4.3 Phase 2 — RP EBW backend identifies the Holder and checks Holder EBW integrity
 Trigger: The RP Wallet receives the VP Token (Authorization Response) from the Holder Wallet.
 
-Obligation: The RP MUST apply the full base verification steps to the Holder's presented EBWOID and EAA before accepting the transaction.
+Obligation: The RP MUST apply the full base verification steps to the Holder's presented EBWOID and WUA before accepting the transaction.
 
-All steps below reference the base-verification rulebook for their full definition, process diagrams, and acceptance/rejection criteria.
+All steps below reference the basic verification rulebook. In this rulebook they are defined in detail and the rationals behind each step is described. The rationales were formulated in the Architecture and Reference Framework V1.3. The following steps are listed to show for which attestations the steps are performed.
 
-| Step   | Base Verification Reference                                                     | What the RP Checks|
-|--------|-----------------------------------------------------------------|---| 
-| 4.2.1  |Cryptographic Integrity Verification	|Signature of the VP Token and all included attestations is valid
-| 4.2.2	 |Issuer Authentication Verification|	Holder EBWOID certificate chain is complete, unbroken, and valid
-| 4.2.3	 |Issuer Identification Verificationv	Holder EBWOID Provider is listed in TLOL (current and historical)
-| 4.2.4	 |Issuer Authorization Verification|	Holder EBWOID issuer is authorized for this attestation type
-| 4.2.5	 |Validity Period Verification	|Holder EBWOID and EAA iat / exp are within acceptable range
-| 4.2.6	 |Revocation Verification	|Holder EBWOID and EAA have not been revoked or suspended
-| 4.2.7	 |WUA Verification	|Holder Wallet Unit Attestation is valid and not revoked
-| 4.2.8	 |Device Binding Verification	|The VP Token signature proves the Holder wallet controls the bound private key
+4.2.1 Cryptographic integrity verification of Holder EBWOID from verifierInfo object
+4.2.2 Holder EBWOID Provider authentication - Does the EBWOID Provider has owned the public key used to sign the EBWOID?
+4.2.3 Holder EBWOID Provider identification - Verify Name and EUID of the Holder EBWOID Provider
+4.2.4 Holder EBWOID Provider authorization — Was the Holder EBWOID Provider authorized to issue EBWOIDs?
+4.2.5 Validity Period Check for Holder EBWOID  (iat / exp)
+4.2.6 Revocation Status Check for Holder EBWOID
+4.2.7 Holder Wallet Unit Attestation Verification — perform complete verfication (4.2.1 to 4.2.6) for WUA to check WUA revocation state and that the Holder EBW unit components are valid and authenticated.
+4.2.8 Holder EBWOID device binding ("copy or reply") verification to avoid impersonation
 
-Additionally for EAA verification:
+## 4.4 Additional (Q)EAA verification
+Each presented (Q)EAA is validated according the attestation specific rulebook containing the reference to the basic verification rulebook.
 
-| Check                         | Description                                                     |
-|-------------------------------|-----------------------------------------------------------------|
-| EAA Data Integrity 	          |EAA claims conform to the expected schema and data model|
-| EAA Issuer Authorization	     |EAA issuer is specifically authorized for the EAA type (e.g., UBO, IBAN) per its own rulebook|
-| SD-JWT Disclosure Consistency |	All selectively disclosed claims are consistent with the signed commitment|
-
-Outcome of Phase 2:
+Outcome of Phase 2 and the additional (Q)EAA verification
 
 ```mermaid
 flowchart TD
