@@ -404,11 +404,16 @@ Sample payloads are provided under
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
 
+**Attestation**
+The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
+
 ### 4.2 Relying Party Obligations
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
 ### 4.2.1 – 4.2.8 Base Verification Process
 The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
