@@ -358,7 +358,7 @@ The following Private Names specific to the attestation type defined in this doc
 
 ### 3.2.2 Attribute status
 
-For SD-JWT VC-compliant PIDs, the PID MUST include a `status` claim if the technical validity period is greater than 25 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/).
+For SD-JWT VC-compliant PIDs, the PID MUST include a `status` claim if the technical validity period is greater than 25 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC].
 
 The `status` claim SHALL be a JSON object with the following members:
 - `type` (string): SHALL be `"status-list"`.
@@ -399,10 +399,7 @@ common EU-wide type as well as on any domestic types is published and
 accessible in a catalog.
 
 
-### 3.3 SD-JWT version 
-For WE BUILD we focus on following the sd-jwt standard draft version 16, [which can be found here](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/)
-
-### 3.4 Example
+### 3.3 Example
 
 EXAMPLE: The following example shows the payload of a PID in SD-JWT VC format before the encoding into the SD-JWT format.
 
@@ -593,7 +590,7 @@ Further requirements in this Rulebook comply with or reference the applicable re
 | [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09                                                                                                                    |
 | [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html>                                                                                                                                    | 
 | [EKYC]                                 | OpenID Connect for Identity Assurance Claims Registration <https://openid.net/specs/openid-connect-4-ida-claims-1_0-final.html#ICAO-Doc9303>                                                                                                                             |
-| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09                                                                                                        |
+| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>                                                                                                                                               |
 | [Topic 3]                              | ARF Annex 2 - Topic 3 - Attestation revocation and revocation checking Available: <https://eudi.dev/latest/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                 |
 | [Topic 12]                             | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eudi.dev/latest/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                                        |
 | [W3C VCDM v2.0]                        | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.                                                                                                                                                                                          |
