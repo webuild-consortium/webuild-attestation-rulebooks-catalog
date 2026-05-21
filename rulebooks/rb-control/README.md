@@ -18,17 +18,38 @@
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**Who exercises effective control over this legal entity?**
+
+A Controller is defined as any natural person or legal entity that directly or indirectly exercises effective control over a legal entity. A single person may exercise control through one or more control mechanisms simultaneously.
+- Control is assessed based on the following mechanisms:
+- Voting Rights — direct or indirect holding of voting rights above the defined threshold (typically 25%+)
+- Board Control — ability to appoint, remove, or control board members or board decisions
+- Management / Executive Roles — executive authority enabling operational or strategic control over the entity
+- Contractual Rights — veto, consent, or other contractual rights enabling decisive influence over corporate actions
+- Special Shares — ownership of share classes with enhanced voting rights or disproportionate control powers
+- Power to Appoint or Remove Management — statutory or contractual authority to appoint or dismiss key executives or directors
+- Trustee Control — discretionary control exercised through trusts, foundations, or similar fiduciary arrangements
+- Dominant Influence — control arising from financial, operational, or commercial dependency relationships
+- Influence via Parent or Holding Company — indirect control exercised through ownership or control of an intermediary entity
+
+as required under AMLR / AMLD6 and applicable company law.
+
 ### 1.1 Document scope and purpose
-The Control Attestation captures all natural and legal persons who exercise direct or indirect control over a legal entity, providing comprehensive visibility into decision-makers and influencers whose power may not be reflected solely through ownership percentages. This attestation complements the Ownership List (UBO List) by focusing specifically on control mechanisms—such as voting rights, board representation, management authority, contractual powers, and dominant influence—that determine who effectively steers the entity's operations, strategy, and governance.
+
+The Control Attestation records all natural and legal persons which have control direct or indirect in a legal entity, providing comprehensive transparency on beneficial ownership structures and economic interests. This attestation is a critical component of both Know Your Customer (KYC) and Know Your Supplier (KYS) processes within the EUDI Wallet ecosystem, supporting effective risk management, regulatory compliance, and anti-money laundering (AML) obligations.
 
 ### 1.2 Document structure
+
 This Rulebook is structured as follows:
-- Chapter 2 describes the Control attestation attributes and metadata in an encoding-independent manner, including the hierarchical control data model.
+- Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner, including the data model.
 - Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2 covers SD-JWT VC-based encoding.
 - Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines revocation mechanisms for the attestation.
 - Chapter 7 provides compliance information regarding the EUBW framework, AML regulations, corporate governance standards, and applicable data protection laws.
+- Chapter 8 provides references to applicable standards and specifications.
 
 ### 1.3 Keywords
 

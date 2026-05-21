@@ -4,7 +4,8 @@
     * [Florin Coptil, Robert Bosch GmbH] 
 
 * Reviewer(s):
-    * [..........., Deutsche Bank]
+    * [Baumgardt Michaela, Commerzbank ]
+    * [Stephan-A Fuchs, Deutsche Bank  ]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
@@ -18,18 +19,29 @@
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**Who are the Shareholders and Economic Interest Holders of this legal entity?**
+
+A Shareholder or Economic Interest Holder is defined as any natural person or legal entity that directly or indirectly holds an ownership stake in a legal entity, based on:
+- Ownership stake — direct or indirect share ownership, including equity interests, partnership shares, or equivalent economic interests
+- Share class — type of shares held (ordinary, preferred, non-voting, etc.) and associated economic rights
+- Ownership threshold — percentage of shares or economic interest held, regardless of whether control thresholds are met
+as required under AMLR / AMLD6 and applicable company law.
+
 ### 1.1 Document scope and purpose
-The Ownership Attestation records all natural and legal persons holding direct or indirect ownership or control in a legal entity, providing comprehensive transparency on beneficial ownership structures and economic interests. This attestation is a critical component of both Know Your Customer (KYC) and Know Your Supplier (KYS) processes within the EUDI Wallet ecosystem, supporting effective risk management, regulatory compliance, and anti-money laundering (AML) obligations.
+The Ownership Attestation records all natural and legal persons holding direct or indirect ownership in a legal entity, providing comprehensive transparency on beneficial ownership structures and economic interests. This attestation is a critical component of both Know Your Customer (KYC) and Know Your Supplier (KYS) processes within the EUDI Wallet ecosystem, supporting effective risk management, regulatory compliance, and anti-money laundering (AML) obligations.
 
 ### 1.2 Document structure
-This Rulebook is structured as follows:
-- Chapter 2 describes the Ownership attestation attributes and metadata in an encoding-independent manner, including the hierarchical ownership data model.
-- Chapter 3 specifies how the attestation attributes and metadata are encoded:Section 3.1: ISO/IEC 18013-5-compliant encoding (applicability assessment)
+[This Rulebook is structured as follows:
+- Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner, including the data model.
+- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2 covers SD-JWT VC-based encoding.
 - Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines revocation mechanisms for the attestation.
-- Chapter 7 provides compliance information regarding the EUBW framework, AML regulations, and applicable data protection laws.
-
+- Chapter 7 provides compliance information regarding the EUBW framework, AML regulations, corporate governance standards, and applicable data protection laws.
+- Chapter 8 provides references to applicable standards and specifications.
+](https://github.com/flo0x/wp3-technology-standards/blob/main/PA3/PA3_MVP_Plus.md#assumptions--relying-party-business-wallet)
 ### 1.3 Keywords
 
 This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as
