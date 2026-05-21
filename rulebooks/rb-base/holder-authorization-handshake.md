@@ -385,10 +385,10 @@ sequenceDiagram
     box EAA Provider
     participant EAAR as EAA Revoc. Serv.
     end
-    SW->>EAAR: EAA verification perform complete verification according the basic-verification rulebook (4.2.1-4.2.8) for each EAA presented
-    SW ->> RP Portal: EAA type specific verification according to EAA rulebook and cross check
-
-    SW->>SIS: Requested certificate available and verified — Business transaction authorized
+    SW<<->>EAAR: EAA verification perform complete verification according the basic-verification rulebook (4.2.1-4.2.8) for each EAA presented
+    SW ->> SP: Perform EAA type specific verification according to EAA rulebook and cross check
+    SP-->>SW: EAA type and cross checks successfull
+    SW->>SIS: Requested certificate available and verified — The data can be transferred
 ```
 Each presented (Q)EAA is validated according the attestation specific rulebook containing the reference to the basic verification rulebook. If required cross checks over all the received attestations are made. The last step is the transfer of the data to the internal systems.
 
@@ -396,7 +396,7 @@ Outcome of Phase 2 and the additional (Q)EAA verification
 
 ```mermaid
 flowchart TD
-A([Phase 2 Complete]) --> B{All 4.2.1–4.2.8 checks passed\nfor EBWOID + EAA?}
+A([Phase 2 Complete]) --> B{All basic-verification, EAA rulebook and cross checks\n passed for (Q)EAA\n?}
 B -- Yes --> C([✅ Attestation Verified — Forward to RP Internal System])
 B -- No --> D([❌ REJECT: Transaction Denied — Holder attestation not trusted])
 
