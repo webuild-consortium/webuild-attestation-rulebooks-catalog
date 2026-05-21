@@ -23,13 +23,13 @@ Contact:
 
 ### 1. Introduction
 This document defines the Mutual Identification & Consent Handshake workflow, which is performed at the beginning of an interaction between a Holder Wallet and a Relying Party Wallet.
-
+[Open Topic: The Relying Party Wallet may be also a "EBW Relying Party Component" depending on the specification of such a component and the confidentiality of the requested data.]
 The context of this workflow is an use case where a Relying Party EBW requests (Q)EAAs from a Holder EBW.
 The workflow consists of two complementary steps:
 - Holder	EBW backend MUST verify the Relying Parties EBW backend identity, authorization, and wallet integrity before presenting requested attestations, that might be highly confidential.
 - Relying Party EBW backend MUST verify the requested Holder's identity and wallet integrity before the requsted attestation are verified  
 
-The first step requires that the Relying Party provides with each attestation request also a verifierInfo object (according to "OpenID for Verifiable Presentations (OID4VP)" specification) containing RP identity (EBWOID), wallet intgrity (WUA) attestations and optionaly additional authorization attestations. After these attestations are verified by the Holder EBW the holder can decide according to his policies and regulatory constraints if he presents the requested attestations.
+The first step requires that the Relying Party provides with each attestation request also a verifierInfo object (according to "OpenID for Verifiable Presentations (OID4VP)" specification) including attestations that are required by the Holder EBW to decide if the request is answered. If the RP uses an EBW the verifierInfo object must contain the EBWOID, the WUA attestations and optionaly additional authorization attestations. The EBWOID is the identity attestation with the highest legal value and enables RP identification. The WUA attestation enables the RP's wallet integrity and wallet revocation check. Additional attestations may be used to decide if the requested data can be presented according to the EBW owner internal policies. After these attestations are verified by the Holder EBW the holder can decide according to his policies and regulatory constraints if he presents the requested attestations.
 
 This document builds directly upon the base-verification rulebook [(https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md)]
 in which the common mandatory verification steps for all attestations are defined. All verification steps referenced here (4.2.1–4.2.8) are defined in that document. 
@@ -37,7 +37,7 @@ in which the common mandatory verification steps for all attestations are define
 
 ### 2. Scope
 
-This rulebook applies when a RP EBW backend requests attestations from a Holder EBW backend and also during additional wallet to wallet transactions that needs to be defined (e.g. attestation issuing initiated by the issuer,...)
+This rulebook applies when a RP EBW backend requests attestations from a Holder EBW backend and also during additional wallet to wallet transactions. [Open topic: The additional wallet-to-wallet interactions where mutual identification is required still need to be defined (e.g. attestation issuing initiated by the issuer,...)]
 The described flow applies the above verifications steps in both directions — the Holder EBW identifies the RP and decides if the requested attestations can be presented according to the holder EBW owners internal policies and regulatory constraints.The RP EBW verifies the Holder EBW identity and wallet integrity before verifying additional received attestations.
 
 ### 3. Overall Interaction Overview
@@ -45,10 +45,16 @@ The actors in the interaction diagram are the following software systems:
 
 Software systems owned by the holder EBW owner
 - Holder EBW Backend: EBW wallet backend of the Holder that acts in the holder role during this workflow and also verifies attestations presented by a requester wallet to identify the requester and to trust the RP EBW
+- Holder EBW Frontend: EBW wallet frontend of the Holder that may interacts wit the Holder EBW backend if verification or presentation decisions are made by a natural person
 
 Software systems owned by the RP EBW owner
 - RB EBW Backend: EBW wallet backend of the RP that acts primarily in the Relying Party role but also provides attestations included in the the verifierInfo object that enable the holder to identify and trust the RP EBW
-- RP Portal: Web application owned by the RP legal entity that may act as a frontend for Holder EBW owner employees and includes UC (e.g. KyC) specific logic. The RB Portal triggers the attestation requests and performs additional attestation type speicfic requests
+- RP Portal: Web application owned by the RP legal entity that may act as a frontend for Holder EBW owner employees. The RB Portal component uses the internal system API of the EBW to interact with the EBW. It may implement additional responsibilities like: 
+   - act based on (e.g. KyC) specific logic.
+   - triggers the attestation requests
+   - performs additional attestation type specific verification steps
+   - transfer data to internal systems
+  The EBW owner decides based on his enterprise architecture how these responsibilities are distributed to hin internal systems. In the interaction diagram the above functionalities are assigned to the RB Portal component.
 - RP Internal System: ICT systems owned by the RP, in which the presented data are transferred e.g. enterprise relationship management system or customer master data management system.
 
 Software systems owned by the EBWOID provider
@@ -60,7 +66,7 @@ Software systems for which the national Supervisory Body is responsible
 Software systems for which the Wallet Provider is responsible
 - WUA revocation service: Revocation service for the WUA
 
-The following diagram illustrates the complete mutual authentication flow and explicitly marks where base-verification steps are triggered on each side:
+The following diagram illustrates the complete mutual authentication flow and explicitly marks where base-verification steps are triggered on each side. The phases are explained in detail in subsequent interaction diagrams where only the actors required for the specific phase are included:
 
 ```mermaid
 sequenceDiagram
@@ -141,9 +147,31 @@ end
 ### 4. Workflow Phases
 ## 4.1 Preparation phase - Relying Party prepares attestation request including own attestations
 
-Trigger: The RP EBW backend receives a request from an internal system to request(Q)EAAs from an EBW owner. 
+```mermaid
+sequenceDiagram
+    autonumber
+    box Holder
+    participant HW as Holder EBW Backend
+    end
+    box Relying Party
+    participant SW as RP EBW Backend
+    participant SP as RP Portal ( UC specific)
+    participant SIS as RP Internal System
+    end
+rect rgb(255, 140, 100)
+Note over HW,WR: Preparation phase — Relying Party prepares attestation request
+    SP->>SW: Request attestations (EBWOID + WUA + (Q)EAAs) from Holder EBW backend
+    SW->>SW: Prepare Authorization Request
+    SW->>HW: Authorization Request (client_id, request_uri, state)
+    HW->>SW: POST: GET Request Object from request_URI (by reference)Supplies (wallet_metadata, wallet_nonce, state)
+    SW->>SW: Generate VerifierInfo (incl. EBWOID,WUA,...)  + Request Object (JWT) including the DCQL query 
+SW->>HW: Return signed/encrypted Request Object (metadata, nonce, DCQL query, verifierInfo attestations)
+end
+```
 
-The internal system has created the DCQL query object and the verifierInfo object. The verifierInfo object MUST contain the EBWOID, the WUA and if required by the Holder optional additional authorization attestations.
+The RP EBW backend receives a request from an internal system to request(Q)EAAs from an EBW owner. 
+
+The RB Portal has created the DCQL query object and the verifierInfo object. The verifierInfo object MUST contain the EBWOID, the WUA and if required by the Holder optional additional authorization attestations.
 The DCQL query MUST include the query for the holders EBWOID and the WUA to enable holder identity and holder EBW integrity verification. 
 
 [Open topics: 
