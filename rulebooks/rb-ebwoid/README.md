@@ -30,7 +30,7 @@ The European Business Wallet – Owner Identification Data (EBWOID) is based on 
 The European Business Wallet – Owner Identification Data (EBWOID) attestation defines a legally defined, common set of data that uniquely identifies an EBW owner (economic operator or public sector body) within the European Business Wallets (EBW) ecosystem. Its purpose is to provide a harmonised, interoperable attestation that enables Relying Parties and business wallets to establish trust in an EBW owner entity. EBWOID focuses on the core identifiers needed across national and cross‑border use cases.
 
 Primary objectives:
-- Provide a cross‑border unique identifier for the EBW owner (In **WEBUILD** EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2><Issuer-reference>.<unique identificator> eks. SEBOLREG.123456789) and the official name of the EBW owner.
+- Provide a cross‑border unique identifier for the EBW owner (In **WE BUILD** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. SEBOLREG.123456789) and the official name of the EBW owner.
 - Serving as the activation and ownership attestation enabler for the EBW.
 - Support verification of issuer authenticity and attestation integrity based on the EBW proposal (Articles 8–9) and ARF trust requirements.
 - Enable consistent consumption in EBW and EUDI flows as Electronic Attestations of Attributes (QEAA/Pub-EAA) aligned with applicable implementing acts.
