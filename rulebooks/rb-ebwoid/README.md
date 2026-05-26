@@ -18,7 +18,7 @@
 
 **Feedback:**
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
-Alternative: Contact workpackage 4 in WE BUILD.
+Alternative: Contact Work Package 4 in WE BUILD.
 
 
 ## 1 Introduction
