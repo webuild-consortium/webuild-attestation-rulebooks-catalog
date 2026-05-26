@@ -549,7 +549,7 @@ Practical examples (illustrative):
   - RP includes its access certificate and intermediate certificates in the request.
   - Wallet Unit validates the chain up to the Access CA trust anchor before showing the request to the user.
 
-For usage of trust-list in WEBUILD, please consult the Architecture Blueprint.
+For information regarding the use of the trust list in WE BUILD, please consult the Architecture Blueprint
 
 
 ## 6 Revocation
