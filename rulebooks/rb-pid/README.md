@@ -7,9 +7,8 @@ subtitle: "ARF Annex 3.01 - PID Rulebook"
 
 | Version | Date        | Description                                                                                                                                                                                                                                                                                                                                                                                                                      |
 |---------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|
-| 0.1.3   | 27 Oct 2025 | Transferred main structure and content from [EUDI repository](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md) and modified template to closer align to [EUDI template](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/template/attestation-rulebook-template.md). First specific draft for WEBUILD |
-| 0.9.0   | 2025-12-12  | Feedback of WEBUILD WP 4 Task 2 implemented                                                                                                                                                                                                                                                                                                                                                                                      |
+| 0.1.3   | 27 Oct 2025 | Transferred main structure and content from [EUDI repository](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md) and modified template to closer align to [EUDI template](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/template/attestation-rulebook-template.md). First specific draft for WE BUILD |
+| 0.9.0   | 2025-12-12  | Feedback of WE BUILD WP 4 Task 2 implemented                                                                                                                                                                                                                                                                                                                                                                                      |
 | 0.9.9   | 2026-05-21  | Alignment to the ARF version 2.8.0 defined [PID version 1.5  ](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md)                                                                                                                                                                                                                                     |
 | 1.0.0   | 2026-05-22  | Minor language and consistency adjustments                                                                                                                                                                                                                                                                                                                                                                                       |
 
@@ -24,7 +23,7 @@ subtitle: "ARF Annex 3.01 - PID Rulebook"
 
 ### Feedback and contact
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
-Alternative: Contact workpackage 4 in WEBUILD.
+Alternative: Contact Work Package 4 in WE BUILD.
 
 ## 1 Introduction
 
@@ -82,10 +81,10 @@ statements of fact.
 
 This document uses the terminology specified in [Annex 1](https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-1/annex-1-definitions/) of the ARF.
 
-### 1.5 Deviations from the ARF 2.8.0 defined PID version 1.5 for WEBUILD
-1. The attribute and metadata tables of chapter two have been extended with links to the semantic vocabulary of WEBUILD. 
+### 1.5 Deviations from the ARF 2.8.0 defined PID version 1.5 for WE BUILD
+1. The attribute and metadata tables of chapter two have been extended with links to the semantic vocabulary of WE BUILD. 
 2. The structure of this rulebook follows the EUDI template version 1.1. The ARF PID rulebook is diverging from this version. 
-3. WEBUILD specifies an explicit tokenlist based status mapping for SD-JWT in line with [Architecture Decision Record for WEBUILD on the topic ](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/attestation-revocation-mechanism.md)
+3. WE BUILD specifies an explicit token-list-based status mapping for SD-JWT in line with [Architecture Decision Record for WE BUILD on the topic ](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/attestation-revocation-mechanism.md)
 4. [Chapter 4](#4-pid-usage), [Chapter 5](#5-trust-anchors) and [Chapter 6](#6-revocation) have been expanded compared out over the ARF 2.8.0 PID version 1.5
 
 ## 2 PID attributes and metadata
@@ -521,7 +520,7 @@ Verification steps - RP verifies PID authenticity:
 3) Obtain the relevant trust anchor(s):
    - For PID or QEAA, obtain the Provider trust anchor from the applicable LoTE / Trusted List.
    - For PuB-EAA, validate the PuB-EAA Provider certificate chain up to the QTSP trust anchor from the QTSP Trusted List.
-   - For non-qualified EAA cases, obtain the applicable domain trust anchor using the mechanism defined below (WEBUILD profile).
+   - For non-qualified EAA cases, obtain the applicable domain trust anchor using the mechanism defined below (WE BUILD profile).
 4) Validate the trust chain (including intermediate certificates where used) and validate revocation/status information as specified in Chapter 6.
 5) Where a trust anchor source is retrieved dynamically, validate the authenticity and integrity of the retrieved artefact before use (for example, using a signed LoTE/Trusted List artefact or an authenticated distribution channel).
 
@@ -531,14 +530,14 @@ Verification steps - Wallet Unit authenticates the RP (precondition for PID pres
 3) Validate revocation/status of certificates in the chain as required by the applicable ecosystem rules and Chapter 6.
 4) Proceed to user approval only after successful RP authentication.
 
-WEBUILD specific profile and extensions:
-- WEBUILD SHALL support a machine-readable LoTE endpoint (or equivalent distribution mechanism) that contains:
-  - trust anchors for PID Providers participating in WEBUILD, and
-  - trust anchors for the Access Certificate Authorities used by WEBUILD participants.
-- The WEBUILD LoTE SHOULD be structured so that entries can be resolved by `issuing_country` and entity identifier, and SHOULD support inclusion of pointers to authoritative national LoTE / Trusted List sources where available.
-- Wallet Units and RPs in WEBUILD SHALL be able to resolve trust anchors using either:
+WE BUILD specific profile and extensions:
+- WE BUILD SHALL support a machine-readable LoTE endpoint (or equivalent distribution mechanism) that contains:
+  - trust anchors for PID Providers participating in WE BUILD, and
+  - trust anchors for the Access Certificate Authorities used by WE BUILD participants.
+- The WE BUILD LoTE SHOULD be structured so that entries can be resolved by `issuing_country` and entity identifier, and SHOULD support inclusion of pointers to authoritative national LoTE / Trusted List sources where available.
+- Wallet Units and RPs in WE BUILD SHALL be able to resolve trust anchors using either:
   - the `trust_anchor` metadata carried in the PID, or
-  - a pre-configured WEBUILD LoTE entry point based on `issuing_country`.
+  - a pre-configured WE BUILD LoTE entry point based on `issuing_country`.
 
 Practical examples (illustrative):
 - Example 1 - PID includes `trust_anchor` pointing to a LoTE entry:

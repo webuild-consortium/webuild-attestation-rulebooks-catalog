@@ -13,7 +13,7 @@
 | Version | Date       | Description                                                                                                                                                                                           |
 |---------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 0.9.1   | 13.02.2026 | EBWOID created based on the [EBW proposal (Articles 8–9)](https://digital-strategy.ec.europa.eu/en/library/proposal-regulation-establishment-european-business-wallets) plus feedback from semantics. |
-| 1.0.0   | 22.05.2026 | Updated based on review feedback.                                                                                                                                                                     |
+| 1.0.0   | 22.05.2026 | Updated following review feedback.                                                                                                                                                                     |
 
 
 **Feedback:**
@@ -25,7 +25,7 @@ Alternative: Contact Work Package 4 in WE BUILD.
 
 ### 1.1 Document scope and purpose
 
-The European Business Wallet – Owner Identification Data (EBWOID) is based on the European Business Wallet regulation draft COM(2025) 838. While this is a document with draft status, WEBUILD decided at the beginning of 2026 that the draft would be accepted as the basis for the Business Wallet work. This means the suggested amendments to Regulation 2024/1183 will be applied for WEBUILD. 
+The European Business Wallet – Owner Identification Data (EBWOID) is based on the European Business Wallet Regulation draft COM(2025) 838. While this document is still in draft status, WE BUILD decided at the beginning of 2026 that the draft would be accepted as the basis for the Business Wallet work. This means that the suggested amendments to Regulation 2024/1183 will be applied within WE BUILD. 
 
 The European Business Wallet – Owner Identification Data (EBWOID) attestation defines a legally defined, common set of data that uniquely identifies an EBW owner (economic operator or public sector body) within the European Business Wallets (EBW) ecosystem. Its purpose is to provide a harmonised, interoperable attestation that enables Relying Parties and business wallets to establish trust in an EBW owner entity. EBWOID focuses on the core identifiers needed across national and cross‑border use cases.
 
@@ -64,7 +64,7 @@ The terminology is extended as follows:
 | EBW               | European Business Wallet                                                                                                                                                                                                      |
 | EBW owner         | An economic operator or public sector body that owns an EBW, including Union entities; corresponds to the bearer of EBWOID.                                                                                                   |
 | EBWOID            | European Business Wallet owner identification data. A set of data that enables the establishment of the identity of a European Business Wallet owner                                                                          |
-| economic operator | any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession |
+| Economic operator | Any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession |
 
 For more terminology, please refer to Article 3 of the legislation draft [COM 2025/838](https://digital-strategy.ec.europa.eu/en/library/proposal-regulation-establishment-european-business-wallets)
 
@@ -133,7 +133,7 @@ All data identifiers and definitions in this chapter are independent of any enco
 # 3 Attestation encoding
 
 ## 3.1 ISO/IEC 18013-5-compliant encoding
-The ISO/IEC 18013-5 encoding is out of scope for the WEBUILD rulebook. This decision is based on the results of the specification phase of the WEBUILD consortium, where no requirements or use cases for proximity sharing of the EBWOID credential were identified.
+The ISO/IEC 18013-5 encoding is out of scope for the WE BUILD rulebook. This decision is based on the results of the specification phase of the WE BUILD consortium, during which no requirements or use cases for proximity sharing of the EBWOID credential were identified.
 
 ## 3.2 SD-JWT VC-based encoding
 
@@ -261,7 +261,7 @@ Verification steps:
 
 Issuers MAY use intermediate signing certificates. RPs SHALL handle such chains. The trust model is equivalent to Annex VII for PuB‑EAA.
 
-For usage of the trust-list in WEBUILD, please consult the Architecture Blueprint. 
+For information regarding the use of the trust list in WE BUILD, please consult the Architecture Blueprint.
 
 ## 6 Revocation
 
@@ -280,7 +280,7 @@ Relying Party checks:
 
 ## 7 Compliance
 This EBWOID rulebook is compliant with the draft for regulation COM(2025) 838, and in line with the ARF version 2.8.0. 
-While the legislative process for the EBW regulation continues, major updates to this rulebook for the WEBUILD context are not expected unless required by exceptional circumstances and WEBUILD Management Board. 
+While the legislative process for the EBW Regulation continues, major updates to this rulebook within the WE BUILD context are not expected unless required by exceptional circumstances or requested by the WE BUILD Management Board. 
  
 
 ## 8 References
