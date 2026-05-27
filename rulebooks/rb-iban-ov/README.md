@@ -15,7 +15,7 @@
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations mettings |
 
 * Contact:
-  <a href="mailto:ricky.lamberty@de.bosch.com">Ricky Lambert</a>
+  <a href="mailto:ricky.lamberty@de.bosch.com">Ricky Lamberty</a>
  
 
 * Feedback:
@@ -36,7 +36,7 @@ This IBAN-OV Attestation Rulebook is based on:
 
 - PSD2 / PSD3 framework as the foundational payment services regulatory layer
 - ISO 13616:2020 for IBAN formatting and validation
-- ISO 9362 for BIC/SWIFT code formatting
+- ISO 9362:2022 for BIC/SWIFT code formatting
 - ISO 4217:2015 for currency codes
 - ISO 3166-1 for country codes
 
@@ -66,16 +66,16 @@ In addition, 'must' (non-capitalised) is used to indicate an external constraint
 | IBAN	            | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020                                    |
 | BIC/SWIF         | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362                                              |
 | EUID	            | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU                                                                          |
-| KYC              | 	Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                                                       |
+| KYC              | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                                                        |
 | KYS	             | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                     |
-| Sole Trader      | 	A natural person operating a business who is registered in a national register                                                                                                 |
+| Sole Trader      | A natural person operating a business who is registered in a national register                                                                                                  |
 | ISO 4217	        | International standard defining currency codes (e.g., EUR, USD, GBP)                                                                                                            |
 | ISO 13616        | International standard defining the IBAN format and validation rules                                                                                                            |
 | ISO 9362	        | International standard defining the BIC/SWIFT code format                                                                                                                       |
 | ISO 3166-1	      | International standard defining country codes                                                                                                                                   |
 
 ## 2 Attestation attributes and metadata
-The IBAN-OV Attestation is a document that provides verified information about the bank account details of the account owner. It ensures that a third party can confidently confirm that a specific IBAN is owned by a designated natural or legal person.
+The IBAN-OV Attestation is a document that provides verified information about the bank account details of the account owner. It ensures that a third party can confidently confirm that a specific IBAN is owned by a designated natural or legal person. 
 
 ### 2.1 Introduction
 
@@ -103,9 +103,8 @@ IBAN-OV Attestation
 │   ├── national_bank_code
 │   ├── nace_code
 │   ├── clearing_number
-
-├── issuance_date
-└── expiry_date
+│   ├── issuance_date
+│   └── expiry_date
 
 **Explanation:**
 - `Bank_Account` contains the core details of the account itself, such as IBAN, currency, and type.
@@ -206,7 +205,7 @@ The following integrity rules SHALL be enforced:
 The IBAN-OV attestation SHALL be cryptographically bound and issued exclusively to the specific Holder wallet that was onboarded by the Issuer (the bank).
 - `expiry_date` SHALL be dated after the issuance_date.
 - `iban` SHALL conform to the ISO 13616:2020 format: [A-Z]{2}[0-9A-Z]{13,30}.
-- `bic_swift` SHALL conform to the ISO 9362 format: [A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3}).
+- `bic_swift` SHALL conform to the ISO 9362:2022 format: [A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3}).
 - `provider_country` SHALL be a valid ISO 3166-1 alpha-3 country code.
 - `account_currency` SHALL contain at least one valid ISO 4217:2015 currency code.
 - `euid` in Account_Ownership SHALL be a non-empty string identifying the legal entity owning the account.
