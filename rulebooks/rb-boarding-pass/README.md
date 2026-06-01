@@ -1,555 +1,432 @@
 (Template version: 1.1)
 
-# WE BUILD Attestation Rulebook Template for attestations of type *Boarding Pass*
+# WE BUILD Attestation Rulebook for attestations of type *Ferry Boarding Pass*
 
-*[Based on the WE BUILD attestation description: https://portal.webuildconsortium.eu/group/wp3-technology-standards/files?mid=6895&fid%5B0%5D=6880&fid%5B1%5D=7094]*
-
-*This WE BUILD v1 template is derived from the EUDI attestation rulebook template and keeps its
-main chapter structure while adding practical author guidance and reusable placeholders.*
-
-*Provide information about the author(s) of this Rulebook in the following form:*
+*[Based on the WE BUILD Attestation Rulebook Template and the Ferry Boarding Pass Attestation model.]*
 
 * Author(s):
-    * [NAME SURNAME, AFFILIATION]
-    * [NAME SURNAME, AFFILIATION]
+    * Nikos Triantafyllou, UAegean
 * Previous Authors
-    * [NAME SURNAME, AFFILIATION (versions)]
-    * [NAME SURNAME, AFFILIATION (versions)]
-
-*Provide versioning information about the Rulebook in the following form:*
+    * N/A
 
 | Version | Date | Description |
-|---------|------------|------------|
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG] |
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG] |
-
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
+|---------|------|-------------|
+| 0.1 | 2026-06-01 | Initial draft rulebook for the Ferry Boarding Pass Attestation |
 
 **Feedback:**
 
-* <https://example.com/tracker>
+* [RULEBOOK AUTHOR TO DEFINE]
 
 ## 1 Introduction
 
 ### 1.1 Document scope and purpose
 
-*Provide a concise explanation of the purpose of the defined attestation type, explicitly stating
-why it exists and what its primary objective is within the context of the EUDI Wallet ecosystem*
+This Rulebook defines the *Ferry Boarding Pass Attestation* for use in the European Digital Identity Wallet ecosystem.
 
-*In addition, authors SHOULD describe the attestation in plain language so that readers can quickly
-understand what it does in practice, who it is for, and in which use case(s) it is expected to be
-used. Content may be reused and refined from an existing attestation description where available.*
+The Ferry Boarding Pass Attestation expresses the real-world fact that a natural person holds a valid boarding pass for a specific ferry journey and is entitled to board a specific vessel at a given departure date and time.
 
-*When drafting this section, authors SHOULD cover at least the following points:*
+The attestation is intended to be issued by an authentic source, such as a ferry operator or an authorised ticketing system acting on behalf of the ferry operator. The Holder is the passenger to whom the boarding entitlement applies. Relying Parties include ferry operators, port boarding gates, authorised boarding control staff, and other authorised systems that need to verify boarding entitlement.
 
-* What real-world fact, entitlement, role, status, or capability the attestation expresses.
-* Which issuers, holders, and relying parties are expected to use it.
-* Which use case or user journey the attestation supports.
-* Which existing attestation description, use-case document, or functional specification can be
-used as a source for copy-paste or refinement.
-* Which terminology should remain aligned with the source attestation description.
+In practical terms, the attestation enables a passenger to present proof of boarding entitlement through an EUDI Wallet. It can reduce reliance on paper tickets and can reduce the need for real-time backend lookups during boarding, provided that the Relying Party can verify the issuer, the signature, the validity period, and the relevant journey details.
 
-[RULEBOOK AUTHOR TO DEFINE]
-
-> Example
->
-> This attestation enables a relying party to verify, in plain language, that the holder is
-> authorised to act in a specific project role. It is intended for project operators, service
-> providers, and supervisory relying parties in the WE BUILD ecosystem. The functional description
-> and actor terminology can be reused from the corresponding use-case attestation description and
-> refined here into rulebook language.
+The attestation supports ferry boarding use cases, including online or offline verification at ports and boarding gates. It contains journey-specific and passenger-specific information strictly related to the boarding process, including passenger name, ticket identifiers, departure and arrival information, vessel information, and seat allocation where applicable.
 
 ### 1.2 Document structure
 
-*Provide a brief overview of the Rulebook's sections and their purpose. The main
-sections of the Rulebook SHOULD be*
+This Rulebook is structured as follows:
 
-* Chapter 2, which describes the attestation attributes and metadata in an
-encoding-independent manner.
-* Chapter 3, which specifies how the attestation
-attributes and metadata are encoded in case the attestation complies with [ISO/IEC
-18013-5] and/or [SD-JWT VC] and/or [W3C VCDM v2.0]. Each encoding SHALL be specified in a separate section, or even in a separate chapter.
-* Chapter 4, which specifies attestation usage.
-* Chapter 5, which defines how trust anchors for attestation verification can be obtained.
-* Chapter 6, which defines attestation revocation mechanisms.
-* Chapter 7, which provides compliance information.
+* Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner.
+* Chapter 3 specifies how the attestation attributes and metadata are encoded using SD-JWT VC. ISO/IEC 18013-5 and W3C VCDM encodings are not defined in this version of the Rulebook.
+* Chapter 4 specifies attestation usage, including presentation and verification expectations.
+* Chapter 5 defines how trust anchors for attestation verification can be obtained.
+* Chapter 6 defines revocation and expiry mechanisms.
+* Chapter 7 provides compliance information.
+* Chapter 8 lists references.
 
 ### 1.3 Key words
 
-*The following are the recommended keywords. Modify if necessary*
+This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified in [RFC 2119], i.e., to indicate requirements, recommendations and options specified in this document.
 
-This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as
-specified in [RFC 2119], i.e., to indicate requirements, recommendations and
-options specified in this document.
-
-In addition, 'must' (non-capitalised) is used to indicate an external
-constraint, i.e., a requirement that is not mandated by this document, but, for
-instance, by an external document. The word 'can' indicates a capability,
-whereas other words, such as 'will', and 'is' or 'are' are intended as
-statements of fact.
+In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e., a requirement that is not mandated by this document, but, for instance, by an external document. The word 'can' indicates a capability, whereas other words, such as 'will', and 'is' or 'are' are intended as statements of fact.
 
 ### 1.4 Terminology
 
-*It is recommended to use the terminology defined in Annex 1 of ARF. For example
-the following text can be used.*
-
 This document uses the terminology specified in Annex 1 of the ARF.
+
+In addition, the following domain-specific terms are used:
+
+| Term | Meaning |
+|------|---------|
+| Ferry Boarding Pass Attestation | A Verifiable Credential representing a passenger's entitlement to board a specific ferry journey. |
+| Ferry operator | The organisation operating the ferry journey or acting as the authentic source for the boarding entitlement. |
+| Authorised ticketing system | A system authorised by the ferry operator to issue or manage boarding passes. |
+| Passenger | The natural person to whom the boarding entitlement applies. |
+| Boarding gate | A physical or digital checkpoint where the boarding entitlement is verified. |
+| Journey | A specific ferry trip between a departure port and an arrival port at a scheduled date and time. |
 
 ## 2 Attestation attributes and metadata
 
 ### Chapter overview and requirements
 
-*This chapter is used for defining all attributes that an
-attestation of the defined type may contain. In this section
-the attributes SHALL be defined in an encoding-independent manner (see ARB_06 in [Topic 12]).
-Each attribute can be mandatory, optional, or conditional
-and this SHALL be specified in the corresponding section (see ARB_09 in [Topic 12]).*
+This chapter defines the attributes and metadata that a Ferry Boarding Pass Attestation may contain. The attributes are defined in an encoding-independent manner. Each attribute is classified as mandatory, optional, or conditional.
 
-*When attributes are defined, referring to attributes that
-already exist in a catalogue of attestation attributes
-SHOULD be considered (see ARB_07 in [Topic 12]).*
-
-*Where use-case documentation or an attestation description already defines attribute meanings,
-logical models, code lists, or integrity constraints, authors SHOULD align terminology with those
-sources and may copy and refine that material for this Rulebook.*
-
-*[Topic 12] of Annex 2 of the ARF defines the following High-Level Requirements with
-respect to the Attestation Rulebooks:*
-
-**Requirements for QEAA**
-
-* An attribute as meant in Annex V point a)  of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_13 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point c)  
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex V point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* One or more attributes or metadata representing the location meant in Annex V point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL
-indicate at least the URL at which a machine-readable version of the trust anchor to be
-used for verifying the QEAA can be found or looked up (see ARB_20 in [Topic 12]).
-
-**Requirements for PuB-EAA**
-
-* An attribute as meant in  Annex VII point a) of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
- VII point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_14 in [Topic 12]).
-* One or more attributes representing the set of data meant in Annex VII point c)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex VII point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* one or more attributes or metadata representing the location meant in Annex VII point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL
-indicate at least the URL at which a machine-readable version of the qualified
-certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [Topic 12])
-
-**Requirements for non-qualified EAA**
-
-* An attribute indicating that the attestation is an EAA should be included (see ARB_12 in [Topic 12]).
-See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_15 in [Topic 12]).
-* One or more attributes representing the set of data meant in Annex V point c) of the
-[European Digital Identity Regulation] SHOULD be included (see ARB_17 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point e) of
-the [European Digital Identity Regulation] SHOULD be defined (see ARB_19 in [Topic 12]).
-* One or more attributes or metadata representing the location at which a machine-readable
-version of the trust anchor to be used for verifying the EAA can be found or
-looked up SHOULD be defined. What this location indicates precisely is dependent
-on the nature of the mechanism used for distributing trust anchors, detailed in section
-5 (see ARB_21 in [Topic 12])
+The Ferry Boarding Pass Attestation is journey-specific and time-bound. It contains only the information necessary to verify that the Holder is entitled to board a specific ferry service. The attribute set is intentionally limited to support data minimisation.
 
 ### 2.1 Introduction
 
-*In this section, briefly introduce the overall design and purpose of the specific attestation type
-defined by this Rulebook, including key decisions regarding its attributes and
-legal categorization.*
+The Ferry Boarding Pass Attestation is defined as a non-qualified Electronic Attestation of Attributes unless a future version of this Rulebook explicitly defines a qualified or public-sector legal category.
 
-*According to Annex V point a) and  Annex VII point a) of the [European Digital Identity Regulation]
-an indication, at least in a form suitable for automated processing, that the attestation
-has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
-of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.
+The attribute `attestation_legal_category` SHALL be included and SHALL have the value `non-qualified-EAA`.
 
-This document defines the attribute "attestation_legal_category" which SHALL have
-the value "QEAA" or "PuB-EAA" or "non-qualified-EAA".*
+The attestation model consists of the following logical groups:
 
-*For complex attestations, authors SHOULD include or reference a logical model, diagram, or similar
-representation that explains the main entities, relationships, and attribute groupings. Such models
-may often be reused from an existing attestation description or use-case documentation.*
+* passenger identification data;
+* ticket identifiers;
+* journey details;
+* vessel and port information;
+* issuer information;
+* credential metadata.
 
-> Example
->
-> The attestation description for Use Case X already contains a domain model showing the holder,
-> issuer, project, permit, and validity period. That model may be copied here and adjusted so that
-> the terminology exactly matches the rulebook.
-
-*In the following subsections 2.2 - 2.7 define in an encoding independent manner all
-mandatory, optional, and conditional attributes and metadata. In each subsection
-provide a table of the following form. When applicable, use Sections 2.8 and 2.9 to document
-code lists and integrity rules that are needed to interpret these attributes consistently:*
-
-*Where available, authors SHOULD include a stable semantic term reference (for example a URI,
-IRI, or controlled identifier from an agreed semantics catalogue) for each attribute or metadata item.*
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a unique attribute identifier* | *Provide a stable semantics term reference* | *Briefly describe the semantic of this attribute* | *Provide a type, e.g., integer, string, boolean, date.* | *Give an example value* |
-
-*NOTE Data identifiers should be unambiguous, machine-readable where possible, and
-avoid natural-language ambiguities.*
+The attestation is bound to a single passenger and a single ferry journey. It SHALL NOT be treated as a reusable credential after the scheduled departure time.
 
 ### 2.2 Mandatory attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `attestation_legal_category` | ARF Topic 12 / Rulebook legal category indication | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
+| `identifier` | N/A | Unique identifier of the boarding pass. | string | `BP-2026-000123456` |
+| `ticketQR` | N/A | Encoded ticket representation used for scanning at boarding control. | string | `M1_FASTFERRIES_20260615_000123456` |
+| `ticketNumber` | N/A | Ferry ticket number. | string | `000123456` |
+| `firstName` | OIDC `given_name` where applicable | Passenger given name. | string | `Nikos` |
+| `lastName` | OIDC `family_name` where applicable | Passenger family name. | string | `Triantafyllou` |
+| `departureDate` | ISO 8601 date | Scheduled departure date. | date | `2026-06-15` |
+| `departureTime` | ISO 8601 / local time | Scheduled departure time, expressed in the local time of the departure port. | string | `07:30` |
+| `arrivalDate` | ISO 8601 date | Scheduled arrival date. | date | `2026-06-15` |
+| `arrivalTime` | ISO 8601 / local time | Scheduled arrival time, expressed in the local time of the arrival port. | string | `12:45` |
+| `arrivalPort` | UN/LOCODE recommended | Destination port. | string | `GRMLO` |
+| `vesselDescription` | N/A | Description or name of the ferry vessel. | string | `Fast Ferries Andros` |
+| `issuer.issuing_country` | ISO 3166-1 alpha-2 | Country of the ferry operator or authorised ticketing operator. | string | `GR` |
+| `issuer.issuing_organisation` | N/A | Legal name of the ferry operator or authorised ticketing operator. | string | `Fast Ferries S.A.` |
+| `issuer.issuing_date` | ISO 8601 date | Date of issuance of the boarding pass. | date | `2026-06-01` |
 
 ### 2.3 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `ticketLet` | N/A | Ticket letter, ticket class code, or other operator-specific classification. | string | `A` |
+| `seatType` | N/A | Type of seat or accommodation. | string | `AIR_SEAT` |
+| `seatNumber` | N/A | Assigned seat number. | string | `12A` |
 
 ### 2.4 Conditional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `seatNumber` | N/A | Assigned seat number. SHALL be present only where a specific seat is allocated to the passenger. MUST be omitted if free seating applies. | string | `12A` |
+| `seatType` | N/A | Type of seat or accommodation. SHOULD be present where the ticket product or boarding process depends on the seat or accommodation category. | string | `DECK` |
 
 ### 2.5 Mandatory metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `vct` | SD-JWT VC | Verifiable Credential Type identifying this attestation type. | string | `urn:eu.europa.ec.eudi:ferry_boarding_pass:1` |
+| `iss` | SD-JWT VC / JWT | Identifier of the issuer of the credential. | string | `https://issuer.example-ferry.gr` |
+| `iat` | JWT | Time at which the credential was issued. | integer | `1780315200` |
+| `exp` | JWT | Expiration time of the credential. For this attestation it SHALL NOT be later than the scheduled departure time unless operational rules explicitly require a short post-departure grace period. | integer | `1781508600` |
+| `cnf` | SD-JWT VC / JOSE | Confirmation claim binding the credential to key material controlled by the Holder or Wallet Unit, where holder binding is used. | object | `{ "jwk": { ... } }` |
+| `status` | SD-JWT VC status mechanism, where used | Status information enabling revocation or suspension checks, where revocation is supported. | object | `{ "status_list": { ... } }` |
 
 ### 2.6 Optional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `nbf` | JWT | Time before which the credential MUST NOT be accepted. | integer | `1780315200` |
+| `jti` | JWT | Unique identifier of the credential instance. | string | `urn:uuid:1ddcf8dc-3f0b-4b30-987d-5eacb9dba111` |
+| `trust_anchor` | ARF Topic 12 | Location or identifier of the machine-readable trust anchor or trust framework entry used to verify issuer authorisation. | string | `https://trust.example.eu/ferry/operators/fast-ferries` |
+| `cryptographically_bound_to` | ARF Topic 12 / ARB_28 | Identifier of another attestation type to which this attestation is cryptographically bound, where such binding is used. | string | `urn:eudi:pid:1` |
 
 ### 2.7 Conditional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `status` | SD-JWT VC status mechanism, where used | SHALL be present if the issuer supports revocation or suspension for the boarding pass. MAY be omitted where the attestation is short-lived and expires at or before departure time. | object | `{ "status_list": { ... } }` |
+| `cryptographically_bound_to` | ARF Topic 12 / ARB_28 | SHOULD be present where the boarding pass is required to be presented together with PID or another identity attestation for passenger identity matching. | string | `urn:eudi:pid:1` |
 
 ### 2.8 Code lists
 
-*Use this section for controlled vocabularies, enumerations, value sets, or external catalogues
-that are necessary to interpret one or more attributes or metadata items. Definitions may be reused
-from the attestation description or other use-case documentation and refined here where needed.*
-
-*For each code list, authors SHOULD state the field to which it applies, the allowed values, their
-meaning, the source vocabulary or reference, and any extensibility rule or governance note.*
-
 | **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
 |----------------|--------------------|-------------|--------------------------|---------------------------|
-| *Provide a field name* | *List the allowed values* | *Explain what each value means* | *Reference the source* | *State whether extensions are allowed* |
-
-> Example
->
-> | **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
-> |----------------|--------------------|-------------|--------------------------|---------------------------|
-> | `signatory_rule` | `sole`, `joint` | Indicates whether the representative may bind the organisation alone or only together with one or more additional representatives | EUCC attestation description / WE BUILD company representation model | Additional values SHOULD only be introduced if they are defined consistently across issuer and verifier implementations |
+| `arrivalPort` | Valid port identifiers | Identifies the destination port. | UN/LOCODE recommended | Implementations MAY also support operator-specific port identifiers during pilots, provided mapping to UN/LOCODE is maintained where available. |
+| `issuer.issuing_country` | ISO 3166-1 alpha-2 country codes | Identifies the country of the ferry operator or authorised ticketing operator. | ISO 3166-1 alpha-2 | Extensions SHALL NOT be used. |
+| `departureDate` | ISO 8601 date | Scheduled departure date. | ISO 8601 | Date-only format SHOULD be used. |
+| `arrivalDate` | ISO 8601 date | Scheduled arrival date. | ISO 8601 | Date-only format SHOULD be used. |
+| `issuer.issuing_date` | ISO 8601 date | Date on which the boarding pass was issued. | ISO 8601 | Date-only format SHOULD be used. |
+| `departureTime` | Local time string | Scheduled departure time in the local time of the departure port. | ISO 8601 time representation recommended | Time-zone handling SHALL be clear to the verifier. |
+| `arrivalTime` | Local time string | Scheduled arrival time in the local time of the arrival port. | ISO 8601 time representation recommended | Time-zone handling SHALL be clear to the verifier. |
+| `attestation_legal_category` | `non-qualified-EAA`, `QEAA`, `PuB-EAA` | Indicates the legal category of the attestation. | ARF Topic 12 / Rulebook template | This Rulebook uses `non-qualified-EAA`. |
 
 ### 2.9 Integrity rules
 
-*Use this section to define integrity or consistency rules that are not fully captured by the
-encoding format or schema alone, such as cross-field dependencies, temporal consistency checks,
-mutual exclusivity, or conditional combinations of values.*
-
-*Integrity rules may be copied and refined from an attestation description, logical model, or
-business-rule specification where available.*
-
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
 |-------------|--------------------|-------------------|--------------------|-------------------------------------------|
-| *Provide a rule identifier* | *State the rule precisely* | *Explain the rationale* | *Issuer, verifier, schema validation, or business process* | *Describe rejection, warning, or remediation behavior* |
-
-> Example
->
-> | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
-> |-------------|--------------------|-------------------|--------------------|-------------------------------------------|
-> | `IR-01` | If `legal_representative.natural_person` is present, `full_name` and `date_of_birth` SHALL be present. If `legal_representative.legal_person` is present, `name`, `id`, and `legal_form_type` SHALL be present. | Prevents incomplete representation statements and ensures that a relying party can determine whether the representative is a natural person or a legal person and validate the representation data accordingly. | Issuer business rules, schema validation, and verifier business validation. | Issuer SHALL reject incomplete representative data; verifier SHALL treat the representation information as invalid or insufficient for the transaction. |
+| `BP-IR-01` | `arrivalDate` SHALL NOT precede `departureDate`. | Prevents temporally inconsistent journey information. | Issuer business rules, schema validation, verifier business validation. | Issuer SHALL reject inconsistent journey data. Verifier SHALL reject the attestation for boarding if this rule fails. |
+| `BP-IR-02` | The boarding pass SHALL be bound to a single journey. | Prevents reuse across different services, vessels, or dates. | Issuer business rules and verifier business validation. | Verifier SHALL reject the attestation if it cannot determine the specific journey. |
+| `BP-IR-03` | The attestation SHALL NOT be reusable after the scheduled departure time. | Boarding entitlement is time-bound and journey-specific. | Issuer validity period and verifier freshness checks. | Verifier SHALL reject the attestation after expiry, unless a locally defined operational grace period applies. |
+| `BP-IR-04` | `seatNumber` MUST be omitted if free seating applies. | Prevents misleading seat allocation information. | Issuer business rules and schema validation. | Issuer SHALL omit `seatNumber` for free seating. Verifier SHOULD ignore or reject inconsistent seat allocation data. |
+| `BP-IR-05` | `identifier` SHALL be unique for each boarding pass issued by the issuer. | Enables unambiguous identification, audit, and status checking. | Issuer business rules. | Issuer SHALL prevent duplicate identifiers. Verifier MAY reject duplicated identifiers if detected. |
+| `BP-IR-06` | Passenger name attributes in the boarding pass SHOULD be compared with PID or another accepted identity source when the boarding process requires identity matching. | Ensures that the person presenting the boarding pass is the intended passenger. | Relying Party business validation. | Verifier SHOULD reject the boarding transaction where required identity matching fails. |
 
 # 3 Attestation encoding
 
 ## 3.1 ISO/IEC 18013-5-compliant encoding
 
-*If the attestation type supports the the format specified in ISO/IEC 18013-5,
-then in this section the  ISO/IEC 18013-5-compliant encoding of attributes and metadata
-should be defined.*
+This version of the Rulebook does not define an ISO/IEC 18013-5 mdoc encoding for the Ferry Boarding Pass Attestation.
 
-*It is noted that (see ARB_02 in [Topic 12]) the Schema Provider SHALL analyse whether it must
-be possible for a User to present that type of attestation when the Wallet Unit
-and the Relying Party are in proximity and attestations are presented without
-using the internet. If so,the attestations must be issued in the ISO/IEC 18013-5-compliant
-mdoc format.*
+The Ferry Boarding Pass Attestation defined in this Rulebook is specified for SD-JWT VC-based issuance and presentation. If a future version of this Rulebook defines an ISO/IEC 18013-5-compliant mdoc representation, that version SHALL define a unique document type, namespaces, attribute identifiers, CBOR encoding rules, and illustrative mdoc examples.
 
-*Furthermore, in this section a document type SHALL be defined, which SHALL be
-unique within the scope of the EUDI Wallet ecosystem (see ARB_05 in [Topic 12]).*
+## 3.2 SD-JWT VC-based encoding
 
-[RULEBOOK AUTHOR TO DEFINE THE ATTESTATION TYPE]
+The Ferry Boarding Pass Attestation SHALL be issued as an SD-JWT VC.
 
-*Provide a list of available encoding formats and their specifications (e.g., encoding, maximum lengths,
-date formats, etc). For example:*
+The Verifiable Credential Type (`vct`) for this attestation type is:
 
-* tstr, uint, bstr, bool and tdate are CDDL representation types defined in
-  [RFC 8610].
-    * Regarding type tstr: this document confirms that, as specified in [RFC
-    8949], a tstr SHALL be encoded in UTF-8 and SHALL support the full Unicode
-    range.
-    * All attributes having encoding type tstr SHALL have a maximum length of
-    150 characters.
-    * This document specifies full-date as full-date = #6.1004(tstr), where tag
-    1004 is specified in [RFC 8943].
-    * In accordance with [RFC 8949], section 3.4.1, a tdate attribute SHALL
-    contain a date-time string as specified in [RFC 3339]. In accordance with
-    [RFC 8943], a full-date attribute SHALL contain a full-date string as
-    specified in [RFC 3339].
-    * The following requirements apply to the representation of dates in
-    attributes, unless otherwise indicated:
-        * Fractions of seconds SHALL NOT be used;
-        * A local offset from UTC SHALL NOT be used; the time-offset defined in
-        [RFC 3339] SHALL be to "Z".
-    * [RFC 8949], section 4.2, describes four rules for canonical CBOR. Three of
-    those rules SHALL be implemented for all CBOR structures, as
-    follows:
-        * integers (major types 0 and 1) SHALL be as small as possible;
-        * the expression of the length in a bstr, tstr, array or map SHALL be as
-        short as possible;
-        * indefinite-length items SHALL be made into definite-length items.
+```text
+urn:eu.europa.ec.eudi:ferry_boarding_pass:1
+```
 
-*This section should include a table the data identifier specified in
-Chapter 2,  the corresponding attribute identifier to be used in
-presentation requests and responses according to [ISO/IEC 18013-5] and the encoding
-of each attribute.*
+The credential claims defined in this section SHALL follow SD-JWT VC and HAIP conventions where applicable. Claim names are either IANA-registered JWT claims, public names, or private names specific to this attestation type.
 
-*Additionally, the following rules should be followed:*
+For all claims, this Rulebook specifies whether an Attestation Provider MUST, MAY, or MUST NOT make the claim selectively disclosable.
 
-* When specifying new attributes, existing conventions
-for attribute identifier values and attribute syntaxes SHOULD
-be considered (see ARB_07 in [Topic 12]).
-* Each attribute SHALL be defined within an attribute namespace.
-    * An attribute namespace
-SHALL fully define the identifier, the syntax, and the semantics of each attribute
-within that namespace.
-    * An attribute namespace SHALL have an identifier that is
-unique within the scope of the EUDI Wallet ecosystem, and each attribute
-identifier SHALL be unique within that namespace (see ARB_06a in [Topic 12])
-    * A domestic namespace MAY defined
-to specify attributes that are specific to this Rulebook and are not included in
-the applicable EU-wide or sectoral namespace (see ARB_10 in [Topic 12]).
+### 3.2.1 IANA-registered and standard JWT / SD-JWT VC claims
 
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Namespace**|
-|------------------------|--------------|------------------|------------------|
-| family_name | family_name | tstr | com.example.att.1|
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
+|---------------------|--------------------------|---------------------|---------------------|-----------------|
+| `iss` | `iss` | string | JWT issuer identifier. | MUST NOT |
+| `iat` | `iat` | integer | Issued-at timestamp. | MUST NOT |
+| `nbf` | `nbf` | integer | Not-before timestamp, where used. | MUST NOT |
+| `exp` | `exp` | integer | Expiration timestamp. SHALL NOT be later than the scheduled departure time unless operational rules define a short grace period. | MUST NOT |
+| `jti` | `jti` | string | Unique credential instance identifier, where used. | MUST NOT |
+| `cnf` | `cnf` | object | Holder binding confirmation claim, where used. | MUST NOT |
+| `status` | `status` | object | Status or revocation information, where used. | MUST NOT |
+| `vct` | `vct` | string | SD-JWT VC type. Value SHALL be `urn:eu.europa.ec.eudi:ferry_boarding_pass:1`. | MUST NOT |
 
-*The corresponding entry for the "attestation_legal_category" attribute defined
-in Section 2.1 SHALL be:*
+### 3.2.2 Public or reusable claims
 
-| **Data Identifier** | **Attribute identifier** | **Encoding format** |**Namespace**|
-|------------------------|--------------|------------------|------------------|
-| attestation_legal_category | attestation_legal_category | tstr |com.example.att.1|
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
+|---------------------|--------------------------|---------------------|---------------------|-----------------|
+| `firstName` | `firstName` | string | Passenger given name. May be mapped to OIDC `given_name` in implementations that use OIDC naming conventions. | MUST |
+| `lastName` | `lastName` | string | Passenger family name. May be mapped to OIDC `family_name` in implementations that use OIDC naming conventions. | MUST |
 
-Finally, illustrative examples SHALL be included.
+### 3.2.3 Private claims specific to the Ferry Boarding Pass Attestation
 
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF FULL OR PARTIAL mDOC OF THE ATTESTATION]
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
+|---------------------|--------------------------|---------------------|-----------|-----------------|
+| `attestation_legal_category` | `attestation_legal_category` | string | SHALL be `non-qualified-EAA`. | MUST NOT |
+| `identifier` | `identifier` | string | Unique boarding pass identifier. | MUST |
+| `ticketQR` | `ticketQR` | string | Encoded ticket representation used for scanning. | MAY |
+| `ticketNumber` | `ticketNumber` | string | Ferry ticket number. | MUST |
+| `ticketLet` | `ticketLet` | string | Ticket letter, class, or operator-specific code. | MAY |
+| `seatType` | `seatType` | string | Seat or accommodation type. | MAY |
+| `seatNumber` | `seatNumber` | string | Assigned seat number, where applicable. | MAY |
+| `departureDate` | `departureDate` | string | Scheduled departure date, formatted as ISO 8601 date. | MUST |
+| `departureTime` | `departureTime` | string | Scheduled departure time in local time of the departure port. | MUST |
+| `arrivalDate` | `arrivalDate` | string | Scheduled arrival date, formatted as ISO 8601 date. | MUST |
+| `arrivalTime` | `arrivalTime` | string | Scheduled arrival time in local time of the arrival port. | MUST |
+| `arrivalPort` | `arrivalPort` | string | Destination port. UN/LOCODE recommended. | MUST |
+| `vesselDescription` | `vesselDescription` | string | Name or description of the ferry vessel. | MUST |
+| `issuer` | `issuer` | object | Issuer object containing ferry operator or authorised ticketing operator information. | MUST NOT |
+| `issuer.issuing_country` | `issuing_country` | string | Country of the ferry operator or authorised ticketing operator. | MUST NOT |
+| `issuer.issuing_organisation` | `issuing_organisation` | string | Legal name of the ferry operator or authorised ticketing operator. | MUST NOT |
+| `issuer.issuing_date` | `issuing_date` | string | Date of issuance of the boarding pass, formatted as ISO 8601 date. | MUST NOT |
+| `trust_anchor` | `trust_anchor` | string | Location or identifier of the trust anchor or trust framework entry used to verify issuer authorisation, where used. | MUST NOT |
+| `cryptographically_bound_to` | `cryptographically_bound_to` | string | Identifier of another attestation type to which this attestation is bound, where used. | MUST NOT |
 
-[RULEBOOK AUTHOR TO PROVIDE THE ATTRIBUTES AND THEIR VALUES INCLUDED IN THE EXAMPLE]
+### 3.2.4 Example JWT claim set
 
-### 3.2 SD-JWT VC-based encoding
+```json
+{
+  "iss": "https://issuer.example-ferry.gr",
+  "iat": 1780315200,
+  "nbf": 1780315200,
+  "exp": 1781508600,
+  "jti": "urn:uuid:1ddcf8dc-3f0b-4b30-987d-5eacb9dba111",
+  "vct": "urn:eu.europa.ec.eudi:ferry_boarding_pass:1",
+  "attestation_legal_category": "non-qualified-EAA",
+  "identifier": "BP-2026-000123456",
+  "ticketQR": "M1_FASTFERRIES_20260615_000123456",
+  "ticketNumber": "000123456",
+  "ticketLet": "A",
+  "firstName": "Nikos",
+  "lastName": "Triantafyllou",
+  "seatType": "AIR_SEAT",
+  "seatNumber": "12A",
+  "departureDate": "2026-06-15",
+  "departureTime": "07:30",
+  "arrivalDate": "2026-06-15",
+  "arrivalTime": "12:45",
+  "arrivalPort": "GRMLO",
+  "vesselDescription": "Fast Ferries Andros",
+  "issuer": {
+    "issuing_country": "GR",
+    "issuing_organisation": "Fast Ferries S.A.",
+    "issuing_date": "2026-06-01"
+  },
+  "trust_anchor": "https://trust.example.eu/ferry/operators/fast-ferries",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "...",
+      "y": "..."
+    }
+  }
+}
+```
 
-*If the attestation type supports the format specified in "SD-JWT-based Verifiable
-Credentials (SD-JWT VC)", then in this section the SD-JWT VC-compliant encoding
-of attributes and metadata SHALL be defined. It SHALL be ensured that the attestations
-comply with the 'SD-JWT VCs' profile specified in [HAIP] (see ARB_01b in [Topic 12]).*
+### 3.2.5 Example issued SD-JWT
 
-*It is noted that a Schema Provider MAY specify in the Attestation
-Rulebook that that type of attestation must be issued in the [SD-JWT VC]-compliant
-format, provided the [SD-JWT VC] specification has been approved by an EU standardisation
-body or by the European Digital Identity Cooperation Group established pursuant to
-Article 46e(1) of the [European Digital Identity Regulation] (see ARB_03 in [Topic 12]).*
+The following is a non-normative placeholder example. A production SD-JWT SHALL be generated by the issuer using the applicable signing algorithm, disclosure construction, holder binding, and SD-JWT VC rules.
 
-*In this section, a Verifiable Credential Type (`vct`) SHALL be defined,
-which SHALL be unique within the scope of the EUDI Wallet ecosystem (see ARB_05 in [Topic 12]).*
+```text
+<issuer-signed-sd-jwt>~<disclosure-1>~<disclosure-2>~<disclosure-n>~<holder-binding-jwt>
+```
 
-[RULEBOOK AUTHOR TO DEFINE THE ATTESTATION TYPE]
+### 3.2.6 Example human-readable disclosed payload
 
-*Additionally, when specifying new attributes, existing conventions
-for attribute identifier values and attribute syntaxes SHOULD
-be considered (see ARB_07 in [Topic 12]).*
+A verifier that requests the minimum data needed for boarding may receive a presentation disclosing the following claims:
 
-*Rulebook authors SHALL ensure that each claim name is either
+```json
+{
+  "vct": "urn:eu.europa.ec.eudi:ferry_boarding_pass:1",
+  "identifier": "BP-2026-000123456",
+  "ticketNumber": "000123456",
+  "firstName": "Nikos",
+  "lastName": "Triantafyllou",
+  "departureDate": "2026-06-15",
+  "departureTime": "07:30",
+  "arrivalDate": "2026-06-15",
+  "arrivalTime": "12:45",
+  "arrivalPort": "GRMLO",
+  "vesselDescription": "Fast Ferries Andros"
+}
+```
 
-* included in the IANA registry for JWT claims,
-* is a Public Name as defined in [RFC 7519], or
-* or is a Private Name specific to the attestation type. (see ARB_06b in [Topic 12]).*
+The issuer identity, credential type, expiry time, signature, holder binding proof, and trust anchor information are not treated as selectively disclosable passenger attributes and SHALL remain available to the verifier for technical validation.
 
-*For all claims (i.e., all top-level properties, all nested properties, and all array entries),
-the Rulebook SHALL specify whether an Attestation Provider MUST, MAY, or MUST NOT make that
-claim selectively disclosable (see ARB_30 in [Topic 12]).*
+## 3.3 W3C Verifiable Credentials Data Model-based encoding
 
-*Rulebook authors SHOULD consider defining a Type Metadata Document for the attestation type
-specified in the Rulebook, as defined in Chapter 6 of [SD-JWT VC]. If such a document is defined,
-it SHOULD contain the Claim Selective Disclosure Metadata (defined in Section 9.3 of [SD-JWT VC])
-for each of the claims, in order to specify if that claim is selectively disclosable (see ARB_31
-in [Topic 12]).*
+This version of the Rulebook does not define a W3C Verifiable Credentials Data Model encoding for the Ferry Boarding Pass Attestation.
 
-*IANA-registered claims should be presented in table that
-includes their data identifier, attribute identifier,
-encoding format, and reference or note. For example,*
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** |**Reference/Notes** |**Disclosable**|
-|-------------------- |--------------------------|---------------------|--------------------|---------------|
-| family_name | family_name | string | Section 5.1 of [OIDC] | MUST |
-
-*A similar table should be used for Public Names and for Private Names specific
-to the attestation type defined in this document. For
-example:*
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** |**Disclosable**|
-|---------------------|--------------------------|---------------------|-----------|---------------|
-| trust_anchor | trust_anchor | string | The trust anchor defined in Section 5 | MUST NOT |
-
-*The corresponding entry for the "attestation_legal_category" attribute defined
-in Section 2.1 SHALL be:*
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** |**Disclosable**|
-|---------------------|--------------------------|---------------------|-----------|---------------|
-| attestation_legal_category | attestation_legal_category | string | Defined in Attestation Rulebook template |MUST NOT|
-
-Finally, illustrative examples SHALL be included.
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE JWT CLAIM SET USED BY THE PROVIDER]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE ISSUED SD-JWT (IN base64 ENCODING)]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF A HUMAN READABLE VERSION OF THE SD-JWT PAYLOAD
-AND A DESCRIPTION OF THE DISCLOSURES INCLUDED IN THE EXAMPLE]
-
-### 3.3 W3C Verifiable Credentials Data Model-based encoding
-
-*If the attestation type supports the the format specified in W3C Verifiable Credentials
-Data Model, then in this section the  corresponding encoding  of attributes and
-metadata should be defined.*
-
-*It is noted that only a a non-qualified EAA can use this format (see ARB_01a in [Topic 12])*
-
-*Tables similar to the ones specified in section 4 SHALL be defined.*
-
-*This section SHALL reference one or more documents specifying in detail how a
-Relying Party can request attributes from a such an attestation, and how a User
-can selectively disclose attributes from such an attestation. Moreover, these
-referenced documents SHALL be approved by an EU standardisation body or by the European
-Digital Identity Cooperation Group established pursuant to Article 46e(1) of the
-[European Digital Identity Regulation] (see ARB_04 in [Topic 12]).*
-
-*Finally, illustrative examples SHALL be included.*
-
-[RULEBOOK AUTHOR TO PROVIDE HUMAN READABLE EXAMPLE OF THE ISSUED ATTESTATION]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE PROOF TYPE]
+If a future version defines a W3C VCDM representation, that version SHALL define the credential context, type, credential subject structure, proof type, selective disclosure mechanism, and presentation requirements.
 
 ## 4 Attestation usage
 
-*Briefly describe the primary use cases or scenarios for which this attestation
-type is intended*
+The Ferry Boarding Pass Attestation is intended for verifying passenger boarding entitlement for a specific ferry journey.
 
-*Additionally, in this section it SHOULD  be specified whether a Relying Party receiving the attestation
-must request and verify a PID (see ARB_27 in [Topic 12]). Also beyond PID verification,
-it SHOULD be defined what other key obligations does a Relying Party have when processing
-this attestation type (e.g., signature verification, freshness checks)*
+Typical usage scenarios include:
 
-*Furthermore, provide potential presentation requirements, e.g., are there specific
-requirements for how this attestation must be presented (e.g., online, offline, specific protocols)?"*
+* presentation by the passenger at a port or boarding gate;
+* scanning or digital verification by authorised boarding staff;
+* online verification by a ferry operator system;
+* offline or low-connectivity verification where the verifier can validate the credential signature, issuer, validity period, and disclosed journey data without relying on a real-time ticketing backend.
 
-*Specify whether an attestation of this type SHALL or SHOULD be device-bound or non-device-bound, see ARB_34 in [Topic 12]*
+A Relying Party receiving the attestation SHALL verify:
 
-*If an attestation of this type is device-bound, specify if it SHALL, SHOULD or MAY be cryptographically bound to another type of attestation on the same Wallet Unit. If needed (based on this decision), include the attribute `cryptographically_bound_to` defined in ARB_28 as an optional, recommended, or mandatory attribure in [Section 2.5](#26-optional-metadata). If present in an Attestation Rulebook, the identifier for this attribute SHALL be "cryptographically_bound_to" for both ISO/IEC 18013-5 and SD-JWT VC-compliant attestations, and its contents SHALL be a `tstr` or `string` (as applicable) containing an attestation type or vct (see ARB_05). Finally, specify the value of the `tstr` or `string`.* 
+* the issuer signature;
+* the SD-JWT VC type (`vct`);
+* the issuer authorisation to issue Ferry Boarding Pass Attestations;
+* the credential validity period;
+* the credential status, where a status mechanism is present;
+* holder binding, where used;
+* the integrity rules defined in Section 2.9;
+* that the journey details match the boarding context.
 
-*EXAMPLE   In case an attestation type of this type must be bound to a PID, the value of the `tstr` or `string` must be set to "eu.europa.ec.eudi.pid.1" or "urn:eudi:pid:1". Note that it does not matter whether the attestation type or the vct value is used.*
+The Relying Party SHOULD request and verify PID or another accepted identity credential when the boarding process requires passenger identity matching. In such cases, the Relying Party SHOULD compare the relevant identity attributes, such as passenger name, with the Ferry Boarding Pass Attestation. The Relying Party SHALL apply data minimisation and SHALL request only the attributes required for the boarding decision.
 
-*Finally, in this section information about potential transactional data
-SHALL be defined; see [Topic 20] of Annex 2 of the ARF.*
+The attestation SHOULD be device-bound through holder binding where supported by the EUDI Wallet and the applicable SD-JWT VC profile. The attestation MAY be cryptographically bound to a PID or another accepted identity attestation where the boarding process requires stronger passenger identity matching. Where this binding is used, the metadata attribute `cryptographically_bound_to` SHOULD contain:
+
+```text
+urn:eudi:pid:1
+```
+
+No payment-specific transactional data is defined by this Rulebook. If the Ferry Boarding Pass Attestation is used as part of a transaction that also involves payment, payment-related requirements SHALL be defined in a separate payment attestation, payment profile, or transaction-specific rulebook.
 
 ## 5 Trust anchors
 
-*Mechanisms for the provision of a trust anchor that SHALL
-be used for the verification of an attestation SHALL be defined in this section.*
+A Relying Party SHALL verify that the issuer of the Ferry Boarding Pass Attestation is authorised to issue this attestation type.
 
-*It is noted that the ARF specifies the following for QEAAs and Pub-EAAs:*
+For non-qualified EAA deployments, the Relying Party SHOULD obtain trust anchor information through one or more of the following mechanisms:
 
-> To do this for [...] QEAAs the Relying Party Instance uses a trust anchor of
-the Provider obtained from a Trusted List. Note that the PID Provider or QEAA
-Provider may use an intermediate signing certificate to sign the PID or
-attestation, and use the trust anchor to sign the signing certificate, instead
-of signing the PID or attestation directly with the trust anchor.
->
-> For PuB-EAAs, the Relying Party Instance verifies a PuB-EAA by first
-verifying the signature of the PuB-EAA Provider over the PuB-EAA, using the
-PuB-EAA Provider certificate issued by a QTSP. Subsequently, the Relying Party
-Instance verifies the signature over this certificate, using the corresponding
-trust anchor from the QTSP Trusted List. Note that both the PuB-EAA Provider
-and the QTSP may use an intermediate signing certificate. All other things
-being equal, the verification of a PuB-EAA will therefore involve one or more
-extra certificates, compared to the verification of a PID or QEAA.
+* a machine-readable trust list or trust registry used by the relevant ecosystem;
+* an issuer metadata endpoint published by the ferry operator or authorised ticketing operator;
+* a trust framework entry managed by the WE BUILD ecosystem or by another authorised governance body;
+* a pilot trust list used for controlled interoperability testing.
 
-*For non-qualified EAA in this section it SHOULD  be defined (see ARB_26 in [Topic 12])
-how the attributes or metadata representing the location at which a machine-readable
-version of the trust anchor to be used for verifying the attestation can be found,
-specified in section 2, are used. This includes a detailed description about how
-a Relying Party can obtain the trust anchors, as well as a detailed description about
-how this trust anchor can be used for verifying that the provider is authorized
-to issue the attestation. Additionally, for non-qualified EAA Providers this section
-MAY include a description of mechanisms that can be used by a Wallet Unit for
-verifying that the provider is authorized to issue this type of attestation (see
-ISSU_34 in [Topic 10])*
+Where the metadata attribute `trust_anchor` is present, it SHOULD identify the location or registry entry from which the Relying Party can obtain the issuer trust anchor or issuer authorisation information.
+
+The Relying Party SHALL use the trust anchor to verify that:
+
+* the issuer signing key or certificate chains to a trusted authority or registered trust anchor;
+* the issuer is authorised to issue the `urn:eu.europa.ec.eudi:ferry_boarding_pass:1` attestation type;
+* the issuer metadata or trust framework entry has not expired or been revoked;
+* the issuer identity in the credential is consistent with the issuer identity in the trust framework.
+
+Wallet Units MAY also use the same trust framework information during issuance to determine whether the provider is authorised to issue this attestation type.
 
 ## 6 Revocation
 
-(Refer to [Topic 7] of the ARF for a list of High-Level Requirements related to Revocation)
+The Ferry Boarding Pass Attestation is typically short-lived and journey-specific.
 
-*In this section information about the revocation mechanism used SHALL be defined.*
+The preferred validity model for this attestation is short validity. The credential expiration time (`exp`) SHALL be set no later than the scheduled departure time unless a clearly defined operational grace period is required by the ferry operator or port boarding process.
 
-*For PID, QEAA, or PuB-EAA it SHALL  be defined whether  only short-lived attestations
-will be used, having a validity period of 24 hours or less, such that revocation
-will never be necessary, or that the attestations are revocable.*
+After departure, the attestation SHALL be considered expired and SHALL NOT be accepted for boarding.
 
-*For revocable attestations it SHALL be defined which of the following methods must be implemented:*
+Revocation MAY be handled by one or more of the following mechanisms:
 
-* Use an Attestation Status List mechanism included in a Technical Specification
-that will be specified by the Commission.
-* Use an Attestation Revocation List mechanism included in a Technical Specification
-that will be specified by the Commission.
+* short validity, where the attestation expires at or before departure time;
+* backend verification by the ferry operator or authorised boarding system;
+* an attestation status list mechanism, where supported;
+* an attestation revocation list mechanism, where supported.
+
+If a status or revocation mechanism is included in the credential, the Relying Party SHALL check the status before accepting the attestation, unless offline operating rules explicitly allow deferred status checking.
+
+If a ticket is cancelled, refunded, exchanged, duplicated, or otherwise invalidated before departure, the issuer SHOULD either revoke or suspend the attestation, or ensure that backend verification detects the invalid state.
 
 ## 7 Compliance
 
-*In this section explicitly state how this specific rulebook complies with the
-general EUDI framework, ARF, and relevant regulations*
+This Rulebook is designed to align with the EUDI Wallet architectural approach for Electronic Attestations of Attributes and with the Attestation Rulebook structure defined in the ARF.
 
-[RULEBOOK AUTHOR TO DEFINE]
+The Rulebook supports the following compliance objectives:
+
+* it defines the attestation purpose and scope;
+* it defines mandatory, optional, and conditional attributes in an encoding-independent manner;
+* it defines a legal category indication through `attestation_legal_category`;
+* it defines an SD-JWT VC `vct` value for the attestation type;
+* it defines issuer, validity, and status metadata needed for verification;
+* it defines code lists and integrity rules required for consistent interpretation;
+* it defines how trust anchors can be obtained and used;
+* it defines expiry and revocation expectations;
+* it supports selective disclosure and data minimisation.
+
+This Rulebook does not define a qualified EAA or public-sector EAA profile. It also does not define ISO/IEC 18013-5 mdoc or W3C VCDM encodings in this version.
 
 ## 8 References
 
-| **Item Reference** | **Standard name/details**|
+| **Item Reference** | **Standard name/details** |
 |--------------------|---------------------------|
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| [HAIP] | Yasuda, K. *et al,* OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
+| [HAIP] | Yasuda, K. *et al,* OpenID4VC High Assurance Interoperability Profile, OpenID Foundation |
 | [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: <https://www.iana.org/assignments/jwt/jwt.xhtml> |
-| [ISO/IEC 18013-5] |  ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
-| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |
-| [RFC 3339] | RFC 3339  - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
-| [RFC 8610] | RFC 8610  - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
-| [RFC 8943] | RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence application |
+| [OIDC] | Sakimura, N. et al., OpenID Connect Core 1.0, OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |
+| [RFC 2119] | RFC 2119 - Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
+| [RFC 3339] | RFC 3339 - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [RFC 8610] | RFC 8610 - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation, H. Birkholz et al., June 2019 |
+| [RFC 8943] | RFC 8943 - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
 | [RFC 8949] | RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
-| [SD-JWT VC] |  SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09  |
-| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking>|
-| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit>|
-| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks>|
-| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments>|
-| [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.  |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials. Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/> |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking |
+| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit |
+| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks |
+| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments |
+| [W3C VCDM v2.0] | Verifiable Credentials Data Model v2.0, W3C Recommendation |
