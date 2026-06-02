@@ -13,7 +13,7 @@
 | 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
-  <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)*
 
 * Feedback:
 

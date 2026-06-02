@@ -1,7 +1,7 @@
 # Attestation Rulebook for attestations of type IBAN Ownership Verification (IBAN-OV)
 
 * Author(s):
-  * [Ricky Lambert, Robert Bosch GmbH]
+  * [Ricky Lamberty, Robert Bosch GmbH]
   * [Stephan-A Fuchs, Deutsche Bank]
 * Previous Authors:
 * Reviewer(s):
@@ -13,7 +13,7 @@
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
-  <a href="mailto:ricky.lamberty@de.bosch.com">Ricky Lamberty</a>
+  * [Ricky Lambert](mailto:Ricky.Lamberty@bosch.com)*
 
 * Feedback:
 
