@@ -1,9 +1,10 @@
 # Attestation Rulebook for attestations of type Company Information (CompanyInfo)
 
 * Author(s):
-    * [Florin Coptil, Robert Bosch GmbH]
+  * [......]
+  * [Florin Coptil, Robert Bosch GmbH]
 * Previous Authors
-* 
+  * 
 * Reviewer(s):
 
 | Version | Date       | Description                                                      |
@@ -11,13 +12,27 @@
 | 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings  |
 
 * Contact:
-  <a href="mailto:florin.coptil@bosch.com">Florin Coptil</a>
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
 
 * Feedback:
 
 ---
 
 ## 1 Introduction
+
+This attestation addresses the following question:
+
+**What additional company information is available that is not publicly accessible or attested by a QEAA provider?**
+
+The Company Information (CompanyInfo) Attestation describes additional company-level information which is not part of the EUCC core identity dataset. The attestation enables structured exchange of business profile attributes for use in KYS (Know Your Supplier), KYC (Know Your Customer), supplier onboarding, and risk assessment processes.
+
+This attestation complements the EU Company Certificate (EUCC) by providing additional non-core identity attributes, in particular company size indicators and financial scale. It is intended for use by legal entities operating within the EU single market and by relying parties performing business due diligence.
+This CompanyInfo Attestation Rulebook is based on:
+- EU Company Certificate (EUCC) framework as the foundational legal identity layer
+- Standard financial reporting taxonomies (IFRS, GAAP) for structured financial data exchange
+- XBRL-inspired fact-based financial reporting structure
+- ISO 4217 for currency codes
+- ISO 8601 for date formatting
 
 ### 1.1 Document scope and purpose
 
@@ -47,9 +62,13 @@ This Rulebook is structured as follows:
 
 ### 1.3 Keywords
 
-This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as specified in [RFC 2119], i.e. to indicate requirements, recommendations and options specified in this document.
+This document uses the capitalised keywords `SHALL`, `SHOULD` and `MAY` as specified in
+[RFC 2119], i.e. to indicate requirements, recommendations and options specified in this document.
 
-In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e. a requirement that is not mandated by this document, but, for instance, by an external document. The word 'can' indicates a capability, whereas other words, such as 'will', and 'is' or 'are' are intended as statements of fact.
+In addition, `must` (non-capitalised) is used to indicate an external constraint, i.e. a
+requirement that is not mandated by this document, but, for instance, by an external document.
+The word `can` indicates a capability, whereas other words, such as `will`, and `is` or `are`
+are intended as statements of fact.
 
 ### 1.4 Terminology
 
@@ -78,7 +97,7 @@ The CompanyInfo Attestation is designed to provide a standardized, verifiable re
 **Data Model:**
 
 The attestation structure is defined as a structured object with a nested array of financial facts:
-
+```
 CompanyInfo
 ├─ employee_number
 ├─ trade_alias
@@ -92,7 +111,7 @@ CompanyInfo
         ├─ unit
         ├─ period_start
         └─ period_end
-
+```
 
 **Explanation:**
 - `employee_number` and `financial_statements` are mandatory top-level attributes.
@@ -149,12 +168,14 @@ No conditional attributes are defined for this attestation type. All attributes 
 
 ### 2.5 Mandatory metadata
 
-| **Data Identifier**          | **Definition**                                                                                                                                                | **Data type**   |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| issuance_date                | The date and time when the attestation was issued (ISO 8601)                                                                                                  | DateTime        |
-| expiry_date                  | The date and time when the attestation expires (ISO 8601)                                                                                                     | DateTime        |
-| issuing_entity               | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String          |
-| attestation_legal_category   | Indicates the legal category of this attestation ("EAA" )                                                                                   | String          |
+| **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type**   |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime        |
+| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime        |
+| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String          |
+| attestation_legal_category | Indicates the legal category of this attestation ("EAA" )                                                                                                          | String          |
+| vct                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                            | String          |
+
 ### 2.6 Optional metadata
 
 | **Data Identifier** | **Definition**                                                             | **Data type** |
@@ -280,23 +301,27 @@ The `.` notation is used to indicate the nesting of attributes.
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build.companyinfo.1`
 
 #### 3.2.1 Attribute Encoding Table
-| **Data Identifier**                     | **Attribute identifier**                       | **Encoding format**              | **Reference/Notes**                                                                                     | **Disclosable** |
-|-----------------------------------------|------------------------------------------------|----------------------------------|---------------------------------------------------------------------------------------------------------|-----------------|
-| employee_number                         | `employee_number`                              | Integer (uint)                   | Total number of employees at time of reporting; SHALL be non-negative                                   | MUST            |
-| trade_alias                             | `trade_alias`                                  | Array of Strings                 | Zero or more registered trade names/aliases; optional                                                   | MUST            |
-| previous_legal_name                     | `previous_legal_name`                          | Array of Strings                 | Zero or more previously registered legal names; optional                                                | MUST            |
-| financial_statements.taxonomy           | `financial_statements.taxonomy`                | String                           | Financial reporting standard used (e.g., IFRS, GAAP)                                                    | MUST            |
-| financial_statements.facts              | `financial_statements.facts`                   | Array [Fact]                     | List of reported financial facts; at least one fact SHALL be present                                    | MUST            |
-| financial_statements.facts.id           | `financial_statements.facts[n].id`             | String                           | Unique identifier of the fact within the attestation                                                    | MUST            |
-| financial_statements.facts.concept      | `financial_statements.facts[n].concept`        | String                           | Name of the reported metric (e.g., Revenue, Turnover, NetIncome, TotalAssets)                           | MUST            |
-| financial_statements.facts.value        | `financial_statements.facts[n].value`          | Decimal (number)                 | Reported numeric value of the fact                                                                      | MUST            |
-| financial_statements.facts.unit         | `financial_statements.facts[n].unit`           | String (ISO 4217 for currencies) | Unit of measurement (e.g., EUR, %, ratio)                                                               | MUST            |
-| financial_statements.facts.period_start | `financial_statements.facts[n].period_start`   | String (ISO 8601 YYYY-MM-DD)     | Start date of the reporting period                                                                      | MUST            |
-| financial_statements.facts.period_end   | `financial_statements.facts[n].period_end`     | String (ISO 8601 YYYY-MM-DD)     | End date of the reporting period                                                                        | MUST            |
-| issuance_date                           | `iat`                                          | Number (Unix timestamp)          | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                    | MUST NOT        |
-| expiry_date                             | `exp`                                          | Number (Unix timestamp)          | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                       | MUST NOT        |
-| issuing_entity                          | `issuing_entity`                               | String                           | The identifier of the legal entity that issued the attestation (subject entity for EAA or QTSP for QEAA) | MUST NOT        |
-| attestation_legal_category              | `attestation_legal_category`                   | String                           | One of `EAA` as defined by eIDAS 2                                                    | MUST NOT        |
+| **Data Identifier**                     | **Attribute identifier**                     | **Encoding format**              | **Reference/Notes**                                                                                      | **Disclosable** |
+|-----------------------------------------|----------------------------------------------|----------------------------------|----------------------------------------------------------------------------------------------------------|-----------------|
+| employee_number                         | `employee_number`                            | Integer (uint)                   | Total number of employees at time of reporting; SHALL be non-negative                                    | MUST            |
+| trade_alias                             | `trade_alias`                                | Array of Strings                 | Zero or more registered trade names/aliases; optional                                                    | MUST            |
+| previous_legal_name                     | `previous_legal_name`                        | Array of Strings                 | Zero or more previously registered legal names; optional                                                 | MUST            |
+| **financial_statements**                |                                                         |                     |                                                                                                                   |                 |
+| financial_statements.taxonomy           | `financial_statements.taxonomy`              | String                           | Financial reporting standard used (e.g., IFRS, GAAP)                                                     | MUST            |
+| financial_statements.facts              | `financial_statements.facts`                 | Array [Fact]                     | List of reported financial facts; at least one fact SHALL be present                                     | MUST            |
+| **facts**                               |                                                         |                     |                                                                                                                   |                 |
+| financial_statements.facts.id           | `financial_statements.facts[n].id`           | String                           | Unique identifier of the fact within the attestation                                                     | MUST            |
+| financial_statements.facts.concept      | `financial_statements.facts[n].concept`      | String                           | Name of the reported metric (e.g., Revenue, Turnover, NetIncome, TotalAssets)                            | MUST            |
+| financial_statements.facts.value        | `financial_statements.facts[n].value`        | Decimal (number)                 | Reported numeric value of the fact                                                                       | MUST            |
+| financial_statements.facts.unit         | `financial_statements.facts[n].unit`         | String (ISO 4217 for currencies) | Unit of measurement (e.g., EUR, %, ratio)                                                                | MUST            |
+| financial_statements.facts.period_start | `financial_statements.facts[n].period_start` | String (ISO 8601 YYYY-MM-DD)     | Start date of the reporting period                                                                       | MUST            |
+| financial_statements.facts.period_end   | `financial_statements.facts[n].period_end`   | String (ISO 8601 YYYY-MM-DD)     | End date of the reporting period                                                                         | MUST            |
+| **Metadata**                            |                                              |                                  |                                                                                                          |                 |
+| issuance_date                           | `iat`                                        | Number (Unix timestamp)          | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                     | MUST NOT        |
+| expiry_date                             | `exp`                                        | Number (Unix timestamp)          | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                        | MUST NOT        |
+| issuing_entity                          | `issuing_entity`                             | String                           | The identifier of the legal entity that issued the attestation (subject entity for EAA or QTSP for QEAA) | MUST NOT        |
+| attestation_legal_category              | `attestation_legal_category`                 | String                           | One of `EAA` as defined by eIDAS 2                                                                       | MUST NOT        |
+| vct                                     | `vct`                                        | String                           | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential  | MUST            |
 
 **Notes:**
 
@@ -388,7 +413,7 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/company-in
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
 ### 4.2.1 – 4.2.8 Base Verification Process
 The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
