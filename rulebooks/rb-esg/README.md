@@ -1,17 +1,17 @@
 # Attestation Rulebook for attestations of type ESG Certificate
 
-* **Author(s):**
+* Author(s):
     * [Dominic Hurni, SBB]
     * [Werner Folkendt, Robert Bosch GmbH]
-
-* **Reviewer(s):**
+* Previous Authors
+* Reviewer(s):
     * [Florin Coptil, Robert Bosch GmbH]
 
 | Version | Date       | Description                                                    |
 |---------|------------|----------------------------------------------------------------|
 | 0.3     | 19.05.2026 | Initial draft based on the WeBuild design attestation meetings |
 
-* **Contact:**
+* Contact:
     * [Dominic Hurni](mailto:dominic.hurni@sbb.ch)
     * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com)
 
@@ -424,44 +424,44 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**                                          | **Attribute Identifier**                                             | **Encoding Format**          | **Reference / Notes**                                                                                   | **Disclosable** |
-|--------------------------------------------------------------|----------------------------------------------------------------------|------------------------------|---------------------------------------------------------------------------------------------------------|-----------------|
-| **Certificate**                                              |                                                                      |                              |                                                                                                         |                 |
-| `economic_operator_main_id`                                  | `economic_operator_main_id`                                          | String                       | Primary unique identifier of the economic operator; **SHALL** be non-empty                              | MUST            |
-| `economic_operator_additional_ids`                           | `economic_operator_additional_ids`                                   | Array of Strings             | Optional additional identifiers; **SHOULD** use codes from Section 2.8.1                               | MUST            |
-| `economic_operator_name`                                     | `economic_operator_name`                                             | String                       | Legal name of the economic operator                                                                     | MUST            |
-| `economic_operator_address.street`                           | `economic_operator_address.street`                                   | String                       | Street of the economic operator's registered address                                                    | MUST            |
-| `economic_operator_address.nr`                               | `economic_operator_address.nr`                                       | String                       | House/building number of the economic operator's registered address                                     | MUST            |
-| `economic_operator_address.postal_code`                      | `economic_operator_address.postal_code`                              | String                       | Postal code of the economic operator's registered address                                               | MUST            |
-| `economic_operator_address.city`                             | `economic_operator_address.city`                                     | String                       | City of the economic operator's registered address                                                      | MUST            |
-| `certificate_type`                                           | `certificate_type`                                                   | String                       | Type of the certificate; **SHOULD** use codes from Section 2.8.2                                       | MUST            |
-| `certificate_version`                                        | `certificate_version`                                                | String                       | Version of the certificate standard (e.g., ISO 9001:2015)                                              | MUST            |
-| `registration_number`                                        | `registration_number`                                                | String                       | Registration number of the certificate as issued by the certification body                              | MUST            |
-| `certification_start_date`                                   | `certification_start_date`                                           | String (ISO 8601 YYYY-MM-DD) | Valid-from date of the certificate                                                                      | MUST            |
-| `certification_expiration_date`                              | `certification_expiration_date`                                      | String (ISO 8601 YYYY-MM-DD) | Valid-until date of the certificate; `9999-12-31` indicates no expiration                               | MUST            |
-| **ScopeObject**                                              |                                                                      |                              |                                                                                                         |                 |
-| `scope_of_certification`                                     | `scope_of_certification`                                             | Array [ScopeObject]          | Array of certified site and scope objects; **SHALL** contain at least one entry                         | MUST            |
-| `scope_of_certification[n].operating_legal_entity_name`      | `scope_of_certification[n].operating_legal_entity_name`              | String                       | Legal name of the site operating entity                                                                 | MUST            |
-| `scope_of_certification[n].legal_entity_IDs`                 | `scope_of_certification[n].legal_entity_IDs`                         | Array of Strings             | Legal entity identifiers; **SHALL** use types from Section 2.8.1                                        | MUST            |
-| `scope_of_certification[n].site_location_address.street`     | `scope_of_certification[n].site_location_address.street`             | String                       | Street of the certified site address                                                                    | MUST            |
-| `scope_of_certification[n].site_location_address.nr`         | `scope_of_certification[n].site_location_address.nr`                 | String                       | House/building number of the certified site address                                                     | MUST            |
-| `scope_of_certification[n].site_location_address.postal_code`| `scope_of_certification[n].site_location_address.postal_code`        | String                       | Postal code of the certified site address                                                               | MUST            |
-| `scope_of_certification[n].site_location_address.city`       | `scope_of_certification[n].site_location_address.city`               | String                       | City of the certified site address                                                                      | MUST            |
-| `scope_of_certification[n].scope_description`                | `scope_of_certification[n].scope_description`                        | String                       | Textual description of the certification scope for this site                                            | MUST            |
-| `scope_of_certification[n].certified_site`                   | `scope_of_certification[n].certified_site`                           | Boolean                      | `true` = whole site certified; `false` = partial site only                                              | MUST            |
-| **Evidence**                                                 |                                                                      |                              |                                                                                                         |                 |
-| `certificate_evidence.evidence_id`                           | `certificate_evidence.evidence_id`                                   | String (UUID or URI)         | Unique identifier of the certificate evidence; **SHALL** be non-empty                                   | MUST            |
-| `certificate_evidence.evidence_type`                         | `certificate_evidence.evidence_type`                                 | String                       | Type of the evidence object; **SHALL** be `"Evidence"` when present; optional                           | MAY             |
-| `certificate_evidence.evidence_digestMultibase`              | `certificate_evidence.evidence_digestMultibase`                      | String                       | Content digest for integrity verification of referenced certificate; optional                           | MAY             |
-| `certificate_evidence.evidence_data`                         | `certificate_evidence.evidence_data`                                 | String (base64)              | The actual certificate as a base64-encoded string; **SHALL** be present if `evidence_id` is not a URI  | MAY             |
-| **Metadata**                                                 |                                                                      |                              |                                                                                                         |                 |
-| `issuance_date`                                              | `iat`                                                                | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                                      | MUST NOT        |
-| `expiry_date`                                                | `exp`                                                                | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                                         | MUST NOT        |
-| `issuing_entity`                                             | `iss`                                                                | String (URI or DID)          | Identifier of the entity that issued the attestation; RFC 7519                                          | MUST NOT        |
-| `attestation_legal_category`                                 | `attestation_legal_category`                                         | String                       | One of `"EAA"` or `"QEAA"` as defined by eIDAS 2                                                       | MUST NOT        |
-| `vct`                                                        | `vct`                                                                | String                       | `eu.we-build.esgcertificate.1`                                                                          | MUST NOT        |
-| `schema_version`                                             | `schema_version`                                                     | String                       | Version of the schema used for this attestation; optional                                               | MAY             |
-| `trust_anchor_url`                                           | `trust_anchor_url`                                                   | URI                          | URL where the trust anchor for verifying this attestation can be retrieved; optional                    | MAY             |
+| **Data Identifier**                     | **Attribute Identifier**                                      | **Encoding Format**          | **Reference / Notes**                                                                                   | **Disclosable** |
+|-----------------------------------------|---------------------------------------------------------------|------------------------------|---------------------------------------------------------------------------------------------------------|-----------------|
+| **Certificate**                         |                                                               |                              |                                                                                                         |                 |
+| `economic_operator_main_id`             | `economic_operator_main_id`                                   | String                       | Primary unique identifier of the economic operator; **SHALL** be non-empty                              | MUST            |
+| `economic_operator_additional_ids`      | `economic_operator_additional_ids`                            | Array of Strings             | Optional additional identifiers; **SHOULD** use codes from Section 2.8.1                               | MUST            |
+| `economic_operator_name`                | `economic_operator_name`                                      | String                       | Legal name of the economic operator                                                                     | MUST            |
+| `economic_operator_address.street`      | `economic_operator_address.street`                            | String                       | Street of the economic operator's registered address                                                    | MUST            |
+| `economic_operator_address.nr`          | `economic_operator_address.nr`                                | String                       | House/building number of the economic operator's registered address                                     | MUST            |
+| `economic_operator_address.postal_code` | `economic_operator_address.postal_code`                       | String                       | Postal code of the economic operator's registered address                                               | MUST            |
+| `economic_operator_address.city`        | `economic_operator_address.city`                              | String                       | City of the economic operator's registered address                                                      | MUST            |
+| `certificate_type`                      | `certificate_type`                                            | String                       | Type of the certificate; **SHOULD** use codes from Section 2.8.2                                       | MUST            |
+| `certificate_version`                   | `certificate_version`                                         | String                       | Version of the certificate standard (e.g., ISO 9001:2015)                                              | MUST            |
+| `registration_number`                   | `registration_number`                                         | String                       | Registration number of the certificate as issued by the certification body                              | MUST            |
+| `certification_start_date`              | `certification_start_date`                                    | String (ISO 8601 YYYY-MM-DD) | Valid-from date of the certificate                                                                      | MUST            |
+| `certification_expiration_date`         | `certification_expiration_date`                               | String (ISO 8601 YYYY-MM-DD) | Valid-until date of the certificate; `9999-12-31` indicates no expiration                               | MUST            |
+| **ScopeObject**                         |                                                               |                              |                                                                                                         |                 |
+| `scope_of_certification`                | `scope_of_certification`                                      | Array [ScopeObject]          | Array of certified site and scope objects; **SHALL** contain at least one entry                         | MUST            |
+| `operating_legal_entity_name`           | `scope_of_certification[n].operating_legal_entity_name`       | String                       | Legal name of the site operating entity                                                                 | MUST            |
+| `legal_entity_IDs`                      | `scope_of_certification[n].legal_entity_IDs`                  | Array of Strings             | Legal entity identifiers; **SHALL** use types from Section 2.8.1                                        | MUST            |
+| `site_location_address_street`          | `scope_of_certification[n].site_location_address_street`      | String                       | Street of the certified site address                                                                    | MUST            |
+| `site_location_address_nr`              | `scope_of_certification[n].site_location_address_nr`          | String                       | House/building number of the certified site address                                                     | MUST            |
+| `site_location_address_postal_code`     | `scope_of_certification[n].site_location_address_postal_code` | String                       | Postal code of the certified site address                                                               | MUST            |
+| `site_location_address_city`            | `scope_of_certification[n].site_location_address_city`        | String                       | City of the certified site address                                                                      | MUST            |
+| `scope_description`                     | `scope_of_certification[n].scope_description`                 | String                       | Textual description of the certification scope for this site                                            | MUST            |
+| `certified_site`                        | `scope_of_certification[n].certified_site`                    | Boolean                      | `true` = whole site certified; `false` = partial site only                                              | MUST            |
+| **Evidence**                            |                                                               |                              |                                                                                                         |                 |
+| `evidence_id`                           | `certificate_evidence.evidence_id`                            | String (UUID or URI)         | Unique identifier of the certificate evidence; **SHALL** be non-empty                                   | MUST            |
+| `evidence_type`                         | `certificate_evidence.evidence_type`                          | String                       | Type of the evidence object; **SHALL** be `"Evidence"` when present; optional                           | MAY             |
+| `evidence_digestMultibase`              | `certificate_evidence.evidence_digestMultibase`               | String                       | Content digest for integrity verification of referenced certificate; optional                           | MAY             |
+| `evidence_data`                         | `certificate_evidence.evidence_data`                          | String (base64)              | The actual certificate as a base64-encoded string; **SHALL** be present if `evidence_id` is not a URI  | MAY             |
+| **Metadata**                            |                                                               |                              |                                                                                                         |                 |
+| `issuance_date`                         | `iat`                                                         | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                                      | MUST NOT        |
+| `expiry_date`                           | `exp`                                                         | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                                         | MUST NOT        |
+| `issuing_entity`                        | `iss`                                                         | String (URI or DID)          | Identifier of the entity that issued the attestation; RFC 7519                                          | MUST NOT        |
+| `attestation_legal_category`            | `attestation_legal_category`                                  | String                       | One of `"EAA"` or `"QEAA"` as defined by eIDAS 2                                                       | MUST NOT        |
+| `vct`                                   | `vct`                                                         | String                       | `eu.we-build.esgcertificate.1`                                                                          | MUST NOT        |
+| `schema_version`                        | `schema_version`                                              | String                       | Version of the schema used for this attestation; optional                                               | MAY             |
+| `trust_anchor_url`                      | `trust_anchor_url`                                            | URI                          | URL where the trust anchor for verifying this attestation can be retrieved; optional                    | MAY             |
 
 **Notes:**
 
@@ -540,12 +540,10 @@ based on the ISO 9001:2015 certificate illustrated in Appendix 1
     {
       "operating_legal_entity_name": "Robert Bosch GmbH",
       "legal_entity_IDs": ["DE-HRB-396699", "BPNL000000000001"],
-      "site_location_address": {
-        "street": "Auf der Breit",
-        "nr": "4",
-        "postal_code": "76227",
-        "city": "Karlsruhe"
-      },
+      "site_location_address_street": "Auf der Breit",
+      "site_location_address_nr": "4",
+      "site_location_address_postal_code": "76227",
+      "site_location_address_city": "Karlsruhe"
       "scope_description": "Provision, logistics and worldwide distribution of automotive
       parts, as well as development, production and distribution of products and services
       for the vehicle manufacturers and the automotive aftermarket.",
@@ -554,14 +552,12 @@ based on the ISO 9001:2015 certificate illustrated in Appendix 1
     {
       "operating_legal_entity_name": "Holger Christiansen A/S",
       "legal_entity_IDs": ["DK-CVR-12345678"],
-      "site_location_address": {
-        "street": "Hedelundvej",
-        "nr": "13",
-        "postal_code": "6705",
-        "city": "Esbjerg"
-      },
+      "site_location_address_street": "Hedelundvej",
+      "site_location_address_nr": "13",
+      "site_location_address_postal_code": "6705",
+      "site_location_address_city": "Esbjerg"
       "scope_description": "Sales and logistics of auto mechanical and auto electrical products",
-      "certified_site": true
+      "certified_site": false
     }
   ],
   "certificate_evidence": {
