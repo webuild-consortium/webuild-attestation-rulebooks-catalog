@@ -147,7 +147,7 @@ Certificate [1]
 ├─ registration_number (tstr) — mandatory
 ├─ certification_start_date (date) — mandatory
 ├─ certification_expiration_date (date) — mandatory
-├─ scope (Array of ScopeObject) [1..n] — mandatory
+├─ scope_of_certification (Array of ScopeObject) [1..n] — mandatory
 │ ├─ operating_legal_entity_name (tstr) — mandatory
 │ ├─ legal_entity_IDs (Array of LegalEntityID) — mandatory
 │ ├─ site_location_address (Address) — mandatory
@@ -170,11 +170,11 @@ Certificate [1]
 - The `Certificate` object **SHALL** appear exactly once per attestation.
 - `economic_operator_main_id`, `economic_operator_name`, `economic_operator_address`,
   `certificate_type`, `certificate_version`, `registration_number`,
-  `certification_start_date`, `certification_expiration_date`, `scope`,
+  `certification_start_date`, `certification_expiration_date`, `scope_of_certification`,
   and `certificate_evidence` are mandatory top-level attributes.
 - `economic_operator_additional_ids` is optional and **MAY** contain zero or more additional
   identifier strings (e.g., LEI, EORI, BPNL).
-- `scope` **SHALL** contain at least one `ScopeObject`, representing a
+- `scope_of_certification` **SHALL** contain at least one `ScopeObject`, representing a
   certified site with its associated scope description.
 - `certificate_evidence` is mandatory as an object; however, `evidence_type`,
   `evidence_digestMultibase`, and `evidence_data` within it are optional and only required
@@ -203,7 +203,7 @@ This attestation type **MAY** be classified as:
 | `registration_number`              | ...                    | Registration number of the certificate as issued by the certification body                              | String                  |
 | `certification_start_date`         | ...                    | Valid-from date of the certificate                                                                      | Date (ISO 8601)         |
 | `certification_expiration_date`    | ...                    | Valid-until date of the certificate                                                                     | Date (ISO 8601)         |
-| `scope`           | ...                    | Array of certified site and scope objects                                                               | Array [ScopeObject]     |
+| `scope_of_certification`           | ...                    | Array of certified site and scope objects                                                               | Array [ScopeObject]     |
 | `certificate_evidence`             | ...                    | Evidence object containing reference or attachment of the original certificate                          | Object (Evidence)       |
 
 ---
@@ -222,7 +222,7 @@ This attestation type **MAY** be classified as:
 | `registration_number`           | —                      | Registration number of the certificate as defined on the certificate document                                                         | `tstr`                      |
 | `certification_start_date`      | —                      | Valid-from date as defined on the certificate (ISO 8601)                                                                              | `date`                      |
 | `certification_expiration_date` | —                      | Valid-until date as defined on the certificate; `9999-12-31` indicates no expiration (ISO 8601)                                       | `date`                      |
-| `scope`        | —                      | Array describing the affected certified legal entities with name, location, and scope; **SHALL** contain at least one entry           | Array of `ScopeObject [1..n]` |
+| `scope_of_certification`        | —                      | Array describing the affected certified legal entities with name, location, and scope; **SHALL** contain at least one entry           | Array of `ScopeObject [1..n]` |
 | `certificate_evidence`          | —                      | Object containing evidence-related information for the attached certificate; required for self-attestation of a received certificate  | `Evidence` object           |
 
 #### Address Object Attributes
@@ -238,7 +238,7 @@ Applies to both `economic_operator_address` and `site_location_address`:
 
 #### ScopeObject Attributes
 
-Each entry in the `scope` array **SHALL** contain the following attributes:
+Each entry in the `scope_of_certification` array **SHALL** contain the following attributes:
 
 | **Data Identifier**           | **Semantic Reference** | **Definition**                                                                                        | **Data type**           |
 |-------------------------------|------------------------|-------------------------------------------------------------------------------------------------------|-------------------------|
@@ -373,7 +373,7 @@ The following integrity rules **SHALL** be enforced:
   sentinel value `9999-12-31` indicating no expiration.
 - `certification_expiration_date` **SHALL** be equal to or later than
   `certification_start_date`, unless the value is `9999-12-31`.
-- `scope` **SHALL** contain at least one `ScopeObject`.
+- `scope_of_certification` **SHALL** contain at least one `ScopeObject`.
 - Each `ScopeObject` **SHALL** contain `operating_legal_entity_name`, `legal_entity_IDs`,
   `site_location_address`, `scope_description`, and `certified_site`.
 - `legal_entity_IDs` within each `ScopeObject` **SHALL** contain at least one identifier entry.
@@ -413,7 +413,7 @@ The ESG Certificate Attestation uses the SD-JWT VC format to allow for selective
 of certificate attributes.
 
 **Selective Disclosure:** Top-level claims (e.g., `economic_operator_name`, `certificate_type`,
-`scope`, `certificate_evidence`) **SHALL** be individually selectively
+`scope_of_certification`, `certificate_evidence`) **SHALL** be individually selectively
 disclosable, enabling a legal entity to disclose only the attributes requested by a Relying Party.
 Attributes nested within `ScopeObject` entries **MAY** be individually selectively disclosable
 as per the attribute encoding table below.
@@ -440,15 +440,15 @@ The `.` notation is used to indicate the nesting of attributes.
 | `certification_start_date`              | `certification_start_date`                                    | String (ISO 8601 YYYY-MM-DD) | Valid-from date of the certificate                                                                      | MUST            |
 | `certification_expiration_date`         | `certification_expiration_date`                               | String (ISO 8601 YYYY-MM-DD) | Valid-until date of the certificate; `9999-12-31` indicates no expiration                               | MUST            |
 | **ScopeObject**                         |                                                               |                              |                                                                                                         |                 |
-| `scope`                | `scope`                                      | Array [ScopeObject]          | Array of certified site and scope objects; **SHALL** contain at least one entry                         | MUST            |
-| `operating_legal_entity_name`           | `scope[n].operating_legal_entity_name`       | String                       | Legal name of the site operating entity                                                                 | MUST            |
-| `legal_entity_IDs`                      | `scope[n].legal_entity_IDs`                  | Array of Strings             | Legal entity identifiers; **SHALL** use types from Section 2.8.1                                        | MUST            |
-| `site_location_address_street`          | `scope[n].site_location_address_street`      | String                       | Street of the certified site address                                                                    | MUST            |
-| `site_location_address_nr`              | `scope[n].site_location_address_nr`          | String                       | House/building number of the certified site address                                                     | MUST            |
-| `site_location_address_postal_code`     | `scope[n].site_location_address_postal_code` | String                       | Postal code of the certified site address                                                               | MUST            |
-| `site_location_address_city`            | `scope[n].site_location_address_city`        | String                       | City of the certified site address                                                                      | MUST            |
-| `scope_description`                     | `scope[n].scope_description`                 | String                       | Textual description of the certification scope for this site                                            | MUST            |
-| `certified_site`                        | `scope[n].certified_site`                    | Boolean                      | `true` = whole site certified; `false` = partial site only                                              | MUST            |
+| `scope_of_certification`                | `scope_of_certification`                                      | Array [ScopeObject]          | Array of certified site and scope objects; **SHALL** contain at least one entry                         | MUST            |
+| `operating_legal_entity_name`           | `scope_of_certification[n].operating_legal_entity_name`       | String                       | Legal name of the site operating entity                                                                 | MUST            |
+| `legal_entity_IDs`                      | `scope_of_certification[n].legal_entity_IDs`                  | Array of Strings             | Legal entity identifiers; **SHALL** use types from Section 2.8.1                                        | MUST            |
+| `site_location_address_street`          | `scope_of_certification[n].site_location_address_street`      | String                       | Street of the certified site address                                                                    | MUST            |
+| `site_location_address_nr`              | `scope_of_certification[n].site_location_address_nr`          | String                       | House/building number of the certified site address                                                     | MUST            |
+| `site_location_address_postal_code`     | `scope_of_certification[n].site_location_address_postal_code` | String                       | Postal code of the certified site address                                                               | MUST            |
+| `site_location_address_city`            | `scope_of_certification[n].site_location_address_city`        | String                       | City of the certified site address                                                                      | MUST            |
+| `scope_description`                     | `scope_of_certification[n].scope_description`                 | String                       | Textual description of the certification scope for this site                                            | MUST            |
+| `certified_site`                        | `scope_of_certification[n].certified_site`                    | Boolean                      | `true` = whole site certified; `false` = partial site only                                              | MUST            |
 | **Evidence**                            |                                                               |                              |                                                                                                         |                 |
 | `evidence_id`                           | `certificate_evidence.evidence_id`                            | String (UUID or URI)         | Unique identifier of the certificate evidence; **SHALL** be non-empty                                   | MUST            |
 | `evidence_type`                         | `certificate_evidence.evidence_type`                          | String                       | Type of the evidence object; **SHALL** be `"Evidence"` when present; optional                           | MAY             |
@@ -473,7 +473,7 @@ The `.` notation is used to indicate the nesting of attributes.
   plain text in the JWT header/payload and cannot be withheld by the holder, as it is required
   for credential verification and trust establishment.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
-- `scope` entries are marked as `MUST` disclosable as a unit — individual
+- `scope_of_certification` entries are marked as `MUST` disclosable as a unit — individual
   scope attributes within an array entry are not independently selectively disclosable in
   this version.
 
@@ -536,7 +536,7 @@ based on the ISO 9001:2015 certificate illustrated in Appendix 1
   "registration_number": "DE015008",
   "certification_start_date": "2024-08-22",
   "certification_expiration_date": "2027-08-22",
-  "scope": [
+  "scope_of_certification": [
     {
       "operating_legal_entity_name": "Robert Bosch GmbH",
       "legal_entity_IDs": ["DE-HRB-396699", "BPNL000000000001"],
