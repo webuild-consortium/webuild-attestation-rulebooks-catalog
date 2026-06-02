@@ -12,8 +12,8 @@
 | 0.1     | 01.06.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
-  * [Contact the authors](mailto:florin.coptil@bosch.com?subject=UBO%20Attestation&body=Body%20text)
-
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)*
+  
 * Feedback:
 
 ---
