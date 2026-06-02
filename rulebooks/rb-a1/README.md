@@ -1,10 +1,10 @@
 # Attestation Rulebook for attestations of type Portable Document A1 (PD A1)
 
 * Author(s):
-  * [Philipp Friedl, DRV Bund]
-  * Laurent ?
+  * [Philipp Friedl, DRV Bund ]
+  * Laurent ? 
 * Previous Authors
-*
+  *
 * Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH]
 
@@ -13,7 +13,7 @@
 | 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
-  * [Philipp Friedl - DRV Bund](mailto:philipp.friedl@drv-bund.de)
+  * [Philipp Friedl - DRV Bund ](mailto:philipp.friedl@drv-bund.de)
 
 * Feedback:
 
@@ -23,7 +23,8 @@
 
 This attestation addresses the following question:
 
-**Which social security legislation applies to a citizen working in a cross-border employment situation within the EU/EFTA area?**
+**Which social security legislation applies to a citizen working in a cross-border employment
+situation within the EU/EFTA area?**
 
 The Portable Document A1 (PD A1) is a certificate that documents the applicable legislation
 regarding social security for a citizen in a cross-border employment situation. By determining
@@ -51,6 +52,8 @@ This scenario requires the issuance of three main credentials:
 - **Employee Credentials**
 - **Portable Document (PD) A1**
 - **Posted Worker Notification (PWN)**
+
+---
 
 ### 1.1 Document Scope and Purpose
 
@@ -95,6 +98,8 @@ This PD A1 Attestation Rulebook is based on:
 - A binding mode indicator (e.g., PID binding, Wallet Instance binding, no binding) **SHALL**
   be included as a technical parameter.
 
+---
+
 ### 1.2 Document Structure
 
 This Rulebook is structured as follows:
@@ -111,16 +116,20 @@ This Rulebook is structured as follows:
   data protection laws.
 - **Chapter 8** provides references to applicable standards and specifications.
 
+---
+
 ### 1.3 Keywords
 
-This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as specified in
+This document uses the capitalised keywords `SHALL`, `SHOULD` and `MAY` as specified in
 [RFC 2119], i.e. to indicate requirements, recommendations and options specified in this
 document.
 
-In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e. a
+In addition, `must` (non-capitalised) is used to indicate an external constraint, i.e. a
 requirement that is not mandated by this document, but, for instance, by an external document.
-The word 'can' indicates a capability, whereas other words, such as 'will', and 'is' or 'are'
+The word `can` indicates a capability, whereas other words, such as `will`, and `is` or `are`
 are intended as statements of fact.
+
+---
 
 ### 1.4 Terminology
 
@@ -155,9 +164,14 @@ of the Portable Document A1 certificate. It captures all legally required attrib
 in a machine-readable format compliant with the EUDI Wallet framework, while enabling
 selective disclosure at the SD element group level as defined in the official credential schema.
 
+---
+
 ### 2.1 Introduction
 
 **Data Model:**
+
+The PD A1 attestation is structured into seven main sections, each corresponding to a logical
+block of the official Portable Document A1:
 
 ```
 PDA1 Credential
@@ -197,37 +211,40 @@ PDA1 Credential
 │ ├── employer_id (string) — mandatory | SD Group 9
 │ ├── id_type (code) — mandatory | SD Group 9
 │ └── address [1:1] — mandatory | SD Group 10
-│ ├── street_nr (string) — optional | SD Group 10
-│ ├── town (string) — mandatory | SD Group 10
-│ ├── post_code (string) — optional | SD Group 10
-│ └── country (code, ISO 3166-1 alpha-2) — mandatory | SD Group 10
+│ │ ├── street_nr (string) — optional | SD Group 10
+│ │ ├── town (string) — mandatory | SD Group 10
+│ │ ├── post_code (string) — optional | SD Group 10
+│ │ ├── country (code, ISO 3166-1 alpha-2) — mandatory | SD Group 10
 ├── Place(s) of Work [1:n] — SD Group 11–12
 │ ├── no_fixed_place [0:1] — optional | SD Group 11
 │ │ └── country_code (code, ISO 3166-1 alpha-2) — mandatory | SD Group 11
 │ └── place_of_work [0:n] — optional | SD Group 11–12
-│ ├── company_name (string) — mandatory | SD Group 11
-│ ├── flag_base_home (string) — optional | SD Group 11
-│ ├── company_id (string) — optional | SD Group 11
-│ ├── id_type (code) — optional | SD Group 11
-│ ├── street_nr (string) — optional | SD Group 12
-│ ├── town (string) — mandatory | SD Group 12
-│ ├── postal_code (string) — optional | SD Group 12
-│ └── country (code, ISO 3166-1 alpha-2) — mandatory | SD Group 12
+│ | ├── company_name (string) — mandatory | SD Group 11
+│ | ├── flag_base_home (string) — optional | SD Group 11
+│ | ├── company_id (string) — optional | SD Group 11
+│ | ├── id_type (code) — optional | SD Group 11
+│ | ├── street_nr (string) — optional | SD Group 12
+│ | ├── town (string) — mandatory | SD Group 12
+│ | ├── postal_code (string) — optional | SD Group 12
+│ | ├── country (code, ISO 3166-1 alpha-2) — mandatory | SD Group 12
+│
 ├── Status Confirmation [1:1] — SD Group 13
 │ └── status_confirmation (code) — mandatory | SD Group 13
+│
 ├── Unique Document Number [1:1] — SD Group 14
 │ └── document_id (string) — mandatory | SD Group 14
+│
 └── Competent Institution [1:1] — SD Group 15–16
-├── institution_id (string) — mandatory | SD Group 15
-├── institution_name (string) — mandatory | SD Group 15
-├── country_code (code, ISO 3166-1 alpha-2) — mandatory | SD Group 15
-├── fax (string) — optional | SD Group 16
-├── phone (string) — optional | SD Group 16
-├── email (string) — optional | SD Group 16
-├── street_nr (string) — optional | SD Group 16
-├── town (string) — optional | SD Group 16
-├── postal_code (string) — optional | SD Group 16
-└── country_code (code, ISO 3166-1 alpha-2) — optional | SD Group 16
+| ├── institution_id (string) — mandatory | SD Group 15
+| ├── institution_name (string) — mandatory | SD Group 15
+| ├── country_code (code, ISO 3166-1 alpha-2) — mandatory | SD Group 15
+| ├── fax (string) — optional | SD Group 16
+| ├── phone (string) — optional | SD Group 16
+| ├── email (string) — optional | SD Group 16
+| ├── street_nr (string) — optional | SD Group 16
+| ├── town (string) — optional | SD Group 16
+| ├── postal_code (string) — optional | SD Group 16
+| ├── country_code (code, ISO 3166-1 alpha-2) — optional | SD Group 16
 ```
 
 
@@ -251,11 +268,11 @@ PDA1 Credential
 **Selective Disclosure Design:**
 
 Selective Disclosure is based on **SD element groups** (not individual field level):
-- Disclosing a whole logical block (e.g., SD Group 7 = full residence address) is required.
+- Disclosing a whole logical block (e.g., SD Group 7 = full residence address) is required
 - It is not possible to disclose, for example, only the town from an address block without
-  the other address fields.
-- Section 2 (Member State Legislation) is **always disclosed** (Non-SD).
-- Section 3 (Employer Details) must always be disclosed as a whole set of blocks.
+  the other address fields
+- Section 2 (Member State Legislation) is **always disclosed** (Non-SD)
+- Section 3 (Employer Details) must always be disclosed as a whole set of blocks
 
 **Attestation Classification:**
 
@@ -266,187 +283,202 @@ This attestation type **MAY** be classified as:
 
 **Top-Level Data Identifiers:**
 
-| **Data Identifier**        | **Semantic Reference** | **Definition**                                                                    | **Data type**          |
-|----------------------------|------------------------|-----------------------------------------------------------------------------------|------------------------|
-| subject                    | ...                    | Personal identity attributes of the citizen subject to the PD A1                 | Object                 |
-| member_state_legislation   | ...                    | Details of the applicable member state legislation; always disclosed (Non-SD)     | Object                 |
-| employer_details           | ...                    | Details of the employer(s) or self-employment situation                           | Array [EmployerObject] |
-| places_of_work             | ...                    | Places where the posted worker performs work                                      | Array [PlaceOfWork]    |
-| status_confirmation        | ...                    | Status confirmation code identifying the type of cross-border situation           | Object                 |
-| document_id                | ...                    | Unique number of the issued PD A1 document                                        | Object                 |
-| competent_institution      | ...                    | Details of the competent social security institution that issued the PD A1        | Object                 |
+| **Data Identifier**          | **Semantic Reference** | **Definition**                                                                    | **Data type**           |
+|------------------------------|------------------------|-----------------------------------------------------------------------------------|-------------------------|
+| `subject`                    | ...                    | Personal identity attributes of the citizen subject to the PD A1                 | Object                  |
+| `member_state_legislation`   | ...                    | Details of the applicable member state legislation; always disclosed (Non-SD)     | Object                  |
+| `employer_details`           | ...                    | Details of the employer(s) or self-employment situation                           | Array [EmployerObject]  |
+| `places_of_work`             | ...                    | Places where the posted worker performs work                                      | Array [PlaceOfWork]     |
+| `status_confirmation`        | ...                    | Status confirmation code identifying the type of cross-border situation           | Object                  |
+| `document_id`                | ...                    | Unique number of the issued PD A1 document                                        | Object                  |
+| `competent_institution`      | ...                    | Details of the competent social security institution that issued the PD A1        | Object                  |
+
+---
 
 ### 2.2 Mandatory Attributes
 
 #### Section 1 — Subject Attributes
 
-| **Data Identifier**            | **Semantic Reference** | **Definition**                                                                                          | **Data type**                   | **Occurrence** | **SD Group** |
-|--------------------------------|------------------------|---------------------------------------------------------------------------------------------------------|---------------------------------|----------------|--------------|
-| pin                            | —                      | Personal Identification Number (currently Social Security Number) of the citizen                        | String                          | 1:1            | 1            |
-| gender                         | —                      | Gender of the citizen                                                                                   | String / Codelist (tbd)         | 1:1            | 2            |
-| family_name                    | —                      | Family name(s) of the citizen in full                                                                   | String                          | 1:1            | 3            |
-| forename                       | —                      | Forename(s) of the citizen in full                                                                      | String                          | 1:1            | 3            |
-| date_of_birth                  | —                      | Date of birth of the citizen (ISO 8601)                                                                 | Date (YYYY-MM-DD)               | 1:1            | 4            |
-| nationality                    | —                      | Nationality/ies of the citizen; Relying Party always requests all nationalities; user may select which  | Code [1:n] (ISO 3166-1 alpha-2) | 1:n            | 5            |
-| place_of_birth.town            | —                      | Town/locality where the citizen was born                                                                | String                          | 1:1            | 6            |
-| place_of_birth.country_code    | —                      | Country where the citizen was born (ISO 3166-1 alpha-2)                                                 | Code (ISO 3166-1 alpha-2)       | 1:1            | 6            |
+| **Data Identifier**   | **Semantic Reference** | **Definition**                                                                                          | **Data type**                  | **Occurrence** | **SD Group** |
+|-----------------------|------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------|----------------|--------------|
+| `pin`                 | —                      | Personal Identification Number (currently Social Security Number) of the citizen                        | String                         | 1:1            | 1            |
+| `gender`              | —                      | Gender of the citizen                                                                                   | String / Codelist (tbd)        | 1:1            | 2            |
+| `family_name`         | —                      | Family name(s) of the citizen in full                                                                   | String                         | 1:1            | 3            |
+| `forename`            | —                      | Forename(s) of the citizen in full                                                                      | String                         | 1:1            | 3            |
+| `date_of_birth`       | —                      | Date of birth of the citizen (ISO 8601)                                                                 | Date (YYYY-MM-DD)              | 1:1            | 4            |
+| `nationality`         | —                      | Nationality/ies of the citizen; Relying Party always requests all nationalities; user may select which  | Code [1:n] (ISO 3166-1 alpha-2)| 1:n            | 5            |
+| `place_of_birth.town` | —                      | Town/locality where the citizen was born                                                                | String                         | 1:1            | 6            |
+| `place_of_birth.country_code` | —              | Country where the citizen was born (ISO 3166-1 alpha-2)                                                 | Code (ISO 3166-1 alpha-2)      | 1:1            | 6            |
 
 #### Address — Residence (SD Group 7)
 
-At least one address **SHALL** be provided (residence or stay):
+At least one address **SHALL** be provided (residence or stay). The following address types are
+defined as sequences with choice:
 
-| **Data Identifier**                 | **Semantic Reference** | **Definition**                                              | **Data type**             | **Occurrence** | **SD Group** |
-|-------------------------------------|------------------------|-------------------------------------------------------------|---------------------------|----------------|--------------|
-| address_residence.town              | —                      | Town of the address in the state of residence               | String                    | 1:1            | 7            |
-| address_residence.country_code      | —                      | Country code of the state of residence (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1            | 7            |
+| **Data Identifier**                      | **Semantic Reference** | **Definition**                                                              | **Data type**             | **Occurrence** | **SD Group** |
+|------------------------------------------|------------------------|-----------------------------------------------------------------------------|---------------------------|----------------|--------------|
+| `address_residence.town`                 | —                      | Town of the address in the state of residence                               | String                    | 1:1            | 7            |
+| `address_residence.country_code`         | —                      | Country code of the state of residence (ISO 3166-1 alpha-2)                 | Code (ISO 3166-1 alpha-2) | 1:1            | 7            |
 
 #### Address — Stay (SD Group 8)
 
-| **Data Identifier**         | **Semantic Reference** | **Definition**                                          | **Data type**             | **Occurrence** | **SD Group** |
-|-----------------------------|------------------------|---------------------------------------------------------|---------------------------|----------------|--------------|
-| address_stay.town           | —                      | Town of the address in the state of stay                | String                    | 1:1            | 8            |
-| address_stay.country_code   | —                      | Country code of the state of stay (ISO 3166-1 alpha-2)  | Code (ISO 3166-1 alpha-2) | 1:1            | 8            |
+| **Data Identifier**                  | **Semantic Reference** | **Definition**                                                          | **Data type**             | **Occurrence** | **SD Group** |
+|--------------------------------------|------------------------|-------------------------------------------------------------------------|---------------------------|----------------|--------------|
+| `address_stay.town`                  | —                      | Town of the address in the state of stay                                | String                    | 1:1            | 8            |
+| `address_stay.country_code`          | —                      | Country code of the state of stay (ISO 3166-1 alpha-2)                  | Code (ISO 3166-1 alpha-2) | 1:1            | 8            |
 
 #### Section 2 — Member State Legislation Attributes (Non-SD, always disclosed)
 
-| **Data Identifier**                           | **Semantic Reference** | **Definition**                                                                                                | **Data type**             | **Occurrence** |
-|-----------------------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------|---------------------------|----------------|
-| member_state_legislation.member_state         | —                      | Code of the member state whose legislation applies (ISO 3166-1 alpha-2; EU/EFTA + UK = 32 countries)          | Code (ISO 3166-1 alpha-2) | 1:1            |
-| member_state_legislation.starting_date        | —                      | Starting date from which the member state legislation applies (ISO 8601)                                       | Date (YYYY-MM-DD)         | 1:1            |
-| member_state_legislation.ending_date          | —                      | Ending date until which the member state legislation applies (ISO 8601)                                        | Date (YYYY-MM-DD)         | 1:1            |
+| **Data Identifier**                | **Semantic Reference** | **Definition**                                                                                                   | **Data type**             | **Occurrence** |
+|------------------------------------|------------------------|------------------------------------------------------------------------------------------------------------------|---------------------------|----------------|
+| `member_state_legislation.member_state`    | —          | Code of the member state whose legislation applies (ISO 3166-1 alpha-2; EU/EFTA + UK = 32 countries)            | Code (ISO 3166-1 alpha-2) | 1:1            |
+| `member_state_legislation.starting_date`   | —          | Starting date from which the member state legislation applies (ISO 8601)                                          | Date (YYYY-MM-DD)         | 1:1            |
+| `member_state_legislation.ending_date`     | —          | Ending date until which the member state legislation applies (ISO 8601)                                           | Date (YYYY-MM-DD)         | 1:1            |
 
 #### Section 3 — Employer / Self-Employment Details (SD Groups 9–10)
 
 Each employer entry **SHALL** contain the following mandatory attributes:
 
-| **Data Identifier**             | **Semantic Reference** | **Definition**                                                                                 | **Data type**             | **Occurrence** | **SD Group** |
-|---------------------------------|------------------------|------------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| employer.employment_type        | —                      | Type of employment: `01` = Employment, `02` = Self-Employment (EESSI codelist)                 | Code                      | 1:1            | 9            |
-| employer.name                   | —                      | Name of the employer or self-employed entity                                                   | String                    | 1:1            | 9            |
-| employer.employer_id            | —                      | Identifier of the employer                                                                     | String                    | 1:1            | 9            |
-| employer.id_type                | —                      | Type of the employer identifier: `01`, `02`, `03`, `99` (see EESSI codelist — tbd)             | Code                      | 1:1            | 9            |
-| employer.address.town           | —                      | Town of the employer's address                                                                 | String                    | 1:1            | 10           |
-| employer.address.country_code   | —                      | Country of the employer's address (ISO 3166-1 alpha-2)                                         | Code (ISO 3166-1 alpha-2) | 1:1            | 10           |
+| **Data Identifier**             | **Semantic Reference** | **Definition**                                                                                  | **Data type**             | **Occurrence** | **SD Group** |
+|---------------------------------|------------------------|-------------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
+| `employer.employment_type`      | —                      | Type of employment: `01` = Employment, `02` = Self-Employment (EESSI codelist)                  | Code                      | 1:1            | 9            |
+| `employer.name`                 | —                      | Name of the employer or self-employed entity                                                    | String                    | 1:1            | 9            |
+| `employer.employer_id`          | —                      | Identifier of the employer                                                                      | String                    | 1:1            | 9            |
+| `employer.id_type`              | —                      | Type of the employer identifier: `01`, `02`, `03`, `99` (see EESSI codelist — tbd)              | Code                      | 1:1            | 9            |
+| `employer.address.town`         | —                      | Town of the employer's address                                                                  | String                    | 1:1            | 10           |
+| `employer.address.country_code` | —                      | Country of the employer's address (ISO 3166-1 alpha-2)                                          | Code (ISO 3166-1 alpha-2) | 1:1            | 10           |
 
 #### Section 4 — Places of Work (SD Groups 11–12)
 
 When a specific place of work is declared:
 
-| **Data Identifier**             | **Semantic Reference** | **Definition**                                                                            | **Data type**             | **Occurrence** | **SD Group** |
-|---------------------------------|------------------------|-------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| place_of_work.company_name      | —                      | Name of the company or vessel at the place of work                                        | String                    | 1:1            | 11           |
-| place_of_work.town              | —                      | Town of the place of work                                                                 | String                    | 1:1            | 12           |
-| place_of_work.country_code      | —                      | Country of the place of work (ISO 3166-1 alpha-2; EU/EFTA + UK)                           | Code (ISO 3166-1 alpha-2) | 1:1            | 12           |
+| **Data Identifier**                   | **Semantic Reference** | **Definition**                                                                              | **Data type**             | **Occurrence** | **SD Group** |
+|---------------------------------------|------------------------|---------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
+| `place_of_work.company_name`          | —                      | Name of the company or vessel at the place of work                                          | String                    | 1:1            | 11           |
+| `place_of_work.town`                  | —                      | Town of the place of work                                                                   | String                    | 1:1            | 12           |
+| `place_of_work.country_code`          | —                      | Country of the place of work (ISO 3166-1 alpha-2; EU/EFTA + UK)                             | Code (ISO 3166-1 alpha-2) | 1:1            | 12           |
 
 When no fixed place of work exists:
 
-| **Data Identifier**                   | **Semantic Reference** | **Definition**                                                                    | **Data type**             | **Occurrence** | **SD Group** |
-|---------------------------------------|------------------------|-----------------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| no_fixed_place_of_work.country_code   | —                      | Country code indicating the country where no fixed place of work exists           | Code (ISO 3166-1 alpha-2) | 1:1            | 11           |
+| **Data Identifier**                        | **Semantic Reference** | **Definition**                                                                        | **Data type**             | **Occurrence** | **SD Group** |
+|--------------------------------------------|------------------------|---------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
+| `no_fixed_place_of_work.country_code`      | —                      | Country code indicating the country where no fixed place of work exists               | Code (ISO 3166-1 alpha-2) | 1:1            | 11           |
 
 #### Section 5 — Status Confirmation (SD Group 13)
 
-| **Data Identifier**          | **Semantic Reference** | **Definition**                                                                                                                              | **Data type** | **Occurrence** | **SD Group** |
-|------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|---------------|----------------|--------------|
-| status_confirmation.status   | —                      | Status confirmation code identifying the type of cross-border situation (2-digit code per PD A1 codelist; 12 options — tbd)                 | Code          | 1:1            | 13           |
+| **Data Identifier**            | **Semantic Reference** | **Definition**                                                                                           | **Data type** | **Occurrence** | **SD Group** |
+|--------------------------------|------------------------|----------------------------------------------------------------------------------------------------------|---------------|----------------|--------------|
+| `status_confirmation.status`   | —                      | Status confirmation code identifying the type of cross-border situation (2-digit code per PD A1 codelist; 12 options — tbd) | Code | 1:1 | 13 |
 
 #### Section 6 — Unique Document Number (SD Group 14)
 
-| **Data Identifier**    | **Semantic Reference** | **Definition**                                 | **Data type** | **Occurrence** | **SD Group** |
-|------------------------|------------------------|------------------------------------------------|---------------|----------------|--------------|
-| document.document_id   | —                      | Unique identifier of the issued PD A1 document | String        | 1:1            | 14           |
+| **Data Identifier**    | **Semantic Reference** | **Definition**                                     | **Data type** | **Occurrence** | **SD Group** |
+|------------------------|------------------------|----------------------------------------------------|---------------|----------------|--------------|
+| `document.document_id` | —                      | Unique identifier of the issued PD A1 document     | String        | 1:1            | 14           |
 
 #### Section 7 — Competent Institution (SD Groups 15–16)
 
-| **Data Identifier**              | **Semantic Reference** | **Definition**                                                                               | **Data type**             | **Occurrence** | **SD Group** |
-|----------------------------------|------------------------|----------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| institution.institution_id       | —                      | Identifier of the competent institution                                                      | String                    | 1:1            | 15           |
-| institution.institution_name     | —                      | Name of the competent institution                                                            | String                    | 1:1            | 15           |
-| institution.country_code         | —                      | Country code of the competent institution (ISO 3166-1 alpha-2; EU/EFTA + UK)                 | Code (ISO 3166-1 alpha-2) | 1:1            | 15           |
+| **Data Identifier**                    | **Semantic Reference** | **Definition**                                                                                    | **Data type**             | **Occurrence** | **SD Group** |
+|----------------------------------------|------------------------|---------------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
+| `institution.institution_id`           | —                      | Identifier of the competent institution                                                           | String                    | 1:1            | 15           |
+| `institution.institution_name`         | —                      | Name of the competent institution                                                                 | String                    | 1:1            | 15           |
+| `institution.country_code`             | —                      | Country code of the competent institution (ISO 3166-1 alpha-2; EU/EFTA + UK)                      | Code (ISO 3166-1 alpha-2) | 1:1            | 15           |
+
+---
 
 ### 2.3 Optional Attributes
 
 #### Subject Optional Attributes (SD Group 3)
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                 | **Data type** | **Occurrence** | **SD Group** |
-|---------------------|------------------------|----------------------------------------------------------------|---------------|----------------|--------------|
-| surname_at_birth    | —                      | Surname(s) of the citizen at birth (if different from current) | String        | 0:1            | 3            |
-| forename_at_birth   | —                      | Forename(s) of the citizen at birth (if different from current)| String        | 0:1            | 3            |
+| **Data Identifier**     | **Semantic Reference** | **Definition**                                              | **Data type** | **Occurrence** | **SD Group** |
+|-------------------------|------------------------|-------------------------------------------------------------|---------------|----------------|--------------|
+| `surname_at_birth`      | —                      | Surname(s) of the citizen at birth (if different from current) | String     | 0:1            | 3            |
+| `forename_at_birth`     | —                      | Forename(s) of the citizen at birth (if different from current) | String    | 0:1            | 3            |
 
 #### Address Optional Fields
 
-| **Data Identifier**             | **Semantic Reference** | **Definition**                                     | **Data type** | **Occurrence** | **SD Group** |
-|---------------------------------|------------------------|----------------------------------------------------|---------------|----------------|--------------|
-| address_residence.street_nr     | —                      | Street and number of the residence address         | String        | 0:1            | 7            |
-| address_residence.post_code     | —                      | Postal code of the residence address               | String        | 0:1            | 7            |
-| address_stay.street_nr          | —                      | Street and number of the stay address              | String        | 0:1            | 8            |
-| address_stay.post_code          | —                      | Postal code of the stay address                    | String        | 0:1            | 8            |
+| **Data Identifier**                   | **Semantic Reference** | **Definition**                                                | **Data type** | **Occurrence** | **SD Group** |
+|---------------------------------------|------------------------|---------------------------------------------------------------|---------------|----------------|--------------|
+| `address_residence.street_nr`         | —                      | Street and number of the residence address                    | String        | 0:1            | 7            |
+| `address_residence.post_code`         | —                      | Postal code of the residence address                          | String        | 0:1            | 7            |
+| `address_stay.street_nr`              | —                      | Street and number of the stay address                         | String        | 0:1            | 8            |
+| `address_stay.post_code`              | —                      | Postal code of the stay address                               | String        | 0:1            | 8            |
 
 #### Member State Legislation Optional Attributes (Non-SD)
 
-| **Data Identifier**                             | **Semantic Reference** | **Definition**                                                                         | **Data type** | **Occurrence** |
-|-------------------------------------------------|------------------------|----------------------------------------------------------------------------------------|---------------|----------------|
-| member_state_legislation.applies_for_duration   | —                      | Indicates whether the certificate applies for the full duration of the activity        | Boolean       | 0:1            |
-| member_state_legislation.provisional            | —                      | Indicates whether the determination is provisional                                     | Boolean       | 0:1            |
-| member_state_legislation.transitional_rules     | —                      | Indicates whether transitional rules apply                                              | Boolean       | 0:1            |
+| **Data Identifier**                              | **Semantic Reference** | **Definition**                                                                           | **Data type** | **Occurrence** |
+|--------------------------------------------------|------------------------|------------------------------------------------------------------------------------------|---------------|----------------|
+| `member_state_legislation.applies_for_duration`  | —                      | Indicates whether the certificate applies for the full duration of the activity          | Boolean       | 0:1            |
+| `member_state_legislation.provisional`           | —                      | Indicates whether the determination is provisional                                       | Boolean       | 0:1            |
+| `member_state_legislation.transitional_rules`    | —                      | Indicates whether transitional rules apply                                                | Boolean       | 0:1            |
 
 #### Employer Address Optional Fields (SD Group 10)
 
-| **Data Identifier**          | **Semantic Reference** | **Definition**                              | **Data type** | **Occurrence** | **SD Group** |
-|------------------------------|------------------------|---------------------------------------------|---------------|----------------|--------------|
-| employer.address.street_nr   | —                      | Street and number of the employer's address | String        | 0:1            | 10           |
-| employer.address.post_code   | —                      | Postal code of the employer's address       | String        | 0:1            | 10           |
+| **Data Identifier**              | **Semantic Reference** | **Definition**                               | **Data type** | **Occurrence** | **SD Group** |
+|----------------------------------|------------------------|----------------------------------------------|---------------|----------------|--------------|
+| `employer.address.street_nr`     | —                      | Street and number of the employer's address  | String        | 0:1            | 10           |
+| `employer.address.post_code`     | —                      | Postal code of the employer's address        | String        | 0:1            | 10           |
 
 #### Place of Work Optional Fields (SD Groups 11–12)
 
-| **Data Identifier**            | **Semantic Reference** | **Definition**                                                             | **Data type** | **Occurrence** | **SD Group** |
-|--------------------------------|------------------------|----------------------------------------------------------------------------|---------------|----------------|--------------|
-| place_of_work.flag_base_home   | —                      | Flag, base or home state of the vessel (maritime use case)                 | String        | 0:1            | 11           |
-| place_of_work.company_id       | —                      | Identifier of the company at the place of work                             | String        | 0:1            | 11           |
-| place_of_work.id_type          | —                      | Type of company identifier: `01`, `02`, `03`, `99` (EESSI codelist — tbd) | Code          | 0:1            | 11           |
-| place_of_work.street_nr        | —                      | Street and number of the place of work                                     | String        | 0:1            | 12           |
-| place_of_work.postal_code      | —                      | Postal code of the place of work                                           | String        | 0:1            | 12           |
+| **Data Identifier**               | **Semantic Reference** | **Definition**                                                              | **Data type** | **Occurrence** | **SD Group** |
+|-----------------------------------|------------------------|-----------------------------------------------------------------------------|---------------|----------------|--------------|
+| `place_of_work.flag_base_home`    | —                      | Flag, base or home state of the vessel (maritime use case)                  | String        | 0:1            | 11           |
+| `place_of_work.company_id`        | —                      | Identifier of the company at the place of work                              | String        | 0:1            | 11           |
+| `place_of_work.id_type`           | —                      | Type of company identifier: `01`, `02`, `03`, `99` (EESSI codelist — tbd)  | Code          | 0:1            | 11           |
+| `place_of_work.street_nr`         | —                      | Street and number of the place of work                                      | String        | 0:1            | 12           |
+| `place_of_work.postal_code`       | —                      | Postal code of the place of work                                            | String        | 0:1            | 12           |
 
 #### Competent Institution Optional Fields (SD Group 16)
 
-| **Data Identifier**         | **Semantic Reference** | **Definition**                                                           | **Data type**             | **Occurrence** | **SD Group** |
-|-----------------------------|------------------------|--------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| institution.fax             | —                      | Office fax number of the competent institution                           | String                    | 0:1            | 16           |
-| institution.phone           | —                      | Office phone number of the competent institution                         | String                    | 0:1            | 16           |
-| institution.email           | —                      | Email address of the competent institution                               | String                    | 0:1            | 16           |
-| institution.street_nr       | —                      | Street and number of the competent institution's address                 | String                    | 0:1            | 16           |
-| institution.town            | —                      | Town of the competent institution's address                              | String                    | 0:1            | 16           |
-| institution.postal_code     | —                      | Postal code of the competent institution's address                       | String                    | 0:1            | 16           |
-| institution.country_code    | —                      | Country code of the competent institution's address (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 0:1            | 16           |
+| **Data Identifier**          | **Semantic Reference** | **Definition**                                                              | **Data type**             | **Occurrence** | **SD Group** |
+|------------------------------|------------------------|-----------------------------------------------------------------------------|---------------------------|----------------|--------------|
+| `institution.fax`            | —                      | Office fax number of the competent institution                              | String                    | 0:1            | 16           |
+| `institution.phone`          | —                      | Office phone number of the competent institution                            | String                    | 0:1            | 16           |
+| `institution.email`          | —                      | Email address of the competent institution                                  | String                    | 0:1            | 16           |
+| `institution.street_nr`      | —                      | Street and number of the competent institution's address                    | String                    | 0:1            | 16           |
+| `institution.town`           | —                      | Town of the competent institution's address                                 | String                    | 0:1            | 16           |
+| `institution.postal_code`    | —                      | Postal code of the competent institution's address                          | String                    | 0:1            | 16           |
+| `institution.country_code`   | —                      | Country code of the competent institution's address (ISO 3166-1 alpha-2)    | Code (ISO 3166-1 alpha-2) | 0:1            | 16           |
+
+---
 
 ### 2.4 Conditional Attributes
 
 No conditional attributes are defined for this attestation type. All attributes are either
 mandatory or optional as specified above.
 
+---
+
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**          | **Definition**                                                                                                                                          | **Data type** |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date                | The date and time when the PD A1 Attestation was issued (ISO 8601)                                                                                      | DateTime      |
-| expiry_date                  | The date and time when the PD A1 Attestation expires (ISO 8601); relation to business decision date tbd                                                 | DateTime      |
-| issuing_entity               | The identifier of the competent social security institution that issued the attestation                                                                 | String        |
-| attestation_legal_category   | Indicates the legal category of this attestation ("QEAA" or "EAA")                                                                                      | String        |
-| vct                          | A unique identifier (often a URL or URN) for the type of credential, indicating which claims must be present and which can be selectively disclosed      | String        |
-| binding                      | Information on the holder binding type (e.g., PID binding, Wallet Instance binding, no binding)                                                         | String / tbd  |
+| **Data Identifier**          | **Definition**                                                                                                                                     | **Data type** |
+|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| `issuance_date`              | The date and time when the PD A1 Attestation was issued (ISO 8601)                                                                                 | DateTime      |
+| `expiry_date`                | The date and time when the PD A1 Attestation expires (ISO 8601); relation to business decision date tbd                                            | DateTime      |
+| `issuing_entity`             | The identifier of the competent social security institution that issued the attestation                                                             | String        |
+| `attestation_legal_category` | Indicates the legal category of this attestation (`"QEAA"` or `"EAA"`)                                                                            | String        |
+| `vct`                        | A unique identifier (URL or URN) for the credential type; **SHALL** be `"PDA1Credential"`                                                          | String        |
+| `binding`                    | Information on the holder binding type (e.g., PID binding, Wallet Instance binding, no binding)                                                    | String / tbd  |
+
+---
 
 ### 2.6 Optional Metadata
 
-| **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used for this attestation                            | String        |
-| schema_id           | Schema identifier for the PD A1 credential schema (tbd)                   | String        |
-| revocation          | Reference to revocation information for this attestation (tbd)            | String / tbd  |
+| **Data Identifier** | **Definition**                                                              | **Data type** |
+|---------------------|-----------------------------------------------------------------------------|---------------|
+| `trust_anchor_url`  | URL where the trust anchor for verifying this attestation can be retrieved  | URI           |
+| `schema_version`    | Version of the schema used for this attestation                             | String        |
+| `schema_id`         | Schema identifier for the PD A1 credential schema (tbd)                     | String        |
+| `revocation`        | Reference to revocation information for this attestation (tbd)              | String / tbd  |
+
+---
 
 ### 2.7 Conditional Metadata
 
 No conditional metadata elements are defined for this attestation type.
+
+---
 
 ### 2.8 Value Lists
 
@@ -458,15 +490,15 @@ legislation and places of work, the applicable country set covers all **EU/EFTA 
 
 | **Example Code** | **Country**    |
 |------------------|----------------|
-| DE               | Germany        |
-| FR               | France         |
-| IT               | Italy          |
-| ES               | Spain          |
-| NL               | Netherlands    |
-| PL               | Poland         |
-| CH               | Switzerland    |
-| NO               | Norway         |
-| GB               | United Kingdom |
+| `DE`             | Germany        |
+| `FR`             | France         |
+| `IT`             | Italy          |
+| `ES`             | Spain          |
+| `NL`             | Netherlands    |
+| `PL`             | Poland         |
+| `CH`             | Switzerland    |
+| `NO`             | Norway         |
+| `GB`             | United Kingdom |
 
 > For the full list of applicable EU/EFTA + UK country codes, refer to the EESSI country
 > code reference list.
@@ -475,31 +507,33 @@ legislation and places of work, the applicable country set covers all **EU/EFTA 
 
 The `employment_type` attribute **SHALL** use one of the following standardized values:
 
-| **Code** | **Definition**  |
-|----------|-----------------|
-| 01       | Employment      |
-| 02       | Self-Employment |
+| **Code** | **Definition**   |
+|----------|------------------|
+| `01`     | Employment       |
+| `02`     | Self-Employment  |
 
 #### 2.8.3 Employer / Company Identifier Type Codes
 
 The `id_type` attribute for employer and place of work identifiers **SHALL** use one of the
 following standardized values (per EESSI — tbd):
 
-| **Code** | **Definition**             |
-|----------|----------------------------|
-| 01       | Identifier type 01 (tbd)   |
-| 02       | Identifier type 02 (tbd)   |
-| 03       | Identifier type 03 (tbd)   |
-| 99       | Other / unspecified        |
+| **Code** | **Definition**                  |
+|----------|---------------------------------|
+| `01`     | Identifier type 01 (tbd)        |
+| `02`     | Identifier type 02 (tbd)        |
+| `03`     | Identifier type 03 (tbd)        |
+| `99`     | Other / unspecified             |
 
 #### 2.8.4 Status Confirmation Codes
 
 The `status_confirmation` attribute **SHALL** use one of the following standardized 2-digit
 values as defined in the PD A1 codelist (12 options — tbd):
 
-| **Code** | **Definition**                                                                              |
-|----------|---------------------------------------------------------------------------------------------|
-| tbd      | 12 status confirmation codes per PD A1 specification (to be confirmed with EESSI)           |
+| **Code** | **Definition**                             |
+|----------|--------------------------------------------|
+| tbd      | 12 status confirmation codes per PD A1 specification (to be confirmed with EESSI) |
+
+---
 
 ### 2.9 Integrity Rules
 
@@ -539,7 +573,7 @@ The following integrity rules **SHALL** be enforced:
 - `expiry_date` **SHALL** be later than `issuance_date`.
 - `issuance_date` **SHALL** be in the past.
 - `attestation_legal_category` **SHALL** be one of `"EAA"` or `"QEAA"`.
-- `vct` **SHALL** be `eu.we-build.pda1.1`.
+- `vct` **SHALL** be `"PDA1Credential"`.
 - Selective Disclosure **SHALL** be applied at SD element group level only — individual
   fields within a group **SHALL NOT** be independently selectable.
 - Section 2 (Member State Legislation) **SHALL** always be fully disclosed (Non-SD).
@@ -553,6 +587,8 @@ The following integrity rules **SHALL** be enforced:
 
 ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity
 presentation is not a current requirement for the PD A1 attestation.
+
+---
 
 ### 3.2 SD-JWT VC-Based Encoding
 
@@ -570,78 +606,81 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build.pda1.1`
 
+---
+
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**              | **Attribute Identifier**                       | **Encoding Format**                 | **Reference / Notes**                                                                      | **Disclosable** |
-|----------------------------------|------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------------------|-----------------|
-| pin                              | subject.pin                                    | String                              | Personal Identification Number (Social Security Number); mandatory                         | MUST            |
-| gender                           | subject.gender                                 | String / Codelist                   | Gender of the citizen (codelist tbd); mandatory                                            | MUST            |
-| family_name                      | subject.family_name                            | String                              | Family name(s) of the citizen in full; mandatory                                           | MUST            |
-| forename                         | subject.forename                               | String                              | Forename(s) of the citizen in full; mandatory                                              | MUST            |
-| surname_at_birth                 | subject.surname_at_birth                       | String                              | Surname(s) at birth; optional                                                              | MUST            |
-| forename_at_birth                | subject.forename_at_birth                      | String                              | Forename(s) at birth; optional                                                             | MUST            |
-| date_of_birth                    | subject.date_of_birth                          | String (ISO 8601 YYYY-MM-DD)        | Date of birth of the citizen; mandatory                                                    | MUST            |
-| nationality                      | subject.nationality                            | Array of Codes (ISO 3166-1 alpha-2) | Nationality/ies; Verifier always requests all; user may decide which to present; mandatory | MUST            |
-| place_of_birth.town              | subject.place_of_birth.town                    | String                              | Town where the citizen was born; mandatory                                                 | MUST            |
-| place_of_birth.country_code      | subject.place_of_birth.country_code            | Code (ISO 3166-1 alpha-2)           | Country where the citizen was born; mandatory                                              | MUST            |
-| address_residence.street_nr      | subject.address_residence.street_nr            | String                              | Street and number of residence address; optional                                           | MUST            |
-| address_residence.town           | subject.address_residence.town                 | String                              | Town of residence address; mandatory if address_residence present                          | MUST            |
-| address_residence.post_code      | subject.address_residence.post_code            | String                              | Postal code of residence address; optional                                                 | MUST            |
-| address_residence.country_code   | subject.address_residence.country_code         | Code (ISO 3166-1 alpha-2)           | Country of residence address; mandatory if address_residence present                       | MUST            |
-| address_stay.street_nr           | subject.address_stay[n].street_nr              | String                              | Street and number of stay address; optional                                                | MUST            |
-| address_stay.town                | subject.address_stay[n].town                   | String                              | Town of stay address; mandatory if address_stay present                                    | MUST            |
-| address_stay.post_code           | subject.address_stay[n].post_code              | String                              | Postal code of stay address; optional                                                      | MUST            |
-| address_stay.country_code        | subject.address_stay[n].country_code           | Code (ISO 3166-1 alpha-2)           | Country of stay address; mandatory if address_stay present                                 | MUST            |
-| **Member State Legislation***    |                                                |                                     |                                                                                            |                 |
-| member_state                     | member_state_legislation.member_state          | Code (ISO 3166-1 alpha-2)           | Member state whose legislation applies; always disclosed; mandatory                        | MUST NOT        |
-| starting_date                    | member_state_legislation.starting_date         | String (ISO 8601 YYYY-MM-DD)        | Starting date of applicable legislation; always disclosed; mandatory                       | MUST NOT        |
-| ending_date                      | member_state_legislation.ending_date           | String (ISO 8601 YYYY-MM-DD)        | Ending date of applicable legislation; always disclosed; mandatory                         | MUST NOT        |
-| applies_for_duration             | member_state_legislation.applies_for_duration  | Boolean                             | True if certificate applies for full duration of activity; optional; always disclosed      | MUST NOT        |
-| provisional                      | member_state_legislation.provisional           | Boolean                             | True if determination is provisional; optional; always disclosed                           | MUST NOT        |
-| transitional_rules               | member_state_legislation.transitional_rules    | Boolean                             | True if transitional rules apply; optional; always disclosed                               | MUST NOT        |
-| **Employer Details***            |                                                |                                     |                                                                                            |                 |
-| employer.employment_type         | employer_details[n].employment_type            | Code                                | `01` = Employment, `02` = Self-Employment; mandatory                                       | MUST            |
-| employer.name                    | employer_details[n].name                       | String                              | Name of the employer; mandatory                                                            | MUST            |
-| employer.employer_id             | employer_details[n].employer_id                | String                              | Identifier of the employer; mandatory                                                      | MUST            |
-| employer.id_type                 | employer_details[n].id_type                    | Code                                | Type of employer identifier (01, 02, 03, 99 per EESSI); mandatory                          | MUST            |
-| employer.address.street_nr       | employer_details[n].address.street_nr          | String                              | Street and number of employer address; optional                                            | MUST            |
-| employer.address.town            | employer_details[n].address.town               | String                              | Town of employer address; mandatory                                                        | MUST            |
-| employer.address.post_code       | employer_details[n].address.post_code          | String                              | Postal code of employer address; optional                                                  | MUST            |
-| employer.address.country_code    | employer_details[n].address.country_code       | Code (ISO 3166-1 alpha-2)           | Country of employer address; mandatory                                                     | MUST            |
-| **Places of Work***              |                                                |                                     |                                                                                            |                 |
-| no_fixed_place.country_code      | places_of_work[n].no_fixed_place.country_code  | Code (ISO 3166-1 alpha-2)           | Country for no fixed place of work; mandatory if no_fixed_place present                    | MUST            |
-| place_of_work.company_name       | places_of_work[n].place_of_work.company_name   | String                              | Name of company or vessel at place of work; mandatory if place_of_work present             | MUST            |
-| place_of_work.flag_base_home     | places_of_work[n].place_of_work.flag_base_home | String                              | Flag, base or home state of vessel; optional                                               | MUST            |
-| place_of_work.company_id         | places_of_work[n].place_of_work.company_id     | String                              | Company identifier at place of work; optional                                              | MUST            |
-| place_of_work.id_type            | places_of_work[n].place_of_work.id_type        | Code                                | Type of company identifier (01, 02, 03, 99); optional                                      | MUST            |
-| place_of_work.street_nr          | places_of_work[n].place_of_work.street_nr      | String                              | Street and number of place of work; optional                                               | MUST            |
-| place_of_work.town               | places_of_work[n].place_of_work.town           | String                              | Town of place of work; mandatory if place_of_work present                                  | MUST            |
-| place_of_work.postal_code        | places_of_work[n].place_of_work.postal_code    | String                              | Postal code of place of work; optional                                                     | MUST            |
-| place_of_work.country_code       | places_of_work[n].place_of_work.country_code   | Code (ISO 3166-1 alpha-2)           | Country of place of work (EU/EFTA + UK); mandatory if place_of_work present                | MUST            |
-| **Status Confirmation***         |                                                |                                     |                                                                                            |                 |
-| status_confirmation              | status_confirmation.status                     | Code                                | 2-digit status code per PD A1 codelist (12 options — tbd); mandatory                       | MUST            |
-| **Unique Document Number***      |                                                |                                     |                                                                                            |                 |
-| document_id                      | document.document_id                           | String                              | Unique identifier of the issued PD A1 document; mandatory                                  | MUST            |
-| **Competent Institution**        |                                                |                                     |                                                                                            |                 |
-| institution_id                   | institution.institution_id                     | String                              | Identifier of the competent institution; mandatory                                         | MUST            |
-| institution_name                 | institution.institution_name                   | String                              | Name of the competent institution; mandatory                                               | MUST            |
-| institution.country_code         | institution.country_code                       | Code (ISO 3166-1 alpha-2)           | Country of the competent institution; mandatory                                            | MUST            |
-| institution.fax                  | institution.fax                                | String                              | Office fax number; optional                                                                | MUST            |
-| institution.phone                | institution.phone                              | String                              | Office phone number; optional                                                              | MUST            |
-| institution.email                | institution.email                              | String                              | Email address of the institution; optional                                                 | MUST            |
-| institution.street_nr            | institution.street_nr                          | String                              | Street and number of institution address; optional                                         | MUST            |
-| institution.town                 | institution.town                               | String                              | Town of institution address; optional                                                      | MUST            |
-| institution.postal_code          | institution.postal_code                        | String                              | Postal code of institution address; optional                                               | MUST            |
-| institution.country_code_address | institution.country_code_address               | Code (ISO 3166-1 alpha-2)           | Country of institution address; optional                                                   | MUST            |
-| **Metadata**                     |                                                |                                     |                                                                                            |                 |
-| issuance_date                    | iat                                            | Number (Unix timestamp)             | Date and time when the attestation was issued (ISO 8601); RFC 7519                         | MUST NOT        |
-| expiry_date                      | exp                                            | Number (Unix timestamp)             | Date and time when the attestation expires (ISO 8601); RFC 7519                            | MUST NOT        |
-| issuing_entity                   | iss                                            | String (URI or DID)                 | Identifier of the competent institution that issued the attestation; RFC 7519              | MUST NOT        |
-| attestation_legal_category       | attestation_legal_category                     | String                              | One of "EAA" or "QEAA" as defined by eIDAS 2                                               | MUST NOT        |
-| vct                              | vct                                            | String                              | The vct definition                                                                         | MUST NOT        |
-| binding                          | binding                                        | String / tbd                        | Holder binding type (e.g., PID binding, Wallet Instance binding, no binding)               | MUST NOT        |
-| schema_version                   | schema_version                                 | String                              | Version of the schema used; optional                                                       | MAY             |
-| trust_anchor_url                 | trust_anchor_url                               | String (URI)                        | URL where the trust anchor for verifying this attestation can be retrieved; optional       | MAY             |
+| **Data Identifier**                              | **Attribute Identifier**                           | **Encoding Format**          | **Reference / Notes**                                                                                       | **SD Group** | **Disclosable** |
+|--------------------------------------------------|----------------------------------------------------|------------------------------|-------------------------------------------------------------------------------------------------------------|--------------|-----------------|
+| **Section 1 — Subject**                          |                                                    |                              |                                                                                                             |              |                 |
+| `pin`                                            | `subject.pin`                                      | String                       | Personal Identification Number (Social Security Number); mandatory                                          | 1            | MUST            |
+| `gender`                                         | `subject.gender`                                   | String / Codelist            | Gender of the citizen (codelist tbd); mandatory                                                             | 2            | MUST            |
+| `family_name`                                    | `subject.family_name`                              | String                       | Family name(s) of the citizen in full; mandatory                                                            | 3            | MUST            |
+| `forename`                                       | `subject.forename`                                 | String                       | Forename(s) of the citizen in full; mandatory                                                               | 3            | MUST            |
+| `surname_at_birth`                               | `subject.surname_at_birth`                         | String                       | Surname(s) at birth; optional                                                                               | 3            | MUST            |
+| `forename_at_birth`                              | `subject.forename_at_birth`                        | String                       | Forename(s) at birth; optional                                                                              | 3            | MUST            |
+| `date_of_birth`                                  | `subject.date_of_birth`                            | String (ISO 8601 YYYY-MM-DD) | Date of birth of the citizen; mandatory                                                                     | 4            | MUST            |
+| `nationality`                                    | `subject.nationality`                              | Array of Codes (ISO 3166-1 alpha-2) | Nationality/ies; Verifier always requests all; user may decide which to present; mandatory              | 5            | MUST            |
+| `place_of_birth.town`                            | `subject.place_of_birth.town`                      | String                       | Town where the citizen was born; mandatory                                                                  | 6            | MUST            |
+| `place_of_birth.country_code`                    | `subject.place_of_birth.country_code`              | Code (ISO 3166-1 alpha-2)    | Country where the citizen was born; mandatory                                                               | 6            | MUST            |
+| `address_residence.street_nr`                    | `subject.address_residence.street_nr`              | String                       | Street and number of residence address; optional                                                            | 7            | MUST            |
+| `address_residence.town`                         | `subject.address_residence.town`                   | String                       | Town of residence address; mandatory if address_residence present                                           | 7            | MUST            |
+| `address_residence.post_code`                    | `subject.address_residence.post_code`              | String                       | Postal code of residence address; optional                                                                  | 7            | MUST            |
+| `address_residence.country_code`                 | `subject.address_residence.country_code`           | Code (ISO 3166-1 alpha-2)    | Country of residence address; mandatory if address_residence present                                        | 7            | MUST            |
+| `address_stay.street_nr`                         | `subject.address_stay[n].street_nr`                | String                       | Street and number of stay address; optional                                                                 | 8            | MUST            |
+| `address_stay.town`                              | `subject.address_stay[n].town`                     | String                       | Town of stay address; mandatory if address_stay present                                                     | 8            | MUST            |
+| `address_stay.post_code`                         | `subject.address_stay[n].post_code`                | String                       | Postal code of stay address; optional                                                                       | 8            | MUST            |
+| `address_stay.country_code`                      | `subject.address_stay[n].country_code`             | Code (ISO 3166-1 alpha-2)    | Country of stay address; mandatory if address_stay present                                                  | 8            | MUST            |
+| **Section 2 — Member State Legislation (Non-SD)**|                                                    |                              |                                                                                                             |              |                 |
+| `member_state`                                   | `member_state_legislation.member_state`            | Code (ISO 3166-1 alpha-2)    | Member state whose legislation applies; always disclosed; mandatory                                         | Non-SD       | MUST NOT        |
+| `starting_date`                                  | `member_state_legislation.starting_date`           | String (ISO 8601 YYYY-MM-DD) | Starting date of applicable legislation; always disclosed; mandatory                                        | Non-SD       | MUST NOT        |
+| `ending_date`                                    | `member_state_legislation.ending_date`             | String (ISO 8601 YYYY-MM-DD) | Ending date of applicable legislation; always disclosed; mandatory                                          | Non-SD       | MUST NOT        |
+| `applies_for_duration`                           | `member_state_legislation.applies_for_duration`    | Boolean                      | True if certificate applies for full duration of activity; optional; always disclosed                       | Non-SD       | MUST NOT        |
+| `provisional`                                    | `member_state_legislation.provisional`             | Boolean                      | True if determination is provisional; optional; always disclosed                                            | Non-SD       | MUST NOT        |
+| `transitional_rules`                             | `member_state_legislation.transitional_rules`      | Boolean                      | True if transitional rules apply; optional; always disclosed                                                | Non-SD       | MUST NOT        |
+| **Section 3 — Employer Details**                 |                                                    |                              |                                                                                                             |              |                 |
+| `employer.employment_type`                       | `employer_details[n].employment_type`              | Code                         | `01` = Employment, `02` = Self-Employment; mandatory                                                        | 9            | MUST            |
+| `employer.name`                                  | `employer_details[n].name`                         | String                       | Name of the employer; mandatory                                                                             | 9            | MUST            |
+| `employer.employer_id`                           | `employer_details[n].employer_id`                  | String                       | Identifier of the employer; mandatory                                                                       | 9            | MUST            |
+| `employer.id_type`                               | `employer_details[n].id_type`                      | Code                         | Type of employer identifier (01, 02, 03, 99 per EESSI); mandatory                                          | 9            | MUST            |
+| `employer.address.street_nr`                     | `employer_details[n].address.street_nr`            | String                       | Street and number of employer address; optional                                                             | 10           | MUST            |
+| `employer.address.town`                          | `employer_details[n].address.town`                 | String                       | Town of employer address; mandatory                                                                         | 10           | MUST            |
+| `employer.address.post_code`                     | `employer_details[n].address.post_code`            | String                       | Postal code of employer address; optional                                                                   | 10           | MUST            |
+| `employer.address.country_code`                  | `employer_details[n].address.country_code`         | Code (ISO 3166-1 alpha-2)    | Country of employer address; mandatory                                                                      | 10           | MUST            |
+| **Section 4 — Places of Work**                   |                                                    |                              |                                                                                                             |              |                 |
+| `no_fixed_place.country_code`                    | `places_of_work[n].no_fixed_place.country_code`    | Code (ISO 3166-1 alpha-2)    | Country for no fixed place of work; mandatory if no_fixed_place present                                     | 11           | MUST            |
+| `place_of_work.company_name`                     | `places_of_work[n].place_of_work.company_name`     | String                       | Name of company or vessel at place of work; mandatory if place_of_work present                              | 11           | MUST            |
+| `place_of_work.flag_base_home`                   | `places_of_work[n].place_of_work.flag_base_home`   | String                       | Flag, base or home state of vessel; optional                                                                | 11           | MUST            |
+| `place_of_work.company_id`                       | `places_of_work[n].place_of_work.company_id`       | String                       | Company identifier at place of work; optional                                                               | 11           | MUST            |
+| `place_of_work.id_type`                          | `places_of_work[n].place_of_work.id_type`          | Code                         | Type of company identifier (01, 02, 03, 99); optional                                                      | 11           | MUST            |
+| `place_of_work.street_nr`                        | `places_of_work[n].place_of_work.street_nr`        | String                       | Street and number of place of work; optional                                                                | 12           | MUST            |
+| `place_of_work.town`                             | `places_of_work[n].place_of_work.town`             | String                       | Town of place of work; mandatory if place_of_work present                                                   | 12           | MUST            |
+| `place_of_work.postal_code`                      | `places_of_work[n].place_of_work.postal_code`      | String                       | Postal code of place of work; optional                                                                      | 12           | MUST            |
+| `place_of_work.country_code`                     | `places_of_work[n].place_of_work.country_code`     | Code (ISO 3166-1 alpha-2)    | Country of place of work (EU/EFTA + UK); mandatory if place_of_work present                                 | 12           | MUST            |
+| **Section 5 — Status Confirmation**              |                                                    |                              |                                                                                                             |              |                 |
+| `status_confirmation`                            | `status_confirmation.status`                       | Code                         | 2-digit status code per PD A1 codelist (12 options — tbd); mandatory                                       | 13           | MUST            |
+| **Section 6 — Unique Document Number**           |                                                    |                              |                                                                                                             |              |                 |
+| `document_id`                                    | `document.document_id`                             | String                       | Unique identifier of the issued PD A1 document; mandatory                                                   | 14           | MUST            |
+| **Section 7 — Competent Institution**            |                                                    |                              |                                                                                                             |              |                 |
+| `institution_id`                                 | `institution.institution_id`                       | String                       | Identifier of the competent institution; mandatory                                                          | 15           | MUST            |
+| `institution_name`                               | `institution.institution_name`                     | String                       | Name of the competent institution; mandatory                                                                | 15           | MUST            |
+| `institution.country_code`                       | `institution.country_code`                         | Code (ISO 3166-1 alpha-2)    | Country of the competent institution (EU/EFTA + UK); mandatory                                              | 15           | MUST            |
+| `institution.fax`                                | `institution.fax`                                  | String                       | Office fax number; optional                                                                                 | 16           | MUST            |
+| `institution.phone`                              | `institution.phone`                                | String                       | Office phone number; optional                                                                               | 16           | MUST            |
+| `institution.email`                              | `institution.email`                                | String                       | Email address of the institution; optional                                                                  | 16           | MUST            |
+| `institution.street_nr`                          | `institution.street_nr`                            | String                       | Street and number of institution address; optional                                                          | 16           | MUST            |
+| `institution.town`                               | `institution.town`                                 | String                       | Town of institution address; optional                                                                       | 16           | MUST            |
+| `institution.postal_code`                        | `institution.postal_code`                          | String                       | Postal code of institution address; optional                                                                | 16           | MUST            |
+| `institution.country_code_address`               | `institution.country_code_address`                 | Code (ISO 3166-1 alpha-2)    | Country of institution address; optional                                                                    | 16           | MUST            |
+| **Metadata**                                     |                                                    |                              |                                                                                                             |              |                 |
+| `issuance_date`                                  | `iat`                                              | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                                          | —            | MUST NOT        |
+| `expiry_date`                                    | `exp`                                              | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                                             | —            | MUST NOT        |
+| `issuing_entity`                                 | `iss`                                              | String (URI or DID)          | Identifier of the competent institution that issued the attestation; RFC 7519                               | —            | MUST NOT        |
+| `attestation_legal_category`                     | `attestation_legal_category`                       | String                       | One of `"EAA"` or `"QEAA"` as defined by eIDAS 2                                                           | —            | MUST NOT        |
+| `vct`                                            | `vct`                                              | String                       | `"PDA1Credential"`                                                                                          | —            | MUST NOT        |
+| `binding`                                        | `binding`                                          | String / tbd                 | Holder binding type (e.g., PID binding, Wallet Instance binding, no binding)                                | —            | MUST NOT        |
+| `schema_version`                                 | `schema_version`                                   | String                       | Version of the schema used; optional                                                                        | —            | MAY             |
+| `trust_anchor_url`                               | `trust_anchor_url`                                 | URI                          | URL where the trust anchor for verifying this attestation can be retrieved; optional                        | —            | MAY             |
 
 **Notes:**
 
@@ -658,12 +697,13 @@ The `.` notation is used to indicate the nesting of attributes.
 - All employer detail blocks **SHALL** be disclosed as a whole when requested, to provide a
   complete picture of the employment situation.
 
+---
+
 #### 3.2.2 Status Claim
 
 For SD-JWT VC-compliant PD A1 Attestations, the attestation **MUST** include a `status` claim
-if the technical validity period is greater than 24 hours. This claim enables Relying Parties
-to determine if a credential has been revoked via a status list mechanism, as specified in
-SD-JWT VC.
+if the technical validity period is greater than 24 hours. This claim enables Relying Parties to
+determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
 
 The `status` claim **SHALL** be a JSON object with the following members:
 
@@ -689,10 +729,10 @@ The `status` claim **SHALL** be a JSON object with the following members:
 
 ### 3.2.3 Example Payload
 
-The following is a non-normative example of a PD A1 SD-JWT VC payload:
+The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
 ```
 {
-  "vct": "eu.we-build.pda1.1",
+  "vct": "PDA1Credential",
   "attestation_legal_category": "QEAA",
   "iss": "did:example:social-security-institution-de",
   "iat": 1746000000,
