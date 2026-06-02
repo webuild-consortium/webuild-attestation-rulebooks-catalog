@@ -134,12 +134,13 @@ No conditional attributes are defined for this attestation type. All attributes 
 
 #### 2.5 Mandatory metadata
 
-| **Data Identifier**            | **Definition**                                                                                                                                                     | **Data type** |
-|--------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date                  | The date and time when the attestation was issued ISO 8601                                                                                                         | DateTime      |
-| expiry_date                    | The date and time when the attestation expires ISO 8601                                                                                                            | DateTime      |
-| issuing_entity                 | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String        | 
-| attestation_legal_category     | Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA")                                                                                        | String        |
+| **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type** |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| issuance_date              | The date and time when the attestation was issued ISO 8601                                                                                                         | DateTime      |
+| expiry_date                | The date and time when the attestation expires ISO 8601                                                                                                            | DateTime      |
+| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String        | 
+| attestation_legal_category | Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA")                                                                                        | String        |
+| vct                        | indicates the supported type (ex. eu.we-build.gln.1)                                                                                                               | String        |
 
 ### 2.6 Optional metadata
 
@@ -198,23 +199,24 @@ The GLN Number attestation uses the SD-JWT VC format to allow for selective disc
 #### 3.2.1 Attribute Encoding Table
 
 | **Data Identifier**        | **Attribute identifier**   | **Encoding format**                            | **Reference/Notes**                                                          | **Disclosable** |
-|----------------------------|----------------------------|------------------------------------------------|:-----------------------------------------------------------------------------|----------------|
-| **GS1**                    |                            |                                                |                                                                              |                |				
-| organizationLegalName      | 	gs1.organizationLegalName	 | Rdf:langString	                                | The legal entity name registered with GS1	                                   | MUST           |
-| licenceKey	                | gs1.licenceKey	            | xsd:integer	                                   | The GS1 Company Prefix assigned to the organization	                         | MUST           |
-| GlobalLocationNumber	      | gs1.GlobalLocationNumber   | 	xsd:string	                                   | The 13-digit GLN assigned to the entity	                                     | MUST           |
-| **Address**                |                            |                                                |                                                                              |                |				
+|----------------------------|----------------------------|------------------------------------------------|:-----------------------------------------------------------------------------|-----------------|
+| **GS1**                    |                            |                                                |                                                                              |                 |				
+| organizationLegalName      | 	gs1.organizationLegalName	 | Rdf:langString	                                | The legal entity name registered with GS1	                                   | MUST            |
+| licenceKey	                | gs1.licenceKey	            | xsd:integer	                                   | The GS1 Company Prefix assigned to the organization	                         | MUST            |
+| GlobalLocationNumber	      | gs1.GlobalLocationNumber   | 	xsd:string	                                   | The 13-digit GLN assigned to the entity	                                     | MUST            |
+| **Address**                |                            |                                                |                                                                              |                 |				
 | address.postal_code        | 	address.postal_code	      | String	                                        | Postal code of the registered address	MUST                                   |                        
-| address.locality           | 	address.locality	         | String	                                        | City of the registered address	                                              | MUST           |                                        
-| address.region             | 	address.region	           | String	                                        | Region of the registered address	                                            | MUST           |                                          
-| address.country            | 	address.country	          | String (ISO 3166-1 alpha-2)                    | 	Country of the registered address	MUST                                      |                   
-| **Metadata**			            |                            |                                                |                                                                              |                |
-| issuance_date	             | iat	                       | Number (Unix timestamp)                        | 	Date and time when the attestation was issued; RFC 7519                     | 	MUST NOT      |           
-| expiry_date	               | exp	                       | Number (Unix timestamp)                        | 	Date and time when the attestation expires; RFC 7519                        | 	MUST NOT      |                
-| issuing_entity             | 	iss	                      | String (URI or DID)	                           | Identifier of the entity that issued the attestation; RFC 7519	              | MUST NOT       |       
-| attestation_legal_category	 | attestation_legal_category	 | String	One of EAA or QEAA as defined by eIDAS 2 | 	MUST NOT                                                                    |       
-| schema_version             | 	schema_version            | 	String	                                       | Version of the schema used for this attestation	MAY                          |                            
-| trust_anchor_url	          | trust_anchor_url	          | URI	                                           | URL where the trust anchor for verifying this attestation can be retrieved 	 | MAY            |  
+| address.locality           | 	address.locality	         | String	                                        | City of the registered address	                                              | MUST            |                                        
+| address.region             | 	address.region	           | String	                                        | Region of the registered address	                                            | MUST            |                                          
+| address.country            | 	address.country	          | String (ISO 3166-1 alpha-2)                    | 	Country of the registered address	| MUST            |                   
+| **Metadata**			            |                            |                                                |                                                                              |                 |
+
+| issuance_date	             | iat	                       | Number (Unix timestamp)                        | 	Date and time when the attestation was issued; RFC 7519                     | 	MUST NOT       |           
+| expiry_date	               | exp	                       | Number (Unix timestamp)                        | 	Date and time when the attestation expires; RFC 7519                        | 	MUST NOT       |                
+| issuing_entity             | 	iss	                      | String (URI or DID)	                           | Identifier of the entity that issued the attestation; RFC 7519	              | MUST NOT        |       
+| attestation_legal_category	 | attestation_legal_category	 | String	| One of EAA or QEAA as defined by eIDAS 2                                     | 	MUST NOT       |       
+| schema_version             | 	schema_version            | 	String	                                       | Version of the schema used for this attestation	| MAY             |                            
+| trust_anchor_url	          | trust_anchor_url	          | URI	                                           | URL where the trust anchor for verifying this attestation can be retrieved 	 | MAY             |  
 
 
 **Notes:**
