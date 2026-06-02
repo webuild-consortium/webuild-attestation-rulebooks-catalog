@@ -1,19 +1,21 @@
 # Attestation Rulebook for attestations of type ESG Certificate
 
 * Author(s):
-    * [Dominic Hurni, SBB]
-    * [Werner Folkendt, Robert Bosch GmbH]
+  * [Dominic Hurni, SBB]
+  * [Werner Folkendt, Robert Bosch GmbH]
 * Previous Authors
 * Reviewer(s):
-    * [Florin Coptil, Robert Bosch GmbH]
+  * [Florin Coptil, Robert Bosch GmbH]
 
 | Version | Date       | Description                                                    |
 |---------|------------|----------------------------------------------------------------|
 | 0.3     | 19.05.2026 | Initial draft based on the WeBuild design attestation meetings |
 
 * Contact:
-    * [Dominic Hurni](mailto:dominic.hurni@sbb.ch)
-    * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com)
+  * [Dominic Hurni](mailto:dominic.hurni@sbb.ch)
+  * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com)
+
+---
 
 ## 1 Introduction
 
@@ -21,9 +23,7 @@ This attestation addresses the following question:
 
 **Does this legal entity hold a valid ESG-related certificate (e.g., ISO 9001, ISO 14001, IATF 16949) and what is its certified scope?**
 
-ESG — Environmental, Social, and Governance certificates are exchanged between legal entities
-during due diligence or onboarding of suppliers to prove conformity with quality, environmental,
-or social minimum standards.
+The ESG Certificate Attestation provides a standardized, verifiable digital representation of Environmental, Social, and Governance certificates held by a legal entity, enabling structured exchange of certification data for use in KYS, supplier onboarding, compliance verification, and regulatory audit processes.
 
 The issuers of the certificate are:
 - **(a) Accredited issuers** — certification bodies authorized to issue ESG-related certificates
@@ -80,39 +80,40 @@ This Rulebook is structured as follows:
 
 ### 1.3 Keywords
 
-This document uses the capitalised keywords `SHALL`, `SHOULD` and `MAY` as specified in
+This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as specified in
 [RFC 2119], i.e. to indicate requirements, recommendations and options specified in this document.
 
-In addition, `must` (non-capitalised) is used to indicate an external constraint, i.e. a requirement
-that is not mandated by this document, but, for instance, by an external document. The word `can`
-indicates a capability, whereas other words, such as `will`, and `is` or `are` are intended as
+In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e. a requirement
+that is not mandated by this document, but, for instance, by an external document. The word 'can'
+indicates a capability, whereas other words, such as 'will', and 'is' or 'are' are intended as
 statements of fact.
 
 ### 1.4 Terminology
 
 *Additional terminology specific to this attestation:*
 
-| **Term**               | **Description**                                                                                                                                                                  |
-|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ESG Certificate        | An Environmental, Social, and Governance certificate issued by an accredited certification body or self-attested by a legal entity, proving conformity with a defined standard   |
-| Economic Operator      | The legal entity that holds the ESG certificate and is subject to the certification                                                                                              |
-| Certified Site         | A physical location (site/address) for which the ESG certificate is valid, as defined in the certificate scope                                                                   |
-| Scope of Certification | The description of the activities, products, services, or locations covered by the certificate                                                                                   |
-| Certificate Type       | The standard or framework under which the certificate is issued (e.g., ISO 9001, IATF 16949, DIN EN ISO 14001)                                                                  |
-| Certificate Version    | The version of the standard used for certification (e.g., ISO 9001:2015)                                                                                                        |
-| Registration Number    | The unique identifier of the certificate as assigned by the issuing certification body                                                                                           |
-| Evidence               | An optional attachment of the original certificate document in base64 format or referenced via URI                                                                               |
-| BPNL                   | Business Partner Number Legal entity — a globally unique identifier used in the Catena-X ecosystem, assigned per ICD 0243                                                        |
-| EUID                   | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU per Directive (EU) 2017/1132                                               |
-| LEI                    | Legal Entity Identifier — a 20-character alphanumeric code per ISO 17442                                                                                                         |
-| EORI                   | Economic Operators Registration and Identification number — used for customs purposes within the EU                                                                               |
-| GLN                    | Global Location Number — a GS1 identifier for legal entities and locations                                                                                                       |
-| KYS                    | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                       |
-| EAA                    | Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                                |
-| QEAA                   | Qualified Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                      |
-| ISO 8601               | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                                                     |
-| RFC 8610               | Concise Data Definition Language (CDDL) for encoding data structures                                                                                                            |
+| **Term**               | **Description**                                                                                                                                                                |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ESG Certificate        | An Environmental, Social, and Governance certificate issued by an accredited certification body or self-attested by a legal entity, proving conformity with a defined standard |
+| Economic Operator      | The legal entity that holds the ESG certificate and is subject to the certification                                                                                            |
+| Certified Site         | A physical location (site/address) for which the ESG certificate is valid, as defined in the certificate scope                                                                 |
+| Scope of Certification | The description of the activities, products, services, or locations covered by the certificate                                                                                 |
+| Certificate Type       | The standard or framework under which the certificate is issued (e.g., ISO 9001, IATF 16949, DIN EN ISO 14001)                                                                |
+| Certificate Version    | The version of the standard used for certification (e.g., ISO 9001:2015)                                                                                                      |
+| Registration Number    | The unique identifier of the certificate as assigned by the issuing certification body                                                                                         |
+| Evidence               | An optional attachment of the original certificate document in base64 format or referenced via URI                                                                             |
+| BPNL                   | Business Partner Number Legal entity — a globally unique identifier used in the Catena-X ecosystem, assigned per ICD 0243                                                      |
+| EUID                   | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU per Directive (EU) 2017/1132                                             |
+| LEI                    | Legal Entity Identifier — a 20-character alphanumeric code per ISO 17442                                                                                                       |
+| EORI                   | Economic Operators Registration and Identification number — used for customs purposes within the EU                                                                             |
+| GLN                    | Global Location Number — a GS1 identifier for legal entities and locations                                                                                                     |
+| KYS                    | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                     |
+| EAA                    | Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                              |
+| QEAA                   | Qualified Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                    |
+| ISO 8601               | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                                                   |
+| RFC 8610               | Concise Data Definition Language (CDDL) for encoding data structures                                                                                                          |
 
+---
 
 ## 2 Attestation Attributes and Metadata
 
@@ -122,15 +123,14 @@ attributes of a physical or digital ESG certificate, including the economic oper
 certificate metadata, certified scope with site-level granularity, and optional evidence, in a
 machine-readable and selectively disclosable format.
 
-
 ### 2.1 Introduction
 
 **Data Model:**
 
-The ESG Certificate Attestation is structured around a central `Certificate` object, which links
-an Economic Operator to one or more certified scopes and optional evidence:
 
-````
+
+```
+
 [Economic Operator] --- owns --- [Certificate] --- allocated to --- [Site and Scope]
 
 Certificate [1]
@@ -162,7 +162,7 @@ Certificate [1]
 ├─ evidence_type (tstr) — optional
 ├─ evidence_digestMultibase (tstr) — optional
 └─ evidence_data (tstr, base64) — optional
-````
+```
 
 
 **Explanation:**
@@ -192,19 +192,19 @@ This attestation type **MAY** be classified as:
 
 **Top-Level Data Identifiers:**
 
-| **Data Identifier**                | **Semantic Reference** | **Definition**                                                                                          | **Data type**           |
-|------------------------------------|------------------------|---------------------------------------------------------------------------------------------------------|-------------------------|
-| `economic_operator_main_id`        | ...                    | Primary unique identifier of the economic operator holding the certificate                              | String                  |
-| `economic_operator_additional_ids` | ...                    | Array of additional identifiers for the economic operator                                               | Array of Strings        |
-| `economic_operator_name`           | ...                    | Legal name of the economic operator                                                                     | String                  |
-| `economic_operator_address`        | ...                    | Registered address of the economic operator                                                             | Object (Address)        |
-| `certificate_type`                 | ...                    | Type of the ESG certificate (e.g., ISO 9001, IATF 16949)                                               | String                  |
-| `certificate_version`              | ...                    | Version of the certificate standard (e.g., ISO 9001:2015)                                              | String                  |
-| `registration_number`              | ...                    | Registration number of the certificate as issued by the certification body                              | String                  |
-| `certification_start_date`         | ...                    | Valid-from date of the certificate                                                                      | Date (ISO 8601)         |
-| `certification_expiration_date`    | ...                    | Valid-until date of the certificate                                                                     | Date (ISO 8601)         |
-| `scope`           | ...                    | Array of certified site and scope objects                                                               | Array [ScopeObject]     |
-| `certificate_evidence`             | ...                    | Evidence object containing reference or attachment of the original certificate                          | Object (Evidence)       |
+| **Data Identifier**                | **Semantic Reference** | **Definition**                                                                                 | **Data type**       |
+|------------------------------------|------------------------|------------------------------------------------------------------------------------------------|---------------------|
+| economic_operator_main_id          | ...                    | Primary unique identifier of the economic operator holding the certificate                     | String              |
+| economic_operator_additional_ids   | ...                    | Array of additional identifiers for the economic operator                                      | Array of Strings    |
+| economic_operator_name             | ...                    | Legal name of the economic operator                                                            | String              |
+| economic_operator_address          | ...                    | Registered address of the economic operator                                                    | Object (Address)    |
+| certificate_type                   | ...                    | Type of the ESG certificate (e.g., ISO 9001, IATF 16949)                                      | String              |
+| certificate_version                | ...                    | Version of the certificate standard (e.g., ISO 9001:2015)                                     | String              |
+| registration_number                | ...                    | Registration number of the certificate as issued by the certification body                     | String              |
+| certification_start_date           | ...                    | Valid-from date of the certificate                                                             | Date (ISO 8601)     |
+| certification_expiration_date      | ...                    | Valid-until date of the certificate                                                            | Date (ISO 8601)     |
+| scope                              | ...                    | Array of certified site and scope objects                                                      | Array [ScopeObject] |
+| certificate_evidence               | ...                    | Evidence object containing reference or attachment of the original certificate                 | Object (Evidence)   |
 
 ---
 
@@ -212,18 +212,18 @@ This attestation type **MAY** be classified as:
 
 #### Certificate Top-Level Attributes
 
-| **Data Identifier**             | **Semantic Reference** | **Definition**                                                                                                                        | **Data type**               |
-|---------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
-| `economic_operator_main_id`     | —                      | Primary unique identifier created and assigned to the economic operator (e.g., EUID)                                                  | `tstr`                      |
-| `economic_operator_name`        | —                      | Legal name of the economic operator holding the certificate                                                                           | `tstr`                      |
-| `economic_operator_address`     | —                      | Registered address of the economic operator                                                                                           | `Address` object            |
-| `certificate_type`              | —                      | Type of the certificate as defined on the document (e.g., ISO 9001, IATF 16949, DIN EN ISO 14001)                                    | `tstr`                      |
-| `certificate_version`           | —                      | Version of the certificate standard as defined on the document (e.g., ISO 9001:2015)                                                 | `tstr`                      |
-| `registration_number`           | —                      | Registration number of the certificate as defined on the certificate document                                                         | `tstr`                      |
-| `certification_start_date`      | —                      | Valid-from date as defined on the certificate (ISO 8601)                                                                              | `date`                      |
-| `certification_expiration_date` | —                      | Valid-until date as defined on the certificate; `9999-12-31` indicates no expiration (ISO 8601)                                       | `date`                      |
-| `scope`        | —                      | Array describing the affected certified legal entities with name, location, and scope; **SHALL** contain at least one entry           | Array of `ScopeObject [1..n]` |
-| `certificate_evidence`          | —                      | Object containing evidence-related information for the attached certificate; required for self-attestation of a received certificate  | `Evidence` object           |
+| **Data Identifier**             | **Semantic Reference** | **Definition**                                                                                                                       | **Data type**             |
+|---------------------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------------------------|
+| economic_operator_main_id       | —                      | Primary unique identifier created and assigned to the economic operator (e.g., EUID)                                                 | tstr                      |
+| economic_operator_name          | —                      | Legal name of the economic operator holding the certificate                                                                          | tstr                      |
+| economic_operator_address       | —                      | Registered address of the economic operator                                                                                          | Address object            |
+| certificate_type                | —                      | Type of the certificate as defined on the document (e.g., ISO 9001, IATF 16949, DIN EN ISO 14001)                                   | tstr                      |
+| certificate_version             | —                      | Version of the certificate standard as defined on the document (e.g., ISO 9001:2015)                                                | tstr                      |
+| registration_number             | —                      | Registration number of the certificate as defined on the certificate document                                                        | tstr                      |
+| certification_start_date        | —                      | Valid-from date as defined on the certificate (ISO 8601)                                                                             | date                      |
+| certification_expiration_date   | —                      | Valid-until date as defined on the certificate; `9999-12-31` indicates no expiration (ISO 8601)                                      | date                      |
+| scope                           | —                      | Array describing the affected certified legal entities with name, location, and scope; **SHALL** contain at least one entry          | Array of ScopeObject [1..n] |
+| certificate_evidence            | —                      | Object containing evidence-related information for the attached certificate; required for self-attestation of a received certificate | Evidence object           |
 
 #### Address Object Attributes
 
@@ -231,84 +231,72 @@ Applies to both `economic_operator_address` and `site_location_address`:
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                          | **Data type** |
 |---------------------|------------------------|-----------------------------------------|---------------|
-| `street`            | —                      | Street name of the address              | `tstr`        |
-| `nr`                | —                      | House or building number of the address | `tstr`        |
-| `postal_code`       | —                      | Postal code of the address              | `tstr`        |
-| `city`              | —                      | City of the address                     | `tstr`        |
+| street              | —                      | Street name of the address              | tstr          |
+| nr                  | —                      | House or building number of the address | tstr          |
+| postal_code         | —                      | Postal code of the address              | tstr          |
+| city                | —                      | City of the address                     | tstr          |
 
 #### ScopeObject Attributes
 
 Each entry in the `scope` array **SHALL** contain the following attributes:
 
-| **Data Identifier**           | **Semantic Reference** | **Definition**                                                                                        | **Data type**           |
-|-------------------------------|------------------------|-------------------------------------------------------------------------------------------------------|-------------------------|
-| `operating_legal_entity_name` | —                      | Legal name of the site operating entity                                                               | `tstr`                  |
-| `legal_entity_IDs`            | —                      | Array of legal entity identifiers for the operating entity; **SHALL** use types from Section 2.8.1   | Array of `LegalEntityID` |
-| `site_location_address`       | —                      | Physical address of the certified site                                                                | `Address` object        |
-| `scope_description`           | —                      | Textual description of the certificate scope applicable to this site                                  | `tstr`                  |
-| `certified_site`              | —                      | Boolean value: `true` = whole site certified; `false` = partial site only                            | `boolean`               |
+| **Data Identifier**           | **Semantic Reference** | **Definition**                                                                                      | **Data type**            |
+|-------------------------------|------------------------|-----------------------------------------------------------------------------------------------------|--------------------------|
+| operating_legal_entity_name   | —                      | Legal name of the site operating entity                                                             | tstr                     |
+| legal_entity_IDs              | —                      | Array of legal entity identifiers for the operating entity; **SHALL** use types from Section 2.8.1 | Array of LegalEntityID   |
+| site_location_address         | —                      | Physical address of the certified site                                                              | Address object           |
+| scope_description             | —                      | Textual description of the certificate scope applicable to this site                                | tstr                     |
+| certified_site                | —                      | Boolean value: `true` = whole site certified; `false` = partial site only                          | boolean                  |
 
 #### Evidence Object Attributes
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                    | **Data type** |
-|---------------------|------------------------|-------------------------------------------------------------------|---------------|
-| `evidence_id`       | —                      | Unique certificate identifier following the UUID or URI format    | `tstr`        |
-
----
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                 | **Data type** |
+|---------------------|------------------------|----------------------------------------------------------------|---------------|
+| evidence_id         | —                      | Unique certificate identifier following the UUID or URI format | tstr          |
 
 ### 2.3 Optional Attributes
 
 #### Certificate Optional Attributes
 
-| **Data Identifier**                | **Semantic Reference** | **Definition**                                                                                                                                                   | **Data type**      |
-|------------------------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
-| `economic_operator_additional_ids` | —                      | Array of additional economic operator identifiers (e.g., LEI, EORI, BPNL, VAT ID). **SHALL** use types from Section 2.8.1. **MAY** contain zero or more entries | Array of Strings [0..n] |
+| **Data Identifier**              | **Semantic Reference** | **Definition**                                                                                                                                                  | **Data type**           |
+|----------------------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
+| economic_operator_additional_ids | —                      | Array of additional economic operator identifiers (e.g., LEI, EORI, BPNL, VAT ID). **SHALL** use types from Section 2.8.1. **MAY** contain zero or more entries | Array of Strings [0..n] |
 
 #### Evidence Optional Attributes
 
-| **Data Identifier**         | **Semantic Reference** | **Definition**                                                                                                                                                    | **Data type**    |
-|-----------------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
-| `evidence_type`             | —                      | Defines the type of the evidence object; **SHALL** be `"Evidence"` when present                                                                                   | `tstr`           |
-| `evidence_digestMultibase`  | —                      | Content digest value for verification, used when `evidence_id` is a URI pointing to the certificate content                                                       | `tstr`           |
-| `evidence_data`             | —                      | The actual certificate document encoded as a base64 string. **SHALL** be present if `evidence_id` does not contain a URI to an accessible location with the content | `tstr` (base64)  |
-
----
+| **Data Identifier**        | **Semantic Reference** | **Definition**                                                                                                                                                   | **Data type**   |
+|----------------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| evidence_type              | —                      | Defines the type of the evidence object; **SHALL** be `"Evidence"` when present                                                                                  | tstr            |
+| evidence_digestMultibase   | —                      | Content digest value for verification, used when `evidence_id` is a URI pointing to the certificate content                                                      | tstr            |
+| evidence_data              | —                      | The actual certificate document encoded as a base64 string. **SHALL** be present if `evidence_id` does not contain a URI to an accessible location with the content | tstr (base64)   |
 
 ### 2.4 Conditional Attributes
 
-| **Data Identifier**        | **Condition**                                                                                        | **Definition**                                                             | **Data type**   |
-|----------------------------|------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|-----------------|
-| `evidence_data`            | **SHALL** be present if `evidence_id` does not contain a URI to an existing accessible location      | The actual certificate document as a base64-encoded string                 | `tstr` (base64) |
-| `evidence_digestMultibase` | **SHOULD** be present if `evidence_id` is a URI pointing to an external location                    | Content digest for integrity verification of the referenced certificate    | `tstr`          |
-
----
+| **Data Identifier**        | **Condition**                                                                                    | **Definition**                                                          | **Data type**   |
+|----------------------------|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|-----------------|
+| evidence_data              | **SHALL** be present if `evidence_id` does not contain a URI to an existing accessible location  | The actual certificate document as a base64-encoded string              | tstr (base64)   |
+| evidence_digestMultibase   | **SHOULD** be present if `evidence_id` is a URI pointing to an external location               | Content digest for integrity verification of the referenced certificate | tstr            |
 
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**          | **Definition**                                                                                                                                                      | **Data type** |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| `issuance_date`              | The date and time when the ESG Certificate Attestation was issued (ISO 8601)                                                                                        | DateTime      |
-| `expiry_date`                | The date and time when the ESG Certificate Attestation expires (ISO 8601)                                                                                           | DateTime      |
-| `issuing_entity`             | The identifier of the entity that issued the attestation (accredited certification body for QEAA, or the legal entity itself for EAA)                               | String        |
-| `attestation_legal_category` | Indicates the legal category of this attestation (`"EAA"` or `"QEAA"`)                                                                                             | String        |
-| `vct`                        | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed                             | String        |
-
----
+| **Data Identifier**          | **Definition**                                                                                                                                        | **Data type** |
+|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| issuance_date                | The date and time when the ESG Certificate Attestation was issued (ISO 8601)                                                                          | DateTime      |
+| expiry_date                  | The date and time when the ESG Certificate Attestation expires (ISO 8601)                                                                             | DateTime      |
+| issuing_entity               | The identifier of the entity that issued the attestation (accredited certification body for QEAA, or the legal entity itself for EAA)                 | String        |
+| attestation_legal_category   | Indicates the legal category of this attestation ("EAA" or "QEAA")                                                                                   | String        |
+| vct                          | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed              | String        |
 
 ### 2.6 Optional Metadata
 
 | **Data Identifier** | **Definition**                                                             | **Data type** |
 |---------------------|----------------------------------------------------------------------------|---------------|
-| `trust_anchor_url`  | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| `schema_version`    | Version of the schema used for this attestation                            | String        |
-
----
+| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
+| schema_version      | Version of the schema used for this attestation                            | String        |
 
 ### 2.7 Conditional Metadata
 
 No conditional metadata elements are defined for this attestation type.
-
----
 
 ### 2.8 Value Lists
 
@@ -317,16 +305,16 @@ No conditional metadata elements are defined for this attestation type.
 The `legal_entity_IDs` and `economic_operator_additional_ids` attributes **SHALL** use one or
 more of the following standardized identifier types:
 
-| **Code**           | **Definition**                                                                                                          |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------|
-| `EUID`             | European Unique Identifier per Directive (EU) 2017/1132                                                                 |
-| `LEI`              | Legal Entity Identifier per ISO 17442 (20-character alphanumeric code)                                                  |
-| `DUNS`             | Data Universal Numbering System — Dun & Bradstreet company identifier                                                   |
-| `EORI`             | Economic Operators Registration and Identification number — EU customs identifier                                        |
-| `VAT_ID`           | Value Added Tax identification number — national tax identifier                                                          |
-| `BPNL`             | Business Partner Number Legal entity — Catena-X identifier per International Code Designator (ICD): 0243                |
-| `GLN_legal_entity` | Global Location Number for legal entities — GS1 identifier                                                              |
-| `SIREN`            | Système d'Identification du Répertoire des ENtreprises — French company identifier                                      |
+| **Code**           | **Definition**                                                                                                         |
+|--------------------|------------------------------------------------------------------------------------------------------------------------|
+| EUID               | European Unique Identifier per Directive (EU) 2017/1132                                                                |
+| LEI                | Legal Entity Identifier per ISO 17442 (20-character alphanumeric code)                                                 |
+| DUNS               | Data Universal Numbering System — Dun & Bradstreet company identifier                                                  |
+| EORI               | Economic Operators Registration and Identification number — EU customs identifier                                       |
+| VAT_ID             | Value Added Tax identification number — national tax identifier                                                         |
+| BPNL               | Business Partner Number Legal entity — Catena-X identifier per International Code Designator (ICD): 0243               |
+| GLN_legal_entity   | Global Location Number for legal entities — GS1 identifier                                                             |
+| SIREN              | Système d'Identification du Répertoire des ENtreprises — French company identifier                                     |
 
 > **Note:** The BPNL follows the structure `BPN[LSA][A-Z0-9]{10}[A-Z0-9]{2}` and is assigned
 > per ICD 0243 as standardized by DIN e.V. for use in the Catena-X automotive data ecosystem.
@@ -338,23 +326,21 @@ applicable. Other certificate types **MAY** be used as free-text strings:
 
 | **Code**    | **Definition**                                          |
 |-------------|---------------------------------------------------------|
-| `ISO9001`   | Quality Management Systems                              |
-| `IATF16949` | Automotive Quality Management Systems                   |
-| `ISO14001`  | Environmental Management Systems                        |
-| `ISO45001`  | Occupational Health and Safety Management Systems       |
-| `ISO50001`  | Energy Management Systems                               |
-| `AEO`       | Authorised Economic Operator — EU customs certification |
+| ISO9001     | Quality Management Systems                              |
+| IATF16949   | Automotive Quality Management Systems                   |
+| ISO14001    | Environmental Management Systems                        |
+| ISO45001    | Occupational Health and Safety Management Systems       |
+| ISO50001    | Energy Management Systems                               |
+| AEO         | Authorised Economic Operator — EU customs certification |
 
 #### 2.8.3 Certified Site Flag
 
 The `certified_site` attribute **SHALL** use a boolean value with the following semantics:
 
-| **Value** | **Definition**                                                                                                                                                               |
-|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `true`    | The certificate is valid for the entire site at the specified address                                                                                                        |
-| `false`   | The certificate is not valid for the entire site; the address may refer to a rented building or only specific functions or departments of the site are certified              |
-
----
+| **Value** | **Definition**                                                                                                                                                             |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| true      | The certificate is valid for the entire site at the specified address                                                                                                      |
+| false     | The certificate is not valid for the entire site; the address may refer to a rented building or only specific functions or departments of the site are certified            |
 
 ### 2.9 Integrity Rules
 
@@ -405,18 +391,16 @@ The following integrity rules **SHALL** be enforced:
 ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity
 presentation is not a current requirement for the ESG Certificate Attestation.
 
----
-
 ### 3.2 SD-JWT VC-Based Encoding
 
 The ESG Certificate Attestation uses the SD-JWT VC format to allow for selective disclosure
 of certificate attributes.
 
 **Selective Disclosure:** Top-level claims (e.g., `economic_operator_name`, `certificate_type`,
-`scope`, `certificate_evidence`) **SHALL** be individually selectively
-disclosable, enabling a legal entity to disclose only the attributes requested by a Relying Party.
-Attributes nested within `ScopeObject` entries **MAY** be individually selectively disclosable
-as per the attribute encoding table below.
+`scope`, `certificate_evidence`) **SHALL** be individually selectively disclosable, enabling a
+legal entity to disclose only the attributes requested by a Relying Party. Attributes nested
+within `ScopeObject` entries **MAY** be individually selectively disclosable as per the
+attribute encoding table below.
 
 The `.` notation is used to indicate the nesting of attributes.
 
@@ -424,44 +408,43 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**                     | **Attribute Identifier**                                      | **Encoding Format**          | **Reference / Notes**                                                                                   | **Disclosable** |
-|-----------------------------------------|---------------------------------------------------------------|------------------------------|---------------------------------------------------------------------------------------------------------|-----------------|
-| **Certificate**                         |                                                               |                              |                                                                                                         |                 |
-| `economic_operator_main_id`             | `economic_operator_main_id`                                   | String                       | Primary unique identifier of the economic operator; **SHALL** be non-empty                              | MUST            |
-| `economic_operator_additional_ids`      | `economic_operator_additional_ids`                            | Array of Strings             | Optional additional identifiers; **SHOULD** use codes from Section 2.8.1                               | MUST            |
-| `economic_operator_name`                | `economic_operator_name`                                      | String                       | Legal name of the economic operator                                                                     | MUST            |
-| `economic_operator_address.street`      | `economic_operator_address.street`                            | String                       | Street of the economic operator's registered address                                                    | MUST            |
-| `economic_operator_address.nr`          | `economic_operator_address.nr`                                | String                       | House/building number of the economic operator's registered address                                     | MUST            |
-| `economic_operator_address.postal_code` | `economic_operator_address.postal_code`                       | String                       | Postal code of the economic operator's registered address                                               | MUST            |
-| `economic_operator_address.city`        | `economic_operator_address.city`                              | String                       | City of the economic operator's registered address                                                      | MUST            |
-| `certificate_type`                      | `certificate_type`                                            | String                       | Type of the certificate; **SHOULD** use codes from Section 2.8.2                                       | MUST            |
-| `certificate_version`                   | `certificate_version`                                         | String                       | Version of the certificate standard (e.g., ISO 9001:2015)                                              | MUST            |
-| `registration_number`                   | `registration_number`                                         | String                       | Registration number of the certificate as issued by the certification body                              | MUST            |
-| `certification_start_date`              | `certification_start_date`                                    | String (ISO 8601 YYYY-MM-DD) | Valid-from date of the certificate                                                                      | MUST            |
-| `certification_expiration_date`         | `certification_expiration_date`                               | String (ISO 8601 YYYY-MM-DD) | Valid-until date of the certificate; `9999-12-31` indicates no expiration                               | MUST            |
-| **ScopeObject**                         |                                                               |                              |                                                                                                         |                 |
-| `scope`                | `scope`                                      | Array [ScopeObject]          | Array of certified site and scope objects; **SHALL** contain at least one entry                         | MUST            |
-| `operating_legal_entity_name`           | `scope[n].operating_legal_entity_name`       | String                       | Legal name of the site operating entity                                                                 | MUST            |
-| `legal_entity_IDs`                      | `scope[n].legal_entity_IDs`                  | Array of Strings             | Legal entity identifiers; **SHALL** use types from Section 2.8.1                                        | MUST            |
-| `site_location_address_street`          | `scope[n].site_location_address_street`      | String                       | Street of the certified site address                                                                    | MUST            |
-| `site_location_address_nr`              | `scope[n].site_location_address_nr`          | String                       | House/building number of the certified site address                                                     | MUST            |
-| `site_location_address_postal_code`     | `scope[n].site_location_address_postal_code` | String                       | Postal code of the certified site address                                                               | MUST            |
-| `site_location_address_city`            | `scope[n].site_location_address_city`        | String                       | City of the certified site address                                                                      | MUST            |
-| `scope_description`                     | `scope[n].scope_description`                 | String                       | Textual description of the certification scope for this site                                            | MUST            |
-| `certified_site`                        | `scope[n].certified_site`                    | Boolean                      | `true` = whole site certified; `false` = partial site only                                              | MUST            |
-| **Evidence**                            |                                                               |                              |                                                                                                         |                 |
-| `evidence_id`                           | `certificate_evidence.evidence_id`                            | String (UUID or URI)         | Unique identifier of the certificate evidence; **SHALL** be non-empty                                   | MUST            |
-| `evidence_type`                         | `certificate_evidence.evidence_type`                          | String                       | Type of the evidence object; **SHALL** be `"Evidence"` when present; optional                           | MAY             |
-| `evidence_digestMultibase`              | `certificate_evidence.evidence_digestMultibase`               | String                       | Content digest for integrity verification of referenced certificate; optional                           | MAY             |
-| `evidence_data`                         | `certificate_evidence.evidence_data`                          | String (base64)              | The actual certificate as a base64-encoded string; **SHALL** be present if `evidence_id` is not a URI  | MAY             |
-| **Metadata**                            |                                                               |                              |                                                                                                         |                 |
-| `issuance_date`                         | `iat`                                                         | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                                      | MUST NOT        |
-| `expiry_date`                           | `exp`                                                         | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                                         | MUST NOT        |
-| `issuing_entity`                        | `iss`                                                         | String (URI or DID)          | Identifier of the entity that issued the attestation; RFC 7519                                          | MUST NOT        |
-| `attestation_legal_category`            | `attestation_legal_category`                                  | String                       | One of `"EAA"` or `"QEAA"` as defined by eIDAS 2                                                       | MUST NOT        |
-| `vct`                                   | `vct`                                                         | String                       | `eu.we-build.esgcertificate.1`                                                                          | MUST NOT        |
-| `schema_version`                        | `schema_version`                                              | String                       | Version of the schema used for this attestation; optional                                               | MAY             |
-| `trust_anchor_url`                      | `trust_anchor_url`                                            | URI                          | URL where the trust anchor for verifying this attestation can be retrieved; optional                    | MAY             |
+| **Data Identifier**                   | **Attribute Identifier**                      | **Encoding Format**          | **Reference / Notes**                                                                                                    | **Disclosable** |
+|---------------------------------------|-----------------------------------------------|------------------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------|
+| economic_operator_main_id             | economic_operator_main_id                     | String                       | Primary unique identifier of the economic operator; **SHALL** be non-empty                                               | MUST            |
+| economic_operator_additional_ids      | economic_operator_additional_ids              | Array of Strings             | Optional additional identifiers; **SHOULD** use codes from Section 2.8.1                                                 | MUST            |
+| economic_operator_name                | economic_operator_name                        | String                       | Legal name of the economic operator                                                                                      | MUST            |
+| economic_operator_address.street      | economic_operator_address.street              | String                       | Street of the economic operator's registered address                                                                     | MUST            |
+| economic_operator_address.nr          | economic_operator_address.nr                  | String                       | House/building number of the economic operator's registered address                                                      | MUST            |
+| economic_operator_address.postal_code | economic_operator_address.postal_code         | String                       | Postal code of the economic operator's registered address                                                                | MUST            |
+| economic_operator_address.city        | economic_operator_address.city                | String                       | City of the economic operator's registered address                                                                       | MUST            |
+| certificate_type                      | certificate_type                              | String                       | Type of the certificate; **SHOULD** use codes from Section 2.8.2                                                         | MUST            |
+| certificate_version                   | certificate_version                           | String                       | Version of the certificate standard (e.g., ISO 9001:2015)                                                                | MUST            |
+| registration_number                   | registration_number                           | String                       | Registration number of the certificate as issued by the certification body                                               | MUST            |
+| certification_start_date              | certification_start_date                      | String (ISO 8601 YYYY-MM-DD) | Valid-from date of the certificate                                                                                       | MUST            |
+| certification_expiration_date         | certification_expiration_date                 | String (ISO 8601 YYYY-MM-DD) | Valid-until date of the certificate; `9999-12-31` indicates no expiration                                                | MUST            |
+| **ScopeObject**                       |                                               |                              |                                                                                                                          |                 |
+| scope                                 | scope                                         | Array [ScopeObject]          | Array of certified site and scope objects; **SHALL** contain at least one entry                                          | MUST            |
+| operating_legal_entity_name           | scope[n].operating_legal_entity_name          | String                       | Legal name of the site operating entity                                                                                  | MUST            |
+| legal_entity_IDs                      | scope[n].legal_entity_IDs                     | Array of Strings             | Legal entity identifiers; **SHALL** use types from Section 2.8.1                                                         | MUST            |
+| site_location_address_street          | scope[n].site_location_address_street         | String                       | Street of the certified site address                                                                                     | MUST            |
+| site_location_address_nr              | scope[n].site_location_address_nr             | String                       | House/building number of the certified site address                                                                      | MUST            |
+| site_location_address_postal_code     | scope[n].site_location_address_postal_code    | String                       | Postal code of the certified site address                                                                                | MUST            |
+| site_location_address_city            | scope[n].site_location_address_city           | String                       | City of the certified site address                                                                                       | MUST            |
+| scope_description                     | scope[n].scope_description                    | String                       | Textual description of the certification scope for this site                                                             | MUST            |
+| certified_site                        | scope[n].certified_site                       | Boolean                      | `true` = whole site certified; `false` = partial site only                                                               | MUST            |
+| **Evidence**                          |                                               |                              |                                                                                                                          |                 |
+| evidence_id                           | certificate_evidence.evidence_id              | String (UUID or URI)         | Unique identifier of the certificate evidence; **SHALL** be non-empty                                                    | MUST            |
+| evidence_type                         | certificate_evidence.evidence_type            | String                       | Type of the evidence object; **SHALL** be `"Evidence"` when present; optional                                            | MAY             |
+| evidence_digestMultibase              | certificate_evidence.evidence_digestMultibase | String                       | Content digest for integrity verification of referenced certificate; optional                                            | MAY             |
+| evidence_data                         | certificate_evidence.evidence_data            | String (base64)              | The actual certificate as a base64-encoded string; **SHALL** be present if `evidence_id` is not a URI                    | MAY             |
+| **Metadata**                          |                                               |                              |                                                                                                                          |                 |
+| issuance_date                         | iat                                           | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                                                       | MUST NOT        |
+| expiry_date                           | exp                                           | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                                                          | MUST NOT        |
+| issuing_entity                        | iss                                           | String (URI or DID)          | Identifier of the entity that issued the attestation; RFC 7519                                                           | MUST NOT        |
+| attestation_legal_category            | attestation_legal_category                    | String                       | One of "EAA" or "QEAA" as defined by eIDAS 2                                                                             | MUST NOT        |
+| vct                                   | vct                                           | String                       | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                  | MUST            |
+| schema_version                        | schema_version                                | String                       | Version of the schema used for this attestation; optional                                                                | MAY             |
+| trust_anchor_url                      | trust_anchor_url                              | String (URI)                 | URL where the trust anchor for verifying this attestation can be retrieved; optional                                     | MAY             |
 
 **Notes:**
 
@@ -473,9 +456,8 @@ The `.` notation is used to indicate the nesting of attributes.
   plain text in the JWT header/payload and cannot be withheld by the holder, as it is required
   for credential verification and trust establishment.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
-- `scope` entries are marked as `MUST` disclosable as a unit — individual
-  scope attributes within an array entry are not independently selectively disclosable in
-  this version.
+- `scope` entries are marked as `MUST` disclosable as a unit — individual scope attributes
+  within an array entry are not independently selectively disclosable in this version.
 
 #### 3.2.2 Status Claim
 
@@ -498,12 +480,13 @@ The `status` claim **SHALL** be a JSON object with the following members:
 ```json
 {
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/esgcertificate/2025",
-    "status_list_index": 456,
-    "status_purpose": "revocation"
+ "type": "status-list",
+ "status_list_credential": "https://issuer.example.com/status/esgcertificate/2025",
+ "status_list_index": 456,
+ "status_purpose": "revocation"
   }
 }
+
 ```
 
 ### 3.2.3 Example Payload
@@ -596,7 +579,7 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/esg-certif
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
 ### 4.2.1 – 4.2.8 Base Verification Process
 The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/flo0x/webuild-attestations/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
