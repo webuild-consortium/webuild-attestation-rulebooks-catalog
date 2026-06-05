@@ -161,18 +161,18 @@ The following table combines all attestation attributes for the EUCC (mandatory,
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
 |---|---|---|---|---|
 | attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | M | string |
-| legal_person_name | semantic reference | Official current legal person name as registered in the business register. | M | string |
-| legal_person_id | semantic reference | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | semantic reference | Legal form of the company. | M | string |
-| registration_member_state | semantic reference  | The member state where the company is registered (Alpha-2 country code). | M | string |
-| registered_address | semantic reference  | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
-| registration_date | semantic reference  | Date of company registration. | M | string (date) |
-| legal_person_status | semantic reference  | Status of the company as defined in national law. | M | string |
-| legal_person_activity | semantic reference  | Main activity of the company (NACE). | M | string |
-| legal_representative | semantic reference  | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
-| share_capital | semantic reference  | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
-| legal_person_duration | semantic reference  | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
-| digital_contact_point | semantic reference  | Correspondence address of the company, such as electronic mail and/or website | O | object |
+| legal_person_name | [legalName](https://w3id.org/ebwv#legalName) | Official current legal person name as registered in the business register. | M | string |
+| legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
+| legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
+| registration_member_state | [TBD](https://w3id.org/ebwv#attestationLegalCategory) | The member state where the company is registered (Alpha-2 country code). | M | string |
+| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
+| registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
+| legal_person_status | [legalStatus](https://w3id.org/ebwv#attestationLegalCategory) | Status of the company as defined in national law. | M | string |
+| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). | M | string |
+| legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
+| share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
+| legal_person_duration | [endDate](https://w3id.org/ebwv#endDate) | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
+| digital_contact_point | [contactPoint](https://w3id.org/ebwv#contactPoint) | Correspondence address of the company, such as electronic mail and/or website | O | object |
 
 ### 2.2 Code lists
 
@@ -219,13 +219,13 @@ Values:
 
 If a Natural Person is representative of a legal person, the following attributes SHALL be included:
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| full_name | Full name of the natural person representing the company. | M | string |
-| date_of_birth | Date of birth of the natural person representing the company. | M | string (date) |
-| identifier | Natural person representative identifier | O | string |
-| nationality | OPTIONAL: Nationality of the natural person representing the company. | O | string |
-| signatory_rule | Information on whether the representative can engage the company alone or jointly. | M | string |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+|---|---|---|---|---|
+| full_name | [givenName](https://w3id.org/ebwv#givenName); [familyName](https://w3id.org/ebwv#familyName) | Full name of the natural person representing the company. | M | string |
+| date_of_birth | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person representing the company. | M | string (date) |
+| identifier | [identifier](https://w3id.org/ebwv#identifier) | Natural person representative or national identifier | O | string |
+| nationality | [citizenship](https://w3id.org/ebwv#citizenship) | OPTIONAL: Nationality of the natural person representing the company. | O | string |
+| signatory_rule | [signatoryRule](https://w3id.org/ebwv#signatoryRule) | Information on whether the representative can engage the company alone or jointly. | M | string |
 
 
 
