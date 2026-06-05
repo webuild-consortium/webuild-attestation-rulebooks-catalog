@@ -1,33 +1,36 @@
-# Attestation Rulebook for attestations of type EBW‑OID (European Business Wallet – Owner Identification Data)
+# Attestation Rulebook for attestations of type EBWOID (European Business Wallet – Owner Identification Data)
 
 *Provide information about the author(s) of this Rulebook in the following form:*
 
 * Author(s): 
     <!-- Usage help: (Name LastName, Affiliation) -->
-  * Jonas Toennis , [Brønnøysund Registry Center](https://www.brreg.no)
+  * Jonas Toennis, [Brønnøysund Registry Center](https://www.brreg.no)
 
 
 
 *Provide versioning information about the Rulebook in the following form:*
 
-| Version | Date       | Description                                                                                                                                                              |
-|---------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 0.9.1   | 13.02.2026 | EBW‑OID created based on the [EBW proposal (Articles 8–9)](https://digital-strategy.ec.europa.eu/en/library/proposal-regulation-establishment-european-business-wallets) plus feedback from semantics.|
+| Version | Date       | Description                                                                                                                                                                                           |
+|---------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 0.9.1   | 13.02.2026 | EBWOID created based on the [EBW proposal (Articles 8–9)](https://digital-strategy.ec.europa.eu/en/library/proposal-regulation-establishment-european-business-wallets) plus feedback from semantics. |
+| 1.0.0   | 22.05.2026 | Updated following review feedback.                                                                                                                                                                     |
 
 
 **Feedback:**
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
-Alternative: Contact workpackage 4 in WE BUILD, or/and the author of the document.
+Alternative: Contact Work Package 4 in WE BUILD.
 
 
 ## 1 Introduction
 
 ### 1.1 Document scope and purpose
 
-The European Business Wallet – Owner Identification Data (EBW‑OID) attestation defines a legally defined, common set of data that uniquely identifies an EBW owner (economic operator or public sector body) within the European Business Wallets (EBW) ecosystem. Its purpose is to provide a harmonised, interoperable attestation that enables Relying Parties and business wallets to establish trust in an EBW owner entity. EBW‑OID focuses on the core identifiers needed across national and cross‑border use cases.
+The European Business Wallet – Owner Identification Data (EBWOID) is based on the European Business Wallet Regulation draft COM(2025) 838. While this document is still in draft status, WE BUILD decided at the beginning of 2026 that the draft would be accepted as the basis for the Business Wallet work. This means that the suggested amendments to Regulation 2024/1183 will be applied within WE BUILD. 
+
+The European Business Wallet – Owner Identification Data (EBWOID) attestation defines a legally defined, common set of data that uniquely identifies an EBW owner (economic operator or public sector body) within the European Business Wallets (EBW) ecosystem. Its purpose is to provide a harmonised, interoperable attestation that enables Relying Parties and business wallets to establish trust in an EBW owner entity. EBWOID focuses on the core identifiers needed across national and cross‑border use cases.
 
 Primary objectives:
-- Provide a cross‑border unique identifier for the EBW owner (In **WEBUILD** EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2><Issuer-reference>.<unique identificator> eks. SEBOLREG.123456789 ) and the official name of the EBW owner.
+- Provide a cross‑border unique identifier for the EBW owner (In **WE BUILD** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. SEBOLREG.123456789) and the official name of the EBW owner.
 - Serving as the activation and ownership attestation enabler for the EBW.
 - Support verification of issuer authenticity and attestation integrity based on the EBW proposal (Articles 8–9) and ARF trust requirements.
 - Enable consistent consumption in EBW and EUDI flows as Electronic Attestations of Attributes (QEAA/Pub-EAA) aligned with applicable implementing acts.
@@ -36,10 +39,10 @@ Primary objectives:
 ### 1.2 Document structure
 
 This Rulebook is structured as follows:
-- Chapter 2 defines the EBW‑OID attestation attributes and metadata in an encoding‑independent manner.
-- Chapter 3 specifies encodings. EBW‑OID is profiled for SD‑JWT VC and W3C VCDM; ISO/IEC 18013‑5 is out of scope for EBW‑OID.
+- Chapter 2 defines the EBWOID attestation attributes and metadata in an encoding‑independent manner.
+- Chapter 3 specifies encodings. EBWOID is profiled for SD‑JWT VC and W3C VCDM; ISO/IEC 18013‑5 is out of scope for EBWOID.
 - Chapter 4 defines the intended usage patterns and Relying Party obligations.
-- Chapter 5 defines trust anchors and how Relying Parties verify EBW‑OID issuers.
+- Chapter 5 defines trust anchors and how Relying Parties verify EBWOID issuers.
 - Chapter 6 defines revocation approaches.
 - Chapter 7 states compliance to the EUDI framework and applicable regulations.
 
@@ -56,12 +59,12 @@ This document uses the terminology specified in [Annex 1](https://eu-digital-ide
 
 The terminology is extended as follows:
 
-| Term               | Definition in WE BUILD Context                                                                                                                                                                                                |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| EBW                | European Business Wallet                                                                                                                                                                                                      |
-| EBW owner          | An economic operator or public sector body that owns an EBW, including Union entities; corresponds to the bearer of EBWOID.                                                                                                  |
-| EWBOID            | European Business Wallet owner identification data. a set of data that enables the establishment of the identity of a European Business Wallet owner                                                                          |
-| economic operator  | any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession |
+| Term              | Definition in WE BUILD Context                                                                                                                                                                                                |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| EBW               | European Business Wallet                                                                                                                                                                                                      |
+| EBW owner         | An economic operator or public sector body that owns an EBW, including Union entities; corresponds to the bearer of EBWOID.                                                                                                   |
+| EBWOID            | European Business Wallet owner identification data. A set of data that enables the establishment of the identity of a European Business Wallet owner                                                                          |
+| Economic operator | Any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession |
 
 For more terminology, please refer to Article 3 of the legislation draft [COM 2025/838](https://digital-strategy.ec.europa.eu/en/library/proposal-regulation-establishment-european-business-wallets)
 
@@ -99,30 +102,30 @@ All data identifiers and definitions in this chapter are independent of any enco
 
 ### 2.2 Mandatory attributes per EBW proposal (Articles 8–9)
 
-| **Data Identifier**    | **Definition**                                                                                                                                                                                                                                                                                                         |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| legal_name             | The official name of the EBW owner (economic operator or public sector body), from the relevant register or official record.                                                                                                                                                                                           |
-| id                     | The relevant unique identifier attributed in accordance with Article 9 of EWB (**WEBUILD specific** EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2><Issuer-reference>.<unique identificator> eks. `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789`  |
+| **Data Identifier** | **Definition**                                                                                                                                                                                                                                                                                                                 |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| legal_name          | The official name of the EBW owner (economic operator or public sector body), from the relevant register or official record.                                                                                                                                                                                                   |
+| id                  | The relevant unique identifier attributed in accordance with Article 9 of EBW (**WE BUILD specific** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789` |
 
 
 
 
 ### 2.4 Mandatory metadata 
 
-| **Data Identifier**         | **Definition**                                                                                                                                                    |
-|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| issuing_authority           | Name of the administrative authority or qualified trust service provider that issued the EBWOID, or the ISO 3166‑1 alpha‑2 of the Member State where applicable. |
-| issuing_country             | Alpha‑2 country code, as specified in ISO 3166‑1, of the country or territory of the provider of the EBWOID.                                                     |
-| attestation_legal_category  | The type of attestation category. (Pub-EAA/QEAA)                                                                                                                  |
+| **Data Identifier**        | **Definition**                                                                                                                                                   |
+|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| issuing_authority          | Name of the administrative authority or qualified trust service provider that issued the EBWOID, or the ISO 3166‑1 alpha‑2 of the Member State where applicable. |
+| issuing_country            | Alpha‑2 country code, as specified in ISO 3166‑1, of the country or territory of the provider of the EBWOID.                                                     |
+| attestation_legal_category | The type of attestation category. (Pub-EAA/QEAA)                                                                                                                 |
 
 
 ### 2.5 Optional metadata
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                                                                                                                              |
-|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| location_status      | The location of validity status information on the EBWOID used for revocation/suspension checks.                                                                                                                                                                                                            |
-| expiry_date          | Administrave Date when the EBWOID will expire, following ISO 8601 **Clarification** This is in case the administrative validity is different from the technical expiry date of the credential.                                                                                                              |
-| trust_anchor         | This meta-data attribute indicates at least the URL at which a machine‑readable version of the trust anchor to be used for verifying the EBW‑OID can be found or looked up. This corresponds to Annex V/VII point h) of the [European Digital Identity Regulation] and EBW Article 8 issuance as EAA/QEAA.  |
+| **Data Identifier** | **Definition**                                                                                                                                                                                                                                                                                            |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| location_status     | The location of validity status information on the EBWOID used for revocation/suspension checks.                                                                                                                                                                                                          |
+| expiry_date         | Administrative Date when the EBWOID will expire, following ISO 8601 **Clarification** This is in case the administrative validity is different from the technical expiry date of the credential.                                                                                                          |
+| trust_anchor        | This meta-data attribute indicates at least the URL at which a machine‑readable version of the trust anchor to be used for verifying the EBWOID can be found or looked up. This corresponds to Annex V/VII point h) of the [European Digital Identity Regulation] and EBW Article 8 issuance as EAA/QEAA. |
 
 
 
@@ -130,8 +133,7 @@ All data identifiers and definitions in this chapter are independent of any enco
 # 3 Attestation encoding
 
 ## 3.1 ISO/IEC 18013-5-compliant encoding
-
-Out of scope. EBW‑OID is defined only for SD‑JWT VC in this Rulebook. No ISO/IEC 18013‑5 mdoc encoding is defined for EBW‑OID, as offline proximity presentation is not a current requirement.
+The ISO/IEC 18013-5 encoding is out of scope for the WE BUILD rulebook. This decision is based on the results of the specification phase of the WE BUILD consortium, during which no requirements or use cases for proximity sharing of the EBWOID credential were identified.
 
 ## 3.2 SD-JWT VC-based encoding
 
@@ -142,10 +144,10 @@ Claim names and disclosure policy (aligned with Chapter 2 attributes):
  
 | Data Identifier             | Attribute Identifier        | Encoding format | Reference/Notes                                                                                                                                                                                                                                                                         |
 |-----------------------------|-----------------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                          | id                          | string          | Cross‑border unique identifier per EBW Article 9. In **WEBUILD** EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2><Issuer-reference>.<unique identificator> `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789`  |
+| id                          | id                          | string          | Cross‑border unique identifier per EBW Article 9. In **WE BUILD** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789`  |
 | name                        | name                        | string          | Official name from relevant register or official record.                                                                                                                                                                                                                                |
 | attestation_legal_category  | attestation_legal_category  | string          | The type of attestation category. Can be one of QEAA or PUB-EAA                                                                                                                                                                                                                         | 
-| expiry_date                 | date_of_expiry              | string          | Addministrative expiry date given on ISO 8601-1  date fomat. YYYY‑MM‑DD ]                                                                                                                                                                                                               |
+| expiry_date                 | date_of_expiry              | string          | Administrative expiry date given on ISO 8601-1 date format. YYYY‑MM‑DD                                                                                                                                                                                                                  |
 | issuing_authority           | issuing_authority           | string          | Name of the administrative authority, Commission (for Union entities), or QTSP issuing the EAA/QEAA; or ISO 3166‑1 alpha‑2 where applicable.                                                                                                                                            |
 | issuing_country             | issuing_country             | string          | ISO 3166‑1 alpha‑2 code of the provider’s country/territory.                                                                                                                                                                                                                            |
 | location_status             | status                      | JSON Object     | See [Section 3.2.1](#321-attribute-status).                                                                                                                                                                                                                                             |
@@ -155,7 +157,7 @@ Selective Disclosure: Attributes of the EBWOID SHALL NOT be selectively disclosa
 
 
 ### 3.2.1 Attribute status
-For SD‑JWT VC‑compliant EBW‑OID, the EBW‑OID MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD‑JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/).
+For SD‑JWT VC‑compliant EBWOID, the EBWOID MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD‑JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/).
 
 The status claim SHALL be a JSON object with the following members:
 
@@ -213,64 +215,62 @@ Note: Additional technical claims are not shown here, including
 references to the issuer and more.
 
 
-## 3.3 W3C Verifiable Credentials Data Model-based encoding
-
-TODO: Add W3C VC encoding.
-
 ## 4 Attestation usage
 
 ### 4.1 Use-case context
 
-The EBW-OID attestation serves diverse types of EBW owners across European digital services:
+The EBWOID attestation serves diverse types of EBW owners across European digital services:
 
-- **Public sector body** — a Union entity, a national, state, regional or local authority, a body governed by public law or an association formed by one or several such entities or bodies , or a private entity mandated by at least one such entities, authorities, bodies or associations to provide public services, when acting under such a mandate.
+- **Public sector body** — a Union entity, a national, state, regional or local authority, a body governed by public law or an association formed by one or several such entities or bodies, or a private entity mandated by at least one such entities, authorities, bodies or associations to provide public services, when acting under such a mandate.
 - **Economic operator** — any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession
 
-EBW-OID is profiled for **SD-JWT VC** and **W3C VCDM** because these formats:
+EBWOID is profiled for **SD-JWT VC** and **W3C VCDM** because these formats:
 - Are mandated or recommended by the ARF and applicable implementing acts for electronic attestations of attributes.
 - Support selective disclosure (SD-JWT VC) and linked-data integrity (W3C VCDM), enabling both privacy and semantical presentations.
 
 Primary use cases:
 - Proving the legal identity of an organisation (holder) to a Relying Party in national and cross‑border digital online services.
 - Activating and enabling the ownership binding of the EBW.
-- Establishing a trust context for additional legal‑person attestations that reference the EBW‑OID `id`.
+- Establishing a trust context for additional legal‑person attestations that reference the EBWOID `id`.
 
 Relying Party obligations:
 - Verify the SD‑JWT VC signature and ensure the issuer is an authorised public body by validating the qualified certificate chain against the appropriate QTSP Trusted List (see Chapter 5).
 - Check freshness: validate `exp` and consider `iat`.
 - Apply revocation/status checks as defined in Chapter 6.
-- Where the transaction requires binding to a natural person representative, the RP SHOULD request and verify a PID for the representative in addition to the EBW‑OID.
+- Where the transaction requires binding to a natural person representative, the RP SHOULD request and verify a PID for the representative in addition to the EBWOID.
 
 Presentation requirements:
-- Selective disclosure is NOT permitted for the core EBW‑OID attributes; the holder presents EBW‑OID atomically.
+- Selective disclosure is NOT permitted for the core EBWOID attributes; the holder presents EBWOID atomically.
 
 Transactional data:
-- The RP MAY keep minimal logs necessary to demonstrate lawful processing and verification events; no additional transaction‑specific attributes are introduced by EBWOID. No additional transaction‑specific attributes are introduced by EBW‑OID.
+- The RP MAY keep minimal logs necessary to demonstrate lawful processing and verification events; no additional transaction‑specific attributes are introduced by EBWOID.
 
 ## 5 Trust anchors
 
-For EBW‑OID as an PUB-EAA/QEAA, Relying Parties SHALL verify the EBW‑OID using the issuer credential:
+For EBWOID as a PUB-EAA/QEAA, Relying Parties SHALL verify the EBWOID using the issuer credential:
 - Public‑body issuer certificate issued by a Qualified Trust Service Provider (QTSP) when provided by or on behalf of a public sector body responsible for an authentic source;
 - Qualified electronic attestation of attributes when provided by a QTSP; or
 - Commission issuance for Union entities (having the same legal effect per EBW Article 8(4)).
 Relying Parties SHALL verify the relevant certificate chain up to the appropriate trust anchor (eIDAS Trust List or Commission trust anchor as applicable).
 
 Verification steps:
-1) Verify the SD‑JWT VC signature over the EBW‑OID using the issuer certificate.
+1) Verify the SD‑JWT VC signature over the EBWOID using the issuer certificate.
 2) Build and validate the certificate chain from the issuer certificate to a QTSP trust anchor listed in the appropriate Trusted List.
 3) Validate certificate status (validity, revocation) per eIDAS trust list rules.
 4) Use the `trust_list_location` metadata to discover the appropriate Trusted List or machine‑readable pointer.
 
 Issuers MAY use intermediate signing certificates. RPs SHALL handle such chains. The trust model is equivalent to Annex VII for PuB‑EAA.
 
+For information regarding the use of the trust list in WE BUILD, please consult the Architecture Blueprint.
+
 ## 6 Revocation
 
 TODO: WE BUILD WP4 - EBW owner identification data revocation task 5
 
-EBW‑OID is expected to be long‑lived but revocable. This Rulebook adopts the following policy:
-- EBW‑OID SHALL include `exp`. Validity longer than 24 hours is permitted; therefore, revocation MUST be supported.
-- When the Commission specifies the Attestation Status List (ASL) or Attestation Revocation List (ARL) mechanism, EBW‑OID Providers SHALL implement that mechanism.
-- Until such mechanisms are specified, EBW‑OID Providers SHALL publish revocation status via a machine‑readable endpoint referenced from the issuer’s policy, and Relying Parties SHALL implement status checking per that policy. Issuers SHOULD implement the [oauth status list](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) until otherwise specified. 
+EBWOID is expected to be long‑lived but revocable. This Rulebook adopts the following policy:
+- EBWOID SHALL include `exp`. Validity longer than 24 hours is permitted; therefore, revocation MUST be supported.
+- When the Commission specifies the Attestation Status List (ASL) or Attestation Revocation List (ARL) mechanism, EBWOID Providers SHALL implement that mechanism.
+- Until such mechanisms are specified, EBWOID Providers SHALL publish revocation status via a machine‑readable endpoint referenced from the issuer’s policy, and Relying Parties SHALL implement status checking per that policy. Issuers SHOULD implement the [oauth status list](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) until otherwise specified. 
 
 Relying Party checks:
 - Validate `exp` not in the past.
@@ -279,8 +279,9 @@ Relying Party checks:
 
 
 ## 7 Compliance
-
-
+This EBWOID rulebook is compliant with the draft for regulation COM(2025) 838, and in line with the ARF version 2.8.0. 
+While the legislative process for the EBW Regulation continues, major updates to this rulebook within the WE BUILD context are not expected unless required by exceptional circumstances or requested by the WE BUILD Management Board. 
+ 
 
 ## 8 References
 | **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                           |
