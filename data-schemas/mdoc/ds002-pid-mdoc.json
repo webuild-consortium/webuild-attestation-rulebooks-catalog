@@ -4,7 +4,7 @@
   "title": "ds002 - Person Identification Data (PID) – ISO/IEC 18013-5 mdoc",
   "description": "Schema for the mdoc representation of a PID as defined in the ds002 PID Rulebook (Section 3.1). This models the conceptual structure of attributes within the mdoc namespace. Note: Actual mdoc credentials use CBOR encoding; this JSON Schema documents the attribute structure and constraints.",
   "type": "object",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "$defs": {
     "cddl_tstr": {
       "type": "string",
