@@ -34,12 +34,6 @@ The PD A1 is issued to the citizen by the competent social security institution 
 "sending state" upon request by the employer or the self-employed person. It is used for
 verification abroad in the "receiving state" (posted worker scenario).
 
-The Services Directive ([Directive 2006/123/EC](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32006L0123))
-strengthens the freedom to provide services within the EU. The full implementation of the
-Services Directive could increase trade in commercial services by 45% and foreign direct
-investment by 25%, bringing an increase of between 0.5% and 1.5% in GDP. The directive
-contributes to administrative and regulatory simplification and modernisation.
-
 The **Know Your Employee (KYE)** scenario (Scenario 5) is part of BU1 and will lead to MVP
 and MVP+ implementations using both Natural Person Wallets and Legal Person Wallets. The
 high-level scenario is:
@@ -133,13 +127,14 @@ are intended as statements of fact.
 | Sending State          | The EU/EFTA member state whose social security legislation remains applicable to the posted worker during the posting period                                                                      |
 | Receiving State        | The EU/EFTA member state where the posted worker temporarily performs work                                                                                                                       |
 | Competent Institution  | The national social security institution of the sending state authorized to issue the PD A1 certificate                                                                                          |
-| PIN                    | Personal Identification Number — currently the Social Security Number of the citizen                                                                                                             |
+| PIN                    | Personal Identification Number — currently mostly the Social Security Number of the citizen                                                                                                             |
 | PWN                    | Posted Worker Notification — an administrative requirement for companies providing intra-EU cross-border services with posted workers, filed with the host EU Member State authorities            |
 | Employee Credential    | A credential issued by an employer to its employees to certify that they are part of the company at a given point in time                                                                        |
 | KYE                    | Know Your Employee — a due diligence scenario (Scenario 5 / BU1) enabling companies to verify employee identity and posting status in cross-border work situations                               |
 | EESSI                  | Electronic Exchange of Social Security Information — the EU system for electronic exchange of social security data between member state institutions                                             |
 | SD Element Group       | A logical group of attributes that are disclosed together as a unit under Selective Disclosure (SD-JWT); disclosure is at group level, not at individual field level                              |
 | EAA                    | Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                                               |
+| PuB-EAA                | Electronic Attestation of Attributes issued by or on behalf of a public sector body responsible for an authentic source — as defined under eIDAS 2.0                                            |
 | QEAA                   | Qualified Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                                     |
 | ISO 3166-1 alpha-2     | International standard defining 2-digit country codes (e.g., DE, FR, IT); used for EU/EFTA countries + UK (32 countries total)                                                                  |
 | ISO 8601               | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                                                                    |
@@ -260,9 +255,9 @@ Selective Disclosure is based on **SD element groups** (not individual field lev
 **Attestation Classification:**
 
 This attestation type **MAY** be classified as:
-- **"QEAA"** when issued by a competent national social security institution acting as a
-  qualified trust service provider.
-- **"EAA"** in specific delegation or representation scenarios.
+- **"QEAA"** when issued by a competent national social security institution acting as a qualified trust service provider.
+- **"PuB-EAA"** when issued by a competent national social security institution which is not a qualified trust service provider (issued by or on behalf of a public sector body responsible for an authentic source)
+- **"EAA"** in specific delegation or representation scenarios (or if the national social security institution can't fulfill the requirements of a PuB-EAA issuer - under discussion).
 
 **Top-Level Data Identifiers:**
 
@@ -487,10 +482,10 @@ following standardized values (per EESSI — tbd):
 
 | **Code** | **Definition**             |
 |----------|----------------------------|
-| 01       | Identifier type 01 (tbd)   |
-| 02       | Identifier type 02 (tbd)   |
-| 03       | Identifier type 03 (tbd)   |
-| 99       | Other / unspecified        |
+| 01       | Identification/Registration   |
+| 02       | Social Security   |
+| 03       | Fiscal   |
+| 98       | Unknown        |
 
 #### 2.8.4 Status Confirmation Codes
 
@@ -499,7 +494,18 @@ values as defined in the PD A1 codelist (12 options — tbd):
 
 | **Code** | **Definition**                                                                              |
 |----------|---------------------------------------------------------------------------------------------|
-| tbd      | 12 status confirmation codes per PD A1 specification (to be confirmed with EESSI)           |
+| 01       | Posted employed person           |
+| 02       | Employed, working in two or more States           |
+| 03       | Posted self-employed person           |
+| 04       | Self-employed, working in two or more States           |
+| 05       | Civil servant           |
+| 06       | Contract staff           |
+| 07       | Mariner           |
+| 08       | Working as an employed person and as a self-employed person in different States           |
+| 09       | Working as a civil servant in one State and as an employed/self-employed person in one or more other States           |
+| 10       | Flight or cabin crew member      |
+| 11       | Exception           |
+| 12       | Working as an employed / self-employed person in the State which legislation applies           |
 
 ### 2.9 Integrity Rules
 
@@ -551,8 +557,8 @@ The following integrity rules **SHALL** be enforced:
 
 ### 3.1 ISO/IEC 18013-5-Compliant Encoding
 
-ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity
-presentation is not a current requirement for the PD A1 attestation.
+ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as specific aspects of offline proximity
+presentation are not a current requirement for the PD A1 attestation.
 
 ### 3.2 SD-JWT VC-Based Encoding
 
@@ -803,7 +809,7 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/company-in
 
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
-
+TBD
 ### 4.2 Relying Party Obligations
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
 ### 4.2.1 – 4.2.8 Base Verification Process
