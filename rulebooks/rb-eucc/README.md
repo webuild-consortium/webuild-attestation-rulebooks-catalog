@@ -164,10 +164,10 @@ The following table combines all attestation attributes for the EUCC (mandatory,
 | legal_person_name | [legalName](https://w3id.org/ebwv#legalName) | Official current legal person name as registered in the business register. | M | string |
 | legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
 | legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
-| registration_member_state | [TBD](https://w3id.org/ebwv#attestationLegalCategory) | The member state where the company is registered (Alpha-2 country code). | M | string |
+| registration_member_state | [](https://w3id.org/ebwv#) | The member state where the company is registered (Alpha-2 country code). | M | string |
 | registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
 | registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
-| legal_person_status | [legalStatus](https://w3id.org/ebwv#attestationLegalCategory) | Status of the company as defined in national law. | M | string |
+| legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | M | string |
 | legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). | M | string |
 | legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
 | share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
@@ -225,7 +225,7 @@ If a Natural Person is representative of a legal person, the following attribute
 | date_of_birth | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person representing the company. | M | string (date) |
 | identifier | [identifier](https://w3id.org/ebwv#identifier) | Natural person representative or national identifier | O | string |
 | nationality | [citizenship](https://w3id.org/ebwv#citizenship) | OPTIONAL: Nationality of the natural person representing the company. | O | string |
-| signatory_rule | [signatoryRule](https://w3id.org/ebwv#signatoryRule) | Information on whether the representative can engage the company alone or jointly. | M | string |
+| signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
 
 
 
