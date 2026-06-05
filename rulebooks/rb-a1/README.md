@@ -268,13 +268,13 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier**        | **Semantic Reference** | **Definition**                                                                    | **Data type**          |
 |----------------------------|------------------------|-----------------------------------------------------------------------------------|------------------------|
-| subject                    | ...                    | Personal identity attributes of the citizen subject to the PD A1                 | Object                 |
-| member_state_legislation   | ...                    | Details of the applicable member state legislation; always disclosed (Non-SD)     | Object                 |
-| employer_details           | ...                    | Details of the employer(s) or self-employment situation                           | Array [EmployerObject] |
-| places_of_work             | ...                    | Places where the posted worker performs work                                      | Array [PlaceOfWork]    |
-| status_confirmation        | ...                    | Status confirmation code identifying the type of cross-border situation           | Object                 |
-| document_id                | ...                    | Unique number of the issued PD A1 document                                        | Object                 |
-| competent_institution      | ...                    | Details of the competent social security institution that issued the PD A1        | Object                 |
+| subject                    | [person](https://w3id.org/ebwv#person) | Personal identity attributes of the citizen subject to the PD A1                 | Object                 |
+| member_state_legislation   | [legalName](https://w3id.org/ebwv#legalName) | Details of the applicable member state legislation; always disclosed (Non-SD)     | Object                 |
+| employer_details           | [employer](https://w3id.org/ebwv#employer) | Details of the employer(s) or self-employment situation                           | Array [EmployerObject] |
+| places_of_work             | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Places where the posted worker performs work                                      | Array [PlaceOfWork]    |
+| status_confirmation        | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) | Status confirmation code identifying the type of cross-border situation           | Object                 |
+| document_id                | [identifier](https://w3id.org/ebwv#identifier) | Unique number of the issued PD A1 document                                        | Object                 |
+| competent_institution      | [TBD](https://w3id.org/ebwv#legalName) | Details of the competent social security institution that issued the PD A1        | Object                 |
 
 ### 2.2 Mandatory Attributes
 
