@@ -158,21 +158,21 @@ on the nature of the mechanism used for distributing trust anchors, detailed in 
 
 The following table combines all attestation attributes for the EUCC (mandatory, optional, and conditional) in a single overview. Attribute identifiers SHALL be used in requests and responses.
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| attestation_legal_category | One of EAA, Pub-EAA or QEAA | M | string |
-| legal_person_name | Official current legal person name as registered in the business register. | M | string |
-| legal_person_id | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | Legal form of the company. | M | string |
-| registration_member_state | The member state where the company is registered (Alpha-2 country code). | M | string |
-| registered_address | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
-| registration_date | Date of company registration. | M | string (date) |
-| legal_person_status | Status of the company as defined in national law. | M | string |
-| legal_person_activity | Main activity of the company (NACE). | M | string |
-| legal_representative | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
-| share_capital | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
-| legal_person_duration | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
-| digital_contact_point | Correspondence address of the company, such as electronic mail and/or website | O | object |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+|---|---|---|---|---|
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | M | string |
+| legal_person_name | semantic reference | Official current legal person name as registered in the business register. | M | string |
+| legal_person_id | semantic reference | Unique ID for the legal person in the EUID structure. | M | string |
+| legal_form_type | semantic reference | Legal form of the company. | M | string |
+| registration_member_state | semantic reference  | The member state where the company is registered (Alpha-2 country code). | M | string |
+| registered_address | semantic reference  | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
+| registration_date | semantic reference  | Date of company registration. | M | string (date) |
+| legal_person_status | semantic reference  | Status of the company as defined in national law. | M | string |
+| legal_person_activity | semantic reference  | Main activity of the company (NACE). | M | string |
+| legal_representative | semantic reference  | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
+| share_capital | semantic reference  | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
+| legal_person_duration | semantic reference  | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
+| digital_contact_point | semantic reference  | Correspondence address of the company, such as electronic mail and/or website | O | object |
 
 ### 2.2 Code lists
 
