@@ -26,7 +26,7 @@
       },
       "control": [
         {
-          "legal_identifier": "EUID:DE123456789",
+          "legal_identifier": "DE1234.HRB56789",
           "type": "direct",
           "voting_rights": 60.0,
           "mechanism": [
@@ -53,7 +53,7 @@
       },
       "control": [
         {
-          "legal_identifier": "EUID:DE123456789",
+          "legal_identifier": "DE1234.HRB56789",
           "type": "direct",
           "voting_rights": null,
           "mechanism": [
@@ -69,7 +69,7 @@
         "legal_name": "HoldCo GmbH",
         "legal_form": "GmbH",
         "identifier": {
-          "euid": "DE987654321",
+          "euid": "DE9876.HRB54321",
           "lei": "529900T8BM49AURSDO55",
           "tax": "DE123456789"
         }
@@ -84,7 +84,7 @@
       },
       "control": [
         {
-          "legal_identifier": "EUID:DE123456789",
+          "legal_identifier": "DE1234.HRB56789",
           "type": "indirect",
           "voting_rights": 40.0,
           "mechanism": [
@@ -97,12 +97,6 @@
 
   "evidence": [
     {
-      "evidence_id": "https://docs.example.com/control/governance-chart-2025.pdf",
-      "evidence_type": "Evidence",
-      "evidence_confirmation": true,
-      "evidence_date": "2025-01-15"
-    },
-    {
       "evidence_id": "urn:uuid:7a3f9c10-b2e1-41d8-9f7a-112233445566",
       "evidence_type": "Evidence",
       "evidence_data": "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0ZpbHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nCvkMlAwUDC1NNUzMVcozy/KSVUIAP//AAAA//8=",
@@ -110,7 +104,6 @@
       "evidence_date": "2025-01-20"
     }
   ],
-
   "status": {
     "type": "status-list",
     "status_list_credential": "https://issuer.example.com/status/control/2025",

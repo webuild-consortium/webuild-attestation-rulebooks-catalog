@@ -416,45 +416,24 @@
       "type": "object",
       "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
       "additionalProperties": false,
-      "required": [
-        "jwk"
-      ],
       "properties": {
         "jwk": {
           "type": "object",
-          "description": "JSON Web Key (JWK) representing the public key bound to the holder of this credential.",
+          "description": "Public key bound to the holder.",
           "additionalProperties": true,
-          "required": [
-            "kty"
-          ],
           "properties": {
-            "kty": {
-              "type": "string",
-              "description": "Key type (e.g., 'EC', 'RSA')."
-            },
-            "crv": {
-              "type": "string",
-              "description": "Curve name for EC keys (e.g., 'P-256'). Optional for RSA keys."
-            },
-            "x": {
-              "type": "string",
-              "description": "x coordinate for EC public key, base64url-encoded. Optional."
-            },
-            "y": {
-              "type": "string",
-              "description": "y coordinate for EC public key, base64url-encoded. Optional."
-            },
-            "n": {
-              "type": "string",
-              "description": "Modulus for RSA public key, base64url-encoded. Optional."
-            },
-            "e": {
-              "type": "string",
-              "description": "Exponent for RSA public key, base64url-encoded. Optional."
-            }
+            "kty": { "type": "string" },
+            "crv": { "type": "string" },
+            "x": { "type": "string" },
+            "y": { "type": "string" },
+            "n": { "type": "string" },
+            "e": { "type": "string" }
           }
         }
-      }
+      },
+      "required": [
+        "jwk"
+      ]
     }
   },
   "required": [

@@ -26,7 +26,7 @@
       },
       "ownership": [
         {
-          "legal_identifier": "DE/HRB/123456",
+          "legal_identifier": "DE1234.HRB123456",
           "type": "direct",
           "stake": 51.0,
           "amount": {
@@ -58,7 +58,7 @@
       },
       "ownership": [
         {
-          "legal_identifier": "DE/HRB/123456",
+          "legal_identifier": "DE111.HRB654321",
           "type": "indirect",
           "stake": 25.5,
           "amount": {
@@ -79,7 +79,7 @@
         "legal_name": "Alpine Holding GmbH",
         "legal_form": "GmbH",
         "identifier": {
-          "euid": "DE/HRB/654321",
+          "euid": "DE111.HRB654321",
           "lei": "5299000J2N45DDNE4Y28",
           "tax": "DE812345678"
         }
@@ -94,7 +94,7 @@
       },
       "ownership": [
         {
-          "legal_identifier": "DE/HRB/123456",
+          "legal_identifier": "DE1234.HRB123456",
           "type": "indirect",
           "stake": 23.5,
           "amount": {
@@ -111,12 +111,6 @@
   ],
 
   "evidence": [
-    {
-      "evidence_id": "https://docs.example.com/ownership/shareholder-register-2025.pdf",
-      "evidence_type": "Evidence",
-      "evidence_confirmation": true,
-      "evidence_date": "2025-01-10"
-    },
     {
       "evidence_id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
       "evidence_type": "Evidence",
