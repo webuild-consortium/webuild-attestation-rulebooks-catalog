@@ -96,18 +96,18 @@ statements of fact.
 |------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ESG Certificate        | An Environmental, Social, and Governance certificate issued by an accredited certification body or self-attested by a legal entity, proving conformity with a defined standard |
 | Economic Operator      | The legal entity that holds the ESG certificate and is subject to the certification                                                                                            |
-| Certified Site         | A physical location (site/address) for which the ESG certificate is valid, as defined in the certificate scope                                                                 |
-| Scope of Certification | The description of the activities, products, services, or locations covered by the certificate                                                                                 |
-| Certificate Type       | The standard or framework under which the certificate is issued (e.g., ISO 9001, IATF 16949, DIN EN ISO 14001)                                                                |
-| Certificate Version    | The version of the standard used for certification (e.g., ISO 9001:2015)                                                                                                      |
+| Certified Site         | A physical location (site name and address) for which the ESG certificate is valid, as defined in the certificate scope                                                        |
+| Scope of Certification | The description of location (name, adresses and scope described in activities regarding products and services) covered by the certificate                                      |
+| Certificate Type       | The standard or framework under which the certificate is issued (e.g., ISO 9001, IATF 16949, DIN EN ISO 14001)                                                                 |
+| Certificate Version    | The version of the standard used for certification (e.g., ISO 9001:2015)                                                                                                       |
 | Registration Number    | The unique identifier of the certificate as assigned by the issuing certification body                                                                                         |
 | Evidence               | An optional attachment of the original certificate document in base64 format or referenced via URI                                                                             |
 | BPNL                   | Business Partner Number Legal entity — a globally unique identifier used in the Catena-X ecosystem, assigned per ICD 0243                                                      |
-| EUID                   | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU per Directive (EU) 2017/1132                                             |
+| EUID                   | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU per Directive (EU) 2017/1132                                            |
 | LEI                    | Legal Entity Identifier — a 20-character alphanumeric code per ISO 17442                                                                                                       |
-| EORI                   | Economic Operators Registration and Identification number — used for customs purposes within the EU                                                                             |
+| EORI                   | Economic Operators Registration and Identification number — used for customs purposes within the EU                                                                            |
 | GLN                    | Global Location Number — a GS1 identifier for legal entities and locations                                                                                                     |
-| KYS                    | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                     |
+| KYS                    | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                    |
 | EAA                    | Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                              |
 | QEAA                   | Qualified Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                    |
 | ISO 8601               | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                                                   |
@@ -154,14 +154,14 @@ Certificate [1]
 │ │ ├─ street (tstr)
 │ │ ├─ nr (tstr)
 │ │ ├─ postal_code (tstr)
-│ │ └─ city (tstr)
+│ └─ city (tstr)
 │ ├─ scope_description (tstr) — mandatory
-│ └─ certified_site (boolean) — mandatory
+│ └─ certified_site (boolean) — mandatory 
 └─ certificate_evidence (Evidence) — mandatory
-├─ evidence_id (tstr) — mandatory
-├─ evidence_type (tstr) — optional
-├─ evidence_digestMultibase (tstr) — optional
-└─ evidence_data (tstr, base64) — optional
+│ │ ├─ evidence_id (tstr) — mandatory
+│ │ ├─ evidence_type (tstr) — optional
+│ │ ├─ evidence_digestMultibase (tstr) — optional
+│ └─ evidence_data (tstr, base64) — optional
 ```
 
 
@@ -175,7 +175,7 @@ Certificate [1]
 - `economic_operator_additional_ids` is optional and **MAY** contain zero or more additional
   identifier strings (e.g., LEI, EORI, BPNL).
 - `scope` **SHALL** contain at least one `ScopeObject`, representing a
-  certified site with its associated scope description.
+  certified site with described name, location and associated scope.
 - `certificate_evidence` is mandatory as an object; however, `evidence_type`,
   `evidence_digestMultibase`, and `evidence_data` within it are optional and only required
   in cases of self-attestation of a received certificate.
@@ -190,7 +190,7 @@ This attestation type **MAY** be classified as:
 - **"QEAA"** when issued by an accredited certification body acting as a qualified trust service
   provider.
 
-**Top-Level Data Identifiers:**
+**Top-Level Data Identifiers:** (Hint: 2.1 Top-Level Data Identifiers definition and 2.2 Certificate Top-Level Attributes are redundant with diffrent definitions, this might lead to confusion. Why is 2.1 Top-Level Data Identifiers needed?) 
 
 | **Data Identifier**                | **Semantic Reference** | **Definition**                                                                                 | **Data type**       |
 |------------------------------------|------------------------|------------------------------------------------------------------------------------------------|---------------------|
@@ -198,12 +198,12 @@ This attestation type **MAY** be classified as:
 | economic_operator_additional_ids   | ...                    | Array of additional identifiers for the economic operator                                      | Array of Strings    |
 | economic_operator_name             | ...                    | Legal name of the economic operator                                                            | String              |
 | economic_operator_address          | ...                    | Registered address of the economic operator                                                    | Object (Address)    |
-| certificate_type                   | ...                    | Type of the ESG certificate (e.g., ISO 9001, IATF 16949)                                      | String              |
-| certificate_version                | ...                    | Version of the certificate standard (e.g., ISO 9001:2015)                                     | String              |
+| certificate_type                   | ...                    | Type of the ESG certificate (e.g., ISO 9001, IATF 16949)                                       | String              |
+| certificate_version                | ...                    | Version of the certificate standard (e.g., ISO 9001:2015)                                      | String              |
 | registration_number                | ...                    | Registration number of the certificate as issued by the certification body                     | String              |
 | certification_start_date           | ...                    | Valid-from date of the certificate                                                             | Date (ISO 8601)     |
 | certification_expiration_date      | ...                    | Valid-until date of the certificate                                                            | Date (ISO 8601)     |
-| scope                              | ...                    | Array of certified site and scope objects                                                      | Array [ScopeObject] |
+| scope                              | ...                    | Array of certified site objects described with name, adress and scope                          | Array [ScopeObject] |
 | certificate_evidence               | ...                    | Evidence object containing reference or attachment of the original certificate                 | Object (Evidence)   |
 
 ---
