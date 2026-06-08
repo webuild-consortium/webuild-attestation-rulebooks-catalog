@@ -91,13 +91,13 @@ The attestation is bound to a single registered customer and a single loyalty-ca
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |---------------------|------------------------|----------------|---------------|-------------------|
-| `attestation_legal_category` | ARF Topic 12 / Rulebook legal category indication | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
-| `customer.first_name` | OIDC `given_name` where applicable | Customer given name. | string | `Nikos` |
-| `customer.last_name` | OIDC `family_name` where applicable | Customer family name. | string | `Triantafyllou` |
-| `loyalty_card.id` | N/A | Unique loyalty-card identifier issued by the ferry operator. | string | `LC-FAST-000123456` |
+| `attestation_legal_category` | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) <br> ARF Topic 12 / Rulebook legal category indication | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
+| `customer.first_name` | [givenName](https://w3id.org/ebwv#givenName) <br> OIDC `given_name` where applicable | Customer given name. | string | `Nikos` |
+| `customer.last_name` | [familyName](https://w3id.org/ebwv#familyName) <br> OIDC `family_name` where applicable | Customer family name. | string | `Triantafyllou` |
+| `loyalty_card.id` | [identifier](https://w3id.org/ebwv#identifier) | Unique loyalty-card identifier issued by the ferry operator. | string | `LC-FAST-000123456` |
 | `loyalty_card.issue_date` | ISO 8601 date | Date on which the loyalty card was issued. | date | `2026-01-07` |
-| `organization.name` | N/A | Legal or operating name of the ferry operator. | string | `Fast Ferries S.A.` |
-| `organization.id` | N/A | Ferry operator identifier. | string | `GR-FAST-FERRIES` |
+| `organization.name` | [legalName](https://w3id.org/ebwv#legalName) | Legal or operating name of the ferry operator. | string | `Fast Ferries S.A.` |
+| `organization.id` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Ferry operator identifier. | string | `GR-FAST-FERRIES` |
 | `organization.country` | ISO 3166-1 alpha-2 recommended | Country of registration or operation of the ferry operator. | string | `GR` |
 | `credential.type` | Rulebook-defined credential type | Type of credential represented by the attestation. | string | `FerryLoyaltyCardAttestation` |
 | `credential.issuer` | SD-JWT VC / issuer identifier | Issuer of the credential. | string | `https://issuer.example-ferry.gr` |
@@ -107,15 +107,15 @@ The attestation is bound to a single registered customer and a single loyalty-ca
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |---------------------|------------------------|----------------|---------------|-------------------|
-| `customer.nationality` | ISO 3166-1 alpha-2 recommended | Nationality of the customer. | string | `GR` |
-| `customer.birth_date` | ISO 8601 date | Customer date of birth. | date | `1985-04-12` |
-| `customer.address` | N/A | Customer street address. | string | `1 Example Street` |
-| `customer.city` | N/A | City of residence. | string | `Athens` |
-| `customer.zip_code` | N/A | Postal code. | string | `10557` |
-| `customer.phone` | N/A | Fixed phone number. | string | `+302101234567` |
-| `customer.mobile` | N/A | Mobile phone number. | string | `+306901234567` |
-| `customer.email` | RFC 5322 | Customer email address. | string | `nikos@example.com` |
-| `credential.expiry_date` | ISO 8601 date | Date after which the credential SHALL NOT be accepted. | date | `2028-01-07` |
+| `customer.nationality` | [citizenship](https://w3id.org/ebwv#citizenship) <br> ISO 3166-1 alpha-2 recommended | Nationality of the customer. | string | `GR` |
+| `customer.birth_date` | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) <br> ISO 8601 date | Customer date of birth. | date | `1985-04-12` |
+| `customer.address` | [domicile](https://w3id.org/ebwv#domicile) | Customer street address. | string | `1 Example Street` |
+| `customer.city` | [domicile](https://w3id.org/ebwv#domicile) | City of residence. | string | `Athens` |
+| `customer.zip_code` | [domicile](https://w3id.org/ebwv#domicile) | Postal code. | string | `10557` |
+| `customer.phone` | [hasTelephone](https://w3id.org/ebwv#hasTelephone) | Fixed phone number. | string | `+302101234567` |
+| `customer.mobile` | [hasTelephone](https://w3id.org/ebwv#hasTelephone) | Mobile phone number. | string | `+306901234567` |
+| `customer.email` | [hasEmail](https://w3id.org/ebwv#hasEmail) | Customer email address. | string | `nikos@example.com` |
+| `credential.expiry_date` | [validUntil](https://w3.org/2018/credentials/#validUntil) <br> ISO 8601 date | Date after which the credential SHALL NOT be accepted. | date | `2028-01-07` |
 
 ### 2.4 Conditional attributes
 
