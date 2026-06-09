@@ -425,18 +425,18 @@ This attestation type **MAY** be classified as:
 | **Data Identifier**                                       | **Semantic Reference** | **Definition**                                                                           | **Data type**             | **Occurrence** |
 |-----------------------------------------------------------|------------------------|------------------------------------------------------------------------------------------|---------------------------|----------------|
 | home_employer.address_line_2                              | —                      | Secondary address line of the home employer's headquarters                               | String                    | 0:1            |
-| home_employer.municipality                                | —                      | Municipality of the home employer's headquarters                                         | String                    | 0:1            |
-| home_employer.state                                       | —                      | State or region of the home employer's headquarters                                      | String                    | 0:1            |
+| home_employer.municipality                                | [registeredAddress](https://w3id.org/ebwv#registeredAddress).[postName](https://w3id.org/ebwv#postName) | Municipality of the home employer's headquarters                                         | String                    | 0:1            |
+| home_employer.state                                       | [registeredAddress](https://w3id.org/ebwv#registeredAddress).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | State or region of the home employer's headquarters                                      | String                    | 0:1            |
 | home_employer.administrative_representative.address_line_1 | —                     | Primary address line of the administrative representative                                | String                    | 0:1            |
 | home_employer.administrative_representative.address_line_2 | —                     | Secondary address line of the administrative representative                              | String                    | 0:1            |
-| home_employer.administrative_representative.postal_code    | —                     | Postal code of the administrative representative's address                               | String                    | 0:1            |
-| home_employer.administrative_representative.municipality   | —                     | Municipality of the administrative representative's address                              | String                    | 0:1            |
-| home_employer.administrative_representative.state          | —                     | State or region of the administrative representative's address                           | String                    | 0:1            |
+| home_employer.administrative_representative.postal_code    | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the administrative representative's address                               | String                    | 0:1            |
+| home_employer.administrative_representative.municipality   | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName) | Municipality of the administrative representative's address                              | String                    | 0:1            |
+| home_employer.administrative_representative.state          | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | State or region of the administrative representative's address                           | String                    | 0:1            |
 | home_employer.social_representative.address_line_1         | —                     | Primary address line of the social representative                                        | String                    | 0:1            |
 | home_employer.social_representative.address_line_2         | —                     | Secondary address line of the social representative                                      | String                    | 0:1            |
-| home_employer.social_representative.postal_code            | —                     | Postal code of the social representative's address                                       | String                    | 0:1            |
-| home_employer.social_representative.municipality           | —                     | Municipality of the social representative's address                                      | String                    | 0:1            |
-| home_employer.social_representative.state                  | —                     | State or region of the social representative's address                                   | String                    | 0:1            |
+| home_employer.social_representative.postal_code            | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the social representative's address                                       | String                    | 0:1            |
+| home_employer.social_representative.municipality           | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName) | Municipality of the social representative's address                                      | String                    | 0:1            |
+| home_employer.social_representative.state                  | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | State or region of the social representative's address                                   | String                    | 0:1            |
 
 #### Host Company Optional Attributes
 
@@ -444,19 +444,19 @@ This attestation type **MAY** be classified as:
 |-------------------------------|------------------------|---------------------------------------------------------------|---------------------------|----------------|
 | host_company.address_line_2   | —                      | Secondary address line of the host company's headquarters     | String                    | 0:1            |
 | host_company.address_line_3   | —                      | Tertiary address line of the host company's headquarters      | String                    | 0:1            |
-| host_company.municipality     | —                      | Municipality of the host company's headquarters               | String                    | 0:1            |
-| host_company.state            | —                      | State or region of the host company's headquarters            | String                    | 0:1            |
-| host_company.business_reg_nr  | —                      | Business registration number of the host company             | String                    | 0:1            |
+| host_company.municipality     | [registeredAddress](https://w3id.org/ebwv#registeredAddress).[postName](https://w3id.org/ebwv#postName) | Municipality of the host company's headquarters               | String                    | 0:1            |
+| host_company.state            | [registeredAddress](https://w3id.org/ebwv#adminUnitL2).[postName](https://w3id.org/ebwv#adminUnitL2) | State or region of the host company's headquarters            | String                    | 0:1            |
+| host_company.business_reg_nr  | [identifier](https://w3id.org/ebwv#identifier)  | Business registration number of the host company             | String                    | 0:1            |
 
 #### Place of Work Optional Attributes
 
 | **Data Identifier**            | **Semantic Reference** | **Definition**                                                      | **Data type** | **Occurrence** |
 |--------------------------------|------------------------|---------------------------------------------------------------------|---------------|----------------|
-| place_of_work.flag_base_home   | —                      | Flag, base or home state of the vessel (maritime use case)          | String        | 0:1            |
-| place_of_work.company_id       | —                      | Identifier of the company at the place of work                      | String        | 0:1            |
+| place_of_work.flag_base_home   | [flagState](https://w3id.org/ebwv#flagState) | Flag, base or home state of the vessel (maritime use case)          | String        | 0:1            |
+| place_of_work.company_id       | [identifier](https://w3id.org/ebwv#identifier) | Identifier of the company at the place of work                      | String        | 0:1            |
 | place_of_work.id_type          | —                      | Type of company identifier (per EESSI codelist — tbd)               | Code          | 0:1            |
-| place_of_work.street_nr        | —                      | Street and number of the place of work                              | String        | 0:1            |
-| place_of_work.postal_code      | —                      | Postal code of the place of work                                    | String        | 0:1            |
+| place_of_work.street_nr        | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | Street and number of the place of work                              | String        | 0:1            |
+| place_of_work.postal_code      | [postCode](https://w3id.org/ebwv#postCode) | Postal code of the place of work                                    | String        | 0:1            |
 
 #### Competent Institution Optional Attributes
 
