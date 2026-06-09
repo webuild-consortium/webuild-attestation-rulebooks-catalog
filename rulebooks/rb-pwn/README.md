@@ -299,10 +299,10 @@ This attestation type **MAY** be classified as:
 |-------------------------|------------------------|-----------------------------------------------------------------------------------------|---------------------|
 | subject                 | [postedWorker](https://w3id.org/ebwv#postedWorker) | Personal identity attributes of the posted worker                                       | Object              |
 | assignment_info         | [assignment](https://w3id.org/ebwv#assignment) | Assignment-related information including home member state and posting dates             | Object              |
-| home_employer           | ...                    | Details of the home employer including company info and representatives                  | Object              |
-| host_company            | ...                    | Details of the host company in the receiving member state                                | Object              |
-| employee                | ...                    | Employee-specific information including job duties abroad                                | Object              |
-| places_of_work          | ...                    | Place(s) where the posted worker performs work in the host country                       | Array [PlaceOfWork] |
+| home_employer           | [employer](https://w3id.org/ebwv#employer) | Details of the home employer including company info and representatives                  | Object              |
+| host_company            | [hostEntity](https://w3id.org/ebwv#hostEntity) | Details of the host company in the receiving member state                                | Object              |
+| employee                | [employee](https://w3id.org/ebwv#employee) | Employee-specific information including job duties abroad                                | Object              |
+| places_of_work          | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Place(s) where the posted worker performs work in the host country                       | Array [PlaceOfWork] |
 | competent_institution   | ...                    | Details of the competent institution associated with the PWN                             | Object              |
 
 ---
@@ -313,20 +313,20 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier**      | **Semantic Reference** | **Definition**                                                           | **Data type**                   | **Occurrence** |
 |--------------------------|------------------------|--------------------------------------------------------------------------|---------------------------------|----------------|
-| pin                      | —                      | Personal Identification Number / ID number of the posted worker          | String                          | 1:1            |
-| family_name              | —                      | Family name(s) of the posted worker in full                              | String                          | 1:1            |
-| forename                 | —                      | Forename(s) of the posted worker in full                                 | String                          | 1:1            |
-| date_of_birth            | —                      | Date of birth of the posted worker (ISO 8601)                            | Date (YYYY-MM-DD)               | 1:1            |
-| nationality              | —                      | Nationality/ies of the posted worker                                     | Code [1:n] (ISO 3166-1 alpha-2) | 1:n            |
-| job_title_home_country   | —                      | Job title of the posted worker in the home country (PWN-specific)        | String                          | 1:1            |
+| pin                      | [identifier](https://w3id.org/ebwv#identifier) | Personal Identification Number / ID number of the posted worker          | String                          | 1:1            |
+| family_name              | [familyName](https://w3id.org/ebwv#familyName) | Family name(s) of the posted worker in full                              | String                          | 1:1            |
+| forename                 | [givenName](https://w3id.org/ebwv#givenName) | Forename(s) of the posted worker in full                                 | String                          | 1:1            |
+| date_of_birth            | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the posted worker (ISO 8601)                            | Date (YYYY-MM-DD)               | 1:1            |
+| nationality              | [citizenship](https://w3id.org/ebwv#citizenship) | Nationality/ies of the posted worker                                     | Code [1:n] (ISO 3166-1 alpha-2) | 1:n            |
+| job_title_home_country   | [jobTitle](https://w3id.org/ebwv#jobTitle) | Job title of the posted worker in the home country (PWN-specific)        | String                          | 1:1            |
 
 #### Section 2 — Assignment Related Information Attributes
 
 | **Data Identifier**                 | **Semantic Reference** | **Definition**                                                                     | **Data type**             | **Occurrence** |
 |-------------------------------------|------------------------|------------------------------------------------------------------------------------|---------------------------|----------------|
-| assignment_info.home_member_state   | —                      | Code of the home member state from which the worker is posted (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1            |
-| assignment_info.starting_date       | —                      | Start date of the posting assignment (ISO 8601)                                    | Date (YYYY-MM-DD)         | 1:1            |
-| assignment_info.ending_date         | —                      | End date of the posting assignment (ISO 8601)                                      | Date (YYYY-MM-DD)         | 1:1            |
+| assignment_info.home_member_state   | [stateOfInsurance](https://w3id.org/ebwv#stateOfInsurance) | Code of the home member state from which the worker is posted (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1            |
+| assignment_info.starting_date       | [duration](https://w3id.org/ebwv#duration) | Start date of the posting assignment (ISO 8601)                                    | Date (YYYY-MM-DD)         | 1:1            |
+| assignment_info.ending_date         | [duration](https://w3id.org/ebwv#duration) | End date of the posting assignment (ISO 8601)                                      | Date (YYYY-MM-DD)         | 1:1            |
 
 #### Section 3 — Home Employer Attributes
 
