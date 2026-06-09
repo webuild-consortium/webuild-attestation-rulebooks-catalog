@@ -297,8 +297,8 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier**     | **Semantic Reference** | **Definition**                                                                          | **Data type**       |
 |-------------------------|------------------------|-----------------------------------------------------------------------------------------|---------------------|
-| subject                 | ...                    | Personal identity attributes of the posted worker                                       | Object              |
-| assignment_info         | ...                    | Assignment-related information including home member state and posting dates             | Object              |
+| subject                 | [postedWorker](https://w3id.org/ebwv#postedWorker) | Personal identity attributes of the posted worker                                       | Object              |
+| assignment_info         | [assignment](https://w3id.org/ebwv#assignment) | Assignment-related information including home member state and posting dates             | Object              |
 | home_employer           | ...                    | Details of the home employer including company info and representatives                  | Object              |
 | host_company            | ...                    | Details of the host company in the receiving member state                                | Object              |
 | employee                | ...                    | Employee-specific information including job duties abroad                                | Object              |
