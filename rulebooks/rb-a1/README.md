@@ -273,8 +273,8 @@ This attestation type **MAY** be classified as:
 | employer_details           | [employer](https://w3id.org/ebwv#employer) | Details of the employer(s) or self-employment situation                           | Array [EmployerObject] |
 | places_of_work             | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Places where the posted worker performs work                                      | Array [PlaceOfWork]    |
 | status_confirmation        | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) | Status confirmation code identifying the type of cross-border situation           | Object                 |
-| document_id                | [identifier](https://w3id.org/ebwv#identifier) | Unique number of the issued PD A1 document                                        | Object                 |
-| competent_institution      | [TBD](https://w3id.org/ebwv#legalName) | Details of the competent social security institution that issued the PD A1        | Object                 |
+| document_id                | @id | Unique number of the issued PD A1 document                                        | Object                 |
+| competent_institution      | [cred:issuer](https://w3.org/2018/credentials#issuer) | Details of the competent social security institution that issued the PD A1        | Object                 |
 
 ### 2.2 Mandatory Attributes
 
@@ -288,8 +288,8 @@ This attestation type **MAY** be classified as:
 | forename                       | [givenName](https://w3id.org/ebwv#givenName)| Forename(s) of the citizen in full                                                                      | String                          | 1:1            | 3            |
 | date_of_birth                  | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth)| Date of birth of the citizen (ISO 8601)                                                                 | Date (YYYY-MM-DD)               | 1:1            | 4            |
 | nationality                    | [citizenship](https://w3id.org/ebwv#citizenship)| Nationality/ies of the citizen; Relying Party always requests all nationalities; user may select which  | Code [1:n] (ISO 3166-1 alpha-2) | 1:n            | 5            |
-| place_of_birth.town            | [geographicName](https://w3id.org/ebwv#geographicName)| Town/locality where the citizen was born                                                                | String                          | 1:1            | 6            |
-| place_of_birth.country_code    | [geographicIdentifier](https://w3id.org/ebwv#geographicIdentifier)| Country where the citizen was born (ISO 3166-1 alpha-2)                                                 | Code (ISO 3166-1 alpha-2)       | 1:1            | 6            |
+| place_of_birth.town            | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth).[geographicName](https://w3id.org/ebwv#geographicName)| Town/locality where the citizen was born                                                                | String                          | 1:1            | 6            |
+| place_of_birth.country_code    | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth).[geographicIdentifier](https://w3id.org/ebwv#geographicIdentifier)| Country where the citizen was born (ISO 3166-1 alpha-2)                                                 | Code (ISO 3166-1 alpha-2)       | 1:1            | 6            |
 
 #### Address — Residence (SD Group 7)
 
@@ -311,9 +311,9 @@ At least one address **SHALL** be provided (residence or stay):
 
 | **Data Identifier**                           | **Semantic Reference** | **Definition**                                                                                                | **Data type**             | **Occurrence** |
 |-----------------------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------|---------------------------|----------------|
-| member_state_legislation.member_state         | —                      | Code of the member state whose legislation applies (ISO 3166-1 alpha-2; EU/EFTA + UK = 32 countries)          | Code (ISO 3166-1 alpha-2) | 1:1            |
-| member_state_legislation.starting_date        | —                      | Starting date from which the member state legislation applies (ISO 8601)                                       | Date (YYYY-MM-DD)         | 1:1            |
-| member_state_legislation.ending_date          | —                      | Ending date until which the member state legislation applies (ISO 8601)                                        | Date (YYYY-MM-DD)         | 1:1            |
+| member_state_legislation.member_state         | [jurisdiction](https://w3id.org/ebwv#jurisdiction)  | Code of the member state whose legislation applies (ISO 3166-1 alpha-2; EU/EFTA + UK = 32 countries)          | Code (ISO 3166-1 alpha-2) | 1:1            |
+| member_state_legislation.starting_date        | [cred:validFrom](https://w3.org/2018/credentials#validFrom) | Starting date from which the member state legislation applies (ISO 8601)                                       | Date (YYYY-MM-DD)         | 1:1            |
+| member_state_legislation.ending_date          | [cred:validUntil](https://w3.org/2018/credentials#validUntil) | Ending date until which the member state legislation applies (ISO 8601)                                        | Date (YYYY-MM-DD)         | 1:1            |
 
 #### Section 3 — Employer / Self-Employment Details (SD Groups 9–10)
 
@@ -321,12 +321,12 @@ Each employer entry **SHALL** contain the following mandatory attributes:
 
 | **Data Identifier**             | **Semantic Reference** | **Definition**                                                                                 | **Data type**             | **Occurrence** | **SD Group** |
 |---------------------------------|------------------------|------------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| employer.employment_type        | —                      | Type of employment: `01` = Employment, `02` = Self-Employment (EESSI codelist)                 | Code                      | 1:1            | 9            |
-| employer.name                   | —                      | Name of the employer or self-employed entity                                                   | String                    | 1:1            | 9            |
-| employer.employer_id            | —                      | Identifier of the employer                                                                     | String                    | 1:1            | 9            |
-| employer.id_type                | —                      | Type of the employer identifier: `01`, `02`, `03`, `99` (see EESSI codelist — tbd)             | Code                      | 1:1            | 9            |
-| employer.address.town           | —                      | Town of the employer's address                                                                 | String                    | 1:1            | 10           |
-| employer.address.country_code   | —                      | Country of the employer's address (ISO 3166-1 alpha-2)                                         | Code (ISO 3166-1 alpha-2) | 1:1            | 10           |
+| employer.employment_type        | [typeOfEmployment](https://w3id.org/ebwv#typeOfEmployment) | Type of employment: `01` = Employment, `02` = Self-Employment (EESSI codelist)                 | Code                      | 1:1            | 9            |
+| employer.name                   | [legalName](https://w3id.org/ebwv#legalName) | Name of the employer or self-employed entity                                                   | String                    | 1:1            | 9            |
+| employer.employer_id            | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the employer                                                                     | String                    | 1:1            | 9            |
+| employer.id_type                | N/A | Type of the employer identifier: `01`, `02`, `03`, `99` (see EESSI codelist — tbd)             | Code                      | 1:1            | 9            |
+| employer.address.town           | [postName](https://w3id.org/ebwv#postName)  | Town of the employer's address                                                                 | String                    | 1:1            | 10           |
+| employer.address.country_code   | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the employer's address (ISO 3166-1 alpha-2)                                         | Code (ISO 3166-1 alpha-2) | 1:1            | 10           |
 
 #### Section 4 — Places of Work (SD Groups 11–12)
 
@@ -334,7 +334,7 @@ When a specific place of work is declared:
 
 | **Data Identifier**             | **Semantic Reference** | **Definition**                                                                            | **Data type**             | **Occurrence** | **SD Group** |
 |---------------------------------|------------------------|-------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| place_of_work.company_name      | —                      | Name of the company or vessel at the place of work                                        | String                    | 1:1            | 11           |
+| place_of_work.company_name      | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[legalName](https://w3id.org/ebwv#legalName);[name](https://w3id.org/ebwv#name)  | Name of the company or vessel at the place of work                                        | String                    | 1:1            | 11           |
 | place_of_work.town              | —                      | Town of the place of work                                                                 | String                    | 1:1            | 12           |
 | place_of_work.country_code      | —                      | Country of the place of work (ISO 3166-1 alpha-2; EU/EFTA + UK)                           | Code (ISO 3166-1 alpha-2) | 1:1            | 12           |
 
