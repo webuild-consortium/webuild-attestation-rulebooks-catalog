@@ -58,7 +58,7 @@ This Rulebook is structured as follows:
   with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines revocation mechanisms for the attestation.
-- Chapter 7 provides compliance information regarding the EUBW framework, AML regulations,
+- Chapter 7 provides compliance information regarding the EBW framework, AML regulations,
   corporate governance standards, and applicable data protection laws.
 - Chapter 8 provides references to applicable standards and specifications.
 
