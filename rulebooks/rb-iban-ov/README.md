@@ -13,7 +13,7 @@
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
-  * [Ricky Lambert](mailto:Ricky.Lamberty@bosch.com)*
+  * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com)*
 
 * Feedback:
 
