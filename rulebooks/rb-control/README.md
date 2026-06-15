@@ -237,7 +237,7 @@ Applies to both NaturalPerson and LegalPerson owners:
 |-----------------------|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
 | evidence_data         | --                     | The actual organizational structure document as a base64-encoded string (required if evidence_id does not contain a URI to an accessible location) | String (base64) |
 | evidence_confirmation | --                     | Boolean confirmation that the organizational structure document is current and has been used as the basis for the ownership calculation             | Boolean         |
-| evidence_date         | --                     | The date when the evidence document was created or last updated (ISO 8601)                                                                         | Date            |
+| evidence_date         | --                     | The date when the evidence document was created or last updated (ISO 8601)                                                                         | Date (YYYY-MM-DD)            |
 
 ### 2.4 Conditional attributes
 
@@ -248,11 +248,11 @@ are either mandatory or optional as specified above.
 
 | **Data Identifier**        | **Definition**                                                                                                                    | **Data type** |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                      | DateTime      |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                         | DateTime      |
+| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                      | Date (YYYY-MM-DD)      |
+| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                         | Date (YYYY-MM-DD)      |
 | issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations) | String        |
 | attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                          | String        |
-| vct                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                            | String          |
+| Version Control Tool (vct)                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                            | String          |
 
 ### 2.6 Optional metadata
 
