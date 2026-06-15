@@ -4,7 +4,7 @@
   * [Florin Coptil, Robert Bosch GmbH]
 * Reviewer(s):
   * [Baumgardt Michaela, Commerzbank]
-  * [Stephan-A Fuchs, Deutsche Bank]
+  * [Stephan Fuchs, Deutsche Bank]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
@@ -86,10 +86,10 @@ This document uses the terminology specified in Annex 1 of the ARF.
 | Direct Control                     | Control exercised directly by a person through ownership of voting shares, board membership, or executive roles in the subject entity                                                                    |
 | Indirect Control                   | Control exercised through one or more intermediary entities or contractual arrangements (e.g., control via a parent company, nominee arrangements, or proxy voting agreements)                           |
 | Control Percentage                 | A quantitative measure of the degree of control a person exercises, typically based on voting rights percentage, board representation percentage, or other control metrics                               |
-| KYC Know Your Customer             | Due diligence process for verifying customer identity and assessing risk in financial relationships                                                                                                      |
-| KYS Know Your Supplier             | Due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                                                   |
-| PEP Politically Exposed Person     | Individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                                                       |
-| EUCC EU Company Certificate        | Attestation establishing the legal existence and identity of a legal entity within the EU                                                                                                                |
+| Know Your Customer (KYC)             | Due diligence process for verifying customer identity and assessing risk in financial relationships                                                                                                      |
+| Know Your Supplier (KYS)             | Due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                                                   |
+| Politically Exposed Person (PEP)     | Individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                                                       |
+| EU Company Certificate (EUCC)        | Attestation establishing the legal existence and identity of a legal entity within the EU                                                                                                                |
 | Evidence                           | Supporting documentation substantiating the control structure calculation (e.g., governance chart, shareholder agreement, articles of association, trust deed)                                           |
 
 ---
