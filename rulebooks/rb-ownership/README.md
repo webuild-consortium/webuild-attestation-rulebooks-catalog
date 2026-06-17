@@ -146,6 +146,14 @@ Owner[1..n]
 │ ├── legal_name (M)
 │ ├── legal_form (M)
 │ └── identifier [String] (M) identifier: euid, lei, tax, ...
+├── LegalArrangements
+│ ├── legal_name (M) description of the legal arrangement: a sequence of characters, letters or numbers
+│ └── identifier (M) identifier of the legal arrangement: a sequence of characters, letters or numbers
+│ └── info ( law governing- ISO 3166-1 alpha-3)
+│ ├── settlement [String] (M) 
+│ ├── purpose [String] (M) 
+│ ├── assets [String] (M) 
+│ ├── reason for registration
 ├── Address
 │ ├── street (M)
 │ ├── house_number (M)
@@ -162,6 +170,8 @@ Owner[1..n]
 │ │ ├── currency(M)  
 │ ├── category ordinary[String] (M) - [preferred | dual-class | other]
 │ ├── economic_rights[String] (M) - [dividend_rights, liquidation_rights]
+│ ├── legal_arrangement (M) identifier 
+│ ├── place of administration (O) (in case of different != residence )
 └─ Evidence        [1...n]   (at least one piece of supporting evidence required)
 ```
 
