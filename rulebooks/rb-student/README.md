@@ -1,555 +1,451 @@
 (Template version: 1.1)
 
-# WE BUILD Attestation Rulebook Template for attestations of type *Student*
+# WE BUILD Attestation Rulebook for attestations of type *Student ID*
 
-*[Based on the WE BUILD attestation description: https://portal.webuildconsortium.eu/group/wp3-technology-standards/files?mid=6894&fid%5B0%5D=6880&fid%5B1%5D=7094]*
-
-*This WE BUILD v1 template is derived from the EUDI attestation rulebook template and keeps its
-main chapter structure while adding practical author guidance and reusable placeholders.*
-
-*Provide information about the author(s) of this Rulebook in the following form:*
+*[Based on the WE BUILD Attestation Rulebook Template and the StudentID Attestation model.]*
 
 * Author(s):
-    * [NAME SURNAME, AFFILIATION]
-    * [NAME SURNAME, AFFILIATION]
+    * Nikos Triantafyllou, UAegean
 * Previous Authors
-    * [NAME SURNAME, AFFILIATION (versions)]
-    * [NAME SURNAME, AFFILIATION (versions)]
-
-*Provide versioning information about the Rulebook in the following form:*
+    * N/A
 
 | Version | Date | Description |
-|---------|------------|------------|
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG] |
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG] |
-
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
+|---------|------|-------------|
+| 0.1 | 2026-06-01 | Initial draft rulebook for the StudentID Attestation |
 
 **Feedback:**
 
-* <https://example.com/tracker>
+* [RULEBOOK AUTHOR TO DEFINE]
 
 ## 1 Introduction
 
 ### 1.1 Document scope and purpose
 
-*Provide a concise explanation of the purpose of the defined attestation type, explicitly stating
-why it exists and what its primary objective is within the context of the EUDI Wallet ecosystem*
+This Rulebook defines the *StudentID Attestation* for use in the European Digital Identity Wallet ecosystem.
 
-*In addition, authors SHOULD describe the attestation in plain language so that readers can quickly
-understand what it does in practice, who it is for, and in which use case(s) it is expected to be
-used. Content may be reused and refined from an existing attestation description where available.*
+The StudentID Attestation expresses the real-world fact that a natural person is, or was during the applicable validity period, affiliated with an educational organisation in a student capacity. It enables relying parties to verify student status and selected identity or affiliation attributes using the EUDI Wallet.
 
-*When drafting this section, authors SHOULD cover at least the following points:*
+The attestation is intended to be issued by an authentic source, such as a university, higher-education institution, or authorised academic identity provider. The Holder is the natural person to whom the student status applies. Relying Parties may include campus service providers, libraries, laboratories, access-control systems, mobility services, student-discount service providers, public or private service providers accepting student status, and other authorised verifiers.
 
-* What real-world fact, entitlement, role, status, or capability the attestation expresses.
-* Which issuers, holders, and relying parties are expected to use it.
-* Which use case or user journey the attestation supports.
-* Which existing attestation description, use-case document, or functional specification can be
-used as a source for copy-paste or refinement.
-* Which terminology should remain aligned with the source attestation description.
+In practical terms, the attestation enables a student to present proof of student status through an EUDI Wallet using selective disclosure. It can reduce reliance on paper student cards, manual checks, or real-time backend lookups, provided that the relying party can verify the issuer, credential signature, validity period, credential status where applicable, and the disclosed attributes needed for the transaction.
 
-[RULEBOOK AUTHOR TO DEFINE]
-
-> Example
->
-> This attestation enables a relying party to verify, in plain language, that the holder is
-> authorised to act in a specific project role. It is intended for project operators, service
-> providers, and supervisory relying parties in the WE BUILD ecosystem. The functional description
-> and actor terminology can be reused from the corresponding use-case attestation description and
-> refined here into rulebook language.
+The attestation supports education and student-service use cases, including online and offline verification for campus services, discounted services, access control, mobility scenarios, academic services, and other scenarios where proof of student affiliation is required.
 
 ### 1.2 Document structure
 
-*Provide a brief overview of the Rulebook's sections and their purpose. The main
-sections of the Rulebook SHOULD be*
+This Rulebook is structured as follows:
 
-* Chapter 2, which describes the attestation attributes and metadata in an
-encoding-independent manner.
-* Chapter 3, which specifies how the attestation
-attributes and metadata are encoded in case the attestation complies with [ISO/IEC
-18013-5] and/or [SD-JWT VC] and/or [W3C VCDM v2.0]. Each encoding SHALL be specified in a separate section, or even in a separate chapter.
-* Chapter 4, which specifies attestation usage.
-* Chapter 5, which defines how trust anchors for attestation verification can be obtained.
-* Chapter 6, which defines attestation revocation mechanisms.
-* Chapter 7, which provides compliance information.
+* Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner.
+* Chapter 3 specifies how the attestation attributes and metadata are encoded using SD-JWT VC. ISO/IEC 18013-5 and W3C VCDM encodings are not defined in this version of the Rulebook.
+* Chapter 4 specifies attestation usage, including presentation and verification expectations.
+* Chapter 5 defines how trust anchors for attestation verification can be obtained.
+* Chapter 6 defines revocation and expiry mechanisms.
+* Chapter 7 provides compliance information.
+* Chapter 8 lists references.
 
 ### 1.3 Key words
 
-*The following are the recommended keywords. Modify if necessary*
+This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified in [RFC 2119], i.e., to indicate requirements, recommendations and options specified in this document.
 
-This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as
-specified in [RFC 2119], i.e., to indicate requirements, recommendations and
-options specified in this document.
-
-In addition, 'must' (non-capitalised) is used to indicate an external
-constraint, i.e., a requirement that is not mandated by this document, but, for
-instance, by an external document. The word 'can' indicates a capability,
-whereas other words, such as 'will', and 'is' or 'are' are intended as
-statements of fact.
+In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e., a requirement that is not mandated by this document, but, for instance, by an external document. The word 'can' indicates a capability, whereas other words, such as 'will', and 'is' or 'are' are intended as statements of fact.
 
 ### 1.4 Terminology
 
-*It is recommended to use the terminology defined in Annex 1 of ARF. For example
-the following text can be used.*
-
 This document uses the terminology specified in Annex 1 of the ARF.
+
+In addition, the following domain-specific terms are used:
+
+| Term | Meaning |
+|------|---------|
+| StudentID Attestation | A Verifiable Credential representing a person's student affiliation and selected student identity attributes. |
+| Educational organisation | A university, higher-education institution, or other authorised academic organisation acting as the authentic source for student status. |
+| Authorised academic identity provider | A system or organisation authorised by an educational organisation to issue or manage student identity attestations. |
+| Student | The natural person to whom the student affiliation applies. |
+| Relying Party | An organisation or system that verifies the StudentID Attestation to make an access, eligibility, discount, or service decision. |
+| SCHAC | Schema for Academia, a set of attributes commonly used in research and education identity federations. |
+| eduPerson | A set of attributes commonly used to represent persons and affiliations in education and research identity federations. |
 
 ## 2 Attestation attributes and metadata
 
 ### Chapter overview and requirements
 
-*This chapter is used for defining all attributes that an
-attestation of the defined type may contain. In this section
-the attributes SHALL be defined in an encoding-independent manner (see ARB_06 in [Topic 12]).
-Each attribute can be mandatory, optional, or conditional
-and this SHALL be specified in the corresponding section (see ARB_09 in [Topic 12]).*
+This chapter defines the attributes and metadata that a StudentID Attestation may contain. The attributes are defined in an encoding-independent manner. Each attribute is classified as mandatory, optional, or conditional.
 
-*When attributes are defined, referring to attributes that
-already exist in a catalogue of attestation attributes
-SHOULD be considered (see ARB_07 in [Topic 12]).*
-
-*Where use-case documentation or an attestation description already defines attribute meanings,
-logical models, code lists, or integrity constraints, authors SHOULD align terminology with those
-sources and may copy and refine that material for this Rulebook.*
-
-*[Topic 12] of Annex 2 of the ARF defines the following High-Level Requirements with
-respect to the Attestation Rulebooks:*
-
-**Requirements for QEAA**
-
-* An attribute as meant in Annex V point a)  of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_13 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point c)  
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex V point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* One or more attributes or metadata representing the location meant in Annex V point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL
-indicate at least the URL at which a machine-readable version of the trust anchor to be
-used for verifying the QEAA can be found or looked up (see ARB_20 in [Topic 12]).
-
-**Requirements for PuB-EAA**
-
-* An attribute as meant in  Annex VII point a) of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
- VII point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_14 in [Topic 12]).
-* One or more attributes representing the set of data meant in Annex VII point c)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex VII point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* one or more attributes or metadata representing the location meant in Annex VII point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL
-indicate at least the URL at which a machine-readable version of the qualified
-certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [Topic 12])
-
-**Requirements for non-qualified EAA**
-
-* An attribute indicating that the attestation is an EAA should be included (see ARB_12 in [Topic 12]).
-See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_15 in [Topic 12]).
-* One or more attributes representing the set of data meant in Annex V point c) of the
-[European Digital Identity Regulation] SHOULD be included (see ARB_17 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point e) of
-the [European Digital Identity Regulation] SHOULD be defined (see ARB_19 in [Topic 12]).
-* One or more attributes or metadata representing the location at which a machine-readable
-version of the trust anchor to be used for verifying the EAA can be found or
-looked up SHOULD be defined. What this location indicates precisely is dependent
-on the nature of the mechanism used for distributing trust anchors, detailed in section
-5 (see ARB_21 in [Topic 12])
+The StudentID Attestation is typically medium- to long-lived, for example for an academic year, and is intended for repeated presentation with selective disclosure. The attribute set is designed to support data minimisation by allowing a Holder to disclose only the student attributes required for a specific transaction.
 
 ### 2.1 Introduction
 
-*In this section, briefly introduce the overall design and purpose of the specific attestation type
-defined by this Rulebook, including key decisions regarding its attributes and
-legal categorization.*
+The StudentID Attestation is defined as a non-qualified Electronic Attestation of Attributes unless a future version of this Rulebook explicitly defines a qualified or public-sector legal category.
 
-*According to Annex V point a) and  Annex VII point a) of the [European Digital Identity Regulation]
-an indication, at least in a form suitable for automated processing, that the attestation
-has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
-of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.
+The attribute `attestation_legal_category` SHALL be included and SHALL have the value `non-qualified-EAA`.
 
-This document defines the attribute "attestation_legal_category" which SHALL have
-the value "QEAA" or "PuB-EAA" or "non-qualified-EAA".*
+The attestation model consists of the following logical groups:
 
-*For complex attestations, authors SHOULD include or reference a logical model, diagram, or similar
-representation that explains the main entities, relationships, and attribute groupings. Such models
-may often be reused from an existing attestation description or use-case documentation.*
+* student identification attributes;
+* organisation attributes;
+* core identity attributes for holder matching;
+* contact attributes;
+* affiliation and status attributes;
+* credential metadata.
 
-> Example
->
-> The attestation description for Use Case X already contains a domain model showing the holder,
-> issuer, project, permit, and validity period. That model may be copied here and adjusted so that
-> the terminology exactly matches the rulebook.
+The attestation is issued as a Verifiable Credential compatible with the EUDI Wallet using SD-JWT VC. The model aligns with the following issuer metadata parameters:
 
-*In the following subsections 2.2 - 2.7 define in an encoding independent manner all
-mandatory, optional, and conditional attributes and metadata. In each subsection
-provide a table of the following form. When applicable, use Sections 2.8 and 2.9 to document
-code lists and integrity rules that are needed to interpret these attributes consistently:*
-
-*Where available, authors SHOULD include a stable semantic term reference (for example a URI,
-IRI, or controlled identifier from an agreed semantics catalogue) for each attribute or metadata item.*
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a unique attribute identifier* | *Provide a stable semantics term reference* | *Briefly describe the semantic of this attribute* | *Provide a type, e.g., integer, string, boolean, date.* | *Give an example value* |
-
-*NOTE Data identifiers should be unambiguous, machine-readable where possible, and
-avoid natural-language ambiguities.*
+* `scope`: `StudentID`;
+* `format`: `vc+sd-jwt`;
+* `vct`: `VerifiableStudentID`;
+* `claims`: the claims defined in this Rulebook;
+* `proof_types_supported`: issuer-defined, including `jwt` where supported;
+* `cryptographic_binding_methods_supported`: issuer-defined, for example `jwk` or `cose_key`.
 
 ### 2.2 Mandatory attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `attestation_legal_category` | ARF Topic 12 / Rulebook legal category indication | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
+| `identifier` | Institutional student identifier | Unique student identifier, such as an institutional student number or equivalent. | string | `STU-2026-000123` |
+| `schacHomeOrganization` | SCHAC `schacHomeOrganization` | Home organisation or institution domain or identifier. | string | `aegean.gr` |
+| `firstName` | OIDC `given_name` where applicable | Student given name. | string | `Nikos` |
+| `familyName` | OIDC `family_name` where applicable | Student family name. | string | `Triantafyllou` |
+| `eduPersonPrincipalName` | eduPerson `eduPersonPrincipalName` | Principal name of the student, often expressed in `user@realm` format. | string | `ntriantafyllou@aegean.gr` |
+| `eduPersonPrimaryAffiliation` | eduPerson `eduPersonPrimaryAffiliation` | Primary affiliation of the subject with the educational organisation. | string | `student` |
 
 ### 2.3 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `schacPersonalUniqueCode` | SCHAC `schacPersonalUniqueCode` | Unique code associated with the student. | string | `urn:schac:personalUniqueCode:int:esi:example.edu:123456` |
+| `schacPersonalUniqueID` | SCHAC `schacPersonalUniqueID` | One or more unique identifiers for the student. | array of strings | `["urn:schac:personalUniqueID:gr:student:123456"]` |
+| `displayName` | OIDC `name` or education profile display name | Display name formatted for user interfaces. | string | `Nikos Triantafyllou` |
+| `commonName` | Common name / CN | Alternate display or preferred name. | string | `Nikos Triantafyllou` |
+| `dateOfBirth` | ISO 8601 date / OIDC `birthdate` where applicable | Student date of birth. | date | `1990-04-12` |
+| `mail` | RFC 5322 mailbox | Email address. | string | `ntriantafyllou@aegean.gr` |
+| `eduPersonAffiliation` | eduPerson `eduPersonAffiliation` | One or more affiliations, such as `student`, `member`, or `affiliate`. | array of strings | `["student", "member"]` |
+| `eduPersonScopedAffiliation` | eduPerson `eduPersonScopedAffiliation` | One or more scoped affiliation values. | array of strings | `["student@aegean.gr"]` |
+| `eduPersonAssurance` | eduPerson `eduPersonAssurance` | One or more assurance values for the subject or attributes. | array of strings | `["https://refeds.org/assurance"]` |
 
 ### 2.4 Conditional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `dateOfBirth` | ISO 8601 date / OIDC `birthdate` where applicable | SHALL be included only where needed for holder matching, age-related eligibility, or another justified relying-party purpose. If included, it SHALL represent the subject's birth date and SHALL NOT be in the future. | date | `1990-04-12` |
+| `mail` | RFC 5322 mailbox | SHOULD be disclosed only where the transaction requires a contact email or account matching. | string | `ntriantafyllou@aegean.gr` |
+| `eduPersonScopedAffiliation` | eduPerson `eduPersonScopedAffiliation` | SHOULD be included where a relying party needs both the affiliation value and the organisational scope. | array of strings | `["student@aegean.gr"]` |
+| `eduPersonAssurance` | eduPerson `eduPersonAssurance` | SHOULD be included where a relying party needs assurance information to decide whether the credential is sufficient for a specific service. | array of strings | `["https://refeds.org/assurance"]` |
 
 ### 2.5 Mandatory metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `vct` | SD-JWT VC | Verifiable Credential Type identifying this attestation type. | string | `VerifiableStudentID` |
+| `iss` | SD-JWT VC / JWT | Identifier of the issuer of the credential. | string | `https://issuer.example-university.edu` |
+| `iat` | JWT | Time at which the credential was issued. | integer | `1772366400` |
+| `exp` | JWT | Expiration time of the credential. For this attestation it SHOULD reflect the end of the applicable student-status validity period, such as the academic year or enrolment period. | integer | `1798761600` |
+| `cnf` | SD-JWT VC / JOSE | Confirmation claim binding the credential to key material controlled by the Holder or Wallet Unit, where holder binding is used. | object | `{ "jwk": { ... } }` |
+| `status` | SD-JWT VC status mechanism, where used | Status information enabling revocation or suspension checks. | object | `{ "status_list": { ... } }` |
 
 ### 2.6 Optional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `nbf` | JWT | Time before which the credential MUST NOT be accepted. | integer | `1772366400` |
+| `jti` | JWT | Unique identifier of the credential instance. | string | `urn:uuid:4f6a8e9a-40c2-4d21-96f8-7b85cc3f6c20` |
+| `trust_anchor` | ARF Topic 12 | Location or identifier of the machine-readable trust anchor or trust framework entry used to verify issuer authorisation. | string | `https://trust.example.eu/education/institutions/example-university` |
+| `cryptographically_bound_to` | ARF Topic 12 / ARB_28 | Identifier of another attestation type to which this attestation is cryptographically bound, where such binding is used. | string | `urn:eudi:pid:1` |
 
 ### 2.7 Conditional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+|---------------------|------------------------|----------------|---------------|-------------------|
+| `status` | SD-JWT VC status mechanism, where used | SHOULD be present where the StudentID Attestation is medium- or long-lived and may need to be revoked, suspended, or updated before expiry. | object | `{ "status_list": { ... } }` |
+| `cryptographically_bound_to` | ARF Topic 12 / ARB_28 | SHOULD be present where the StudentID Attestation must be presented together with PID or another identity attestation for strong holder matching. | string | `urn:eudi:pid:1` |
 
 ### 2.8 Code lists
 
-*Use this section for controlled vocabularies, enumerations, value sets, or external catalogues
-that are necessary to interpret one or more attributes or metadata items. Definitions may be reused
-from the attestation description or other use-case documentation and refined here where needed.*
-
-*For each code list, authors SHOULD state the field to which it applies, the allowed values, their
-meaning, the source vocabulary or reference, and any extensibility rule or governance note.*
-
 | **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
 |----------------|--------------------|-------------|--------------------------|---------------------------|
-| *Provide a field name* | *List the allowed values* | *Explain what each value means* | *Reference the source* | *State whether extensions are allowed* |
-
-> Example
->
-> | **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
-> |----------------|--------------------|-------------|--------------------------|---------------------------|
-> | `signatory_rule` | `sole`, `joint` | Indicates whether the representative may bind the organisation alone or only together with one or more additional representatives | EUCC attestation description / WE BUILD company representation model | Additional values SHOULD only be introduced if they are defined consistently across issuer and verifier implementations |
+| `dateOfBirth` | ISO 8601 date values | Subject's date of birth. | ISO 8601 | Date-only format `YYYY-MM-DD` SHALL be used where possible. |
+| `mail` | RFC 5322-compliant mailbox strings | Email address. | RFC 5322 | Implementations SHOULD apply practical email validation appropriate for the issuing context. |
+| `schacHomeOrganization` | Issuer-defined organisation identifiers, commonly domain-style values | Identifies the home educational organisation. | SCHAC / issuer-defined controlled values | Values SHOULD be stable and consistently interpreted across issuers and relying parties. |
+| `eduPersonPrimaryAffiliation` | Issuer-defined controlled vocabulary; recommended values include `student` | Primary affiliation of the subject. | eduPerson / issuer-defined controlled values | For this attestation, the value SHOULD be `student` unless the issuer has a specific student-equivalent category. |
+| `eduPersonAffiliation` | Issuer-defined controlled vocabulary; examples include `student`, `member`, `affiliate` | One or more affiliations of the subject. | eduPerson / issuer-defined controlled values | Values SHOULD be consistent with `eduPersonPrimaryAffiliation`. |
+| `eduPersonScopedAffiliation` | Scoped affiliation strings, commonly `affiliation@scope` | Affiliation value scoped to an organisation or domain. | eduPerson / SCHAC context | Scope SHOULD be consistent with `schacHomeOrganization`. |
+| `eduPersonAssurance` | Assurance URIs or issuer-defined assurance values | Assurance information for the subject or attributes. | eduPerson / REFEDS or issuer-defined assurance framework | Additional values SHOULD only be used if documented by the issuer or trust framework. |
+| `attestation_legal_category` | `non-qualified-EAA`, `QEAA`, `PuB-EAA` | Indicates the legal category of the attestation. | ARF Topic 12 / Rulebook template | This Rulebook uses `non-qualified-EAA`. |
 
 ### 2.9 Integrity rules
 
-*Use this section to define integrity or consistency rules that are not fully captured by the
-encoding format or schema alone, such as cross-field dependencies, temporal consistency checks,
-mutual exclusivity, or conditional combinations of values.*
-
-*Integrity rules may be copied and refined from an attestation description, logical model, or
-business-rule specification where available.*
-
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
 |-------------|--------------------|-------------------|--------------------|-------------------------------------------|
-| *Provide a rule identifier* | *State the rule precisely* | *Explain the rationale* | *Issuer, verifier, schema validation, or business process* | *Describe rejection, warning, or remediation behavior* |
-
-> Example
->
-> | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
-> |-------------|--------------------|-------------------|--------------------|-------------------------------------------|
-> | `IR-01` | If `legal_representative.natural_person` is present, `full_name` and `date_of_birth` SHALL be present. If `legal_representative.legal_person` is present, `name`, `id`, and `legal_form_type` SHALL be present. | Prevents incomplete representation statements and ensures that a relying party can determine whether the representative is a natural person or a legal person and validate the representation data accordingly. | Issuer business rules, schema validation, and verifier business validation. | Issuer SHALL reject incomplete representative data; verifier SHALL treat the representation information as invalid or insufficient for the transaction. |
+| `SID-IR-01` | `identifier`, `firstName`, `familyName`, `schacHomeOrganization`, `eduPersonPrincipalName`, and `eduPersonPrimaryAffiliation` SHALL be present. | Ensures that the credential contains the mandatory student identification, organisation, identity, and affiliation data. | Issuer business rules, schema validation, verifier business validation. | Issuer SHALL reject incomplete credential data. Verifier SHALL treat the attestation as invalid or insufficient if mandatory claims are missing. |
+| `SID-IR-02` | If `dateOfBirth` is included, it SHALL represent the subject's birth date and SHALL NOT be in the future. | Prevents invalid identity data and supports correct age-related or matching checks. | Issuer business rules and verifier business validation. | Issuer SHALL reject invalid dates. Verifier SHALL reject or ignore an invalid `dateOfBirth` claim depending on the transaction. |
+| `SID-IR-03` | If `eduPersonScopedAffiliation` values are included, they SHOULD be consistent with `schacHomeOrganization`, for example by using a matching scoping domain. | Ensures that scoped affiliation can be interpreted consistently. | Issuer business rules and verifier business validation. | Issuer SHOULD prevent inconsistent scoped affiliations. Verifier MAY reject or downgrade confidence in inconsistent values. |
+| `SID-IR-04` | If `eduPersonAffiliation` is present, it SHOULD include the value of `eduPersonPrimaryAffiliation`. | Ensures that the primary affiliation is consistent with the broader affiliation list. | Issuer business rules and verifier business validation. | Issuer SHOULD align the values. Verifier MAY treat inconsistent affiliation data as insufficient. |
+| `SID-IR-05` | If `schacPersonalUniqueID` is multi-valued, each entry SHOULD be unique within the array. | Prevents duplicate identifiers and ambiguity. | Issuer business rules and schema validation. | Issuer SHOULD remove duplicates. Verifier MAY ignore duplicate entries. |
+| `SID-IR-06` | Selective disclosure SHALL allow the Holder to reveal only the attributes required for the transaction. | Supports privacy and data minimisation. | Issuer credential construction and Wallet presentation logic. | Verifier SHALL request only necessary claims. Wallet SHOULD allow the Holder to review the disclosed claims. |
+| `SID-IR-07` | `eduPersonPrimaryAffiliation` SHOULD be `student` or an issuer-defined student-equivalent value for this attestation type. | Ensures that the attestation actually represents student status. | Issuer business rules and verifier business validation. | Verifier SHOULD reject the credential for student-status decisions if the affiliation does not indicate student status. |
 
 # 3 Attestation encoding
 
 ## 3.1 ISO/IEC 18013-5-compliant encoding
 
-*If the attestation type supports the the format specified in ISO/IEC 18013-5,
-then in this section the  ISO/IEC 18013-5-compliant encoding of attributes and metadata
-should be defined.*
+This version of the Rulebook does not define an ISO/IEC 18013-5 mdoc encoding for the StudentID Attestation.
 
-*It is noted that (see ARB_02 in [Topic 12]) the Schema Provider SHALL analyse whether it must
-be possible for a User to present that type of attestation when the Wallet Unit
-and the Relying Party are in proximity and attestations are presented without
-using the internet. If so,the attestations must be issued in the ISO/IEC 18013-5-compliant
-mdoc format.*
+The StudentID Attestation defined in this Rulebook is specified for SD-JWT VC-based issuance and presentation. If a future version of this Rulebook defines an ISO/IEC 18013-5-compliant mdoc representation, that version SHALL define a unique document type, namespaces, attribute identifiers, CBOR encoding rules, and illustrative mdoc examples.
 
-*Furthermore, in this section a document type SHALL be defined, which SHALL be
-unique within the scope of the EUDI Wallet ecosystem (see ARB_05 in [Topic 12]).*
+## 3.2 SD-JWT VC-based encoding
 
-[RULEBOOK AUTHOR TO DEFINE THE ATTESTATION TYPE]
+The StudentID Attestation SHALL be issued as an SD-JWT VC.
 
-*Provide a list of available encoding formats and their specifications (e.g., encoding, maximum lengths,
-date formats, etc). For example:*
+The Verifiable Credential Type (`vct`) for this attestation type is:
 
-* tstr, uint, bstr, bool and tdate are CDDL representation types defined in
-  [RFC 8610].
-    * Regarding type tstr: this document confirms that, as specified in [RFC
-    8949], a tstr SHALL be encoded in UTF-8 and SHALL support the full Unicode
-    range.
-    * All attributes having encoding type tstr SHALL have a maximum length of
-    150 characters.
-    * This document specifies full-date as full-date = #6.1004(tstr), where tag
-    1004 is specified in [RFC 8943].
-    * In accordance with [RFC 8949], section 3.4.1, a tdate attribute SHALL
-    contain a date-time string as specified in [RFC 3339]. In accordance with
-    [RFC 8943], a full-date attribute SHALL contain a full-date string as
-    specified in [RFC 3339].
-    * The following requirements apply to the representation of dates in
-    attributes, unless otherwise indicated:
-        * Fractions of seconds SHALL NOT be used;
-        * A local offset from UTC SHALL NOT be used; the time-offset defined in
-        [RFC 3339] SHALL be to "Z".
-    * [RFC 8949], section 4.2, describes four rules for canonical CBOR. Three of
-    those rules SHALL be implemented for all CBOR structures, as
-    follows:
-        * integers (major types 0 and 1) SHALL be as small as possible;
-        * the expression of the length in a bstr, tstr, array or map SHALL be as
-        short as possible;
-        * indefinite-length items SHALL be made into definite-length items.
+```text
+VerifiableStudentID
+```
 
-*This section should include a table the data identifier specified in
-Chapter 2,  the corresponding attribute identifier to be used in
-presentation requests and responses according to [ISO/IEC 18013-5] and the encoding
-of each attribute.*
+The credential claims defined in this section SHALL follow SD-JWT VC and HAIP conventions where applicable. Claim names are either IANA-registered JWT claims, public names, or private names specific to this attestation type.
 
-*Additionally, the following rules should be followed:*
+For all claims, this Rulebook specifies whether an Attestation Provider MUST, MAY, or MUST NOT make the claim selectively disclosable.
 
-* When specifying new attributes, existing conventions
-for attribute identifier values and attribute syntaxes SHOULD
-be considered (see ARB_07 in [Topic 12]).
-* Each attribute SHALL be defined within an attribute namespace.
-    * An attribute namespace
-SHALL fully define the identifier, the syntax, and the semantics of each attribute
-within that namespace.
-    * An attribute namespace SHALL have an identifier that is
-unique within the scope of the EUDI Wallet ecosystem, and each attribute
-identifier SHALL be unique within that namespace (see ARB_06a in [Topic 12])
-    * A domestic namespace MAY defined
-to specify attributes that are specific to this Rulebook and are not included in
-the applicable EU-wide or sectoral namespace (see ARB_10 in [Topic 12]).
+### 3.2.1 IANA-registered and standard JWT / SD-JWT VC claims
 
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Namespace**|
-|------------------------|--------------|------------------|------------------|
-| family_name | family_name | tstr | com.example.att.1|
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
+|---------------------|--------------------------|---------------------|---------------------|-----------------|
+| `iss` | `iss` | string | JWT issuer identifier. | MUST NOT |
+| `iat` | `iat` | integer | Issued-at timestamp. | MUST NOT |
+| `nbf` | `nbf` | integer | Not-before timestamp, where used. | MUST NOT |
+| `exp` | `exp` | integer | Expiration timestamp. SHOULD reflect the end of the applicable student-status validity period. | MUST NOT |
+| `jti` | `jti` | string | Unique credential instance identifier, where used. | MUST NOT |
+| `cnf` | `cnf` | object | Holder binding confirmation claim, where used. | MUST NOT |
+| `status` | `status` | object | Status or revocation information, where used. | MUST NOT |
+| `vct` | `vct` | string | SD-JWT VC type. Value SHALL be `VerifiableStudentID`. | MUST NOT |
 
-*The corresponding entry for the "attestation_legal_category" attribute defined
-in Section 2.1 SHALL be:*
+### 3.2.2 Public or reusable claims
 
-| **Data Identifier** | **Attribute identifier** | **Encoding format** |**Namespace**|
-|------------------------|--------------|------------------|------------------|
-| attestation_legal_category | attestation_legal_category | tstr |com.example.att.1|
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
+|---------------------|--------------------------|---------------------|---------------------|-----------------|
+| `firstName` | `firstName` | string | Student given name. May be mapped to OIDC `given_name` in implementations that use OIDC naming conventions. | MUST |
+| `familyName` | `familyName` | string | Student family name. May be mapped to OIDC `family_name` in implementations that use OIDC naming conventions. | MUST |
+| `displayName` | `displayName` | string | Display name formatted for user interfaces. | MAY |
+| `commonName` | `commonName` | string | Alternate display or preferred name. | MAY |
+| `dateOfBirth` | `dateOfBirth` | string | Date of birth formatted as ISO 8601 date, where disclosed. | MAY |
+| `mail` | `mail` | string | Email address. | MAY |
 
-Finally, illustrative examples SHALL be included.
+### 3.2.3 Private claims specific to the StudentID Attestation
 
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF FULL OR PARTIAL mDOC OF THE ATTESTATION]
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
+|---------------------|--------------------------|---------------------|-----------|-----------------|
+| `attestation_legal_category` | `attestation_legal_category` | string | SHALL be `non-qualified-EAA`. | MUST NOT |
+| `identifier` | `identifier` | string | Unique student identifier, such as institutional student number or equivalent. | MUST |
+| `schacPersonalUniqueCode` | `schacPersonalUniqueCode` | string | Unique code associated with the student. | MAY |
+| `schacPersonalUniqueID` | `schacPersonalUniqueID` | array of strings | One or more unique identifiers for the student. | MAY |
+| `schacHomeOrganization` | `schacHomeOrganization` | string | Home organisation or institution domain or identifier. | MUST |
+| `eduPersonPrincipalName` | `eduPersonPrincipalName` | string | Principal name, often in `user@realm` format. | MAY |
+| `eduPersonPrimaryAffiliation` | `eduPersonPrimaryAffiliation` | string | Primary affiliation, expected to indicate student status. | MUST |
+| `eduPersonAffiliation` | `eduPersonAffiliation` | array of strings | One or more affiliations. | MAY |
+| `eduPersonScopedAffiliation` | `eduPersonScopedAffiliation` | array of strings | One or more scoped affiliation values. | MAY |
+| `eduPersonAssurance` | `eduPersonAssurance` | array of strings | One or more assurance values for the subject or attributes. | MAY |
+| `trust_anchor` | `trust_anchor` | string | Location or identifier of the trust anchor or trust framework entry used to verify issuer authorisation, where used. | MUST NOT |
+| `cryptographically_bound_to` | `cryptographically_bound_to` | string | Identifier of another attestation type to which this attestation is bound, where used. | MUST NOT |
 
-[RULEBOOK AUTHOR TO PROVIDE THE ATTRIBUTES AND THEIR VALUES INCLUDED IN THE EXAMPLE]
+### 3.2.4 Example JWT claim set
 
-### 3.2 SD-JWT VC-based encoding
+```json
+{
+  "iss": "https://issuer.example-university.edu",
+  "iat": 1772366400,
+  "nbf": 1772366400,
+  "exp": 1798761600,
+  "jti": "urn:uuid:4f6a8e9a-40c2-4d21-96f8-7b85cc3f6c20",
+  "vct": "VerifiableStudentID",
+  "attestation_legal_category": "non-qualified-EAA",
+  "identifier": "STU-2026-000123",
+  "schacPersonalUniqueCode": "urn:schac:personalUniqueCode:int:esi:example.edu:123456",
+  "schacPersonalUniqueID": [
+    "urn:schac:personalUniqueID:gr:student:123456"
+  ],
+  "schacHomeOrganization": "aegean.gr",
+  "firstName": "Nikos",
+  "familyName": "Triantafyllou",
+  "displayName": "Nikos Triantafyllou",
+  "commonName": "Nikos Triantafyllou",
+  "dateOfBirth": "1990-04-12",
+  "mail": "ntriantafyllou@aegean.gr",
+  "eduPersonPrincipalName": "ntriantafyllou@aegean.gr",
+  "eduPersonPrimaryAffiliation": "student",
+  "eduPersonAffiliation": [
+    "student",
+    "member"
+  ],
+  "eduPersonScopedAffiliation": [
+    "student@aegean.gr"
+  ],
+  "eduPersonAssurance": [
+    "https://refeds.org/assurance"
+  ],
+  "trust_anchor": "https://trust.example.eu/education/institutions/example-university",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "...",
+      "y": "..."
+    }
+  }
+}
+```
 
-*If the attestation type supports the format specified in "SD-JWT-based Verifiable
-Credentials (SD-JWT VC)", then in this section the SD-JWT VC-compliant encoding
-of attributes and metadata SHALL be defined. It SHALL be ensured that the attestations
-comply with the 'SD-JWT VCs' profile specified in [HAIP] (see ARB_01b in [Topic 12]).*
+### 3.2.5 Example issued SD-JWT
 
-*It is noted that a Schema Provider MAY specify in the Attestation
-Rulebook that that type of attestation must be issued in the [SD-JWT VC]-compliant
-format, provided the [SD-JWT VC] specification has been approved by an EU standardisation
-body or by the European Digital Identity Cooperation Group established pursuant to
-Article 46e(1) of the [European Digital Identity Regulation] (see ARB_03 in [Topic 12]).*
+The following is a non-normative placeholder example. A production SD-JWT SHALL be generated by the issuer using the applicable signing algorithm, disclosure construction, holder binding, and SD-JWT VC rules.
 
-*In this section, a Verifiable Credential Type (`vct`) SHALL be defined,
-which SHALL be unique within the scope of the EUDI Wallet ecosystem (see ARB_05 in [Topic 12]).*
+```text
+<issuer-signed-sd-jwt>~<disclosure-1>~<disclosure-2>~<disclosure-n>~<holder-binding-jwt>
+```
 
-[RULEBOOK AUTHOR TO DEFINE THE ATTESTATION TYPE]
+### 3.2.6 Example human-readable disclosed payload
 
-*Additionally, when specifying new attributes, existing conventions
-for attribute identifier values and attribute syntaxes SHOULD
-be considered (see ARB_07 in [Topic 12]).*
+A verifier that requests only proof of student status for a discounted service may receive a presentation disclosing the following claims:
 
-*Rulebook authors SHALL ensure that each claim name is either
+```json
+{
+  "vct": "VerifiableStudentID",
+  "identifier": "STU-2026-000123",
+  "schacHomeOrganization": "aegean.gr",
+  "firstName": "Nikos",
+  "familyName": "Triantafyllou",
+  "eduPersonPrimaryAffiliation": "student",
+  "eduPersonScopedAffiliation": [
+    "student@aegean.gr"
+  ]
+}
+```
 
-* included in the IANA registry for JWT claims,
-* is a Public Name as defined in [RFC 7519], or
-* or is a Private Name specific to the attestation type. (see ARB_06b in [Topic 12]).*
+A verifier that only needs to know whether the Holder has student status SHOULD request the minimum claims necessary for that decision and SHOULD NOT request `dateOfBirth`, `mail`, or unique identifiers unless required for the transaction.
 
-*For all claims (i.e., all top-level properties, all nested properties, and all array entries),
-the Rulebook SHALL specify whether an Attestation Provider MUST, MAY, or MUST NOT make that
-claim selectively disclosable (see ARB_30 in [Topic 12]).*
+The issuer identity, credential type, expiry time, signature, holder binding proof, and trust anchor information are not treated as selectively disclosable student attributes and SHALL remain available to the verifier for technical validation.
 
-*Rulebook authors SHOULD consider defining a Type Metadata Document for the attestation type
-specified in the Rulebook, as defined in Chapter 6 of [SD-JWT VC]. If such a document is defined,
-it SHOULD contain the Claim Selective Disclosure Metadata (defined in Section 9.3 of [SD-JWT VC])
-for each of the claims, in order to specify if that claim is selectively disclosable (see ARB_31
-in [Topic 12]).*
+## 3.3 W3C Verifiable Credentials Data Model-based encoding
 
-*IANA-registered claims should be presented in table that
-includes their data identifier, attribute identifier,
-encoding format, and reference or note. For example,*
+This version of the Rulebook does not define a W3C Verifiable Credentials Data Model encoding for the StudentID Attestation.
 
-| **Data Identifier** | **Attribute identifier** | **Encoding format** |**Reference/Notes** |**Disclosable**|
-|-------------------- |--------------------------|---------------------|--------------------|---------------|
-| family_name | family_name | string | Section 5.1 of [OIDC] | MUST |
-
-*A similar table should be used for Public Names and for Private Names specific
-to the attestation type defined in this document. For
-example:*
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** |**Disclosable**|
-|---------------------|--------------------------|---------------------|-----------|---------------|
-| trust_anchor | trust_anchor | string | The trust anchor defined in Section 5 | MUST NOT |
-
-*The corresponding entry for the "attestation_legal_category" attribute defined
-in Section 2.1 SHALL be:*
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** |**Disclosable**|
-|---------------------|--------------------------|---------------------|-----------|---------------|
-| attestation_legal_category | attestation_legal_category | string | Defined in Attestation Rulebook template |MUST NOT|
-
-Finally, illustrative examples SHALL be included.
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE JWT CLAIM SET USED BY THE PROVIDER]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE ISSUED SD-JWT (IN base64 ENCODING)]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF A HUMAN READABLE VERSION OF THE SD-JWT PAYLOAD
-AND A DESCRIPTION OF THE DISCLOSURES INCLUDED IN THE EXAMPLE]
-
-### 3.3 W3C Verifiable Credentials Data Model-based encoding
-
-*If the attestation type supports the the format specified in W3C Verifiable Credentials
-Data Model, then in this section the  corresponding encoding  of attributes and
-metadata should be defined.*
-
-*It is noted that only a a non-qualified EAA can use this format (see ARB_01a in [Topic 12])*
-
-*Tables similar to the ones specified in section 4 SHALL be defined.*
-
-*This section SHALL reference one or more documents specifying in detail how a
-Relying Party can request attributes from a such an attestation, and how a User
-can selectively disclose attributes from such an attestation. Moreover, these
-referenced documents SHALL be approved by an EU standardisation body or by the European
-Digital Identity Cooperation Group established pursuant to Article 46e(1) of the
-[European Digital Identity Regulation] (see ARB_04 in [Topic 12]).*
-
-*Finally, illustrative examples SHALL be included.*
-
-[RULEBOOK AUTHOR TO PROVIDE HUMAN READABLE EXAMPLE OF THE ISSUED ATTESTATION]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE PROOF TYPE]
+If a future version defines a W3C VCDM representation, that version SHALL define the credential context, type, credential subject structure, proof type, selective disclosure mechanism, and presentation requirements.
 
 ## 4 Attestation usage
 
-*Briefly describe the primary use cases or scenarios for which this attestation
-type is intended*
+The StudentID Attestation is intended for verifying student status and selected student identity or affiliation attributes.
 
-*Additionally, in this section it SHOULD  be specified whether a Relying Party receiving the attestation
-must request and verify a PID (see ARB_27 in [Topic 12]). Also beyond PID verification,
-it SHOULD be defined what other key obligations does a Relying Party have when processing
-this attestation type (e.g., signature verification, freshness checks)*
+Typical usage scenarios include:
 
-*Furthermore, provide potential presentation requirements, e.g., are there specific
-requirements for how this attestation must be presented (e.g., online, offline, specific protocols)?"*
+* presentation by the student for campus services such as libraries, laboratories, rooms, buildings, or academic platforms;
+* presentation for student discounts or eligibility checks;
+* presentation for mobility scenarios involving another educational organisation or service provider;
+* online verification by a service provider using remote presentation protocols;
+* offline or low-connectivity verification where the verifier can validate the credential signature, issuer, validity period, status where available, and disclosed attributes without relying on a real-time issuer backend.
 
-*Specify whether an attestation of this type SHALL or SHOULD be device-bound or non-device-bound, see ARB_34 in [Topic 12]*
+A Relying Party receiving the attestation SHALL verify:
 
-*If an attestation of this type is device-bound, specify if it SHALL, SHOULD or MAY be cryptographically bound to another type of attestation on the same Wallet Unit. If needed (based on this decision), include the attribute `cryptographically_bound_to` defined in ARB_28 as an optional, recommended, or mandatory attribure in [Section 2.5](#26-optional-metadata). If present in an Attestation Rulebook, the identifier for this attribute SHALL be "cryptographically_bound_to" for both ISO/IEC 18013-5 and SD-JWT VC-compliant attestations, and its contents SHALL be a `tstr` or `string` (as applicable) containing an attestation type or vct (see ARB_05). Finally, specify the value of the `tstr` or `string`.* 
+* the issuer signature;
+* the SD-JWT VC type (`vct`);
+* the issuer authorisation to issue StudentID Attestations;
+* the credential validity period;
+* the credential status, where a status mechanism is present;
+* holder binding, where used;
+* the integrity rules defined in Section 2.9;
+* that the disclosed student attributes are sufficient for the relying-party decision.
 
-*EXAMPLE   In case an attestation type of this type must be bound to a PID, the value of the `tstr` or `string` must be set to "eu.europa.ec.eudi.pid.1" or "urn:eudi:pid:1". Note that it does not matter whether the attestation type or the vct value is used.*
+The Relying Party SHOULD request and verify PID or another accepted identity credential where the transaction requires strong identity matching. For low-risk student-status checks, the Relying Party MAY rely on the StudentID Attestation alone, provided that the issuer, signature, validity, status, and holder binding checks are successful and this is consistent with the relying party's policy.
 
-*Finally, in this section information about potential transactional data
-SHALL be defined; see [Topic 20] of Annex 2 of the ARF.*
+The Relying Party SHALL apply data minimisation and SHALL request only the attributes required for the transaction. For example, a discount service may only need `eduPersonPrimaryAffiliation` and `schacHomeOrganization`, while an account-linking process may require `eduPersonPrincipalName` or `mail`.
+
+The attestation SHOULD be device-bound through holder binding where supported by the EUDI Wallet and the applicable SD-JWT VC profile. The attestation MAY be cryptographically bound to a PID or another accepted identity attestation where strong identity matching is required. Where this binding is used, the metadata attribute `cryptographically_bound_to` SHOULD contain:
+
+```text
+urn:eudi:pid:1
+```
+
+No payment-specific transactional data is defined by this Rulebook. If the StudentID Attestation is used as part of a transaction that also involves payment, payment-related requirements SHALL be defined in a separate payment attestation, payment profile, or transaction-specific rulebook.
 
 ## 5 Trust anchors
 
-*Mechanisms for the provision of a trust anchor that SHALL
-be used for the verification of an attestation SHALL be defined in this section.*
+A Relying Party SHALL verify that the issuer of the StudentID Attestation is authorised to issue this attestation type.
 
-*It is noted that the ARF specifies the following for QEAAs and Pub-EAAs:*
+For non-qualified EAA deployments, the Relying Party SHOULD obtain trust anchor information through one or more of the following mechanisms:
 
-> To do this for [...] QEAAs the Relying Party Instance uses a trust anchor of
-the Provider obtained from a Trusted List. Note that the PID Provider or QEAA
-Provider may use an intermediate signing certificate to sign the PID or
-attestation, and use the trust anchor to sign the signing certificate, instead
-of signing the PID or attestation directly with the trust anchor.
->
-> For PuB-EAAs, the Relying Party Instance verifies a PuB-EAA by first
-verifying the signature of the PuB-EAA Provider over the PuB-EAA, using the
-PuB-EAA Provider certificate issued by a QTSP. Subsequently, the Relying Party
-Instance verifies the signature over this certificate, using the corresponding
-trust anchor from the QTSP Trusted List. Note that both the PuB-EAA Provider
-and the QTSP may use an intermediate signing certificate. All other things
-being equal, the verification of a PuB-EAA will therefore involve one or more
-extra certificates, compared to the verification of a PID or QEAA.
+* a machine-readable trust list or trust registry used by the relevant education or EUDI Wallet ecosystem;
+* an issuer metadata endpoint published by the educational organisation or authorised academic identity provider;
+* a trust framework entry managed by the WE BUILD ecosystem or by another authorised governance body;
+* a pilot trust list used for controlled interoperability testing;
+* a federation or sectoral trust framework used by research and education identity providers, where applicable.
 
-*For non-qualified EAA in this section it SHOULD  be defined (see ARB_26 in [Topic 12])
-how the attributes or metadata representing the location at which a machine-readable
-version of the trust anchor to be used for verifying the attestation can be found,
-specified in section 2, are used. This includes a detailed description about how
-a Relying Party can obtain the trust anchors, as well as a detailed description about
-how this trust anchor can be used for verifying that the provider is authorized
-to issue the attestation. Additionally, for non-qualified EAA Providers this section
-MAY include a description of mechanisms that can be used by a Wallet Unit for
-verifying that the provider is authorized to issue this type of attestation (see
-ISSU_34 in [Topic 10])*
+Where the metadata attribute `trust_anchor` is present, it SHOULD identify the location or registry entry from which the Relying Party can obtain the issuer trust anchor or issuer authorisation information.
+
+The Relying Party SHALL use the trust anchor to verify that:
+
+* the issuer signing key or certificate chains to a trusted authority or registered trust anchor;
+* the issuer is authorised to issue the `VerifiableStudentID` attestation type;
+* the issuer metadata or trust framework entry has not expired or been revoked;
+* the issuer identity in the credential is consistent with the issuer identity in the trust framework;
+* the issuer is an educational organisation or authorised academic identity provider for the relevant student population.
+
+Wallet Units MAY also use the same trust framework information during issuance to determine whether the provider is authorised to issue this attestation type.
 
 ## 6 Revocation
 
-(Refer to [Topic 7] of the ARF for a list of High-Level Requirements related to Revocation)
+The StudentID Attestation is typically medium- to long-lived and intended for repeated presentation, for example during an academic year or enrolment period.
 
-*In this section information about the revocation mechanism used SHALL be defined.*
+The credential expiration time (`exp`) SHOULD be aligned with the end of the applicable student-status validity period, such as the end of an academic year, enrolment period, mobility period, or other issuer-defined validity period.
 
-*For PID, QEAA, or PuB-EAA it SHALL  be defined whether  only short-lived attestations
-will be used, having a validity period of 24 hours or less, such that revocation
-will never be necessary, or that the attestations are revocable.*
+Because student status can change before the planned expiry date, the issuer SHOULD support revocation or suspension where the attestation is valid for more than 24 hours.
 
-*For revocable attestations it SHALL be defined which of the following methods must be implemented:*
+Revocation MAY be handled by one or more of the following mechanisms:
 
-* Use an Attestation Status List mechanism included in a Technical Specification
-that will be specified by the Commission.
-* Use an Attestation Revocation List mechanism included in a Technical Specification
-that will be specified by the Commission.
+* an attestation status list mechanism, where supported;
+* an attestation revocation list mechanism, where supported;
+* backend verification by the educational organisation or authorised academic identity provider;
+* short validity with periodic re-issuance, where appropriate for the service model.
+
+If a status or revocation mechanism is included in the credential, the Relying Party SHALL check the status before accepting the attestation, unless offline operating rules explicitly allow deferred status checking.
+
+The issuer SHOULD revoke or suspend the attestation if the student is no longer enrolled, loses the relevant student status, the credential was issued incorrectly, the credential is reported compromised, or the underlying student identifier is no longer valid for presentation.
 
 ## 7 Compliance
 
-*In this section explicitly state how this specific rulebook complies with the
-general EUDI framework, ARF, and relevant regulations*
+This Rulebook is designed to align with the EUDI Wallet architectural approach for Electronic Attestations of Attributes and with the Attestation Rulebook structure defined in the ARF.
 
-[RULEBOOK AUTHOR TO DEFINE]
+The Rulebook supports the following compliance objectives:
+
+* it defines the attestation purpose and scope;
+* it defines mandatory, optional, and conditional attributes in an encoding-independent manner;
+* it defines a legal category indication through `attestation_legal_category`;
+* it defines an SD-JWT VC `vct` value for the attestation type;
+* it defines issuer, validity, and status metadata needed for verification;
+* it defines code lists and integrity rules required for consistent interpretation;
+* it defines how trust anchors can be obtained and used;
+* it defines expiry and revocation expectations;
+* it supports selective disclosure and data minimisation.
+
+This Rulebook does not define a qualified EAA or public-sector EAA profile. It also does not define ISO/IEC 18013-5 mdoc or W3C VCDM encodings in this version.
 
 ## 8 References
 
-| **Item Reference** | **Standard name/details**|
+| **Item Reference** | **Standard name/details** |
 |--------------------|---------------------------|
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| [HAIP] | Yasuda, K. *et al,* OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
+| [HAIP] | Yasuda, K. *et al,* OpenID4VC High Assurance Interoperability Profile, OpenID Foundation |
 | [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: <https://www.iana.org/assignments/jwt/jwt.xhtml> |
-| [ISO/IEC 18013-5] |  ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
-| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |
-| [RFC 3339] | RFC 3339  - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
-| [RFC 8610] | RFC 8610  - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
-| [RFC 8943] | RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence application |
+| [OIDC] | Sakimura, N. et al., OpenID Connect Core 1.0, OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |
+| [RFC 2119] | RFC 2119 - Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
+| [RFC 3339] | RFC 3339 - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [RFC 5322] | RFC 5322 - Internet Message Format, P. Resnick, October 2008 |
+| [RFC 8610] | RFC 8610 - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation, H. Birkholz et al., June 2019 |
+| [RFC 8943] | RFC 8943 - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
 | [RFC 8949] | RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
-| [SD-JWT VC] |  SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09  |
-| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking>|
-| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit>|
-| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks>|
-| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments>|
-| [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.  |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials. Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/> |
+| [SCHAC] | Schema for Academia attributes used in research and education identity contexts |
+| [eduPerson] | eduPerson schema attributes used in research and education identity contexts |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking |
+| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit |
+| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks |
+| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments |
+| [W3C VCDM v2.0] | Verifiable Credentials Data Model v2.0, W3C Recommendation |
