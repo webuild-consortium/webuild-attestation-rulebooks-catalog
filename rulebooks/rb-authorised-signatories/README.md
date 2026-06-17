@@ -1,7 +1,7 @@
 # Attestation Rulebook for attestations of type AuthorisedSignatories Attestation
 
 * **Author(s):**
-  * [Ricky Lambert, Robert Bosch GmbH]
+  * [Ricky Lamberty, Robert Bosch GmbH]
   * @todo fred contact
 
 * **Previous Authors:**
@@ -295,9 +295,13 @@ mandatory or optional as specified above.
 
 ### 2.7 Conditional Metadata
 
-No conditional metadata elements are defined for this attestation type.
+The following metadata element is conditionally mandatory:
 
----
+| Data Identifier | Definition | Data type | Condition |
+|---|---|---|---|
+| status | Status list reference enabling the Relying Party to determine whether the attestation has been revoked. SHALL be a JSON object with members: type ("status-list"), status_list_credential (URI of the Status List Credential), status_list_index (integer ≥ 0), and status_purpose ("revocation"). 
+
+See Section 3.2.2. | Object | SHALL be present when the technical validity period (expiry_date − issuance_date) exceeds 24 hours. |
 
 ### 2.8 Value Lists
 
@@ -350,6 +354,7 @@ The following integrity rules **SHALL** be enforced:
 - If `trust_anchor_url` is present, it **SHALL** be a valid URI.
 - If `schema_version` is present, it **SHALL** be a non-empty string.
 - Each attribute **SHALL** appear at most once within its scope (e.g., within a `Legal_Entity` or `Authorised_Person` object).
+- If the technical validity period (expiry_date − issuance_date) exceeds 24 hours, the status claim SHALL be present, conforming to the structure defined in Section 3.2.2.
 
 ---
 
@@ -408,7 +413,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | **Metadata**                      |                                                         |                     |                                                                                                                   |                 |
 | issuance_date                     | iat                                                     | number              | Date and time when the AuthorisedSignatories Attestation was issued; NumericDate per RFC 7519                     | MUST NOT        |
 | expiry_date                       | exp                                                     | number              | Date and time when the AuthorisedSignatories Attestation expires; NumericDate per RFC 7519                        | MUST NOT        |
-| issuing_entity                    | iss                                                     | string              | Identifier of the legal entity that issued the AuthorisedSignatories Attestation; URI per RFC 7519                | MUST NOT        |
+| issuing_entity                    | iss                                                     | string              | HTTPS URL identifying the issuer (scheme, host, optional port/path; no query or fragment), per [SD-JWT VC]. Issuer verification key resolved via <iss>/.well-known/jwt-vc-issuer.                | MUST NOT        |
 | attestation_legal_category        | attestation_legal_category                              | string              | One of "EAA" as defined by eIDAS 2                                                                                | MUST NOT        |
 | vct                               | vct                                                     | string              | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential           | MUST NOT        |
 | schema_version                    | schema_version                                          | string              | Version of the schema used for the AuthorisedSignatories Attestation; optional                                    | MAY             |
@@ -464,7 +469,7 @@ The following is a non-normative example of an AuthorisedSignatories Attestation
 {
   "vct": "eu.we-build.authorisedsignatories.1",
   "attestation_legal_category": "EAA",
-  "iss": "did:example:legal-entity-456",
+  "iss": "https://example-gmbh.de",
   "iat": 1746000000,
   "exp": 1777536000,
   "jti": "asr-attestation-20260515-001",
@@ -546,9 +551,11 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/authorised
 
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
+To be specified in a future version of this Rulebook.
 
 ### 4.2 Relying Party Obligations
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+
 ### 4.2.1 – 4.2.8 Base Verification Process
 The Relying Party SHALL perform the base attestation verification process as defined in the
 Base Verification specification:
@@ -564,9 +571,6 @@ This chapter will be completed in a future version of this Rulebook.
 This chapter will be completed in a future version of this Rulebook.
 
 ## 7 References
-This chapter will be completed in a future version of this Rulebook.
-
-## 8 References
 | **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                           |
 |----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework                            |
