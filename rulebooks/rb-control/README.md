@@ -103,7 +103,7 @@ control across complex, multi-tiered corporate structures where control may be e
 diverse mechanisms beyond simple shareholding.
 
 ### 2.1 Introduction
-
+//TODO Merge later -> extension for legal arrangements 
 The Control follows a hierarchical structure:
 ```
 Controller[1..n]
@@ -116,6 +116,14 @@ Controller[1..n]
 │ ├── legal_name (M)
 │ ├── legal_form (M)
 │ └── identifier [String] (M) identifier: euid, lei, tax, ...
+├── LegalArrangements
+│ ├── legal_name (M) description of the legal arrangement: a sequence of characters, letters or numbers
+│ └── identifier (M) identifier of the legal arrangement: a sequence of characters, letters or numbers
+│ └── info ( law governing- ISO 3166-1 alpha-3)
+│ ├── settlement [String] (M) 
+│ ├── purpose [String] (M) 
+│ ├── assets [String] (M) 
+│ ├── reason for registration
 ├── Address
 │ ├── street (M)
 │ ├── house_number (M)
@@ -128,6 +136,8 @@ Controller[1..n]
 │ ├── type (M) direct | indirect
 │ ├── voting_rights (M) % | null
 │ ├── mechanism [String] (M) one or many of values [board | veto | contractual | nominee | profit distribution]
+│ ├── legal_arrangement (M) identifier 
+│ ├── place of administration (O) (in case of different != residence )
 └── Evidence [1..n] (at least one piece of supporting evidence required)
 ```
 
