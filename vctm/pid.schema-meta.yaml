@@ -1,0 +1,6 @@
+attestation_los: iso_18045_high
+binding_type: key
+rulebook_uri: https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-pid/README.md
+trusted_authorities:
+  - framework_type: etsi_tl
+    value: https://tl.eidas.europa.eu/tl-browser/#/

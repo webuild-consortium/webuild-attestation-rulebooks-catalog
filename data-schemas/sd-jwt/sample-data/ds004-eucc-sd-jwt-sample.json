@@ -1,10 +1,9 @@
 {
-  "vct": "uri:eu.eudi.eucc.1",
+  "vct": "uri:eu:eudi:eucc:1",
   "attestation_legal_category": "QEAA",
   "issuing_authority": "Brønnøysundregistrene",
   "issuing_authority_id": "974760673",
   "issuing_country": "NO",
-  "issuing_jurisdiction": "NO",
   "issuance_date": "2026-01-15T10:00:00Z",
   "authentic_source_id": "974760673",
   "authentic_source_name": "Brønnøysundregistrene",
@@ -37,16 +36,20 @@
   },
   "legal_representative": [
     {
-      "full_name": "Lysende Blomst",
-      "date_of_birth": "1980-01-01",
-      "nationality": "Norwegian",
-      "signatory_rule": "alone"
+      "natural_person": {
+        "full_name": "Lysende Blomst",
+        "date_of_birth": "1980-01-01",
+        "nationality": "Norwegian",
+        "signatory_rule": "sole"
+      }
     },
     {
-      "name": "PARENT HOLDING AS",
-      "id": "NOFOR.123456789",
-      "legal_form_type": "Aksjeselskap (AS)",
-      "signatory_rule": "alone"
+      "legal_person": {
+        "name": "PARENT HOLDING AS",
+        "id": "NOFOR.123456789",
+        "legal_form_type": "Aksjeselskap (AS)",
+        "signatory_rule": "sole"
+      }
     }
   ],
   "trust_anchor": "https://trust.example.org/anchors/eidas",

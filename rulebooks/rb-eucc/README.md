@@ -17,10 +17,11 @@
 
 *Provide versioning information about the Rulebook in the following form:*
 
-| Version          | Date               | Description                                      |
-|------------------|--------------------|--------------------------------------------------|
-| 01                | 12.01.2025         | Initial Draft based on the previous [work of EWC ](https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/rulebooks/rb002_eu_company_certificate.md) |
-| 02                | 10.04.2026         | Updated according to the work done in WE BUILD, using the [WE BUILD EUCC attestation description](https://portal.webuildconsortium.eu/group/bu2-create-company-branch/files?mid=7087&fid%5B0%5D=56&fid%5B1%5D=58&fid%5B2%5D=62) |
+| Version | Date       | Description                                                                                                                                                                                                                     |
+|---------|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 01      | 12.01.2025 | Initial Draft based on the previous [work of EWC ](https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/rulebooks/rb002_eu_company_certificate.md)                                                     |
+| 02      | 10.04.2026 | Updated according to the work done in WE BUILD, using the [WE BUILD EUCC attestation description](https://portal.webuildconsortium.eu/group/bu2-create-company-branch/files?mid=7087&fid%5B0%5D=56&fid%5B1%5D=58&fid%5B2%5D=62) |
+| 03      | 22.06.2026 | Definition of new required fields to align the rulebook with VCTM.                                                                                                                                                              |
 
 **Feedback:**
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
@@ -259,11 +260,14 @@ There is currently no open standard for addresses. As such, the definitions from
 
 ### 2.6 Mandatory metadata 
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                           |
-|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| expiry_date          | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
-| issuing_authority    | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.             |
-| issuing_country      | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                         |
+| **Data Identifier**   | **Definition**                                                                                                                                                                               |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| expiry_date           | Date (and if possible time) when the attestation will expire.                                                                                                                                |
+| issuing_authority     | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC. |
+| issuing_authority _id | EUID or equivalent identifier of the issuing authority                                                                                                                                       |
+| issuing_country       | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                             |
+| authentic_source_name | Name of the authentic source                                                                                                                                                                 |
+| authentic_source_id   | EUID or equivalent identifier of the authentic source                                                                                                                                        |
 
 ### 2.7 Conditional metadata 
 
@@ -289,55 +293,58 @@ Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to pre
 The . notation is used to indicate the nesting of attributes.
 
 
-**Verifiable Credential Type (`vct`):** `uri:eu.eudi.eucc.1`
+**Verifiable Credential Type (`vct`):** `uri:eu:eudi:eucc:1`
 
 
-| **Data Identifier**                                | **Attribute identifier**                          | **Encoding format** | **Reference/Notes**                                                        |
-|----------------------------------------------------|---------------------------------------------------|---------------------|----------------------------------------------------------------------------|
-| attestation_legal_category                         | attestation_legal_category                        | string              | One of EAA, Pub-EAA, QEAA as defined by eIDAS 2                            |
-| issuing_authority                                  | iss                                               | string              | RFC 7519 / Section 2.6                                                     |
-| expiry_date                                        | exp                                               | number              | RFC 7519 / Section 2.6 (Unix timestamp)                                    |
-| issuing_country                                    | issuing_country                                   | string              | ISO 3166-1 alpha-2                                                         |
-| legal_person_name                                  | legal_person_name                                 | string              | Official current legal person name as registered in the business register. |
-| legal_person_id                                    | legal_person_id                                   | string              | EUID                                                                       |
-| legal_form_type                                    | legal_form_type                                   | string              | Legal form of the company.                                                 |
-| registration_member_state                          | registration_member_state                         | string              | The member state where the company is registered (Alpha-2 country code).   |
-| registration_date                                  | registration_date                                 | string              | ISO 8601 (YYYY-MM-DD)                                                      |
-| legal_person_status                                | legal_person_status                               | string              |                                                                            |
-| legal_person_activity                              | legal_person_activity                             | object              | The NACE code describing the main activity                                 |
-| legal_person_activity.code                         | legal_person_activity.code                        | string              |                                                                            |
-| legal_person_activity.description                  | legal_person_activity.description                 | string              |                                                                            |
-| legal_person_duration                              | legal_person_duration                             | date                | Given as date following ISO 8601                                           |
-| registered_address                                 | registered_address                                | object              | See section 2.5 for structure                                              |
-| registered_address.full_address                    | registered_address.full_address                   | string              |                                                                            |
-| registered_address.care_of                         | registered_address.care_of                        | string              |                                                                            |
-| registered_address.thorough_fare                   | registered_address.thorough_fare                  | string              |                                                                            |
-| registered_address.locator_designator              | registered_address.locator_designator             | string              |                                                                            |
-| registered_address.post_code                       | registered_address.post_code                      | string              |                                                                            |
-| registered_address.post_name                       | registered_address.post_name                      | string              |                                                                            |
-| registered_address.post_office_box                 | registered_address.post_office_box                | string              |                                                                            |
-| registered_address.locator_name                    | registered_address.locator_name                   | string              |                                                                            |
-| registered_address.admin_unit_level_1              | registered_address.admin_unit_level_1             | string              |                                                                            |
-| registered_address.admin_unit_level_2              | registered_address.admin_unit_level_2             | string              |                                                                            |
-| legal_representative                               | legal_representative                              | array               | Array of natural/legal persons                                             |
-| legal_representative.legal_person                  | legal_representative.legal_person                 | object              |                                                                            |
-| legal_representative.legal_person.name             | legal_representative.legal_person.name            | string              |                                                                            |
-| legal_representative.legal_person.id               | legal_representative.legal_person.id              | string              |                                                                            |
-| legal_representative.legal_person.formtype         | legal_representative.legal_person.formtype        | string              |                                                                            |
-| legal_representative.legal_person.signatory_rule   | legal_representative.legal_person.signatory_rule  | string              |                                                                            |
-| legal_representative.natural_person                | legal_representative.natural_person               | object              |                                                                            |
-| legal_representative.natural_person.full_name      | legal_representative.natural_person.full_name     | string              |                                                                            |
-| legal_representative.natural_person.identifier | legal_representative.natural_person.identifier | string | Natural person representative identifier |
-| legal_representative.natural_person.date_of_birth  | legal_representative.natural_person.date_of_birth | string              |                                                                            |
-| legal_representative.natural_person.nationality    | legal_representative.natural_person.nationality   | string              |                                                                            |
-| legal_representative.natural_person.signatory_rule | legal_representative.natural_person.signatory_rule | string   |                                                                            |
-| share_capital                                      | share_capital                                     | object              |                                                                            |
-| share_capital.amount                               | share_capital.amount                              | string              |                                                                            |
-| share_capital.currency                             | share_capital.currency                            | string              |                                                                            |
-| digital_contact_point                              | digital_contact_point                             | object              |                                                                            |
-| digital_contact_point.website                      | digital_contact_point.website                     | string              |                                                                            |
-| digital_contact_point.email                        | digital_contact_point.email                       | string              |                                                                            |
-| location_status                                    | status                                            | object              | See chapter [3.2.3](#321-attribute-status)                                 |
+| **Data Identifier**                                | **Attribute identifier**                           | **Encoding format** | **Reference/Notes**                                                        |
+|----------------------------------------------------|----------------------------------------------------|---------------------|----------------------------------------------------------------------------|
+| attestation_legal_category                         | attestation_legal_category                         | string              | One of EAA, Pub-EAA, QEAA as defined by eIDAS 2                            |
+| issuing_authority                                  | issuing_authority                                  | string              | RFC 7519 / Section 2.6                                                     |
+| issuing_authority_id                               | issuing_authority_id                               | string              | EUID or equivalent identifier of the issuing authority                     |
+| authentic_source_name                              | authentic_source_name                              | string              |                                                                            |
+| authentic_source_id                                | authentic_source_id                                | string              |                                                                            |
+| expiry_date                                        | expiry_date                                        | string              |                                                                            |
+| issuing_country                                    | issuing_country                                    | string              | ISO 3166-1 alpha-2                                                         |
+| legal_person_name                                  | legal_person_name                                  | string              | Official current legal person name as registered in the business register. |
+| legal_person_id                                    | legal_person_id                                    | string              | EUID                                                                       |
+| legal_form_type                                    | legal_form_type                                    | string              | Legal form of the company.                                                 |
+| registration_member_state                          | registration_member_state                          | string              | The member state where the company is registered (Alpha-2 country code).   |
+| registration_date                                  | registration_date                                  | string              | ISO 8601 (YYYY-MM-DD)                                                      |
+| legal_person_status                                | legal_person_status                                | string              |                                                                            |
+| legal_person_activity                              | legal_person_activity                              | object              | The NACE code describing the main activity                                 |
+| legal_person_activity.code                         | legal_person_activity.code                         | string              |                                                                            |
+| legal_person_activity.description                  | legal_person_activity.description                  | string              |                                                                            |
+| legal_person_duration                              | legal_person_duration                              | date                | Given as date following ISO 8601                                           |
+| registered_address                                 | registered_address                                 | object              | See section 2.5 for structure                                              |
+| registered_address.full_address                    | registered_address.full_address                    | string              |                                                                            |
+| registered_address.care_of                         | registered_address.care_of                         | string              |                                                                            |
+| registered_address.thorough_fare                   | registered_address.thorough_fare                   | string              |                                                                            |
+| registered_address.locator_designator              | registered_address.locator_designator              | string              |                                                                            |
+| registered_address.post_code                       | registered_address.post_code                       | string              |                                                                            |
+| registered_address.post_name                       | registered_address.post_name                       | string              |                                                                            |
+| registered_address.post_office_box                 | registered_address.post_office_box                 | string              |                                                                            |
+| registered_address.locator_name                    | registered_address.locator_name                    | string              |                                                                            |
+| registered_address.admin_unit_level_1              | registered_address.admin_unit_level_1              | string              |                                                                            |
+| registered_address.admin_unit_level_2              | registered_address.admin_unit_level_2              | string              |                                                                            |
+| legal_representative                               | legal_representative                               | array               | Array of natural/legal persons                                             |
+| legal_representative.legal_person                  | legal_representative.legal_person                  | object              |                                                                            |
+| legal_representative.legal_person.name             | legal_representative.legal_person.name             | string              |                                                                            |
+| legal_representative.legal_person.id               | legal_representative.legal_person.id               | string              |                                                                            |
+| legal_representative.legal_person.legal_form_type  | legal_representative.legal_person.legal_form_type  | string              |                                                                            |
+| legal_representative.legal_person.signatory_rule   | legal_representative.legal_person.signatory_rule   | string              |                                                                            |
+| legal_representative.natural_person                | legal_representative.natural_person                | object              |                                                                            |
+| legal_representative.natural_person.full_name      | legal_representative.natural_person.full_name      | string              |                                                                            |
+| legal_representative.natural_person.identifier     | legal_representative.natural_person.identifier     | string              | Natural person representative identifier                                   |
+| legal_representative.natural_person.date_of_birth  | legal_representative.natural_person.date_of_birth  | string              |                                                                            |
+| legal_representative.natural_person.nationality    | legal_representative.natural_person.nationality    | string              |                                                                            |
+| legal_representative.natural_person.signatory_rule | legal_representative.natural_person.signatory_rule | string              |                                                                            |
+| share_capital                                      | share_capital                                      | object              |                                                                            |
+| share_capital.amount                               | share_capital.amount                               | string              |                                                                            |
+| share_capital.currency                             | share_capital.currency                             | string              |                                                                            |
+| digital_contact_point                              | digital_contact_point                              | object              |                                                                            |
+| digital_contact_point.website                      | digital_contact_point.website                      | string              |                                                                            |
+| digital_contact_point.email                        | digital_contact_point.email                        | string              |                                                                            |
+| location_status                                    | status                                             | object              | See chapter [3.2.3](#321-attribute-status)                                 |
 
 
 #### 3.2.1 Attribute status
