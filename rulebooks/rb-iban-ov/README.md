@@ -11,6 +11,7 @@
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations meetings |
+| 0.2     | 17.06.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
   * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com)*
