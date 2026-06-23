@@ -12,10 +12,11 @@
 | Version | Date | Description |
 |---------|------|-------------|
 | 0.1 | 2026-06-01 | Initial draft rulebook for the Ferry Boarding Pass Attestation |
+| 0.9 | 2026-06-23 | Draft, ready for review/QA |
 
 **Feedback:**
 
-* [RULEBOOK AUTHOR TO DEFINE]
+* Portal, email, Slack
 
 ## 1 Introduction
 
