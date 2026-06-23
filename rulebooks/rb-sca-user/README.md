@@ -10,12 +10,12 @@
 
 | Version          | Date               | Description                                      |
 |------------------|--------------------|--------------------------------------------------|
-| 0.1              | 1.6.2026           | Initial version based on attestation description |
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG]           |
+| 0.1              | 2026-06-01         | Initial version based on attestation description |
+| 0.9 | 2026-06-23 | Draft, ready for review/QA |
 
 **Feedback:**
 
-* <https://example.com/tracker>
+* Github, portal, email, Slack
 
 ## 1 Introduction
 
