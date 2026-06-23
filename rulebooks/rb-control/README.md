@@ -4,7 +4,7 @@
   * [Florin Coptil, Robert Bosch GmbH]
 * Reviewer(s):
   * [Baumgardt Michaela, Commerzbank]
-  * [Stephan-A Fuchs, Deutsche Bank]
+  * [Stephan Fuchs, Deutsche Bank]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
@@ -58,7 +58,7 @@ This Rulebook is structured as follows:
   with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines revocation mechanisms for the attestation.
-- Chapter 7 provides compliance information regarding the EUBW framework, AML regulations,
+- Chapter 7 provides compliance information regarding the EBW framework, AML regulations,
   corporate governance standards, and applicable data protection laws.
 - Chapter 8 provides references to applicable standards and specifications.
 
@@ -86,10 +86,10 @@ This document uses the terminology specified in Annex 1 of the ARF.
 | Direct Control                     | Control exercised directly by a person through ownership of voting shares, board membership, or executive roles in the subject entity                                                                    |
 | Indirect Control                   | Control exercised through one or more intermediary entities or contractual arrangements (e.g., control via a parent company, nominee arrangements, or proxy voting agreements)                           |
 | Control Percentage                 | A quantitative measure of the degree of control a person exercises, typically based on voting rights percentage, board representation percentage, or other control metrics                               |
-| KYC Know Your Customer             | Due diligence process for verifying customer identity and assessing risk in financial relationships                                                                                                      |
-| KYS Know Your Supplier             | Due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                                                   |
-| PEP Politically Exposed Person     | Individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                                                       |
-| EUCC EU Company Certificate        | Attestation establishing the legal existence and identity of a legal entity within the EU                                                                                                                |
+| Know Your Customer (KYC)             | Due diligence process for verifying customer identity and assessing risk in financial relationships                                                                                                      |
+| Know Your Supplier (KYS)             | Due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                                                   |
+| Politically Exposed Person (PEP)     | Individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                                                       |
+| EU Company Certificate (EUCC)        | Attestation establishing the legal existence and identity of a legal entity within the EU                                                                                                                |
 | Evidence                           | Supporting documentation substantiating the control structure calculation (e.g., governance chart, shareholder agreement, articles of association, trust deed)                                           |
 
 ---
@@ -103,7 +103,7 @@ control across complex, multi-tiered corporate structures where control may be e
 diverse mechanisms beyond simple shareholding.
 
 ### 2.1 Introduction
-
+//TODO Merge later -> extension for legal arrangements 
 The Control follows a hierarchical structure:
 ```
 Controller[1..n]
@@ -116,6 +116,14 @@ Controller[1..n]
 │ ├── legal_name (M)
 │ ├── legal_form (M)
 │ └── identifier [String] (M) identifier: euid, lei, tax, ...
+├── LegalArrangements
+│ ├── legal_name (M) description of the legal arrangement: a sequence of characters, letters or numbers
+│ └── identifier (M) identifier of the legal arrangement: a sequence of characters, letters or numbers
+│ └── info ( law governing- ISO 3166-1 alpha-3)
+│ ├── settlement [String] (M) 
+│ ├── purpose [String] (M) 
+│ ├── assets [String] (M) 
+│ ├── reason for registration
 ├── Address
 │ ├── street (M)
 │ ├── house_number (M)
@@ -128,6 +136,8 @@ Controller[1..n]
 │ ├── type (M) direct | indirect
 │ ├── voting_rights (M) % | null
 │ ├── mechanism [String] (M) one or many of values [board | veto | contractual | nominee | profit distribution]
+│ ├── legal_arrangement (M) identifier 
+│ ├── place of administration (O) (in case of different != residence )
 └── Evidence [1..n] (at least one piece of supporting evidence required)
 ```
 
@@ -237,7 +247,7 @@ Applies to both NaturalPerson and LegalPerson owners:
 |-----------------------|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
 | evidence_data         | --                     | The actual organizational structure document as a base64-encoded string (required if evidence_id does not contain a URI to an accessible location) | String (base64) |
 | evidence_confirmation | --                     | Boolean confirmation that the organizational structure document is current and has been used as the basis for the ownership calculation             | Boolean         |
-| evidence_date         | --                     | The date when the evidence document was created or last updated (ISO 8601)                                                                         | Date            |
+| evidence_date         | --                     | The date when the evidence document was created or last updated (ISO 8601)                                                                         | Date (YYYY-MM-DD)            |
 
 ### 2.4 Conditional attributes
 
@@ -248,11 +258,11 @@ are either mandatory or optional as specified above.
 
 | **Data Identifier**        | **Definition**                                                                                                                    | **Data type** |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                      | DateTime      |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                         | DateTime      |
+| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                      | Date (YYYY-MM-DD)      |
+| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                         | Date (YYYY-MM-DD)      |
 | issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations) | String        |
 | attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                          | String        |
-| vct                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                            | String          |
+| Version Control Tool (vct)                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                            | String          |
 
 ### 2.6 Optional metadata
 
