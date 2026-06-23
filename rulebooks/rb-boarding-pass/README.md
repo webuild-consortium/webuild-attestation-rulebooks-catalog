@@ -16,7 +16,7 @@
 
 **Feedback:**
 
-* Portal, email, Slack
+* Github, portal, email, Slack
 
 ## 1 Introduction
 
