@@ -12,10 +12,11 @@
 | Version | Date | Description |
 |---------|------|-------------|
 | 0.1 | 2026-06-01 | Initial draft rulebook for the StudentID Attestation |
+| 0.9 | 2026-06-23 | Draft, ready for review/QA |
 
 **Feedback:**
 
-* [RULEBOOK AUTHOR TO DEFINE]
+* Github, portal, email, Slack
 
 ## 1 Introduction
 
