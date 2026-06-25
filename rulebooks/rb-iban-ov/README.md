@@ -176,6 +176,8 @@ This attestation type MAY be classified as:
 | nace_code           | tbd                    | NACE code for activity specification (e.g. 64.19).                                            | String        |
 | clearing_number     | tbd                    | Clearing number for identification of the financial institution, used only in some countries. | String        |
 
+@Florin/Stephan: We need to specifiy the nace_code accordingly, currently not sufficiently specified.
+
 ### 2.4 Conditional attributes
 
 No conditional attributes are defined for this attestation type. All attributes are either mandatory or optional as specified above.
