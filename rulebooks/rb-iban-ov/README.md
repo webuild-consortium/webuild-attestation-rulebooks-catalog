@@ -6,6 +6,7 @@
 * Previous Authors:
 * Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH]
+  * Ivan Faltus
   * @TODO Ricky — Add the reviewers from attestation design
 
 | Version | Date       | Description                                                     |
