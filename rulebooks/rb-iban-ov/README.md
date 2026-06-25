@@ -71,7 +71,7 @@ In addition, 'must' (non-capitalised) is used to indicate an external constraint
 
 | Term        | Description                                                                                                                                                                     |
 |-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| IBAN-OV     | IBAN Ownership Verification — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
+| IBAN-OV     | IBAN Ownership Verification (IBAN-OV) — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
 | ASPSP[SF1.1]       | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account                                                                    |
 | IBAN        | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020                                    |
 | BIC/SWIFT   | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022                                               |
