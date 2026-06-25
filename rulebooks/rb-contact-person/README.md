@@ -53,12 +53,12 @@ between organizations in supply chain and procurement processes.
   holder company has issued Contact Person attestations for all its employees into its Company
   Wallet. The system selects the fitting employee to answer the request (e.g., a Key Account
   Manager as the battery cell sales contact person).
-- The Holder is responsible for the lifecycle of the attestation, including revocation and
-  role changes.
+- The Holder is responsible for the lifecycle of the attestation content, including revocation and
+  role changes. Holder is not responsible for the attestation schema. 
 
 The added value of the Contact Person attestation for organizations is to automate the
 onboarding and maintenance process of contact person data, increasing data accuracy and
-enabling fast and secure business interactions.
+enabling fast and secure business interactions. Self issued attestation can be n times reused. 
 
 This attestation flows only between organizations where a business relationship exists.
 
@@ -66,9 +66,10 @@ This attestation flows only between organizations where a business relationship 
 
 This Contact Person Attestation Rulebook is based on:
 - EU Company Certificate (EUCC) / European Business Wallet (EBW) framework as the foundational
-  legal identity layer for the employing organization
+  legal identity layer for the employing organization, including identifier.  
 - Schema.org vocabulary for personal name attributes
 - Core Public Organisation Vocabulary (CPOV) for contact point attributes
+- European Business Wallet Vocabulary (https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html)
 - The Organization Ontology for role classification
 - RFC 4021 for email address formatting
 - ITU-T E.164 for telephone number formatting
@@ -172,7 +173,7 @@ This attestation type is classified as:
 | given_name          | [givenName – Schema.org Property](https://schema.org/givenName)                           | Given name. In the U.S., the first name of a Person.                                                  | M               | tstr                |
 | family_name         | [familyName – Schema.org Property](https://schema.org/familyName)                         | Family name. In the U.S., the last name of a Person.                                                  | M               | tstr                |
 | role                | [The Organization Ontology](https://www.w3.org/TR/vocab-org/)                             | Denotes a role that a Person takes in an organization (e.g., sales, finance, quality, logistics)      | M               | tstr                |
-| employee_identifier | --                                                                                        | An alphanumeric identifier of the employee assigned by the organization                               | M               | tstr                |
+| employee_identifier | [European Business Wallet Vocabulary](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#employer)                                                                                       | An alphanumeric identifier of the employee assigned by the organization                               | M               | tstr                |
 | email               | [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | An electronic address through which the Contact Person can be contacted                               | M               | tstr                |
 
 ### 2.3 Optional attributes
@@ -220,6 +221,7 @@ include:
 | EU Company Register       | EUID (e.g., DE-HRB-123456)       |
 | VAT Register              | VAT number (e.g., DE123456789)   |
 | National Company Register | Country-specific registration ID |
+| Gleif Register Authorities | [GLEIF Registration Authority List](https://www.gleif.org/en/lei-data/code-lists/gleif-registration-authorities-list?cachepath=de%2Flei-data%2Fcode-lists%2Fgleif-registration-authorities-list)|
 
 For all other attributes within the Contact Person attestation, no standardized public EU
 value lists are currently available.
@@ -412,6 +414,7 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/contact-pe
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
 @TODO — To be discussed: which stakeholders will support this format and which use cases require it.
+Still in discussion 
 
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
