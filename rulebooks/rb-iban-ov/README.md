@@ -6,6 +6,7 @@
 * Previous Authors:
 * Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH]
+  * Ivan Faltus, BankID
   * @TODO Ricky — Add the reviewers from attestation design
 
 | Version | Date       | Description                                                     |
@@ -70,7 +71,7 @@ In addition, 'must' (non-capitalised) is used to indicate an external constraint
 
 | Term        | Description                                                                                                                                                                     |
 |-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| IBAN-OV     | IBAN Ownership Verification — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
+| IBAN-OV     | IBAN Ownership Verification (IBAN-OV) — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
 | ASPSP[SF1.1]       | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account                                                                    |
 | IBAN        | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020                                    |
 | BIC/SWIFT   | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022                                               |
@@ -102,9 +103,11 @@ IBAN-OV Attestation
 │ ├── account_type
 │ └── account_currency
 │
-├── Account_Ownership
-│ ├── owner_name
+├── Account_Ownership 
+│ ├── owner_name 
 │ └── euid
+│ ├── surname
+│ ├── name 
 │
 └── Account_Provider
 ├── provider_name
@@ -151,6 +154,9 @@ This attestation type MAY be classified as:
 | owner_name          | tbd                    | Legal name of the legal person, or natural person in case of sole trader, owning the account. | String        |
 | euid                | tbd                    | The EUID as unique identifier of the legal person owning the account.                         | String        |
 
+*@Florin: Update additional optional attributes regarding natural person in case of a sole trader
+
+
 **Account_Provider Mandatory Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                                      | **Data type**   |
@@ -170,13 +176,11 @@ This attestation type MAY be classified as:
 | nace_code           | tbd                    | NACE code for activity specification (e.g. 64.19).                                            | String        |
 | clearing_number     | tbd                    | Clearing number for identification of the financial institution, used only in some countries. | String        |
 
+@Florin/Stephan: We need to specifiy the nace_code accordingly, currently not sufficiently specified.
+
 ### 2.4 Conditional attributes
 
-No conditional attributes are defined for this attestation type. All attributes are either
-mandatory or optional as specified above.
-
-
-
+No conditional attributes are defined for this attestation type. All attributes are either mandatory or optional as specified above.
 
 
 
@@ -186,7 +190,7 @@ mandatory or optional as specified above.
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
 | issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime [SF3.1][RL3.2]     |
 | expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime      |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations                                   | String        |
+| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations)                                   | String        |
 | attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                           | String        |
 | vct                        | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed                           | String        |
 
@@ -395,10 +399,11 @@ When receiving and processing an attestation, the Relying Party SHALL perform th
 The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
 
+In accordance with sections 4.2.5 and 4.2.6 of the Base Verification Process, relying parties are required to automatically verify the credential's revocation status. This verification confirms the current status of the bank account, thereby rendering an additional 'bank_account_status' attribute obsolete.
+
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
-4.2.9 Validate Integrity Rules
 - The Relying Party SHALL verify that the attestation is NOT being used to initiate or execute a payment.
 - The Relying Party SHALL verify that the `IBAN conforms` to ISO 13616:2020 format.
 - The Relying Party SHALL verify that the `bic_swift` conforms to ISO 9362 format.
