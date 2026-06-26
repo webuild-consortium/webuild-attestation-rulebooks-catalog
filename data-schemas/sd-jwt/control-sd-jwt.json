@@ -255,6 +255,9 @@
                     "type": "string",
                     "description": "A single control mechanism code.",
                     "enum": [
+                      "board",
+                      "veto",
+                      "nominee",
                       "boardcontroller",
                       "controllerveto",
                       "contractual",
