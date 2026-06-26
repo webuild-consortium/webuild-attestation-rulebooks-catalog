@@ -1,78 +1,122 @@
 {
   "vct": "eu.we-build.control.1",
+  "iss": "https://issuer.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:company-456",
   "attestation_legal_category": "EAA",
-  "issuing_entity": "did:example:legal-entity-456",
-  "control": [
+  "schema_version": "0.3.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+
+  "controller": [
     {
+      "type": "NP",
       "natural_person": {
-        "family_name": "Garcia",
-        "given_name": "Maria",
-        "birth_date": "1968-07-22",
-        "natural_person_identifier": {
-          "document_type": "National identity card",
-          "document_number": "ES12345678X",
-          "issuing_country": "ESP"
-        },
-        "residence_address": {
-          "address": "Calle Mayor 10",
-          "locality": "Madrid",
-          "postal_code": "28001",
-          "country": "ESP"
-        },
-        "stake": {
-          "effective_control": 55.00,
-          "legal_person_id": "54321098765432109876",
-          "control_mechanism": ["Voting rights", "Board control"]
+        "first_name": "Alice",
+        "surname": "Smith",
+        "date_of_birth": "1975-03-20"
+      },
+      "address": {
+        "street": "Hauptstrasse",
+        "house_number": "10",
+        "locality": "Berlin",
+        "region": "Berlin",
+        "postal_code": "10115",
+        "country": "DE"
+      },
+      "control": [
+        {
+          "legal_identifier": "DE1234.HRB56789",
+          "type": "direct",
+          "voting_rights": 60.0,
+          "mechanism": [
+            "board",
+            "contractual"
+          ]
         }
-      }
+      ]
     },
     {
-      "legal_person": {
-        "legal_person_name": "Global Solutions Ltd.",
-        "legal_form_type": "Private Limited Company",
-        "legal_person_identifier": {
-          "lei": "54321098765432109876"
-        },
-        "registered_address": {
-          "address": "1 Global Plaza",
-          "locality": "London",
-          "postal_code": "EC2Y 5AU",
-          "country": "GBR"
-        },
-        "stake": {
-          "effective_control": 30.00,
-          "legal_person_id": "54321098765432109876",
-          "control_mechanism": ["Influence via parent or holding company"]
+      "type": "NP",
+      "natural_person": {
+        "first_name": "Klaus",
+        "surname": "Müller",
+        "date_of_birth": "1968-07-14"
+      },
+      "address": {
+        "street": "Schillerstraße",
+        "house_number": "22",
+        "locality": "Frankfurt",
+        "region": "Hesse",
+        "postal_code": "60313",
+        "country": "DE"
+      },
+      "control": [
+        {
+          "legal_identifier": "DE1234.HRB56789",
+          "type": "direct",
+          "voting_rights": null,
+          "mechanism": [
+            "veto",
+            "profit_distribution"
+          ]
         }
-      }
+      ]
+    },
+    {
+      "type": "LE",
+      "legal_person": {
+        "legal_name": "HoldCo GmbH",
+        "legal_form": "GmbH",
+        "identifier": {
+          "euid": "DE9876.HRB54321",
+          "lei": "529900T8BM49AURSDO55",
+          "tax": "DE123456789"
+        }
+      },
+      "address": {
+        "street": "Berliner Allee",
+        "house_number": "5",
+        "locality": "Düsseldorf",
+        "region": "Nordrhein-Westfalen",
+        "postal_code": "40213",
+        "country": "DE"
+      },
+      "control": [
+        {
+          "legal_identifier": "DE1234.HRB56789",
+          "type": "indirect",
+          "voting_rights": 40.0,
+          "mechanism": [
+            "nominee"
+          ]
+        }
+      ]
     }
   ],
+
   "evidence": [
     {
-      "evidence_id": "https://example.com/governance-chart-2024.pdf",
+      "evidence_id": "urn:uuid:7a3f9c10-b2e1-41d8-9f7a-112233445566",
       "evidence_type": "Evidence",
+      "evidence_data": "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0ZpbHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nCvkMlAwUDC1NNUzMVcozy/KSVUIAP//AAAA//8=",
       "evidence_confirmation": true,
-      "evidence_date": "2024-03-01"
-    },
-    {
-      "evidence_id": "urn:webuild:articles-of-association",
-      "evidence_type": "Evidence",
-      "evidence_data": "PGh0bWw+DQogIDxoZWFkPg0KICAgIDx0aXRsZT5BcnRpY2xlcyBvZiBBc3NvY2lhdGlvbjwvdGl0bGU+DQogIDwvaGVhZD4NCiAgPGJvZHk+DQogICAgPHA+VGhpcyBpcyBhIGxhdyBkb2N1bWVudC48L3A+DQogIDwvYm9keT4NCjwvaHRtbD4="
+      "evidence_date": "2025-01-20"
     }
   ],
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://example.com/status/control-list-1",
-    "status_list_index": 789,
+    "status_list_credential": "https://issuer.example.com/status/control/2025",
+    "status_list_index": 456,
     "status_purpose": "revocation"
   },
-  "trust_anchor_url": "https://webuildconsortium.eu/trust-anchor.json",
-  "schema_version": "0.1.0",
+
   "cnf": {
     "jwk": {
-      "kty": "RSA",
-      "n": "q_u_X8P_S0_0F8_C_f83_oX1f8m5y_B7D9S9-C_0R5-Q0_u_X8P_S0_0F8_C",
-      "e": "AQAB"
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
     }
   }
 }

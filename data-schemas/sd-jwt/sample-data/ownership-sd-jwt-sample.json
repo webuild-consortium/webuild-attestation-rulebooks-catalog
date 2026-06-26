@@ -1,99 +1,138 @@
 {
   "vct": "eu.we-build.ownership.1",
+  "iss": "https://issuer.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:legal-entity-789",
   "attestation_legal_category": "EAA",
-  "issuing_entity": "did:example:legal-entity-123",
-  "ownership": [
+  "schema_version": "0.3.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+
+  "owner": [
     {
+      "type": "NP",
       "natural_person": {
-        "family_name": "Doe",
-        "given_name": "John",
-        "birth_date": "1980-01-15",
-        "natural_person_identifier": {
-          "document_type": "Passport",
-          "document_number": "P12345678",
-          "issuing_country": "USA"
-        },
-        "residence_address": {
-          "address": "123 Main St",
-          "locality": "Anytown",
-          "postal_code": "12345",
-          "region": "CA",
-          "country": "USA"
-        },
-        "contact_address": {
-          "address": "456 Oak Ave",
-          "locality": "Otherville",
-          "postal_code": "67890",
-          "region": "NY",
-          "country": "USA"
-        },
-        "stake": {
-          "direct_ownership": 25.00,
-          "indirect_ownership": 10.00,
-          "total_ownership": 35.00,
-          "legal_person_id": ["DE12.HRB1212","12345678901234567890"],
-          "ownership_category": "Direct shareholder"
+        "first_name": "Anna",
+        "surname": "Schmidt",
+        "date_of_birth": "1978-04-15"
+      },
+      "address": {
+        "street": "Hauptstraße",
+        "house_number": "12",
+        "locality": "Berlin",
+        "region": "Berlin",
+        "postal_code": "10115",
+        "country": "DE"
+      },
+      "ownership": [
+        {
+          "legal_identifier": "DE1234.HRB123456",
+          "type": "direct",
+          "stake": 51.0,
+          "amount": {
+            "value": 510000,
+            "currency": "EUR"
+          },
+          "category": "ordinary",
+          "economic_rights": [
+            "dividend_rights",
+            "liquidation_rights"
+          ]
         }
-      }
+      ]
     },
     {
-      "legal_person": {
-        "legal_person_name": "Acme Holdings Inc.",
-        "legal_form_type": "Corporation",
-        "legal_person_identifier": {
-          "lei": "98765432109876543210"
-        },
-        "registered_address": {
-          "address": "789 Corporate Blvd",
-          "locality": "Biztown",
-          "postal_code": "54321",
-          "region": "DE",
-          "country": "DEU"
-        },
-        "contact_address": {
-          "address": "101 Business Pkwy",
-          "locality": "Metropolis",
-          "postal_code": "00000",
-          "region": "DE",
-          "country": "DEU"
-        },
-        "stake": {
-          "direct_ownership": 50.00,
-          "indirect_ownership": 0.00,
-          "total_ownership": 50.00,
-          "legal_person_id": ["EUID:XYZ-456"],
-          "ownership_category": "Direct shareholder"
+      "type": "NP",
+      "natural_person": {
+        "first_name": "Marco",
+        "surname": "Rossi",
+        "date_of_birth": "1965-11-23"
+      },
+      "address": {
+        "street": "Via Roma",
+        "house_number": "45",
+        "locality": "Milan",
+        "region": "Lombardy",
+        "postal_code": "20121",
+        "country": "IT"
+      },
+      "ownership": [
+        {
+          "legal_identifier": "DE111.HRB654321",
+          "type": "indirect",
+          "stake": 25.5,
+          "amount": {
+            "value": 255000,
+            "currency": "EUR"
+          },
+          "category": "ordinary",
+          "economic_rights": [
+            "dividend_rights",
+            "liquidation_rights"
+          ]
         }
-      }
+      ]
+    },
+    {
+      "type": "LE",
+      "legal_person": {
+        "legal_name": "Alpine Holding GmbH",
+        "legal_form": "GmbH",
+        "identifier": {
+          "euid": "DE111.HRB654321",
+          "lei": "5299000J2N45DDNE4Y28",
+          "tax": "DE812345678"
+        }
+      },
+      "address": {
+        "street": "Industriestraße",
+        "house_number": "5",
+        "locality": "Munich",
+        "region": "Bavaria",
+        "postal_code": "80331",
+        "country": "DE"
+      },
+      "ownership": [
+        {
+          "legal_identifier": "DE1234.HRB123456",
+          "type": "indirect",
+          "stake": 23.5,
+          "amount": {
+            "value": 235000,
+            "currency": "EUR"
+          },
+          "category": "preferred",
+          "economic_rights": [
+            "dividend_rights"
+          ]
+        }
+      ]
     }
   ],
+
   "evidence": [
     {
-      "evidence_id": "https://example.com/org-chart-2023.pdf",
+      "evidence_id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
       "evidence_type": "Evidence",
+      "evidence_data": "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0ZpbHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nCvkMlAwUDC1NNUzMVcozy/KSVUIAP//AAAA//8=",
       "evidence_confirmation": true,
-      "evidence_date": "2023-10-26"
-    },
-    {
-      "evidence_id": "urn:webuild:shareholder-register-2023",
-      "evidence_type": "Evidence",
-      "evidence_data": "JVBERi0xLjQKJdDUxdgKOSAyIG9iago8PC9GaWx0ZXIs..."
+      "evidence_date": "2025-01-15"
     }
   ],
+
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://example.com/status/1",
-    "status_list_index": 123,
+    "status_list_credential": "https://issuer.example.com/status/ownership/2025",
+    "status_list_index": 456,
     "status_purpose": "revocation"
   },
-  "trust_anchor_url": "https://webuildconsortium.eu/trust-anchor.json",
-  "schema_version": "0.1.0",
+
   "cnf": {
     "jwk": {
       "kty": "EC",
       "crv": "P-256",
-      "x": "f83_oX1f8m5y_B7D9S9-C_0R5-Q0_u_X8P_S0_0F8_C",
-      "y": "e6_z_C8D_D9S9-C_0R5-Q0_u_X8P_S0_0F8_C"
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
     }
   }
 }

@@ -14,6 +14,28 @@
         "eu.we-build.ownership.1"
       ]
     },
+    "iss": {
+      "type": "string",
+      "description": "Identifier of the entity that issued the attestation (URI or DID). SHALL NOT be selectively disclosable. Per RFC 7519.",
+      "examples": [
+        "https://issuer.example.com",
+        "did:example:legal-entity-789"
+      ]
+    },
+    "iat": {
+      "type": "integer",
+      "description": "Issuance date and time as a Unix timestamp (seconds since epoch). SHALL NOT be selectively disclosable. Per RFC 7519.",
+      "examples": [
+        1736935200
+      ]
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Expiry date and time as a Unix timestamp (seconds since epoch). SHALL NOT be selectively disclosable. Per RFC 7519.",
+      "examples": [
+        1768471200
+      ]
+    },
     "attestation_legal_category": {
       "type": "string",
       "description": "The legal category of the attestation as defined by eIDAS 2. For Ownership attestations this SHALL be 'EAA', as the attestation is typically self-issued by the legal entity subject to the ownership disclosure.",
@@ -28,172 +50,101 @@
         "did:example:legal-entity-123"
       ]
     },
-    "ownership": {
+    "owner": {
       "type": "array",
       "description": "Array of owner objects (either natural person or legal person). SHALL contain at least one natural person owner to comply with AML requirements that mandate identification of natural persons who ultimately own the entity.",
       "minItems": 1,
       "items": {
         "type": "object",
-        "description": "A single owner, which is either a natural person or a legal person, holding ownership interests.",
+        "description": "A single owner entry. The 'type' field identifies whether the owner is a natural person (NP) or a legal entity (LE). Each owner entry includes identity attributes, address, and at least one ownership record.",
         "additionalProperties": false,
+        "required": [
+          "type",
+          "address",
+          "ownership"
+        ],
         "oneOf": [
-          { "required": ["natural_person"] },
-          { "required": ["legal_person"] }
+          {
+            "required": ["natural_person"],
+            "properties": {
+              "type": { "const": "NP" }
+            }
+          },
+          {
+            "required": ["legal_person"],
+            "properties": {
+              "type": { "const": "LE" }
+            }
+          }
         ],
         "properties": {
+          "type": {
+            "type": "string",
+            "description": "Indicates whether the owner is a natural person (NP) or a legal entity (LE). SHALL be non-empty.",
+            "enum": [
+              "NP",
+              "LE"
+            ]
+          },
           "natural_person": {
             "type": "object",
-            "description": "Details of a natural person owner.",
+            "description": "Details of a natural person owner. Required when type is 'NP'.",
             "additionalProperties": false,
+            "required": [
+              "first_name",
+              "surname",
+              "date_of_birth"
+            ],
             "properties": {
-              "family_name": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Last name(s) or surname(s) of the natural person who holds ownership or control. SHALL be a non-empty string."
-              },
-              "given_name": {
+              "first_name": {
                 "type": "string",
                 "minLength": 1,
                 "description": "First name(s), including middle name(s) where applicable, of the natural person who holds ownership or control. SHALL be a non-empty string."
               },
-              "birth_date": {
+              "surname": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Last name(s) or surname(s) of the natural person who holds ownership or control. SHALL be a non-empty string."
+              },
+              "date_of_birth": {
                 "type": "string",
                 "format": "date",
-                "description": "Day, month, and year of birth of the natural person. SHALL follow ISO 8601 format (YYYY-MM-DD). Optional."
-              },
-              "natural_person_identifier": {
-                "type": "object",
-                "description": "Optional identification details for the natural person.",
-                "additionalProperties": false,
-                "properties": {
-                  "document_type": {
-                    "type": "string",
-                    "description": "A value defining the type of the identity document according to the nationality of the UBO (e.g., Passport, National identity card, Driver's license). Optional."
-                  },
-                  "document_number": {
-                    "type": "string",
-                    "description": "The number of the identity document (passport number, national ID number, driver's license number, etc.). Optional."
-                  },
-                  "issuing_country": {
-                    "type": "string",
-                    "description": "The country that issued the identity document (ISO 3166-1 alpha-3 code). Optional.",
-                    "pattern": "^[A-Z]{3}$"
-                  }
-                },
-                "required": []
-              },
-              "residence_address": {
-                "type": "object",
-                "description": "Residence address where the owner currently resides. All sub-fields are optional.",
-                "additionalProperties": false,
-                "properties": {
-                  "address": { "type": "string", "description": "The street address where the owner currently resides. Optional." },
-                  "locality": { "type": "string", "description": "The city where the owner currently resides. Optional." },
-                  "postal_code": { "type": "string", "description": "The postal or ZIP code of the owner's residence address. Optional." },
-                  "region": { "type": "string", "description": "The state, province, or region of the owner's residence address. Optional." },
-                  "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the owner currently resides. Optional." }
-                },
-                "required": []
-              },
-              "contact_address": {
-                "type": "object",
-                "description": "Contact address where the owner can be contacted, if different from residence address. All sub-fields are optional.",
-                "additionalProperties": false,
-                "properties": {
-                  "address": { "type": "string", "description": "The street address where the owner can be contacted. Optional." },
-                  "locality": { "type": "string", "description": "The city where the owner can be contacted. Optional." },
-                  "postal_code": { "type": "string", "description": "The postal or ZIP code of the owner's contact address. Optional." },
-                  "region": { "type": "string", "description": "The state, province, or region of the owner's contact address. Optional." },
-                  "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the owner can be contacted. Optional." }
-                },
-                "required": []
-              },
-              "stake": {
-                "type": "object",
-                "description": "Quantitative ownership data and ownership category classification for the natural person owner.",
-                "additionalProperties": false,
-                "properties": {
-                  "direct_ownership": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "The percentage of direct ownership held by this owner in the subject entity. SHALL be a decimal value between 0.00 and 100.00 (inclusive)."
-                  },
-                  "indirect_ownership": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "The percentage of indirect ownership held by this owner through one or more intermediate entities. SHALL be a decimal value between 0.00 and 100.00 (inclusive)."
-                  },
-                  "total_ownership": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "The complete percentage of ownership (direct + indirect across all layers). SHALL be a decimal value between 0.00 and 100.00 (inclusive). SHALL be equal to or greater than direct_ownership and equal to or greater than indirect_ownership."
-                  },
-                  "legal_person_id": {
-                    "type": "array",
-                    "description": "The list of legal entity identifier(s) where this owner holds interests — includes the direct legal entity and all indirect legal entities in the ownership chain (EUID, LEI, DUNS). SHALL contain at least one non-empty string identifier.",
-                    "minItems": 1,
-                    "items": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "ownership_category": {
-                    "type": "string",
-                    "description": "Classification of the type of ownership or control relationship. SHALL use one of the standardized values defined in Section 2.8.1 of the Ownership Rulebook.",
-                    "enum": [
-                      "Direct shareholder",
-                      "Indirect shareholder",
-                      "Controller via voting or governance rights",
-                      "Trustee / beneficiary in fiduciary arrangements",
-                      "Partner in partnership structures",
-                      "Holder of convertible rights",
-                      "Person exercising dominant influence"
-                    ]
-                  }
-                },
-                "required": [
-                  "direct_ownership",
-                  "indirect_ownership",
-                  "total_ownership",
-                  "legal_person_id",
-                  "ownership_category"
-                ]
+                "description": "Day, month, and year of birth of the natural person. SHALL follow ISO 8601 format (YYYY-MM-DD)."
               }
-            },
-            "required": [
-              "family_name",
-              "given_name",
-              "residence_address",
-              "stake"
-            ]
+            }
           },
           "legal_person": {
             "type": "object",
-            "description": "Details of a legal person (entity) owner.",
+            "description": "Details of a legal person (entity) owner. Required when type is 'LE'.",
             "additionalProperties": false,
+            "required": [
+              "legal_name",
+              "legal_form",
+              "identifier"
+            ],
             "properties": {
-              "legal_person_name": {
+              "legal_name": {
                 "type": "string",
                 "minLength": 1,
                 "description": "The complete official name of the legal entity which holds ownership interests in the subject entity. SHALL be a non-empty string."
               },
-              "legal_form_type": {
+              "legal_form": {
                 "type": "string",
                 "minLength": 1,
-                "description": "The legal form of the owning legal entity. SHALL be a non-empty string."
+                "description": "The legal form of the owning legal entity (e.g., GmbH, AG, Ltd, SA, BV). SHALL be a non-empty string."
               },
-              "legal_person_identifier": {
+              "identifier": {
                 "type": "object",
-                "description": "The identification of the legal entity which owns this entity (ex. National identification: EUID, TAX or other identification standard :LEI, etc). At least one identifier must be specified.",
+                "description": "The identification of the legal entity which owns this entity. At least one identifier (euid, lei, or tax) must be specified.",
                 "additionalProperties": false,
+                "minProperties": 1,
                 "properties": {
                   "euid": {
                     "type": "string",
-                    "description": "EUID per ISO 3166-1 alpha-2. Optional.",
-                    "examples": ["DE / HRB / 123456"]
+                    "description": "European Unique Identifier (EUID) per ISO 3166-1 alpha-2. Optional.",
+                    "examples": [
+                      "DE/HRB/123456"
+                    ]
                   },
                   "lei": {
                     "type": "string",
@@ -202,99 +153,176 @@
                   },
                   "tax": {
                     "type": "string",
-                    "description": "Tax Number. Optional."
+                    "description": "Tax Number or national company registration number. Optional."
                   }
-                },
-                "minProperties": 1
+                }
+              }
+            }
+          },
+          "address": {
+            "type": "object",
+            "description": "Address of the owner. For natural persons this is the residence address; for legal persons this is the registered address. All sub-fields are mandatory per the Rulebook data model.",
+            "additionalProperties": false,
+            "required": [
+              "street",
+              "house_number",
+              "locality",
+              "region",
+              "postal_code",
+              "country"
+            ],
+            "properties": {
+              "street": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Street name of the address. SHALL be non-empty."
               },
-              "registered_address": {
-                "type": "object",
-                "description": "Registered address where the legal owner is registered. All sub-fields are optional.",
-                "additionalProperties": false,
-                "properties": {
-                  "address": { "type": "string", "description": "The street address where the legal owner is registered. Optional." },
-                  "locality": { "type": "string", "description": "The city where the legal owner is registered. Optional." },
-                  "postal_code": { "type": "string", "description": "The postal or ZIP code of the legal owner's registered address. Optional." },
-                  "region": { "type": "string", "description": "State, province, or region of the legal owner's registered address. Optional." },
-                  "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the legal owner is registered. Optional." }
-                },
-                "required": []
+              "house_number": {
+                "type": "string",
+                "minLength": 1,
+                "description": "House or building number of the address. SHALL be non-empty."
               },
-              "contact_address": {
-                "type": "object",
-                "description": "Contact address where the legal owner can be contacted, if different from registered address. All sub-fields are optional.",
-                "additionalProperties": false,
-                "properties": {
-                  "address": { "type": "string", "description": "The street address where the legal owner can be contacted. Optional." },
-                  "locality": { "type": "string", "description": "The city where the legal owner can be contacted. Optional." },
-                  "postal_code": { "type": "string", "description": "The postal or ZIP code of the legal owner's contact address. Optional." },
-                  "region": { "type": "string", "description": "State, province, or region of the legal owner's contact address. Optional." },
-                  "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the legal owner can be contacted. Optional." }
-                },
-                "required": []
+              "locality": {
+                "type": "string",
+                "minLength": 1,
+                "description": "City or locality of the address. SHALL be non-empty."
               },
-              "stake": {
-                "type": "object",
-                "description": "Quantitative ownership data and ownership category classification for the legal entity owner.",
-                "additionalProperties": false,
-                "properties": {
-                  "direct_ownership": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "The percentage of direct ownership held by this legal entity owner in the subject entity. SHALL be a decimal value between 0.00 and 100.00 (inclusive)."
-                  },
-                  "indirect_ownership": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "The percentage of indirect ownership held by this legal entity owner through one or more intermediate entities. SHALL be a decimal value between 0.00 and 100.00 (inclusive)."
-                  },
-                  "total_ownership": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "The complete percentage of ownership (direct + indirect across all layers). SHALL be a decimal value between 0.00 and 100.00 (inclusive). SHALL be equal to or greater than direct_ownership and equal to or greater than indirect_ownership."
-                  },
-                  "legal_person_id": {
-                    "type": "array",
-                    "description": "The list of legal entity identifier(s) where this owner holds interests — includes the direct legal entity and all indirect legal entities in the ownership chain (EUID, LEI, DUNS). SHALL contain at least one non-empty string identifier.",
-                    "minItems": 1,
-                    "items": {
+              "region": {
+                "type": "string",
+                "minLength": 1,
+                "description": "State, province, or region of the address. SHALL be non-empty."
+              },
+              "postal_code": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Postal or ZIP code of the address. SHALL be non-empty."
+              },
+              "country": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 country code of the address. SHALL be non-empty.",
+                "pattern": "^[A-Z]{2}$"
+              }
+            }
+          },
+          "ownership": {
+            "type": "array",
+            "description": "Array of ownership records for this owner. At least one ownership record SHALL be present per owner entry.",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "description": "A single ownership record describing the ownership interest held by this owner.",
+              "additionalProperties": false,
+              "required": [
+                "legal_identifier",
+                "type",
+                "stake",
+                "amount",
+                "category",
+                "economic_rights"
+              ],
+              "properties": {
+                "legal_identifier": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "The identifier of the owned entity (e.g., EUID, LEI, or national registration number). SHALL be non-empty."
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Type of ownership interest. SHALL use one of the standardized values: 'direct' or 'indirect', as defined in Section 2.8.2 of the Ownership Rulebook.",
+                  "enum": [
+                    "direct",
+                    "indirect"
+                  ]
+                },
+                "stake": {
+                  "description": "The percentage of ownership held (0–100) as a decimal, or a rule string where the exact percentage is not determinable. SHALL be non-empty.",
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100,
+                      "description": "Percentage of ownership as a decimal value between 0.00 and 100.00 (inclusive)."
+                    },
+                    {
                       "type": "string",
-                      "minLength": 1
+                      "minLength": 1,
+                      "description": "Rule string describing the ownership stake where exact percentage is not determinable."
                     }
-                  },
-                  "ownership_category": {
+                  ]
+                },
+                "amount": {
+                  "description": "Nominal monetary value of the ownership interest, or null where nominal value is not applicable or not available.",
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "description": "Nominal value and currency of the ownership stake.",
+                      "additionalProperties": false,
+                      "required": [
+                        "value",
+                        "currency"
+                      ],
+                      "properties": {
+                        "value": {
+                          "description": "Nominal value of the ownership stake, or null if not applicable.",
+                          "oneOf": [
+                            {
+                              "type": "number",
+                              "minimum": 0,
+                              "description": "Nominal monetary value."
+                            },
+                            {
+                              "type": "null",
+                              "description": "Null where nominal value is not applicable."
+                            }
+                          ]
+                        },
+                        "currency": {
+                          "description": "ISO 4217 currency code for the nominal value, or null if not applicable.",
+                          "oneOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^[A-Z]{3}$",
+                              "description": "ISO 4217 three-letter currency code (e.g., EUR, USD)."
+                            },
+                            {
+                              "type": "null",
+                              "description": "Null where currency is not applicable."
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "null",
+                      "description": "Null where amount is not applicable."
+                    }
+                  ]
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Category of shares or interest held. SHALL use one of the standardized values defined in Section 2.8.1 of the Ownership Rulebook.",
+                  "enum": [
+                    "ordinary",
+                    "preferred",
+                    "dual-class",
+                    "other"
+                  ]
+                },
+                "economic_rights": {
+                  "type": "array",
+                  "description": "Economic rights associated with the ownership interest. SHALL contain at least one value from Section 2.8.3 of the Ownership Rulebook.",
+                  "minItems": 1,
+                  "items": {
                     "type": "string",
-                    "description": "Classification of the type of ownership or control relationship. SHALL use one of the standardized values defined in Section 2.8.1 of the Ownership Rulebook.",
+                    "description": "Economic right type.",
                     "enum": [
-                      "Direct shareholder",
-                      "Indirect shareholder",
-                      "Controller via voting or governance rights",
-                      "Trustee / beneficiary in fiduciary arrangements",
-                      "Partner in partnership structures",
-                      "Holder of convertible rights",
-                      "Person exercising dominant influence"
+                      "dividend_rights",
+                      "liquidation_rights"
                     ]
                   }
-                },
-                "required": [
-                  "direct_ownership",
-                  "indirect_ownership",
-                  "total_ownership",
-                  "legal_person_id",
-                  "ownership_category"
-                ]
+                }
               }
-            },
-            "required": [
-              "legal_person_name",
-              "legal_form_type",
-              "legal_person_identifier",
-              "registered_address",
-              "stake"
-            ]
+            }
           }
         }
       }
@@ -307,6 +335,10 @@
         "type": "object",
         "description": "A single piece of supporting evidence for the ownership structure.",
         "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "evidence_type"
+        ],
         "properties": {
           "evidence_id": {
             "type": "string",
@@ -320,7 +352,7 @@
           },
           "evidence_data": {
             "type": "string",
-            "description": "The actual organizational structure document as a base64-encoded string. This field is required if the `id` does not contain a URI to existing location with the organization structure content is available. Optional.",
+            "description": "The actual organizational structure document as a base64-encoded string. This field is required if the 'evidence_id' does not contain a URI to an existing location where the organization structure content is available. Optional.",
             "contentEncoding": "base64"
           },
           "evidence_confirmation": {
@@ -332,21 +364,24 @@
             "format": "date",
             "description": "The date when the evidence document was created or last updated. SHALL follow ISO 8601 format (YYYY-MM-DD). Optional."
           }
-        },
-        "required": [
-          "evidence_id",
-          "evidence_type"
-        ]
+        }
       }
     },
     "status": {
       "type": "object",
       "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period is greater than 24 hours.",
       "additionalProperties": false,
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ],
       "properties": {
         "type": {
           "type": "string",
-          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'."
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "const": "status-list"
         },
         "status_list_credential": {
           "type": "string",
@@ -360,15 +395,10 @@
         },
         "status_purpose": {
           "type": "string",
-          "description": "Purpose of the status entry. For Ownership attestation this SHALL be 'revocation'."
+          "description": "Purpose of the status entry. For Ownership attestation this SHALL be 'revocation'.",
+          "const": "revocation"
         }
-      },
-      "required": [
-        "type",
-        "status_list_credential",
-        "status_list_index",
-        "status_purpose"
-      ]
+      }
     },
     "trust_anchor_url": {
       "type": "string",
@@ -377,7 +407,10 @@
     },
     "schema_version": {
       "type": "string",
-      "description": "Version of the Ownership attestation schema used. Optional."
+      "description": "Version of the Ownership attestation schema used. Optional.",
+      "examples": [
+        "0.3.0"
+      ]
     },
     "cnf": {
       "type": "object",
@@ -405,9 +438,12 @@
   },
   "required": [
     "vct",
+    "iss",
+    "iat",
+    "exp",
     "attestation_legal_category",
     "issuing_entity",
-    "ownership",
+    "owner",
     "evidence"
   ]
 }
