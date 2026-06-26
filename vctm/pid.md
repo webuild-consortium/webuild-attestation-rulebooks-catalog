@@ -1,5 +1,5 @@
 ---
-vct: urn:euditest:pid:1
+vct: urn:eudi:pid:1
 background_color: "#003087"
 text_color: "#ffffff"
 ---

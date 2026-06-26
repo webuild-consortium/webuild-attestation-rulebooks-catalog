@@ -1,5 +1,5 @@
 ---
-vct: urn:eu:eudi:eucc:1
+vct: urn:eudi:eucc:1
 background_color: "#1a4f8a"
 text_color: "#ffffff"
 formats: "sd-jwt, w3c"

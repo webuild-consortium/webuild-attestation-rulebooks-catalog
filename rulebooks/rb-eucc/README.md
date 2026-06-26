@@ -293,7 +293,7 @@ Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to pre
 The . notation is used to indicate the nesting of attributes.
 
 
-**Verifiable Credential Type (`vct`):** `uri:eu:eudi:eucc:1`
+**Verifiable Credential Type (`vct`):** `uri:eudi:eucc:1`
 
 
 | **Data Identifier**                                | **Attribute identifier**                           | **Encoding format** | **Reference/Notes**                                                        |

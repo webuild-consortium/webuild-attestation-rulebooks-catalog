@@ -160,9 +160,9 @@ The PID defined in this rulebook does not contain any condition attributes.
 
 
 ### 2.7 Additional mandatory attributes specified in this Rulebook
-| **Data Identifier**        | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | **Example value**                       |
-|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
-| attestation_legal_category | This attribute indicates that a PID has indeed been issued as a PID. *Note: According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation] an indication, at least in a form suitable for automated processing, that the attestation has been issued as a QEAA or Pub-EAA SHALL be defined. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.*              | PID                                     |
+| **Data Identifier**        | **Definition**                                                                                                                                                                                                                                                                                                                   | **Example value** |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
+| attestation_legal_category | This attribute indicates that a PID has indeed been issued as a PID. *Note: According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation] an indication, at least in a form suitable for automated processing, that the attestation has been issued as a QEAA or Pub-EAA SHALL be defined.* | PID               |
 
 ### 2.7 Additional optional attributes specified in this Rulebook
 
@@ -410,7 +410,7 @@ EXAMPLE: The following example shows the payload of a PID in SD-JWT VC format be
 
 ```json
 {
-    "vct": "urn:eudi:pid:de:1",
+    "vct": "urn:eudi:pid:1",
     "attestation_legal_category": "PID",
 
     "given_name": "Jean",

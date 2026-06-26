@@ -8,10 +8,9 @@
   "properties": {
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'uri:eu:eudi:eucc:1'. Domestic types MAY be of the form 'uri:eu:eudi:eucc:<cc>:1'.",
+      "description": "Verifiable Credential Type. Base type is 'uri:eudi:eucc:1'.",
       "examples": [
-        "uri:eu:eudi:eucc:1",
-        "uri:eu:eudi:eucc:de:1"
+        "uri:eudi:eucc:1"
       ]
     },
     "issuing_authority": {
