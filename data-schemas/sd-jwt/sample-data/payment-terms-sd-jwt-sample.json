@@ -1,5 +1,5 @@
 {
-  "vct": "eu.we-build.paymentterms.1",
+  "vct": "eu.we-build:paymentterms:1",
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
@@ -12,8 +12,16 @@
   "payment_due": "P30D",
   "currency": "EUR",
   "incoterm": "DAP",
-  "buyer_identifier": "DE-HRB-123456",
-  "supplier_identifier": "NL-KVK-987654",
+
+  "buyer_identifier": {
+    "euid": "DE1212.HRB123456",
+    "tax": "DE123456789"
+  },
+
+  "supplier_identifier": {
+    "lei": "724500PM3I5IXFKXK422"
+  },
+
   "agreement_date": "2025-01-10",
   "payment_reference_event": "invoice_date",
   "contract_reference": "PO-2025-00123",
