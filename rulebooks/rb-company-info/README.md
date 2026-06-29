@@ -155,13 +155,9 @@ No conditional attributes are defined for this attestation type. All attributes 
 
 | **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type**   |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime        |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime        |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String          |
 | attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                           | String          |
-| vct                        | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed                           | String          |
 
-### 2.6 Optional metadata
+## 2.6 Optional metadata
 
 | **Data Identifier** | **Definition**                                                             | **Data type** |
 |---------------------|----------------------------------------------------------------------------|---------------|
@@ -303,11 +299,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | financial_statements.facts.period_start | `financial_statements.facts[n].period_start` | String (ISO 8601 YYYY-MM-DD)     | Start date of the reporting period                                                                       | MUST            |
 | financial_statements.facts.period_end   | `financial_statements.facts[n].period_end`   | String (ISO 8601 YYYY-MM-DD)     | End date of the reporting period                                                                         | MUST            |
 | **Metadata**                            |                                              |                                  |                                                                                                          |                 |
-| issuance_date                           | `iat`                                        | Number (Unix timestamp)          | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                     | MUST NOT        |
-| expiry_date                             | `exp`                                        | Number (Unix timestamp)          | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                        | MUST NOT        |
-| issuing_entity                          | `issuing_entity`                             | String                           | The identifier of the legal entity that issued the attestation (subject entity for EAA or QTSP for QEAA) | MUST NOT        |
 | attestation_legal_category              | `attestation_legal_category`                 | String                           | One of `EAA` as defined by eIDAS 2                                                                       | MUST NOT        |
-| vct                                     | `vct`                                        | String                           | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential  | MUST            |
 
 **Notes:**
 
