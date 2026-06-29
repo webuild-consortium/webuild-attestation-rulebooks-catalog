@@ -149,6 +149,7 @@ This attestation type MAY be classified as:
 | previous_legal_name | --                     | Previously registered legal name(s) of the entity, as recorded in official company registers prior to the current legal name. MAY contain zero or more text values.                      | Array of tstr |
 
 ### 2.4 Conditional attributes
+
 No conditional attributes are defined for this attestation type. All attributes are either mandatory or optional as specified above.
 
 ### 2.5 Mandatory metadata
