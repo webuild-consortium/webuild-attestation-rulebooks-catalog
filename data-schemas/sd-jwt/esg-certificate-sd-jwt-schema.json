@@ -1,0 +1,528 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/esg-certificate-sd-jwt.json",
+  "title": "WeBuild – ESG Certificate Attestation – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of an ESG Certificate Attestation as defined in the ESG Certificate Attestation Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The attestation provides a standardized, verifiable digital representation of Environmental, Social, and Governance certificates held by a legal entity, enabling structured exchange of certification data for KYS, supplier onboarding, compliance verification, and regulatory audit processes.",
+  "type": "object",
+  "version": "0.3.0",
+  "additionalProperties": true,
+  "properties": {
+
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:esgcertificate:1'.",
+      "examples": [
+        "eu.we-build:esgcertificate:1"
+      ]
+    },
+
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer of the attestation. Identifies the legal entity or accredited certification body that issued the ESG Certificate Attestation. Follows RFC 7519. For EAA, this is typically a DID or URI of the holding legal entity. For QEAA, this is the identifier of the accredited certification body.",
+      "examples": [
+        "did:example:robert-bosch-gmbh",
+        "https://bureau-veritas.example.com",
+        "did:web:tuev.example.de"
+      ]
+    },
+
+    "iat": {
+      "type": "integer",
+      "description": "Issuance date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation was issued per ISO 8601 / RFC 7519. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1724284800
+      ]
+    },
+
+    "exp": {
+      "type": "integer",
+      "description": "Expiry date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation expires per ISO 8601 / RFC 7519. SHALL be later than 'iat'. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1882051200
+      ]
+    },
+
+    "jti": {
+      "type": "string",
+      "description": "JWT ID — a unique identifier for the attestation token. Follows RFC 7519. Optional but RECOMMENDED for auditability and revocation management.",
+      "examples": [
+        "esg-cert-attestation-20240822-001"
+      ]
+    },
+
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "The legal category of the attestation as defined by eIDAS 2. SHALL be 'EAA' when self-issued by the legal entity holding the certificate, or 'QEAA' when issued by an accredited certification body acting as a qualified trust service provider. SHALL NOT be selectively disclosable.",
+      "enum": [
+        "EAA",
+        "QEAA"
+      ]
+    },
+
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the ESG Certificate attestation schema used. SHALL be a non-empty string when present.",
+      "minLength": 1,
+      "examples": [
+        "0.3.0",
+        "1.0"
+      ]
+    },
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the ESG Certificate Attestation can be found or looked up. When present, SHALL be a valid URI.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
+      ]
+    },
+
+    "economic_operator_main_id": {
+      "type": "string",
+      "description": "Primary unique identifier created and assigned to the economic operator holding the certificate (e.g., EUID). SHALL be a non-empty string. SHALL be individually selectively disclosable.",
+      "minLength": 1,
+      "examples": [
+        "DE-HRB-396699",
+        "NL-KVK-87654321",
+        "FR-RCS-PARIS-987654321"
+      ]
+    },
+
+    "economic_operator_additional_ids": {
+      "type": "array",
+      "description": "Optional array of additional identifiers for the economic operator (e.g., LEI, EORI, BPNL, VAT ID, DUNS). SHOULD use identifier types from Section 2.8.1. MAY contain zero or more entries. SHALL be individually selectively disclosable.",
+      "items": {
+        "type": "string",
+        "description": "An additional identifier string for the economic operator. SHOULD use one of the standardized identifier type codes from Section 2.8.1 (EUID, LEI, DUNS, EORI, VAT_ID, BPNL, GLN_legal_entity, SIREN).",
+        "minLength": 1,
+        "examples": [
+          "BPNL000000000001",
+          "DE811001001",
+          "5493001KJTIIGC8Y1R12",
+          "DE123456789"
+        ]
+      },
+      "examples": [
+        [],
+        ["BPNL000000000001", "DE811001001"],
+        ["5493001KJTIIGC8Y1R12", "DE123456789"]
+      ]
+    },
+
+    "economic_operator_name": {
+      "type": "string",
+      "description": "Legal name of the economic operator holding the certificate. SHALL be a non-empty string. SHALL be individually selectively disclosable.",
+      "minLength": 1,
+      "examples": [
+        "Robert Bosch GmbH",
+        "Example Manufacturing N.V.",
+        "Global Supplier SAS"
+      ]
+    },
+
+    "economic_operator_address": {
+      "type": "object",
+      "description": "Registered address of the economic operator. SHALL contain at minimum street, nr, postal_code, and city. All four sub-fields are mandatory. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
+      "properties": {
+
+        "street": {
+          "type": "string",
+          "description": "Street name of the economic operator's registered address. SHALL be a non-empty string.",
+          "minLength": 1,
+          "examples": [
+            "Auf der Breit",
+            "Musterstraße",
+            "Herengracht"
+          ]
+        },
+
+        "nr": {
+          "type": "string",
+          "description": "House or building number of the economic operator's registered address. SHALL be a non-empty string.",
+          "minLength": 1,
+          "examples": [
+            "4",
+            "42",
+            "100"
+          ]
+        },
+
+        "postal_code": {
+          "type": "string",
+          "description": "Postal code of the economic operator's registered address. SHALL be a non-empty string.",
+          "minLength": 1,
+          "examples": [
+            "76227",
+            "70174",
+            "1017 BS"
+          ]
+        },
+
+        "city": {
+          "type": "string",
+          "description": "City of the economic operator's registered address. SHALL be a non-empty string.",
+          "minLength": 1,
+          "examples": [
+            "Karlsruhe",
+            "Stuttgart",
+            "Amsterdam"
+          ]
+        }
+
+      },
+      "required": [
+        "street",
+        "nr",
+        "postal_code",
+        "city"
+      ]
+    },
+
+    "certificate_type": {
+      "type": "string",
+      "description": "Type of the ESG certificate as defined on the certificate document (e.g., ISO 9001, IATF 16949, DIN EN ISO 14001). SHALL be a non-empty string. SHOULD use one of the standardized values defined in Section 2.8.2 where applicable; other certificate types MAY be used as free-text strings. SHALL be individually selectively disclosable.",
+      "minLength": 1,
+      "examples": [
+        "ISO9001",
+        "IATF16949",
+        "ISO14001",
+        "ISO45001",
+        "ISO50001",
+        "AEO",
+        "DIN EN ISO 14001",
+        "DIN EN ISO 50001"
+      ]
+    },
+
+    "certificate_version": {
+      "type": "string",
+      "description": "Version of the certificate standard as defined on the certificate document (e.g., ISO 9001:2015). SHALL be a non-empty string. SHALL be individually selectively disclosable.",
+      "minLength": 1,
+      "examples": [
+        "ISO 9001:2015",
+        "IATF 16949:2016",
+        "ISO 14001:2015",
+        "ISO 45001:2018",
+        "ISO 50001:2018"
+      ]
+    },
+
+    "registration_number": {
+      "type": "string",
+      "description": "Registration number of the certificate as issued by the certification body, as defined on the certificate document. SHALL be a non-empty string. SHALL be individually selectively disclosable.",
+      "minLength": 1,
+      "examples": [
+        "DE015008",
+        "CERT-2024-ISO9001-00456",
+        "TUV-DE-2024-12345"
+      ]
+    },
+
+    "certification_start_date": {
+      "type": "string",
+      "description": "Valid-from date of the certificate as defined on the certificate document. SHALL conform to ISO 8601 full-date format (YYYY-MM-DD). SHALL be individually selectively disclosable.",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "examples": [
+        "2024-08-22",
+        "2023-01-01",
+        "2022-06-15"
+      ]
+    },
+
+    "certification_expiration_date": {
+      "type": "string",
+      "description": "Valid-until date of the certificate as defined on the certificate document. SHALL conform to ISO 8601 full-date format (YYYY-MM-DD). The sentinel value '9999-12-31' indicates no expiration. SHALL be equal to or later than 'certification_start_date' unless the value is '9999-12-31'. SHALL be individually selectively disclosable.",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "examples": [
+        "2027-08-22",
+        "2026-12-31",
+        "9999-12-31"
+      ]
+    },
+
+    "scope": {
+      "type": "array",
+      "description": "Array of certified site and scope objects. SHALL contain at least one ScopeObject. Each entry represents a distinct certified site with its associated operating entity, legal identifiers, physical address, scope description, and site certification flag. SHALL be individually selectively disclosable as a top-level claim.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "A single certified site and scope entry describing the operating legal entity, its identifiers, physical site address, scope of certification, and whether the whole site is certified.",
+        "additionalProperties": false,
+        "properties": {
+
+          "operating_legal_entity_name": {
+            "type": "string",
+            "description": "Legal name of the site operating entity. SHALL be a non-empty string.",
+            "minLength": 1,
+            "examples": [
+              "Robert Bosch GmbH",
+              "Holger Christiansen A/S",
+              "Example Subsidiary BV"
+            ]
+          },
+
+          "legal_entity_IDs": {
+            "type": "array",
+            "description": "Array of legal entity identifiers for the operating entity at this site. SHALL contain at least one identifier entry. SHOULD use identifier types from Section 2.8.1 (EUID, LEI, DUNS, EORI, VAT_ID, BPNL, GLN_legal_entity, SIREN).",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "description": "A legal entity identifier string for the operating site entity. SHOULD use one of the standardized identifier type codes from Section 2.8.1.",
+              "minLength": 1,
+              "examples": [
+                "DE-HRB-396699",
+                "BPNL000000000001",
+                "DK-CVR-12345678",
+                "5493001KJTIIGC8Y1R12"
+              ]
+            }
+          },
+
+          "site_location_address_street": {
+            "type": "string",
+            "description": "Street name of the certified site physical address. SHALL be a non-empty string.",
+            "minLength": 1,
+            "examples": [
+              "Auf der Breit",
+              "Hedelundvej",
+              "Via Roma"
+            ]
+          },
+
+          "site_location_address_nr": {
+            "type": "string",
+            "description": "House or building number of the certified site physical address. SHALL be a non-empty string.",
+            "minLength": 1,
+            "examples": [
+              "4",
+              "13",
+              "7"
+            ]
+          },
+
+          "site_location_address_postal_code": {
+            "type": "string",
+            "description": "Postal code of the certified site physical address. SHALL be a non-empty string.",
+            "minLength": 1,
+            "examples": [
+              "76227",
+              "6705",
+              "20121"
+            ]
+          },
+
+          "site_location_address_city": {
+            "type": "string",
+            "description": "City of the certified site physical address. SHALL be a non-empty string.",
+            "minLength": 1,
+            "examples": [
+              "Karlsruhe",
+              "Esbjerg",
+              "Milan"
+            ]
+          },
+
+          "scope_description": {
+            "type": "string",
+            "description": "Textual description of the certificate scope applicable to this certified site. SHALL be a non-empty string describing the activities, products, services, or functions covered by the certificate at this location.",
+            "minLength": 1,
+            "examples": [
+              "Provision, logistics and worldwide distribution of automotive parts, as well as development, production and distribution of products and services for the vehicle manufacturers and the automotive aftermarket.",
+              "Sales and logistics of auto mechanical and auto electrical products.",
+              "Manufacturing of precision mechanical components and sub-assemblies for the aerospace industry."
+            ]
+          },
+
+          "certified_site": {
+            "type": "boolean",
+            "description": "Boolean flag indicating whether the certificate applies to the entire site at the specified address. Per Section 2.8.3: 'true' = the certificate is valid for the whole site; 'false' = the certificate is not valid for the entire site (e.g., partial site, rented building, or only specific functions/departments are certified)."
+          }
+
+        },
+        "required": [
+          "operating_legal_entity_name",
+          "legal_entity_IDs",
+          "site_location_address_street",
+          "site_location_address_nr",
+          "site_location_address_postal_code",
+          "site_location_address_city",
+          "scope_description",
+          "certified_site"
+        ]
+      }
+    },
+
+    "certificate_evidence": {
+      "type": "object",
+      "description": "Evidence object containing reference or attachment information for the original certificate document. SHALL be present and SHALL contain at minimum 'evidence_id'. 'evidence_type', 'evidence_digestMultibase', and 'evidence_data' are optional but conditionally required as per Section 2.4. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
+      "properties": {
+
+        "evidence_id": {
+          "type": "string",
+          "description": "Unique identifier of the certificate evidence, following UUID or URI format. SHALL be a non-empty string. If this value is a resolvable URI pointing to the certificate content, 'evidence_data' MAY be omitted. If this value is not a resolvable URI, 'evidence_data' SHALL be present.",
+          "minLength": 1,
+          "examples": [
+            "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "https://certs.example.com/documents/DE015008",
+            "urn:uuid:f47ac10b-58cc-4372-a567-0e02b2c3d479"
+          ]
+        },
+
+        "evidence_type": {
+          "type": "string",
+          "description": "Type of the evidence object. When present, SHALL be 'Evidence'. Optional.",
+          "enum": [
+            "Evidence"
+          ],
+          "examples": [
+            "Evidence"
+          ]
+        },
+
+        "evidence_digestMultibase": {
+          "type": "string",
+          "description": "Content digest value for integrity verification, used when 'evidence_id' is a URI pointing to the certificate content. SHOULD be present if 'evidence_id' is a URI pointing to an external location. When present, SHALL be a non-empty string providing a valid content digest of the referenced certificate in Multibase encoding.",
+          "minLength": 1,
+          "examples": [
+            "zQmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
+            "zQmPrrjV6nCZKEDCQFCMTzgBSAQgJHoFWTpfMBKjPzABCDE"
+          ]
+        },
+
+        "evidence_data": {
+          "type": "string",
+          "description": "The actual certificate document encoded as a base64 string. SHALL be present if 'evidence_id' does not contain a URI to an existing accessible location with the certificate content. When present, SHALL be a valid base64-encoded string representing the certificate document (e.g., PDF, image).",
+          "minLength": 1,
+          "examples": [
+            "JVBERi0xLjQKJcOkw7zDtsO...",
+            "iVBORw0KGgoAAAANSUhEUgAA..."
+          ]
+        }
+
+      },
+      "required": [
+        "evidence_id"
+      ]
+    },
+
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period (exp - iat) is greater than 24 hours. Enables Relying Parties to check revocation status of the credential.",
+      "additionalProperties": false,
+      "properties": {
+
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential document that contains the bitstring indicating revocation status.",
+          "examples": [
+            "https://issuer.example.com/status/esgcertificate/2025",
+            "https://example.com/status/esgcertificate-list-1"
+          ]
+        },
+
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring that corresponds to this credential.",
+          "examples": [
+            456,
+            789,
+            1024
+          ]
+        },
+
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For the ESG Certificate Attestation this SHALL be 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended. The ESG Certificate Attestation SHALL be cryptographically bound to the specific holder wallet.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder wallet.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": {
+              "type": "string",
+              "description": "Key type (e.g., 'EC', 'RSA')."
+            },
+            "crv": {
+              "type": "string",
+              "description": "Elliptic curve name (e.g., 'P-256'). Required for EC keys."
+            },
+            "x": {
+              "type": "string",
+              "description": "X coordinate of the EC public key (Base64url encoded)."
+            },
+            "y": {
+              "type": "string",
+              "description": "Y coordinate of the EC public key (Base64url encoded)."
+            },
+            "n": {
+              "type": "string",
+              "description": "RSA modulus (Base64url encoded). Required for RSA keys."
+            },
+            "e": {
+              "type": "string",
+              "description": "RSA public exponent (Base64url encoded). Required for RSA keys."
+            }
+          },
+          "required": [
+            "kty"
+          ]
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+
+  },
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "attestation_legal_category",
+    "economic_operator_main_id",
+    "economic_operator_name",
+    "economic_operator_address",
+    "certificate_type",
+    "certificate_version",
+    "registration_number",
+    "certification_start_date",
+    "certification_expiration_date",
+    "scope",
+    "certificate_evidence",
+    "cnf"
+  ]
+}
