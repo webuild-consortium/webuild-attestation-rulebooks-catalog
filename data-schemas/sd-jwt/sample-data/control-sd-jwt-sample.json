@@ -1,115 +1,16 @@
 {
-  "vct": "eu.we-build.control.1",
-  "iss": "https://issuer.example.com",
-  "iat": 1736935200,
-  "exp": 1768471200,
-  "issuing_entity": "did:example:company-456",
+  "vct": "eu.we-build:control:1",
+  "iss": "https://issuer.bosch.com/control",
+  "iat": 1747044000,
+  "exp": 1778580000,
+  "nbf": 1747044000,
+  "sub": "did:example:bosch-gmbh-lei-529900T8BM49AURSDO55",
+  "issuing_entity": "http://bosch.com/did",
   "attestation_legal_category": "EAA",
-  "schema_version": "0.3.0",
+  "schema_version": "0.9.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
 
-  "controller": [
-    {
-      "type": "NP",
-      "natural_person": {
-        "first_name": "Alice",
-        "surname": "Smith",
-        "date_of_birth": "1975-03-20"
-      },
-      "address": {
-        "street": "Hauptstrasse",
-        "house_number": "10",
-        "locality": "Berlin",
-        "region": "Berlin",
-        "postal_code": "10115",
-        "country": "DE"
-      },
-      "control": [
-        {
-          "legal_identifier": "DE1234.HRB56789",
-          "type": "direct",
-          "voting_rights": 60.0,
-          "mechanism": [
-            "board",
-            "contractual"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "NP",
-      "natural_person": {
-        "first_name": "Klaus",
-        "surname": "Müller",
-        "date_of_birth": "1968-07-14"
-      },
-      "address": {
-        "street": "Schillerstraße",
-        "house_number": "22",
-        "locality": "Frankfurt",
-        "region": "Hesse",
-        "postal_code": "60313",
-        "country": "DE"
-      },
-      "control": [
-        {
-          "legal_identifier": "DE1234.HRB56789",
-          "type": "direct",
-          "voting_rights": null,
-          "mechanism": [
-            "veto",
-            "profit_distribution"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "LE",
-      "legal_person": {
-        "legal_name": "HoldCo GmbH",
-        "legal_form": "GmbH",
-        "identifier": {
-          "euid": "DE9876.HRB54321",
-          "lei": "529900T8BM49AURSDO55",
-          "tax": "DE123456789"
-        }
-      },
-      "address": {
-        "street": "Berliner Allee",
-        "house_number": "5",
-        "locality": "Düsseldorf",
-        "region": "Nordrhein-Westfalen",
-        "postal_code": "40213",
-        "country": "DE"
-      },
-      "control": [
-        {
-          "legal_identifier": "DE1234.HRB56789",
-          "type": "indirect",
-          "voting_rights": 40.0,
-          "mechanism": [
-            "nominee"
-          ]
-        }
-      ]
-    }
-  ],
-
-  "evidence": [
-    {
-      "evidence_id": "urn:uuid:7a3f9c10-b2e1-41d8-9f7a-112233445566",
-      "evidence_type": "Evidence",
-      "evidence_data": "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0ZpbHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nCvkMlAwUDC1NNUzMVcozy/KSVUIAP//AAAA//8=",
-      "evidence_confirmation": true,
-      "evidence_date": "2025-01-20"
-    }
-  ],
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/control/2025",
-    "status_list_index": 456,
-    "status_purpose": "revocation"
-  },
+  "_sd_alg": "sha-256",
 
   "cnf": {
     "jwk": {
@@ -118,5 +19,225 @@
       "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
       "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
     }
-  }
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.bosch.com/status/control/2025",
+    "status_list_index": 789,
+    "status_purpose": "revocation"
+  },
+
+  "controller": [
+    {
+      "_comment": "Controller 1 — Natural Person (CEO exercising direct voting control)",
+      "type": "Person",
+      "jurisdiction": "DE",
+      "person": {
+        "first_name": "Alice",
+        "surname": "Müller",
+        "birth_date": "1972-07-14"
+      },
+      "address": {
+        "street": "Berliner Allee",
+        "house_number": "22",
+        "locality": "Stuttgart",
+        "region": "Baden-Württemberg",
+        "postal_code": "70173",
+        "country": "DE"
+      },
+      "controls": {
+        "type": ["voting_rights", "board"],
+        "level": "direct",
+        "basis": "shareholding",
+        "voting_percentage": 55.0,
+        "appointment_rights": "Right to appoint and remove the majority of the supervisory board members",
+        "rights": ["dividend_rights", "liquidation_rights"]
+      },
+      "effective_date": "2018-01-01",
+      "evidence": [
+        {
+          "id": "urn:evidence:ctrl-001",
+          "type": "officialRegister",
+          "url": "https://www.handelsregister.de/docs/HRB-12345-gesellschafterliste-2024.pdf"
+        }
+      ]
+    },
+
+    {
+      "_comment": "Controller 2 — Natural Person (Senior Managing Official — not a shareholder but a key executive)",
+      "type": "Person",
+      "jurisdiction": "DE",
+      "person": {
+        "first_name": "Thomas",
+        "surname": "Wagner",
+        "birth_date": "1968-11-03"
+      },
+      "address": {
+        "street": "Königsallee",
+        "house_number": "5",
+        "locality": "Düsseldorf",
+        "region": "Nordrhein-Westfalen",
+        "postal_code": "40212",
+        "country": "DE"
+      },
+      "controls": {
+        "type": ["voting_rights", "nominee"],
+        "level": "direct",
+        "basis": "corporate_position",
+        "voting_percentage": null,
+        "other_details": "Exercises control as CEO through executive authority and proxy voting arrangements under shareholders' agreement dated 2021-03-15",
+        "rights": ["dividend_rights"]
+      },
+      "effective_date": "2021-03-15",
+      "evidence": [
+        {
+          "id": "urn:evidence:ctrl-002",
+          "type": "shareholderAgreement",
+          "url": "https://example.com/docs/sha-bosch-2021.pdf"
+        },
+        {
+          "id": "urn:evidence:ctrl-002b",
+          "type": "officialRegister",
+          "url": "https://www.handelsregister.de/docs/HRB-12345-geschaeftsfuehrer-2024.pdf"
+        }
+      ]
+    },
+
+    {
+      "_comment": "Controller 3 — Legal Entity (Private Holding Company exercising indirect control)",
+      "type": "Entity",
+      "jurisdiction": "DE",
+      "entity": {
+        "category": "legal_entity",
+        "name": "Bosch Holding GmbH",
+        "identifier": {
+          "euid": "DE-HRB-987654",
+          "lei": "529900T8BM49AURSDO55",
+          "tax": "DE456789123"
+        },
+        "jurisdiction": "DE",
+        "form": "private_company"
+      },
+      "address": {
+        "street": "Robert-Bosch-Platz",
+        "house_number": "1",
+        "locality": "Gerlingen",
+        "region": "Baden-Württemberg",
+        "postal_code": "70839",
+        "country": "DE"
+      },
+      "controls": {
+        "type": ["voting_rights", "appointment_rights", "agreements"],
+        "level": "indirect",
+        "basis": "shareholding",
+        "voting_percentage": 92.0,
+        "appointment_rights": "Right to appoint full supervisory board via group governance charter",
+        "rights": ["dividend_rights", "liquidation_rights"]
+      },
+      "effective_date": "2005-06-30",
+      "evidence": [
+        {
+          "id": "urn:evidence:ctrl-003",
+          "type": "governanceChart",
+          "url": "https://example.com/docs/bosch-group-governance-2024.pdf"
+        },
+        {
+          "id": "urn:evidence:ctrl-003b",
+          "type": "articlesOfAssociation",
+          "url": "https://example.com/docs/bosch-holding-articles-2023.pdf"
+        }
+      ]
+    },
+
+    {
+      "_comment": "Controller 4 — Legal Entity (State-owned enterprise exercising minority governance control)",
+      "type": "Entity",
+      "jurisdiction": "DE",
+      "entity": {
+        "category": "legal_entity",
+        "name": "KfW Bankengruppe",
+        "identifier": {
+          "lei": "529900HNOAA1KXQJUQ27",
+          "euid": "DE-HRB-41077"
+        },
+        "jurisdiction": "DE",
+        "form": "state_owned_enterprise"
+      },
+      "address": {
+        "street": "Palmengartenstraße",
+        "house_number": "5-9",
+        "locality": "Frankfurt am Main",
+        "region": "Hessen",
+        "postal_code": "60325",
+        "country": "DE"
+      },
+      "controls": {
+        "type": ["veto", "agreements"],
+        "level": "direct",
+        "basis": "legal_framework",
+        "voting_percentage": 8.0,
+        "other_details": "Holds veto rights over strategic decisions under federal investment agreement dated 2010-01-01",
+        "rights": ["dividend_rights"]
+      },
+      "effective_date": "2010-01-01",
+      "evidence": [
+        {
+          "id": "urn:evidence:ctrl-004",
+          "type": "officialRegister",
+          "url": "https://example.com/docs/kfw-investment-agreement-2010.pdf"
+        }
+      ]
+    },
+
+    {
+      "_comment": "Controller 5 — Legal Arrangement (Family trust exercising indirect beneficial control)",
+      "type": "Entity",
+      "jurisdiction": "LU",
+      "entity": {
+        "category": "legal_arrangement",
+        "name": "Bosch Family Discretionary Trust",
+        "identifier": {
+          "lei": "549300ABCDEF98765432"
+        },
+        "jurisdiction": "LU",
+        "form": "trust",
+        "subtype_info": {
+          "settlement": "Settled under Luxembourg trust law (Loi du 27 juillet 2003) on 2008-04-15 by Robert Bosch Stiftung GmbH",
+          "purpose": "Long-term preservation and management of family wealth and strategic control over Bosch group entities",
+          "assets": "Equity stakes in Bosch Holding GmbH, real estate holdings, and diversified securities portfolios",
+          "reason_for_registration": "Registered under CRS and EU AML Directive 5 for beneficial ownership transparency obligations"
+        }
+      },
+      "address": {
+        "street": "Rue de la Forêt",
+        "house_number": "12",
+        "locality": "Luxembourg City",
+        "region": "Luxembourg",
+        "postal_code": "L-1499",
+        "country": "LU"
+      },
+      "controls": {
+        "type": ["agreements", "other_means_of_control", "nominee"],
+        "level": "indirect",
+        "basis": "trust_arrangement",
+        "voting_percentage": null,
+        "other_details": "Control exercised through trustee power of direction over Bosch Holding GmbH shareholding. Trustees hold and vote shares on behalf of the trust beneficiaries per the trust deed dated 2008-04-15.",
+        "rights": ["dividend_rights", "liquidation_rights"]
+      },
+      "effective_date": "2008-04-15",
+      "evidence": [
+        {
+          "id": "urn:evidence:ctrl-005",
+          "type": "trustDeed",
+          "url": "https://example.com/docs/bosch-family-trust-deed-2008.pdf"
+        },
+        {
+          "id": "urn:evidence:ctrl-005b",
+          "type": "thirdPartyVerification",
+          "url": "https://example.com/docs/notary-verification-lu-2024.pdf"
+        }
+      ]
+    }
+  ]
 }
