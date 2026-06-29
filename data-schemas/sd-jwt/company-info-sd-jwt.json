@@ -1,265 +1,262 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://webuildconsortium.eu/schemas/companyinfo-sd-jwt.json",
-  "title": "WeBuild – Company Information (CompanyInfo) – SD-JWT VC payload",
-  "description": "Schema for the SD-JWT VC payload of a CompanyInfo attestation as defined in the CompanyInfo Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing.",
+  "$id": "https://we-build.example.com/schemas/companyinfo/1.0/sd-jwt-vc-schema.json",
+  "title": "CompanyInfo SD-JWT VC Schema",
+  "description": "Schema for the Company Information (CompanyInfo) Attestation encoded as SD-JWT VC, based on the WeBuild Attestation Rulebook and draft-ietf-oauth-sd-jwt-vc-09",
   "type": "object",
-  "version": "0.1.0",
-  "additionalProperties": true,
+
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "issuing_entity",
+    "attestation_legal_category",
+    "number_of_employees",
+    "financial_statements"
+  ],
+
   "properties": {
+
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'eu.we-build.companyinfo.1'.",
-      "examples": [
-        "eu.we-build.companyinfo.1"
-      ]
+      "const": "eu.we-build:companyinfo:1",
+      "description": "Verifiable Credential Type – uniquely identifies the credential type as per SD-JWT VC Section 3.2.2.1. This claim is ALWAYS present in plain text and is NOT selectively disclosable."
     },
-    "attestation_legal_category": {
+
+    "iss": {
       "type": "string",
-      "description": "The legal category of the attestation as defined by eIDAS 2.",
-      "enum": [
-        "EAA"
-      ]
+      "format": "uri",
+      "description": "Issuer identifier – a URI identifying the issuer of the credential. As per RFC 7519 and SD-JWT VC Section 3.2.2.2. NOT selectively disclosable."
     },
+
+    "iat": {
+      "type": "integer",
+      "description": "Issued At – Unix timestamp (seconds since epoch) indicating when the attestation was issued. As per RFC 7519. NOT selectively disclosable.",
+      "minimum": 0
+    },
+
+    "exp": {
+      "type": "integer",
+      "description": "Expiration Time – Unix timestamp (seconds since epoch) after which the attestation is no longer valid. As per RFC 7519. NOT selectively disclosable.",
+      "minimum": 0
+    },
+
+    "nbf": {
+      "type": "integer",
+      "description": "Not Before – Unix timestamp before which the credential MUST NOT be accepted. Optional. As per RFC 7519. NOT selectively disclosable.",
+      "minimum": 0
+    },
+
+    "sub": {
+      "type": "string",
+      "description": "Subject – identifier for the subject of the credential (the legal entity). As per SD-JWT VC Section 3.2.2.2. NOT selectively disclosable."
+    },
+
     "issuing_entity": {
       "type": "string",
-      "description": "The identifier of the legal entity that issued the attestation. Typically the subject entity itself for self-issued EAA attestations, or the QTSP identifier for QEAA attestations.",
-      "examples": [
-        "did:example:webuild-legal-entity-456",
-        "did:example:qtsp-issuer-789"
-      ]
+      "description": "Identifier of the legal entity that issued the attestation. For self-issued EAA, this is the subject entity. For QEAA, this is the QTSP identifier. NOT selectively disclosable."
     },
-    "employee_number": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Total number of employees in the legal entity at the time of reporting. SHALL be a non-negative integer.",
-      "examples": [
-        1250
-      ]
+
+    "attestation_legal_category": {
+      "type": "string",
+      "enum": ["EAA", "QEAA"],
+      "description": "Legal category of this attestation under eIDAS 2. SHALL be 'EAA' (self-issued) or 'QEAA' (issued by a QTSP). NOT selectively disclosable."
     },
-    "trade_alias": {
-      "type": "array",
-      "description": "Registered trade names or aliases under which the legal entity operates. MAY contain zero or more text values.",
-      "items": {
-        "type": "string"
-      },
-      "examples": [
-        ["BuildCo", "WeBuild Solutions"]
-      ]
+
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the schema used for this attestation. Optional metadata. NOT selectively disclosable.",
+      "example": "1.0"
     },
-    "previous_legal_name": {
-      "type": "array",
-      "description": "Previously registered legal name(s) of the entity, as recorded in official company registers prior to the current legal name. MAY contain zero or more text values. SHALL NOT contain the current legal name.",
-      "items": {
-        "type": "string"
-      },
-      "examples": [
-        ["Former Company Name GmbH", "Old Trade Name AG"]
-      ]
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL where the trust anchor for verifying this attestation can be retrieved. Optional metadata."
     },
-    "financial_statements": {
+
+    "cnf": {
       "type": "object",
-      "description": "Financial reporting data associated with the legal entity.",
-      "additionalProperties": false,
+      "description": "Confirmation claim – used to bind the credential to a holder key as per SD-JWT VC Section 3.2.2.2 and RFC 7800. NOT selectively disclosable.",
       "properties": {
-        "taxonomy": {
-          "type": "string",
-          "description": "Financial reporting standard used to structure and label financial data.",
-          "examples": [
-            "IFRS",
-            "US-GAAP",
-            "LOCAL-GAAP",
-            "OECD"
-          ]
-        },
-        "facts": {
-          "type": "array",
-          "description": "List of reported financial facts. At least one fact SHALL be present.",
-          "minItems": 1,
-          "items": {
-            "type": "object",
-            "description": "A single reported financial data point.",
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "type": "string",
-                "description": "Unique identifier of the fact within the attestation. SHALL be unique within the facts array.",
-                "examples": [
-                  "fact-001",
-                  "fact-002"
-                ]
-              },
-              "concept": {
-                "type": "string",
-                "description": "Name of the reported metric. SHALL use standardized concept codes as defined in Section 2.8.4.",
-                "examples": [
-                  "Revenue",
-                  "Turnover",
-                  "CostOfSales",
-                  "GrossProfit",
-                  "OperatingExpenses",
-                  "EBIT",
-                  "EBITDA",
-                  "NetIncome",
-                  "Assets",
-                  "CurrentAssets",
-                  "NonCurrentAssets",
-                  "Liabilities",
-                  "CurrentLiabilities",
-                  "Equity",
-                  "OperatingCashFlow",
-                  "InvestingCashFlow",
-                  "FinancingCashFlow",
-                  "NetCashFlow",
-                  "GrossMargin",
-                  "NetMargin",
-                  "DebtToEquity"
-                ]
-              },
-              "value": {
-                "type": "number",
-                "description": "Reported numeric value of the fact. SHALL be a non-negative value for balance sheet and income statement items. MAY be negative for cash flow items representing outflows.",
-                "examples": [
-                  45000000.00,
-                  3200000.00,
-                  37.78,
-                  -4500000.00
-                ]
-              },
-              "unit": {
-                "type": "string",
-                "description": "Unit of measurement. SHALL be a valid ISO 4217 currency code for monetary values, '%' for ratios/margins, or 'ratio' for dimensionless ratios.",
-                "examples": [
-                  "EUR",
-                  "USD",
-                  "GBP",
-                  "%",
-                  "ratio"
-                ]
-              },
-              "period_start": {
-                "type": "string",
-                "format": "date",
-                "description": "Start date of the reporting period. SHALL follow ISO 8601 format (YYYY-MM-DD). SHALL be equal to or earlier than period_end.",
-                "examples": [
-                  "2024-01-01"
-                ]
-              },
-              "period_end": {
-                "type": "string",
-                "format": "date",
-                "description": "End date of the reporting period. SHALL follow ISO 8601 format (YYYY-MM-DD). SHALL be equal to or later than period_start.",
-                "examples": [
-                  "2024-12-31"
-                ]
-              }
-            },
-            "required": [
-              "id",
-              "concept",
-              "value",
-              "unit",
-              "period_start",
-              "period_end"
-            ]
+        "jwk": {
+          "type": "object",
+          "description": "JSON Web Key representing the holder's public key.",
+          "required": ["kty"],
+          "properties": {
+            "kty": { "type": "string" },
+            "crv": { "type": "string" },
+            "x":   { "type": "string" },
+            "y":   { "type": "string" }
           }
         }
-      },
-      "required": [
-        "taxonomy",
-        "facts"
-      ]
+      }
     },
+
     "status": {
       "type": "object",
-      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when validity period is greater than 24 hours.",
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
-          "examples": [
-            "status-list"
-          ]
-        },
-        "status_list_credential": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status.",
-          "examples": [
-            "https://issuer.webuildconsortium.eu/status/companyinfo/2025"
-          ]
-        },
-        "status_list_index": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Zero-based index into the status list bitstring for this credential.",
-          "examples": [
-            123
-          ]
-        },
-        "status_purpose": {
-          "type": "string",
-          "description": "Purpose of the status entry. For CompanyInfo attestation this SHALL be 'revocation'.",
-          "examples": [
-            "revocation"
-          ]
-        }
-      },
+      "description": "Status claim for revocation checking. MUST be present if the technical validity period is greater than 24 hours. As per SD-JWT VC Section 3.2.2.2 and the Token Status List specification. NOT selectively disclosable.",
       "required": [
         "type",
         "status_list_credential",
         "status_list_index",
         "status_purpose"
-      ]
-    },
-    "trust_anchor_url": {
-      "type": "string",
-      "format": "uri",
-      "description": "URL at which a machine-readable version of the trust anchor used for verifying the CompanyInfo attestation can be found or looked up.",
-      "examples": [
-        "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl"
-      ]
-    },
-    "schema_version": {
-      "type": "string",
-      "description": "Version of the CompanyInfo attestation schema used.",
-      "examples": [
-        "1.0",
-        "0.1.0"
-      ]
-    },
-    "cnf": {
-      "type": "object",
-      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
-      "additionalProperties": false,
+      ],
       "properties": {
-        "jwk": {
-          "type": "object",
-          "description": "Public key bound to the holder.",
-          "additionalProperties": true,
-          "properties": {
-            "kty": { "type": "string" },
-            "crv": { "type": "string" },
-            "x": { "type": "string" },
-            "y": { "type": "string" },
-            "n": { "type": "string" },
-            "e": { "type": "string" }
+        "type": {
+          "type": "string",
+          "const": "status-list",
+          "description": "The type of status mechanism. SHALL be 'status-list'."
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential document containing the status bitstring."
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential."
+        },
+        "status_purpose": {
+          "type": "string",
+          "const": "revocation",
+          "description": "Purpose of the status entry. SHALL be 'revocation' for CompanyInfo attestations."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "number_of_employees": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of employees in the legal entity at the time of reporting. SHALL be a non-negative integer. MUST be selectively disclosable (SD claim)."
+    },
+
+    "trade_alias": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Registered trade names or aliases under which the legal entity operates. MAY contain zero or more text values. Optional. MUST be selectively disclosable (SD claim)."
+    },
+
+    "previous_legal_name": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Previously registered legal name(s) of the entity as recorded in official company registers. SHALL NOT contain the current legal name. MAY contain zero or more values. Optional. MUST be selectively disclosable (SD claim)."
+    },
+
+    "financial_statements": {
+      "type": "object",
+      "description": "Structured financial reporting data following a specified taxonomy. Mandatory. MUST be selectively disclosable as a unit (SD claim). Individual facts within the array are NOT independently selectively disclosable in this version.",
+      "required": ["taxonomy", "facts"],
+      "properties": {
+
+        "taxonomy": {
+          "type": "string",
+          "minLength": 1,
+          "enum": ["IFRS", "US-GAAP", "LOCAL-GAAP", "OECD"],
+          "description": "Financial reporting standard used. SHOULD use a standardized code from Section 2.8.2 of the Rulebook (e.g., IFRS, US-GAAP, LOCAL-GAAP, OECD)."
+        },
+
+        "facts": {
+          "type": "array",
+          "minItems": 1,
+          "description": "List of reported financial facts. SHALL contain at least one Fact object.",
+          "items": {
+            "$ref": "#/$defs/Fact"
           }
         }
       },
-      "required": [
-        "jwk"
-      ]
+      "additionalProperties": false
     }
   },
-  "required": [
-    "vct",
-    "attestation_legal_category",
-    "issuing_authority",
-    "issuing_country",
-    "issuing_entity",
-    "employee_number",
-    "financial_statements"
-  ]
+
+  "$defs": {
+    "Fact": {
+      "type": "object",
+      "title": "Financial Fact",
+      "description": "A single reported financial data point associated with a specific reporting period, taxonomy concept, unit, and value.",
+      "required": [
+        "id",
+        "concept",
+        "value",
+        "unit",
+        "period_start",
+        "period_end"
+      ],
+      "properties": {
+
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier of the fact within the attestation. SHALL be unique within the facts array of a single attestation."
+        },
+
+        "concept": {
+          "type": "string",
+          "description": "Name of the reported financial metric. SHOULD use a standardized concept code from Section 2.8.4 of the Rulebook.",
+          "enum": [
+            "Revenue",
+            "Turnover",
+            "CostOfSales",
+            "GrossProfit",
+            "OperatingExpenses",
+            "EBIT",
+            "NetIncome",
+            "Assets",
+            "CurrentAssets",
+            "NonCurrentAssets",
+            "Liabilities",
+            "CurrentLiabilities",
+            "Equity",
+            "OperatingCashFlow",
+            "InvestingCashFlow",
+            "FinancingCashFlow",
+            "NetCashFlow",
+            "EBITDA",
+            "GrossMargin",
+            "NetMargin",
+            "DebtToEquity"
+          ]
+        },
+
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Reported numeric value of the fact. SHALL be a non-negative numeric value where applicable (e.g., revenue, total assets)."
+        },
+
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unit of measurement. When representing a monetary value, SHALL follow ISO 4217 currency codes (e.g., EUR, USD, GBP). Non-monetary units may be '%' or 'ratio'.",
+          "examples": ["EUR", "USD", "GBP", "CHF", "%", "ratio"]
+        },
+
+        "period_start": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Start date of the reporting period. SHALL be a valid ISO 8601 date in YYYY-MM-DD format."
+        },
+
+        "period_end": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "End date of the reporting period. SHALL be a valid ISO 8601 date in YYYY-MM-DD format. SHALL be equal to or later than period_start."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "additionalProperties": false
 }
