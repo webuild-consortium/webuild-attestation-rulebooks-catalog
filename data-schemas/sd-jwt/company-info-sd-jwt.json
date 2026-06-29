@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://we-build.example.com/schemas/companyinfo/1.0/sd-jwt-vc-schema.json",
-  "title": "CompanyInfo SD-JWT VC Schema",
-  "description": "Schema for the Company Information (CompanyInfo) Attestation encoded as SD-JWT VC, based on the WeBuild Attestation Rulebook and draft-ietf-oauth-sd-jwt-vc-09",
+  "$id": "https://we-build.example.com/schemas/control/1.0/sd-jwt-vc-schema.json",
+  "title": "Control Attestation SD-JWT VC Schema",
+  "description": "Schema for the Control Attestation encoded as SD-JWT VC, based on the WeBuild Control Attestation Rulebook and draft-ietf-oauth-sd-jwt-vc-09. Records all natural persons, legal entities, and legal arrangements exercising direct or indirect control over a legal entity.",
   "type": "object",
 
   "required": [
@@ -12,50 +12,49 @@
     "exp",
     "issuing_entity",
     "attestation_legal_category",
-    "number_of_employees",
-    "financial_statements"
+    "controller"
   ],
 
   "properties": {
 
     "vct": {
       "type": "string",
-      "const": "eu.we-build:companyinfo:1",
-      "description": "Verifiable Credential Type – uniquely identifies the credential type as per SD-JWT VC Section 3.2.2.1. This claim is ALWAYS present in plain text and is NOT selectively disclosable."
+      "const": "eu.we-build:control:1",
+      "description": "Verifiable Credential Type — uniquely identifies the credential type as per SD-JWT VC Section 3.2.2.1. Always present in plain text. NOT selectively disclosable."
     },
 
     "iss": {
       "type": "string",
       "format": "uri",
-      "description": "Issuer identifier – a URI identifying the issuer of the credential. As per RFC 7519 and SD-JWT VC Section 3.2.2.2. NOT selectively disclosable."
+      "description": "Issuer identifier — URI identifying the issuer of the credential. As per RFC 7519 and SD-JWT VC Section 3.2.2.2. NOT selectively disclosable."
     },
 
     "iat": {
       "type": "integer",
-      "description": "Issued At – Unix timestamp (seconds since epoch) indicating when the attestation was issued. As per RFC 7519. NOT selectively disclosable.",
-      "minimum": 0
+      "minimum": 0,
+      "description": "Issued At — Unix timestamp (seconds since epoch) indicating when the attestation was issued. As per RFC 7519. NOT selectively disclosable."
     },
 
     "exp": {
       "type": "integer",
-      "description": "Expiration Time – Unix timestamp (seconds since epoch) after which the attestation is no longer valid. As per RFC 7519. NOT selectively disclosable.",
-      "minimum": 0
+      "minimum": 0,
+      "description": "Expiration Time — Unix timestamp (seconds since epoch) after which the attestation is no longer valid. As per RFC 7519. NOT selectively disclosable."
     },
 
     "nbf": {
       "type": "integer",
-      "description": "Not Before – Unix timestamp before which the credential MUST NOT be accepted. Optional. As per RFC 7519. NOT selectively disclosable.",
-      "minimum": 0
+      "minimum": 0,
+      "description": "Not Before — Unix timestamp before which the credential MUST NOT be accepted. Optional. As per RFC 7519. NOT selectively disclosable."
     },
 
     "sub": {
       "type": "string",
-      "description": "Subject – identifier for the subject of the credential (the legal entity). As per SD-JWT VC Section 3.2.2.2. NOT selectively disclosable."
+      "description": "Subject — identifier for the subject legal entity whose control structure is described. As per SD-JWT VC Section 3.2.2.2. NOT selectively disclosable."
     },
 
     "issuing_entity": {
       "type": "string",
-      "description": "Identifier of the legal entity that issued the attestation. For self-issued EAA, this is the subject entity. For QEAA, this is the QTSP identifier. NOT selectively disclosable."
+      "description": "Identifier of the legal entity that issued the attestation (subject entity for EAA or QTSP for QEAA). NOT selectively disclosable."
     },
 
     "attestation_legal_category": {
@@ -67,7 +66,7 @@
     "schema_version": {
       "type": "string",
       "description": "Version of the schema used for this attestation. Optional metadata. NOT selectively disclosable.",
-      "example": "1.0"
+      "examples": ["0.9.0"]
     },
 
     "trust_anchor_url": {
@@ -78,7 +77,7 @@
 
     "cnf": {
       "type": "object",
-      "description": "Confirmation claim – used to bind the credential to a holder key as per SD-JWT VC Section 3.2.2.2 and RFC 7800. NOT selectively disclosable.",
+      "description": "Confirmation claim — used to bind the credential to a holder key as per SD-JWT VC Section 3.2.2.2 and RFC 7800. NOT selectively disclosable.",
       "properties": {
         "jwk": {
           "type": "object",
@@ -96,13 +95,8 @@
 
     "status": {
       "type": "object",
-      "description": "Status claim for revocation checking. MUST be present if the technical validity period is greater than 24 hours. As per SD-JWT VC Section 3.2.2.2 and the Token Status List specification. NOT selectively disclosable.",
-      "required": [
-        "type",
-        "status_list_credential",
-        "status_list_index",
-        "status_purpose"
-      ],
+      "description": "Status claim for revocation checking. MUST be present if the technical validity period is greater than 24 hours. As per SD-JWT VC Section 3.2.2.2. NOT selectively disclosable.",
+      "required": ["type", "status_list_credential", "status_list_index", "status_purpose"],
       "properties": {
         "type": {
           "type": "string",
@@ -122,136 +116,370 @@
         "status_purpose": {
           "type": "string",
           "const": "revocation",
-          "description": "Purpose of the status entry. SHALL be 'revocation' for CompanyInfo attestations."
+          "description": "Purpose of the status entry. SHALL be 'revocation'."
         }
       },
       "additionalProperties": false
     },
 
-    "number_of_employees": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Total number of employees in the legal entity at the time of reporting. SHALL be a non-negative integer. MUST be selectively disclosable (SD claim)."
+    "_sd_alg": {
+      "type": "string",
+      "description": "Hash algorithm used for selective disclosure digests. SHALL be 'sha-256'. As per SD-JWT VC spec.",
+      "const": "sha-256"
     },
 
-    "trade_alias": {
+    "controller": {
       "type": "array",
+      "minItems": 1,
+      "description": "Array of Controller entries. SHALL contain at least one entry. At least one entry SHALL be of type 'Person'. MUST be selectively disclosable (SD claim).",
       "items": {
-        "type": "string",
-        "minLength": 1
-      },
-      "description": "Registered trade names or aliases under which the legal entity operates. MAY contain zero or more text values. Optional. MUST be selectively disclosable (SD claim)."
-    },
-
-    "previous_legal_name": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      },
-      "description": "Previously registered legal name(s) of the entity as recorded in official company registers. SHALL NOT contain the current legal name. MAY contain zero or more values. Optional. MUST be selectively disclosable (SD claim)."
-    },
-
-    "financial_statements": {
-      "type": "object",
-      "description": "Structured financial reporting data following a specified taxonomy. Mandatory. MUST be selectively disclosable as a unit (SD claim). Individual facts within the array are NOT independently selectively disclosable in this version.",
-      "required": ["taxonomy", "facts"],
-      "properties": {
-
-        "taxonomy": {
-          "type": "string",
-          "minLength": 1,
-          "enum": ["IFRS", "US-GAAP", "LOCAL-GAAP", "OECD"],
-          "description": "Financial reporting standard used. SHOULD use a standardized code from Section 2.8.2 of the Rulebook (e.g., IFRS, US-GAAP, LOCAL-GAAP, OECD)."
-        },
-
-        "facts": {
-          "type": "array",
-          "minItems": 1,
-          "description": "List of reported financial facts. SHALL contain at least one Fact object.",
-          "items": {
-            "$ref": "#/$defs/Fact"
-          }
-        }
-      },
-      "additionalProperties": false
+        "$ref": "#/$defs/Controller"
+      }
     }
   },
 
   "$defs": {
-    "Fact": {
+
+    "Controller": {
       "type": "object",
-      "title": "Financial Fact",
-      "description": "A single reported financial data point associated with a specific reporting period, taxonomy concept, unit, and value.",
-      "required": [
-        "id",
-        "concept",
-        "value",
-        "unit",
-        "period_start",
-        "period_end"
-      ],
+      "title": "Controller",
+      "description": "A natural person, legal entity, or legal arrangement exercising direct or indirect control over the subject legal entity.",
+      "required": ["type", "jurisdiction", "address", "controls", "effective_date", "evidence"],
       "properties": {
 
+        "type": {
+          "type": "string",
+          "enum": ["Person", "Entity"],
+          "description": "Discriminator — SHALL be 'Person' or 'Entity'. Determines which sub-object (person or entity) is present."
+        },
+
+        "jurisdiction": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "Country of legal relevance for this controller entry. SHALL follow ISO 3166-1 alpha-2."
+        },
+
+        "person": {
+          "$ref": "#/$defs/Person",
+          "description": "Present when type = 'Person'. The entity object SHALL be absent."
+        },
+
+        "entity": {
+          "$ref": "#/$defs/Entity",
+          "description": "Present when type = 'Entity'. The person object SHALL be absent."
+        },
+
+        "address": {
+          "$ref": "#/$defs/Address",
+          "description": "Residential address for Person, registered address for Entity."
+        },
+
+        "controls": {
+          "$ref": "#/$defs/Controls",
+          "description": "Describes how control is exercised by this controller."
+        },
+
+        "effective_date": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Date when this control relationship became legally effective. SHALL follow ISO 8601 YYYY-MM-DD."
+        },
+
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "description": "At least one piece of supporting evidence substantiating the declared control.",
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Person": {
+      "type": "object",
+      "title": "Person",
+      "description": "A natural person exercising control. Present only when Controller.type = 'Person'.",
+      "required": ["first_name", "surname"],
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "First name(s) of the natural person controller, including middle name(s) where applicable."
+        },
+        "surname": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Last name(s) or surname(s) of the natural person controller."
+        },
+        "birth_date": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Date of birth of the natural person controller. OPTIONAL but SHOULD be included where available. ISO 8601 YYYY-MM-DD."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Entity": {
+      "type": "object",
+      "title": "Entity",
+      "description": "A legal entity or legal arrangement exercising control. Present only when Controller.type = 'Entity'.",
+      "required": ["category", "name", "identifier", "jurisdiction", "form"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": ["legal_entity", "legal_arrangement"],
+          "description": "Classification of the entity. SHALL be 'legal_entity' or 'legal_arrangement'."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Complete official registered name of the entity or legal arrangement."
+        },
+        "identifier": {
+          "$ref": "#/$defs/EntityIdentifier",
+          "description": "At least one of euid, lei, tax, or other SHALL be present."
+        },
+        "jurisdiction": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled."
+        },
+        "form": {
+          "type": "string",
+          "enum": [
+            "private_company",
+            "public_company",
+            "partnership",
+            "limited_partnership",
+            "trust",
+            "foundation",
+            "cooperative",
+            "state_owned_enterprise",
+            "other"
+          ],
+          "description": "Legal form of the entity. SHALL use values from Section 2.8.6."
+        },
+        "subtype_info": {
+          "$ref": "#/$defs/SubtypeInfo",
+          "description": "Mandatory when entity.category = 'legal_arrangement' or entity.form = 'trust'."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "EntityIdentifier": {
+      "type": "object",
+      "title": "EntityIdentifier",
+      "description": "Legal identifier(s) for the entity. At least one of euid, lei, tax, or other SHALL be present.",
+      "properties": {
+        "euid": {
+          "type": "string",
+          "minLength": 1,
+          "description": "European Unique Identifier — optional."
+        },
+        "lei": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 20,
+          "description": "Legal Entity Identifier per ISO 17442 — 20-character alphanumeric code — optional."
+        },
+        "tax": {
+          "type": "string",
+          "minLength": 1,
+          "description": "National tax or registration number — optional."
+        },
+        "other": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Any other applicable legal identifier — optional."
+        }
+      },
+      "anyOf": [
+        { "required": ["euid"] },
+        { "required": ["lei"] },
+        { "required": ["tax"] },
+        { "required": ["other"] }
+      ],
+      "additionalProperties": false
+    },
+
+    "SubtypeInfo": {
+      "type": "object",
+      "title": "SubtypeInfo",
+      "description": "Additional information for legal arrangements. Mandatory when entity.category = 'legal_arrangement' or entity.form = 'trust'.",
+      "required": ["settlement", "purpose", "assets"],
+      "properties": {
+        "settlement": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Instrument or document establishing the legal arrangement (e.g., trust deed, founding charter)."
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Declared purpose of the legal arrangement."
+        },
+        "assets": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Description of assets held within the legal arrangement."
+        },
+        "reason_for_registration": {
+          "type": "string",
+          "description": "Reason the legal arrangement was formally registered — optional."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Address": {
+      "type": "object",
+      "title": "Address",
+      "description": "Address of the controller. Residential for Person, registered for Entity.",
+      "required": ["street", "house_number", "locality", "region", "postal_code", "country"],
+      "properties": {
+        "street": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Street name of the address."
+        },
+        "house_number": {
+          "type": "string",
+          "minLength": 1,
+          "description": "House or building number."
+        },
+        "locality": {
+          "type": "string",
+          "minLength": 1,
+          "description": "City or locality."
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1,
+          "description": "State, province, or region."
+        },
+        "postal_code": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Postal or ZIP code."
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 country code."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Controls": {
+      "type": "object",
+      "title": "Controls",
+      "description": "Describes the mechanism, level, and basis through which control is exercised.",
+      "required": ["type", "level", "basis", "rights"],
+      "properties": {
+        "type": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "voting_rights",
+              "appointment_rights",
+              "agreements",
+              "dominance",
+              "other_means_of_control",
+              "board",
+              "veto",
+              "contractual",
+              "nominee",
+              "profit_distribution"
+            ]
+          },
+          "description": "Array of one or more control mechanism types. SHALL use values from Section 2.8.3. At least one value required."
+        },
+        "level": {
+          "type": "string",
+          "enum": ["direct", "indirect", "joint", "unknown"],
+          "description": "How control is held. SHALL be one of: 'direct', 'indirect', 'joint', or 'unknown'. See Section 2.8.2."
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "corporate_position",
+            "shareholding",
+            "contractual",
+            "legal_framework",
+            "trust_arrangement",
+            "other"
+          ],
+          "description": "Legal or structural basis for control. SHALL use values from Section 2.8.4."
+        },
+        "voting_percentage": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentage of voting rights held. Decimal value in range 0–100. Optional. Use null where voting rights are not applicable."
+        },
+        "appointment_rights": {
+          "type": "string",
+          "description": "Free text details on appointment rights held by this controller. Optional."
+        },
+        "other_details": {
+          "type": "string",
+          "description": "Free text description of other control mechanisms not captured by structured fields. Optional."
+        },
+        "rights": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["dividend_rights", "liquidation_rights"]
+          },
+          "description": "Array of economic rights associated with the control. SHALL use values from Section 2.8.5."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Evidence": {
+      "type": "object",
+      "title": "Evidence",
+      "description": "Supporting documentation substantiating the declared control relationship.",
+      "required": ["id", "type"],
+      "properties": {
         "id": {
           "type": "string",
           "minLength": 1,
-          "description": "Unique identifier of the fact within the attestation. SHALL be unique within the facts array of a single attestation."
+          "description": "Unique identifier, URI, or URN of the source or evidence document."
         },
-
-        "concept": {
+        "type": {
           "type": "string",
-          "description": "Name of the reported financial metric. SHOULD use a standardized concept code from Section 2.8.4 of the Rulebook.",
           "enum": [
-            "Revenue",
-            "Turnover",
-            "CostOfSales",
-            "GrossProfit",
-            "OperatingExpenses",
-            "EBIT",
-            "NetIncome",
-            "Assets",
-            "CurrentAssets",
-            "NonCurrentAssets",
-            "Liabilities",
-            "CurrentLiabilities",
-            "Equity",
-            "OperatingCashFlow",
-            "InvestingCashFlow",
-            "FinancingCashFlow",
-            "NetCashFlow",
-            "EBITDA",
-            "GrossMargin",
-            "NetMargin",
-            "DebtToEquity"
-          ]
+            "officialRegister",
+            "selfDeclaration",
+            "thirdPartyVerification",
+            "trustDeed",
+            "shareholderAgreement",
+            "articlesOfAssociation",
+            "governanceChart"
+          ],
+          "description": "Type of evidence document. SHALL use values from Section 2.8.9."
         },
-
-        "value": {
-          "type": "number",
-          "minimum": 0,
-          "description": "Reported numeric value of the fact. SHALL be a non-negative numeric value where applicable (e.g., revenue, total assets)."
-        },
-
-        "unit": {
+        "url": {
           "type": "string",
-          "minLength": 1,
-          "description": "Unit of measurement. When representing a monetary value, SHALL follow ISO 4217 currency codes (e.g., EUR, USD, GBP). Non-monetary units may be '%' or 'ratio'.",
-          "examples": ["EUR", "USD", "GBP", "CHF", "%", "ratio"]
+          "format": "uri",
+          "description": "URI reference to the publicly accessible source document. Optional."
         },
-
-        "period_start": {
+        "data": {
           "type": "string",
-          "format": "date",
-          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-          "description": "Start date of the reporting period. SHALL be a valid ISO 8601 date in YYYY-MM-DD format."
-        },
-
-        "period_end": {
-          "type": "string",
-          "format": "date",
-          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-          "description": "End date of the reporting period. SHALL be a valid ISO 8601 date in YYYY-MM-DD format. SHALL be equal to or later than period_start."
+          "contentEncoding": "base64",
+          "description": "Base64-encoded source document. SHALL be provided if url is absent or not publicly accessible. Optional."
         }
       },
       "additionalProperties": false
