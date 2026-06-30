@@ -225,6 +225,10 @@
           }
         }
       },
+      "required": [
+        "taxonomy",
+        "facts"
+      ],
       "additionalProperties": false
     }
   },
@@ -304,11 +308,7 @@
           "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
           "description": "End date of the reporting period. SHALL be a valid ISO 8601 date (YYYY-MM-DD). SHALL be equal to or later than period_start."
         }
-      },
-      "required": [
-        "taxonomy",
-        "facts"
-      ]
+      }
     }
   },
 
