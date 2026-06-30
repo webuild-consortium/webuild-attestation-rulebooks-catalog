@@ -1,5 +1,4 @@
 {
-  "_comment": "Non-normative full sample payload for the WeBuild Control Attestation (vct: eu.we-build:control:1). Demonstrates three controller entries: one natural person (direct shareholding + board), one legal entity (indirect nominee holding), and one legal arrangement (trust structure). In a real SD-JWT VC, selectively disclosable claims are replaced by digests in the JWT payload and accompanied by individual disclosure objects. All values are fictitious and for illustration purposes only.",
 
   "_sd_alg": "sha-256",
 
@@ -194,55 +193,6 @@
       "crv": "P-256",
       "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
       "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-    }
-  },
-
-  "_disclosures": {
-    "_comment": "Illustrative selective disclosure map. In a real SD-JWT VC each selectively disclosable claim is individually salted and hashed. The holder presents only the disclosures the Relying Party requires.",
-    "_selective_disclosure_map": {
-      "controller":                                                      "MUST — selectively disclosable (array)",
-      "controller[n].type":                                              "MUST — individually selectively disclosable",
-      "controller[n].jurisdiction":                                      "MUST — individually selectively disclosable",
-      "controller[n].person":                                            "MUST — selectively disclosable (object, conditional on type=Person)",
-      "controller[n].person.first_name":                                 "MUST — individually selectively disclosable",
-      "controller[n].person.surname":                                    "MUST — individually selectively disclosable",
-      "controller[n].person.birth_date":                                 "MAY  — individually selectively disclosable (sensitive)",
-      "controller[n].entity":                                            "MUST — selectively disclosable (object, conditional on type=Entity)",
-      "controller[n].entity.category":                                   "MUST — individually selectively disclosable",
-      "controller[n].entity.name":                                       "MUST — individually selectively disclosable",
-      "controller[n].entity.identifier.euid":                            "MAY  — individually selectively disclosable",
-      "controller[n].entity.identifier.lei":                             "MAY  — individually selectively disclosable",
-      "controller[n].entity.identifier.tax":                             "MAY  — individually selectively disclosable",
-      "controller[n].entity.identifier.other":                           "MAY  — individually selectively disclosable",
-      "controller[n].entity.jurisdiction":                               "MUST — individually selectively disclosable",
-      "controller[n].entity.form":                                       "MUST — individually selectively disclosable",
-      "controller[n].entity.subtype_info":                               "MUST — selectively disclosable (object, conditional on legal_arrangement/trust)",
-      "controller[n].entity.subtype_info.settlement":                    "MUST — individually selectively disclosable (conditional)",
-      "controller[n].entity.subtype_info.purpose":                       "MUST — individually selectively disclosable (conditional)",
-      "controller[n].entity.subtype_info.assets":                        "MUST — individually selectively disclosable (conditional)",
-      "controller[n].entity.subtype_info.reason_for_registration":       "MAY  — individually selectively disclosable",
-      "controller[n].address":                                           "MUST — selectively disclosable (object)",
-      "controller[n].address.street":                                    "MUST — individually selectively disclosable (sensitive)",
-      "controller[n].address.house_number":                              "MUST — individually selectively disclosable (sensitive)",
-      "controller[n].address.locality":                                  "MUST — individually selectively disclosable",
-      "controller[n].address.region":                                    "MUST — individually selectively disclosable",
-      "controller[n].address.postal_code":                               "MUST — individually selectively disclosable",
-      "controller[n].address.country":                                   "MUST — individually selectively disclosable",
-      "controller[n].controls":                                          "MUST — selectively disclosable (object)",
-      "controller[n].controls.type":                                     "MUST — individually selectively disclosable",
-      "controller[n].controls.level":                                    "MUST — individually selectively disclosable",
-      "controller[n].controls.basis":                                    "MUST — individually selectively disclosable",
-      "controller[n].controls.voting_percentage":                        "MAY  — individually selectively disclosable",
-      "controller[n].controls.appointment_rights":                       "MAY  — individually selectively disclosable",
-      "controller[n].controls.other_details":                            "MAY  — individually selectively disclosable",
-      "controller[n].controls.rights":                                   "MUST — individually selectively disclosable",
-      "controller[n].effective_date":                                    "MUST — individually selectively disclosable",
-      "controller[n].evidence":                                          "MUST — selectively disclosable (array)",
-      "controller[n].evidence[m].id":                                    "MUST — individually selectively disclosable",
-      "controller[n].evidence[m].type":                                  "MUST — individually selectively disclosable",
-      "controller[n].evidence[m].url":                                   "MAY  — individually selectively disclosable",
-      "controller[n].evidence[m].data":                                  "MAY  — individually selectively disclosable (sensitive)",
-      "attestation_legal_category":                                      "MUST NOT — always present in plain text"
     }
   }
 }
