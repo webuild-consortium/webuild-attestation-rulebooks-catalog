@@ -574,7 +574,7 @@ The `status` claim SHALL be a JSON object with the following members:
 | `status_list_index`      | Integer (>= 0) | Zero-based index into the status list bitstring |
 | `status_purpose`         | String         | SHALL be `"revocation"`                         |
 
-**Example:**
+Example:
 
 ```json
 {
@@ -842,6 +842,8 @@ This UBO  Attestation Rulebook is specifically designed to comply with AMLR 2024
 *Article 3(17) – Definition of Beneficial Owner:*
 *Article 60 – Beneficial Ownership Registers:*
 *Article 62 – Beneficial Ownership Information Requirements:*
+
+
 
 ## 8 References
 
