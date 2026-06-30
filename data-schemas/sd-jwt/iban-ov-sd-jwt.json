@@ -193,7 +193,7 @@
       },
       "required": [
         "provider_name",
-        "bank_identifier",
+        "euid",
         "provider_country",
         "bic_swift"
       ]

@@ -25,9 +25,6 @@
     "status_list_index": 789,
     "status_purpose": "revocation"
   },
-
-  "_sd_alg": "sha-256",
-
   "owner": [
     {
       "type": "Person",

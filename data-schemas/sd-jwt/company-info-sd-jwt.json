@@ -116,6 +116,89 @@
       "description": "Previously registered legal name(s) of the entity. SHALL NOT contain the current legal name. Optional. MUST be selectively disclosable."
     },
 
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when validity period is greater than 24 hours.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status.",
+          "examples": [
+            "https://issuer.webuildconsortium.eu/status/companyinfo/2025"
+          ]
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential.",
+          "examples": [
+            123
+          ]
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For CompanyInfo attestation this SHALL be 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the CompanyInfo attestation can be found or looked up.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the CompanyInfo attestation schema used.",
+      "examples": [
+        "1.0",
+        "0.1.0"
+      ]
+    },
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": { "type": "string" },
+            "crv": { "type": "string" },
+            "x": { "type": "string" },
+            "y": { "type": "string" },
+            "n": { "type": "string" },
+            "e": { "type": "string" }
+          }
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    },
+
     "financial_statements": {
       "type": "object",
       "description": "Structured financial reporting data following a specified taxonomy. Mandatory. MUST be selectively disclosable as a unit.",
@@ -225,88 +308,6 @@
       "required": [
         "taxonomy",
         "facts"
-      ]
-    },
-    "status": {
-      "type": "object",
-      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when validity period is greater than 24 hours.",
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
-          "examples": [
-            "status-list"
-          ]
-        },
-        "status_list_credential": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status.",
-          "examples": [
-            "https://issuer.webuildconsortium.eu/status/companyinfo/2025"
-          ]
-        },
-        "status_list_index": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Zero-based index into the status list bitstring for this credential.",
-          "examples": [
-            123
-          ]
-        },
-        "status_purpose": {
-          "type": "string",
-          "description": "Purpose of the status entry. For CompanyInfo attestation this SHALL be 'revocation'.",
-          "examples": [
-            "revocation"
-          ]
-        }
-      },
-      "required": [
-        "type",
-        "status_list_credential",
-        "status_list_index",
-        "status_purpose"
-      ]
-    },
-    "trust_anchor_url": {
-      "type": "string",
-      "format": "uri",
-      "description": "URL at which a machine-readable version of the trust anchor used for verifying the CompanyInfo attestation can be found or looked up.",
-      "examples": [
-        "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl"
-      ]
-    },
-    "schema_version": {
-      "type": "string",
-      "description": "Version of the CompanyInfo attestation schema used.",
-      "examples": [
-        "1.0",
-        "0.1.0"
-      ]
-    },
-    "cnf": {
-      "type": "object",
-      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
-      "additionalProperties": false,
-      "properties": {
-        "jwk": {
-          "type": "object",
-          "description": "Public key bound to the holder.",
-          "additionalProperties": true,
-          "properties": {
-            "kty": { "type": "string" },
-            "crv": { "type": "string" },
-            "x": { "type": "string" },
-            "y": { "type": "string" },
-            "n": { "type": "string" },
-            "e": { "type": "string" }
-          }
-        }
-      },
-      "required": [
-        "jwk"
       ]
     }
   },
