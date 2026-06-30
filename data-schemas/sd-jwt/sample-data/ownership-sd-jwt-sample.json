@@ -30,7 +30,6 @@
 
   "owner": [
     {
-      "_comment_1": "Owner 1 — Natural Person (UBO) — Direct majority shareholder",
       "type": "Person",
       "jurisdiction": "DE",
       "person": {
@@ -66,8 +65,7 @@
     },
 
     {
-      "_comment_2": "Owner 2 — Natural Person (UBO) — Indirect minority shareholder via nominee",
-      "type": "Person",
+     "type": "Person",
       "jurisdiction": "DE",
       "person": {
         "first_name": "Klaus",
@@ -102,7 +100,6 @@
     },
 
     {
-      "_comment_3": "Owner 3 — Legal Entity — Intermediate holding company (indirect)",
       "type": "Entity",
       "jurisdiction": "DE",
       "entity": {
@@ -149,7 +146,6 @@
     },
 
     {
-      "_comment_4": "Owner 4 — Legal Arrangement — Family Trust (Luxembourg)",
       "type": "Entity",
       "jurisdiction": "LU",
       "entity": {

@@ -1,29 +1,16 @@
 {
 
-  "_sd_alg": "sha-256",
-
   "vct": "eu.we-build:control:1",
-
   "attestation_legal_category": "EAA",
-
   "iss": "did:web:bosch.com",
-
   "iat": 1736935200,
-
   "exp": 1768471200,
-
   "jti": "urn:uuid:control-attestation-bosch-20260601-001",
-
   "issuing_entity": "did:web:bosch.com",
-
   "schema_version": "0.9.0",
-
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-
   "controller": [
-
     {
-      "_comment_controller_0": "Controller 1 — Alice Smith: natural person exercising direct control via 60% voting rights and board position",
 
       "type": "Person",
 
@@ -70,7 +57,6 @@
     },
 
     {
-      "_comment_controller_1": "Controller 2 — HoldCo GmbH: legal entity exercising indirect control via 40% nominee shareholding",
 
       "type": "Entity",
 
@@ -123,7 +109,6 @@
     },
 
     {
-      "_comment_controller_2": "Controller 3 — Smith Family Trust: legal arrangement (trust) exercising indirect control through trustee rights over beneficiary assets",
 
       "type": "Entity",
 
