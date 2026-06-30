@@ -1,0 +1,38 @@
+{
+  "vct": "eu.we-build:gln:1",
+  "iss": "did:example:gs1-issuer-456",
+  "iat": 1710000000,
+  "exp": 1741536000,
+  "attestation_legal_category": "EAA",
+  "schema_version": "0.1.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/gs1/eidas-tl",
+
+  "gs1": {
+    "organizationLegalName": "Example Supply GmbH",
+    "licenceKey": 4012345,
+    "globalLocationNumber": "4012345000009"
+  },
+
+  "address": {
+    "postal_code": "10115",
+    "locality": "Berlin",
+    "region": "Berlin",
+    "country": "DE"
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://example.com/status/gln-list-1",
+    "status_list_index": 123,
+    "status_purpose": "revocation"
+  },
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}

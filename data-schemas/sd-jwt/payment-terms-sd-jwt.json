@@ -1,48 +1,111 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://webuildconsortium.eu/schemas/paymentterms-sd-jwt.json",
-  "title": "WeBuild – Payment Terms (PaymentTerms) – SD-JWT VC payload",
-  "description": "Schema for the SD-JWT VC payload of a PaymentTerms attestation as defined in the PaymentTerms Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The Payment Terms attestation provides a standardized, verifiable representation of the financial conditions agreed between a buyer and a supplier, including payment due period, currency, Incoterm, and party identifiers, enabling structured exchange of payment term attributes for KYS, KYC, supplier onboarding, financial risk assessment, and regulatory compliance processes.",
+  "$id": "https://webuildconsortium.eu/schemas/payment-terms-sd-jwt.json",
+  "title": "WeBuild – Payment Terms Attestation – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a Payment Terms Attestation as defined in the Payment Terms Attestation Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The attestation provides a standardized, verifiable representation of the financial conditions agreed between a buyer and a supplier, including payment due date, currency, delivery terms (Incoterms), and party identifiers.",
   "type": "object",
   "version": "0.1.0",
   "additionalProperties": true,
   "properties": {
+
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'eu.we-build.paymentterms.1'.",
+      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:paymentterms:1'. A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential. SHALL be selectively disclosable.",
       "examples": [
-        "eu.we-build.paymentterms.1"
+        "eu.we-build:paymentterms:1"
       ]
     },
+
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer of the attestation. Identifies the legal entity that self-issued the Payment Terms Attestation. Follows RFC 7519. SHALL NOT be selectively disclosable.",
+      "examples": [
+        "https://issuer.example.com",
+        "did:example:legal-entity-456",
+        "did:web:buyer.example.de"
+      ]
+    },
+
+    "iat": {
+      "type": "integer",
+      "description": "Issuance date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation was issued per ISO 8601 / RFC 7519. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1736935200
+      ]
+    },
+
+    "exp": {
+      "type": "integer",
+      "description": "Expiry date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation expires per ISO 8601 / RFC 7519. SHALL be later than 'iat'. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1768471200
+      ]
+    },
+
+    "issuing_entity": {
+      "type": "string",
+      "description": "The identifier of the legal entity that issued the attestation. For self-issued EAA this is typically a DID or URI of the buyer or supplier entity. SHALL NOT be selectively disclosable.",
+      "examples": [
+        "did:example:legal-entity-456",
+        "did:web:buyer.example.de"
+      ]
+    },
+
+    "issuing_country": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code of the country in which the issuer is established. SHALL NOT be selectively disclosable.",
+      "pattern": "^[A-Z]{2}$",
+      "examples": [
+        "DE",
+        "NL",
+        "FR"
+      ]
+    },
+
     "attestation_legal_category": {
       "type": "string",
-      "description": "The legal category of the attestation as defined by eIDAS 2. For PaymentTerms attestations this MAY be 'EAA' when self-issued by the legal entity, or 'QEAA' when issued by a qualified trust service provider (QTSP) or authorized competent body that can independently attest the payment terms.",
+      "description": "The legal category of the attestation as defined by eIDAS 2. For the Payment Terms Attestation self-issued by the legal entity, this SHALL be 'EAA'. SHALL NOT be selectively disclosable.",
       "enum": [
         "EAA"
       ]
     },
-    "issuing_entity": {
+
+    "schema_version": {
       "type": "string",
-      "description": "The identifier of the legal entity that issued the attestation. For self-issued EAA attestations this is typically the subject entity itself; for QEAA attestations this is the QTSP identifier.",
+      "description": "Version of the Payment Terms attestation schema used. SHALL be a non-empty string when present. MAY be selectively disclosable.",
+      "minLength": 1,
       "examples": [
-        "did:example:legal-entity-456",
-        "did:example:qtsp-issuer-789"
+        "1.0",
+        "0.1.0"
       ]
     },
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the Payment Terms Attestation can be found or looked up. When present, SHALL be a valid URI. MAY be selectively disclosable.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
+      ]
+    },
+
     "payment_due": {
       "type": "string",
-      "description": "The number of days within which payment must be made, expressed as a valid ISO 8601 duration (e.g., P30D for 30 days). SHALL be a non-negative ISO 8601 duration string in PnD format.",
-      "pattern": "^P([0-9]+D|([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?)$",
+      "description": "The number of days within which payment must be made, expressed as a valid ISO 8601 duration in the format PnD (e.g., P30D for 30 days, P0D for immediate payment). SHALL represent a non-negative duration. SHALL be individually selectively disclosable.",
+      "pattern": "^P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?)?$",
       "examples": [
         "P30D",
+        "P0D",
         "P14D",
         "P60D",
-        "P0D"
+        "P90D"
       ]
     },
+
     "currency": {
       "type": "string",
-      "description": "The currency in which the payment is to be executed. SHALL be a valid ISO 4217 alphabetic currency code (3 uppercase letters).",
+      "description": "The currency in which the payment is to be executed. SHALL be a valid ISO 4217 alphabetic currency code (3 uppercase letters). SHALL be individually selectively disclosable.",
       "pattern": "^[A-Z]{3}$",
       "examples": [
         "EUR",
@@ -52,9 +115,10 @@
         "JPY"
       ]
     },
+
     "incoterm": {
       "type": "string",
-      "description": "The delivery and risk transfer term agreed between buyer and seller. SHALL be a valid Incoterms 2020 three-letter code as defined in Section 2.8.1 of the PaymentTerms Rulebook (International Chamber of Commerce).",
+      "description": "The delivery and risk transfer term agreed between buyer and seller. SHALL be a valid Incoterms 2020 three-letter code as defined in Section 2.8.1 (ICC Incoterms 2020). SHALL be individually selectively disclosable.",
       "enum": [
         "EXW",
         "FCA",
@@ -67,46 +131,137 @@
         "FOB",
         "CFR",
         "CIF"
-      ],
-      "examples": [
-        "DAP",
-        "FOB",
-        "CIF",
-        "EXW"
       ]
     },
+
     "buyer_identifier": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Unique identifier of the buyer party obligated to make payment under the agreed payment terms (e.g., EUID, VAT number, or DUNS number). SHALL be a non-empty string. SHALL NOT be identical to supplier_identifier within the same attestation.",
-      "examples": [
-        "DE-HRB-123456",
-        "DE123456789",
-        "123456789"
+      "type": "object",
+      "description": "Object containing one or more unique identifiers of the buyer party. At least one identifier MUST be present (euid, lei, tax, or duns). SHALL be individually selectively disclosable as a top-level claim. buyer_identifier and supplier_identifier SHALL NOT be identical within the same attestation.",
+      "additionalProperties": false,
+      "properties": {
+
+        "euid": {
+          "type": "string",
+          "description": "European Unique Identifier (EUID) of the buyer legal entity per Directive (EU) 2017/1132. Optional; at least one identifier (euid, lei, tax, or duns) MUST be present.",
+          "minLength": 1,
+          "examples": [
+            "DE1212.HRB123456",
+            "DE-HRB-396699",
+            "FR-RCS-PARIS-987654321"
+          ]
+        },
+
+        "lei": {
+          "type": "string",
+          "description": "Legal Entity Identifier (LEI) of the buyer per ISO 17442. When present, SHALL be exactly 20 uppercase alphanumeric characters. Optional.",
+          "pattern": "^[A-Z0-9]{20}$",
+          "examples": [
+            "5493001KJTIIGC8Y1R12",
+            "724500PM3I5IXFKXK422"
+          ]
+        },
+
+        "tax": {
+          "type": "string",
+          "description": "National company tax or registration number of the buyer. Optional.",
+          "minLength": 1,
+          "examples": [
+            "DE123456789",
+            "tax21212",
+            "NL854265362B01"
+          ]
+        },
+
+        "duns": {
+          "type": "string",
+          "description": "Dun & Bradstreet DUNS number of the buyer. When present, SHALL be a nine-digit numeric string. Optional.",
+          "pattern": "^[0-9]{9}$",
+          "examples": [
+            "123456789",
+            "987654321"
+          ]
+        }
+
+      },
+      "anyOf": [
+        { "required": ["euid"] },
+        { "required": ["lei"] },
+        { "required": ["tax"] },
+        { "required": ["duns"] }
       ]
     },
+
     "supplier_identifier": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Unique identifier of the supplier party entitled to receive payment under the agreed payment terms (e.g., EUID, VAT number, or DUNS number). SHALL be a non-empty string. SHALL NOT be identical to buyer_identifier within the same attestation.",
-      "examples": [
-        "NL-KVK-987654",
-        "NL123456789",
-        "987654321"
+      "type": "object",
+      "description": "Object containing one or more unique identifiers of the supplier party. At least one identifier MUST be present (euid, lei, tax, or duns). SHALL be individually selectively disclosable as a top-level claim. buyer_identifier and supplier_identifier SHALL NOT be identical within the same attestation.",
+      "additionalProperties": false,
+      "properties": {
+
+        "euid": {
+          "type": "string",
+          "description": "European Unique Identifier (EUID) of the supplier legal entity per Directive (EU) 2017/1132. Optional; at least one identifier (euid, lei, tax, or duns) MUST be present.",
+          "minLength": 1,
+          "examples": [
+            "NL1212.HRB123456",
+            "NL-KVK-87654321",
+            "DE-HRB-123456"
+          ]
+        },
+
+        "lei": {
+          "type": "string",
+          "description": "Legal Entity Identifier (LEI) of the supplier per ISO 17442. When present, SHALL be exactly 20 uppercase alphanumeric characters. Optional.",
+          "pattern": "^[A-Z0-9]{20}$",
+          "examples": [
+            "724500PM3I5IXFKXK422",
+            "5493001KJTIIGC8Y1R12"
+          ]
+        },
+
+        "tax": {
+          "type": "string",
+          "description": "National company tax or registration number of the supplier. Optional.",
+          "minLength": 1,
+          "examples": [
+            "NL854265362B01",
+            "tax21212",
+            "DE811001001"
+          ]
+        },
+
+        "duns": {
+          "type": "string",
+          "description": "Dun & Bradstreet DUNS number of the supplier. When present, SHALL be a nine-digit numeric string. Optional.",
+          "pattern": "^[0-9]{9}$",
+          "examples": [
+            "987654321",
+            "112233445"
+          ]
+        }
+
+      },
+      "anyOf": [
+        { "required": ["euid"] },
+        { "required": ["lei"] },
+        { "required": ["tax"] },
+        { "required": ["duns"] }
       ]
     },
+
     "agreement_date": {
       "type": "string",
-      "format": "date",
-      "description": "Date when the payment terms were agreed upon. SHALL follow ISO 8601 format (YYYY-MM-DD). SHALL NOT be a future date at the time of attestation issuance.",
+      "description": "Date when the payment terms were agreed upon between buyer and supplier. SHALL be a valid ISO 8601 full-date format (YYYY-MM-DD). SHALL NOT be a future date at time of attestation issuance. SHALL be individually selectively disclosable.",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
       "examples": [
         "2025-01-10",
-        "2024-06-15"
+        "2024-06-15",
+        "2026-03-01"
       ]
     },
+
     "payment_reference_event": {
       "type": "string",
-      "description": "The event that triggers the start of the payment due period. If provided, SHOULD use one of the standardized values defined in Section 2.8.3 of the PaymentTerms Rulebook. Optional.",
+      "description": "The event that triggers the start of the payment due period. When present, SHALL use one of the enumerated values defined in Section 2.8.3. Optional. SHALL be individually selectively disclosable.",
       "enum": [
         "invoice_date",
         "delivery_date",
@@ -120,39 +275,48 @@
         "order_date"
       ]
     },
+
     "contract_reference": {
       "type": "string",
-      "description": "Reference to the underlying contract or purchase order associated with these payment terms. Optional.",
+      "description": "Reference to the underlying contract or purchase order associated with these payment terms. Optional. SHALL be individually selectively disclosable.",
+      "minLength": 1,
       "examples": [
         "PO-2025-00123",
-        "CONTRACT-2024-XYZ-001"
+        "CONTRACT-2024-DE-NL-007",
+        "MSA-2025-Q1-001"
       ]
     },
+
     "transaction_amount": {
       "type": "number",
+      "description": "The monetary value of the transaction in the currency specified by the 'currency' field. When present, SHALL be a non-negative decimal value. Optional. SHALL be individually selectively disclosable.",
       "minimum": 0,
-      "description": "The monetary value of the transaction to which these payment terms apply. If provided, SHALL be a non-negative decimal value. The currency is specified by the 'currency' attribute. Optional.",
       "examples": [
         250000.00,
-        1500000.50,
+        15000.50,
+        1000000.00,
         0.00
       ]
     },
+
     "delivery_location": {
       "type": "string",
+      "description": "The agreed location for delivery of goods or services, specified as a full address or standardized location identifier. When present, SHALL be a non-empty string. Optional. SHALL be individually selectively disclosable.",
       "minLength": 1,
-      "description": "The agreed location for delivery of goods or services, specified as a full address or standardized location identifier. If provided, SHALL be a non-empty string. Optional.",
       "examples": [
         "Hauptstraße 12, 10115 Berlin, Germany",
-        "Port of Rotterdam, Netherlands",
-        "Industrieweg 5, 80331 Munich, DEU"
+        "Industriestraße 77, 70565 Stuttgart, DE",
+        "Herengracht 100, 1017 BS Amsterdam, NL",
+        "GLN:4012345000009"
       ]
     },
+
     "status": {
       "type": "object",
-      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period is greater than 24 hours.",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period (exp - iat) is greater than 24 hours. Enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.",
       "additionalProperties": false,
       "properties": {
+
         "type": {
           "type": "string",
           "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
@@ -160,29 +324,33 @@
             "status-list"
           ]
         },
+
         "status_list_credential": {
           "type": "string",
           "format": "uri",
-          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status.",
+          "description": "URI of the Status List Credential document that contains the bitstring indicating revocation status.",
           "examples": [
             "https://issuer.example.com/status/paymentterms/2025"
           ]
         },
+
         "status_list_index": {
           "type": "integer",
           "minimum": 0,
-          "description": "Zero-based index into the status list bitstring for this credential.",
+          "description": "Zero-based index into the status list bitstring that corresponds to this credential.",
           "examples": [
             789
           ]
         },
+
         "status_purpose": {
           "type": "string",
-          "description": "Purpose of the status entry. For PaymentTerms attestation this SHALL be 'revocation'.",
+          "description": "Purpose of the status entry. For the Payment Terms Attestation this SHALL be 'revocation'.",
           "examples": [
             "revocation"
           ]
         }
+
       },
       "required": [
         "type",
@@ -191,55 +359,65 @@
         "status_purpose"
       ]
     },
-    "trust_anchor_url": {
-      "type": "string",
-      "format": "uri",
-      "description": "URL at which a machine-readable version of the trust anchor used for verifying the PaymentTerms attestation can be found or looked up. Optional.",
-      "examples": [
-        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
-      ]
-    },
-    "schema_version": {
-      "type": "string",
-      "description": "Version of the PaymentTerms attestation schema used. Optional.",
-      "examples": [
-        "1.0",
-        "0.1.0"
-      ]
-    },
+
     "cnf": {
       "type": "object",
-      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended. The Payment Terms Attestation SHALL be cryptographically bound to the specific holder wallet.",
       "additionalProperties": false,
       "properties": {
         "jwk": {
           "type": "object",
-          "description": "Public key bound to the holder.",
+          "description": "Public key bound to the holder wallet.",
           "additionalProperties": true,
           "properties": {
-            "kty": { "type": "string" },
-            "crv": { "type": "string" },
-            "x": { "type": "string" },
-            "y": { "type": "string" },
-            "n": { "type": "string" },
-            "e": { "type": "string" }
-          }
+            "kty": {
+              "type": "string",
+              "description": "Key type (e.g., 'EC', 'RSA')."
+            },
+            "crv": {
+              "type": "string",
+              "description": "Elliptic curve name (e.g., 'P-256'). Required for EC keys."
+            },
+            "x": {
+              "type": "string",
+              "description": "X coordinate of the EC public key (Base64url encoded)."
+            },
+            "y": {
+              "type": "string",
+              "description": "Y coordinate of the EC public key (Base64url encoded)."
+            },
+            "n": {
+              "type": "string",
+              "description": "RSA modulus (Base64url encoded). Required for RSA keys."
+            },
+            "e": {
+              "type": "string",
+              "description": "RSA public exponent (Base64url encoded). Required for RSA keys."
+            }
+          },
+          "required": [
+            "kty"
+          ]
         }
       },
       "required": [
         "jwk"
       ]
     }
+
   },
   "required": [
     "vct",
+    "iss",
+    "iat",
+    "exp",
     "attestation_legal_category",
-    "issuing_entity",
     "payment_due",
     "currency",
     "incoterm",
     "buyer_identifier",
     "supplier_identifier",
-    "agreement_date"
+    "agreement_date",
+    "cnf"
   ]
 }
