@@ -1,16 +1,192 @@
 {
-  "vct": "eu.we-build:control:1",
-  "iss": "https://issuer.bosch.com/control",
-  "iat": 1747044000,
-  "exp": 1778580000,
-  "nbf": 1747044000,
-  "sub": "did:example:bosch-gmbh-lei-529900T8BM49AURSDO55",
-  "issuing_entity": "http://bosch.com/did",
-  "attestation_legal_category": "EAA",
-  "schema_version": "0.9.0",
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+  "_comment": "Non-normative full sample payload for the WeBuild Control Attestation (vct: eu.we-build:control:1). Demonstrates three controller entries: one natural person (direct shareholding + board), one legal entity (indirect nominee holding), and one legal arrangement (trust structure). In a real SD-JWT VC, selectively disclosable claims are replaced by digests in the JWT payload and accompanied by individual disclosure objects. All values are fictitious and for illustration purposes only.",
 
   "_sd_alg": "sha-256",
+
+  "vct": "eu.we-build:control:1",
+
+  "attestation_legal_category": "EAA",
+
+  "iss": "did:web:bosch.com",
+
+  "iat": 1736935200,
+
+  "exp": 1768471200,
+
+  "jti": "urn:uuid:control-attestation-bosch-20260601-001",
+
+  "issuing_entity": "did:web:bosch.com",
+
+  "schema_version": "0.9.0",
+
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+
+  "controller": [
+
+    {
+      "_comment_controller_0": "Controller 1 — Alice Smith: natural person exercising direct control via 60% voting rights and board position",
+
+      "type": "Person",
+
+      "jurisdiction": "DE",
+
+      "person": {
+        "first_name": "Alice",
+        "surname": "Smith",
+        "birth_date": "1975-03-20"
+      },
+
+      "address": {
+        "street": "Hauptstraße",
+        "house_number": "10",
+        "locality": "Berlin",
+        "region": "Berlin",
+        "postal_code": "10115",
+        "country": "DE"
+      },
+
+      "controls": {
+        "type": ["voting_rights", "board"],
+        "level": "direct",
+        "basis": "shareholding",
+        "voting_percentage": 60.0,
+        "appointment_rights": "Right to appoint majority of supervisory board per articles of association section 12",
+        "rights": ["dividend_rights", "liquidation_rights"]
+      },
+
+      "effective_date": "2020-01-15",
+
+      "evidence": [
+        {
+          "id": "src-ctrl-001",
+          "type": "officialRegister",
+          "url": "https://example.com/docs/shareholder-register-extract-2024.pdf"
+        },
+        {
+          "id": "src-ctrl-002",
+          "type": "articlesOfAssociation",
+          "url": "https://example.com/docs/articles-of-association-2020.pdf"
+        }
+      ]
+    },
+
+    {
+      "_comment_controller_1": "Controller 2 — HoldCo GmbH: legal entity exercising indirect control via 40% nominee shareholding",
+
+      "type": "Entity",
+
+      "jurisdiction": "DE",
+
+      "entity": {
+        "category": "legal_entity",
+        "name": "HoldCo GmbH",
+        "identifier": {
+          "euid": "DE-HRB-987654",
+          "lei": "529900T8BM49AURSDO55",
+          "tax": "DE123456789"
+        },
+        "jurisdiction": "DE",
+        "form": "private_company"
+      },
+
+      "address": {
+        "street": "Musterstraße",
+        "house_number": "45",
+        "locality": "Frankfurt",
+        "region": "Hessen",
+        "postal_code": "60311",
+        "country": "DE"
+      },
+
+      "controls": {
+        "type": ["nominee", "voting_rights"],
+        "level": "indirect",
+        "basis": "shareholding",
+        "voting_percentage": 40.0,
+        "other_details": "Shares held through nominee arrangement; ultimate beneficial owner identified separately in UBO attestation",
+        "rights": ["dividend_rights"]
+      },
+
+      "effective_date": "2019-06-01",
+
+      "evidence": [
+        {
+          "id": "src-ctrl-003",
+          "type": "governanceChart",
+          "url": "https://example.com/docs/group-governance-chart-2024.pdf"
+        },
+        {
+          "id": "src-ctrl-004",
+          "type": "shareholderAgreement",
+          "url": "https://example.com/docs/nominee-shareholder-agreement-2019.pdf"
+        }
+      ]
+    },
+
+    {
+      "_comment_controller_2": "Controller 3 — Smith Family Trust: legal arrangement (trust) exercising indirect control through trustee rights over beneficiary assets",
+
+      "type": "Entity",
+
+      "jurisdiction": "LU",
+
+      "entity": {
+        "category": "legal_arrangement",
+        "name": "Smith Family Trust",
+        "identifier": {
+          "lei": "549300ABCDEF12345678"
+        },
+        "jurisdiction": "LU",
+        "form": "trust",
+        "subtype_info": {
+          "settlement": "Settled under Luxembourg trust law (Loi du 27 juillet 2003) on 2015-03-01 per trust deed reference LU-TD-2015-0042",
+          "purpose": "Family wealth management, succession planning, and preservation of family business interests across generations",
+          "assets": "Real estate portfolio (Luxembourg and Germany), securities portfolios (equity and fixed income), cash holdings, and 15% participation in HoldCo GmbH",
+          "reason_for_registration": "Registered for tax transparency reporting under CRS and FATCA obligations"
+        }
+      },
+
+      "address": {
+        "street": "Rue de la Forêt",
+        "house_number": "7",
+        "locality": "Luxembourg City",
+        "region": "Luxembourg",
+        "postal_code": "L-1234",
+        "country": "LU"
+      },
+
+      "controls": {
+        "type": ["agreements", "other_means_of_control"],
+        "level": "indirect",
+        "basis": "trust_arrangement",
+        "other_details": "Control exercised through trustee's legal title over trust assets including participation in HoldCo GmbH. Trustee has authority to vote shares, receive dividends, and direct disposal of assets per trust deed clause 8.",
+        "rights": ["dividend_rights", "liquidation_rights"]
+      },
+
+      "effective_date": "2015-03-01",
+
+      "evidence": [
+        {
+          "id": "src-ctrl-005",
+          "type": "trustDeed",
+          "url": "https://example.com/docs/smith-family-trust-deed-2015.pdf"
+        },
+        {
+          "id": "src-ctrl-006",
+          "type": "thirdPartyVerification",
+          "url": "https://notary.example.lu/verification/trust-LU-TD-2015-0042"
+        }
+      ]
+    }
+
+  ],
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://trust.webuildconsortium.eu/status/control-list-2026-001",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
 
   "cnf": {
     "jwk": {
@@ -21,223 +197,52 @@
     }
   },
 
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.bosch.com/status/control/2025",
-    "status_list_index": 789,
-    "status_purpose": "revocation"
-  },
-
-  "controller": [
-    {
-      "_comment": "Controller 1 — Natural Person (CEO exercising direct voting control)",
-      "type": "Person",
-      "jurisdiction": "DE",
-      "person": {
-        "first_name": "Alice",
-        "surname": "Müller",
-        "birth_date": "1972-07-14"
-      },
-      "address": {
-        "street": "Berliner Allee",
-        "house_number": "22",
-        "locality": "Stuttgart",
-        "region": "Baden-Württemberg",
-        "postal_code": "70173",
-        "country": "DE"
-      },
-      "controls": {
-        "type": ["voting_rights", "board"],
-        "level": "direct",
-        "basis": "shareholding",
-        "voting_percentage": 55.0,
-        "appointment_rights": "Right to appoint and remove the majority of the supervisory board members",
-        "rights": ["dividend_rights", "liquidation_rights"]
-      },
-      "effective_date": "2018-01-01",
-      "evidence": [
-        {
-          "id": "urn:evidence:ctrl-001",
-          "type": "officialRegister",
-          "url": "https://www.handelsregister.de/docs/HRB-12345-gesellschafterliste-2024.pdf"
-        }
-      ]
-    },
-
-    {
-      "_comment": "Controller 2 — Natural Person (Senior Managing Official — not a shareholder but a key executive)",
-      "type": "Person",
-      "jurisdiction": "DE",
-      "person": {
-        "first_name": "Thomas",
-        "surname": "Wagner",
-        "birth_date": "1968-11-03"
-      },
-      "address": {
-        "street": "Königsallee",
-        "house_number": "5",
-        "locality": "Düsseldorf",
-        "region": "Nordrhein-Westfalen",
-        "postal_code": "40212",
-        "country": "DE"
-      },
-      "controls": {
-        "type": ["voting_rights", "nominee"],
-        "level": "direct",
-        "basis": "corporate_position",
-        "voting_percentage": null,
-        "other_details": "Exercises control as CEO through executive authority and proxy voting arrangements under shareholders' agreement dated 2021-03-15",
-        "rights": ["dividend_rights"]
-      },
-      "effective_date": "2021-03-15",
-      "evidence": [
-        {
-          "id": "urn:evidence:ctrl-002",
-          "type": "shareholderAgreement",
-          "url": "https://example.com/docs/sha-bosch-2021.pdf"
-        },
-        {
-          "id": "urn:evidence:ctrl-002b",
-          "type": "officialRegister",
-          "url": "https://www.handelsregister.de/docs/HRB-12345-geschaeftsfuehrer-2024.pdf"
-        }
-      ]
-    },
-
-    {
-      "_comment": "Controller 3 — Legal Entity (Private Holding Company exercising indirect control)",
-      "type": "Entity",
-      "jurisdiction": "DE",
-      "entity": {
-        "category": "legal_entity",
-        "name": "Bosch Holding GmbH",
-        "identifier": {
-          "euid": "DE-HRB-987654",
-          "lei": "529900T8BM49AURSDO55",
-          "tax": "DE456789123"
-        },
-        "jurisdiction": "DE",
-        "form": "private_company"
-      },
-      "address": {
-        "street": "Robert-Bosch-Platz",
-        "house_number": "1",
-        "locality": "Gerlingen",
-        "region": "Baden-Württemberg",
-        "postal_code": "70839",
-        "country": "DE"
-      },
-      "controls": {
-        "type": ["voting_rights", "appointment_rights", "agreements"],
-        "level": "indirect",
-        "basis": "shareholding",
-        "voting_percentage": 92.0,
-        "appointment_rights": "Right to appoint full supervisory board via group governance charter",
-        "rights": ["dividend_rights", "liquidation_rights"]
-      },
-      "effective_date": "2005-06-30",
-      "evidence": [
-        {
-          "id": "urn:evidence:ctrl-003",
-          "type": "governanceChart",
-          "url": "https://example.com/docs/bosch-group-governance-2024.pdf"
-        },
-        {
-          "id": "urn:evidence:ctrl-003b",
-          "type": "articlesOfAssociation",
-          "url": "https://example.com/docs/bosch-holding-articles-2023.pdf"
-        }
-      ]
-    },
-
-    {
-      "_comment": "Controller 4 — Legal Entity (State-owned enterprise exercising minority governance control)",
-      "type": "Entity",
-      "jurisdiction": "DE",
-      "entity": {
-        "category": "legal_entity",
-        "name": "KfW Bankengruppe",
-        "identifier": {
-          "lei": "529900HNOAA1KXQJUQ27",
-          "euid": "DE-HRB-41077"
-        },
-        "jurisdiction": "DE",
-        "form": "state_owned_enterprise"
-      },
-      "address": {
-        "street": "Palmengartenstraße",
-        "house_number": "5-9",
-        "locality": "Frankfurt am Main",
-        "region": "Hessen",
-        "postal_code": "60325",
-        "country": "DE"
-      },
-      "controls": {
-        "type": ["veto", "agreements"],
-        "level": "direct",
-        "basis": "legal_framework",
-        "voting_percentage": 8.0,
-        "other_details": "Holds veto rights over strategic decisions under federal investment agreement dated 2010-01-01",
-        "rights": ["dividend_rights"]
-      },
-      "effective_date": "2010-01-01",
-      "evidence": [
-        {
-          "id": "urn:evidence:ctrl-004",
-          "type": "officialRegister",
-          "url": "https://example.com/docs/kfw-investment-agreement-2010.pdf"
-        }
-      ]
-    },
-
-    {
-      "_comment": "Controller 5 — Legal Arrangement (Family trust exercising indirect beneficial control)",
-      "type": "Entity",
-      "jurisdiction": "LU",
-      "entity": {
-        "category": "legal_arrangement",
-        "name": "Bosch Family Discretionary Trust",
-        "identifier": {
-          "lei": "549300ABCDEF98765432"
-        },
-        "jurisdiction": "LU",
-        "form": "trust",
-        "subtype_info": {
-          "settlement": "Settled under Luxembourg trust law (Loi du 27 juillet 2003) on 2008-04-15 by Robert Bosch Stiftung GmbH",
-          "purpose": "Long-term preservation and management of family wealth and strategic control over Bosch group entities",
-          "assets": "Equity stakes in Bosch Holding GmbH, real estate holdings, and diversified securities portfolios",
-          "reason_for_registration": "Registered under CRS and EU AML Directive 5 for beneficial ownership transparency obligations"
-        }
-      },
-      "address": {
-        "street": "Rue de la Forêt",
-        "house_number": "12",
-        "locality": "Luxembourg City",
-        "region": "Luxembourg",
-        "postal_code": "L-1499",
-        "country": "LU"
-      },
-      "controls": {
-        "type": ["agreements", "other_means_of_control", "nominee"],
-        "level": "indirect",
-        "basis": "trust_arrangement",
-        "voting_percentage": null,
-        "other_details": "Control exercised through trustee power of direction over Bosch Holding GmbH shareholding. Trustees hold and vote shares on behalf of the trust beneficiaries per the trust deed dated 2008-04-15.",
-        "rights": ["dividend_rights", "liquidation_rights"]
-      },
-      "effective_date": "2008-04-15",
-      "evidence": [
-        {
-          "id": "urn:evidence:ctrl-005",
-          "type": "trustDeed",
-          "url": "https://example.com/docs/bosch-family-trust-deed-2008.pdf"
-        },
-        {
-          "id": "urn:evidence:ctrl-005b",
-          "type": "thirdPartyVerification",
-          "url": "https://example.com/docs/notary-verification-lu-2024.pdf"
-        }
-      ]
+  "_disclosures": {
+    "_comment": "Illustrative selective disclosure map. In a real SD-JWT VC each selectively disclosable claim is individually salted and hashed. The holder presents only the disclosures the Relying Party requires.",
+    "_selective_disclosure_map": {
+      "controller":                                                      "MUST — selectively disclosable (array)",
+      "controller[n].type":                                              "MUST — individually selectively disclosable",
+      "controller[n].jurisdiction":                                      "MUST — individually selectively disclosable",
+      "controller[n].person":                                            "MUST — selectively disclosable (object, conditional on type=Person)",
+      "controller[n].person.first_name":                                 "MUST — individually selectively disclosable",
+      "controller[n].person.surname":                                    "MUST — individually selectively disclosable",
+      "controller[n].person.birth_date":                                 "MAY  — individually selectively disclosable (sensitive)",
+      "controller[n].entity":                                            "MUST — selectively disclosable (object, conditional on type=Entity)",
+      "controller[n].entity.category":                                   "MUST — individually selectively disclosable",
+      "controller[n].entity.name":                                       "MUST — individually selectively disclosable",
+      "controller[n].entity.identifier.euid":                            "MAY  — individually selectively disclosable",
+      "controller[n].entity.identifier.lei":                             "MAY  — individually selectively disclosable",
+      "controller[n].entity.identifier.tax":                             "MAY  — individually selectively disclosable",
+      "controller[n].entity.identifier.other":                           "MAY  — individually selectively disclosable",
+      "controller[n].entity.jurisdiction":                               "MUST — individually selectively disclosable",
+      "controller[n].entity.form":                                       "MUST — individually selectively disclosable",
+      "controller[n].entity.subtype_info":                               "MUST — selectively disclosable (object, conditional on legal_arrangement/trust)",
+      "controller[n].entity.subtype_info.settlement":                    "MUST — individually selectively disclosable (conditional)",
+      "controller[n].entity.subtype_info.purpose":                       "MUST — individually selectively disclosable (conditional)",
+      "controller[n].entity.subtype_info.assets":                        "MUST — individually selectively disclosable (conditional)",
+      "controller[n].entity.subtype_info.reason_for_registration":       "MAY  — individually selectively disclosable",
+      "controller[n].address":                                           "MUST — selectively disclosable (object)",
+      "controller[n].address.street":                                    "MUST — individually selectively disclosable (sensitive)",
+      "controller[n].address.house_number":                              "MUST — individually selectively disclosable (sensitive)",
+      "controller[n].address.locality":                                  "MUST — individually selectively disclosable",
+      "controller[n].address.region":                                    "MUST — individually selectively disclosable",
+      "controller[n].address.postal_code":                               "MUST — individually selectively disclosable",
+      "controller[n].address.country":                                   "MUST — individually selectively disclosable",
+      "controller[n].controls":                                          "MUST — selectively disclosable (object)",
+      "controller[n].controls.type":                                     "MUST — individually selectively disclosable",
+      "controller[n].controls.level":                                    "MUST — individually selectively disclosable",
+      "controller[n].controls.basis":                                    "MUST — individually selectively disclosable",
+      "controller[n].controls.voting_percentage":                        "MAY  — individually selectively disclosable",
+      "controller[n].controls.appointment_rights":                       "MAY  — individually selectively disclosable",
+      "controller[n].controls.other_details":                            "MAY  — individually selectively disclosable",
+      "controller[n].controls.rights":                                   "MUST — individually selectively disclosable",
+      "controller[n].effective_date":                                    "MUST — individually selectively disclosable",
+      "controller[n].evidence":                                          "MUST — selectively disclosable (array)",
+      "controller[n].evidence[m].id":                                    "MUST — individually selectively disclosable",
+      "controller[n].evidence[m].type":                                  "MUST — individually selectively disclosable",
+      "controller[n].evidence[m].url":                                   "MAY  — individually selectively disclosable",
+      "controller[n].evidence[m].data":                                  "MAY  — individually selectively disclosable (sensitive)",
+      "attestation_legal_category":                                      "MUST NOT — always present in plain text"
     }
-  ]
+  }
 }
