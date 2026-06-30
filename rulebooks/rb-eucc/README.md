@@ -221,10 +221,10 @@ If a Natural Person is representative of a legal person, the following attribute
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
 |---|---|---|---|---|
-| full_name | [givenName](https://w3id.org/ebwv#givenName); [familyName](https://w3id.org/ebwv#familyName) | Full name of the natural person representing the company. | M | string |
-| date_of_birth | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person representing the company. | M | string (date) |
-| identifier | [identifier](https://w3id.org/ebwv#identifier) | Natural person representative or national identifier | O | string |
-| nationality | [citizenship](https://w3id.org/ebwv#citizenship) | OPTIONAL: Nationality of the natural person representing the company. | O | string |
+| full_name | [Person](https://w3id.org/ebwv#Person).[fullName](https://w3id.org/ebwv#fullName) | Full name of the natural person representing the company. | M | string |
+| date_of_birth | [Person](https://w3id.org/ebwv#Person).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person representing the company. | M | string (date) |
+| identifier | [legalRepresentativeId](https://w3id.org/ebwv#legalRepresentativeId) | Natural person representative or national identifier | O | string |
+| nationality | [Person](https://w3id.org/ebwv#Person).[citizenship](https://w3id.org/ebwv#citizenship) | OPTIONAL: Nationality of the natural person representing the company. | O | string |
 | signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
 
 
@@ -233,9 +233,9 @@ If a Legal Person is representative of a legal person, the following attributes 
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
 |---|---|---|---|---|
-| name | [legalName](https://w3id.org/ebwv#legalName) | Details about the legal person representing the company. | M | string |
-| id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the legal person representing the company. | M | string |
+| name | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalName](https://w3id.org/ebwv#legalName) | Details about the legal person representing the company. | M | string |
+| id | [legalRepresentativeId](https://w3id.org/ebwv#legalRepresentativeId) | Unique ID for the legal person in the EUID structure. | M | string |
+| legal_form_type | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the legal person representing the company. | M | string |
 | signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
 
 A combination of natural and legal persons can be legal representatives of a legal person.
@@ -261,16 +261,16 @@ There is currently no open standard for addresses. As such, the definitions from
 
 | **Data Identifier** | **Semantic Reference**  | **Definition**                                                                                                                                                                                           |
 |-------------------|---|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| expiry_date       | [validUntil](https://w3.org/2018/credentials#validUntil)   | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
-| issuing_authority | [IssuerDetails](https://w3id.org/ebwv#IssuerDetails).[name](https://w3id.org/ebwv#name)  | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.             |
-| issuing_country   | [IssuerDetails](https://w3id.org/ebwv#IssuerDetails).[jurisdiction](https://w3id.org/ebwv#jurisdiction)  |  Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                         |
+| expiry_date       | [cred:validUntil](https://w3.org/2018/credentials#validUntil)   | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
+| issuing_authority | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName)  | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.             |
+| issuing_country   | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction)  |  Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                         |
 
 ### 2.7 Conditional metadata 
 
 | **Data Identifier** | **Semantic Reference**   | **Definition** |
 |-------------------|---|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| location_status   | [credentialStatus](https://w3.org/2018/credentials#credentialStatus)  | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours.  |
-| trust_anchor      | [termsOfUse](https://w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs.  |
+| location_status   | [cred:credentialStatus](https://w3.org/2018/credentials#credentialStatus)  | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours.  |
+| trust_anchor      | [cred:termsOfUse](https://w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs.  |
 
 
 
