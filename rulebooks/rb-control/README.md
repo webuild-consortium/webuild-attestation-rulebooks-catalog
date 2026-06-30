@@ -796,8 +796,8 @@ controller:
   }
 }
 ```
-Sample payloads are provided under
-../data-schemas/sd-jwt/sample-data/control-sd-jwt-sample.json
+
+Sample payloads are provided under `../data-schemas/sd-jwt/sample-data/control-sd-jwt-sample.json`
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
