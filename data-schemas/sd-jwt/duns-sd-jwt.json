@@ -1,0 +1,477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/duns-sd-jwt.json",
+  "title": "WeBuild – DUNS Legal Entity Attestation – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a DUNS Legal Entity Attestation as defined in the DUNS Attestation Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The attestation provides a standardized, verifiable representation of a legal entity's business profile as registered with Dun & Bradstreet, including legal identity, operational status, registration details, and industry classification.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:duns:1'.",
+      "examples": [
+        "eu.we-build:duns:1"
+      ]
+    },
+
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer of the attestation. Identifies the entity that issued the DUNS Legal Entity Attestation (self-issued by legal entity for EAA, or QTSP for QEAA). Follows RFC 7519.",
+      "examples": [
+        "https://issuer.example.com"
+      ]
+    },
+
+    "iat": {
+      "type": "integer",
+      "description": "Issuance date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation was issued per ISO 8601 / RFC 7519. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1736935200
+      ]
+    },
+
+    "exp": {
+      "type": "integer",
+      "description": "Expiry date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation expires per ISO 8601 / RFC 7519. SHALL be later than 'iat'. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1768471200
+      ]
+    },
+
+    "issuing_entity": {
+      "type": "string",
+      "description": "The identifier of the legal entity or QTSP that issued the attestation. For self-issued EAA this is typically a DID or URI of the subject entity. For QEAA this is the identifier of the qualified trust service provider. SHALL NOT be selectively disclosable.",
+      "examples": [
+        "did:example:duns-issuer-001",
+        "did:web:qtsp.example.eu"
+      ]
+    },
+
+    "issuing_country": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code of the country in which the issuer is established. SHALL NOT be selectively disclosable.",
+      "pattern": "^[A-Z]{2}$",
+      "examples": [
+        "DE",
+        "FR",
+        "NL"
+      ]
+    },
+
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "The legal category of the attestation as defined by eIDAS 2. SHALL be 'EAA' when self-issued by the legal entity, or 'QEAA' when issued by a qualified trust service provider (QTSP). SHALL NOT be selectively disclosable.",
+      "enum": [
+        "EAA",
+        "QEAA"
+      ]
+    },
+
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the DUNS Legal Entity attestation schema used. SHALL be a non-empty string when present.",
+      "minLength": 1,
+      "examples": [
+        "1.0",
+        "0.1.0"
+      ]
+    },
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the DUNS Legal Entity Attestation can be found or looked up. When present, SHALL be a valid URI.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
+      ]
+    },
+
+    "duns_number": {
+      "type": "string",
+      "description": "Nine-digit unique identifier assigned by Dun & Bradstreet (Data Universal Numbering System) to the legal entity. SHALL be a non-empty nine-digit numeric string. SHALL be individually selectively disclosable.",
+      "pattern": "^[0-9]{9}$",
+      "examples": [
+        "123456789",
+        "987654321"
+      ]
+    },
+
+    "legal_entity": {
+      "type": "object",
+      "description": "Object encapsulating the legal identity of the entity as registered with Dun & Bradstreet, including legal name, legal form, and registered address. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
+      "properties": {
+
+        "legal_name": {
+          "type": "string",
+          "description": "The registered legal name of the entity. SHALL be a non-empty string.",
+          "minLength": 1,
+          "examples": [
+            "Example GmbH",
+            "Global Corp N.V.",
+            "Holding Group SAS"
+          ]
+        },
+
+        "legal_form": {
+          "type": "string",
+          "description": "The legal form of the entity (e.g., GmbH, AG, Ltd., SRL, N.V., SAS). SHALL be a non-empty string.",
+          "minLength": 1,
+          "examples": [
+            "GmbH",
+            "AG",
+            "Ltd.",
+            "SRL",
+            "N.V.",
+            "SAS",
+            "BV"
+          ]
+        },
+
+        "registered_address": {
+          "type": "object",
+          "description": "The official registered address of the entity. The object itself is mandatory; all sub-fields are optional and independently selectively disclosable to allow partial disclosure of location information.",
+          "additionalProperties": false,
+          "properties": {
+
+            "street": {
+              "type": "string",
+              "description": "Street name of the registered address. Optional; MAY be omitted if not available.",
+              "examples": [
+                "Musterstraße",
+                "Herengracht",
+                "Rue de Rivoli"
+              ]
+            },
+
+            "nr": {
+              "type": "string",
+              "description": "Street or building number of the registered address. Optional; MAY be omitted if not available.",
+              "examples": [
+                "42",
+                "100",
+                "7A"
+              ]
+            },
+
+            "postal_code": {
+              "type": "string",
+              "description": "Postal or ZIP code of the registered address. Optional; MAY be omitted if not available.",
+              "examples": [
+                "70174",
+                "1017 BS",
+                "75001"
+              ]
+            },
+
+            "city": {
+              "type": "string",
+              "description": "City or municipality of the registered address. Optional; MAY be omitted if not available.",
+              "examples": [
+                "Stuttgart",
+                "Amsterdam",
+                "Paris"
+              ]
+            },
+
+            "country": {
+              "type": "string",
+              "description": "Country of the registered address. When present, SHALL conform to ISO 3166-1 alpha-2 (two-letter country code). Optional; MAY be omitted if not available.",
+              "pattern": "^[A-Z]{2}$",
+              "examples": [
+                "DE",
+                "NL",
+                "FR",
+                "US",
+                "AT"
+              ]
+            }
+
+          }
+        }
+
+      },
+      "required": [
+        "legal_name",
+        "legal_form",
+        "registered_address"
+      ]
+    },
+
+    "operational_status": {
+      "type": "string",
+      "description": "Current operational status of the entity. SHALL be a non-empty string. SHOULD use one of the standardized values defined in Section 2.8.1 (Active, Inactive, Dissolved, Suspended, Bankrupt). SHALL be individually selectively disclosable.",
+      "minLength": 1,
+      "enum": [
+        "Active",
+        "Inactive",
+        "Dissolved",
+        "Suspended",
+        "Bankrupt"
+      ],
+      "examples": [
+        "Active",
+        "Inactive",
+        "Dissolved"
+      ]
+    },
+
+    "operational_status_date": {
+      "type": "string",
+      "description": "Date on which the operational status was last confirmed or changed. SHALL conform to ISO 8601 full-date format (YYYY-MM-DD). SHALL be individually selectively disclosable.",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "examples": [
+        "2025-01-01",
+        "2024-06-15"
+      ]
+    },
+
+    "date_of_incorporation": {
+      "type": "string",
+      "description": "Date on which the legal entity was incorporated or formally established. SHALL conform to ISO 8601 full-date format (YYYY-MM-DD). SHALL be individually selectively disclosable.",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "examples": [
+        "2005-03-15",
+        "1998-11-22"
+      ]
+    },
+
+    "registration": {
+      "type": "object",
+      "description": "Object providing details about the entity's formal registration with the competent authority. All four sub-fields are mandatory. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
+      "properties": {
+
+        "jurisdiction": {
+          "type": "string",
+          "description": "The jurisdiction in which the entity is registered (e.g., country or region code). SHALL be a non-empty string.",
+          "minLength": 1,
+          "examples": [
+            "DE",
+            "NL",
+            "FR",
+            "US-CA"
+          ]
+        },
+
+        "initial_registration_date": {
+          "type": "string",
+          "description": "The date the entity was first registered with the competent authority. SHALL conform to ISO 8601 full-date format (YYYY-MM-DD).",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "examples": [
+            "2005-03-15",
+            "1998-11-22"
+          ]
+        },
+
+        "last_update_date": {
+          "type": "string",
+          "description": "The date the registration record was last updated. SHALL conform to ISO 8601 full-date format (YYYY-MM-DD). SHALL be equal to or later than 'initial_registration_date'.",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "examples": [
+            "2024-12-01",
+            "2025-03-10"
+          ]
+        },
+
+        "registration_status": {
+          "type": "string",
+          "description": "The current status of the registration record. SHALL be a non-empty string. SHOULD use one of the standardized values defined in Section 2.8.2 (Active, Suspended, Cancelled, Pending).",
+          "minLength": 1,
+          "enum": [
+            "Active",
+            "Suspended",
+            "Cancelled",
+            "Pending"
+          ],
+          "examples": [
+            "Active",
+            "Suspended",
+            "Cancelled",
+            "Pending"
+          ]
+        }
+
+      },
+      "required": [
+        "jurisdiction",
+        "initial_registration_date",
+        "last_update_date",
+        "registration_status"
+      ]
+    },
+
+    "industry_classification": {
+      "type": "object",
+      "description": "Object providing the NAICS-based industry classification of the entity. Primary NAICS code and NAICS version are mandatory; secondary NAICS codes are optional. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
+      "properties": {
+
+        "primary_naics": {
+          "type": "string",
+          "description": "The primary NAICS code representing the entity's main business activity. SHALL be a non-empty string containing a valid NAICS code.",
+          "minLength": 1,
+          "examples": [
+            "541512",
+            "331110",
+            "722513"
+          ]
+        },
+
+        "secondary_naics": {
+          "type": "array",
+          "description": "An optional array of zero or more additional NAICS codes representing secondary business activities of the entity. MAY contain zero or more values.",
+          "items": {
+            "type": "string",
+            "description": "A NAICS code representing a secondary business activity.",
+            "minLength": 1,
+            "examples": [
+              "541511",
+              "541519",
+              "331210"
+            ]
+          },
+          "examples": [
+            [],
+            ["541511", "541519"],
+            ["331210", "332310"]
+          ]
+        },
+
+        "naics_version": {
+          "type": "string",
+          "description": "The version of the NAICS standard used. SHALL be a non-empty string identifying the applicable NAICS edition. SHOULD use one of the standardized values defined in Section 2.8.3 (2022, 2017, 2012).",
+          "minLength": 1,
+          "enum": [
+            "2022",
+            "2017",
+            "2012"
+          ],
+          "examples": [
+            "2022",
+            "2017",
+            "2012"
+          ]
+        }
+
+      },
+      "required": [
+        "primary_naics",
+        "naics_version"
+      ]
+    },
+
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period (exp - iat) is greater than 24 hours. Enables Relying Parties to check the revocation status of the credential.",
+      "additionalProperties": false,
+      "properties": {
+
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential document that contains the bitstring indicating revocation status.",
+          "examples": [
+            "https://issuer.example.com/status/duns/2025"
+          ]
+        },
+
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring that corresponds to this credential.",
+          "examples": [
+            456
+          ]
+        },
+
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For the DUNS Legal Entity Attestation this SHALL be 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended. The DUNS Legal Entity Attestation SHALL be cryptographically bound to the specific holder wallet.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder wallet.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": {
+              "type": "string",
+              "description": "Key type (e.g., 'EC', 'RSA')."
+            },
+            "crv": {
+              "type": "string",
+              "description": "Elliptic curve name (e.g., 'P-256'). Required for EC keys."
+            },
+            "x": {
+              "type": "string",
+              "description": "X coordinate of the EC public key (Base64url encoded)."
+            },
+            "y": {
+              "type": "string",
+              "description": "Y coordinate of the EC public key (Base64url encoded)."
+            },
+            "n": {
+              "type": "string",
+              "description": "RSA modulus (Base64url encoded). Required for RSA keys."
+            },
+            "e": {
+              "type": "string",
+              "description": "RSA public exponent (Base64url encoded). Required for RSA keys."
+            }
+          },
+          "required": [
+            "kty"
+          ]
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+
+  },
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "attestation_legal_category",
+    "duns_number",
+    "legal_entity",
+    "operational_status",
+    "operational_status_date",
+    "date_of_incorporation",
+    "registration",
+    "industry_classification",
+    "cnf"
+  ]
+}

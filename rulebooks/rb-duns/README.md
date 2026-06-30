@@ -3,12 +3,13 @@
 * **Author(s):**
     * [Werner Folkendt, Robert Bosch GmbH]
 * **Reviewer(s):**
-    * [Florin Coptil, Robert Bosch GmbH]
     * [Dominic Hurni, SBB]
+    * [Florin Coptil, Robert Bosch GmbH]
 
-| Version | Date       | Description                                                    |
-|---------|------------|----------------------------------------------------------------|
+| Version | Date       | Description                                                  |
+|---------|------------|--------------------------------------------------------------|
 | 0.1     | 23.06.2026 | Initial draft based on the WeBuild design attestation meetings |
+| 0.6     | 29.06.2026 | update layout                                                |
 
 * **Contact:**
     * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com)
@@ -158,7 +159,7 @@ This attestation type MAY be classified as:
   competent body that can independently attest the company information (e.g., based on
   official Dun & Bradstreet registry data).
 
-**VC Type:** `vct: eu.we-build.duns.1`
+**VC Type:** `vct: eu.we-build:duns:1`
 
 ### 2.2 Mandatory attributes
 
@@ -332,7 +333,7 @@ entity to disclose only the attributes requested by a Relying Party.
 
 The `.` notation is used to indicate the nesting of attributes.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build.duns.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build:duns:1`
 
 #### 3.2.1 Attribute Encoding Table
 
@@ -361,13 +362,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | industry_classification.secondary_naics     | `industry_classification.secondary_naics`             | Array of Strings             | Zero or more additional NAICS codes for secondary business activities; optional              | MUST            |
 | industry_classification.naics_version       | `industry_classification.naics_version`               | String                       | Version of the NAICS standard used (e.g., "2022")                                           | MUST            |
 | **Metadata**                                |                                                       |                              |                                                                                              |                 |
-| issuance_date                               | `iat`                                                 | Number (Unix timestamp)      | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5        | MUST NOT        |
-| expiry_date                                 | `exp`                                                 | Number (Unix timestamp)      | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5           | MUST NOT        |
-| issuing_entity                              | `issuing_entity`                                      | String                       | Identifier of the legal entity that issued the attestation (subject entity or QTSP)         | MUST NOT        |
 | attestation_legal_category                  | `attestation_legal_category`                          | String                       | One of `EAA` or `QEAA` as defined by eIDAS 2                                                | MUST NOT        |
-| vct                                         | `vct`                                                 | String                       | A URI or other collision-resistant identifier defining the type of the SD-JWT VC            | MUST            |
-| trust_anchor_url                            | `trust_anchor_url`                                    | String (URI)                 | URL where the trust anchor for verifying this attestation can be retrieved; optional         | MUST NOT        |
-| schema_version                              | `schema_version`                                      | String                       | Version of the schema used; optional                                                         | MUST NOT        |
 
 **Notes:**
 
@@ -414,7 +409,7 @@ Example:
 The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
 ```
 {
-  "vct": "eu.we-build.duns.1",
+  "vct": "eu.we-build:duns:1",
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
