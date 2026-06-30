@@ -1,7 +1,4 @@
 {
-  "_comment": "Non-normative sample payload for the WeBuild Site Attestation (vct: eu.we-build:site:1). This file illustrates a fully populated credential. In a real SD-JWT VC, selectively disclosable claims are replaced by digests in the JWT payload and accompanied by individual disclosure objects. Values shown are fictitious and for illustration purposes only.",
-
-  "_sd_alg": "sha-256",
 
   "vct": "eu.we-build:site:1",
 
@@ -77,59 +74,6 @@
       "crv": "P-256",
       "x": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
       "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
-    }
-  },
-
-  "_disclosures": {
-    "_comment": "The following block is illustrative only. In a real SD-JWT VC, each selectively disclosable claim is individually salted and hashed. The holder presents only the disclosures the Relying Party requires.",
-    "_selective_disclosure_map": {
-      "parent_economic_operator_main_id":       "MUST — selectively disclosable",
-      "parent_economic_operator_id":            "MUST — selectively disclosable (object)",
-      "parent_economic_operator_id.euid":       "MUST — individually selectively disclosable",
-      "parent_economic_operator_id.lei":        "MUST — individually selectively disclosable",
-      "parent_economic_operator_id.tax":        "MUST — individually selectively disclosable",
-      "parent_economic_operator_id.gln":        "MUST — individually selectively disclosable",
-      "parent_economic_operator_id.duns":       "MUST — individually selectively disclosable",
-      "parent_economic_operator_id.eori":       "MUST — individually selectively disclosable",
-      "parent_economic_operator_id.bpnl":       "MUST — individually selectively disclosable",
-      "parent_economic_operator_id.siren":      "MUST — individually selectively disclosable",
-      "site_name":                              "MUST — selectively disclosable",
-      "site_main_id":                           "MUST — selectively disclosable",
-      "site_additional_ids":                    "MUST — selectively disclosable",
-      "site_main_address":                      "MUST — selectively disclosable (object as unit)",
-      "site_main_address.street":               "MUST — selectively disclosable",
-      "site_main_address.nr":                   "MUST — selectively disclosable",
-      "site_main_address.postal_code":          "MUST — selectively disclosable",
-      "site_main_address.city":                 "MUST — selectively disclosable",
-      "site_additional_addresses":              "MUST — selectively disclosable (array as unit)",
-      "attestation_legal_category":             "MUST NOT — always present in plain text"
-    }
-  },
-
-  "_minimal_disclosure_example": {
-    "_comment": "Non-normative example: a Relying Party requesting only site name, site ID, and main address. The holder discloses only the following subset of claims.",
-    "vct": "eu.we-build:site:1",
-    "attestation_legal_category": "EAA",
-    "iss": "did:web:bosch.com",
-    "iat": 1746000000,
-    "exp": 1777536000,
-    "parent_economic_operator_main_id": "DE-HRB-396699",
-    "parent_economic_operator_id": {
-      "euid": "DE-HRB-396699"
-    },
-    "site_name": "Bosch Karlsruhe Manufacturing Site",
-    "site_main_id": "550e8400-e29b-41d4-a716-446655440000",
-    "site_main_address": {
-      "street": "Auf der Breit",
-      "nr": "4",
-      "postal_code": "76227",
-      "city": "Karlsruhe"
-    },
-    "status": {
-      "type": "status-list",
-      "status_list_credential": "https://trust.webuildconsortium.eu/status/site-list-2026-001",
-      "status_list_index": 789,
-      "status_purpose": "revocation"
     }
   }
 }
