@@ -367,21 +367,21 @@ Sample payloads provided under `../../data-schemas/sd-jwt-vc/sample-data/ds004-e
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
-W3C Verifiable Credentials are defined using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) are SHACL (data graph) can be used to validate data.
+W3C Verifiable Credentials are serialized using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) are SHACL (data graph) can be used to validate data - see [Data Schemas](https://www.w3.org/TR/vc-data-model-2.0/#data-schemas).
 
 #### Metadata
-The metadata of an W3C Verifiable Credential are defined in the [Verifiable Credentials Vocabulary v2.0](https://www.w3.org/2018/credentials/). The following extensions are defined in the [European Business Wallet Vocabulary v0.1](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary) in order to support Electronic Attestions of Attributes:
-* [attestationLegalCategory](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#attestationLegalCategory) in order to specify the category of the EAA (QEAA, Pub-EAA or EAA).
+The metadata of an W3C Verifiable Credential are defined in the [Verifiable Credentials Vocabulary v2.0](https://www.w3.org/2018/credentials/). The following extensions are defined in the [European Business Wallet Vocabulary](https://w3id.org/ebwv) in order to support Electronic Attestions of Attributes:
+* [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) in order to specify the category of the EAA (QEAA, Pub-EAA or EAA).
 
 #### Credential Subject
 
-There are two different flavors of European Business Certificates:
-* for limit liability companies and
+There are two different flavors of European Company Certificates:
+* for limited liability companies and
 * for partnerships.
 
 Both are modeled by their own classes:
-* [EuccLimitLiabilityCompany](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#EuccLimitLiabilityCompany) - EU Company Certificate for limited liability companies
-* [EuccPartnership](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#EuccPartnership) - EU Company Certificate for partnerships 
+* [LimitedLiabilityCompany](https://w3id.org/ebwv#LimitedLiabilityCompany) - EU Company Certificate for limited liability companies
+* [Partnership](https://w3id.org/ebwv#Partnership) - EU Company Certificate for partnerships 
 
 #### Holder Binding
 
@@ -393,7 +393,7 @@ example of key binding using DID's:
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "https://ebw-vocabulary.spherity.dev/ebw-context/v0.1"
+    "https://w3id.org/ebwv/v0.1"
   ],
   "@id": "urn:d5dfeb39-edc7-40b1-a2fc-3968dbd3eac8",
   "@type": [
@@ -402,10 +402,18 @@ example of key binding using DID's:
   ],
   "attestationLegalCategory": "QEAA",
   "credentialSubject": {
-    "@id": "did:key:$publicKeyOfHolder$", // credential subject is bound to organisation   
-    "@type": "EuccPartnership",
-    "legalIdentifier": "NOFOR.987654321",
+    "@id": "did:key:$publicKeyOfHolder$", // credential subject is bound to organisation
+    "@type": [
+      "EconomicOperator",
+      "Company",
+      "Partnership"
+    ],
+    "legalIdentifier": {
+      "@type" : "Euid",
+      "@value" : "NOFOR.987654321"
+    },
     "legalName": "acme Partnership",
+    "legalForm": "Partnership",
     "registeredAddress": {
       "@type":"Address",
       "fullAddress": "Via Appia 123, 00100 Rome, Italy",
@@ -415,23 +423,6 @@ example of key binding using DID's:
       "adminUnitL2": "Lazio",
       "postCode": "00100",
       "adminUnitL1": "IT"
-    },
-    "correspondenceAddress": {
-      "@type":"Address",
-      "fullAddress": "Via Appia 123, 00100 Rome, Italy",
-      "thoroughfare": "Via Appia",
-      "locatorDesignator": "123",
-      "postName": "Rome",
-      "adminUnitL2": "Lazio",
-      "postCode": "00100",
-      "adminUnitL1": "IT"
-    },
-    "dateOfRegistration": "2023-10-11",
-    "companyStatus": "active",
-    "economicActivity": {
-      "@type": "Nace021",
-      "naceCode": "01.12",
-      "naceDescription": "Growing of rice"
     },
     "partner": [
       {
@@ -444,12 +435,12 @@ example of key binding using DID's:
         "liabilityOrContribution": {
           "@type": "Capital",
           "amount": 100000,
-          "currency": "Euro"
+          "currency": "EUR"
         }
       },
       {
         "@type": "StatutoryPartner",
-        "partnerId": "did:key:$publicKeyOfPartner3$",
+        "partnerId": "did:key:$publicKeyOfPartner3$", // statutory partner is bound to natural person 3
         "role": "Head of HR",
         "scopeOfAuthorization": "Jointly"
       }
