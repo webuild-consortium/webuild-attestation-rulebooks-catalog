@@ -393,7 +393,7 @@ example of key binding using DID's:
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "https://ebw-vocabulary.spherity.dev/ebw-context/v0.1"
+    "https://w3id.org/ebwv/v0.1"
   ],
   "@id": "urn:d5dfeb39-edc7-40b1-a2fc-3968dbd3eac8",
   "@type": [
@@ -402,10 +402,18 @@ example of key binding using DID's:
   ],
   "attestationLegalCategory": "QEAA",
   "credentialSubject": {
-    "@id": "did:key:$publicKeyOfHolder$", // credential subject is bound to organisation   
-    "@type": "EuccPartnership",
-    "legalIdentifier": "NOFOR.987654321",
+    "@id": "did:key:$publicKeyOfHolder$", // credential subject is bound to organisation
+    "@type": [
+      "EconomicOperator",
+      "Company",
+      "Partnership"
+    ],
+    "legalIdentifier": {
+      "@type" : "Euid",
+      "@value" : "NOFOR.987654321"
+    },
     "legalName": "acme Partnership",
+    "legalForm": "Partnership",
     "registeredAddress": {
       "@type":"Address",
       "fullAddress": "Via Appia 123, 00100 Rome, Italy",
@@ -415,23 +423,6 @@ example of key binding using DID's:
       "adminUnitL2": "Lazio",
       "postCode": "00100",
       "adminUnitL1": "IT"
-    },
-    "correspondenceAddress": {
-      "@type":"Address",
-      "fullAddress": "Via Appia 123, 00100 Rome, Italy",
-      "thoroughfare": "Via Appia",
-      "locatorDesignator": "123",
-      "postName": "Rome",
-      "adminUnitL2": "Lazio",
-      "postCode": "00100",
-      "adminUnitL1": "IT"
-    },
-    "dateOfRegistration": "2023-10-11",
-    "companyStatus": "active",
-    "economicActivity": {
-      "@type": "Nace021",
-      "naceCode": "01.12",
-      "naceDescription": "Growing of rice"
     },
     "partner": [
       {
@@ -444,12 +435,12 @@ example of key binding using DID's:
         "liabilityOrContribution": {
           "@type": "Capital",
           "amount": 100000,
-          "currency": "Euro"
+          "currency": "EUR"
         }
       },
       {
         "@type": "StatutoryPartner",
-        "partnerId": "did:key:$publicKeyOfPartner3$",
+        "partnerId": "did:key:$publicKeyOfPartner3$", // statutory partner is bound to natural person 3
         "role": "Head of HR",
         "scopeOfAuthorization": "Jointly"
       }
