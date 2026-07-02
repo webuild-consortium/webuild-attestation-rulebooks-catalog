@@ -1,112 +1,173 @@
 {
-  "vct": "eu.we-build.control.1",
-  "iss": "https://issuer.example.com",
+
+  "vct": "eu.we-build:control:1",
+  "attestation_legal_category": "EAA",
+  "iss": "did:web:bosch.com",
   "iat": 1736935200,
   "exp": 1768471200,
-  "issuing_entity": "did:example:company-456",
-  "attestation_legal_category": "EAA",
-  "schema_version": "0.3.0",
+  "jti": "urn:uuid:control-attestation-bosch-20260601-001",
+  "issuing_entity": "did:web:bosch.com",
+  "schema_version": "0.9.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-
   "controller": [
     {
-      "type": "NP",
-      "natural_person": {
+
+      "type": "Person",
+
+      "jurisdiction": "DE",
+
+      "person": {
         "first_name": "Alice",
         "surname": "Smith",
-        "date_of_birth": "1975-03-20"
+        "birth_date": "1975-03-20"
       },
+
       "address": {
-        "street": "Hauptstrasse",
+        "street": "Hauptstraße",
         "house_number": "10",
         "locality": "Berlin",
         "region": "Berlin",
         "postal_code": "10115",
         "country": "DE"
       },
-      "control": [
+
+      "controls": {
+        "type": ["voting_rights", "board"],
+        "level": "direct",
+        "basis": "shareholding",
+        "voting_percentage": 60.0,
+        "appointment_rights": "Right to appoint majority of supervisory board per articles of association section 12",
+        "rights": ["dividend_rights", "liquidation_rights"]
+      },
+
+      "effective_date": "2020-01-15",
+
+      "evidence": [
         {
-          "legal_identifier": "DE1234.HRB56789",
-          "type": "direct",
-          "voting_rights": 60.0,
-          "mechanism": [
-            "board",
-            "contractual"
-          ]
+          "id": "src-ctrl-001",
+          "type": "officialRegister",
+          "url": "https://example.com/docs/shareholder-register-extract-2024.pdf"
+        },
+        {
+          "id": "src-ctrl-002",
+          "type": "articlesOfAssociation",
+          "url": "https://example.com/docs/articles-of-association-2020.pdf"
         }
       ]
     },
+
     {
-      "type": "NP",
-      "natural_person": {
-        "first_name": "Klaus",
-        "surname": "Müller",
-        "date_of_birth": "1968-07-14"
-      },
-      "address": {
-        "street": "Schillerstraße",
-        "house_number": "22",
-        "locality": "Frankfurt",
-        "region": "Hesse",
-        "postal_code": "60313",
-        "country": "DE"
-      },
-      "control": [
-        {
-          "legal_identifier": "DE1234.HRB56789",
-          "type": "direct",
-          "voting_rights": null,
-          "mechanism": [
-            "veto",
-            "profit_distribution"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "LE",
-      "legal_person": {
-        "legal_name": "HoldCo GmbH",
-        "legal_form": "GmbH",
+
+      "type": "Entity",
+
+      "jurisdiction": "DE",
+
+      "entity": {
+        "category": "legal_entity",
+        "name": "HoldCo GmbH",
         "identifier": {
-          "euid": "DE9876.HRB54321",
+          "euid": "DE-HRB-987654",
           "lei": "529900T8BM49AURSDO55",
           "tax": "DE123456789"
-        }
+        },
+        "jurisdiction": "DE",
+        "form": "private_company"
       },
+
       "address": {
-        "street": "Berliner Allee",
-        "house_number": "5",
-        "locality": "Düsseldorf",
-        "region": "Nordrhein-Westfalen",
-        "postal_code": "40213",
+        "street": "Musterstraße",
+        "house_number": "45",
+        "locality": "Frankfurt",
+        "region": "Hessen",
+        "postal_code": "60311",
         "country": "DE"
       },
-      "control": [
+
+      "controls": {
+        "type": ["nominee", "voting_rights"],
+        "level": "indirect",
+        "basis": "shareholding",
+        "voting_percentage": 40.0,
+        "other_details": "Shares held through nominee arrangement; ultimate beneficial owner identified separately in UBO attestation",
+        "rights": ["dividend_rights"]
+      },
+
+      "effective_date": "2019-06-01",
+
+      "evidence": [
         {
-          "legal_identifier": "DE1234.HRB56789",
-          "type": "indirect",
-          "voting_rights": 40.0,
-          "mechanism": [
-            "nominee"
-          ]
+          "id": "src-ctrl-003",
+          "type": "governanceChart",
+          "url": "https://example.com/docs/group-governance-chart-2024.pdf"
+        },
+        {
+          "id": "src-ctrl-004",
+          "type": "shareholderAgreement",
+          "url": "https://example.com/docs/nominee-shareholder-agreement-2019.pdf"
+        }
+      ]
+    },
+
+    {
+
+      "type": "Entity",
+
+      "jurisdiction": "LU",
+
+      "entity": {
+        "category": "legal_arrangement",
+        "name": "Smith Family Trust",
+        "identifier": {
+          "lei": "549300ABCDEF12345678"
+        },
+        "jurisdiction": "LU",
+        "form": "trust",
+        "subtype_info": {
+          "settlement": "Settled under Luxembourg trust law (Loi du 27 juillet 2003) on 2015-03-01 per trust deed reference LU-TD-2015-0042",
+          "purpose": "Family wealth management, succession planning, and preservation of family business interests across generations",
+          "assets": "Real estate portfolio (Luxembourg and Germany), securities portfolios (equity and fixed income), cash holdings, and 15% participation in HoldCo GmbH",
+          "reason_for_registration": "Registered for tax transparency reporting under CRS and FATCA obligations"
+        }
+      },
+
+      "address": {
+        "street": "Rue de la Forêt",
+        "house_number": "7",
+        "locality": "Luxembourg City",
+        "region": "Luxembourg",
+        "postal_code": "L-1234",
+        "country": "LU"
+      },
+
+      "controls": {
+        "type": ["agreements", "other_means_of_control"],
+        "level": "indirect",
+        "basis": "trust_arrangement",
+        "other_details": "Control exercised through trustee's legal title over trust assets including participation in HoldCo GmbH. Trustee has authority to vote shares, receive dividends, and direct disposal of assets per trust deed clause 8.",
+        "rights": ["dividend_rights", "liquidation_rights"]
+      },
+
+      "effective_date": "2015-03-01",
+
+      "evidence": [
+        {
+          "id": "src-ctrl-005",
+          "type": "trustDeed",
+          "url": "https://example.com/docs/smith-family-trust-deed-2015.pdf"
+        },
+        {
+          "id": "src-ctrl-006",
+          "type": "thirdPartyVerification",
+          "url": "https://notary.example.lu/verification/trust-LU-TD-2015-0042"
         }
       ]
     }
+
   ],
 
-  "evidence": [
-    {
-      "evidence_id": "urn:uuid:7a3f9c10-b2e1-41d8-9f7a-112233445566",
-      "evidence_type": "Evidence",
-      "evidence_data": "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0ZpbHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nCvkMlAwUDC1NNUzMVcozy/KSVUIAP//AAAA//8=",
-      "evidence_confirmation": true,
-      "evidence_date": "2025-01-20"
-    }
-  ],
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/control/2025",
+    "status_list_credential": "https://trust.webuildconsortium.eu/status/control-list-2026-001",
     "status_list_index": 456,
     "status_purpose": "revocation"
   },

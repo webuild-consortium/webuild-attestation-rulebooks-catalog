@@ -1,13 +1,24 @@
 {
-  "vct": "eu.we-build.contactperson.1",
-  "attestation_legal_category": "EAA",
+  "vct": "eu.we-build:contactperson:1",
+  "iss": "https://issuer.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
   "issuing_entity": "did:example:webuild-company-456",
-  "legal_person_id": "DE-HRB-123456",
-  "contact_person": [
+  "attestation_legal_category": "EAA",
+  "schema_version": "1.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+
+  "legal_identifier": {
+    "euid": "DE-HRB-123456",
+    "lei": "5493001KJTIIGC8Y1R12",
+    "tax": "DE123456789"
+  },
+
+  "contact_persons": [
     {
       "given_name": "Anna",
       "family_name": "Schmidt",
-      "role": "sales",
+      "role": "logistics",
       "employee_identifier": "EMP-DE-00789",
       "email": "anna.schmidt@example.com",
       "telephone": "+4915123456789"
@@ -18,23 +29,39 @@
       "role": "finance",
       "employee_identifier": "EMP-DE-00790",
       "email": "max.mustermann@example.com",
-      "telephone": "+4930987654321"
+      "telephone": "+4915298765432"
+    },
+    {
+      "given_name": "Laura",
+      "family_name": "Fischer",
+      "role": "quality",
+      "employee_identifier": "EMP-DE-00791",
+      "email": "laura.fischer@example.com",
+      "telephone": "+4915387654321"
+    },
+    {
+      "given_name": "Thomas",
+      "family_name": "Weber",
+      "role": "sales",
+      "employee_identifier": "EMP-DE-00792",
+      "email": "thomas.weber@example.com",
+      "telephone": "+4915476543210"
     }
   ],
+
   "status": {
     "type": "status-list",
     "status_list_credential": "https://issuer.example.com/status/contactperson/2025",
     "status_list_index": 321,
     "status_purpose": "revocation"
   },
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-  "schema_version": "0.1.0",
+
   "cnf": {
     "jwk": {
       "kty": "EC",
       "crv": "P-256",
-      "x": "f83_oX1f8m5y_B7D9S9-C_0R5-Q0_u_X8P_S0_0F8_C",
-      "y": "e6_z_C8D_D9S9-C_0R5-Q0_u_X8P_S0_0F8_C"
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
     }
   }
 }

@@ -1,8 +1,10 @@
 # Attestation Rulebook for attestations of type GLN Number (Global Location Number)
 
 * Author(s):
-  * [Dominik, GS1]
+  * [Dominik Halbeisen, GS1 Switzerland]
+
 * Previous Authors
+
 * Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH]
   * [Dominic Hurni, SBB]
@@ -10,6 +12,7 @@
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 01.06.2026 | Initial draft based on the WeBuild design attestations meetings |
+| 0.6     | 29.06.2026 | update layout and review gln                                    |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)*
@@ -157,18 +160,9 @@ mandatory or optional as specified above.
 
 | **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type** |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime      |
-| expiry_date              | The date and time when the attestation will expire (ISO 8601)                                                                                                       | DateTime      |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String        |
 | attestation_legal_category | Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA")                                                                                       | String        |
-| vct                          | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed                  | String        |
 
 ### 2.6 Optional metadata
-
-| **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used                                                 | String        |
 
 ### 2.7 Conditional metadata
 
@@ -227,7 +221,7 @@ attestation attributes.
 `GlobalLocationNumber`, address) SHALL be individually selectively disclosable, enabling a
 legal entity to disclose only the attributes requested by a Relying Party.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build.gln.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build:gln:1`
 
 #### 3.2.1 Attribute Encoding Table
 
@@ -244,13 +238,7 @@ legal entity to disclose only the attributes requested by a Relying Party.
 | address.region             | address.region             | String                      | Region of the registered address                                           | MUST            |
 | address.country            | address.country            | String (ISO 3166-1 alpha-2) | Country of the registered address                                          | MUST            |
 | **Metadata**               |                            |                             |                                                                            |                     |
-| issuance_date              | iat                        | Number (Unix timestamp)     | Date and time when the attestation was issued; RFC 7519                    | MUST NOT        |
-| expiry_date                | exp                        | Number (Unix timestamp)     | Date and time when the attestation expires; RFC 7519                       | MUST NOT        |
-| issuing_entity             | iss                        | String (URI or DID)         | Identifier of the entity that issued the attestation; RFC 7519             | MUST NOT        |
-| attestation_legal_category | attestation_legal_category | String                      | One of EAA or QEAA as defined by eIDAS 2                                   | MUST NOT        |
 | vct                                   | vct                                           | String                       | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                  | MUST            |
-| schema_version             | schema_version             | String                      | Version of the schema used for this attestation                            | MAY             |
-| trust_anchor_url           | trust_anchor_url           | String (URI)                | URL where the trust anchor for verifying this attestation can be retrieved | MAY             |
 
 **Notes:**
 

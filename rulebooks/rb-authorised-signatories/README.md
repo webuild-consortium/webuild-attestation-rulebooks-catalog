@@ -2,24 +2,26 @@
 
 * **Author(s):**
   * [Ricky Lamberty, Robert Bosch GmbH]
-  * @todo fred contact
+  * [Florin Coptil, Robert Bosch GmbH]
+  * [Stephan-A Fuchs, Deutsche Bank] 
 
 * **Previous Authors:**
 
 * **Reviewer(s):**
-  * [Florin Coptil, Robert Bosch GmbH]
-  * [Stephan-A Fuchs, Deutsche Bank]
+  * [....., CommerzBank]
+  * [Dominic Hurni, SBB]
+  * [Werner Folkendt, Robert Bosch GmbH]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations meetings |
+| 0.6     | 23.06.2026 | Review holder and bank perspective                              |
+| 0.8     | 29.06.2026 | Review supplier perspective                                     |
 
 * **Contact:**
   * [Florin Coptil](mailto:florin.coptil@bosch.com)
 
 * **Feedback:**
-
----
 
 ## 1 Introduction
 
@@ -41,8 +43,6 @@ The AuthorisedSignatories Attestation enables a Relying Party (banks or fintechs
 confirm that a person (the Signatory) has the authority to make binding commitments
 (i.e. signing a contract). This attestation is mandatory, for example, when opening a bank
 account. Other use cases may require the same type of attestation.
-
----
 
 ### 1.1 Document Scope and Purpose
 
@@ -67,25 +67,15 @@ This AuthorisedSignatories Attestation Rulebook is based on:
 - eIDAS 2.0 / EUDI Wallet framework for digital identity and verifiable attestations
 - ISO 8601 for date formatting
 
----
-
 ### 1.2 Document Structure
-
 This Rulebook is structured as follows:
 
-- **Chapter 2** describes the attestation attributes and metadata in an encoding-independent
-  manner, including the data model.
-- **Chapter 3** specifies how the attestation attributes and metadata are encoded: Section 3.2
-  covers SD-JWT VC-based encoding.
-- **Chapter 4** specifies attestation usage scenarios, Relying Party obligations, and integration
-  with KYC/KYS workflows.
-- **Chapter 5** defines trust anchors and verification mechanisms for issuer authorization.
-- **Chapter 6** defines revocation mechanisms for the attestation.
-- **Chapter 7** provides compliance information regarding the EUDI framework and applicable
-  data protection laws.
-- **Chapter 8** provides references to applicable standards and specifications.
-
----
+- Chapter 2 describes the Contact Person attestation attributes and metadata in an encoding-independent manner, including the data model.
+- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2  covers SD-JWT VC-based encoding.
+- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration  with supplier onboarding and KYS workflows.
+- Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
+- Chapter 6 defines revocation mechanisms for the attestation.
+- Chapter 7 provides compliance information regarding the EUDI framework and applicable data protection laws.
 
 ### 1.3 Keywords
 
@@ -138,7 +128,10 @@ sub-objects:
 AuthorisedSignatories Attestation
 ├── Legal_Entity [1]
 │   ├─ Legal_Person    (legal_person_name (M), legal_form_type (M))                                             — mandatory
-│   └─ Identifier      (euid (M), lei (O), tax (O))                                                             — mandatory
+│   ├─ identifier [1..n] (M)                    // At least one identifier required
+│   │   ├─ euid (str) (O)                       // European Unique Identifier
+│   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
+│   │   ├─ tax (str) (O)                        // National tax or registration number                                                         — mandatory
 └── Authorised_Person [1..n]
     ├─ NaturalPerson          (first_name (M), surname (M), date_of_birth (M))                                  — mandatory
     ├─ BirthPlace             (locality (M), country (M), region (O))                                           — mandatory
@@ -146,8 +139,6 @@ AuthorisedSignatories Attestation
     ├─ PersonRole             (role (O), representation_type (M))                                               — mandatory
     └─ NaturalPersonIdentifier (document_type (M), document_number (M), issuing_country (M), expiry_date (M))  — optional
 ```
-
-
 **Explanation:**
 
 The `Legal_Entity` object **SHALL** appear exactly once and contains:
@@ -276,32 +267,11 @@ mandatory or optional as specified above.
 
 | **Data Identifier**          | **Definition**                                                                                                                                                     | **Data type** |
 |------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date                | The date and time when the AuthorisedSignatories Attestation was issued (ISO 8601)                                                                                 | DateTime      |
-| expiry_date                  | The date and time when the AuthorisedSignatories Attestation expires (ISO 8601)                                                                                    | DateTime      |
-| issuing_entity               | The identifier of the legal entity that issued the AuthorisedSignatories Attestation (typically the subject entity itself for self-issued attestations)            | String        |
 | attestation_legal_category   | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA")                                                                                      | String        |
-| vct                          | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                            | String        |
-
----
 
 ### 2.6 Optional Metadata
 
-| **Data Identifier** | **Definition**                                                                                  | **Data type** |
-|---------------------|-------------------------------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying the AuthorisedSignatories Attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used for the AuthorisedSignatories Attestation                           | String        |
-
----
-
 ### 2.7 Conditional Metadata
-
-The following metadata element is conditionally mandatory:
-
-| Data Identifier | Definition | Data type | Condition |
-|---|---|---|---|
-| status | Status list reference enabling the Relying Party to determine whether the attestation has been revoked. SHALL be a JSON object with members: type ("status-list"), status_list_credential (URI of the Status List Credential), status_list_index (integer ≥ 0), and status_purpose ("revocation"). 
-
-See Section 3.2.2. | Object | SHALL be present when the technical validity period (expiry_date − issuance_date) exceeds 24 hours. |
 
 ### 2.8 Value Lists
 
@@ -378,7 +348,7 @@ disclosable as per the attribute encoding table below.
 
 The `.` notation is used to indicate the nesting of attributes.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build.authorisedsignatories.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build:authorisedsignatories:1`
 
 #### 3.2.1 Attribute Encoding Table
 
@@ -411,13 +381,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | identifier.issuing_country        | authorised_persons[n].identifier.issuing_country        | string              | Country that issued the identity document; ISO 3166-1 alpha-3; optional                                           | MAY             |
 | identifier.document_expiry_date   | authorised_persons[n].identifier.document_expiry_date   | string              | Expiration date of the identity document; ISO 8601 full-date format (YYYY-MM-DD); optional                        | MAY             |
 | **Metadata**                      |                                                         |                     |                                                                                                                   |                 |
-| issuance_date                     | iat                                                     | number              | Date and time when the AuthorisedSignatories Attestation was issued; NumericDate per RFC 7519                     | MUST NOT        |
-| expiry_date                       | exp                                                     | number              | Date and time when the AuthorisedSignatories Attestation expires; NumericDate per RFC 7519                        | MUST NOT        |
-| issuing_entity                    | iss                                                     | string              | HTTPS URL identifying the issuer (scheme, host, optional port/path; no query or fragment), per [SD-JWT VC]. Issuer verification key resolved via <iss>/.well-known/jwt-vc-issuer.                | MUST NOT        |
 | attestation_legal_category        | attestation_legal_category                              | string              | One of "EAA" as defined by eIDAS 2                                                                                | MUST NOT        |
-| vct                               | vct                                                     | string              | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential           | MUST NOT        |
-| schema_version                    | schema_version                                          | string              | Version of the schema used for the AuthorisedSignatories Attestation; optional                                    | MAY             |
-| trust_anchor_url                  | trust_anchor_url                                        | string              | URL where the trust anchor for verifying the AuthorisedSignatories Attestation can be retrieved; optional         | MAY             |
 
 **Notes:**
 
@@ -467,7 +431,7 @@ The following is a non-normative example of an AuthorisedSignatories Attestation
 ```
 
 {
-  "vct": "eu.we-build.authorisedsignatories.1",
+  "vct": "eu.we-build:authorisedsignatories:1",
   "attestation_legal_category": "EAA",
   "iss": "https://example-gmbh.de",
   "iat": 1746000000,
