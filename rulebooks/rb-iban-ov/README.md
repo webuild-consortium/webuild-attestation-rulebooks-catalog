@@ -299,15 +299,12 @@ The `.` notation is used to indicate the nesting of attributes.
 | iban                       | bank_account.iban                   | String                  | ISO 13616:2020 format                                                                                   | MUST            |
 | account_type               | bank_account.account_type           | String                  | Nature of the bank account                                                                              | MUST            |
 | account_currency           | bank_account.account_currency       | Array of Strings        | ISO 4217:2015 currency codes                                                                            | MUST            |
-
 | **Account_Ownership**      |                                      |                         |                                                                                                        |                 |
 | owner_type                 | account_ownership.owner_type         | String                  | Discriminator identifying the owner type. Enum: `legal_person` \| `natural_person`                     | MUST            |
 | owner_name                 | account_ownership.owner_name         | String                  | Legal name of the legal entity owning the account. Present only if `owner_type = legal_person`         | MUST            |
 | euid                       | account_ownership.euid               | String                  | EUID of the owner of the account																	   | MUST			 |   
 | given_name           	     | account_ownership.given_name         | String                  | Given name(s) of the natural person owning the account. Present only if `owner_type = natural_person`  | MUST            |
 | surname                    | account_ownership.surname            | String                  | Surname of the natural person owning the account. Present only if `owner_type = natural_person`        | MUST            |
-
-
 | **Account_Provider**       |                                     |                         |                                                                                                         |                 |
 | provider_name              | account_provider.provider_name      | String                  | Name of the financial institution                                                                       | MUST            |
 | bank_identifier            | account_provider.euid               | String                  | EUID of the financial institution                                                                       | MUST            |
@@ -316,15 +313,15 @@ The `.` notation is used to indicate the nesting of attributes.
 | national_bank_code         | account_provider.national_bank_code | String                  | Country-specific routing code                                                                           | MUST            |
 | nace_code                  | account_provider.nace_code          | String                  | NACE activity code                                                                                      | MUST            |
 | clearing_number            | account_provider.clearing_number    | String                  | Country-specific clearing number                                                                        | MUST            |
-
 | **Metadata**               |                                     |                         |                                                                                                         |                 |
 | issuance_date              | iat                                 | Number (Unix timestamp) | ISO 8601 — RFC 7519 / Section 2.5                                                                       | MUST NOT        |
 | expiry_date                | exp                                 | Number (Unix timestamp) | ISO 8601 — RFC 7519 / Section 2.5                                                                       | MUST NOT        |
-| issuing_entity             | issuing_entity                      | String                  | Identifier of the issuing financial institution                                                         | MUST NOT        |
+| issuing_entity             | iss				                   | String                  | Identifier of the issuing financial institution                                                         | MUST NOT        |
 | attestation_legal_category | attestation_legal_category          | String                  | "EAA" defined by eIDAS 2                                                                   | MUST NOT        |
 | vct                        | vct                                 | String                  | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential | MUST            |
 | schema_version             | schema_version                      | String                  | Version of the schema used for this attestation                                                         | MAY             |
 | trust_anchor_url           | trust_anchor_url                    | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved                              | MAY             |
+
 
 **Notes:**
 
