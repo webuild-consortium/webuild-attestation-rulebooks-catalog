@@ -36,13 +36,6 @@
         1768471200
       ]
     },
-    "issuing_entity": {
-      "type": "string",
-      "description": "The identifier of the legal entity that issued the attestation. Typically the issuing financial institution (ASPSP) for EAA attestations. SHALL NOT be selectively disclosable.",
-      "examples": [
-        "did:example:bank-123"
-      ]
-    },
     "attestation_legal_category": {
       "type": "string",
       "description": "The legal category of the attestation as defined by eIDAS 2. For the IBAN-OV attestation issued by the bank (ASPSP) acting as an authorized issuer, this is 'EAA'.",
