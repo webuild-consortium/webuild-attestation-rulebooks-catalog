@@ -6,8 +6,9 @@
 * Previous Authors:
 * Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH]
-  * [Ivan Faltus, BankID]
-  * [Filip Hladký, BankID]
+  * [Stefan, Kauhaus, Visa Inc.]
+  * [Ivan Faltus, BankID.CZ]
+  * [Filip Hladký, BankID.CZ]
   * @Reviewers: Contact Ricky to be added in the Reviewers section if you're missing. 
 
 | Version | Date       | Description                                                     |
