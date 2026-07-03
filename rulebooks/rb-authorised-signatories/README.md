@@ -1,8 +1,8 @@
 # Attestation Rulebook for attestations of type AuthorisedSignatories Attestation
 
 * **Author(s):**
-  * [Ricky Lamberty, Robert Bosch GmbH]
   * [Florin Coptil, Robert Bosch GmbH]
+  * [Ricky Lamberty, Robert Bosch GmbH]
   * [Stephan-A Fuchs, Deutsche Bank] 
 
 * **Previous Authors:**
