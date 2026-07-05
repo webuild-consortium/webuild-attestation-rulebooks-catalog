@@ -390,6 +390,14 @@ The following example shows the payload of the attestation in SD-JWT VC format b
     "status_list_index": 123,
     "status_purpose": "revocation"
   }
+  "cnf": {
+   "jwk": {
+     "kty": "EC",
+     "crv": "P-256",
+     "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+     "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+   }
+  }
 }
 ```
 Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/company-info-sd-jwt-sample.json
