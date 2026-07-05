@@ -1,0 +1,80 @@
+{
+  "vct": "eu.we-build:esgcertificate:1",
+  "iss": "did:example:robert-bosch-gmbh",
+  "iat": 1724284800,
+  "exp": 1882051200,
+  "jti": "esg-cert-attestation-20240822-001",
+  "attestation_legal_category": "EAA",
+  "schema_version": "0.3.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+
+  "economic_operator_main_id": "DE-HRB-396699",
+  "economic_operator_additional_ids": [
+    "BPNL000000000001",
+    "DE811001001"
+  ],
+  "economic_operator_name": "Robert Bosch GmbH",
+  "economic_operator_address": {
+    "street": "Auf der Breit",
+    "nr": "4",
+    "postal_code": "76227",
+    "city": "Karlsruhe"
+  },
+
+  "certificate_type": "ISO9001",
+  "certificate_version": "ISO 9001:2015",
+  "registration_number": "DE015008",
+  "certification_start_date": "2024-08-22",
+  "certification_expiration_date": "2027-08-22",
+
+  "scope": [
+    {
+      "operating_legal_entity_name": "Robert Bosch GmbH",
+      "legal_entity_IDs": [
+        "DE-HRB-396699",
+        "BPNL000000000001"
+      ],
+      "site_location_address_street": "Auf der Breit",
+      "site_location_address_nr": "4",
+      "site_location_address_postal_code": "76227",
+      "site_location_address_city": "Karlsruhe",
+      "scope_description": "Provision, logistics and worldwide distribution of automotive parts, as well as development, production and distribution of products and services for the vehicle manufacturers and the automotive aftermarket.",
+      "certified_site": true
+    },
+    {
+      "operating_legal_entity_name": "Holger Christiansen A/S",
+      "legal_entity_IDs": [
+        "DK-CVR-12345678"
+      ],
+      "site_location_address_street": "Hedelundvej",
+      "site_location_address_nr": "13",
+      "site_location_address_postal_code": "6705",
+      "site_location_address_city": "Esbjerg",
+      "scope_description": "Sales and logistics of auto mechanical and auto electrical products.",
+      "certified_site": false
+    }
+  ],
+
+  "certificate_evidence": {
+    "evidence_id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+    "evidence_type": "Evidence",
+    "evidence_digestMultibase": "zQmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
+    "evidence_data": "JVBERi0xLjQKJcOkw7zDtsO..."
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://example.com/status/esgcertificate-list-1",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}

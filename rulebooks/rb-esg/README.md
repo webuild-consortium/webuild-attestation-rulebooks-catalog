@@ -10,6 +10,7 @@
 | Version | Date       | Description                                                    |
 |---------|------------|----------------------------------------------------------------|
 | 0.3     | 19.05.2026 | Initial draft based on the WeBuild design attestation meetings |
+| 0.6     | 29.06.2026 | update layout                                                |
 
 * Contact:
   * [Dominic Hurni](mailto:dominic.hurni@sbb.ch)
@@ -281,18 +282,9 @@ Each entry in the `scope` array **SHALL** contain the following attributes:
 
 | **Data Identifier**          | **Definition**                                                                                                                                        | **Data type** |
 |------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date                | The date and time when the ESG Certificate Attestation was issued (ISO 8601)                                                                          | DateTime      |
-| expiry_date                  | The date and time when the ESG Certificate Attestation expires (ISO 8601)                                                                             | DateTime      |
-| issuing_entity               | The identifier of the entity that issued the attestation (accredited certification body for QEAA, or the legal entity itself for EAA)                 | String        |
 | attestation_legal_category   | Indicates the legal category of this attestation ("EAA" or "QEAA")                                                                                   | String        |
-| vct                          | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed              | String        |
 
 ### 2.6 Optional Metadata
-
-| **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used for this attestation                            | String        |
 
 ### 2.7 Conditional Metadata
 
@@ -404,7 +396,7 @@ attribute encoding table below.
 
 The `.` notation is used to indicate the nesting of attributes.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build.esgcertificate.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build:esgcertificate:1`
 
 #### 3.2.1 Attribute Encoding Table
 
@@ -438,13 +430,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | evidence_digestMultibase              | certificate_evidence.evidence_digestMultibase | String                       | Content digest for integrity verification of referenced certificate; optional                                            | MAY             |
 | evidence_data                         | certificate_evidence.evidence_data            | String (base64)              | The actual certificate as a base64-encoded string; **SHALL** be present if `evidence_id` is not a URI                    | MAY             |
 | **Metadata**                          |                                               |                              |                                                                                                                          |                 |
-| issuance_date                         | iat                                           | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                                                       | MUST NOT        |
-| expiry_date                           | exp                                           | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                                                          | MUST NOT        |
-| issuing_entity                        | iss                                           | String (URI or DID)          | Identifier of the entity that issued the attestation; RFC 7519                                                           | MUST NOT        |
 | attestation_legal_category            | attestation_legal_category                    | String                       | One of "EAA" or "QEAA" as defined by eIDAS 2                                                                             | MUST NOT        |
-| vct                                   | vct                                           | String                       | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                  | MUST            |
-| schema_version                        | schema_version                                | String                       | Version of the schema used for this attestation; optional                                                                | MAY             |
-| trust_anchor_url                      | trust_anchor_url                              | String (URI)                 | URL where the trust anchor for verifying this attestation can be retrieved; optional                                     | MAY             |
 
 **Notes:**
 
@@ -496,7 +482,7 @@ based on the ISO 9001:2015 certificate illustrated in Appendix 1
 
 ```
 {
-  "vct": "eu.we-build.esgcertificate.1",
+  "vct": "eu.we-build:esgcertificate:1",
   "attestation_legal_category": "EAA",
   "iss": "did:example:robert-bosch-gmbh",
   "iat": 1724284800,

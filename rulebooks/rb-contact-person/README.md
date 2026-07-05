@@ -2,15 +2,18 @@
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
-* Previous Authors
-*
-* Reviewer(s):
   * [Dominic Hurni, SBB]
+* Previous Authors
+  *
+* Reviewer(s):
   * [Werner Folkendt, Robert Bosch GmbH]
+  * [Stephan-A Fuchs, Deutsche Bank]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings |
+| 0.6     | 23.06.2026 | Review in regard to verifier perspective                        |
+| 0.8     | 29.06.2026 | Review format and cleanup                                       |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)*
@@ -23,9 +26,9 @@
 
 This attestation addresses the following question:
 
-**Who are the designated contact persons within a legal entity, and what are their roles and contact details?**
+**Who are the designated contact persons within a legal entity and what are their roles and contact details?**
 
-The Contact Person Attestation identifies and verifies natural persons acting as designated contacts within a legal entity, enabling automated and trusted exchange of contact person data between organizations in supply chain, procurement, and onboarding processes.
+The Contact Person Attestation identifies natural persons acting as designated contacts within a legal entity, enabling automated and trusted exchange of contact person data between organizations in supply chain, procurement, and onboarding processes.
 
 ### 1.1 Document scope and purpose
 
@@ -33,9 +36,6 @@ Cross-company communication is daily business in supply management. To know the 
 valid contact persons for different issues (e.g., finance, product, quality, logistics) is
 crucial to conduct efficient business in the onboarding, pre-contracting, or contracting phase.
 In the onboarding process, a minimum of one contact person is required.
-The Contact Person Attestation identifies and verifies natural persons acting as designated
-contacts within a legal entity, enabling automated and trusted exchange of contact person data
-between organizations in supply chain and procurement processes.
 
 **Use Cases:**
 
@@ -77,16 +77,12 @@ This Contact Person Attestation Rulebook is based on:
 
 This Rulebook is structured as follows:
 
-- Chapter 2 describes the Contact Person attestation attributes and metadata in an
-  encoding-independent manner, including the data model.
-- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2
-  covers SD-JWT VC-based encoding.
-- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration
-  with supplier onboarding and KYS workflows.
+- Chapter 2 describes the Contact Person attestation attributes and metadata in an encoding-independent manner, including the data model.
+- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2  covers SD-JWT VC-based encoding.
+- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration  with supplier onboarding and KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines revocation mechanisms for the attestation.
-- Chapter 7 provides compliance information regarding the EUDI framework and applicable data
-  protection laws.
+- Chapter 7 provides compliance information regarding the EUDI framework and applicable data protection laws.
 
 ### 1.3 Keywords
 
@@ -133,7 +129,8 @@ procurement, and onboarding processes.
 **Data Model:**
 ````
 ├─ legal_person_id (mandatory)
-├─ contact_person (1-n)
+│ └── identifier [String] (M) identifier: euid, lei, tax, ...
+├─ contact_persons (1-n)
 ├─── given_name (mandatory)
 ├─── family_name (mandatory)
 ├─── role (mandatory)
@@ -142,44 +139,42 @@ procurement, and onboarding processes.
 └─── telephone (optional)
 ````
 
-
 **Explanation:**
 - `legal_person_id` links the contact person to their employing legal entity, identified per the European Business Wallet (EBW) framework.
-- The `contact_person` object encapsulates all details for a specific contact, including `given_name`, `family_name`, `role`, `employee_identifier`, and `email` which are mandatory for a valid, actionable contact person record.
-- `telephone` is an optional attribute within the contact_person object and may be provided for direct voice communication.
-- The attestation structure allows for one or more contact_person entries, each being a distinct object.
+- The `contact_persons` object encapsulates all details for a specific contact, including `given_name`, `family_name`, `role`, `employee_identifier`, and `email` which are mandatory for a valid, actionable contact person record.
+- `telephone` is an optional attribute within the contact_persons object and may be provided for direct voice communication.
+- The attestation structure allows for one or more contact_persons entries, each being a distinct object.
 
 **Attestation Classification:**
 
 This attestation type is classified as:
-- **"EAA"** within the EBW Wallet ecosystem, as it is typically self-issued by the legal
-  entity employing the contact person (i.e., the organization issues an attestation about its
-  own employee into its Company Wallet).
+- **"EAA"** within the EBW Wallet ecosystem, as it is typically self-issued by the legal entity employing the contact person 
 
 ### 2.2 Mandatory attributes
 
 #### 2.2.1 ContactPerson List Attributes
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                 | **Optionality**  | **Encoding format** |
-|---------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------|------------------|---------------------|
-| legal_person_id     | --                     | EBW Organization Identifier — Identifier of the employing legal entity according to the European Business Wallet (EBW) framework | M                | tstr                |
-| contact_person      | --                     | Object representing details of an individual contact person. This can be repeated for multiple contacts.                        | M (at least one) | Object              |
-
-**ContactPerson Attributes**
-
-| **Data Identifier** | **Semantic Reference**                                                                    | **Definition**                                                                                        | **Optionality** | **Encoding format** |
-|---------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-----------------|---------------------|
-| given_name          | [givenName – Schema.org Property](https://schema.org/givenName)                           | Given name. In the U.S., the first name of a Person.                                                  | M               | tstr                |
-| family_name         | [familyName – Schema.org Property](https://schema.org/familyName)                         | Family name. In the U.S., the last name of a Person.                                                  | M               | tstr                |
-| role                | [The Organization Ontology](https://www.w3.org/TR/vocab-org/)                             | Denotes a role that a Person takes in an organization (e.g., sales, finance, quality, logistics)      | M               | tstr                |
-| employee_identifier | --                                                                                        | An alphanumeric identifier of the employee assigned by the organization                               | M               | tstr                |
-| email               | [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | An electronic address through which the Contact Person can be contacted                               | M               | tstr                |
+| **Data Identifier**               | **Semantic Reference**                                                                    | **Definition**                                                                                                                          | **Data type** |
+|-----------------------------------|-------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| legal_person_id                   | --                                                                                        | EBW Organization Identifier — Identifier of the employing legal entity according to the European Business Wallet (EBW) framework        | String        |
+| contact_persons                   | --                                                                                        | Object representing details of an individual contact person. This can be repeated for multiple contacts.                                |        Object |
+| legal_person.identifier           | --                                                                                        |                                                                                                                                         | Object        |
+| contactperson.given_name          | [givenName – Schema.org Property](https://schema.org/givenName)                           | Given name. In the U.S., the first name of a Person.                                                                                    | String        |
+| contactperson.family_name         | [familyName – Schema.org Property](https://schema.org/familyName)                         | Family name. In the U.S., the last name of a Person.                                                                                    | String        |
+| contactperson.role                | [The Organization Ontology](https://www.w3.org/TR/vocab-org/)                             | Denotes a role that a Person takes in an organization (e.g., sales, finance, quality, logistics)                                        | String        |
+| contactperson.employee_identifier | --                                                                                        | An alphanumeric identifier of the employee assigned by the organization                                                                 | String        |
+| contactperson.email               | [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | An electronic address through which the Contact Person can be contacted                                                                 | tstr          |
 
 ### 2.3 Optional attributes
 
-| **Data Identifier** | **Semantic Reference**                                                                     | **Definition**                                                       | **Optionality** | **Encoding format** |
-|---------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------|-----------------|---------------------|
-| telephone           | [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | A telephone number through which the Contact Person can be contacted | O               | tstr                |
+**LegalPersonIdentifier Optional Attributes**
+
+| **Data Identifier**           | **Semantic Reference** | **Definition**                              | **Data type** |
+|-------------------------------|------------------------|---------------------------------------------|---------------|
+| legal_person.identifier.euid  | --                     | EUID per ISO 3166-1 alpha-2                 | String        |
+| legal_person.identifier.lei   | --                     | Legal Entity Identifier (LEI) per ISO 17442 | String        |
+| legal_person.identifier.tax   | --                     | National company registration number        | String        |
+| telephone                     | [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | A telephone number through which the Contact Person can be contacted | O               | tstr                |
 
 ### 2.4 Conditional attributes
 
@@ -188,13 +183,9 @@ mandatory or optional as specified above.
 
 ### 2.5 Mandatory metadata
 
-| **Data Identifier**        | **Definition**                                                                                                                                               | **Data type** |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                 | DateTime      |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                    | DateTime      |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the employing organization for self-issued EAA attestations)                       | String        |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                     | String        |
-| vct                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                      | String        |
+| **Data Identifier**         | **Definition**                                                                                                                                                     | **Data type** |
+|-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| attestation_legal_category  | Indicates the legal category of this attestation ("EAA")                                                                                                           | String        |
 
 ### 2.6 Optional metadata
 
@@ -285,32 +276,30 @@ enabling an organization to disclose only the attributes requested by a Relying 
 
 The `.` notation is used to indicate the nesting of attributes.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build.contactperson.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build:contactperson:1`
 
 #### 3.2.1 Attribute Encoding Table
 
 **ControlNaturalPerson**
 
-| **Data Identifier**        | **Attribute identifier**   | **Encoding format**     | **Reference/Notes**                                                                                                            | **Disclosable**     |
-|----------------------------|----------------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------|---------------------|
-| legal_person_id            | legal_person_id            | String                  | Identifier of the employing legal entity per EBW framework (e.g., EUID, VAT number)                                            | MUST                |
-| contact_person             | contact_person             | Array                   | Array of contact person objects. Each object in the array is itself disclosable, and its members are individually disclosable. | MUST (Array itself) |
-| given_name                 | given_name                 | String                  | Given name of the contact person; [givenName – Schema.org](https://schema.org/givenName)                                       | MUST                |
-| family_name                | family_name                | String                  | Family name of the contact person; [familyName – Schema.org](https://schema.org/familyName)                                    | MUST                |
-| role                       | role                       | String                  | Role of the contact person within the organization; [Organization Ontology](https://www.w3.org/TR/vocab-org/)                  | MUST                |
-| employee_identifier        | employee_identifier        | String                  | Alphanumeric employee identifier assigned by the employing organization                                                        | MUST                |
-| email                      | email                      | String                  | Email address of the contact person; SHALL conform to RFC 4021; [CPOV](https://joinup.ec.europa.eu/collection/cpov)            | MUST                |
-| telephone                  | telephone                  | String                  | Telephone number; SHALL conform to ITU-T E.164; [CPOV](https://joinup.ec.europa.eu/collection/cpov); optional                  | MUST                |
-| **Metadata**               |                            |                         |                                                                                                                                |                     |
-| issuance_date              | iat                        | Number (Unix timestamp) | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                                           | MUST NOT            |
-| expiry_date                | exp                        | Number (Unix timestamp) | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                                              | MUST NOT            |
-| issuing_entity             | issuing_entity             | String                  | Identifier of the legal entity that issued the attestation (employing organization for EAA)                                    | MUST NOT            |
-| attestation_legal_category | attestation_legal_category | String                  | One of EAA as defined by eIDAS 2                                                                                               | MUST NOT            |
-| vct                        | vct                        | String                  | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                        | MUST                |
-| trust_anchor_url           | trust_anchor_url           | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved; optional                                           | MUST NOT            |
-| schema_version             | schema_version             | String                  | Version of the schema used; optional                                                                                           | MUST NOT            |
+| **Data Identifier**         | **Attribute identifier**        | **Encoding format**     | **Reference/Notes**                                                                                                            | **Disclosable**     |
+|-----------------------------|---------------------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------|---------------------|
+| legal_person_id             | `legal_person`                  | object                  | Identifier of the employing legal entity per EBW framework (e.g., EUID, VAT number)                                            | MUST                |
+| **LegalPersonIdentifier**   |                                 |                         |                                                                                                                                |
+| euid                        | `legal_person.identifier.euid`  | String                  | EUID of the  legal entity; optional                                                                                            | MUST                |
+| lei                         | `legal_person.identifier.lei`   | String (20 characters)  | LEI code of the legal entity; optional                                                                                         | MUST                |
+| tax                         | `legal_person.identifier.tax`   | String                  | National company registration number; optional                                                                                 | MUST                |
+| **ContactPersons**          | `contact_persons`               | Array                   | Array of contact person objects. Each object in the array is itself disclosable, and its members are individually disclosable. | MUST (Array itself) |
+| given_name                  | `given_name`                    | String                  | Given name of the contact person; [givenName – Schema.org](https://schema.org/givenName)                                       | MUST                |
+| family_name                 | `family_name`                   | String                  | Family name of the contact person; [familyName – Schema.org](https://schema.org/familyName)                                    | MUST                |
+| role                        | `role`                          | String                  | Role of the contact person within the organization; [Organization Ontology](https://www.w3.org/TR/vocab-org/)                  | MUST                |
+| employee_identifier         | `employee_identifier`           | String                  | Alphanumeric employee identifier assigned by the employing organization                                                        | MUST                |
+| email                       | `email`                         | String                  | Email address of the contact person; SHALL conform to RFC 4021; [CPOV](https://joinup.ec.europa.eu/collection/cpov)            | MUST                |
+| telephone                   | `telephone`                     | String                  | Telephone number; SHALL conform to ITU-T E.164; [CPOV](https://joinup.ec.europa.eu/collection/cpov); optional                  | MUST                |
+| **Metadata**                |                                 |                         |                                                                                                                                |                     |
+| attestation_legal_category  | `attestation_legal_category`    | String                  | One of `EAA` as defined by eIDAS 2                                                                                             | MUST NOT            |
 
-**Notes:**
+*Notes:**
 
 - **MUST**: The claim SHALL be selectively disclosable — the holder MAY choose to disclose or
   withhold this claim when presenting the credential to a Relying Party.
@@ -353,18 +342,20 @@ The following is a non-normative example of a Contact Person SD-JWT VC payload:
 
 ```
 {
-  "vct": "eu.we-build.contactperson.1",
+  "vct": "eu.we-build:contactperson:1",
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
   "issuing_entity": "did:example:webuild-company-456",
-  "issuing_country": "DE",
   "attestation_legal_category": "EAA",
   "schema_version": "1.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-
-  "legal_person_id": "DE-HRB-123456",
-  "contact_person": [
+  "legal_identifier":  {
+        "euid":"DE-HRB-123456"  
+        "tax": "tax21212"
+        "lei": "lei1121"      
+   },
+  "contact_persons": [
     {
       "given_name": "Anna",
       "family_name": "Schmidt",
@@ -382,28 +373,19 @@ The following is a non-normative example of a Contact Person SD-JWT VC payload:
       "telephone": "+4915298765432"
     }
   ],
-  "economic_operator": "DE-HRB-123456",
-  "given_name": "Anna",
-  "family_name": "Schmidt",
-  "role": "logistics",
-  "employee_identifier": "EMP-DE-00789",
-  "email": "anna.schmidt@example.com",
-  "telephone": "+4915123456789",
-
   "status": {
- "type": "status-list",
- "status_list_credential": "https://issuer.example.com/status/contactperson/2025",
- "status_list_index": 321,
- "status_purpose": "revocation"
+     "type": "status-list",
+     "status_list_credential": "https://issuer.example.com/status/contactperson/2025",
+     "status_list_index": 321,
+     "status_purpose": "revocation"
   },
-
   "cnf": {
- "jwk": {
-   "kty": "EC",
-   "crv": "P-256",
-   "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-   "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
- }
+     "jwk": {
+       "kty": "EC",
+       "crv": "P-256",
+       "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+       "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+     }
   }
 }
 ```
