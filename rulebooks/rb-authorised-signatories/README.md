@@ -66,6 +66,7 @@ This AuthorisedSignatories Attestation Rulebook is based on:
 - Draft RTS on Customer Due Diligence under Article 28(1) of Regulation (EU) 2024/1624
 - eIDAS 2.0 / EUDI Wallet framework for digital identity and verifiable attestations
 - ISO 8601 for date formatting
+- Submission Regulation – Commission on Implementing Regulation (EU) [number] on the formats for submitting beneficial ownership information.
 
 ### 1.2 Document Structure
 This Rulebook is structured as follows:
@@ -91,8 +92,8 @@ are intended as statements of fact.
 
 *Additional terminology specific to this attestation:*
 
-| Term                | Description                                                                                                                                                                    |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Term                  | Description                                                                                                                                                                     |
+|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | AuthorisedSignatories | AuthorisedSignatories Attestation — the attestation type defined in this Rulebook, providing a verifiable list of natural persons authorised to act on behalf of a legal entity |
 | Authorised Signatory  | A natural person who is authorised to act on behalf of a legal entity in financial and contractual settings, either through statutory power or delegated power                  |
 | Statutory Power       | Authority to act on behalf of a legal entity based on a direct entry in a national public register (e.g., Commercial Register)                                                  |
@@ -104,7 +105,7 @@ are intended as statements of fact.
 | KYS                   | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                     |
 | Relying Party         | A bank, fintech, or other entity that relies on the AuthorisedSignatories Attestation to verify the authority of a signatory                                                    |
 | Representation Type   | The nature of the power of representation — either SOLE (one signatory sufficient) or JOINT (multiple signatories required)                                                     |
-| ISO 8601              | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                                                    |
+| ISO 8601              | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                                                     |
 
 ## 2 Attestation Attributes and Metadata
 
@@ -137,6 +138,8 @@ AuthorisedSignatories Attestation
     ├─ PersonRole             (role (O), representation_type (M))                                               — mandatory
     └─ NaturalPersonIdentifier (document_type (M), document_number (M), issuing_country (M), expiry_date (M))  — optional
 ```
+*Note*: M - mandatory / O - optional.
+
 **Explanation:**
 
 The `Legal_Entity` object **SHALL** appear exactly once and contains:
@@ -258,7 +261,9 @@ mandatory or optional as specified above.
 | trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
 | schema_version      | Version of the schema used for this attestation                            | String        |
 
-### 2.7 Conditional Metadata
+### 2.7 Conditional metadata
+
+No conditional metadata elements are defined for this attestation type.
 
 ### 2.8 Value Lists
 
