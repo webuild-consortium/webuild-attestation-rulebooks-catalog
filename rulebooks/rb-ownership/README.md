@@ -727,10 +727,8 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
-3.2.3 Example Payload
-
-The following is a non-normative example of an Ownership SD-JWT VC payload demonstrating a
-natural person owner, a legal entity owner, and a legal arrangement owner:
+#### 3.2.3 Example Payload
+The following is a non-normative example of an Ownership SD-JWT VC payload demonstrating a  natural person owner, a legal entity owner, and a legal arrangement owner:
 ```
 {
   "vct": "eu.we-build:ownership:1",
