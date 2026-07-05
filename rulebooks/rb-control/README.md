@@ -396,6 +396,8 @@ This attestation type MAY be classified as:
 
 No conditional metadata elements are defined for this attestation type.
 
+---
+
 ### 2.8 Value Lists
 
 #### 2.8.1 `controller.type` Values

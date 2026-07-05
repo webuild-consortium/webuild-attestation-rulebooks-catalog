@@ -278,11 +278,6 @@ Each entry in the `scope` array **SHALL** contain the following attributes:
 
 ### 2.6 Optional Metadata
 
-| **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used for this attestation                            | String        |
-
 ### 2.7 Conditional Metadata
 
 No conditional metadata elements are defined for this attestation type.

@@ -473,7 +473,9 @@ The `status` claim SHALL be a JSON object with the following members:
 }
 ```
 ### 3.2.3 Example Payload
+
 The following is a non-normative example of a Site Attestation SD-JWT VC payload:
+
 ```
 {
   "vct": "eu.we-build:site:1",
