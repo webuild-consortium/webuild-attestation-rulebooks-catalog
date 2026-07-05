@@ -314,7 +314,6 @@
     "iss",
     "iat",
     "exp",
-    "issuing_entity",
     "attestation_legal_category",
     "bank_account",
     "account_ownership",
