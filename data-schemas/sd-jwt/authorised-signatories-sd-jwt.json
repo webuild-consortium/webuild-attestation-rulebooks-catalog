@@ -1,0 +1,489 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/authorised-signatories-sd-jwt.json",
+  "title": "WeBuild – AuthorisedSignatories Attestation – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of an AuthorisedSignatories Attestation as defined in the AuthorisedSignatories Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:authorisedsignatories:1'.",
+      "examples": [
+        "eu.we-build:authorisedsignatories:1"
+      ]
+    },
+
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer of the attestation. Identifies the legal entity that self-issued the AuthorisedSignatories Attestation. Follows RFC 7519.",
+      "examples": [
+        "https://example-gmbh.de"
+      ]
+    },
+
+    "iat": {
+      "type": "integer",
+      "description": "Issuance date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation was issued (ISO 8601 / RFC 7519). SHALL NOT be selectively disclosable.",
+      "examples": [
+        1746000000
+      ]
+    },
+
+    "exp": {
+      "type": "integer",
+      "description": "Expiry date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation expires (ISO 8601 / RFC 7519). SHALL be later than 'iat'. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1777536000
+      ]
+    },
+
+    "jti": {
+      "type": "string",
+      "description": "JWT ID — a unique identifier for the attestation token. Follows RFC 7519.",
+      "examples": [
+        "asr-attestation-20260515-001"
+      ]
+    },
+
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "The legal category of the attestation as defined by eIDAS 2. For the AuthorisedSignatories Attestation self-issued by the legal entity, this SHALL be 'EAA'. SHALL NOT be selectively disclosable.",
+      "enum": [
+        "EAA"
+      ]
+    },
+
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the AuthorisedSignatories attestation schema used. SHALL be a non-empty string when present.",
+      "minLength": 1,
+      "examples": [
+        "1.0",
+        "0.1.0"
+      ]
+    },
+
+    "legal_entity": {
+      "type": "object",
+      "description": "Identifies the legal entity that issued the attestation and on whose behalf the authorised persons act. SHALL appear exactly once. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
+      "properties": {
+
+        "legal_person": {
+          "type": "object",
+          "description": "The official legal name and legal form of the entity issuing the attestation.",
+          "additionalProperties": false,
+          "properties": {
+            "legal_person_name": {
+              "type": "string",
+              "description": "The complete official legal name of the legal entity.",
+              "examples": [
+                "Example GmbH"
+              ]
+            },
+            "legal_form_type": {
+              "type": "string",
+              "description": "The legal form of the legal entity (e.g., GmbH, S.A., Ltd, BV).",
+              "examples": [
+                "GmbH",
+                "S.A.",
+                "Ltd",
+                "BV"
+              ]
+            }
+          },
+          "required": [
+            "legal_person_name",
+            "legal_form_type"
+          ]
+        },
+
+        "identifier": {
+          "type": "object",
+          "description": "Legal identifiers for the entity. The EUID is mandatory; LEI and tax number are optional.",
+          "additionalProperties": false,
+          "properties": {
+            "euid": {
+              "type": "string",
+              "description": "The European Unique Identifier (EUID) of the legal entity per Directive (EU) 2017/1132. SHALL be a non-empty string.",
+              "minLength": 1,
+              "examples": [
+                "DE-HRB-123456"
+              ]
+            },
+            "lei": {
+              "type": "string",
+              "description": "Legal Entity Identifier (LEI) per ISO 17442. When present, SHALL be exactly 20 characters.",
+              "pattern": "^[A-Z0-9]{20}$",
+              "examples": [
+                "5493001KJTIIGC8Y1R12"
+              ]
+            },
+            "tax": {
+              "type": "string",
+              "description": "National company tax or registration number. Optional.",
+              "examples": [
+                "DE123456789"
+              ]
+            }
+          },
+          "required": [
+            "euid"
+          ]
+        }
+
+      },
+      "required": [
+        "legal_person",
+        "identifier"
+      ]
+    },
+
+    "authorised_persons": {
+      "type": "array",
+      "description": "Array of authorised person objects. SHALL contain at least one entry. Each entry represents a natural person authorised to act on behalf of the legal entity. SHALL be individually selectively disclosable as a top-level claim.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "A single authorised person entry containing personal, role, and optionally identification information.",
+        "additionalProperties": false,
+        "properties": {
+
+          "natural_person": {
+            "type": "object",
+            "description": "Core personal identity attributes of the authorised person. All three fields are mandatory.",
+            "additionalProperties": false,
+            "properties": {
+              "first_name": {
+                "type": "string",
+                "description": "The first names in full (including all given names and middle names) of the authorised person.",
+                "examples": [
+                  "Maria Anna",
+                  "Jean"
+                ]
+              },
+              "surname": {
+                "type": "string",
+                "description": "The surnames in full (all family names/last names) of the authorised person.",
+                "examples": [
+                  "Müller",
+                  "Dupont"
+                ]
+              },
+              "date_of_birth": {
+                "type": "string",
+                "description": "Day, month, and year of birth of the authorised person per ISO 8601. Format: YYYY-MM-DD.",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+                "examples": [
+                  "1982-07-14",
+                  "1975-11-30"
+                ]
+              }
+            },
+            "required": [
+              "first_name",
+              "surname",
+              "date_of_birth"
+            ]
+          },
+
+          "birth_place": {
+            "type": "object",
+            "description": "Place of birth of the authorised person. Locality and country are mandatory; region is optional.",
+            "additionalProperties": false,
+            "properties": {
+              "locality": {
+                "type": "string",
+                "description": "Locality (city or town) where the natural person was born.",
+                "examples": [
+                  "Munich",
+                  "Paris"
+                ]
+              },
+              "country": {
+                "type": "string",
+                "description": "Country where the natural person was born. SHALL be a valid ISO 3166-1 alpha-3 country code.",
+                "pattern": "^[A-Z]{3}$",
+                "examples": [
+                  "DEU",
+                  "FRA"
+                ]
+              },
+              "region": {
+                "type": "string",
+                "description": "Optional additional detail on the region or state of birth.",
+                "examples": [
+                  "Bavaria",
+                  "Île-de-France"
+                ]
+              }
+            },
+            "required": [
+              "locality",
+              "country"
+            ]
+          },
+
+          "citizenship": {
+            "type": "array",
+            "description": "Nationality or nationalities of the authorised person. SHALL contain at least one valid ISO 3166-1 alpha-3 country code.",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "description": "ISO 3166-1 alpha-3 country code representing a nationality held by the person.",
+              "pattern": "^[A-Z]{3}$"
+            },
+            "examples": [
+              ["DEU"],
+              ["FRA", "BEL"]
+            ]
+          },
+
+          "person_role": {
+            "type": "object",
+            "description": "Role and representation power of the authorised person within the legal entity. representation_type is mandatory; role is optional.",
+            "additionalProperties": false,
+            "properties": {
+              "representation_type": {
+                "type": "string",
+                "description": "The nature of the power of representation. SHALL be one of the standardized values defined in Section 2.8.1: 'SOLE' (single signatory has full authority) or 'JOINT' (multiple signatories required).",
+                "enum": [
+                  "SOLE",
+                  "JOINT"
+                ]
+              },
+              "role": {
+                "type": "string",
+                "description": "The role of the authorised person within the company (e.g., CEO, CFO, Director). Optional.",
+                "examples": [
+                  "CEO",
+                  "CFO",
+                  "Director",
+                  "Managing Director"
+                ]
+              }
+            },
+            "required": [
+              "representation_type"
+            ]
+          },
+
+          "residence_address": {
+            "type": "object",
+            "description": "Optional residential address of the authorised person. When present, country SHALL be a valid ISO 3166-1 alpha-3 code.",
+            "additionalProperties": false,
+            "properties": {
+              "address": {
+                "type": "string",
+                "description": "The street address where the authorised person currently resides.",
+                "examples": [
+                  "Musterstraße 1"
+                ]
+              },
+              "locality": {
+                "type": "string",
+                "description": "The city where the authorised person currently resides.",
+                "examples": [
+                  "Berlin"
+                ]
+              },
+              "postal_code": {
+                "type": "string",
+                "description": "The postal or ZIP code of the authorised person's address.",
+                "examples": [
+                  "10115"
+                ]
+              },
+              "region": {
+                "type": "string",
+                "description": "The state, province, or region of the authorised person's address.",
+                "examples": [
+                  "Berlin"
+                ]
+              },
+              "country": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-3 country code where the authorised person resides.",
+                "pattern": "^[A-Z]{3}$",
+                "examples": [
+                  "DEU"
+                ]
+              }
+            }
+          },
+
+          "identifier": {
+            "type": "object",
+            "description": "Optional identity document details for enhanced identification of the authorised person. When present, ALL FOUR fields SHALL be provided together: document_type, document_number, issuing_country, and document_expiry_date.",
+            "additionalProperties": false,
+            "properties": {
+              "document_type": {
+                "type": "string",
+                "description": "Type of the identity document. SHALL use one of the standardized values defined in Section 2.8.2.",
+                "enum": [
+                  "Passport",
+                  "National identity card",
+                  "Driver's license",
+                  "Residence permit",
+                  "Other official identity document"
+                ]
+              },
+              "document_number": {
+                "type": "string",
+                "description": "The number of the identity document (passport number, national ID number, etc.).",
+                "examples": [
+                  "C01X00T47",
+                  "ID-987654321"
+                ]
+              },
+              "issuing_country": {
+                "type": "string",
+                "description": "The country that issued the identity document. SHALL be a valid ISO 3166-1 alpha-3 country code.",
+                "pattern": "^[A-Z]{3}$",
+                "examples": [
+                  "DEU",
+                  "FRA"
+                ]
+              },
+              "document_expiry_date": {
+                "type": "string",
+                "description": "The expiration date of the identity document per ISO 8601. Format: YYYY-MM-DD.",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+                "examples": [
+                  "2031-03-20",
+                  "2029-11-15"
+                ]
+              }
+            },
+            "required": [
+              "document_type",
+              "document_number",
+              "issuing_country",
+              "document_expiry_date"
+            ]
+          }
+
+        },
+        "required": [
+          "natural_person",
+          "birth_place",
+          "citizenship",
+          "person_role"
+        ]
+      }
+    },
+
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period (exp - iat) is greater than 24 hours.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status.",
+          "examples": [
+            "https://issuer.example.com/status/authorisedsignatories/2025"
+          ]
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential.",
+          "examples": [
+            789
+          ]
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For the AuthorisedSignatories Attestation this SHALL be 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the AuthorisedSignatories Attestation can be found or looked up. When present, SHALL be a valid URI.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
+      ]
+    },
+
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended. The AuthorisedSignatories Attestation SHALL be cryptographically bound to the specific holder wallet.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder wallet.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": {
+              "type": "string",
+              "description": "Key type (e.g., 'EC', 'RSA')."
+            },
+            "crv": {
+              "type": "string",
+              "description": "Elliptic curve name (e.g., 'P-256'). Required for EC keys."
+            },
+            "x": {
+              "type": "string",
+              "description": "X coordinate of the EC public key (Base64url encoded)."
+            },
+            "y": {
+              "type": "string",
+              "description": "Y coordinate of the EC public key (Base64url encoded)."
+            },
+            "n": {
+              "type": "string",
+              "description": "RSA modulus (Base64url encoded). Required for RSA keys."
+            },
+            "e": {
+              "type": "string",
+              "description": "RSA public exponent (Base64url encoded). Required for RSA keys."
+            }
+          },
+          "required": [
+            "kty"
+          ]
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+
+  },
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "attestation_legal_category",
+    "legal_entity",
+    "authorised_persons",
+    "cnf"
+  ]
+}

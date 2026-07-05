@@ -1,0 +1,61 @@
+{
+  "vct": "eu.we-build:duns:1",
+  "iss": "https://issuer.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:duns-issuer-001",
+  "issuing_country": "DE",
+  "attestation_legal_category": "EAA",
+  "schema_version": "1.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+
+  "duns_number": "123456789",
+
+  "legal_entity": {
+    "legal_name": "Example GmbH",
+    "legal_form": "GmbH",
+    "registered_address": {
+      "street": "Musterstraße",
+      "nr": "42",
+      "postal_code": "70174",
+      "city": "Stuttgart",
+      "country": "DE"
+    }
+  },
+
+  "operational_status": "Active",
+  "operational_status_date": "2025-01-01",
+  "date_of_incorporation": "2005-03-15",
+
+  "registration": {
+    "jurisdiction": "DE",
+    "initial_registration_date": "2005-03-15",
+    "last_update_date": "2024-12-01",
+    "registration_status": "Active"
+  },
+
+  "industry_classification": {
+    "primary_naics": "541512",
+    "secondary_naics": [
+      "541511",
+      "541519"
+    ],
+    "naics_version": "2022"
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/duns/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}

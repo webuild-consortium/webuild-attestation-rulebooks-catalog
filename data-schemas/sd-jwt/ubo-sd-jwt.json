@@ -1,398 +1,87 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://webuildconsortium.eu/schemas/ubo-sd-jwt.json",
-  "title": "WeBuild – Ultimate Beneficial Owner (UBO) Attestation – SD-JWT VC payload",
-  "description": "Schema for the SD-JWT VC payload of a UBO attestation as defined in the UBO Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The UBO attestation provides a standardized, verifiable representation of the natural persons who ultimately own or control a legal entity, capturing essential attributes required for KYC/KYS, AML compliance, supplier onboarding, and regulatory due diligence processes, in accordance with AMLR 2024/1624.",
+  "$id": "https://webuildconsortium.eu/schemas/ubo-attestation/0.4.0/ubo-attestation-schema.json",
+  "title": "Ultimate Beneficial Owner (UBO) Attestation",
+  "description": "SD-JWT VC schema for the WeBuild UBO Attestation (vct: eu.we-build:ubo:1). Provides a standardized, verifiable representation of the natural persons who ultimately own or control a legal entity, compliant with AMLR 2024/1624.",
   "type": "object",
-  "version": "0.1.0",
-  "additionalProperties": true,
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "attestation_legal_category",
+    "ubo"
+  ],
   "properties": {
+
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'eu.we-build.ubo.1'. SHALL NOT be selectively disclosable.",
-      "examples": [
-        "eu.we-build.ubo.1"
-      ]
+      "const": "eu.we-build:ubo:1",
+      "description": "Verifiable Credential Type identifier. SHALL be the fixed string 'eu.we-build:ubo:1'."
     },
+
     "iss": {
       "type": "string",
-      "description": "Identifier of the entity that issued the attestation (URI or DID). SHALL NOT be selectively disclosable. Per RFC 7519.",
-      "examples": [
-        "https://issuer.example.com",
-        "did:example:legal-entity-789"
-      ]
+      "description": "Issuer identifier (DID or URI) of the entity that issued this attestation.",
+      "minLength": 1
     },
+
     "iat": {
       "type": "integer",
-      "description": "Issuance date and time as a Unix timestamp (seconds since epoch). SHALL NOT be selectively disclosable. Per RFC 7519.",
-      "examples": [
-        1736935200
-      ]
+      "description": "Issued-at time as a Unix timestamp (seconds since epoch). SHALL be in the past.",
+      "minimum": 0
     },
+
     "exp": {
       "type": "integer",
-      "description": "Expiry date and time as a Unix timestamp (seconds since epoch). SHALL be later than iat. SHALL NOT be selectively disclosable. Per RFC 7519.",
-      "examples": [
-        1768471200
-      ]
+      "description": "Expiry time as a Unix timestamp (seconds since epoch). SHALL be greater than iat.",
+      "minimum": 0
     },
-    "attestation_legal_category": {
+
+    "jti": {
       "type": "string",
-      "description": "The legal category of the attestation as defined by eIDAS 2. For UBO attestations this SHALL be 'EAA' (self-issued by the legal entity) or 'QEAA' (issued by a qualified trust service provider or authorized competent body such as a notary, commercial register authority, or AML-supervised entity). SHALL NOT be selectively disclosable.",
-      "enum": [
-        "EAA",
-        "QEAA"
-      ]
+      "description": "Unique identifier for this credential instance (JWT ID).",
+      "minLength": 1
     },
+
     "issuing_entity": {
       "type": "string",
-      "description": "The identifier of the legal entity that issued the attestation. For self-issued EAA attestations this is the subject entity itself; for QEAA attestations this is the QTSP or authorized competent body identifier. SHALL NOT be selectively disclosable.",
-      "examples": [
-        "did:example:legal-entity-789",
-        "did:example:qtsp-authority-001"
-      ]
+      "description": "Identifier of the legal entity subject to the UBO disclosure obligation.",
+      "minLength": 1
     },
+
+    "attestation_legal_category": {
+      "type": "string",
+      "enum": ["EAA", "QEAA"],
+      "description": "Legal category of this attestation per eIDAS 2. SHALL be 'EAA' (self-issued) or 'QEAA' (issued by a QTSP or authorised competent body). NOT selectively disclosable."
+    },
+
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the schema used for this attestation.",
+      "minLength": 1,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL where the trust anchor for verifying this attestation can be retrieved.",
+      "minLength": 1
+    },
+
     "ubo": {
       "type": "array",
-      "description": "Array of Ultimate Beneficial Owner (UBO) objects. Each entry represents one natural person who ultimately owns or controls the legal entity. SHALL contain at least one UBO entry. All claims within each UBO entry SHALL be individually selectively disclosable.",
+      "description": "Array of Ultimate Beneficial Owner entries. SHALL contain at least one UBO entry.",
       "minItems": 1,
       "items": {
-        "type": "object",
-        "description": "A single UBO entry representing one natural person who ultimately owns or controls the legal entity. Each entry SHALL contain exactly one NaturalPerson, one BirthPlace, one Citizenship, one ResidenceAddress, one NaturalPersonIdentifier, and one Ownership object.",
-        "additionalProperties": false,
-        "required": [
-          "natural_person",
-          "birth_place",
-          "citizenship",
-          "residence_address",
-          "natural_person_identifier",
-          "ownership"
-        ],
-        "properties": {
-          "natural_person": {
-            "type": "object",
-            "description": "Identity attributes of the natural person identified as a UBO. All fields are mandatory.",
-            "additionalProperties": false,
-            "required": [
-              "first_name",
-              "surname",
-              "date_of_birth"
-            ],
-            "properties": {
-              "first_name": {
-                "type": "string",
-                "minLength": 1,
-                "description": "First name(s), including middle name(s) where applicable, of the natural person identified as a UBO. SHALL be a non-empty string."
-              },
-              "surname": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Last name(s) or surname(s) / family name(s) of the natural person identified as a UBO. SHALL be a non-empty string."
-              },
-              "date_of_birth": {
-                "type": "string",
-                "format": "date",
-                "description": "Date of birth of the natural person. SHALL follow ISO 8601 format (YYYY-MM-DD) and SHALL be a date in the past."
-              }
-            }
-          },
-          "birth_place": {
-            "type": "object",
-            "description": "Place of birth of the natural person UBO. locality and country are mandatory; region is optional.",
-            "additionalProperties": false,
-            "required": [
-              "locality",
-              "country"
-            ],
-            "properties": {
-              "locality": {
-                "type": "string",
-                "minLength": 1,
-                "description": "City or locality of birth of the natural person. SHALL be a non-empty string."
-              },
-              "country": {
-                "type": "string",
-                "description": "Country of birth of the natural person. SHALL be a valid ISO 3166-1 alpha-2 country code.",
-                "pattern": "^[A-Z]{2}$"
-              },
-              "region": {
-                "type": "string",
-                "description": "Region or state of birth of the natural person. Optional.",
-                "minLength": 1
-              }
-            }
-          },
-          "citizenship": {
-            "type": "array",
-            "description": "Nationality or nationalities held by the natural person UBO. SHALL contain at least one valid ISO 3166-1 alpha-2 country code. MAY contain multiple entries for persons holding multiple nationalities.",
-            "minItems": 1,
-            "items": {
-              "type": "string",
-              "description": "An ISO 3166-1 alpha-2 country code representing a nationality held by the UBO.",
-              "pattern": "^[A-Z]{2}$"
-            }
-          },
-          "residence_address": {
-            "type": "object",
-            "description": "Registered residential address of the natural person UBO. All sub-fields are mandatory.",
-            "additionalProperties": false,
-            "required": [
-              "street",
-              "house_number",
-              "locality",
-              "region",
-              "postal_code",
-              "country"
-            ],
-            "properties": {
-              "street": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Street name of the residence address. SHALL be non-empty."
-              },
-              "house_number": {
-                "type": "string",
-                "minLength": 1,
-                "description": "House or building number of the residence address. SHALL be non-empty."
-              },
-              "locality": {
-                "type": "string",
-                "minLength": 1,
-                "description": "City or locality of the residence address. SHALL be non-empty."
-              },
-              "region": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Region or state of the residence address. SHALL be non-empty."
-              },
-              "postal_code": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Postal or ZIP code of the residence address. SHALL be non-empty."
-              },
-              "country": {
-                "type": "string",
-                "description": "Country of the residence address. SHALL be a valid ISO 3166-1 alpha-2 country code.",
-                "pattern": "^[A-Z]{2}$"
-              }
-            }
-          },
-          "contact_address": {
-            "type": "object",
-            "description": "Optional alternative contact address for the natural person UBO, if different from residence address. When present, all sub-fields are required.",
-            "additionalProperties": false,
-            "required": [
-              "street",
-              "house_number",
-              "locality",
-              "region",
-              "postal_code",
-              "country"
-            ],
-            "properties": {
-              "street": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Street name of the contact address."
-              },
-              "house_number": {
-                "type": "string",
-                "minLength": 1,
-                "description": "House or building number of the contact address."
-              },
-              "locality": {
-                "type": "string",
-                "minLength": 1,
-                "description": "City or locality of the contact address."
-              },
-              "region": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Region or state of the contact address."
-              },
-              "postal_code": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Postal or ZIP code of the contact address."
-              },
-              "country": {
-                "type": "string",
-                "description": "Country of the contact address. SHALL be a valid ISO 3166-1 alpha-2 country code.",
-                "pattern": "^[A-Z]{2}$"
-              }
-            }
-          },
-          "natural_person_identifier": {
-            "type": "object",
-            "description": "Government-issued identity document used to identify the natural person UBO. All fields are mandatory. Per AMLR Article 62 requirements for identity verification.",
-            "additionalProperties": false,
-            "required": [
-              "document_type",
-              "document_number",
-              "issuing_country",
-              "expiry_date"
-            ],
-            "properties": {
-              "document_type": {
-                "type": "string",
-                "description": "Type of identity document. SHALL use one of the standardized values defined in Section 2.8.1 of the UBO Rulebook.",
-                "enum": [
-                  "PASSPORT",
-                  "NATIONAL_ID",
-                  "RESIDENCE_PERMIT",
-                  "DRIVING_LICENSE",
-                  "OTHER"
-                ]
-              },
-              "document_number": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Number of the identity document as printed on the document. SHALL be a non-empty string."
-              },
-              "issuing_country": {
-                "type": "string",
-                "description": "Country that issued the identity document. SHALL be a valid ISO 3166-1 alpha-2 country code.",
-                "pattern": "^[A-Z]{2}$"
-              },
-              "expiry_date": {
-                "type": "string",
-                "format": "date",
-                "description": "Expiry date of the identity document. SHALL follow ISO 8601 format (YYYY-MM-DD)."
-              }
-            }
-          },
-          "natural_person_unique_identifier": {
-            "type": "object",
-            "description": "Optional unique identifier assigned to the natural person by an issuing authority, enabling cross-system identification. Both sub-fields are optional.",
-            "additionalProperties": false,
-            "properties": {
-              "identifier_unique": {
-                "type": "string",
-                "minLength": 1,
-                "description": "A unique identifier assigned to the natural person by an issuing authority (e.g., a national personal identification number). Optional."
-              },
-              "identifier_issuing_authority": {
-                "type": "string",
-                "minLength": 1,
-                "description": "The authority that issued the unique identifier (e.g., 'Bundesamt für Justiz'). Optional."
-              }
-            }
-          },
-          "ownership": {
-            "type": "object",
-            "description": "Describes the nature and extent of the UBO's ownership or control stake in the legal entity, including qualification status, ownership percentages, voting rights, determination methodology, and the date from which ownership or control has been held. All fields are mandatory.",
-            "additionalProperties": false,
-            "required": [
-              "qualifies",
-              "qualification_reason",
-              "direct_stake",
-              "indirect_stake",
-              "direct_voting",
-              "indirect_voting",
-              "determination_methodology",
-              "ownership_held_date"
-            ],
-            "properties": {
-              "qualifies": {
-                "type": "boolean",
-                "description": "Boolean flag indicating whether the natural person qualifies as a real UBO under the applicable AML threshold. true = real UBO has been identified; false = the person does not qualify as a UBO under the applicable threshold or cannot be verified."
-              },
-              "qualification_reason": {
-                "description": "The reason why the natural person does not qualify as a UBO. SHALL be null when qualifies = true. SHALL contain one of the standardized enumerated values from Section 2.8.2 when qualifies = false.",
-                "oneOf": [
-                  {
-                    "type": "null",
-                    "description": "Null when qualifies = true — the person has been identified as a qualifying UBO."
-                  },
-                  {
-                    "type": "string",
-                    "description": "Reason for non-qualification. SHALL use one of the standardized values from Section 2.8.2 of the UBO Rulebook.",
-                    "enum": [
-                      "below_threshold",
-                      "no_ubo_identified",
-                      "unverifiable"
-                    ]
-                  }
-                ]
-              },
-              "direct_stake": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 100,
-                "description": "The percentage of direct ownership held by the UBO in the legal entity. SHALL be a decimal value between 0.00 and 100.00 (inclusive). Direct ownership is held without intermediary entities."
-              },
-              "indirect_stake": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 100,
-                "description": "The percentage of indirect ownership held by the UBO through one or more intermediate entities. SHALL be a decimal value between 0.00 and 100.00 (inclusive)."
-              },
-              "direct_voting": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 100,
-                "description": "The percentage of direct voting rights held by the UBO in the legal entity. SHALL be a decimal value between 0.00 and 100.00 (inclusive). Direct voting rights are held without intermediary entities."
-              },
-              "indirect_voting": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 100,
-                "description": "The percentage of indirect voting rights held by the UBO through one or more intermediate entities. SHALL be a decimal value between 0.00 and 100.00 (inclusive)."
-              },
-              "determination_methodology": {
-                "description": "The method(s) used to determine the UBO and the ownership/control percentages. SHALL use one or more of the standardized values defined in Section 2.8.4 of the UBO Rulebook, aligned with AMLR Article 3(17) and the proposed Implementing Act. Multiple methodologies MAY apply simultaneously and SHOULD be encoded as an array. MAY also be a descriptive string where multiple codes apply.",
-                "oneOf": [
-                  {
-                    "type": "string",
-                    "minLength": 1,
-                    "description": "A single determination methodology code or descriptive string."
-                  },
-                  {
-                    "type": "array",
-                    "minItems": 1,
-                    "description": "An array of determination methodology codes when multiple methodologies apply simultaneously.",
-                    "items": {
-                      "type": "string",
-                      "minLength": 1,
-                      "description": "A single determination methodology code.",
-                      "enum": [
-                        "Direct ownership",
-                        "Indirect ownership",
-                        "Settlor",
-                        "Trustee",
-                        "Beneficiary",
-                        "Object of a power",
-                        "Default taker",
-                        "Protector",
-                        "Other",
-                        "Control through ownership",
-                        "Control through voting rights",
-                        "Control through right of appointments",
-                        "Control through veto rights",
-                        "Control through distribution of profits",
-                        "Control through formal or informal agreements",
-                        "Control through relationships between family members",
-                        "Control through acting in concert",
-                        "Control through nominee arrangements"
-                      ]
-                    }
-                  }
-                ]
-              },
-              "ownership_held_date": {
-                "type": "string",
-                "format": "date",
-                "description": "The date from which the ownership or control has been held by the UBO. SHALL follow ISO 8601 format (YYYY-MM-DD) and SHALL be a date in the past."
-              }
-            }
-          }
-        }
+        "$ref": "#/$defs/UBOEntry"
       }
     },
+
     "status": {
       "type": "object",
-      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period is greater than 24 hours. Enables Relying Parties to determine if a credential has been revoked.",
-      "additionalProperties": false,
+      "description": "Revocation status claim. MUST be present if the validity period is greater than 24 hours.",
       "required": [
         "type",
         "status_list_credential",
@@ -400,71 +89,531 @@
         "status_purpose"
       ],
       "properties": {
+
         "type": {
           "type": "string",
-          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
-          "const": "status-list"
+          "const": "status-list",
+          "description": "SHALL be 'status-list'."
         },
+
         "status_list_credential": {
           "type": "string",
           "format": "uri",
-          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status."
+          "description": "URI of the Status List Credential document containing the status bitstring.",
+          "minLength": 1
         },
+
         "status_list_index": {
           "type": "integer",
-          "minimum": 0,
-          "description": "Zero-based index into the status list bitstring for this credential."
+          "description": "Zero-based index into the status list bitstring corresponding to this credential.",
+          "minimum": 0
         },
+
         "status_purpose": {
           "type": "string",
-          "description": "Purpose of the status entry. For UBO attestation this SHALL be 'revocation'.",
-          "const": "revocation"
+          "const": "revocation",
+          "description": "SHALL be 'revocation'."
         }
-      }
+
+      },
+      "additionalProperties": false
     },
-    "trust_anchor_url": {
-      "type": "string",
-      "format": "uri",
-      "description": "URL at which a machine-readable version of the trust anchor used for verifying the UBO attestation can be found or looked up. Optional."
-    },
-    "schema_version": {
-      "type": "string",
-      "description": "Version of the UBO attestation schema used. Optional.",
-      "examples": [
-        "0.4.0"
-      ]
-    },
+
     "cnf": {
       "type": "object",
-      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
-      "additionalProperties": false,
+      "description": "Confirmation claim binding the credential to the holder's key material per RFC 7800.",
       "properties": {
         "jwk": {
           "type": "object",
-          "description": "Public key bound to the holder.",
-          "additionalProperties": true,
+          "description": "JSON Web Key of the holder.",
+          "required": ["kty"],
           "properties": {
             "kty": { "type": "string" },
             "crv": { "type": "string" },
-            "x": { "type": "string" },
-            "y": { "type": "string" },
-            "n": { "type": "string" },
-            "e": { "type": "string" }
+            "x":   { "type": "string" },
+            "y":   { "type": "string" },
+            "n":   { "type": "string" },
+            "e":   { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+
+  },
+
+  "additionalProperties": false,
+
+  "$defs": {
+
+    "UBOEntry": {
+      "type": "object",
+      "title": "UBOEntry",
+      "description": "A single Ultimate Beneficial Owner entry containing personal identity, address, identifier, justification, and source attributes.",
+      "required": [
+        "jurisdiction",
+        "person",
+        "birth_place",
+        "citizenship",
+        "residential_address",
+        "person_identifier",
+        "justification",
+        "effective_date",
+        "source"
+      ],
+      "properties": {
+
+        "jurisdiction": {
+          "type": "string",
+          "description": "Jurisdiction of the subject legal entity. SHALL be a valid ISO 3166-1 alpha-2 country code.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        },
+
+        "person": {
+          "$ref": "#/$defs/Person"
+        },
+
+        "birth_place": {
+          "$ref": "#/$defs/BirthPlace"
+        },
+
+        "citizenship": {
+          "type": "array",
+          "description": "Citizenship(s) held by the natural person. SHALL contain at least one valid ISO 3166-1 alpha-2 country code. MAY contain multiple entries for persons holding multiple nationalities.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$",
+            "minLength": 2,
+            "maxLength": 2,
+            "description": "ISO 3166-1 alpha-2 country code."
+          },
+          "uniqueItems": true
+        },
+
+        "residential_address": {
+          "$ref": "#/$defs/ResidentialAddress"
+        },
+
+        "contact_address": {
+          "$ref": "#/$defs/ContactAddress",
+          "description": "Optional alternative contact address for the natural person."
+        },
+
+        "person_identifier": {
+          "$ref": "#/$defs/PersonIdentifier"
+        },
+
+        "person_unique_identifier": {
+          "$ref": "#/$defs/PersonUniqueIdentifier",
+          "description": "Optional unique identifier assigned by an authority to uniquely identify the natural person."
+        },
+
+        "justification": {
+          "$ref": "#/$defs/Justification"
+        },
+
+        "effective_date": {
+          "type": "string",
+          "description": "Date from which UBO status has been effective. SHALL be a valid ISO 8601 date (YYYY-MM-DD) in the past.",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+
+        "source": {
+          "type": "array",
+          "description": "Supporting evidence substantiating the UBO determination. SHALL contain at least one entry.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/Source"
+          }
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "Person": {
+      "type": "object",
+      "title": "Person",
+      "description": "Personal identity attributes of the natural person identified as UBO.",
+      "required": [
+        "first_name",
+        "surname"
+      ],
+      "properties": {
+
+        "first_name": {
+          "type": "string",
+          "description": "First name(s) of the natural person, including middle names where applicable. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "surname": {
+          "type": "string",
+          "description": "Surname(s) / family name(s) of the natural person. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "birth_date": {
+          "type": "string",
+          "description": "Date of birth of the natural person. SHALL be a valid ISO 8601 date (YYYY-MM-DD) in the past. Optional — may be omitted in specific jurisdictions.",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "BirthPlace": {
+      "type": "object",
+      "title": "BirthPlace",
+      "description": "Place of birth of the natural person.",
+      "required": [
+        "locality",
+        "country"
+      ],
+      "properties": {
+
+        "locality": {
+          "type": "string",
+          "description": "City or locality of birth. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "country": {
+          "type": "string",
+          "description": "Country of birth. SHALL be a valid ISO 3166-1 alpha-2 country code.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        },
+
+        "region": {
+          "type": "string",
+          "description": "Region or state of birth. Optional.",
+          "minLength": 1
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "ResidentialAddress": {
+      "type": "object",
+      "title": "ResidentialAddress",
+      "description": "Registered residential address of the natural person.",
+      "required": [
+        "street",
+        "house_number",
+        "locality",
+        "region",
+        "postal_code",
+        "country"
+      ],
+      "properties": {
+
+        "street": {
+          "type": "string",
+          "description": "Street name of the residential address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "house_number": {
+          "type": "string",
+          "description": "House or building number of the residential address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "locality": {
+          "type": "string",
+          "description": "City or locality of the residential address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "region": {
+          "type": "string",
+          "description": "Region or state of the residential address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "postal_code": {
+          "type": "string",
+          "description": "Postal code of the residential address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "country": {
+          "type": "string",
+          "description": "Country of the residential address. SHALL be a valid ISO 3166-1 alpha-2 country code.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "ContactAddress": {
+      "type": "object",
+      "title": "ContactAddress",
+      "description": "Optional alternative contact address for the natural person. If present, all fields are required.",
+      "required": [
+        "street",
+        "house_number",
+        "locality",
+        "region",
+        "postal_code",
+        "country"
+      ],
+      "properties": {
+
+        "street": {
+          "type": "string",
+          "description": "Street name of the contact address.",
+          "minLength": 1
+        },
+
+        "house_number": {
+          "type": "string",
+          "description": "House or building number of the contact address.",
+          "minLength": 1
+        },
+
+        "locality": {
+          "type": "string",
+          "description": "City or locality of the contact address.",
+          "minLength": 1
+        },
+
+        "region": {
+          "type": "string",
+          "description": "Region or state of the contact address.",
+          "minLength": 1
+        },
+
+        "postal_code": {
+          "type": "string",
+          "description": "Postal code of the contact address.",
+          "minLength": 1
+        },
+
+        "country": {
+          "type": "string",
+          "description": "Country of the contact address. SHALL be a valid ISO 3166-1 alpha-2 country code.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "PersonIdentifier": {
+      "type": "object",
+      "title": "PersonIdentifier",
+      "description": "Government-issued identity document used to identify the natural person.",
+      "required": [
+        "document_type",
+        "document_number",
+        "issuing_country",
+        "expiry_date"
+      ],
+      "properties": {
+
+        "document_type": {
+          "type": "string",
+          "description": "Type of identity document. SHALL use one of the enumerated values from Section 2.8.1.",
+          "enum": [
+            "PASSPORT",
+            "NATIONAL_ID",
+            "RESIDENCE_PERMIT",
+            "DRIVING_LICENSE",
+            "OTHER"
+          ]
+        },
+
+        "document_number": {
+          "type": "string",
+          "description": "Number of the identity document as printed on the document. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "issuing_country": {
+          "type": "string",
+          "description": "Country that issued the identity document. SHALL be a valid ISO 3166-1 alpha-2 country code.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        },
+
+        "expiry_date": {
+          "type": "string",
+          "description": "Expiry date of the identity document. SHALL be a valid ISO 8601 date (YYYY-MM-DD).",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "PersonUniqueIdentifier": {
+      "type": "object",
+      "title": "PersonUniqueIdentifier",
+      "description": "Optional unique identifier assigned by an authority to uniquely identify the natural person across systems.",
+      "properties": {
+
+        "identifier_unique": {
+          "type": "string",
+          "description": "A unique identifier assigned to the natural person by an issuing authority.",
+          "minLength": 1
+        },
+
+        "identifier_issuing_authority": {
+          "type": "string",
+          "description": "The authority that issued the unique identifier.",
+          "minLength": 1
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "Justification": {
+      "type": "object",
+      "title": "Justification",
+      "description": "How and why this natural person qualifies as a UBO under AMLR 2024/1624.",
+      "required": [
+        "threshold_met"
+      ],
+      "properties": {
+
+        "threshold_met": {
+          "type": "array",
+          "description": "Array of applicable AML thresholds or control criteria met by this UBO. SHALL use values from Section 2.8.2. SHALL contain at least one value.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "ownership_25_plus",
+              "ownership_direct",
+              "ownership_indirect",
+              "control_voting_25_plus",
+              "control_voting_direct",
+              "control_voting_indirect",
+              "control_management",
+              "control_veto",
+              "control_contractual",
+              "control_family_relationships",
+              "control_acting_in_concert",
+              "control_nominee",
+              "control_other_means",
+              "arrangement_settlor",
+              "arrangement_trustee",
+              "arrangement_beneficiary",
+              "arrangement_protector",
+              "arrangement_object_of_power",
+              "arrangement_default_taker",
+              "arrangement_other_control"
+            ],
+            "description": "A single AML threshold or control criterion code from Section 2.8.2."
+          },
+          "uniqueItems": true
+        },
+
+        "ownership_percentage": {
+          "type": "number",
+          "description": "Total direct and indirect ownership percentage held by the UBO (0–100). SHOULD be provided if threshold_met includes 'ownership_25_plus'.",
+          "minimum": 0,
+          "maximum": 100
+        },
+
+        "voting_rights_percentage": {
+          "type": "number",
+          "description": "Total direct and indirect voting rights percentage held by the UBO (0–100). SHOULD be provided if threshold_met includes 'control_voting_25_plus'.",
+          "minimum": 0,
+          "maximum": 100
+        },
+
+        "control_details": {
+          "type": "string",
+          "description": "Free text description of control exercised through means other than ownership percentage. SHALL be provided if threshold_met includes 'control_other_means'.",
+          "minLength": 1
+        }
+
+      },
+      "additionalProperties": false,
+      "if": {
+        "properties": {
+          "threshold_met": {
+            "contains": {
+              "const": "control_other_means"
+            }
           }
         }
       },
+      "then": {
+        "required": ["control_details"]
+      }
+    },
+
+    "Source": {
+      "type": "object",
+      "title": "Source",
+      "description": "Supporting evidence substantiating the UBO determination. At least one source SHALL be present per UBO entry.",
       "required": [
-        "jwk"
-      ]
+        "id",
+        "type"
+      ],
+      "properties": {
+
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the source document. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "type": {
+          "type": "string",
+          "description": "Type of source document. SHOULD use values from Section 2.8.5.",
+          "enum": [
+            "ShareRegister",
+            "CommercialRegister",
+            "TransparencyRegister",
+            "TrustDeed",
+            "ShareholderAgreement",
+            "ArticlesOfAssociation",
+            "GovernanceChart",
+            "AMLOfficerDeclaration",
+            "NotarialDeed",
+            "Other"
+          ]
+        },
+
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI reference to the source or evidence document. Optional.",
+          "minLength": 1
+        },
+
+        "data": {
+          "type": "string",
+          "description": "Base64-encoded source document. SHALL be provided if url is not a publicly accessible URI.",
+          "contentEncoding": "base64",
+          "minLength": 1
+        }
+
+      },
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "vct",
-    "iss",
-    "iat",
-    "exp",
-    "attestation_legal_category",
-    "issuing_entity",
-    "ubo"
-  ]
+
+  }
 }
