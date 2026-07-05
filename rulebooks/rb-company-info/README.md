@@ -121,7 +121,7 @@ CompanyInfo
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** Self-issued by the legal entity as part of its disclosures.
+- **"EAA"** self-issued by the legal entity as part of its disclosures.
 - **"QEAA"** issued by a Qualified Trust Service Provider (QTSP) or authorized competent body that can independently attest the company information (e.g., based on official company register data or audited financial statements).
 
 ### 2.2 Mandatory attributes
@@ -473,6 +473,7 @@ Relying Party Action: A revoked or suspended attestation must be treated as inva
 The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 7 References
+
 | **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                           |
 |----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework                            |
