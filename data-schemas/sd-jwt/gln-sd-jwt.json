@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/gln-sd-jwt.json",
+  "title": "WeBuild – GLN Number (Global Location Number) Attestation – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a GLN Number Attestation as defined in the GLN Attestation Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The attestation provides a verifiable, standardized representation of a legal entity's GS1-registered identity and location data, based on a company's Global Company Prefix, supporting supply chain transparency and supplier due diligence within KYS processes.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:gln:1'. A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential. SHALL be selectively disclosable.",
+      "examples": [
+        "eu.we-build:gln:1",
+        "eu.we-build.gln.1"
+      ]
+    },
+
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer of the attestation. Identifies the GS1 member organization or GS1 itself that issued the GLN attestation. Follows RFC 7519. SHALL NOT be selectively disclosable.",
+      "examples": [
+        "did:example:gs1-issuer-456",
+        "did:web:gs1.org",
+        "https://gs1.example.com"
+      ]
+    },
+
+    "iat": {
+      "type": "integer",
+      "description": "Issuance date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation was issued per ISO 8601 / RFC 7519. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1710000000
+      ]
+    },
+
+    "exp": {
+      "type": "integer",
+      "description": "Expiry date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation expires per ISO 8601 / RFC 7519. SHALL be later than 'iat'. SHALL NOT be selectively disclosable.",
+      "examples": [
+        1741536000
+      ]
+    },
+
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "The legal category of the attestation as defined by eIDAS 2. For the GLN attestation issued by GS1, this SHALL be 'EAA'. SHALL NOT be selectively disclosable.",
+      "enum": [
+        "EAA",
+        "pubEAA",
+        "QEAA"
+      ]
+    },
+
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the GLN attestation schema used. SHALL be a non-empty string when present.",
+      "minLength": 1,
+      "examples": [
+        "0.1.0",
+        "1.0"
+      ]
+    },
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the GLN attestation can be found or looked up. When present, SHALL be a valid URI.",
+      "examples": [
+        "https://trust.webuildconsortium.eu/anchors/gs1/eidas-tl"
+      ]
+    },
+
+    "gs1": {
+      "type": "object",
+      "description": "GS1 identity attributes of the registered legal entity, including its legal name, GS1 Company Prefix (licence key), and Global Location Number (GLN). The GLN attestation SHALL contain exactly one 'gs1' object. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
+      "properties": {
+
+        "organizationLegalName": {
+          "type": "string",
+          "description": "The legal entity name as registered with GS1. Based on schema.org and GS1 Web Vocabulary ontological definitions. SHALL be a non-empty string. SHALL be individually selectively disclosable.",
+          "minLength": 1,
+          "examples": [
+            "Example Supply GmbH",
+            "Robert Bosch GmbH",
+            "Global Corp N.V."
+          ]
+        },
+
+        "licenceKey": {
+          "type": "integer",
+          "description": "The GS1 Company Prefix (Global Company Prefix) assigned and licensed by GS1 to the organization. This licence key forms the basis upon which GLNs and other GS1 identifiers are constructed. SHALL be a valid integer. SHOULD be verifiable against the GS1 registry API to confirm active membership status. SHALL be individually selectively disclosable.",
+          "examples": [
+            4012345,
+            5410700,
+            8714253
+          ]
+        },
+
+        "globalLocationNumber": {
+          "type": "string",
+          "description": "The Global Location Number (GLN) — a 13-digit GS1 identifier used to uniquely identify the legal entity or physical location within global supply chains. SHALL be a valid 13-digit GS1 GLN string, consistent with the licenceKey upon which it is built. SHALL pass GS1 check-digit validation. SHALL be individually selectively disclosable.",
+          "pattern": "^[0-9]{13}$",
+          "examples": [
+            "4012345000009",
+            "5410700123456",
+            "8714253000001"
+          ]
+        }
+
+      },
+      "required": [
+        "organizationLegalName",
+        "licenceKey",
+        "globalLocationNumber"
+      ]
+    },
+
+    "address": {
+      "type": "object",
+      "description": "The physical or registered address of the legal entity as held in the GS1 registry. The GLN attestation SHALL contain exactly one 'address' object. All four sub-fields are mandatory. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
+      "properties": {
+
+        "postal_code": {
+          "type": "string",
+          "description": "The postal code of the city where the legal owner currently is registered or operates. SHALL be a non-empty string. SHALL be individually selectively disclosable.",
+          "minLength": 1,
+          "examples": [
+            "10115",
+            "76227",
+            "1017 BS"
+          ]
+        },
+
+        "locality": {
+          "type": "string",
+          "description": "The city where the legal owner currently is registered or operates. SHALL be a non-empty string. SHALL be individually selectively disclosable.",
+          "minLength": 1,
+          "examples": [
+            "Berlin",
+            "Karlsruhe",
+            "Amsterdam"
+          ]
+        },
+
+        "region": {
+          "type": "string",
+          "description": "The region where the legal owner currently is registered or operates. SHALL be a non-empty string. SHALL be individually selectively disclosable.",
+          "minLength": 1,
+          "examples": [
+            "Berlin",
+            "Baden-Württemberg",
+            "North Holland"
+          ]
+        },
+
+        "country": {
+          "type": "string",
+          "description": "The country where the legal owner currently is registered or operates. SHALL be a valid ISO 3166-1 alpha-2 country code. SHALL be individually selectively disclosable.",
+          "pattern": "^[A-Z]{2}$",
+          "examples": [
+            "DE",
+            "CH",
+            "FR",
+            "IT",
+            "ES",
+            "NL",
+            "AT"
+          ]
+        }
+
+      },
+      "required": [
+        "postal_code",
+        "locality",
+        "region",
+        "country"
+      ]
+    },
+
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period (exp - iat) is greater than 24 hours. Enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.",
+      "additionalProperties": false,
+      "properties": {
+
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential document that contains the bitstring indicating revocation status.",
+          "examples": [
+            "https://issuer.example.com/status/gln/2025",
+            "https://example.com/status/gln-list-1"
+          ]
+        },
+
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring that corresponds to this credential.",
+          "examples": [
+            123,
+            456,
+            789
+          ]
+        },
+
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For the GLN Number Attestation this SHALL be 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended. The GLN Number Attestation SHALL be cryptographically bound to the specific holder wallet.",
+      "additionalProperties": false,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder wallet.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": {
+              "type": "string",
+              "description": "Key type (e.g., 'EC', 'RSA')."
+            },
+            "crv": {
+              "type": "string",
+              "description": "Elliptic curve name (e.g., 'P-256'). Required for EC keys."
+            },
+            "x": {
+              "type": "string",
+              "description": "X coordinate of the EC public key (Base64url encoded)."
+            },
+            "y": {
+              "type": "string",
+              "description": "Y coordinate of the EC public key (Base64url encoded)."
+            },
+            "n": {
+              "type": "string",
+              "description": "RSA modulus (Base64url encoded). Required for RSA keys."
+            },
+            "e": {
+              "type": "string",
+              "description": "RSA public exponent (Base64url encoded). Required for RSA keys."
+            }
+          },
+          "required": [
+            "kty"
+          ]
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+
+  },
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "attestation_legal_category",
+    "gs1",
+    "address",
+    "cnf"
+  ]
+}

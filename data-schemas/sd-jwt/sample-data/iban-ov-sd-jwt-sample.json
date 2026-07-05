@@ -1,0 +1,51 @@
+{
+  "vct": "eu.we-build.iban-ov:1",
+  "iss": "https://bank.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:bank-123",
+  "attestation_legal_category": "EAA",
+  "schema_version": "1.0",
+
+  "bank_account": {
+    "account_name": "Company A Main Account",
+    "iban": "DE89370400440532013000",
+    "account_type": "CURRENT",
+    "account_currency": [
+      "EUR"
+    ]
+  },
+
+  "account_ownership": {
+    "owner_name": "Company A GmbH",
+    "euid": "DE-HRB-123456"
+  },
+
+  "account_provider": {
+    "provider_name": "Example Bank AG",
+    "euid": "DE-HRB-654321",
+    "provider_country": "DEU",
+    "bic_swift": "DEUTDEDB",
+    "national_bank_code": "37040044",
+    "nace_code": "64.19",
+    "clearing_number": "37040044"
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://bank.example.com/status/iban-ov/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
+
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl",
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
+      "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
+    }
+  }
+}

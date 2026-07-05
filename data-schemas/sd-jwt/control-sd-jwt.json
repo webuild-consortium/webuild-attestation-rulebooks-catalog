@@ -1,388 +1,621 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://webuildconsortium.eu/schemas/Control-sd-jwt.json",
-  "title": "WeBuild – Control Attestation (Control) – SD-JWT VC payload",
-  "description": "Schema for the SD-JWT VC payload of a Control attestation as defined in the Control Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The Control List captures all natural and legal persons who exercise direct or indirect control over a legal entity, providing comprehensive visibility into decision-makers and influencers through voting rights, board representation, management authority, contractual powers, and dominant influence.",
+  "$id": "https://webuildconsortium.eu/schemas/control-attestation/0.9.0/control-attestation-schema.json",
+  "title": "Control Attestation",
+  "description": "SD-JWT VC schema for the WeBuild Control Attestation (vct: eu.we-build:control:1). Provides a complete, verifiable representation of an entity's control structure, recording all natural persons, legal entities, and legal arrangements which have direct or indirect control over a legal entity. Compliant with AMLR 2024/1624.",
   "type": "object",
-  "version": "0.1.0",
-  "additionalProperties": true,
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "attestation_legal_category",
+    "controller"
+  ],
   "properties": {
+
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'eu.we-build.control.1'.",
-      "examples": [
-        "eu.we-build.control.1"
-      ]
+      "const": "eu.we-build:control:1",
+      "description": "Verifiable Credential Type identifier. SHALL be the fixed string 'eu.we-build:control:1'."
     },
-    "attestation_legal_category": {
+
+    "iss": {
       "type": "string",
-      "description": "The legal category of the attestation as defined by eIDAS 2. For Control attestations this SHALL be 'EAA', as the attestation is typically self-issued by the legal entity subject to the control disclosure.",
-      "enum": [
-        "EAA"
-      ]
+      "description": "Issuer identifier (DID or URI) of the entity that issued this attestation.",
+      "minLength": 1
     },
+
+    "iat": {
+      "type": "integer",
+      "description": "Issued-at time as a Unix timestamp (seconds since epoch). SHALL be in the past.",
+      "minimum": 0
+    },
+
+    "exp": {
+      "type": "integer",
+      "description": "Expiry time as a Unix timestamp (seconds since epoch). SHALL be greater than iat.",
+      "minimum": 0
+    },
+
+    "jti": {
+      "type": "string",
+      "description": "Unique identifier for this credential instance (JWT ID).",
+      "minLength": 1
+    },
+
     "issuing_entity": {
       "type": "string",
-      "description": "The identifier of the legal entity that issued the attestation. For Control attestations this is typically the subject entity itself (self-issued EAA).",
-      "examples": [
-        "did:example:legal-entity-123"
-      ]
+      "description": "Identifier of the legal entity subject to the control disclosure obligation.",
+      "minLength": 1
     },
-    "control": {
+
+    "attestation_legal_category": {
+      "type": "string",
+      "enum": ["EAA", "QEAA"],
+      "description": "Legal category of this attestation per eIDAS 2. SHALL be 'EAA' (self-issued) or 'QEAA' (issued by a QTSP or authorised competent body). NOT selectively disclosable."
+    },
+
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the schema used for this attestation.",
+      "minLength": 1,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL where the trust anchor for verifying this attestation can be retrieved.",
+      "minLength": 1
+    },
+
+    "controller": {
       "type": "array",
-      "description": "Array of controller objects (either natural person or legal person). SHALL contain at least one natural person controller to comply with AML requirements that mandate identification of natural persons who ultimately control the entity.",
+      "description": "Array of Controller entries. SHALL contain at least one entry. At least one entry SHALL be of type 'Person' to satisfy AML requirements.",
       "minItems": 1,
       "items": {
-        "type": "object",
-        "description": "A single controller, which is either a natural person or a legal person, exercising control over the legal entity.",
-        "additionalProperties": false,
-        "oneOf": [
-          { "required": ["natural_person"] },
-          { "required": ["legal_person"] }
-        ],
-        "properties": {
-          "natural_person": {
-            "type": "object",
-            "description": "Details of a natural person controller.",
-            "additionalProperties": false,
-            "properties": {
-              "family_name": {
-                "type": "string",
-                "minLength": 1,
-                "description": "Last name(s) or surname(s) of the natural person who holds control. SHALL be a non-empty string."
-              },
-              "given_name": {
-                "type": "string",
-                "minLength": 1,
-                "description": "First name(s), including middle name(s) where applicable, of the natural person who holds control. SHALL be a non-empty string."
-              },
-              "birth_date": {
-                "type": "string",
-                "format": "date",
-                "description": "Day, month, and year of birth of the natural person. SHALL follow ISO 8601 format (YYYY-MM-DD). Optional."
-              },
-              "natural_person_identifier": {
-                "type": "object",
-                "description": "Optional identification details for the natural person.",
-                "additionalProperties": false,
-                "properties": {
-                  "document_type": {
-                    "type": "string",
-                    "description": "A value defining the type of the identity document according to the nationality of the UBO (e.g., Passport, National identity card, Driver's license). Optional."
-                  },
-                  "document_number": {
-                    "type": "string",
-                    "description": "The number of the identity document (passport number, national ID number, driver's license number, etc.). Optional."
-                  },
-                  "issuing_country": {
-                    "type": "string",
-                    "description": "The country that issued the identity document (ISO 3166-1 alpha-3 code). Optional.",
-                    "pattern": "^[A-Z]{3}$"
-                  }
-                },
-                "required": []
-              },
-              "residence_address": {
-                "type": "object",
-                "description": "Residence address where the controller currently resides. All sub-fields are optional.",
-                "additionalProperties": false,
-                "properties": {
-                  "address": { "type": "string", "description": "The street address where the controller currently resides. Optional." },
-                  "locality": { "type": "string", "description": "The city where the controller currently resides. Optional." },
-                  "postal_code": { "type": "string", "description": "The postal or ZIP code of the controller's residence address. Optional." },
-                  "region": { "type": "string", "description": "The state, province, or region of the controller's address. Optional." },
-                  "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the controller currently resides. Optional." }
-                },
-                "required": []
-              },
-              "contact_address": {
-                "type": "object",
-                "description": "Contact address where the controller can be contacted, if different from residence address. All sub-fields are optional.",
-                "additionalProperties": false,
-                "properties": {
-                  "address": { "type": "string", "description": "The street address where the controller can be contacted. Optional." },
-                  "locality": { "type": "string", "description": "The city where the controller can be contacted. Optional." },
-                  "postal_code": { "type": "string", "description": "The postal or ZIP code of the controller's contact address. Optional." },
-                  "region": { "type": "string", "description": "The state, province, or region of the controller's contact address. Optional." },
-                  "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the controller can be contacted. Optional." }
-                },
-                "required": []
-              },
-              "stake": {
-                "type": "object",
-                "description": "Quantitative control data and control mechanism classification for the natural person controller.",
-                "additionalProperties": false,
-                "properties": {
-                  "effective_control": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "The percentage of direct control exercised by this controller, based on voting rights, decision-making power, or other control metrics. SHALL be a decimal value between 0 and 100."
-                  },
-                  "legal_person_id": {
-                    "type": "string",
-                    "minLength": 1,
-                    "description": "The list of legal entity identifier where the controller's interests belong (direct legal entity and all indirect legal entities through which control is exercised) (e.g., EUID/LEI identifier reference). SHALL be a non-empty string."
-                  },
-                  "control_mechanism": {
-                    "type": "array",
-                    "description": "Classification of the control mechanism(s) through which control is exercised. SHALL contain at least one value. Multiple mechanisms MAY apply simultaneously. SHALL use standardized values as defined in Section 2.8.1.",
-                    "minItems": 1,
-                    "items": {
-                      "type": "string",
-                      "enum": [
-                        "Voting rights",
-                        "Board control",
-                        "Management / Executive roles",
-                        "Contractual rights",
-                        "Special shares",
-                        "Power to appoint/remove management",
-                        "Trustee",
-                        "Dominant influence",
-                        "Influence via parent or holding company"
-                      ]
-                    }
-                  }
-                },
-                "required": [
-                  "effective_control",
-                  "legal_person_id",
-                  "control_mechanism"
-                ]
-              }
-            },
-            "required": [
-              "family_name",
-              "given_name",
-              "residence_address",
-              "stake"
-            ]
-          },
-          "legal_person": {
-            "type": "object",
-            "description": "Details of a legal person (entity) controller.",
-            "additionalProperties": false,
-            "properties": {
-              "legal_person_name": {
-                "type": "string",
-                "minLength": 1,
-                "description": "The complete official name of the legal entity which exercises control over the subject entity. SHALL be a non-empty string."
-              },
-              "legal_form_type": {
-                "type": "string",
-                "minLength": 1,
-                "description": "The legal form of the controlling legal entity. SHALL be a non-empty string."
-              },
-              "legal_person_identifier": {
-                "type": "object",
-                "description": "The identification of the legal entity which controls this entity (ex. National identification: EUID, TAX or other identification standard :LEI, etc). At least one identifier must be specified.",
-                "additionalProperties": false,
-                "properties": {
-                  "euid": {
-                    "type": "string",
-                    "description": "EUID per ISO 3166-1 alpha-2. Optional.",
-                    "examples": ["DE / HRB / 123456"]
-                  },
-                  "lei": {
-                    "type": "string",
-                    "description": "Legal Entity Identifier (LEI) per ISO 17442. Optional.",
-                    "pattern": "^[A-Z0-9]{20}$"
-                  },
-                  "tax": {
-                    "type": "string",
-                    "description": "Tax Number. Optional."
-                  }
-                },
-                "minProperties": 1
-              },
-              "registered_address": {
-                "type": "object",
-                "description": "Registered address where the legal controller is registered. All sub-fields are optional.",
-                "additionalProperties": false,
-                "properties": {
-                  "address": { "type": "string", "description": "The street address where the legal controller is registered. Optional." },
-                  "locality": { "type": "string", "description": "The city where the legal controller is registered. Optional." },
-                  "postal_code": { "type": "string", "description": "The postal code of the legal controller's registered address. Optional." },
-                  "region": { "type": "string", "description": "The state, province, or region of the legal controller's address. Optional." },
-                  "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the legal controller is registered. Optional." }
-                },
-                "required": []
-              },
-              "contact_address": {
-                "type": "object",
-                "description": "Contact address where the legal controller can be contacted, if different from registered address. All sub-fields are optional.",
-                "additionalProperties": false,
-                "properties": {
-                  "address": { "type": "string", "description": "The street address where the legal controller can be contacted. Optional." },
-                  "locality": { "type": "string", "description": "The city where the legal controller can be contacted. Optional." },
-                  "postal_code": { "type": "string", "description": "The postal or ZIP code of the legal controller's contact address. Optional." },
-                  "region": { "type": "string", "description": "The state, province, or region of the legal controller's contact address. Optional." },
-                  "country": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3 country code where the legal controller can be contacted. Optional." }
-                },
-                "required": []
-              },
-              "stake": {
-                "type": "object",
-                "description": "Quantitative control data and control mechanism classification for the controlling legal entity.",
-                "additionalProperties": false,
-                "properties": {
-                  "effective_control": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "The percentage of direct control exercised by this controlling legal entity. SHALL be a decimal value between 0 and 100."
-                  },
-                  "legal_person_id": {
-                    "type": "string",
-                    "minLength": 1,
-                    "description": "The list of legal entity identifier where the controller's interests belong (direct legal entity and all indirect legal entities through which control is exercised). SHALL be a non-empty string."
-                  },
-                  "control_mechanism": {
-                    "type": "array",
-                    "description": "Classification of the control mechanism(s) through which the legal entity exercises control. SHALL contain at least one value. Multiple mechanisms MAY apply simultaneously. SHALL use standardized values as defined in Section 2.8.1.",
-                    "minItems": 1,
-                    "items": {
-                      "type": "string",
-                      "enum": [
-                        "Voting rights",
-                        "Board control",
-                        "Management / Executive roles",
-                        "Contractual rights",
-                        "Special shares",
-                        "Power to appoint/remove management",
-                        "Trustee",
-                        "Dominant influence",
-                        "Influence via parent or holding company"
-                      ]
-                    }
-                  }
-                },
-                "required": [
-                  "effective_control",
-                  "legal_person_id",
-                  "control_mechanism"
-                ]
-              }
-            },
-            "required": [
-              "legal_person_name",
-              "legal_form_type",
-              "legal_person_identifier",
-              "registered_address",
-              "stake"
-            ]
-          }
-        }
+        "$ref": "#/$defs/Controller"
       }
     },
-    "evidence": {
-      "type": "array",
-      "description": "List of supporting documentation substantiating the control structure calculation (e.g., governance chart, shareholder agreement, articles of association, trust deed). At least one piece of evidence SHALL be present. Evidence MAY be provided as a URI reference or as an embedded base64-encoded document.",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "description": "A single piece of supporting evidence for the control structure.",
-        "additionalProperties": false,
-        "properties": {
-          "evidence_id": {
-            "type": "string",
-            "minLength": 1,
-            "description": "URI reference to the evidence document (e.g., organizational chart, shareholder register, articles of association). The organization chart is made available through a dedicated link. If the Relying Party (RP) requires additional information regarding the organizational structure, it may download the relevant document and use it as supporting evidence for the ownership list calculation. SHALL be a non-empty string."
-          },
-          "evidence_type": {
-            "type": "string",
-            "description": "Defines the type of the object, which SHALL be 'Evidence'."
-          },
-          "evidence_data": {
-            "type": "string",
-            "description": "The actual organizational structure document as a base64-encoded string. This field is required if the `id` does not contain a URI to existing location with the organization structure content is available. Optional.",
-            "contentEncoding": "base64"
-          },
-          "evidence_confirmation": {
-            "type": "boolean",
-            "description": "Boolean confirmation that the organizational structure document is current and has been used as the basis for the control calculation. Optional."
-          },
-          "evidence_date": {
-            "type": "string",
-            "format": "date",
-            "description": "The date when the evidence document was created or last updated. SHALL follow ISO 8601 format (YYYY-MM-DD). Optional."
-          }
-        },
-        "required": [
-          "evidence_id",
-          "evidence_type"
-        ]
-      }
-    },
+
     "status": {
       "type": "object",
-      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period is greater than 24 hours.",
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'."
-        },
-        "status_list_credential": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status."
-        },
-        "status_list_index": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Zero-based index into the status list bitstring for this credential."
-        },
-        "status_purpose": {
-          "type": "string",
-          "description": "Purpose of the status entry. For Control attestation this SHALL be 'revocation'."
-        }
-      },
+      "description": "Revocation status claim. MUST be present if the validity period is greater than 24 hours.",
       "required": [
         "type",
         "status_list_credential",
         "status_list_index",
         "status_purpose"
-      ]
+      ],
+      "properties": {
+
+        "type": {
+          "type": "string",
+          "const": "status-list",
+          "description": "SHALL be 'status-list'."
+        },
+
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential document containing the status bitstring.",
+          "minLength": 1
+        },
+
+        "status_list_index": {
+          "type": "integer",
+          "description": "Zero-based index into the status list bitstring corresponding to this credential.",
+          "minimum": 0
+        },
+
+        "status_purpose": {
+          "type": "string",
+          "const": "revocation",
+          "description": "SHALL be 'revocation'."
+        }
+
+      },
+      "additionalProperties": false
     },
-    "trust_anchor_url": {
-      "type": "string",
-      "format": "uri",
-      "description": "URL at which a machine-readable version of the trust anchor used for verifying the Control attestation can be found or looked up. Optional."
-    },
-    "schema_version": {
-      "type": "string",
-      "description": "Version of the Control attestation schema used. Optional."
-    },
+
     "cnf": {
       "type": "object",
-      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended.",
-      "additionalProperties": false,
+      "description": "Confirmation claim binding the credential to the holder's key material per RFC 7800.",
       "properties": {
         "jwk": {
           "type": "object",
-          "description": "Public key bound to the holder.",
-          "additionalProperties": true,
+          "description": "JSON Web Key of the holder.",
+          "required": ["kty"],
           "properties": {
             "kty": { "type": "string" },
             "crv": { "type": "string" },
-            "x": { "type": "string" },
-            "y": { "type": "string" },
-            "n": { "type": "string" },
-            "e": { "type": "string" }
-          }
+            "x":   { "type": "string" },
+            "y":   { "type": "string" },
+            "n":   { "type": "string" },
+            "e":   { "type": "string" }
+          },
+          "additionalProperties": false
         }
       },
-      "required": [
-        "jwk"
-      ]
+      "additionalProperties": false
     }
+
   },
-  "required": [
-    "vct",
-    "attestation_legal_category",
-    "issuing_entity",
-    "control",
-    "evidence"
-  ]
+
+  "additionalProperties": false,
+
+  "$defs": {
+
+    "Controller": {
+      "type": "object",
+      "title": "Controller",
+      "description": "A single Controller entry representing a natural person, legal entity, or legal arrangement that exercises direct or indirect control over the subject legal entity.",
+      "required": [
+        "type",
+        "jurisdiction",
+        "address",
+        "controls",
+        "effective_date",
+        "evidence"
+      ],
+      "properties": {
+
+        "type": {
+          "type": "string",
+          "description": "Discriminator field determining which sub-object (person or entity) is present. SHALL be 'Person' or 'Entity'.",
+          "enum": ["Person", "Entity"]
+        },
+
+        "jurisdiction": {
+          "type": "string",
+          "description": "Country of legal relevance for this controller entry. SHALL be a valid ISO 3166-1 alpha-2 country code.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        },
+
+        "person": {
+          "$ref": "#/$defs/Person",
+          "description": "Personal identity attributes. SHALL be present when type = 'Person'. SHALL be absent when type = 'Entity'."
+        },
+
+        "entity": {
+          "$ref": "#/$defs/Entity",
+          "description": "Legal entity or legal arrangement attributes. SHALL be present when type = 'Entity'. SHALL be absent when type = 'Person'."
+        },
+
+        "address": {
+          "$ref": "#/$defs/Address",
+          "description": "Address of the controller — residential for Person, registered for Entity."
+        },
+
+        "controls": {
+          "$ref": "#/$defs/Controls",
+          "description": "Object describing how control is exercised by this controller."
+        },
+
+        "effective_date": {
+          "type": "string",
+          "description": "Date when this control relationship became legally effective. SHALL be a valid ISO 8601 date (YYYY-MM-DD).",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+
+        "evidence": {
+          "type": "array",
+          "description": "Supporting evidence substantiating the declared control. SHALL contain at least one entry.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          }
+        }
+
+      },
+      "additionalProperties": false,
+      "if": {
+        "properties": {
+          "type": { "const": "Person" }
+        }
+      },
+      "then": {
+        "required": ["person"],
+        "properties": {
+          "entity": { "not": {} }
+        }
+      },
+      "else": {
+        "required": ["entity"],
+        "properties": {
+          "person": { "not": {} }
+        }
+      }
+    },
+
+    "Person": {
+      "type": "object",
+      "title": "Person",
+      "description": "Personal identity attributes of the natural person exercising control.",
+      "required": [
+        "first_name",
+        "surname"
+      ],
+      "properties": {
+
+        "first_name": {
+          "type": "string",
+          "description": "First name(s) of the natural person, including middle names where applicable. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "surname": {
+          "type": "string",
+          "description": "Surname(s) or family name(s) of the natural person. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "birth_date": {
+          "type": "string",
+          "description": "Date of birth of the natural person. SHALL be a valid ISO 8601 date (YYYY-MM-DD) in the past. Optional but SHOULD be included where available.",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "Entity": {
+      "type": "object",
+      "title": "Entity",
+      "description": "Legal entity or legal arrangement exercising control. Further classified by category field.",
+      "required": [
+        "category",
+        "name",
+        "identifier",
+        "jurisdiction",
+        "form"
+      ],
+      "properties": {
+
+        "category": {
+          "type": "string",
+          "description": "Classification of the entity controller. SHALL be 'legal_entity' or 'legal_arrangement'.",
+          "enum": ["legal_entity", "legal_arrangement"]
+        },
+
+        "name": {
+          "type": "string",
+          "description": "Complete official registered name of the entity or legal arrangement. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "identifier": {
+          "$ref": "#/$defs/EntityIdentifier",
+          "description": "Formal identifiers for the entity. At least one sub-field (euid, lei, tax, or other) SHALL be present."
+        },
+
+        "jurisdiction": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled. SHALL be non-empty.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        },
+
+        "form": {
+          "type": "string",
+          "description": "Legal form of the entity. SHALL use values from Section 2.8.6.",
+          "enum": [
+            "private_company",
+            "public_company",
+            "partnership",
+            "limited_partnership",
+            "trust",
+            "foundation",
+            "cooperative",
+            "state_owned_enterprise",
+            "other"
+          ]
+        },
+
+        "subtype_info": {
+          "$ref": "#/$defs/SubtypeInfo",
+          "description": "Additional information mandatory when category = 'legal_arrangement' or form = 'trust'."
+        }
+
+      },
+      "additionalProperties": false,
+      "if": {
+        "anyOf": [
+          {
+            "properties": {
+              "category": { "const": "legal_arrangement" }
+            }
+          },
+          {
+            "properties": {
+              "form": { "const": "trust" }
+            }
+          }
+        ]
+      },
+      "then": {
+        "required": ["subtype_info"]
+      }
+    },
+
+    "EntityIdentifier": {
+      "type": "object",
+      "title": "EntityIdentifier",
+      "description": "Formal identifiers for a legal entity or legal arrangement. At least one sub-field SHALL be present.",
+      "properties": {
+
+        "euid": {
+          "type": "string",
+          "description": "European Unique Identifier per Directive (EU) 2017/1132. Optional.",
+          "minLength": 1
+        },
+
+        "lei": {
+          "type": "string",
+          "description": "Legal Entity Identifier per ISO 17442. 20-character alphanumeric code. Optional.",
+          "pattern": "^[A-Z0-9]{18}[0-9]{2}$",
+          "minLength": 20,
+          "maxLength": 20
+        },
+
+        "tax": {
+          "type": "string",
+          "description": "National tax or registration number. Optional.",
+          "minLength": 1
+        },
+
+        "other": {
+          "type": "string",
+          "description": "Any other applicable legal identifier. Optional.",
+          "minLength": 1
+        }
+
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+
+    "SubtypeInfo": {
+      "type": "object",
+      "title": "SubtypeInfo",
+      "description": "Additional mandatory attributes for legal arrangements (trusts, foundations, etc.). Required when entity.category = 'legal_arrangement' or entity.form = 'trust'.",
+      "required": [
+        "settlement",
+        "purpose",
+        "assets"
+      ],
+      "properties": {
+
+        "settlement": {
+          "type": "string",
+          "description": "The instrument or document establishing the legal arrangement (e.g., trust deed reference or description). SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "purpose": {
+          "type": "string",
+          "description": "The declared purpose of the legal arrangement. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "assets": {
+          "type": "string",
+          "description": "Description of assets held within the legal arrangement. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "reason_for_registration": {
+          "type": "string",
+          "description": "The reason the legal arrangement was formally registered. Optional.",
+          "minLength": 1
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "Address": {
+      "type": "object",
+      "title": "Address",
+      "description": "Physical address of the controller — residential for Person, registered office for Entity.",
+      "required": [
+        "street",
+        "house_number",
+        "locality",
+        "region",
+        "postal_code",
+        "country"
+      ],
+      "properties": {
+
+        "street": {
+          "type": "string",
+          "description": "Street name of the address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "house_number": {
+          "type": "string",
+          "description": "House or building number of the address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "locality": {
+          "type": "string",
+          "description": "City or locality of the address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "region": {
+          "type": "string",
+          "description": "State, province, or region of the address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "postal_code": {
+          "type": "string",
+          "description": "Postal or ZIP code of the address. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "country": {
+          "type": "string",
+          "description": "Country of the address. SHALL be a valid ISO 3166-1 alpha-2 country code.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "Controls": {
+      "type": "object",
+      "title": "Controls",
+      "description": "Object describing how and to what degree the controller exercises control over the subject entity.",
+      "required": [
+        "type",
+        "level",
+        "basis",
+        "rights"
+      ],
+      "properties": {
+
+        "type": {
+          "type": "array",
+          "description": "Array of control mechanism types. SHALL contain at least one value from Section 2.8.3. Multiple values MAY be present.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "voting_rights",
+              "appointment_rights",
+              "agreements",
+              "dominance",
+              "other_means_of_control",
+              "board",
+              "veto",
+              "contractual",
+              "nominee",
+              "profit_distribution"
+            ],
+            "description": "A single control mechanism type code from Section 2.8.3."
+          },
+          "uniqueItems": true
+        },
+
+        "level": {
+          "type": "string",
+          "description": "How the control is held. SHALL be one of: 'direct', 'indirect', 'joint', or 'unknown' as defined in Section 2.8.2.",
+          "enum": ["direct", "indirect", "joint", "unknown"]
+        },
+
+        "basis": {
+          "type": "string",
+          "description": "Legal or structural basis for the control. SHALL use values from Section 2.8.4.",
+          "enum": [
+            "corporate_position",
+            "shareholding",
+            "contractual",
+            "legal_framework",
+            "trust_arrangement",
+            "other"
+          ]
+        },
+
+        "voting_percentage": {
+          "type": ["number", "null"],
+          "description": "Percentage of voting rights held by the controller (0–100). Optional.",
+          "minimum": 0,
+          "maximum": 100
+        },
+
+        "appointment_rights": {
+          "type": "string",
+          "description": "Free text details on appointment rights held by the controller. Optional.",
+          "minLength": 1
+        },
+
+        "other_details": {
+          "type": "string",
+          "description": "Free text for other control mechanisms not captured by structured fields. Optional.",
+          "minLength": 1
+        },
+
+        "rights": {
+          "type": "array",
+          "description": "Array of economic rights associated with the control. SHALL contain at least one value from Section 2.8.5.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "dividend_rights",
+              "liquidation_rights"
+            ],
+            "description": "An economic rights code from Section 2.8.5."
+          },
+          "uniqueItems": true
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "Evidence": {
+      "type": "object",
+      "title": "Evidence",
+      "description": "Supporting evidence substantiating the declared control relationship. At least one entry SHALL be present per Controller.",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+
+        "id": {
+          "type": "string",
+          "description": "Unique identifier, URI, or URN of the source or evidence document. SHALL be non-empty.",
+          "minLength": 1
+        },
+
+        "type": {
+          "type": "string",
+          "description": "Type of evidence document. SHALL use a value from Section 2.8.9.",
+          "enum": [
+            "officialRegister",
+            "selfDeclaration",
+            "thirdPartyVerification",
+            "trustDeed",
+            "shareholderAgreement",
+            "articlesOfAssociation",
+            "governanceChart"
+          ]
+        },
+
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI reference to the publicly accessible source or evidence document. Optional.",
+          "minLength": 1
+        },
+
+        "data": {
+          "type": "string",
+          "description": "Base64-encoded source document. SHALL be provided if url is absent or not publicly accessible.",
+          "contentEncoding": "base64",
+          "minLength": 1
+        }
+
+      },
+      "additionalProperties": false
+    }
+
+  }
 }

@@ -1,67 +1,77 @@
 {
-  "vct": "eu.we-build.companyinfo.1",
+  "vct": "eu.we-build:companyinfo:1",
+  "iss": "https://issuer.bosch.com/companyinfo",
+  "iat": 1747044000,
+  "exp": 1778580000,
+  "nbf": 1747044000,
+  "sub": "did:example:bosch-gmbh-lei-529900T8BM49AURSDO55",
+  "issuing_entity": "did:example:529900T8BM49AURSDO55",
   "attestation_legal_category": "EAA",
-  "issuing_authority": "Chamber of Commerce Germany",
-  "issuing_country": "DEU",
-  "issuing_entity": "did:example:webuild-legal-entity-456",
-  "employee_number": 1250,
+  "schema_version": "1.0",
+  "trust_anchor_url": "https://trust.we-build.example.com/anchors/companyinfo",
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.bosch.com/status/companyinfo/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
+
+  "number_of_employees": 1000,
+
   "trade_alias": [
-    "BuildCo",
-    "WeBuild Solutions"
+    "Automotive Eng & Consult",
+    "Automotive Eng & Consult GmbH "
   ],
+
   "previous_legal_name": [
-    "Former Company Name GmbH"
+    "Automotive Eng & Consult GmbH & Co. "
   ],
+
   "financial_statements": {
     "taxonomy": "IFRS",
     "facts": [
       {
         "id": "fact-001",
         "concept": "Revenue",
-        "value": 45000000.00,
+        "value": 1000000.00,
         "unit": "EUR",
-        "period_start": "2023-01-01",
-        "period_end": "2023-12-31"
+        "period_start": "2024-01-01",
+        "period_end": "2024-12-31"
       },
       {
         "id": "fact-002",
         "concept": "NetIncome",
-        "value": 3200000.00,
+        "value": 10000000.00,
         "unit": "EUR",
-        "period_start": "2023-01-01",
-        "period_end": "2023-12-31"
+        "period_start": "2024-01-01",
+        "period_end": "2024-12-31"
       },
       {
         "id": "fact-003",
-        "concept": "Assets",
-        "value": 60000000.00,
+        "concept": "EBIT",
+        "value": 3100000.00,
         "unit": "EUR",
-        "period_start": "2023-01-01",
-        "period_end": "2023-12-31"
+        "period_start": "2024-01-01",
+        "period_end": "2024-12-31"
       },
       {
         "id": "fact-004",
-        "concept": "GrossMargin",
-        "value": 37.78,
-        "unit": "%",
-        "period_start": "2023-01-01",
-        "period_end": "2023-12-31"
+        "concept": "Assets",
+        "value": 750000.00,
+        "unit": "EUR",
+        "period_start": "2024-01-01",
+        "period_end": "2024-12-31"
       }
     ]
-  },
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.webuildconsortium.eu/status/companyinfo/2025",
-    "status_list_index": 123,
-    "status_purpose": "revocation"
-  },
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/qtsp/eidas-tl",
-  "schema_version": "0.1.0",
-  "cnf": {
-    "jwk": {
-      "kty": "RSA",
-      "n": "q_u_X8P_S0_0F8_C_f83_oX1f8m5y_B7D9S9-C_0R5-Q0_u_X8P_S0_0F8_C",
-      "e": "AQAB"
-    }
   }
 }

@@ -1,15 +1,19 @@
 # Attestation Rulebook for attestations of type Company Information (CompanyInfo)
 
 * Author(s):
-  * [......]
+  * [Ana Delmas, DFO]
   * [Florin Coptil, Robert Bosch GmbH]
 * Previous Authors
   * 
 * Reviewer(s):
+  * [Ricky Lamberty, Robert Bosch GmbH]
 
-| Version | Date       | Description                                                      |
-|---------|------------|------------------------------------------------------------------|
-| 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings  |
+| Version | Date       | Description                                                     |
+|---------|------------|-----------------------------------------------------------------|
+| 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings |
+| 0.5     | 01.06.2026 | Review in regard to holder perspective                          |
+| 0.6     | 23.06.2026 | Review in regard to verifier perspective                        |
+| 0.8     | 29.06.2026 | Review attributes and type                                      |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
@@ -22,17 +26,9 @@
 
 This attestation addresses the following question:
 
-**What additional company information is available that is not publicly accessible or attested by a QEAA provider?**
+**What additional company information is available that is not publicly accessible can be atteested by the company or by a QTSP provider?**
 
 The Company Information (CompanyInfo) Attestation describes additional company-level information which is not part of the EUCC core identity dataset. The attestation enables structured exchange of business profile attributes for use in KYS (Know Your Supplier), KYC (Know Your Customer), supplier onboarding, and risk assessment processes.
-
-This attestation complements the EU Company Certificate (EUCC) by providing additional non-core identity attributes, in particular company size indicators and financial scale. It is intended for use by legal entities operating within the EU single market and by relying parties performing business due diligence.
-This CompanyInfo Attestation Rulebook is based on:
-- EU Company Certificate (EUCC) framework as the foundational legal identity layer
-- Standard financial reporting taxonomies (IFRS, GAAP) for structured financial data exchange
-- XBRL-inspired fact-based financial reporting structure
-- ISO 4217 for currency codes
-- ISO 8601 for date formatting
 
 ### 1.1 Document scope and purpose
 
@@ -97,24 +93,29 @@ The CompanyInfo Attestation is designed to provide a standardized, verifiable re
 **Data Model:**
 
 The attestation structure is defined as a structured object with a nested array of financial facts:
+
 ```
 CompanyInfo
-├─ employee_number
-├─ trade_alias
-├─ previous_legal_name
-└─ financial_statements
-    ├─ taxonomy
+├─ number_of_employees  (number) (M) 
+├─ trade_alias [tstr] (O)
+├─ previous_legal_name [tstr] (O)
+└─ financial_statements (M) 
+    ├─ taxonomy (tstr) (M)
     └─ facts [1..n]
-        ├─ id
-        ├─ concept
-        ├─ value
-        ├─ unit
-        ├─ period_start
-        └─ period_end
+        ├─ id (tstr) (M)
+        ├─ concept(tstr) (M) 
+        ├─ value (number) (M)
+        ├─ unit (tstr) (M)
+        ├─ period_start (date) (M)
+        └─ period_end((date) (M)
+
+Note:
+M - mandatory
+O - optional 
 ```
 
 **Explanation:**
-- `employee_number` and `financial_statements` are mandatory top-level attributes.
+- `number_of_employees` and `financial_statements` are mandatory top-level attributes.
 - `trade_alias` and `previous_legal_name` are optional and may contain zero or more text values.
 - `financial_statements` is a mandatory nested object containing the reporting taxonomy and at least one financial fact.
 - Each `Fact` in the `facts` array is a self-contained reported financial data point with its own concept, value, unit, and reporting period.
@@ -127,33 +128,18 @@ This attestation type MAY be classified as:
 
 ### 2.2 Mandatory attributes
 
-#### 2.2.1 CompanyInfo Top-Level Attributes
-
-| **Data Identifier**  | **Semantic Reference** | **Definition**                                                        | **Data type** |
-|----------------------|------------------------|-----------------------------------------------------------------------|---------------|
-| employee_number      | ...                    | Total number of employees in the legal entity at the time of reporting | uint          |
-| trade_alias          | ...                    | Registered trade names or aliases under which the legal entity operates | Array of tstr |
-| previous_legal_name  | ...                    | Previously registered legal name(s) of the entity                    | Array of tstr |
-
-#### 2.2.2 financial_statements Object Attributes
-
-| **Data Identifier** | **Semantic Reference** | **Definition**                                         | **Data type** |
-|---------------------|------------------------|--------------------------------------------------------|-------------|
-| taxonomy            | --                     | Financial reporting standard used (e.g., IFRS, GAAP)   | String        |
-| facts               | --                     | List of reported financial facts                       | Array [Fact]  |
-
-#### 2.2.3 Fact Object Attributes
-
-Each element in the `facts` array SHALL contain the following attributes:
-
-| **Data Identifier** | **Semantic Reference** | **Definition**                                         | **Data type** |
-|---------------------|------------------------|--------------------------------------------------------|------------|
-| id                  | ---                    | Unique identifier of the fact                          | String                          |
-| concept             | ---                    | Name of the reported metric (e.g., Revenue, NetIncome) | String                          |
-| value               | ---                    | Reported value of the fact                             | Decimal                         |
-| unit                | ---                    | Unit of measurement (e.g., EUR, %, shares)             | String (ISO 4217 for currencies) |
-| period_start        | ---                    | Start date of the reporting period                     | ISO 8601 (YYYY-MM-DD)           |
-| period_end          | ---                    | End date of the reporting period                       | ISO 8601 (YYYY-MM-DD)           |
+| **Data Identifier**                        | **Semantic Reference** | **Definition**                                                         | **Data type**                    |
+|--------------------------------------------|------------------------|------------------------------------------------------------------------|----------------------------------|
+| employee_number                            | ...                    | Total number of employees in the legal entity at the time of reporting | uint                             |
+| financial_statements                       | ...                    | financial_statements                                                   | Object                           |
+| financial_statements.taxonomy              | --                     | Financial reporting standard used (e.g., IFRS, GAAP)                   | String                           |
+| financial_statements.facts                 | --                     | List of reported financial facts                                       | Array [Fact]                     |
+| financial_statements.facts[n].id           | ---                    | Unique identifier of the fact                                          | String                           |
+| financial_statements.facts[n].concept      | ---                    | Name of the reported metric (e.g., Revenue, NetIncome)                 | String                           |
+| financial_statements.facts[n].value        | ---                    | Reported value of the fact                                             | Decimal                          |
+| financial_statements.facts[n].unit         | ---                    | Unit of measurement (e.g., EUR, %, shares)                             | String (ISO 4217 for currencies) |
+| financial_statements.facts[n].period_start | ---                    | Start date of the reporting period                                     | ISO 8601 (YYYY-MM-DD)            |
+| financial_statements.facts[n].period_end   | ---                    | End date of the reporting period                                       | ISO 8601 (YYYY-MM-DD)            |
 
 ### 2.3 Optional attributes
 
@@ -170,13 +156,9 @@ No conditional attributes are defined for this attestation type. All attributes 
 
 | **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type**   |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime        |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime        |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String          |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA" )                                                                                                          | String          |
-| vct                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                            | String          |
+| attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                           | String          |
 
-### 2.6 Optional metadata
+## 2.6 Optional metadata
 
 | **Data Identifier** | **Definition**                                                             | **Data type** |
 |---------------------|----------------------------------------------------------------------------|---------------|
@@ -298,18 +280,19 @@ The CompanyInfo attestation uses the SD-JWT VC format to allow for selective dis
 
 The `.` notation is used to indicate the nesting of attributes.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build.companyinfo.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build:companyinfo:1`
 
 #### 3.2.1 Attribute Encoding Table
+
 | **Data Identifier**                     | **Attribute identifier**                     | **Encoding format**              | **Reference/Notes**                                                                                      | **Disclosable** |
 |-----------------------------------------|----------------------------------------------|----------------------------------|----------------------------------------------------------------------------------------------------------|-----------------|
-| employee_number                         | `employee_number`                            | Integer (uint)                   | Total number of employees at time of reporting; SHALL be non-negative                                    | MUST            |
+| number_of_employees                     | `number_of_employees`                        | Integer (uint)                   | Total number of employees at time of reporting; SHALL be non-negative                                    | MUST            |
 | trade_alias                             | `trade_alias`                                | Array of Strings                 | Zero or more registered trade names/aliases; optional                                                    | MUST            |
 | previous_legal_name                     | `previous_legal_name`                        | Array of Strings                 | Zero or more previously registered legal names; optional                                                 | MUST            |
-| **financial_statements**                |                                                         |                     |                                                                                                                   |                 |
+| **financial_statements**                |                                              |                                  |                                                                                                          |                 |
 | financial_statements.taxonomy           | `financial_statements.taxonomy`              | String                           | Financial reporting standard used (e.g., IFRS, GAAP)                                                     | MUST            |
 | financial_statements.facts              | `financial_statements.facts`                 | Array [Fact]                     | List of reported financial facts; at least one fact SHALL be present                                     | MUST            |
-| **facts**                               |                                                         |                     |                                                                                                                   |                 |
+| **facts**                               |                                              |                                  |                                                                                                          |                 |
 | financial_statements.facts.id           | `financial_statements.facts[n].id`           | String                           | Unique identifier of the fact within the attestation                                                     | MUST            |
 | financial_statements.facts.concept      | `financial_statements.facts[n].concept`      | String                           | Name of the reported metric (e.g., Revenue, Turnover, NetIncome, TotalAssets)                            | MUST            |
 | financial_statements.facts.value        | `financial_statements.facts[n].value`        | Decimal (number)                 | Reported numeric value of the fact                                                                       | MUST            |
@@ -317,11 +300,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | financial_statements.facts.period_start | `financial_statements.facts[n].period_start` | String (ISO 8601 YYYY-MM-DD)     | Start date of the reporting period                                                                       | MUST            |
 | financial_statements.facts.period_end   | `financial_statements.facts[n].period_end`   | String (ISO 8601 YYYY-MM-DD)     | End date of the reporting period                                                                         | MUST            |
 | **Metadata**                            |                                              |                                  |                                                                                                          |                 |
-| issuance_date                           | `iat`                                        | Number (Unix timestamp)          | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                     | MUST NOT        |
-| expiry_date                             | `exp`                                        | Number (Unix timestamp)          | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                        | MUST NOT        |
-| issuing_entity                          | `issuing_entity`                             | String                           | The identifier of the legal entity that issued the attestation (subject entity for EAA or QTSP for QEAA) | MUST NOT        |
 | attestation_legal_category              | `attestation_legal_category`                 | String                           | One of `EAA` as defined by eIDAS 2                                                                       | MUST NOT        |
-| vct                                     | `vct`                                        | String                           | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential  | MUST            |
 
 **Notes:**
 
@@ -359,18 +338,20 @@ Example:
 ```
 ### 3.2.3 Example Payload
 
-The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
+The following example shows the payload of the attestation in SD-JWT VC format before the encoding into the SD-JWT format.
 ```
 {
-  "vct": "eu.we-build.companyinfo.1",
+  "vct": "eu.we-build:companyinfo:1",
   "iss": "https://issuer.example.com",
   "iat": "2025-01-15T10:00:00Z",
   "exp": "2026-01-15T10:00:00Z",
   "issuing_entity": "did:example:legal-entity-123",
   "schema_version": "1.0",
-  "employee_number": 1250,
+
+  "number_of_employees": 1250,
   "trade_alias": ["BuildCo", "WeBuild Solutions"],
   "previous_legal_name": ["Former Company Name GmbH"],
+  
   "financial_statements": {
     "taxonomy": "IFRS",
     "facts": [
@@ -392,6 +373,7 @@ The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
       }
     ]
   },
+  
   "status": {
     "type": "status-list",
     "status_list_credential": "https://issuer.example.com/status/companyinfo/2025",
