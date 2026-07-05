@@ -235,8 +235,6 @@ This attestation type MAY be classified as:
   body that can independently attest the control structure (e.g., based on official company
   register data, audited financial statements, or notarized documentation).
 
----
-
 **Terms primarily relevant to a `Person` controller:**
 
 | **Term**                 | **Reference**                              | **Definition in Control Context**                                      |
@@ -377,7 +375,6 @@ This attestation type MAY be classified as:
 | `entity.category = "legal_arrangement"`                | `entity.subtype_info.settlement`, `entity.subtype_info.purpose`, `entity.subtype_info.assets`         | The `subtype_info` object SHALL be present and all three fields SHALL be populated   |
 | `entity.form = "trust"`                                | `entity.subtype_info.settlement`, `entity.subtype_info.purpose`, `entity.subtype_info.assets`         | The `subtype_info` object SHALL be present and all three fields SHALL be populated   |
 | `evidence[n].url` is absent or not publicly accessible | `evidence[n].data`                                                                                    | `evidence[n].data` (base64-encoded) SHALL be provided                                |
-
 
 ### 2.5 Mandatory Metadata
 
