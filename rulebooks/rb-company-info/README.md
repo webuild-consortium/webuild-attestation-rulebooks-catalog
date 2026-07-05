@@ -48,7 +48,7 @@ This CompanyInfo Attestation Rulebook is based on:
 ### 1.2 Document Structure
 This Rulebook is structured as follows:
 
-- Chapter 2 describes the CompanyInfo attestation attributes and metadata in an encoding-independent manner, including the data model.
+- Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner, including the data model.
 - Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2 covers SD-JWT VC-based encoding.
 - Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
