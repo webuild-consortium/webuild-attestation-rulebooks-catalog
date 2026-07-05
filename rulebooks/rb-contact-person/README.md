@@ -28,14 +28,14 @@ This attestation addresses the following question:
 
 **Who are the designated contact persons within a legal entity and what are their roles and contact details?**
 
-The Contact Person Attestation identifies natural persons acting as designated contacts within a legal entity, enabling automated and trusted exchange of contact person data between organizations in supply chain, procurement, and onboarding processes.
+The Contact Person Attestation identifies and verifies natural persons acting as designated contacts of a economic operator, enabling automated and secure exchange of trustworthy contact person data between economic operators in supply chain, procurement, and onboarding processes.
 
 ### 1.1 Document scope and purpose
 
-Cross-company communication is daily business in supply management. To know the correct and
-valid contact persons for different issues (e.g., finance, product, quality, logistics) is
-crucial to conduct efficient business in the onboarding, pre-contracting, or contracting phase.
-In the onboarding process, a minimum of one contact person is required.
+Cross-company communication and data exchange is daily business in supply management. Knowing the correct and
+valid contact persons for different issues (e.g., finance, product, quality, logistics) saves time and money and therefore crucial to conduct efficient business in the supplier onboarding, pre-contracting, or contracting phase.
+Minimum one contact person is required for the onboarding process. The Contact Person Attestation identifies and verifies natural persons acting as designated
+contacts of the corresponding economic operator, enabling automated and secure exchange of contact person data between economic operators within supply chain and procurement processes.
 
 **Use Cases:**
 
@@ -43,9 +43,7 @@ In the onboarding process, a minimum of one contact person is required.
 - Logistics employees have instant access to valid logistics contact person data. For example,
   in the event of a wrongly delivered battery cell, an employee contacts the responsible sales
   representative by email or phone.
-- The Relying Party Wallet validates the revocation status of contact person data. Workflows
-  into internal systems (e.g., master data management) follow automatically. Administrative
-  employees receive a notification if a contact person is no longer valid.
+- The Relying Party Wallet validates the revocation status of contact person data. Administrative employee receives a notification and takes contact with HR responsible contact person of supplier. 
 
 *Holder:*
 - An administrative employee receives a request from a procurer to provide contact persons for
@@ -60,7 +58,8 @@ The added value of the Contact Person attestation for organizations is to automa
 onboarding and maintenance process of contact person data, increasing data accuracy and
 enabling fast and secure business interactions.
 
-This attestation flows only between organizations where a business relationship exists.
+This attestation flows only between organizations where a business relationship exists. 
+After mutual identification and authentication. 
 
 **Design Decisions**
 
@@ -72,6 +71,7 @@ This Contact Person Attestation Rulebook is based on:
 - The Organization Ontology for role classification
 - RFC 4021 for email address formatting
 - ITU-T E.164 for telephone number formatting
+- EAA as proof for employeeship for each employee issued by the economic operator. 
 
 ### 1.2 Document structure
 
@@ -101,13 +101,13 @@ are intended as statements of fact.
 
 | Term                  | Description                                                                                                                                                      |
 |-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Contact Person        | The attestation type defined in this Rulebook, identifying a natural person designated as a contact within a legal entity for specific business functions         |
+| Contact Person        | The attestation type defined in this Rulebook, identifying a natural person designated as a contact of an economic operator for specific business functions      |
 | Economic Operator     | A legal entity participating in commercial or procurement activities, identified per the European Business Wallet (EBW) framework                                |
 | EUCC                  | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                               |
 | EBW                   | European Business Wallet – the digital wallet framework for legal entities operating within the EU single market                                                 |
 | Role                  | A designated function or responsibility assigned to a contact person within an organization (e.g., sales, finance, quality, logistics)                           |
 | Employee Identifier   | An alphanumeric identifier assigned by the employing organization to uniquely identify an employee                                                               |
-| KYS                   | Know Your Supplier – due diligence process for verifying supplier credentials, integrity, and risk exposure                                                      |
+| KYS                   | Know Your Supplier – due diligence process to onboard suppliers including verifing credentials to assure integrity and estimate risk exposure                   |
 | Schema.org            | A collaborative, community-based vocabulary for structured data markup on the internet, used here for personal name attributes                                   |
 | CPOV                  | Core Public Organisation Vocabulary – a standardized EU vocabulary for describing public organizations and their contact points                                  |
 | Organization Ontology | A W3C ontology for describing organizational structures, roles, and memberships                                                                                  |
@@ -120,8 +120,8 @@ are intended as statements of fact.
 ## 2 Attestation attributes and metadata
 
 The Contact Person Attestation is designed to provide a standardized, verifiable representation
-of a natural person designated as a contact within a legal entity. This attestation enables
-trusted and automated exchange of contact person data between organizations in supply chain,
+of a natural person designated as a contact of an economic operator. This attestation enables
+trusted and automated exchange of contact person data between economic operators in supply chain,
 procurement, and onboarding processes.
 
 ### 2.1 Introduction
