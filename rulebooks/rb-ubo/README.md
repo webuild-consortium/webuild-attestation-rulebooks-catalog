@@ -90,30 +90,30 @@ are intended as statements of fact.
 
 *Additional terminology specific to this attestation:*
 
-| Term                           | Description                                                                                                                                    |
-|--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| UBO                            | Ultimate Beneficial Owner — a natural person who ultimately owns or controls a legal entity, as defined under AMLR 2024/1624                   |
-| NaturalPerson                  | The natural person identified as a UBO, including their personal identity attributes                                                           |
-| BirthPlace                     | The place of birth of the natural person, including locality and country                                                                       |
-| Citizenship                    | The nationality or nationalities held by the natural person                                                                                    |
-| ResidenceAddress               | The registered residential address of the natural person                                                                                       |
-| ContactAddress                 | An optional alternative contact address for the natural person                                                                                 |
-| NaturalPersonIdentifier        | A government-issued identity document (e.g., passport, national ID card) used to identify the natural person                                   |
-| NaturalPersonUniqueIdentifier  | An optional unique identifier issued by an authority to uniquely identify the natural person across systems                                    |
-| Justification                  | The object describing how and why the person qualifies as a UBO under applicable AML thresholds and control criteria                           |
-| threshold_met                  | The applicable AML threshold(s) or control criteria met by the UBO — see Section 2.8.2                                                         |
-| ownership_percentage           | The total direct and indirect ownership percentage held by the UBO (0–100)                                                                     |
-| voting_rights_percentage       | The total direct and indirect voting rights percentage held by the UBO (0–100)                                                                 |
-| control_details                | Free text description of control exercised through means other than ownership percentage                                                       |
-| effective_date                 | The date from which the UBO status has been effective                                                                                          |
-| source                         | Supporting evidence substantiating the UBO determination                                                                                       |
-| KYC                            | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                       |
-| KYS                            | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                    |
-| AML                            | Anti-Money Laundering — regulatory framework requiring financial institutions and obliged entities to identify and report suspicious activity  |
-| AMLR                           | Anti-Money Laundering Regulation — EU Regulation 2024/1624 establishing harmonised AML/CFT rules across the EU                                 |
-| ISO 3166-1                     | International standard defining country codes (alpha-2 and alpha-3 formats)                                                                    |
-| ISO 8601                       | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                    |
-| ICAO 9303                      | International Civil Aviation Organization standard for travel documents, defining document types and number formats                            |
+| Term                           | Description                                                                                                                                   |
+|--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| UBO                            | Ultimate Beneficial Owner — a natural person who ultimately owns or controls a legal entity, as defined under AMLR 2024/1624                  |
+| NaturalPerson                  | The natural person identified as a UBO, including their personal identity attribute (first name, surname and birth date)                      |
+| BirthPlace                     | The place of birth of the natural person, including locality and country                                                                      |
+| Citizenship                    | The nationality or nationalities held by the natural person                                                                                   |
+| ResidenceAddress               | The registered residential address of the natural person                                                                                      |
+| ContactAddress                 | An optional alternative contact address for the natural person                                                                                |
+| NaturalPersonIdentifier        | A government-issued identity document (e.g., passport, national ID card) used to identify the natural person                                  |
+| NaturalPersonUniqueIdentifier  | An optional unique identifier issued by an authority to uniquely identify the natural person across systems                                   |
+| Justification                  | The object describing how and why the person qualifies as a UBO under applicable AML thresholds and control criteria                          |
+| threshold_met                  | The applicable AML threshold(s) or control criteria met by the UBO — see Section 2.8.2                                                        |
+| ownership_percentage           | The total direct and indirect ownership percentage held by the UBO (0–100)                                                                    |
+| voting_rights_percentage       | The total direct and indirect voting rights percentage held by the UBO (0–100)                                                                |
+| control_details                | Free text description of control exercised through means other than ownership percentage                                                      |
+| effective_date                 | The date from which the UBO status has been effective                                                                                         |
+| source                         | Supporting evidence substantiating the UBO determination                                                                                      |
+| KYC                            | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                      |
+| KYS                            | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                   |
+| AML                            | Anti-Money Laundering — regulatory framework requiring financial institutions and obliged entities to identify and report suspicious activity |
+| AMLR                           | Anti-Money Laundering Regulation — EU Regulation 2024/1624 establishing harmonised AML/CFT rules across the EU                                |
+| ISO 3166-1                     | International standard defining country codes (alpha-2 and alpha-3 formats)                                                                   |
+| ISO 8601                       | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                   |
+| ICAO 9303                      | International Civil Aviation Organization standard for travel documents, defining document types and number formats                           |
 
 ## 2 Attestation Attributes and Metadata
 
@@ -130,45 +130,48 @@ This UBO  Attestation Rulebook is specifically designed to comply with AMLR 2024
 *Article 60 – Beneficial Ownership Registers:*
 *Article 62 – Beneficial Ownership Information Requirements:*
 
-**Data Model:**
+The names of attributes is based on the : Beneficial Ownership Submission Regulation – Commission on Implementing Regulation (EU) [number] on the formats for submitting beneficial ownership information.
+because the company need to provided to the TR, then provided to the Bank 
+and the Bank need to check it afterwards into TR.
+**Data Model:*
 
 The UBO model follows a hierarchical structure:
 ```
 UBO [1...n]
 ├─ jurisdiction (tstr) (M)
-├─ person (M)
-│   ├─ first_name (tstr) (M)
+├─ person (Object) (M)
+│   ├─ first_name (tstr) (M)      
 │   ├─ surname (tstr) (M)
-│   ├─ birth_date (date) (O)  date_of_birth
-├─ birth_place 
+│   ├─ birth_date (date) (M)      
+├─ birth_place (Object) (M)
 │   ├── locality (M)
 │   ├── country (M)
 │   └── region (O)
 ├─ citizenship
 │   └── citizenship(s) [1..n] (M)
-├─ residential_address (M)
+├─ residential_address (Object)(M)
 │   ├── street (M)
 │   ├── house_number (M)
 │   ├── locality (M)
 │   ├── region (M)
 │   ├── postal_code (M)
 │   └── country (M)
-├─ contact_address (optional)
+├─ contact_address (Object) (O)
 │   ├── street (M)
 │   ├── house_number (M)
 │   ├── locality (M)
 │   ├── region (M)
 │   ├── postal_code (M)
 │   └── country(s)
-├─ person_identifier
+├─ person_identifier (Object) M
 │   ├── document_type (M)
 │   ├── document_number (M)
 │   ├── issuing_country (M)
 │   └── expiry_date (M)
-├─ person_unique_identifier (optional)
+├─ person_unique_identifier (Object) (O)
 │   ├── identifier_unique (O)
 │   └── identifier_issuing_authority (O)
-├─ justification (M)                           // How this person qualifies as UBO
+├─ justification (Object) (M)                           // How this person qualifies as UBO
 │   ├─ threshold_met (Array of enum) (M)       // e.g., "ownership_25_plus", "control_voting_25_plus", "control_management"
 │   ├─ ownership_percentage (Decimal) (O)      // Total direct/indirect ownership percentage
 │   ├─ voting_rights_percentage (Decimal) (O)  // Total direct/indirect voting rights percentage
@@ -226,11 +229,11 @@ This attestation type MAY be classified as:
 
 #### Person Attributes
 
-| **Data Identifier**  | **Semantic Reference**  | **Definition**                                                               | **Data Type**     |
-|----------------------|-------------------------|------------------------------------------------------------------------------|-------------------|
-| `first_name`         | —                       | First name(s) of the natural person, including middle names where applicable | String            |
-| `surname`            | —                       | Surname(s) / family name(s) of the natural person                            | String            |
-| `birth_date`         | —                       | Date of birth of the natural person (ISO 8601 YYYY-MM-DD)                    | String (ISO 8601) |
+| **Data Identifier**  | **Semantic Reference**  | **Definition**                                                                               | **Data Type**     |
+|----------------------|-------------------------|----------------------------------------------------------------------------------------------|-------------------|
+| `first_name`         | —                       | First name(s) / given name(s) of the natural person, including middle names where applicable | String            |
+| `surname`            | —                       | Surname(s) / family name(s) of the natural person                                            | String            |
+| `birth_date`         | —                       | Date of birth of the natural person (ISO 8601 YYYY-MM-DD)                                    | String (ISO 8601) |
 
 #### BirthPlace Attributes
 
@@ -278,6 +281,13 @@ This attestation type MAY be classified as:
 | `id`                 | —                        | Unique identifier for the source document                                 | String          |
 | `type`               | —                        | Type of source document (e.g., `"Evidence"`, `"Register"`, `"TrustDeed"`) | String          |
 
+#### UBO Mandatory Attributes
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                   | **Data Type**   |
+|---------------------|------------------------|--------------------------------------------------------------------------------------------------|-----------------|
+| `effective_date`    | —                      | Date when this ownership or control relationship became legally effective — ISO 8601 YYYY-MM-DD  | Date            |
+| `evidence`          | —                      | At least one piece of supporting evidence substantiating the declared ownership or control       | Array [Object]  |
+
 ### 2.3 Optional Attributes
 
 #### BirthPlace Optional Attributes
@@ -285,12 +295,6 @@ This attestation type MAY be classified as:
 | **Data Identifier**  | **Semantic Reference**   | **Definition**                      | **Data Type**   |
 |----------------------|--------------------------|-------------------------------------|-----------------|
 | `region`             | —                        | Region or state of birth — optional | String          |
-
-#### Person Optional Attributes
-
-| **Data Identifier**  | **Semantic Reference**   | **Definition**                                                                              | **Data Type**     |
-|----------------------|--------------------------|---------------------------------------------------------------------------------------------|-------------------|
-| `birth_date`         | —                        | Date of birth (ISO 8601 YYYY-MM-DD) — recommended, may be omitted in specific jurisdictions | String (ISO 8601) |
 
 #### ContactAddress Attributes *(entire object is optional)*
 
