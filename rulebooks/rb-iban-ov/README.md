@@ -154,22 +154,24 @@ This attestation type MAY be classified as:
 
 **Account_Ownership Mandatory Attributes**
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                | **Data type** |
-|---------------------|------------------------|-----------------------------------------------------------------------------------------------|---------------|
-| owner_name          | tbd                    | Legal name of the legal person, or natural person in case of sole trader, owning the account. | String        |
-| euid                | tbd                    | The EUID as unique identifier of the legal person owning the account.                         | String        |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** |
+|--|--|--|--|
+| owner_name | [statutoryName](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#statutoryName) | Name of the economic operator as in the registry, owning the account. | String |
+| euid | [Euid](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#Euid) | The EUID as unique identifier of the economic operator owning the account. | String |
 
-*@Florin: Update additional optional attributes regarding natural person in case of a sole trader
+*@Florin: <s>Update additional optional attributes regarding natural person in case of a sole trader</s>
 
+
+*@Florin: no need for that. A sole trader is issued a EUID. All Economic Operators are issued an EUID.
 
 **Account_Provider Mandatory Attributes**
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                      | **Data type**   |
-|---------------------|------------------------|-----------------------------------------------------------------------------------------------------|-----------------|
-| provider_name       | tbd                    | Name of the financial institution providing the account.                                            | String          |
-| euid                | tbd                    | Unique identification number of the issuing entity.                                                 | String          |
-| provider_country    | tbd                    | Alpha-3 country code, as defined in ISO 3166-1, of the provider country or territory.               | 3-digit code    |
-| bic_swift           | tbd                    | International code (i.e. BIC or SWIFT code), as defined in ISO 9362, of the financial institution. | String ISO 9362 |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** |
+|--|--|--|--|
+| provider_name | [statutoryName](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#statutoryName) | Name of the economic operator as in the registry, providing the account. | String |
+| euid | [Euid](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#Euid) | The EUID as unique identifier of the economic operator providing the account. | String |
+| provider_country | [geographicAlpha3code](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#geographicAlpha3code) | Alpha-3 country code, as defined in ISO 3166-1, of the provider country or territory. | String [3-digit code] |
+| bic_swift | [Bic](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#Bic) | International code (i.e. BIC or SWIFT code), as defined in ISO 9362, of the financial institution. | String [ISO 9362] |
 
 ### 2.3 Optional attributes
 
@@ -177,34 +179,36 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                                | **Data type** |
 |---------------------|------------------------|-----------------------------------------------------------------------------------------------|---------------|
-| national_bank_code  | tbd                    | Country-specific code for internal routing within a specific country's clearing system.       | String        |
-| nace_code           | tbd                    | NACE code for activity specification (e.g. 64.19).                                            | String        |
-| clearing_number     | tbd                    | Clearing number for identification of the financial institution, used only in some countries. | String        |
+| national_bank_code  | [NationalBankCode](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#NationalBankCode) | Country-specific code for internal routing within a specific country's clearing system. | String |
+| nace_code | [Nace21](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#Nace21) | NACE code for activity specification (e.g. 64.19). | Code list Array |
+| clearing_number | [ClearingNumber](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#ClearingNumber) | Clearing number for identification of the financial institution, used only in some countries. | String |
 
 @Florin/Stephan: We need to specifiy the nace_code accordingly, currently not sufficiently specified.
+
+
+@Florin/Stephan: organisations are allowed to have more than one NACE code.
 
 ### 2.4 Conditional attributes
 
 No conditional attributes are defined for this attestation type. All attributes are either mandatory or optional as specified above.
 
 
-
 ### 2.5 Mandatory metadata
 
-| **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type** |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime [SF3.1][RL3.2]     |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime      |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations)                                   | String        |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                           | String        |
-| vct                        | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed                           | String        |
+| **Data Identifier** | **Definition** | **Data type** |
+|--|--|--|
+| issuance_date | The date and time when the attestation was issued (ISO 8601) | DateTime [SF3.1][RL3.2] |
+| expiry_date | The date and time when the attestation expires (ISO 8601) | DateTime |
+| issuing_entity | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations) | String |
+| attestation_legal_category | Indicates the legal category of this attestation ("EAA") | String |
+| vct | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed | String |
 
 ### 2.6 Optional metadata
 
 | **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used                                                 | String        |
+|--|--|--|
+| trust_anchor_uri | URI where the trust anchor for verifying this attestation can be retrieved | URI |
+| schema_version | Version of the schema used | String |
 
 ### 2.7 Conditional metadata
 
@@ -216,25 +220,25 @@ No conditional metadata elements are defined for this attestation type.
 
 The `account_currency` attribute SHALL follow ISO 4217:2015 currency codes.
 
-| **Code** | **Definition**       |
-|----------|----------------------|
-| EUR      | Euro                 |
-| USD      | United States Dollar |
-| GBP      | Pound Sterling       |
-| CHF      | Swiss Franc      	|
-| …        | …                    |[RL4.1]
+| **Code** | **Definition** |
+|--|--|
+| EUR | Euro |
+| USD | United States Dollar |
+| GBP | Pound Sterling |
+| CHF | Swiss Franc |
+| … | … |[RL4.1]
 
 #### 2.8.2 Account Type Codes
 
 The `account_type` attribute SHOULD use one of the following standardized values:
 
-| **Example Code** | **Definition**     |
-|------------------|--------------------|
-| CURRENT          | Current Account    |
-| SAVINGS          | Savings Account    |
-| BASIC            | Basic Bank Account |
-| LOAN             | Loan Account       |
-| OTHER            | Other              |
+| **Example Code** | **Definition** |
+|--|--|
+| CURRENT | Current Account |
+| SAVINGS | Savings Account    |
+| BASIC | Basic Bank Account |
+| LOAN | Loan Account |
+| OTHER | Other |
 
 NOTE: Was ist mit Country-Codes? (Alpha-3 country code)                                                                       [RL5.1]
 
