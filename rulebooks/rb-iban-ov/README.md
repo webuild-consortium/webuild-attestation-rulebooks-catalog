@@ -71,23 +71,23 @@ In addition, 'must' (non-capitalised) is used to indicate an external constraint
 
 *Additional terminology specific to this attestation:*
 
-| Term        | Description                                                                                                                                                                     |
-|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| IBAN-OV     | IBAN Ownership Verification (IBAN-OV) — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
+| Term | Description |
+|--|--|
+| IBAN-OV | IBAN Ownership Verification (IBAN-OV) — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
 | Bank Account | Bank Account contains the core details of the account itself, such as IBAN, currency, and type. |
 | Account Ownership | Account Ownership identifies the legal owner of the account, including name and EUID.|
 | Account Provider | Account Provider describes the financial institution that issued the account and metadata about the attestation. |
-| ASPSP[SF1.1]       | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account                                                                    |
-| IBAN        | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020                                    |
-| BIC/SWIFT   | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022                                               |
-| EUID        | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU                                                                          |
-| KYC         | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                                                         |
-| KYS         | Know Your Supplier — due diligence process for verifying supplier identity and integrity.
-| Sole Trader | A natural person operating a business who is registered in a national register                                                                                                  |
-| ISO 4217:2015    | International standard defining currency codes (e.g., EUR, USD, GBP)                                                                                                           |
-| ISO 13616-1:2020   | International standard defining the IBAN format and validation rules                                                                                                            |
-| ISO 9362:2014    | International standard defining the BIC/SWIFT code format                                                                                                                       |
-| ISO 3166-1  | International standard defining country codes (Alpha-3 code)                                                                                                                                   |
+| ASPSP[SF1.1] | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account |
+| IBAN | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020 |
+| BIC/SWIFT | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022 |
+| EUID | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU |
+| KYC | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships |
+| KYS | Know Your Supplier — due diligence process for verifying supplier identity and integrity. |
+| Sole Trader | A natural person operating a business who is registered in a national register |
+| ISO 4217:2015 | International standard defining currency codes (e.g., EUR, USD, GBP) |
+| ISO 13616-1:2020 | International standard defining the IBAN format and validation rules |
+| ISO 9362:2014 | International standard defining the BIC/SWIFT code format |
+| ISO 3166-1 | International standard defining country codes (Alpha-3 code) |
 
 ---
 
@@ -145,12 +145,12 @@ This attestation type MAY be classified as:
 
 **Bank_Account Mandatory Attributes**
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                         | **Data type**                            |
-|---------------------|------------------------|------------------------------------------------------------------------|------------------------------------------|
-| account_name        | tbd                    | Name of the account, generated by the bank or customized by the owner. | String                                   |
-| iban                | tbd                    | International Bank Account Number, as defined in ISO 13616:2020.       | [A-Z]{2}[0-9A-Z]{13,30}                  |
-| account_type        | tbd                    | Nature of the bank account.                                            | String                                   |
-| account_currency    | tbd                    | Currency code(s) used for the account, as defined in ISO 4217:2015.    | Array (3-digit code(s)) — ISO 4217:2015  [SF2.1][SF2.2]|
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** |
+|--|--|--|--|
+| account_name | [accountName](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#accountName) | Name of the account, generated by the bank or customized by the owner. | String |
+| iban | [iban](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#iban)                    | International Bank Account Number, as defined in ISO 13616:2020. | String [A-Z]{2}[0-9A-Z]{13,30} |
+| account_type | [accountType](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#accountType) | Nature of the bank account. | Code list |
+| account_currency | [currency](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#currency) | Currency code(s) used for the account, as defined in ISO 4217:2015. | Code list Array (3-digit code(s)) — ISO 4217:2015  [SF2.1][SF2.2]|
 
 **Account_Ownership Mandatory Attributes**
 
