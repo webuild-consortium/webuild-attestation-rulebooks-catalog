@@ -8,11 +8,13 @@
   * [Florin Coptil, Robert Bosch GmbH]
   * Ivan Faltus, BankID
   * @TODO Ricky — Add the reviewers from attestation design
+  * Bart Bink from the Semantic group
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 | 0.2     | 17.06.2026 | Reviewed version based on the initial draft 					 |
+| 0.3     | 07.07.2026 | Reviewed version by semantics based on the 0.2 draft 					 |
 
 * Contact:
   * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com)*
@@ -72,6 +74,9 @@ In addition, 'must' (non-capitalised) is used to indicate an external constraint
 | Term        | Description                                                                                                                                                                     |
 |-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | IBAN-OV     | IBAN Ownership Verification (IBAN-OV) — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
+| Bank Account | Bank Account contains the core details of the account itself, such as IBAN, currency, and type. |
+| Account Ownership | Account Ownership identifies the legal owner of the account, including name and EUID.|
+| Account Provider | Account Provider describes the financial institution that issued the account and metadata about the attestation. |
 | ASPSP[SF1.1]       | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account                                                                    |
 | IBAN        | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020                                    |
 | BIC/SWIFT   | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022                                               |
