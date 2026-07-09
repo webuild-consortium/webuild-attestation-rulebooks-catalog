@@ -1,7 +1,7 @@
 # Attestation Rulebook for attestations of type GLN Number (Global Location Number)
 
 * Author(s):
-  * [Dominik, GS1]
+  * [Dominik Halbeisen, GS1 Switzerland]
   * [Dr. Sebastian Schmittner, EECC](mailto:sebastian.schmittner@eecc.de)
   * [Christian Fries, EECC](mailto:christian.fries@eecc.de)
 * Previous Authors
