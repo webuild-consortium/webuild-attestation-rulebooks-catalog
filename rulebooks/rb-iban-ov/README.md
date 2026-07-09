@@ -193,8 +193,8 @@ The following conditional attributes are defined for the `Account_Ownership` obj
 
 - owner_name SHALL be present if and only if owner_type = entity.
 - euid SHALL be present if and only if owner_type = entity.
-- given_name and surname SHALL be present if and only if owner_type = person.
-- given_name and surname SHALL NOT be present when owner_type = legal_person.
+- given_name and surname SHALL be present if and only if owner_type = 'person'.
+- given_name and surname SHALL NOT be present when owner_type = 'entity'.
 
 This conditional structure is enforced via JSON Schema if/then validation (Draft 2020-12) in the accompanying data schema.
 
@@ -265,12 +265,13 @@ The following integrity rules SHALL be enforced:
 - `bic_swift` SHALL conform to the ISO 9362:2022 format: [A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3}).
 - `provider_country` SHALL be a valid ISO 3166-1 alpha-3 country code.
 - `account_currency` SHALL contain at least one valid ISO 4217:2015 currency code.
-- `euid` in Account_Ownership SHALL be a non-empty string identifying the register entry of the account owner, regardless of whether the owner is a legal person or a natural person (sole trader).
-- `euid` in Account_Provider SHALL be a non-empty string identifying the issuing financial   institution.
+- `euid` in Account_Provider SHALL be a non-empty string identifying the issuing financial institution.
+- If `owner_type` = `entity`, `euid` in Account_Ownership SHALL be present and SHALL be a non-empty string identifying the register entry of the account owner.
+- If `owner_type` = `person`, `euid` SHALL NOT be present.
 - Each attribute SHALL appear at most once in the attestation.
-- `owner_type` in Account_Ownership SHALL be present and SHALL contain exactly one of the values `legal_person` or `natural_person`.
-- If `owner_type` = `legal_person`, owner_name SHALL be present and `given_name` and `surname` SHALL NOT be present.
-- If `owner_type` = `natural_person`, `given_name` and `surname` SHALL both be present and `owner_name` MAY be present as a derived display name.
+- `owner_type` in Account_Ownership SHALL be present and SHALL contain exactly one of the values `entity` or `person`.
+- If `owner_type` = `entity`, owner_name SHALL be present and `given_name` and `surname` SHALL NOT be present.
+- If `owner_type` = `person`, `given_name` and `surname` SHALL both be present and `owner_name` SHALL NOT be present.
 - The attestation SHALL NOT be used to directly initiate or execute payments.
 
 ## 3 Attestation encoding
