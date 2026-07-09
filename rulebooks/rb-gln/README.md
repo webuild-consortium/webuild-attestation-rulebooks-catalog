@@ -11,8 +11,10 @@
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
-| 0.2     | 30.06.2026 | Updates by EECC to include the GS1 Trust Chain details |
 | 0.1     | 01.06.2026 | Initial draft based on the WeBuild design attestations meetings |
+| 0.6     | 29.06.2026 | update layout and review gln                                    |
+| 0.7     | 30.06.2026 | Updates by EECC to include the GS1 Trust Chain details          |
+
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)*
@@ -56,8 +58,9 @@ This Rulebook is structured as follows:
 
 - Chapter 2 describes the attestation attributes and metadata in an encoding-independent
   manner, including the data model.
-- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2
-  covers SD-JWT VC-based encoding; Section 3.3 covers W3C VCDM (GS1 Digital Licenses) encoding.
+- Chapter 3 specifies how the attestation attributes and metadata are encoded: 
+  - Section 3.2 covers SD-JWT VC-based encoding
+  - Section 3.3 covers W3C VCDM (GS1 Digital Licenses) encoding
 - Chapter 4 specifies attestation usage scenarios and Relying Party obligations in KYS workflows.
 - Chapter 5 defines the GS1 trust model, trust anchors, and verification of the credential chain.
 - Chapter 6 defines revocation mechanisms for the attestation.
@@ -81,10 +84,10 @@ are intended as statements of fact.
 
 | Term                                       | Description                                                                                                                                                                  |
 |--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GLN (Global Location Number)               | A 13-digit GS1 identifier used to uniquely identify legal entities and physical locations within global supply chains. Built upon a GS1-issued Global Company Prefix.        |
-| GS1 Company Prefix (Global Company Prefix) | The licence key issued by GS1 to an organization, forming the basis upon which GLNs and other GS1 identifiers are constructed.                                               |
-| GS1                                        | A global not-for-profit organization that develops and maintains standards for supply chain communication, including barcodes, RFID, and electronic data interchange (EDI).  |
-| KYS (Know Your Supplier)                   | A due diligence process for verifying supplier credentials, integrity, and risk exposure within a supply chain.                                                               |
+| Global Location Number (GLN)               | A 13-digit GS1 identifier used to uniquely identify legal entities and physical locations within global supply chains. Issued by the legal entity with a matching GS1-issued Global Company Prefix        |
+| GS1 Company Prefix (GCP) | The licence issued by a GS1 MO to an legal entity (organization), forming the basis upon which GLNs and other GS1 identifiers are constructed.                                               |
+| GS1 Member Organization (GS1 MO) | A member organization of GS1 such as GS1 Germany, GS1 US, GS1 France, etc. |
+| GS1 Global Office (GS1 GO, legal name: GS1 AISBL)           | Overarching GS1 orchanization for the global coordination of all GS1 MOs                                                           |
 | Relying Party                              | An entity that relies on the attestation data presented by a Wallet Instance to make trust decisions.                                                                        |
 | Issuer                                     | The entity responsible for creating and signing an attestation and ensuring mandatory attributes are present.                                                                 |
 
@@ -238,37 +241,37 @@ legal entity to disclose only the attributes requested by a Relying Party.
 #### 3.2.1 Attribute Encoding Table
 
 
-| **Data Identifier**        | **Attribute Identifier**   | **Encoding Format**         | **Reference / Notes**                                                      | **Disclosable** |
+| **Data Identifier**        | **Attribute Identifier**   | **Encoding Format**         | **Reference / Notes**                                                      | **May be hidden in SD-JWT** |
 |----------------------------|----------------------------|-----------------------------|----------------------------------------------------------------------------|-----------------|
 | **GS1**                    |                            |                             |                                                                            |                     |
-| organizationLegalName      | `credentialSubject.organization.gs1:organizationLegalName` | String (`rdf:langString`) | WeBuild KYS extension; legal entity name registered with GS1 (Section 3.3.3) | MUST            |
-| licenceKey                 | *(derived)*                | Integer                     | Derived from the `extendsCredential` chain on the paired GLN `KeyCredential` (Section 3.3.5); not stored on `OrganizationDataCredential` | MUST NOT |
-| globalLocationNumber       | `credentialSubject.id`, `credentialSubject.organization.gs1:partyGLN` | String (Digital Link URI / GLN) | GLN as GS1 Digital Link URI (AI 417) in `credentialSubject.id`; same GLN in `gs1:partyGLN` (Section 3.3.2) | MUST |
+| organizationLegalName      | `credentialSubject.organization.gs1:organizationLegalName` | String (`rdf:langString`) | WeBuild KYS extension; legal entity name registered with GS1 (Section 3.3.3) | NO            |
+| licenceKey                 | *(derived)*                | Integer                     | Derived from the `extendsCredential` chain on the paired GLN `KeyCredential` (Section 3.3.5); not stored on `OrganizationDataCredential` | NO |
+| globalLocationNumber       | `credentialSubject.id`, `credentialSubject.organization.gs1:partyGLN` | String (Digital Link URI / GLN) | GLN as GS1 Digital Link URI (AI 417) in `credentialSubject.id`; same GLN in `gs1:partyGLN` (Section 3.3.2) | NO |
 | **Address**                |                            |                             | Under `credentialSubject.organization.gs1:address` → `gs1:PostalAddress` (Section 3.3.3) |                     |
-| address.postal_code        | `credentialSubject.organization.gs1:address.gs1:postalCode` | String | Postal code of the registered address                                      | MUST            |
-| address.locality           | `credentialSubject.organization.gs1:address.gs1:addressLocality` | String (`rdf:langString`) | City of the registered address                                             | MUST            |
-| address.region             | `credentialSubject.organization.gs1:address.gs1:addressRegion` | String (`rdf:langString`) | Region of the registered address                                           | MUST            |
-| address.country            | `credentialSubject.organization.gs1:address.gs1:addressCountry.gs1:countryCode` | String (ISO 3166-1 alpha-2) | Country of the registered address                                          | MUST            |
+| address.postal_code        | `credentialSubject.organization.gs1:address.gs1:postalCode` | String | Postal code of the registered address                                      | YES            |
+| address.locality           | `credentialSubject.organization.gs1:address.gs1:addressLocality` | String (`rdf:langString`) | City of the registered address                                             | YES            |
+| address.region             | `credentialSubject.organization.gs1:address.gs1:addressRegion` | String (`rdf:langString`) | Region of the registered address                                           | YES            |
+| address.country            | `credentialSubject.organization.gs1:address.gs1:addressCountry.gs1:countryCode` | String (ISO 3166-1 alpha-2) | Country of the registered address                                          | YES            |
 | **VCDM envelope**          |                            |                             | [RFC 9901] Appendix A.4; Section 3.3.1                                     |                     |
-| *(credential type)*        | `type`                     | Array of strings            | MUST include `VerifiableCredential` and `OrganizationDataCredential`       | MUST NOT        |
-| *(JSON-LD context)*        | `@context`                 | Array of URIs               | MUST include VCDM 2.0 and GS1 organization context (Section 3.3.1)         | MUST NOT        |
-| *(credential id)*          | `id`                       | URI                         | Globally unique resolvable credential identifier                           | MUST NOT        |
-| *(human-readable name)*    | `name`                     | String                      | SHOULD describe the credential (e.g. `"GS1 Organization Data Credential"`) | MUST NOT        |
-| *(human-readable description)* | `description`          | String                      | Description of the credential purpose                                      | MUST NOT        |
-| *(schema reference)*       | `credentialSchema`         | Object                      | MUST reference `https://id.gs1.org/vc/schema/v1/organizationdata`          | MUST NOT        |
-| *(rendering)*              | `renderMethod`             | Array                       | SHOULD be present; type `TemplateRenderMethod` (Section 3.3.3)             | MUST NOT        |
-| *(GLN key link)*           | `credentialSubject.keyAuthorization` | URI                 | SHOULD reference the paired GLN `KeyCredential` (Section 3.3.5)            | MAY             |
+| *(credential type)*        | `type`                     | Array of strings            | MUST include `VerifiableCredential` and `OrganizationDataCredential`       | NO        |
+| *(JSON-LD context)*        | `@context`                 | Array of URIs               | MUST include VCDM 2.0 and GS1 organization context (Section 3.3.1)         | NO        |
+| *(credential id)*          | `id`                       | URI                         | Globally unique resolvable credential identifier                           | NO        |
+| *(human-readable name)*    | `name`                     | String                      | SHOULD describe the credential (e.g. `"GS1 Organization Data Credential"`) | NO        |
+| *(human-readable description)* | `description`          | String                      | Description of the credential purpose                                      | NO        |
+| *(schema reference)*       | `credentialSchema`         | Object                      | MUST reference `https://id.gs1.org/vc/schema/v1/organizationdata`          | NO        |
+| *(rendering)*              | `renderMethod`             | Array                       | SHOULD be present; type `TemplateRenderMethod` (Section 3.3.3)             | YES        |
+| *(GLN key link)*           | `credentialSubject.keyAuthorization` | URI                 | SHOULD reference the paired GLN `KeyCredential` (Section 3.3.5)            | NO             |
 | **Metadata**               |                            |                             |                                                                            |                     |
-| issuance_date              | `validFrom`, `iat`         | ISO 8601 / Unix timestamp   | VCDM `validFrom` (ISO 8601) and JWT `iat` (RFC 7519); values SHOULD be consistent | MUST NOT |
-| expiry_date                | `validUntil`, `exp`        | ISO 8601 / Unix timestamp   | VCDM `validUntil` (ISO 8601) and JWT `exp` (RFC 7519); values SHOULD be consistent | MUST NOT |
-| issuing_entity             | `issuer.id`, `iss`         | String (URI or DID)         | VCDM `issuer.id` and JWT `iss` (RFC 7519); values MUST match               | MUST NOT        |
-| *(holder binding)*         | `sub`, `cnf`               | String / object             | `sub` identifies the holder DID; `cnf` carries the holder binding key ([RFC 9901] A.4) | MUST NOT |
-| attestation_legal_category | `attestation_legal_category` | String                    | One of EAA or QEAA as defined by eIDAS 2                                   | MUST NOT        |
-| vct                        | `vct`                      | String                      | Collision-resistant identifier for the SD-JWT VC type                      | MUST NOT        |
-| schema_version             | `schema_version`           | String                      | Version of the schema used for this attestation                            | MAY             |
-| trust_anchor_url           | `trust_anchor_url`         | String (URI)                | URL where the trust anchor for verifying this attestation can be retrieved | MAY             |
-| *(revocation status)*      | `status`                   | Object                      | SD-JWT VC status-list claim; **SHALL** be validated for SD-JWT presentations (Section 3.2.2) | MUST NOT |
-| *(VCDM status mirror)*     | `credentialStatus`         | Object                      | MAY be carried in the embedded VCDM payload for structural parity; **SHALL NOT** be used for revocation validation in the SD-JWT path | MUST NOT |
+| issuance_date              | `validFrom`, `iat`         | ISO 8601 / Unix timestamp   | VCDM `validFrom` (ISO 8601) and JWT `iat` (RFC 7519); values SHOULD be consistent | NO |
+| expiry_date                | `validUntil`, `exp`        | ISO 8601 / Unix timestamp   | VCDM `validUntil` (ISO 8601) and JWT `exp` (RFC 7519); values SHOULD be consistent | NO |
+| issuing_entity             | `issuer.id`, `iss`         | String (URI or DID)         | VCDM `issuer.id` and JWT `iss` (RFC 7519); values MUST match               | NO       |
+| *(holder binding)*         | `sub`, `cnf`               | String / object             | `sub` identifies the holder DID; `cnf` carries the holder binding key ([RFC 9901] A.4) | NO |
+| attestation_legal_category | `attestation_legal_category` | String                    | One of EAA or QEAA as defined by eIDAS 2                                   | NO        |
+| vct                        | `vct`                      | String                      | Collision-resistant identifier for the SD-JWT VC type                      | NO        |
+| schema_version             | `schema_version`           | String                      | Version of the schema used for this attestation                            | NO             |
+| trust_anchor_url           | `trust_anchor_url`         | String (URI)                | URL where the trust anchor for verifying this attestation can be retrieved | NO             |
+| *(revocation status)*      | `status`                   | Object                      | SD-JWT VC status-list claim; **SHALL** be validated for SD-JWT presentations (Section 3.2.2) | NO |
+| *(VCDM status mirror)*     | `credentialStatus`         | Object                      | MAY be carried in the embedded VCDM payload for structural parity; **SHALL NOT** be used for revocation validation in the SD-JWT path | NO |
 
 **Notes:**
 
