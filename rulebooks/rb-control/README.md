@@ -2,7 +2,7 @@
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
-  * [Stephan Fuchs, Deutsche Bank]
+  * [Stephan Fuchs, Deutsche Bank AG]
 
 * Reviewer(s):
   * [Baumgardt Michaela, Commerzbank]
@@ -14,15 +14,14 @@
 | 0.1     | 23.03.2026 | Initial draft based on the WeBuild design attestations meetings   |
 | 0.3     | 01.06.2026 | Updates of content (review ubo documents)                         |
 | 0.4     | 01.06.2026 | Updates of content - legal arrangements                           |
-| 0.8     | 24.06.2026 | Updates of content based on the submission regulation and AMLR/RTS|
-| 0.9     | 29.06.2026 | Updates of BODS vocabulary                                        |
+| 0.7     | 24.06.2026 | Updates of content based on the submission regulation and AMLR/RTS|
+| 0.8     | 29.06.2026 | Updates of BODS vocabulary                                        |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
 
 * Contact:
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
 
 * Feedback:
-
----
 
 ## 1 Introduction
 
@@ -30,8 +29,7 @@ This attestation addresses the following question:
 
 **Who exercises effective control over this legal entity?**
 
-A Controller is any natural person, legal entity, or legal arrangement that directly or
-indirectly exercises effective control over a legal entity.
+A Controller is any natural person, legal entity, or legal arrangement that directly or  indirectly exercises effective control over a legal entity.
 
 ### 1.1 Document Scope and Purpose
 
@@ -47,60 +45,51 @@ This Control Attestation Rulebook is based on:
 - The EU Anti-Money Laundering Regulation (AMLR 2024/1624) as the primary regulatory driver
   for beneficial ownership and control transparency obligations
 - The EUDI Wallet ecosystem and eIDAS 2 framework as the digital identity infrastructure
-- The SD-JWT VC specification (draft-ietf-oauth-sd-jwt-vc-09) for verifiable credential
-  encoding
+- The SD-JWT VC specification (draft-ietf-oauth-sd-jwt-vc-09) for verifiable credential encoding
 - ISO 3166-1 alpha-2 for country and jurisdiction codes
 - ISO 8601 for date formatting
 - ISO 17442 for Legal Entity Identifier (LEI) codes
+- Beneficial Ownership Data Standard (BODS) version 0.4
 
 ### 1.2 Document Structure
-
 This Rulebook is structured as follows:
 
-- Chapter 2 describes the attestation attributes and metadata in an encoding-independent
-  manner, including the data model.
-- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2
-  covers SD-JWT VC-based encoding.
-- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration
-  with KYC/KYS workflows.
+- Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner, including the data model.
+- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2 covers SD-JWT VC-based encoding.
+- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines revocation mechanisms for the attestation.
-- Chapter 7 provides compliance information regarding the EBW framework, AML regulations,
-  corporate governance standards, and applicable data protection laws.
-- Chapter 8 provides references to applicable standards and specifications.
+- Chapter 7 provides compliance information regarding the EUDI framework and applicable data protection laws.
 
 ### 1.3 Keywords
 
-This document uses the capitalised keywords `SHALL`, `SHOULD`, and `MAY` as specified in
-[RFC 2119], i.e. to indicate requirements, recommendations, and options specified in this
-document.
+This document uses the capitalised keywords `SHALL`, `SHOULD` and `MAY` as specified in
+[RFC 2119], i.e. to indicate requirements, recommendations and options specified in this document.
 
 In addition, `must` (non-capitalised) is used to indicate an external constraint, i.e. a
-requirement that is not mandated by this document, but for instance by an external document.
-The word `can` indicates a capability, whereas other words such as `will`, `is`, or `are` are
-intended as statements of fact.
+requirement that is not mandated by this document, but, for instance, by an external document.
+The word `can` indicates a capability, whereas other words, such as `will`, and `is` or `are`
+are intended as statements of fact.
 
 ### 1.4 Terminology
 
-This document uses the terminology specified in Annex 1 of the ARF.
-
 *Additional terminology specific to this attestation:*
 
-| **Term**                         | **Definition**                                                                                                                                                                                            |
-|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Control                          | A comprehensive record of all natural and legal persons who exercise direct or indirect control over a legal entity, including control percentages and the mechanisms through which control is exercised    |
-| Controller                       | A natural person, legal entity, or legal arrangement that exercises control over a legal entity, either directly or indirectly                                                                              |
-| Direct Control                   | Control exercised directly by a person through ownership of voting shares, board membership, or executive roles in the subject entity                                                                       |
-| Indirect Control                 | Control exercised through one or more intermediary entities or contractual arrangements (e.g., control via a parent company, nominee arrangements, or proxy voting agreements)                              |
-| Control Percentage               | A quantitative measure of the degree of control a person exercises, typically based on voting rights percentage, board representation percentage, or other control metrics                                  |
-| Legal Arrangement                | A trust, foundation, or similar structure that may exercise control over a legal entity. Includes roles such as settlor, trustee, protector, and beneficiary                                                |
-| Know Your Customer (KYC)         | Due diligence process for verifying customer identity and assessing risk in financial relationships                                                                                                         |
-| Know Your Supplier (KYS)         | Due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                                                      |
-| Politically Exposed Person (PEP) | Individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                                                          |
-| EU Company Certificate (EUCC)    | Attestation establishing the legal existence and identity of a legal entity within the EU                                                                                                                   |
+| Term                             | Definition                                                                                                                                                                                                 |
+|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Control                          | A comprehensive record of all natural and legal persons who exercise direct or indirect control over a legal entity, including control percentages and the mechanisms through which control is exercised   |
+| Controller                       | A natural person, legal entity, or legal arrangement that exercises control over a legal entity, either directly or indirectly                                                                             |
+| Direct Control                   | Control exercised directly by a person through ownership of voting shares, board membership, or executive roles in the subject entity                                                                      |
+| Indirect Control                 | Control exercised through one or more intermediary entities or contractual arrangements (e.g., control via a parent company, nominee arrangements, or proxy voting agreements)                             |
+| Control Percentage               | A quantitative measure of the degree of control a person exercises, typically based on voting rights percentage, board representation percentage, or other control metrics                                 |
+| Legal Arrangement                | A trust, foundation, or similar structure that may exercise control over a legal entity. Includes roles such as settlor, trustee, protector, and beneficiary                                               |
+| Know Your Customer (KYC)         | Due diligence process for verifying customer identity and assessing risk in financial relationships                                                                                                        |
+| Know Your Supplier (KYS)         | Due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                                                     |
+| Politically Exposed Person (PEP) | Individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                                                         |
+| EU Company Certificate (EUCC)    | Attestation establishing the legal existence and identity of a legal entity within the EU                                                                                                                  |
 | Evidence                         | Supporting documentation substantiating the control structure (e.g., governance chart, shareholder agreement, articles of association, trust deed)                                                         |
 | Identifier                       | A formal reference code used to uniquely identify a legal entity (e.g., EUID, LEI, national tax or registry number)                                                                                        |
-| Controls                         | The sub-object within each Controller entry describing how control is exercised, including the mechanism type, level, basis, and associated rights                                                          |
+| Controls                         | The sub-object within each Controller entry describing how control is exercised, including the mechanism type, level, basis, and associated rights                                                         |
 
 ---
 
@@ -180,13 +169,9 @@ Controller [1..n]                               // The person or entity exercisi
 ├─ url (uri) (O)                            // URI to publicly accessible source document
 └─ data (base64) (O)                        // Base64-encoded — required if url absent
 ```
-Note:
-M - Mandatory
-O - Optional
-
+*Note*: M - mandatory / O - optional.
 
 **Explanation:**
-
 - The attestation SHALL contain at least one `Controller` entry of `type = "Person"` to comply
   with AML requirements mandating identification of the natural persons who ultimately exercise
   control over the entity.
@@ -250,8 +235,6 @@ This attestation type MAY be classified as:
   body that can independently attest the control structure (e.g., based on official company
   register data, audited financial statements, or notarized documentation).
 
----
-
 **Terms primarily relevant to a `Person` controller:**
 
 | **Term**                 | **Reference**                              | **Definition in Control Context**                                      |
@@ -278,7 +261,6 @@ This attestation type MAY be classified as:
 | `trustee`                            | `controls.type: agreements`                   | Person or entity administering a trust (legal arrangement)       |
 | `protector`                          | `controls.type: agreements`                   | Person or entity protecting trust interests                      |
 | `beneficiaryOfLegalArrangement`      | `controls.type: other_means_of_control`       | Person or entity benefiting from a trust arrangement             |
----
 
 ### 2.2 Mandatory Attributes
 
@@ -354,8 +336,6 @@ This attestation type MAY be classified as:
 | `evidence[n].id`    | —                      | Unique identifier, URI, or URN of the source or evidence document                                                                                       | String        |
 | `evidence[n].type`  | —                      | Type of evidence document — SHALL use a value from Section 2.8.9 (e.g., `officialRegister`, `governanceChart`, `trustDeed`, `shareholderAgreement`) | String        |
 
----
-
 ### 2.3 Optional Attributes
 
 **Person Controller Optional Attributes**
@@ -385,7 +365,6 @@ This attestation type MAY be classified as:
 | `evidence[n].url`   | —                      | URI reference to the publicly accessible source or evidence document                             | URI             |
 | `evidence[n].data`  | —                      | Base64-encoded source document — SHALL be provided if `url` is absent or not publicly accessible | String (base64) |
 
----
 
 ### 2.4 Conditional Attributes
 
@@ -397,18 +376,21 @@ This attestation type MAY be classified as:
 | `entity.form = "trust"`                                | `entity.subtype_info.settlement`, `entity.subtype_info.purpose`, `entity.subtype_info.assets`         | The `subtype_info` object SHALL be present and all three fields SHALL be populated   |
 | `evidence[n].url` is absent or not publicly accessible | `evidence[n].data`                                                                                    | `evidence[n].data` (base64-encoded) SHALL be provided                                |
 
----
-
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**          | **Definition**                                                                                                                          | **Data Type** |
-|------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| `attestation_legal_category` | Legal category of this attestation — SHALL be `"EAA"` or `"QEAA"` — NOT selectively disclosable                                        | String        |
----
+| **Data Identifier**        | **Definition**                                                                | **Data type** |
+|----------------------------|-------------------------------------------------------------------------------|---------------|
+| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
+| cnf                        | cryptographic Key Binding                                                                             | String        |
+
+*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
 
 ### 2.6 Optional Metadata
 
----
+| **Data Identifier** | **Definition**                                                             | **Data type** |
+|---------------------|----------------------------------------------------------------------------|---------------|
+| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
+| schema_version      | Version of the schema used for this attestation                            | String        |
 
 ### 2.7 Conditional Metadata
 
@@ -506,7 +488,6 @@ All date attributes (e.g., `effective_date`, `person.birth_date`) SHALL follow t
 | `articlesOfAssociation`  | Entity            | Constitutional document defining governance rights and control         |
 | `governanceChart`        | Entity            | Organizational chart showing the control structure                     |
 
----
 
 ### 2.9 Integrity Rules
 
@@ -534,24 +515,18 @@ The following integrity rules SHALL be enforced during issuance and verification
 | IR-18       | `entity.form` SHALL use a value from Section 2.8.6                                                                                                                  |
 | IR-19       | Each `Controller` entry SHALL contain a non-empty `effective_date`                                                                                                   |
 
----
 
 ## 3 Attestation Encoding
 
 ### 3.1 ISO/IEC 18013-5-Compliant Encoding
 
-ISO/IEC 18013-5 (mdoc) is **out of scope** for this Rulebook, as offline proximity
-presentation is not a current requirement for the Control Attestation.
+ISO/IEC 18013-5 (mdoc) is **out of scope** for this Rulebook, as offline proximity  presentation is not a current requirement for the Control Attestation.
 
 ### 3.2 SD-JWT VC-Based Encoding
 
-The Control Attestation uses the SD-JWT VC format to allow for selective disclosure of control
-structure attributes.
+The Control Attestation uses the SD-JWT VC format to allow for selective disclosure of control  structure attributes.
 
-**Selective Disclosure:** Top-level claims (`controller`, `evidence`) SHALL be individually
-selectively disclosable, enabling a legal entity to disclose only the attributes requested by
-a Relying Party.
-
+**Selective Disclosure:** Top-level claims (`controller`, `evidence`) SHALL be individually  selectively disclosable, enabling a legal entity to disclose only the attributes requested by  a Relying Party.
 The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:control:1`
@@ -601,8 +576,15 @@ The `.` notation is used to indicate the nesting of attributes.
 | `type`                        | `controller[n].evidence[m].type`                        | String                       | SHALL use values from Section 2.8.9 — SHALL be non-empty                                     | MUST               |
 | `url`                         | `controller[n].evidence[m].url`                         | URI                          | URI reference to source document — optional                                                  | MAY                |
 | `data`                        | `controller[n].evidence[m].data`                        | String (base64)              | Base64-encoded source — SHALL be provided if `url` not publicly accessible                   | MAY                |
-| **Metadata**                  |                                                         |                              |                                                                                              |                    |
-| `attestation_legal_category`  | `attestation_legal_category`                            | String                       | SHALL be `"EAA"` or `"QEAA"` — NOT selectively disclosable                                  | MUST NOT           |
+| **Metadata**                 |                                                             |                              |                                                                                       |                    |
+| `issuance_date`              | `iat`                                                       | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                    | MUST NOT           |
+| `expiry_date`                | `exp`                                                       | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                       | MUST NOT           |
+| `issuing_entity`             | `iss`                                                       | String (URI or DID)          | Identifier of the competent institution that issued the attestation; RFC 7519         | MUST NOT           |
+| `attestation_legal_category` | `attestation_legal_category`                                | String                       | One of "EAA" or "QEAA" as defined by eIDAS 2                                          | MUST NOT           |
+| `vct`                        | `vct`                                                       | String                       | The vct definition                                                                    | MUST NOT           |
+| `cnf`                        | `cnf`                                                       | String                       | Cryptographic Key Binding                                                             | MUST NOT           |
+| `schema_version`             | `schema_version`                                            | String                       | Version of the schema used; optional                                                  | MAY                |
+| `trust_anchor_url`           | `trust_anchor_url`                                          | String (URI)                 | URL where the trust anchor for verifying this attestation can be retrieved; optional  | MAY                |
 
 **Notes:**
 
@@ -796,56 +778,96 @@ controller:
   }
 }
 ```
-
 Sample payloads are provided under `../data-schemas/sd-jwt/sample-data/control-sd-jwt-sample.json`
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
-@TODO — To be discussed: which stakeholders will support this format and which use cases require it.
-
 ## 4 Attestation usage
-### 4.1. Issuance process ###
 
-**Attestation**
+### 4.1. Issuance process ###
+**For EAA (Self-Issued / Standard Issuance)**:
+- The issuer (i.e., the legal entity itself) issues the attestation based on the information and supporting documentation available at the time of issuance.
+- The issuer is responsible for ensuring that the attested information remains accurate and must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
+
+**For QEAA (Qualified Issuance)**:
+- The issuer—either a Qualified Trust Service Provider (QTSP) or another authorized competent body—must issue and verify the attestation exclusively on the basis of authoritative sources, such as official company register data or audited financial statements.
+- The issuer is also responsible for maintaining a high level of assurance throughout the attestation's validity period by continuously monitoring the underlying information. If any change affecting the accuracy or validity of the attested data is detected, the issuer must promptly revoke the attestation.
+
 The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
 
 ### 4.2 Relying Party Obligations
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+
 ### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
-This chapter will be completed in a future version of this Rulebook.
+This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
+
+### 5.1 Qualified Electronic Attestations of Attributes (QEAAs)
+
+For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
+The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.
+
+Successful certificate chain validation establishes that:
+- the issuer's certificate was recognized within the applicable trust framework;
+- the issuer's identity has been validated by the supervisory authority during inclusion in the TLOL; and
+- the issuer satisfies the trust requirements applicable to QEAAs.
+
+In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.
+
+### 5.2 Electronic Attestations of Attributes (EAAs)
+
+For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
+The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
+
+The Relying Party SHALL verify the EBWOID in accordance with the verification procedure defined in this Rulebook. Upon successful verification, the Relying Party obtains:
+- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
+- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
+- the public key authorized to verify the EAA signature.
+
+Authorization of the issuer is subsequently determined in accordance with the Relying Party's internal policies. Such authorization MAY be based on locally maintained wallet configuration or on trusted jurisdiction- or domain-specific trust list services that identify issuers authorized for a particular type of EAA
 
 ## 6 Revocation
-This chapter will be completed in a future version of this Rulebook.
+An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
+
+### 6.1 Revocation Mechanism
+- Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
+- Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
+
+Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
+
+### 6.2 Revocation Triggers & Business Rules
+- QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
+- EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
+
+Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
+The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 7 References
-This chapter will be completed in a future version of this Rulebook.
 
-## 8 References
-
-| **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                |
-|----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| [AMLR 2024/1624]                       | Regulation (EU) 2024/1624 of the European Parliament and of the Council on the prevention of the use of the financial system for the purposes of money laundering or terrorist financing                                                                                  |
-| [HAIP]                                 | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03                                                                                                                                                                 |
-| [IANA-JWT-Claims]                      | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml                                                                                                                                                                           |
-| [ICAO 9303]                            | ICAO Doc 9303 — Machine Readable Travel Documents. Available: https://www.icao.int/publications/pages/publication.aspx?docnum=9303                                                                                                                                        |
-| [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification — ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09                                                                                                                      |
-| [ISO 3166-1]                           | ISO 3166-1 — Codes for the representation of names of countries and their subdivisions. Available: https://www.iso.org/iso-3166-country-codes.html                                                                                                                        |
-| [ISO 8601]                             | ISO 8601 — Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html                                                                                                                                                                       |
-| [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html                                                                                                                                      |
-| [RFC 2119]                             | RFC 2119 — Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997                                                                                                                                                                              |
-| [RFC 3339]                             | RFC 3339 — Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002                                                                                                                                                                                         |
-| [RFC 7519]                             | RFC 7519 — JSON Web Token (JWT), M. Jones et al., May 2015                                                                                                                                                                                                               |
-| [RFC 8610]                             | RFC 8610 — Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019                                                                               |
-| [RFC 8943]                             | RFC 8943 — Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020                                                                                                                                                                     |
-| [RFC 8949]                             | RFC 8949 — Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020                                                                                                                                                                                 |
-| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09                                                                                                          |
+| **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                         |
+|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework                          |
+| [AMLR 2024/1624]                       | Regulation (EU) 2024/1624 of the European Parliament and of the Council on the prevention of the use of the financial system for the purposes of money laundering or terrorist financing                                                                                                          |
+| [HAIP]                                 | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03                                                                                                                                                                                          |
+| [IANA-JWT-Claims]                      | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml                                                                                                                                                                                                    |
+| [ICAO 9303]                            | ICAO Doc 9303 — Machine Readable Travel Documents. Available: https://www.icao.int/publications/pages/publication.aspx?docnum=9303                                                                                                                                                                |
+| [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification — ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09                                                                                                                                               |
+| [ISO 3166-1]                           | ISO 3166-1 — Codes for the representation of names of countries and their subdivisions. Available: https://www.iso.org/iso-3166-country-codes.html                                                                                                                                                |
+| [ISO 8601]                             | ISO 8601 — Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html                                                                                                                                                                                                |
+| [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html                                                                                                                                                               |
+| [RFC 2119]                             | RFC 2119 — Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997                                                                                                                                                                                                       |
+| [RFC 3339]                             | RFC 3339 — Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002                                                                                                                                                                                                                  |
+| [RFC 7519]                             | RFC 7519 — JSON Web Token (JWT), M. Jones et al., May 2015                                                                                                                                                                                                                                        |
+| [RFC 8610]                             | RFC 8610 — Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019                                                                                                        |
+| [RFC 8943]                             | RFC 8943 — Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020                                                                                                                                                                                              |
+| [RFC 8949]                             | RFC 8949 — Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020                                                                                                                                                                                                          |
+| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09                                                                                                                                   |
 | [Topic 7]                              | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking |

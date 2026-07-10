@@ -36,13 +36,6 @@
         1768471200
       ]
     },
-    "issuing_entity": {
-      "type": "string",
-      "description": "The identifier of the legal entity that issued the attestation. Typically the issuing financial institution (ASPSP) for EAA attestations. SHALL NOT be selectively disclosable.",
-      "examples": [
-        "did:example:bank-123"
-      ]
-    },
     "attestation_legal_category": {
       "type": "string",
       "description": "The legal category of the attestation as defined by eIDAS 2. For the IBAN-OV attestation issued by the bank (ASPSP) acting as an authorized issuer, this is 'EAA'.",
@@ -107,32 +100,75 @@
         "account_currency"
       ]
     },
-    "account_ownership": {
-      "type": "object",
-      "description": "Identifies the legal owner of the account (the 'who'), including name and EUID. SHALL be individually selectively disclosable as a top-level claim.",
-      "additionalProperties": false,
-      "properties": {
-        "owner_name": {
-          "type": "string",
-          "description": "Legal name of the legal person, or natural person in case of a sole trader, owning the account.",
-          "examples": [
-            "Company A GmbH"
-          ]
-        },
-        "euid": {
-          "type": "string",
-          "description": "The EUID as unique identifier of the legal person owning the account. SHALL be a non-empty string identifying the legal entity owning the account.",
-          "minLength": 1,
-          "examples": [
-            "DE-HRB-123456"
-          ]
-        }
-      },
-      "required": [
-        "owner_name",
-        "euid"
+"account_ownership": {
+  "type": "object",
+  "description": "Identifies the legal owner of the account (the 'who'). The owner is either a legal person or a natural person (sole trader). Required name attributes depend on owner_type. SHALL be individually selectively disclosable as a top-level claim.",
+  "additionalProperties": false,
+  "properties": {
+    "owner_type": {
+      "type": "string",
+      "description": "Discriminator identifying whether the account owner is a legal person or a natural person (sole trader). SHALL be present in all cases.",
+      "enum": ["entity", "person"]
+    },
+    "euid": {
+      "type": "string",
+      "description": "The EUID as unique identifier of the owner's register entry. For a sole trader, references the register entry under which the natural person is registered as operating a business. SHALL be a non-empty string.",
+      "minLength": 1,
+      "examples": [
+        "DE-HRB-123456",
+        "DE-HRA-789012"
       ]
     },
+    "owner_name": {
+      "type": "string",
+      "description": "Legal name of the legal entity owning the account. Mandatory if owner_type = legal_person. SHALL NOT be present if owner_type = natural_person.",
+      "examples": [
+        "Company A GmbH"
+      ]
+    },
+    "given_name": {
+      "type": "string",
+      "description": "Given name(s) of the natural person owning the account. Mandatory if owner_type = natural_person. SHALL NOT be present if owner_type = legal_person.",
+      "examples": [
+        "Maria"
+      ]
+    },
+    "surname": {
+      "type": "string",
+      "description": "Surname / family name of the natural person owning the account. Mandatory if owner_type = natural_person. SHALL NOT be present if owner_type = legal_person.",
+      "examples": [
+        "Müller"
+      ]
+    }
+  },
+  "required": ["owner_type", "euid"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "owner_type": { "const": "entity" } },
+        "required": ["owner_type"]
+      },
+      "then": {
+        "required": ["owner_name", "euid"],
+        "not": {
+          "anyOf": [
+            { "required": ["given_name"] },
+            { "required": ["surname"] }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "owner_type": { "const": "natural_person" } },
+        "required": ["owner_type"]
+      },
+      "then": {
+        "required": ["given_name", "surname"]
+      }
+    }
+  ]
+},
     "account_provider": {
       "type": "object",
       "description": "Describes the financial institution that issued the account and related metadata (the 'where & how'). SHALL be individually selectively disclosable as a top-level claim.",
@@ -278,7 +314,6 @@
     "iss",
     "iat",
     "exp",
-    "issuing_entity",
     "attestation_legal_category",
     "bank_account",
     "account_ownership",

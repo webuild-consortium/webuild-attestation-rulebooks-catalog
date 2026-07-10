@@ -14,13 +14,12 @@
 | 0.5     | 01.06.2026 | Review in regard to holder perspective                          |
 | 0.6     | 23.06.2026 | Review in regard to verifier perspective                        |
 | 0.8     | 29.06.2026 | Review attributes and type                                      |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
 
 * Feedback:
-
----
 
 ## 1 Introduction
 
@@ -30,7 +29,7 @@ This attestation addresses the following question:
 
 The Company Information (CompanyInfo) Attestation describes additional company-level information which is not part of the EUCC core identity dataset. The attestation enables structured exchange of business profile attributes for use in KYS (Know Your Supplier), KYC (Know Your Customer), supplier onboarding, and risk assessment processes.
 
-### 1.1 Document scope and purpose
+### 1.1 Document Scope and Purpose
 
 The Company Information (CompanyInfo) Attestation describes additional company-level information which is not part of the EUCC core identity dataset. The attestation enables structured exchange of business profile attributes for use in KYS (Know Your Supplier), KYC (Know Your Customer), supplier onboarding, and risk assessment processes.
 
@@ -44,12 +43,12 @@ This CompanyInfo Attestation Rulebook is based on:
 - XBRL-inspired fact-based financial reporting structure
 - ISO 4217 for currency codes
 - ISO 8601 for date formatting
+- Submission Regulation – Commission on Implementing Regulation (EU) [number] on the formats for submitting beneficial ownership information.
 
-### 1.2 Document structure
-
+### 1.2 Document Structure
 This Rulebook is structured as follows:
 
-- Chapter 2 describes the CompanyInfo attestation attributes and metadata in an encoding-independent manner, including the data model.
+- Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner, including the data model.
 - Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2 covers SD-JWT VC-based encoding.
 - Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
@@ -85,8 +84,10 @@ are intended as statements of fact.
 | ISO 4217            | International standard defining currency codes (e.g., EUR, USD, GBP)                                                                      |
 | ISO 8601            | International standard for date and time representations (e.g., YYYY-MM-DD)                                                               |
 
-## 2 Attestation attributes and metadata
-The CompanyInfo Attestation is designed to provide a standardized, verifiable representation of a legal entity's business profile attributes, including workforce size and structured financial reporting data. This attestation complements the EUCC by providing additional non-core identity attributes required for KYS, KYC, supplier onboarding, and risk assessment processes.
+## 2 Attestation Attributes and Metadata
+The CompanyInfo Attestation is designed to provide a standardized, verifiable representation of a legal entity's business profile attributes, including workforce size 
+and structured financial reporting data. This attestation complements the EUCC by providing additional non-core identity attributes required for KYS, KYC, supplier onboarding, 
+and risk assessment processes.
 
 ### 2.1 Introduction
 
@@ -108,11 +109,8 @@ CompanyInfo
         ├─ unit (tstr) (M)
         ├─ period_start (date) (M)
         └─ period_end((date) (M)
-
-Note:
-M - mandatory
-O - optional 
 ```
+*Note*: M - mandatory / O - optional.
 
 **Explanation:**
 - `number_of_employees` and `financial_statements` are mandatory top-level attributes.
@@ -123,8 +121,8 @@ O - optional
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** when self-issued by the legal entity subject to the disclosure.
-- **"QEAA"** when issued by a qualified trust service provider (QTSP) or authorized competent body that can independently attest the company information (e.g., based on official company register data or audited financial statements).
+- **"EAA"** self-issued by the legal entity as part of its disclosures.
+- **"QEAA"** issued by a Qualified Trust Service Provider (QTSP) or authorized competent body that can independently attest the company information (e.g., based on official company register data or audited financial statements).
 
 ### 2.2 Mandatory attributes
 
@@ -152,18 +150,21 @@ This attestation type MAY be classified as:
 
 No conditional attributes are defined for this attestation type. All attributes are either mandatory or optional as specified above.
 
-### 2.5 Mandatory metadata
+### 2.5 Mandatory Metadata
 
-| **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type**   |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                           | String          |
+| **Data Identifier**        | **Definition**                                                                | **Data type** |
+|----------------------------|-------------------------------------------------------------------------------|---------------|
+| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
+| cnf                        | Cryptographic Key Binding                                                     | String        |
 
-## 2.6 Optional metadata
+*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
+
+### 2.6 Optional Metadata
 
 | **Data Identifier** | **Definition**                                                             | **Data type** |
 |---------------------|----------------------------------------------------------------------------|---------------|
 | trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used                                                 | String        |
+| schema_version      | Version of the schema used for this attestation                            | String        |
 
 ### 2.7 Conditional metadata
 
@@ -266,7 +267,7 @@ The following integrity rules SHALL be enforced:
 - The `id` field within each `Fact` SHALL be unique within the `facts` array of a single attestation.
 - `taxonomy` SHALL be a non-empty string identifying the applicable financial reporting standard.
 
-## 3 Attestation encoding
+## 3 Attestation Encoding
 
 ### 3.1 ISO/IEC 18013-5-compliant encoding
 
@@ -284,23 +285,30 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**                     | **Attribute identifier**                     | **Encoding format**              | **Reference/Notes**                                                                                      | **Disclosable** |
-|-----------------------------------------|----------------------------------------------|----------------------------------|----------------------------------------------------------------------------------------------------------|-----------------|
-| number_of_employees                     | `number_of_employees`                        | Integer (uint)                   | Total number of employees at time of reporting; SHALL be non-negative                                    | MUST            |
-| trade_alias                             | `trade_alias`                                | Array of Strings                 | Zero or more registered trade names/aliases; optional                                                    | MUST            |
-| previous_legal_name                     | `previous_legal_name`                        | Array of Strings                 | Zero or more previously registered legal names; optional                                                 | MUST            |
-| **financial_statements**                |                                              |                                  |                                                                                                          |                 |
-| financial_statements.taxonomy           | `financial_statements.taxonomy`              | String                           | Financial reporting standard used (e.g., IFRS, GAAP)                                                     | MUST            |
-| financial_statements.facts              | `financial_statements.facts`                 | Array [Fact]                     | List of reported financial facts; at least one fact SHALL be present                                     | MUST            |
-| **facts**                               |                                              |                                  |                                                                                                          |                 |
-| financial_statements.facts.id           | `financial_statements.facts[n].id`           | String                           | Unique identifier of the fact within the attestation                                                     | MUST            |
-| financial_statements.facts.concept      | `financial_statements.facts[n].concept`      | String                           | Name of the reported metric (e.g., Revenue, Turnover, NetIncome, TotalAssets)                            | MUST            |
-| financial_statements.facts.value        | `financial_statements.facts[n].value`        | Decimal (number)                 | Reported numeric value of the fact                                                                       | MUST            |
-| financial_statements.facts.unit         | `financial_statements.facts[n].unit`         | String (ISO 4217 for currencies) | Unit of measurement (e.g., EUR, %, ratio)                                                                | MUST            |
-| financial_statements.facts.period_start | `financial_statements.facts[n].period_start` | String (ISO 8601 YYYY-MM-DD)     | Start date of the reporting period                                                                       | MUST            |
-| financial_statements.facts.period_end   | `financial_statements.facts[n].period_end`   | String (ISO 8601 YYYY-MM-DD)     | End date of the reporting period                                                                         | MUST            |
-| **Metadata**                            |                                              |                                  |                                                                                                          |                 |
-| attestation_legal_category              | `attestation_legal_category`                 | String                           | One of `EAA` as defined by eIDAS 2                                                                       | MUST NOT        |
+| **Data Identifier**                     | **Attribute identifier**                     | **Encoding format**              | **Reference/Notes**                                                                  | **Disclosable** |
+|-----------------------------------------|----------------------------------------------|----------------------------------|--------------------------------------------------------------------------------------|-----------------|
+| number_of_employees                     | `number_of_employees`                        | Integer (uint)                   | Total number of employees at time of reporting; SHALL be non-negative                | MUST            |
+| trade_alias                             | `trade_alias`                                | Array of Strings                 | Zero or more registered trade names/aliases; optional                                | MUST            |
+| previous_legal_name                     | `previous_legal_name`                        | Array of Strings                 | Zero or more previously registered legal names; optional                             | MUST            |
+| **financial_statements**                |                                              |                                  |                                                                                      |                 |
+| financial_statements.taxonomy           | `financial_statements.taxonomy`              | String                           | Financial reporting standard used (e.g., IFRS, GAAP)                                 | MUST            |
+| financial_statements.facts              | `financial_statements.facts`                 | Array [Fact]                     | List of reported financial facts; at least one fact SHALL be present                 | MUST            |
+| **facts**                               |                                              |                                  |                                                                                      |                 |
+| financial_statements.facts.id           | `financial_statements.facts[n].id`           | String                           | Unique identifier of the fact within the attestation                                 | MUST            |
+| financial_statements.facts.concept      | `financial_statements.facts[n].concept`      | String                           | Name of the reported metric (e.g., Revenue, Turnover, NetIncome, TotalAssets)        | MUST            |
+| financial_statements.facts.value        | `financial_statements.facts[n].value`        | Decimal (number)                 | Reported numeric value of the fact                                                   | MUST            |
+| financial_statements.facts.unit         | `financial_statements.facts[n].unit`         | String (ISO 4217 for currencies) | Unit of measurement (e.g., EUR, %, ratio)                                            | MUST            |
+| financial_statements.facts.period_start | `financial_statements.facts[n].period_start` | String (ISO 8601 YYYY-MM-DD)     | Start date of the reporting period                                                   | MUST            |
+| financial_statements.facts.period_end   | `financial_statements.facts[n].period_end`   | String (ISO 8601 YYYY-MM-DD)     | End date of the reporting period                                                     | MUST            |
+| **Metadata**                            |                                              |                                  |                                                                                      |                 |
+| issuance_date                           | `iat`                                        | Number (Unix timestamp)          | Date and time when the attestation was issued (ISO 8601); RFC 7519                   | MUST NOT        |
+| expiry_date                             | `exp`                                        | Number (Unix timestamp)          | Date and time when the attestation expires (ISO 8601); RFC 7519                      | MUST NOT        |
+| issuing_entity                          | `iss`                                        | String (URI or DID)              | Identifier of the competent institution that issued the attestation; RFC 7519        | MUST NOT        |
+| attestation_legal_category              | `attestation_legal_category`                 | String                           | One of "EAA" or "QEAA" as defined by eIDAS 2                                         | MUST NOT        |
+| vct                                     | `vct`                                        | String                           | The vct definition                                                                   | MUST NOT        |
+| cnf                                     | `cnf`                                        | String                           | Cryptographic Key Binding                                                            | MUST NOT        |
+| trust_anchor_url                        | `trust_anchor_url`                           | String (URI)                     | URL where the trust anchor for verifying this attestation can be retrieved; optional | MAY             |
+| schema_version                          | `schema_version`                             | String                           | Version of the schema used; optional                                                 | MAY             |
 
 **Notes:**
 
@@ -315,16 +323,19 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.2 Status Claim
 
-For SD-JWT VC-compliant CompanyInfo attestations, the attestation MUST include a `status` claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
+For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if  the technical validity period is greater than 24 hours. This claim enables Relying Parties to
+determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
 
 The `status` claim SHALL be a JSON object with the following members:
 
-- `type` (string): SHALL be `"status-list"`.
-- `status_list_credential` (string, URI): The URI of the Status List Credential document that contains the status bitstring.
-- `status_list_index` (integer, >= 0): The zero-based index into the status list bitstring that corresponds to this credential.
-- `status_purpose` (string): SHALL be `"revocation"` for this attestation.
+| **Field**                | **Type**       | **Value / Constraint**                                                     |
+|--------------------------|----------------|----------------------------------------------------------------------------|
+| `type`                   | String         | SHALL be `"status-list"`                                                   |
+| `status_list_credential` | String (URI)   | URI of the Status List Credential document containing the status bitstring |
+| `status_list_index`      | Integer (>= 0) | Zero-based index into the status list bitstring for this credential        |
+| `status_purpose`         | String         | SHALL be `"revocation"`                                                    |
 
-Example:
+**Example:**
 
 ```json
 {
@@ -337,7 +348,6 @@ Example:
 }
 ```
 ### 3.2.3 Example Payload
-
 The following example shows the payload of the attestation in SD-JWT VC format before the encoding into the SD-JWT format.
 ```
 {
@@ -380,35 +390,90 @@ The following example shows the payload of the attestation in SD-JWT VC format b
     "status_list_index": 123,
     "status_purpose": "revocation"
   }
+  "cnf": {
+   "jwk": {
+     "kty": "EC",
+     "crv": "P-256",
+     "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+     "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+   }
+  }
 }
 ```
 Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/company-info-sd-jwt-sample.json
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
-@TODO — To be discussed: which stakeholders will support this format and which use cases require it.
-
 ## 4 Attestation usage
+
 ### 4.1. Issuance process ###
+**For EAA (Self-Issued / Standard Issuance)**:
+- The issuer (i.e., the legal entity itself) issues the attestation based on the information and supporting documentation available at the time of issuance.
+- The issuer is responsible for ensuring that the attested information remains accurate and must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
+
+**For QEAA (Qualified Issuance)**:
+- The issuer—either a Qualified Trust Service Provider (QTSP) or another authorized competent body—must issue and verify the attestation exclusively on the basis of authoritative sources, such as official company register data or audited financial statements.
+- The issuer is also responsible for maintaining a high level of assurance throughout the attestation's validity period by continuously monitoring the underlying information. If any change affecting the accuracy or validity of the attested data is detected, the issuer must promptly revoke the attestation.
+
+The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
 
 ### 4.2 Relying Party Obligations
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+
 ### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
-This chapter will be completed in a future version of this Rulebook.
+This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
+
+### 5.1 Qualified Electronic Attestations of Attributes (QEAAs)
+
+For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
+The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.
+
+Successful certificate chain validation establishes that:
+- the issuer's certificate was recognized within the applicable trust framework;
+- the issuer's identity has been validated by the supervisory authority during inclusion in the TLOL; and
+- the issuer satisfies the trust requirements applicable to QEAAs.
+
+In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.
+
+### 5.2 Electronic Attestations of Attributes (EAAs)
+
+For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
+The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
+
+The Relying Party SHALL verify the EBWOID in accordance with the verification procedure defined in this Rulebook. Upon successful verification, the Relying Party obtains:
+- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
+- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
+- the public key authorized to verify the EAA signature.
+
+Authorization of the issuer is subsequently determined in accordance with the Relying Party's internal policies. Such authorization MAY be based on locally maintained wallet configuration or on trusted jurisdiction- or domain-specific trust list services that identify issuers authorized for a particular type of EAA
 
 ## 6 Revocation
-This chapter will be completed in a future version of this Rulebook.
+An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
+
+### 6.1 Revocation Mechanism
+- Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
+- Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
+
+Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
+
+### 6.2 Revocation Triggers & Business Rules
+- QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
+- EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
+
+Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
+The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 7 References
-This chapter will be completed in a future version of this Rulebook.
 
-## 8 References
 | **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                           |
 |----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework                            |
