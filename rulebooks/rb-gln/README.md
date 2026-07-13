@@ -266,53 +266,8 @@ The embedded VCDM payload of the GLN EAA SHOULD use the GS1 `OrganizationDataCre
 
 #### 3.2.1 Attribute Encoding Table
 
-This table maps every attribute and metadata identifier from Section 2 to its SD-JWT VC claim path. Semantic definitions, types, and mandatory/optional status are normative in Section 2; this section specifies encoding only. VCDM envelope properties are carried as top-level JWT claims per [RFC 9901] Appendix A.4.
 
-| **Section 2 identifier** | **SD-JWT claim path** | **Encoding format** | **Encoding notes** |
-|--------------------------|-----------------------|---------------------|----------------------|
-| **§2.2.1 GLN and name** | | | |
-| `credentialSubject.id` | `credentialSubject.id` | URI (GS1 Digital Link) | Path suffix `/417/{partyGLN}` per Section 2.2.1 |
-| `gs1:partyGLN` | `credentialSubject.organization.gs1:partyGLN` | String (13 digits) | Compact JSON-LD property name with `gs1:` prefix |
-| `gs1:organizationName` | `credentialSubject.organization.gs1:organizationName` | `rdf:langString` (string or language-tagged object) | |
-| `gs1:organizationLegalName` | `credentialSubject.organization.gs1:organizationLegalName` | `rdf:langString` (string or language-tagged object) | |
-| **§2.2.2 Address** | | | |
-| `gs1:address` | `credentialSubject.organization.gs1:address` | Object (`gs1:PostalAddress`) | |
-| `gs1:streetAddress` | `credentialSubject.organization.gs1:address.gs1:streetAddress` | `rdf:langString` | |
-| `gs1:streetAddressLine2` | `credentialSubject.organization.gs1:address.gs1:streetAddressLine2` | `rdf:langString` | |
-| `gs1:streetAddressLine3` | `credentialSubject.organization.gs1:address.gs1:streetAddressLine3` | `rdf:langString` | |
-| `gs1:streetAddressLine4` | `credentialSubject.organization.gs1:address.gs1:streetAddressLine4` | `rdf:langString` | |
-| `gs1:postOfficeBoxNumber` | `credentialSubject.organization.gs1:address.gs1:postOfficeBoxNumber` | String | |
-| `gs1:postalName` | `credentialSubject.organization.gs1:address.gs1:postalName` | `rdf:langString` | |
-| `gs1:postalCode` | `credentialSubject.organization.gs1:address.gs1:postalCode` | String | |
-| `gs1:addressLocality` | `credentialSubject.organization.gs1:address.gs1:addressLocality` | `rdf:langString` | |
-| `gs1:addressRegion` | `credentialSubject.organization.gs1:address.gs1:addressRegion` | `rdf:langString` | |
-| `gs1:addressSuburb` | `credentialSubject.organization.gs1:address.gs1:addressSuburb` | `rdf:langString` | |
-| `gs1:countryCode` | `credentialSubject.organization.gs1:address.gs1:addressCountry.gs1:countryCode` | String (ISO 3166-1 alpha-2) | Nested `gs1:Country` object; `@type` SHOULD be `gs1:Country` |
-| **§2.2.2 GS1 trust chain link** | | | |
-| `credentialSubject.keyAuthorization` | `credentialSubject.keyAuthorization` | URI | |
-| **§2.4.1 VCDM core properties** | | | |
-| `@context` | `@context` | Array of URIs | See Section 3.3.1 for required context URIs |
-| `id` | `id` | URI | |
-| `type` | `type` | Array of strings | |
-| `issuer.id` | `issuer.id` | DID (URI) | `issuer` MAY be a compact object; `issuer.id` is the normative DID |
-| `credentialStatus` | `credentialStatus` | Object (`BitstringStatusListEntry`) | Structural mirror only; **SHALL NOT** be used for revocation validation in SD-JWT (Section 3.2.2) |
-| `credentialSchema` | `credentialSchema` | Object (`JsonSchema`) | Schema URI: `https://id.gs1.org/vc/schema/v1/organizationdata` |
-| `validFrom` | `validFrom` | ISO 8601 date-time | |
-| `renderMethod` | `renderMethod` | Array (`TemplateRenderMethod`) | |
-| **§2.4.2 WeBuild / EUBW metadata** | | | |
-| `attestation_legal_category` | `attestation_legal_category` | String | Top-level SD-JWT VC claim; not part of embedded VCDM |
-| `vct` | `vct` | String (URI) | Top-level SD-JWT VC claim; value `eu.we-build.gln.1` (Section 3.2) |
-| **§2.5 Optional metadata** | | | |
-| `trust_anchor_url` | `trust_anchor_url` | URI | Top-level claim |
-| `schema_version` | `schema_version` | String | Top-level claim |
-| **SD-JWT / JWT encoding (no Section 2 counterpart)** | | | |
-| *(issuance time)* | `iat` | Unix timestamp (RFC 7519) | SHOULD be consistent with `validFrom` |
-| *(expiry time)* | `validUntil`, `exp` | ISO 8601 / Unix timestamp | `validUntil` is VCDM; `exp` is JWT; values SHOULD be consistent |
-| *(issuer)* | `iss` | String (URI or DID) | MUST match `issuer.id` |
-| *(holder binding)* | `sub`, `cnf` | String / object (JWK) | `cnf` carries holder binding key per [RFC 9901] A.4; applicable to license credentials in the chain (Section 3.2) |
-| *(revocation status)* | `status` | Object (status-list) | Authoritative revocation claim for SD-JWT; see Section 3.2.2 |
-
-All claims listed above **SHALL** be present in plain text in the JWT payload and **SHALL NOT** be hash-obfuscated, unless explicitly listed below.
+All claims listed in Section 2 above **SHALL** be present in plain text in the JWT payload and **SHALL NOT** be hash-obfuscated, unless explicitly listed below.
 
 **Claims that MAY be hash-obfuscated** (`_sd` digests per [RFC 9901]):
 
