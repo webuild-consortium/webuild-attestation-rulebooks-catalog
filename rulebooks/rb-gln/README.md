@@ -168,13 +168,32 @@ The `credentialSubject.keyAuthorization` attribute of type `xsd:anyURI` must be 
 
 ### 2.4 Mandatory metadata
 
-| **Data Identifier**        | **Definition**                                                                                                                                                     | **Type** |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime      |
-| expiry_date              | The date and time when the attestation will expire (ISO 8601)                                                                                                       | DateTime      |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String        |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA")                                                                                       | String        |
-| vct                          | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed                  | String        |
+The GLN EAA is a [GS1 Organization Data Credential](https://gs1.github.io/GS1DigitalLicenses/#organization-data-credential), which is a subtype of `DataCredential`. GS1 Data Credentials use the [W3C Verifiable Credentials Data Model Version 2.0](https://www.w3.org/TR/vc-data-model-2.0/) ([vc-data-model-2.0]). The VCDM credential format uses JSON-LD to encapsulate the details in a format that is well understood worldwide. A few optional properties of the W3C VCDM are mandatory in GS1 Data Credentials. These are outlined in [GS1 Data Credential Details (Section 7.2)](https://gs1.github.io/GS1DigitalLicenses/#data-credential-details).
+
+#### 2.4.1 GS1 Data Credential VCDM core properties
+
+| **Property** | **Requirement** |
+|--------------|-----------------|
+| `@context` | In addition to the W3C VCDM 2.0 context, the GS1 Data Credential context MUST be included. For `OrganizationDataCredential`, this is the [organization context](https://ref.gs1.org/gs1/vc/organization-context) (see Section 3.3.1). |
+| `id` | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials. |
+| `type` | This property MUST contain `VerifiableCredential` and MUST also contain `DataCredential`. For the GLN EAA, the type array MUST additionally include `OrganizationDataCredential` (see Section 3.3.1). |
+| `issuer.id` | This property MUST be a Decentralized Identifier (DID) as defined in [did-1.1]. |
+| `credentialSubject.id` | This property is optional in the VCDM but MUST be present and MUST be a [GS1 Digital Link URI](https://www.gs1.org/standards/Digital-Link/) as defined in [gs1-digital-link] (see Section 2.2.1). |
+| `credentialStatus` | This property is optional in the VCDM but MAY be present. If present, this property MUST be of the type `BitstringStatusListEntry` defined in [vc-bitstring-status-list]. |
+| `credentialSchema` | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials and MUST be of the type `JsonSchema` defined in [vc-json-schema]. |
+| `validFrom` | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials. |
+| `renderMethod` | This property is optional in the VCDM but SHOULD be present and SHOULD be of the type `TemplateRenderMethod` in [vc-render-method]. |
+
+#### 2.4.2 WeBuild / EUBW additional mandatory metadata
+
+When the GLN EAA is encoded as SD-JWT VC (Section 3.2), the following additional top-level claims are mandatory:
+
+| **Data Identifier**        | **Definition**                                                                                              | **Type** |
+|----------------------------|-------------------------------------------------------------------------------------------------------------|----------|
+| `attestation_legal_category` | Indicates the legal category of this attestation (`EAA` or `QEAA`)                                        | String   |
+| `vct`                      | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed | String   |
+
+Encoding-independent metadata identifiers used elsewhere in this rulebook map to the GS1 VCDM properties above as follows: `issuance_date` → `validFrom`; `expiry_date` → `validUntil` (SHOULD be set); `issuing_entity` → `issuer.id`. See Section 3.3.4 for the full mapping.
 
 ### 2.5 Optional metadata
 
@@ -743,7 +762,7 @@ The Issuer SHALL perform the following steps:
 1. **Identify the subject** — Resolve the legal entity DID (`credentialSubject.id`) and confirm it controls the DID used in the parent Company Prefix License.
 2. **Select backing license** — Obtain the URI of the valid `GS1CompanyPrefixLicenseCredential`. The GLN `KeyCredential` `extendsCredential` MUST satisfy the rules in Section 3.3.5.
 3. **Validate prefix and GLN** — Apply integrity rules from Section 2.9 against registry data.
-4. **Construct the credential** — Populate mandatory attributes (Section 2.2) and metadata (Section 2.5) using the chosen encoding (Section 3.2 or 3.3).
+4. **Construct the credential** — Populate mandatory attributes (Section 2.2) and metadata (Section 2.4) using the chosen encoding (Section 3.2 or 3.3).
 5. **Attach status entry** — Allocate a `statusListIndex` on the issuer's revocation list when validity exceeds 24 hours.
 6. **Sign and publish** — Sign with the issuer's assertion key; publish to the issuer registry when required for resolution (Company Prefix and Prefix licenses MUST be publicly resolvable per GS1 policy).
 7. **Deliver to holder** — Issue via OpenID4VCI (Business Wallet), export for manual import or publish it to a registry of choice, e.g. making the credential available under the credentialId like it is mandatory for GS1 license credentials.
