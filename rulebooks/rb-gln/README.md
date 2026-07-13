@@ -112,31 +112,38 @@ The attributes below are based on the [GS1 Web Vocabulary](https://ref.gs1.org/v
 
 ### 2.2 Mandatory Attributes
 
+#### 2.2.1 GLN and Name
+
 The GLN EAA must contain a `credentialSubject["gs1:organization"]` which must contain the following attributes:
 
-| **Attribute** | **Definition**                                      | **Data type**  |
+| **Attribute** | **Definition**                                      | **Type**  |
 |------------------------|-----------------------------------------------------|----------------|
-| `gs1:organizationName` | The entity name registered with GS1      | `rdf:langString` |
+| `gs1:organizationName` | The entity name registered with GS1 (localized)      | `rdf:langString` |
 |`gs1:partyGLN`            | The 13 digit main party GLN of the company | `xs:string` |
 
 Notice that the GLN might start with a 0 and hence `xs:integer` is not an apropriate representation of this id.
 
+| **Attribute** | **Definition**                                      | **Type**  |
+|------------------------|-----------------------------------------------------|----------------|
+|`credentialSubject.id`| Digital Link URI representation of the GLN | xsd:anyURI |
+
+The `credentialSubject.id` must be a url with a path ending in `/417/{gs1:partyGLN}`.
+
 Additionally, the GLN EAA's `credentialSubject["gs1:organization"]` MUST contain
 
-| **Attribute** | **Definition**                                      | **Data type**  |
+| **Attribute** | **Definition**                                      | **Type**  |
 |------------------------|-----------------------------------------------------|----------------|
-| `gs1:organizationLegalName` | The legal entity name registered with GS1      | `rdf:langString` |
+| `gs1:organizationLegalName` | The legal entity name registered with GS1 (localized)      | `rdf:langString` |
 
+#### 2.2.2 Address
 
+The GLN EAA of type `OrganizationDataCredential` MUST contain a `credentialSubject["gs1:organization"]["gs1:address"]` which is a `gs1:PostalAddress` per the [GS1 Web Vocabulary PostalAddress](https://ref.gs1.org/voc/PostalAddress) data model. The country code of the address MUST be present. Depending on the country, all other attributes needed to make a valid postal address in that country SHOULD be present.
 
+For a typical European postal addresses, `gs1:streetAddress` SHOULD be used for the primary address line. Additional address detail MAY be expressed in `gs1:streetAddressLine2` through `gs1:streetAddressLine4`. For post-office-box addresses, `gs1:postOfficeBoxNumber` SHOULD be used instead of street address lines.
 
-### 2.3 Optional attributes
+The most important attributes of `credentialSubject["gs1:organization"]["gs1:address"]` that SHOULD be used depending on address type and country for the GLN EAA are
 
-The GLN EAA SHOULD contain a `credentialSubject["gs1:organization"]["gs1:address"]` which is a `gs1:PostalAddress` per the [GS1 Web Vocabulary PostalAddress](https://ref.gs1.org/voc/PostalAddress) data model. The following fields MAY be present under `gs1:address`. If an address is given at all, at least the country code MUST be present; depending on the country, all other attributes needed to make a valid postal address in that country SHOULD be present.
-
-For European postal addresses, `gs1:streetAddress` SHOULD be used for the primary address line. Additional address detail MAY be expressed in `gs1:streetAddressLine2` through `gs1:streetAddressLine4`. For post-office-box addresses, `gs1:postOfficeBoxNumber` SHOULD be used instead of street address lines.
-
-| **Attribute** | **Definition**                                                                        | **Data type**       |
+| **Attribute** | **Definition**                                                                        | **Type**       |
 |------------------------|---------------------------------------------------------------------------------------|---------------------|
 | `gs1:streetAddress`    | The primary street address line as free-form text (e.g. street name and house number, or building name). SHOULD be used before populating additional street lines. | `rdf:langString`    |
 | `gs1:streetAddressLine2` | The second street address line as free-form text (e.g. building, unit, or c/o information). | `rdf:langString`    |
@@ -148,16 +155,20 @@ For European postal addresses, `gs1:streetAddress` SHOULD be used for the primar
 | `gs1:addressLocality`  | The locality (e.g. city) where the legal entity is registered or operates             | `rdf:langString`    |
 | `gs1:addressRegion`    | The province or state (e.g. in abbreviated form) where the legal entity is registered or operates | `rdf:langString`    |
 | `gs1:addressSuburb`    | A suburb within a town or city.                                                       | `rdf:langString`    |
-| `gs1:countryCode`      | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xsd:string`        |
+| `gs1:countryCode`      | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xs:string`        |
 
-### 2.4 Conditional attributes
+Other attributes of `gs1:PostalAddress` data model MAY also be used if needed.
 
-No conditional attributes are defined for this attestation type. All attributes are either
-mandatory or optional as specified above.
 
-### 2.5 Mandatory metadata
+#### 2.2.2 GS1 Trust Chain Link
 
-| **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type** |
+
+The `credentialSubject.keyAuthorization` attribute of type `xsd:anyURI` must be present. This is a reference to a credential that authorizes the issuer to declare the data. Normally this is a GS1 ID Key Credential. When the Licensee of the GS1 ID Key creates Data Credentials they should include a keyAuthorization referencing the GS1 ID Key Credential for this ID Key.
+
+
+### 2.4 Mandatory metadata
+
+| **Data Identifier**        | **Definition**                                                                                                                                                     | **Type** |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
 | issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime      |
 | expiry_date              | The date and time when the attestation will expire (ISO 8601)                                                                                                       | DateTime      |
@@ -165,51 +176,47 @@ mandatory or optional as specified above.
 | attestation_legal_category | Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA")                                                                                       | String        |
 | vct                          | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed                  | String        |
 
-### 2.6 Optional metadata
+### 2.5 Optional metadata
 
-| **Data Identifier** | **Definition**                                                             | **Data type** |
+| **Data Identifier** | **Definition**                                                             | **Type** |
 |---------------------|----------------------------------------------------------------------------|---------------|
 | trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
 | schema_version      | Version of the schema used                                                 | String        |
 
-### 2.7 Conditional metadata
+### 2.7 Value Lists
 
-No conditional metadata elements are defined for this attestation type.
+#### 2.7.1 Country Codes
 
-### 2.8 Value Lists
+For a complete list, refer to the ISO 3166-1 alpha-2 standard. Some Examples:
 
-#### 2.8.1 Country Codes
-
-The list of country codes SHALL follow the alpha-2 format based on ISO 3166-1 alpha-2.
-
-| **Code** | **Example**  |
+| **Code** | **Country**  |
 |----------|--------------|
 | DE       | Germany      |
 | CH       | Switzerland  |
 | FR       | France       |
 | IT       | Italy        |
 | ES       | Spain        |
+| ... | ... |
 
-For a complete list, refer to the ISO 3166-1 alpha-2 standard.
 
-### 2.9 Integrity Rules
+
+### 2.8 Integrity Rules
 
 The following integrity rules **SHALL** be enforced:
 
-- The GLN attestation SHALL contain exactly one `GS1` object and exactly one `Address` object.
-- `organizationName` SHALL be a non-empty string.
-- `organizationLegalName` SHALL be a non-empty string.
-- `partyGLN` SHALL be a valid integer representing the GS1 main party GLN issued to the
-  organization.
+- `organizationName` must not be empty and contain at least one non-empty localized string.
+- `organizationLegalName` MUST not be empty and contain at least one non-empty localized string.
+- `partyGLN` must be the 13 digit GLN string.
 - `postal_code` SHALL be a non-empty string.
 - `locality` SHALL be a non-empty string.
 - `region` SHALL be a non-empty string.
-- `country` SHALL be a valid ISO 3166-1 alpha-2 country code.
+- `country` MUST be a valid ISO 3166-1 alpha-2 country code.
 - Each attribute identifier SHALL appear at most once within its respective object scope.
 - The `partyGln` SHALL match the party GLN assigned in the GS1 Company Prefix Credential.
 - The `partyGLN` SHALL be verifiable against the GS1 Key Credential attesting the GLN.
 
----
+For the detailed constraints of the GLN verification, see Section 4.
+
 
 ## 3 Attestation encoding
 
@@ -220,33 +227,31 @@ presentation is not a current requirement for the GLN Number attestation.
 
 ### 3.2 SD-JWT VC-based encoding
 
-The GLN Number attestation uses the SD-JWT VC format to allow for selective disclosure of
-attestation attributes.
+The GLN EAA MAY be encoded in the SD-JWT VC format to allow for selective disclosure of attestation attributes.
+However, the only actual use case for selective disclosure that is forseen at the time of writing would be to present the GLN while not disclosing the adress, in which case the holder might as well present the just the GLN `KeyCredential` from the credential chain or even just the `GS1CompanyPrefixLicenseCredential` rather than presenting the `OrganizationDataCredential`. This would serve exactly the same purpouse without the technical complexity of the hash obfuscation/disclosure.
 
-The SD-JWT payload **SHALL** embed a [W3C Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/) (VCDM) credential structure as defined in [RFC 9901] Appendix A.4: top-level VCDM properties (`@context`, `type`, `issuer`, `credentialSubject`, `credentialSchema`, and related metadata) are carried directly in the JWT claims set, and selectively disclosable claims within `credentialSubject` are represented as `_sd` digests at issuance time per [RFC 9901]. Holder binding **SHALL** use a `cnf` claim at the top level of the SD-JWT payload. The WeBuild-specific `vct` and `attestation_legal_category` claims are additional top-level JWT claims required by the SD-JWT VC profile. Revocation status for SD-JWT verification **SHALL** use the SD-JWT VC `status` claim (Section 3.2.2); a VCDM `credentialStatus` property MAY be included in the payload for structural parity but is **not** used for revocation validation in the SD-JWT path.
 
-For GLN attestations, the embedded VCDM payload **SHALL** use the GS1 `OrganizationDataCredential` type (Section 3.3.3), including WeBuild KYS mandatory address and legal-name extensions via GS1 Web Vocabulary terms under `credentialSubject.organization`.
+The SD-JWT payload for the GLN EAA MUST embed a [W3C Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/) (VCDM) credential structure as defined in [RFC 9901] Appendix A.4. 
+The top-level VCDM properties (`@context`, `type`, `issuer`, `credentialSubject`, `credentialSchema`, and related metadata) are carried directly in the JWT claims set. Selectively disclosable claims within `credentialSubject` are represented as `_sd` digests at issuance time per [RFC 9901]. Holder binding (only applicable to the license credentials in the credential chain, see Section 4) MUST use a `cnf` claim at the top level of the SD-JWT payload. The WeBuild-specific `vct` and `attestation_legal_category` claims are additional top-level JWT claims REQUIRED by the SD-JWT VC profile. Revocation status for SD-JWT verification MUST use the SD-JWT VC `status` claim (see Section 3.2.2).
 
-**Selective Disclosure:** Claims within `credentialSubject` (e.g., `gs1:organizationLegalName`,
-`gs1:partyGLN`, registered address) SHALL be individually selectively disclosable, enabling a
-legal entity to disclose only the attributes requested by a Relying Party.
+The embedded VCDM payload of the GLN EAA SHOULD use the GS1 `OrganizationDataCredential` type (see Section 2), although the `KeyCredential` or `GS1CompanyPrefixLicenseCredential` which need to be anyway present in the trust chain of the `OrganizationDataCredential` may be used as the GLN EAA when the GS1 registered address is not to be disclosed.
+
+**Selective Disclosure:** When using the `OrganizationDataCredential` data model, the `gs1:address` porperty MAY be selectively disclosable, enabling a legal entity to disclose only the attributes requested by a Relying Party.
+
 
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build.gln.1`
 
+
+
+> :warning: **TBD:** Also assign vcts to `KeyCredential`, etc.?
+
 #### 3.2.1 Attribute Encoding Table
+
+In addition to the `credentialSubject` attributes described in Section 2
 
 
 | **Data Identifier**        | **Attribute Identifier**   | **Encoding Format**         | **Reference / Notes**                                                      | **May be hidden in SD-JWT** |
 |----------------------------|----------------------------|-----------------------------|----------------------------------------------------------------------------|-----------------|
-| **GS1**                    |                            |                             |                                                                            |                     |
-| organizationLegalName      | `credentialSubject.organization.gs1:organizationLegalName` | String (`rdf:langString`) | WeBuild KYS extension; legal entity name registered with GS1 (Section 3.3.3) | NO            |
-| licenceKey                 | *(derived)*                | Integer                     | Derived from the `extendsCredential` chain on the paired GLN `KeyCredential` (Section 3.3.5); not stored on `OrganizationDataCredential` | NO |
-| globalLocationNumber       | `credentialSubject.id`, `credentialSubject.organization.gs1:partyGLN` | String (Digital Link URI / GLN) | GLN as GS1 Digital Link URI (AI 417) in `credentialSubject.id`; same GLN in `gs1:partyGLN` (Section 3.3.2) | NO |
-| **Address**                |                            |                             | Under `credentialSubject.organization.gs1:address` → `gs1:PostalAddress` (Section 3.3.3) |                     |
-| address.postal_code        | `credentialSubject.organization.gs1:address.gs1:postalCode` | String | Postal code of the registered address                                      | YES            |
-| address.locality           | `credentialSubject.organization.gs1:address.gs1:addressLocality` | String (`rdf:langString`) | City of the registered address                                             | YES            |
-| address.region             | `credentialSubject.organization.gs1:address.gs1:addressRegion` | String (`rdf:langString`) | Region of the registered address                                           | YES            |
-| address.country            | `credentialSubject.organization.gs1:address.gs1:addressCountry.gs1:countryCode` | String (ISO 3166-1 alpha-2) | Country of the registered address                                          | YES            |
 | **VCDM envelope**          |                            |                             | [RFC 9901] Appendix A.4; Section 3.3.1                                     |                     |
 | *(credential type)*        | `type`                     | Array of strings            | MUST include `VerifiableCredential` and `OrganizationDataCredential`       | NO        |
 | *(JSON-LD context)*        | `@context`                 | Array of URIs               | MUST include VCDM 2.0 and GS1 organization context (Section 3.3.1)         | NO        |
@@ -690,10 +695,14 @@ The following non-normative example extends `OrganizationDataCredential` with We
 ## 4 GS1 Trust Chain
 
 A complete credential chain for an `OrganizationDataCredential` must consist of at least the 4 credentials
+
 - The `OrganizationDataCredential`
 - A matching `GS1CompanyPrefixLicenseCredential` (GCP Credential)
 - A matchin `GS1PrefixLicenseCredential` (Prefix Credential)
-it should contain
+
+
+It should also contain
+
 - A matching GLN `KeyCredential`
 
 
