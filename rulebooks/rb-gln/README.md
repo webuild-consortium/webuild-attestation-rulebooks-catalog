@@ -599,6 +599,8 @@ An `OrganizationDataCredential` is a `DataCredential` subtype that carries organ
 
 The address container is `gs1:address` → `gs1:PostalAddress`; country is an object property to `gs1:Country`, not a plain string. There is no `gs1:registeredAddress` term in the GS1 Web Vocabulary — use `gs1:address`. Full term URIs follow `https://ref.gs1.org/voc/{term}` (e.g. `https://ref.gs1.org/voc/postalCode`, `https://ref.gs1.org/voc/addressCountry`).
 
+> **Note:** In the GS1 Web Vocabulary, `gs1:address` is an optional object property of `gs1:Organization` (typed `gs1:PostalAddress`). The normative GS1 `OrganizationDataCredential` schema does not require it; this rulebook makes address attributes mandatory through the WeBuild KYS extension (Section 2.2). The value under `gs1:address` reflects the organization's address as recorded in GS1 membership data. It MAY therefore differ from the statutory registered address held by national commercial registers (e.g. the German Handelsregister) or from addresses attested by other authentic sources in European Business Wallet (EUBW) KYS flows (e.g. EUCC). Relying Parties assembling multi-credential wallet presentations SHOULD treat each address as source-specific and MUST NOT assume equivalence across attestations without explicit cross-checking.
+
 Issuers **SHOULD** include `https://ref.gs1.org/voc/` (or an equivalent GS1 vocabulary context) in `@context` alongside `organization-context` when emitting extended organization properties. MO policy MAY restrict which optional vocabulary terms (e.g. `gs1:streetAddress`) may be included.
 
 ##### 3.3.4 Mapping to attestation attributes (Section 2)
