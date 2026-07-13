@@ -102,12 +102,12 @@
     },
 "account_ownership": {
   "type": "object",
-  "description": "Identifies the legal owner of the account (the 'who'). The owner is either a legal person or a natural person (sole trader). Required name attributes depend on owner_type. SHALL be individually selectively disclosable as a top-level claim.",
+  "description": "Identifies the legal owner of the account (the 'who'). The owner is either a legal person or a natural person. Required name attributes depend on owner_type. SHALL be individually selectively disclosable as a top-level claim.",
   "additionalProperties": false,
   "properties": {
     "owner_type": {
       "type": "string",
-      "description": "Discriminator identifying whether the account owner is a legal person or a natural person (sole trader). SHALL be present in all cases.",
+      "description": "Discriminator identifying whether the account owner is a legal person or a natural person. SHALL be present in all cases.",
       "enum": ["entity", "person"]
     },
     "euid": {
@@ -121,21 +121,21 @@
     },
     "owner_name": {
       "type": "string",
-      "description": "Legal name of the legal entity owning the account. Mandatory if owner_type = legal_person. SHALL NOT be present if owner_type = natural_person.",
+      "description": "Legal name of the legal entity owning the account. Mandatory if owner_type = 'entity'. SHALL NOT be present if owner_type = 'person'.",
       "examples": [
         "Company A GmbH"
       ]
     },
     "given_name": {
       "type": "string",
-      "description": "Given name(s) of the natural person owning the account. Mandatory if owner_type = natural_person. SHALL NOT be present if owner_type = legal_person.",
+      "description": "Given name(s) of the natural person owning the account. Mandatory if owner_type = 'person'. SHALL NOT be present if owner_type = 'entity'.",
       "examples": [
         "Maria"
       ]
     },
     "surname": {
       "type": "string",
-      "description": "Surname / family name of the natural person owning the account. Mandatory if owner_type = natural_person. SHALL NOT be present if owner_type = legal_person.",
+      "description": "Surname / family name of the natural person owning the account. Mandatory if owner_type = 'person'. SHALL NOT be present if owner_type = 'entity'.",
       "examples": [
         "Müller"
       ]
@@ -160,7 +160,7 @@
     },
     {
       "if": {
-        "properties": { "owner_type": { "const": "natural_person" } },
+        "properties": { "owner_type": { "const": "person" } },
         "required": ["owner_type"]
       },
       "then": {
