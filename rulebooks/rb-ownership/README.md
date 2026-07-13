@@ -2,7 +2,8 @@
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
-  * [Stephan-A Fuchs, Deutsche Bank]
+  * [Stephan Fuchs, Deutsche Bank AG]
+
 * Reviewer(s):
   * [Baumgardt Michaela, Commerzbank]
   * [Ricky Lamberty, Robert Bosch GmbH]
@@ -13,14 +14,14 @@
 | 0.1     | 23.03.2026 | Initial draft based on the WeBuild design attestations meetings                        |
 | 0.2     | 10.05.2026 | Updates for addresses and identifiers                                                  |
 | 0.4     | 01.06.2026 | Updates of content - legal arrangements                                                |
-| 0.8     | 24.06.2026 | Updates of content based on the submission regulation and AMLR/RTS and BODS vocabulary |
-| 0.9     | 29.06.2026 | Updates of BODS vocabulary                                                             |
+| 0.7     | 24.06.2026 | Updates of content based on the submission regulation and AMLR/RTS and BODS vocabulary |
+| 0.8     | 29.06.2026 | Updates of BODS vocabulary                                                             |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
 
 * Contact:
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)
-* Feedback:
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
 
----
+* Feedback:
 
 ## 1 Introduction
 
@@ -32,7 +33,7 @@ A Shareholder or Economic Interest Holder is any natural person, legal entity, o
 arrangement that directly or indirectly holds an ownership stake or economic interest in a
 legal entity.
 
-### 1.1 Document scope and purpose
+### 1.1 Document Scope and Purpose
 
 The Ownership Attestation records all natural persons, legal entities, and legal arrangements
 holding direct or indirect ownership interests in a legal entity, providing comprehensive
@@ -44,49 +45,45 @@ and anti-money laundering (AML) obligations.
 **Design Decisions**
 
 This Ownership Attestation Rulebook is based on:
+- AMLR – Regulation (EU) 2024/1624 of the European Parliament and of the Council of 31 May 2024 on the prevention of the use of the financial system for the purposes of money laundering or terrorist financing.
 - The EU Anti-Money Laundering Regulation (AMLR 2024/1624) as the primary regulatory driver for beneficial ownership transparency obligations
 - The EUDI Wallet ecosystem and eIDAS 2 framework as the digital identity infrastructure
 - The SD-JWT VC specification (draft-ietf-oauth-sd-jwt-vc-09) for verifiable credential
   encoding
-- ISO 3166-1 alpha-2 for country and jurisdiction codes
-- ISO 8601 for date formatting
-- ISO 17442 for Legal Entity Identifier (LEI) codes
+- Regulatory Technical Standards (RTS) – Draft Regulatory Technical Standards under Article 28(1) of Regulation (EU) 2024/1624, specifying the requirements for identifying beneficial owners and the information to be collected for beneficial ownership determination.
+- Beneficial Ownership Submission Regulation – Commission on Implementing Regulation (EU) [number] on the formats for submitting beneficial ownership information.
+- Beneficial Ownership Data Standard (BODS) version 0.4
 
-### 1.2 Document structure
-
+### 1.2 Document Structure
 This Rulebook is structured as follows:
 
-- Chapter 2 describes the attestation attributes and metadata in an encoding-independent  manner, including the data model.
+- Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner, including the data model.
 - Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2 covers SD-JWT VC-based encoding.
-- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration   with KYC/KYS workflows.
+- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines revocation mechanisms for the attestation.
-- Chapter 7 provides compliance information regarding the EBW framework, AML regulations, corporate governance standards, and applicable data protection laws.
-- Chapter 8 provides references to applicable standards and specifications.
+- Chapter 7 provides compliance information regarding the EUDI framework and applicable data protection laws.
 
 ### 1.3 Keywords
 
-This document uses the capitalised keywords `SHALL`, `SHOULD`, and `MAY` as specified in
-[RFC 2119], i.e. to indicate requirements, recommendations, and options specified in this
-document.
+This document uses the capitalised keywords `SHALL`, `SHOULD` and `MAY` as specified in
+[RFC 2119], i.e. to indicate requirements, recommendations and options specified in this document.
 
 In addition, `must` (non-capitalised) is used to indicate an external constraint, i.e. a
-requirement that is not mandated by this document, but for instance by an external document.
-The word `can` indicates a capability, whereas other words such as `will`, `is`, or `are` are
-intended as statements of fact.
+requirement that is not mandated by this document, but, for instance, by an external document.
+The word `can` indicates a capability, whereas other words, such as `will`, and `is` or `are`
+are intended as statements of fact.
 
 ### 1.4 Terminology
 
-This document uses the terminology specified in Annex 1 of the ARF.
+*Additional terminology specific to this attestation:*
 
-**Additional terminology specific to this attestation:**
-
-| **Term**                                           | **Definition**                                                                                                                                                                                         |
-|----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Term                                               | Definition                                                                                                                                                                                              |
+|----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Ownership                                          | A comprehensive record of all natural and legal persons holding direct or indirect ownership or control in a legal entity, including ownership percentages and supporting evidence                      |
-| Beneficial Owner / Ultimate Beneficial Owner (UBO) | A natural person who ultimately owns or controls a legal entity, either directly or indirectly (typically defined as holding ≥25% ownership or control, per AMLD requirements)                         |
+| Beneficial Owner / Ultimate Beneficial Owner (UBO) | A natural person who ultimately owns or controls a legal entity, either directly or indirectly (typically defined as holding ≥25% ownership or control, per AMLD requirements)                          |
 | Direct Ownership                                   | Ownership interest held directly by a natural or legal person in the subject entity, without intermediary entities                                                                                      |
-| Indirect Ownership                                 | Ownership interest held through one or more intermediary legal entities (e.g., Person A owns 50% of Company B, which owns 60% of Company C → Person A has 30% indirect ownership in Company C)         |
+| Indirect Ownership                                 | Ownership interest held through one or more intermediary legal entities (e.g., Person A owns 50% of Company B, which owns 60% of Company C → Person A has 30% indirect ownership in Company C)          |
 | Total Ownership                                    | The sum of direct and indirect ownership percentages across all layers of the ownership structure                                                                                                       |
 | Ownership Category                                 | Classification of the type of ownership or control relationship (e.g., shareholder, controller via voting rights, trustee, partner, holder of convertible rights, person exercising dominant influence) |
 | Legal Entity Identifier Chain                      | The list of all intermediate legal entities through which indirect ownership is held, enabling full traceability of ownership layers                                                                    |
@@ -94,11 +91,9 @@ This document uses the terminology specified in Annex 1 of the ARF.
 | KYS                                                | Know Your Supplier – due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                             |
 | PEP                                                | Politically Exposed Person – individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                         |
 | EUCC                                               | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                                                                      |
-| Evidence                                           | Supporting documentation substantiating the ownership structure (e.g., shareholder register, organizational chart, trust deed)                                                                         |
-| Legal Arrangement                                  | A non-corporate structure (e.g., trust, foundation, fiduciary arrangement) used to hold assets or exercise control over a legal entity                                                                 |
-| Identifier                                         | A formal reference code used to uniquely identify a legal entity (e.g., EUID, LEI, national tax or registry number)                                                                                    |
-
----
+| Evidence                                           | Supporting documentation substantiating the ownership structure (e.g., shareholder register, organizational chart, trust deed)                                                                          |
+| Legal Arrangement                                  | A non-corporate structure (e.g., trust, foundation, fiduciary arrangement) used to hold assets or exercise control over a legal entity                                                                  |
+| Identifier                                         | A formal reference code used to uniquely identify a legal entity (e.g., EUID, LEI, national tax or registry number)                                                                                     |
 
 ## 2 Attestation Attributes and Metadata
 
@@ -109,8 +104,10 @@ ownership across complex, multi-tiered corporate structures.
 
 ### 2.1 Introduction
 
-The Owner model supports three distinct owner types: natural persons (`Person`), legal entities
-(`Entity`), and legal arrangements (a subtype of `Entity` — e.g., trusts, foundations).
+The Owner model supports three distinct owner types: 
+- natural persons (`Person`), 
+- legal entities(`Entity`), 
+- and legal arrangements (a subtype of `Entity` — e.g., trusts, foundations).
 
 **Data Model:**
 
@@ -160,13 +157,9 @@ Owner [1..n]                                    // The person or entity that hol
 │  ├─ url (uri) (O)                            // URI to publicly accessible source document
 │  └─ data (base64) (O)                        // Base64-encoded — required if url absent
 ```
-Note:
-M - Mandatory
-O - Optional
-
+*Note*: M - mandatory / O - optional.
 
 **Explanation:**
-
 - The attestation SHALL contain at least one `Owner` entry of `type = "Person"` to comply with
   AML requirements mandating identification of the natural persons who ultimately own or control
   the entity (Ultimate Beneficial Owners).
@@ -237,8 +230,6 @@ This attestation type MAY be classified as:
 - **`QEAA`** when issued by a qualified trust service provider (QTSP) or authorized competent
   body that can independently attest the ownership structure (e.g., based on official company
   register data, audited financial statements, or notarized documentation).
-
----
 
 #### Terms primarily relevant to a `Person` Owner
 
@@ -392,7 +383,7 @@ interests in another legal entity.
 
 | **Data Identifier**   | **Semantic Reference** | **Definition**                                                                         | **Data Type** |
 |-----------------------|------------------------|----------------------------------------------------------------------------------------|---------------|
-| `entity.category`     | —                      | Classification — SHALL be `"legal_entity"` or `"legal_arrangement"`                    | Enum (String) |
+| `entity.category`     | -                      | Classification — SHALL be `"legal_entity"` or `"legal_arrangement"`                    | Enum (String) |
 | `entity.name`         | —                      | Complete official registered name of the entity or legal arrangement                   | String        |
 | `entity.identifier`   | —                      | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present                    | Object        |
 | `entity.jurisdiction` | —                      | ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled | String        |
@@ -443,8 +434,6 @@ interests in another legal entity.
 | `evidence[n].id`    | —                      | Unique identifier, URI, or URN of the source or evidence document                       | String        |
 | `evidence[n].type`  | —                      | Type of evidence document — SHALL use a value from Section 2.8.9                        | String        |
 
----
-
 ### 2.3 Optional Attributes
 
 **Person Owner Optional Attributes**
@@ -473,8 +462,6 @@ interests in another legal entity.
 | `evidence[n].url`   | —                      | URI reference to the publicly accessible source or evidence document                             | URI             |
 | `evidence[n].data`  | —                      | Base64-encoded source document — SHALL be provided if `url` is absent or not publicly accessible | String (base64) |
 
----
-
 ### 2.4 Conditional Attributes
 
 | **Condition**                                          | **Applicable Attributes**                                                                      | **Rule**                                                                           |
@@ -485,24 +472,25 @@ interests in another legal entity.
 | `entity.form = "trust"`                                | `entity.subtype_info.settlement`, `entity.subtype_info.purpose`, `entity.subtype_info.assets`  | The `subtype_info` object SHALL be present and all three fields SHALL be populated |
 | `evidence[n].url` is absent or not publicly accessible | `evidence[n].data`                                                                             | `evidence[n].data` (base64-encoded) SHALL be provided                              |
 
----
-
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**          | **Definition**                                                                                                                            | **Data Type**  |
-|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|----------------|
-| `attestation_legal_category` | Legal category of this attestation — SHALL be `"EAA"` or `"QEAA"` — NOT selectively disclosable                                           | String         |
+| **Data Identifier**        | **Definition**                                                                | **Data type** |
+|----------------------------|-------------------------------------------------------------------------------|---------------|
+| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
+| cnf                        | cryptographic Key Binding                                                                             | String        |
 
----
+*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
 
 ### 2.6 Optional Metadata
----
+
+| **Data Identifier** | **Definition**                                                             | **Data type** |
+|---------------------|----------------------------------------------------------------------------|---------------|
+| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
+| schema_version      | Version of the schema used for this attestation                            | String        |
 
 ### 2.7 Conditional Metadata
 
 No conditional metadata elements are defined for this attestation type.
-
----
 
 ### 2.8 Value Lists
 
@@ -599,8 +587,6 @@ All date attributes (e.g., `effective_date`, `person.birth_date`) SHALL follow t
 | `articlesOfAssociation`  | Entity            | Constitutional document defining ownership rights and governance      |
 | `governanceChart`        | Entity            | Organizational chart showing the ownership or control structure       |
 
----
-
 ### 2.9 Integrity Rules
 
 The following integrity rules SHALL be enforced:
@@ -629,75 +615,77 @@ The following integrity rules SHALL be enforced:
 | IR-20       | `entity.form` SHALL use a value from Section 2.8.6                                                                                                                                   |
 | IR-21       | Each `Owner` entry SHALL contain a non-empty `effective_date`                                                                                                                        |
 
----
-
 ## 3 Attestation Encoding
 
 ### 3.1 ISO/IEC 18013-5-Compliant Encoding
 
-ISO/IEC 18013-5 (mdoc) is **out of scope** for this Rulebook, as offline proximity
-presentation is not a current requirement for the Ownership Attestation.
+ISO/IEC 18013-5 (mdoc) is **out of scope** for this Rulebook, as offline proximity  presentation is not a current requirement for the Control Attestation.
 
 ### 3.2 SD-JWT VC-Based Encoding
 
-The Ownership Attestation uses the SD-JWT VC format to allow for selective disclosure of
-ownership structure attributes.
+The Ownership Attestation uses the SD-JWT VC format to allow for selective disclosure of ownership structure attributes.
 
 **Selective Disclosure:** Top-level claims (`owner`) SHALL be individually selectively
 disclosable, enabling a legal entity to disclose only the attributes requested by a Relying
 Party.
-
 The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:ownership:1`
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**           | **Attribute Identifier**                               | **Encoding Format**         | **Reference / Notes**                                                               | **Disclosable**    |
-|-------------------------------|--------------------------------------------------------|-----------------------------|-------------------------------------------------------------------------------------|--------------------|
-| `owner`                       | `owner`                                                | Array [Owner]               | SHALL contain at least one entry                                                    | MUST               |
-| `type`                        | `owner[n].type`                                        | String                      | `"Person"` \| `"Entity"`                                                            | MUST               |
-| **Person**                    |                                                        |                             |                                                                                     |                    |
-| `first_name`                  | `owner[n].person.first_name`                           | String                      | SHALL be non-empty                                                                  | MUST               |
-| `surname`                     | `owner[n].person.surname`                              | String                      | SHALL be non-empty                                                                  | MUST               |
-| `birth_date`                  | `owner[n].person.birth_date`                           | String (ISO 8601)           | ISO 8601 YYYY-MM-DD — optional                                                      | MAY                |
-| **Entity / LegalArrangement** |                                                        |                             |                                                                                     |                    |
-| `category`                    | `owner[n].entity.category`                             | String                      | `"legal_entity"` \| `"legal_arrangement"`                                           | MUST               |
-| `name`                        | `owner[n].entity.name`                                 | String                      | SHALL be non-empty                                                                  | MUST               |
-| `euid`                        | `owner[n].entity.identifier.euid`                      | String                      | European Unique Identifier — optional; at least one identifier field SHALL be present | MAY              |
-| `lei`                         | `owner[n].entity.identifier.lei`                       | String (20 chars)           | LEI per ISO 17442 — optional                                                        | MAY                |
-| `tax`                         | `owner[n].entity.identifier.tax`                       | String                      | National tax or registration number — optional                                      | MAY                |
-| `other`                       | `owner[n].entity.identifier.other`                     | String                      | Any other applicable identifier — optional                                          | MAY                |
-| `jurisdiction`                | `owner[n].entity.jurisdiction`                         | String (ISO 3166-1 alpha-2) | SHALL be non-empty                                                                  | MUST               |
-| `form`                        | `owner[n].entity.form`                                 | String                      | SHALL use values from Section 2.8.6                                                 | MUST               |
-| **subtype_info**              | `owner[n].entity.subtype_info`                         | Object                      | Mandatory when `entity.category = "legal_arrangement"` or `entity.form = "trust"`  | MUST (conditional) |
-| `settlement`                  | `owner[n].entity.subtype_info.settlement`              | String                      | Mandatory when `subtype_info` is present                                            | MUST (conditional) |
-| `purpose`                     | `owner[n].entity.subtype_info.purpose`                 | String                      | Mandatory when `subtype_info` is present                                            | MUST (conditional) |
-| `assets`                      | `owner[n].entity.subtype_info.assets`                  | String                      | Mandatory when `subtype_info` is present                                            | MUST (conditional) |
-| `reason_for_registration`     | `owner[n].entity.subtype_info.reason_for_registration` | String                      | Optional                                                                            | MAY                |
-| **Address**                   |                                                        |                             |                                                                                     |                    |
-| `street`                      | `owner[n].address.street`                              | String                      | SHALL be non-empty                                                                  | MUST               |
-| `house_number`                | `owner[n].address.house_number`                        | String                      | SHALL be non-empty                                                                  | MUST               |
-| `locality`                    | `owner[n].address.locality`                            | String                      | SHALL be non-empty                                                                  | MUST               |
-| `region`                      | `owner[n].address.region`                              | String                      | SHALL be non-empty                                                                  | MUST               |
-| `postal_code`                 | `owner[n].address.postal_code`                         | String                      | SHALL be non-empty                                                                  | MUST               |
-| `country`                     | `owner[n].address.country`                             | String (ISO 3166-1 alpha-2) | SHALL be non-empty                                                                  | MUST               |
-| **Interests**                 |                                                        |                             |                                                                                     |                    |
-| `type`                        | `owner[n].interests.type`                              | Array of Strings            | SHALL use values from Section 2.8.5 — at least one required                         | MUST               |
-| `level`                       | `owner[n].interests.level`                             | String                      | SHALL use values from Section 2.8.2                                                 | MUST               |
-| `percentage`                  | `owner[n].interests.percentage`                        | Decimal (0–100)             | SHALL be a decimal value in range 0–100                                             | MUST               |
-| `quantity`                    | `owner[n].interests.quantity`                          | uint                        | Non-negative integer                                                                | MUST               |
-| `description`                 | `owner[n].interests.description`                       | String                      | Free-text description — optional                                                    | MAY                |
-| `class`                       | `owner[n].interests.class`                             | String                      | SHALL use values from Section 2.8.1 — optional                                      | MAY                |
-| `rights`                      | `owner[n].interests.rights`                            | Array of Strings            | SHALL use values from Section 2.8.3                                                 | MUST               |
-| `effective_date`              | `owner[n].effective_date`                              | String (ISO 8601)           | Date ownership became effective — ISO 8601 YYYY-MM-DD                               | MUST               |
-| **Evidence**                  |                                                        |                             |                                                                                     |                    |
-| `id`                          | `owner[n].evidence[m].id`                              | String                      | Unique identifier, URI, or URN — SHALL be non-empty                                 | MUST               |
-| `type`                        | `owner[n].evidence[m].type`                            | String                      | SHALL use values from Section 2.8.9 — SHALL be non-empty                            | MUST               |
-| `url`                         | `owner[n].evidence[m].url`                             | URI                         | URI reference to source document — optional                                         | MAY                |
-| `data`                        | `owner[n].evidence[m].data`                            | String (base64)             | Base64-encoded source — SHALL be provided if `url` not publicly accessible          | MAY                |
-| **Metadata**                  |                                                        |                             |                                                                                     |                    |
-| `attestation_legal_category`  | `attestation_legal_category`                           | String                      | SHALL be `"EAA"` or `"QEAA"` — NOT selectively disclosable                         | MUST NOT           |
+| **Data Identifier**           | **Attribute Identifier**                               | **Encoding Format**         | **Reference / Notes**                                                                 | **Disclosable**    |
+|-------------------------------|--------------------------------------------------------|-----------------------------|---------------------------------------------------------------------------------------|--------------------|
+| `owner`                       | `owner`                                                | Array [Owner]               | SHALL contain at least one entry                                                      | MUST               |
+| `type`                        | `owner[n].type`                                        | String                      | `"Person"` \| `"Entity"`                                                              | MUST               |
+| **Person**                    |                                                        |                             |                                                                                       |                    |
+| `first_name`                  | `owner[n].person.first_name`                           | String                      | SHALL be non-empty                                                                    | MUST               |
+| `surname`                     | `owner[n].person.surname`                              | String                      | SHALL be non-empty                                                                    | MUST               |
+| `birth_date`                  | `owner[n].person.birth_date`                           | String (ISO 8601)           | ISO 8601 YYYY-MM-DD — optional                                                        | MAY                |
+| **Entity / LegalArrangement** |                                                        |                             |                                                                                       |                    |
+| `category`                    | `owner[n].entity.category`                             | String                      | `"legal_entity"` \| `"legal_arrangement"`                                             | MUST               |
+| `name`                        | `owner[n].entity.name`                                 | String                      | SHALL be non-empty                                                                    | MUST               |
+| `euid`                        | `owner[n].entity.identifier.euid`                      | String                      | European Unique Identifier — optional; at least one identifier field SHALL be present | MAY                |
+| `lei`                         | `owner[n].entity.identifier.lei`                       | String (20 chars)           | LEI per ISO 17442 — optional                                                          | MAY                |
+| `tax`                         | `owner[n].entity.identifier.tax`                       | String                      | National tax or registration number — optional                                        | MAY                |
+| `other`                       | `owner[n].entity.identifier.other`                     | String                      | Any other applicable identifier — optional                                            | MAY                |
+| `jurisdiction`                | `owner[n].entity.jurisdiction`                         | String (ISO 3166-1 alpha-2) | SHALL be non-empty                                                                    | MUST               |
+| `form`                        | `owner[n].entity.form`                                 | String                      | SHALL use values from Section 2.8.6                                                   | MUST               |
+| **subtype_info**              | `owner[n].entity.subtype_info`                         | Object                      | Mandatory when `entity.category = "legal_arrangement"` or `entity.form = "trust"`     | MUST (conditional) |
+| `settlement`                  | `owner[n].entity.subtype_info.settlement`              | String                      | Mandatory when `subtype_info` is present                                              | MUST (conditional) |
+| `purpose`                     | `owner[n].entity.subtype_info.purpose`                 | String                      | Mandatory when `subtype_info` is present                                              | MUST (conditional) |
+| `assets`                      | `owner[n].entity.subtype_info.assets`                  | String                      | Mandatory when `subtype_info` is present                                              | MUST (conditional) |
+| `reason_for_registration`     | `owner[n].entity.subtype_info.reason_for_registration` | String                      | Optional                                                                              | MAY                |
+| **Address**                   |                                                        |                             |                                                                                       |                    |
+| `street`                      | `owner[n].address.street`                              | String                      | SHALL be non-empty                                                                    | MUST               |
+| `house_number`                | `owner[n].address.house_number`                        | String                      | SHALL be non-empty                                                                    | MUST               |
+| `locality`                    | `owner[n].address.locality`                            | String                      | SHALL be non-empty                                                                    | MUST               |
+| `region`                      | `owner[n].address.region`                              | String                      | SHALL be non-empty                                                                    | MUST               |
+| `postal_code`                 | `owner[n].address.postal_code`                         | String                      | SHALL be non-empty                                                                    | MUST               |
+| `country`                     | `owner[n].address.country`                             | String (ISO 3166-1 alpha-2) | SHALL be non-empty                                                                    | MUST               |
+| **Interests**                 |                                                        |                             |                                                                                       |                    |
+| `type`                        | `owner[n].interests.type`                              | Array of Strings            | SHALL use values from Section 2.8.5 — at least one required                           | MUST               |
+| `level`                       | `owner[n].interests.level`                             | String                      | SHALL use values from Section 2.8.2                                                   | MUST               |
+| `percentage`                  | `owner[n].interests.percentage`                        | Decimal (0–100)             | SHALL be a decimal value in range 0–100                                               | MUST               |
+| `quantity`                    | `owner[n].interests.quantity`                          | uint                        | Non-negative integer                                                                  | MUST               |
+| `description`                 | `owner[n].interests.description`                       | String                      | Free-text description — optional                                                      | MAY                |
+| `class`                       | `owner[n].interests.class`                             | String                      | SHALL use values from Section 2.8.1 — optional                                        | MAY                |
+| `rights`                      | `owner[n].interests.rights`                            | Array of Strings            | SHALL use values from Section 2.8.3                                                   | MUST               |
+| `effective_date`              | `owner[n].effective_date`                              | String (ISO 8601)           | Date ownership became effective — ISO 8601 YYYY-MM-DD                                 | MUST               |
+| **Evidence**                  |                                                        |                             |                                                                                       |                    |
+| `id`                          | `owner[n].evidence[m].id`                              | String                      | Unique identifier, URI, or URN — SHALL be non-empty                                   | MUST               |
+| `type`                        | `owner[n].evidence[m].type`                            | String                      | SHALL use values from Section 2.8.9 — SHALL be non-empty                              | MUST               |
+| `url`                         | `owner[n].evidence[m].url`                             | URI                         | URI reference to source document — optional                                           | MAY                |
+| `data`                        | `owner[n].evidence[m].data`                            | String (base64)             | Base64-encoded source — SHALL be provided if `url` not publicly accessible            | MAY                |
+| **Metadata**                  |                                                        |                             |                                                                                       |                    |
+| `issuance_date`               | `iat`                                                  | Number (Unix timestamp)     | Date and time when the attestation was issued (ISO 8601); RFC 7519                    | MUST NOT           |
+| `expiry_date`                 | `exp`                                                  | Number (Unix timestamp)     | Date and time when the attestation expires (ISO 8601); RFC 7519                       | MUST NOT           |
+| `issuing_entity`              | `iss`                                                  | String (URI or DID)         | Identifier of the competent institution that issued the attestation; RFC 7519         | MUST NOT           |
+| `attestation_legal_category`  | `attestation_legal_category`                           | String                      | One of "EAA" or "QEAA" as defined by eIDAS 2                                          | MUST NOT           |
+| `vct`                         | `vct`                                                  | String                      | The vct definition                                                                    | MUST NOT           |
+| `cnf`                         | `cnf`                                                  | String                      | Cryptographic Key Binding                                                             | MUST NOT           |
+| `schema_version`              | `schema_version`                                       | String                      | Version of the schema used; optional                                                  | MAY                |
+| `trust_anchor_url`            | `trust_anchor_url`                                     | String (URI)                | URL where the trust anchor for verifying this attestation can be retrieved; optional  | MAY                |
 
 **Notes:**
 
@@ -739,10 +727,8 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
-3.2.3 Example Payload
-
-The following is a non-normative example of an Ownership SD-JWT VC payload demonstrating a
-natural person owner, a legal entity owner, and a legal arrangement owner:
+#### 3.2.3 Example Payload
+The following is a non-normative example of an Ownership SD-JWT VC payload demonstrating a  natural person owner, a legal entity owner, and a legal arrangement owner:
 ```
 {
   "vct": "eu.we-build:ownership:1",
@@ -888,35 +874,79 @@ natural person owner, a legal entity owner, and a legal arrangement owner:
   }
 }
 ```
+Sample payloads are provided under `../data-schemas/sd-jwt/sample-data/ownership-sd-jwt-sample.json`
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
 ## 4 Attestation usage
-### 4.1. Issuance process ###
 
-**Attestation**
+### 4.1. Issuance process ###
+**For EAA (Self-Issued / Standard Issuance)**:
+- The issuer (i.e., the legal entity itself) issues the attestation based on the information and supporting documentation available at the time of issuance.
+- The issuer is responsible for ensuring that the attested information remains accurate and must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
+
+**For QEAA (Qualified Issuance)**:
+- The issuer—either a Qualified Trust Service Provider (QTSP) or another authorized competent body—must issue and verify the attestation exclusively on the basis of authoritative sources, such as official company register data or audited financial statements.
+- The issuer is also responsible for maintaining a high level of assurance throughout the attestation's validity period by continuously monitoring the underlying information. If any change affecting the accuracy or validity of the attested data is detected, the issuer must promptly revoke the attestation.
+
 The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
 
 ### 4.2 Relying Party Obligations
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+
 ### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
-This chapter will be completed in a future version of this Rulebook.
+This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
+
+### 5.1 Qualified Electronic Attestations of Attributes (QEAAs)
+
+For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
+The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.
+
+Successful certificate chain validation establishes that:
+- the issuer's certificate was recognized within the applicable trust framework;
+- the issuer's identity has been validated by the supervisory authority during inclusion in the TLOL; and
+- the issuer satisfies the trust requirements applicable to QEAAs.
+
+In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.
+
+### 5.2 Electronic Attestations of Attributes (EAAs)
+
+For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
+The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
+
+The Relying Party SHALL verify the EBWOID in accordance with the verification procedure defined in this Rulebook. Upon successful verification, the Relying Party obtains:
+- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
+- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
+- the public key authorized to verify the EAA signature.
+
+Authorization of the issuer is subsequently determined in accordance with the Relying Party's internal policies. Such authorization MAY be based on locally maintained wallet configuration or on trusted jurisdiction- or domain-specific trust list services that identify issuers authorized for a particular type of EAA
 
 ## 6 Revocation
-This chapter will be completed in a future version of this Rulebook.
+An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
+
+### 6.1 Revocation Mechanism
+- Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
+- Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
+
+Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
+
+### 6.2 Revocation Triggers & Business Rules
+- QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
+- EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
+
+Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
+The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 7 References
-This chapter will be completed in a future version of this Rulebook.
-
-## 8 References
 
 | **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                |
 |----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

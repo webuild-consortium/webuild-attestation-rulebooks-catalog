@@ -2,17 +2,20 @@
 
 * Author(s):
   * [Ricky Lamberty, Robert Bosch GmbH]
-  * [Stephan-A Fuchs, Deutsche Bank]
+  * [Stephan-A Fuchs, Deutsche Bank AG]
 * Previous Authors:
 * Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH]
-  * Ivan Faltus, BankID
-  * @TODO Ricky — Add the reviewers from attestation design
+  * [Stefan, Kauhaus, Visa Inc.]
+  * [Ivan Faltus, BankID.CZ]
+  * [Filip Hladký, BankID.CZ]
+  * @Reviewers: Contact Ricky to be added in the Reviewers section if you're missing. 
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 | 0.2     | 17.06.2026 | Reviewed version based on the initial draft 					 |
+| 0.3     | 25.06.2026 | Alignment with data schema and natural persons requirements	 |
 
 * Contact:
   * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com)*
@@ -24,14 +27,13 @@
 ## 1 Introduction
 This attestation addresses the following question:
 
-**Is a specific IBAN legally owned by a designated legal entity, and has this ownership been verified and confirmed by the account-servicing financial institution?**
+**Is a specific IBAN legally owned by a designated legal entity or natural person, and has this ownership been verified and confirmed by the account-servicing financial institution?**
 
-The IBAN Ownership Verification (IBAN-OV) Attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or sole trader, enabling structured and fraud-resistant exchange of bank account ownership data for use in KYS, KYC, and payment compliance processes.
-
+The IBAN Ownership Verification (IBAN-OV) Attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person acting as a sole trader, enabling structured and fraud-resistant exchange of bank account ownership data for use in KYS, KYC, and payment compliance processes.
 
 ### 1.1 Attestation scope and purpose
 
-The IBAN-OV attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity (or soletraders which are registered in a national register). This verified proof of ownership can be used across various business processes (e.g. onboarding process, supporting payment-related triggers) to reduce errors and mitigate fraud risks. This attestation will not be used to initiate or execute any kind of payment.
+The IBAN-OV attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person (acting as soletraders which are registered in a national register). This verified proof of ownership can be used across various business processes (e.g. onboarding process, supporting payment-related triggers) to reduce errors and mitigate fraud risks. This attestation will not be used to initiate or execute any kind of payment.
 
 The IBAN-OV attestation will be provided within the RP registration process (e.g. bank account opening) or upon request from the legal entity owning the IBAN account. Its purpose is to ensure that, at a later stage, payments for delivered services or sold products can be properly attributed to the verified legal entity.
 
@@ -52,7 +54,8 @@ This IBAN-OV Attestation Rulebook is based on:
 
 This Rulebook is structured as follows:
 
-- Chapter 2 describes the attestation attributes and metadata in an encoding-independent   manner, including the data model.
+- Chapter 1 provides an introduction to the IBAN-OV attestation, including its scope and purpose, document structure, keywords, and terminology.
+- Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner, including the data model.
 - Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2 covers SD-JWT VC-based encoding.
 - Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
@@ -72,23 +75,25 @@ In addition, 'must' (non-capitalised) is used to indicate an external constraint
 | Term        | Description                                                                                                                                                                     |
 |-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | IBAN-OV     | IBAN Ownership Verification (IBAN-OV) — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
-| ASPSP[SF1.1]       | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account                                                                    |
+| ASPSP       | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account                                                                    |
 | IBAN        | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020                                    |
-| BIC/SWIFT   | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022                                               |
+| BIC/SWIFT   | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022                                         |
 | EUID        | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU                                                                          |
-| KYC         | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                                                         |
-| KYS         | Know Your Supplier — due diligence process for verifying supplier identity and integrity.
+| KYC         | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                                                        |
+| KYS         | Know Your Supplier — due diligence process for verifying supplier identity and integrity.																						|
+| Legal Person | A legal entity registered in a national or EU company register, identified by an EUID. For IBAN-OV purposes, the account owner in the legal_person case						|
 | Sole Trader | A natural person operating a business who is registered in a national register                                                                                                  |
-| ISO 4217:2015    | International standard defining currency codes (e.g., EUR, USD, GBP)                                                                                                           |
-| ISO 13616-1:2020   | International standard defining the IBAN format and validation rules                                                                                                            |
-| ISO 9362:2014    | International standard defining the BIC/SWIFT code format                                                                                                                       |
-| ISO 3166-1  | International standard defining country codes (Alpha-3 code)                                                                                                                                   |
+| Owner_Type  | A discriminator attribute within *Account_Ownership* that explicitly identifies whether the account owner is a legal person or a natural person.			     				|
+| ISO 4217:2015    | International standard defining currency codes (e.g., EUR, USD, GBP)                                                                                                       |
+| ISO 13616-1:2020   | International standard defining the IBAN format and validation rules                                                                                                     |
+| ISO 9362:2014    | International standard defining the BIC/SWIFT code format                                                                                                                  |
+| ISO 3166-1  | International standard defining country codes (Alpha-3 code)                                                                                                                    |
 
 ---
 
 ## 2 Attestation attributes and metadata
 
-The IBAN-OV Attestation is a document that provides verified information about the bank account details of the account owner. It ensures that a legal entity can confidentially prove to a third party that this IBAN also belongs to the same legal entity. 
+The IBAN-OV Attestation is a document that provides verified information about the bank account details of the account owner. It ensures that a legal entity (or natural person) can confidentially prove to a third party that this IBAN also belongs to the same legal entity (or natural person). 
 
 ### 2.1 Introduction
 
@@ -104,21 +109,21 @@ IBAN-OV Attestation
 │ └── account_currency
 │
 ├── Account_Ownership 
-│ ├── owner_name 
+│ ├── owner_type 
+│ └── owner_name		(mandatory if legal person, 'entity')
 │ └── euid
-│ ├── surname
-│ ├── name 
+│ ├── given_name		(mandatory if natural person, 'person')
+│ ├── surname			(mandatory if natural person, 'person')
 │
 └── Account_Provider
-├── provider_name
-├── euid
-├── provider_country
-├── bic_swift
-├── national_bank_code
-├── nace_code
-├── clearing_number
+  ├── provider_name
+  ├── euid
+  ├── provider_country
+  ├── bic_swift
+  ├── national_bank_code
+  ├── nace_code
+  ├── clearing_number
 ```
-
 
 **Explanation:**
 
@@ -145,17 +150,16 @@ This attestation type MAY be classified as:
 | account_name        | tbd                    | Name of the account, generated by the bank or customized by the owner. | String                                   |
 | iban                | tbd                    | International Bank Account Number, as defined in ISO 13616:2020.       | [A-Z]{2}[0-9A-Z]{13,30}                  |
 | account_type        | tbd                    | Nature of the bank account.                                            | String                                   |
-| account_currency    | tbd                    | Currency code(s) used for the account, as defined in ISO 4217:2015.    | Array (3-digit code(s)) — ISO 4217:2015  [SF2.1][SF2.2]|
+| account_currency    | tbd                    | Currency code(s) used for the account, as defined in ISO 4217:2015.    | Array (3-digit code(s)) — ISO 4217:2015  |
 
 **Account_Ownership Mandatory Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                                | **Data type** |
 |---------------------|------------------------|-----------------------------------------------------------------------------------------------|---------------|
-| owner_name          | tbd                    | Legal name of the legal person, or natural person in case of sole trader, owning the account. | String        |
-| euid                | tbd                    | The EUID as unique identifier of the legal person owning the account.                         | String        |
-
-*@Florin: Update additional optional attributes regarding natural person in case of a sole trader
-
+| owner_type          | tbd                    | Discriminator identifying whether the account owner is a legal person or a natural person.    | String - enum |
+| owner_name          | tbd                    | Legal name of the legal person owning the account.											   | String        | Mandatory if owner_type = entity
+| given_name	      | tbd                    | Given name(s) of the natural person owning the account.									   | String        | Mandatory if owner_type = person
+| surname	          | tbd                    | Surname / family name of the natural person owning the account.							   | String        | Mandatory if owner_type = person
 
 **Account_Provider Mandatory Attributes**
 
@@ -173,26 +177,38 @@ This attestation type MAY be classified as:
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                                | **Data type** |
 |---------------------|------------------------|-----------------------------------------------------------------------------------------------|---------------|
 | national_bank_code  | tbd                    | Country-specific code for internal routing within a specific country's clearing system.       | String        |
-| nace_code           | tbd                    | NACE code for activity specification (e.g. 64.19).                                            | String        |
+| nace_code           | tbd                    | NACE code for activity specification (e.g. 64.19) of the institution providing the account.   | String        |
 | clearing_number     | tbd                    | Clearing number for identification of the financial institution, used only in some countries. | String        |
 
-@Florin/Stephan: We need to specifiy the nace_code accordingly, currently not sufficiently specified.
+**Account_Ownershpi Optional Attributes**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                | **Data type** |
+|---------------------|------------------------|-----------------------------------------------------------------------------------------------|---------------|
+| euid 				  | tbd                    | Unique identification number of the owner of the account.                                     | String        |
+
 
 ### 2.4 Conditional attributes
 
-No conditional attributes are defined for this attestation type. All attributes are either mandatory or optional as specified above.
+The following conditional attributes are defined for the `Account_Ownership` object. Their presence is mandatory or prohibited depending on the value of `owner_type`:
 
+- owner_name SHALL be present if and only if owner_type = entity.
+- euid SHALL be present if and only if owner_type = entity.
+- given_name and surname SHALL be present if and only if owner_type = person.
+- given_name and surname SHALL NOT be present when owner_type = legal_person.
+
+This conditional structure is enforced via JSON Schema if/then validation (Draft 2020-12) in the accompanying data schema.
 
 
 ### 2.5 Mandatory metadata
 
 | **Data Identifier**        | **Definition**                                                                                                                                                     | **Data type** |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime [SF3.1][RL3.2]     |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime      |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations)                                   | String        |
+| iat			             | The date and time when the verifiable credential was issued (ISO 8601)                                                                                             | DateTime      |
+| exp		                 | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime      |
+| iss			             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations)                                  | String        |
 | attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                           | String        |
 | vct                        | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed                           | String        |
+| cnf                        | Cryptographic key binding element																										                          | String        |
 
 ### 2.6 Optional metadata
 
@@ -216,8 +232,8 @@ The `account_currency` attribute SHALL follow ISO 4217:2015 currency codes.
 | EUR      | Euro                 |
 | USD      | United States Dollar |
 | GBP      | Pound Sterling       |
-| CHF      | Swiss Franc      	|
-| …        | …                    |[RL4.1]
+| CHF      | Swiss Franc      	  |
+| …        | …                    |
 
 #### 2.8.2 Account Type Codes
 
@@ -231,9 +247,15 @@ The `account_type` attribute SHOULD use one of the following standardized values
 | LOAN             | Loan Account       |
 | OTHER            | Other              |
 
-NOTE: Was ist mit Country-Codes? (Alpha-3 country code)                                                                       [RL5.1]
+#### 2.8.3 OWner Type Codes
 
-### 2.9 Integrity Rules[SF6.1][SF24]
+| **Example Code** | **Definition**      |
+|------------------|---------------------|
+| person	  	   | Natural Person      |
+| entity		   | Legal Person/Entity |
+										
+
+### 2.9 Integrity Rules
 
 The following integrity rules SHALL be enforced:
 
@@ -243,12 +265,13 @@ The following integrity rules SHALL be enforced:
 - `bic_swift` SHALL conform to the ISO 9362:2022 format: [A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3}).
 - `provider_country` SHALL be a valid ISO 3166-1 alpha-3 country code.
 - `account_currency` SHALL contain at least one valid ISO 4217:2015 currency code.
-- `euid` in Account_Ownership SHALL be a non-empty string identifying the legal entity owning   the account.
+- `euid` in Account_Ownership SHALL be a non-empty string identifying the register entry of the account owner, regardless of whether the owner is a legal person or a natural person (sole trader).
 - `euid` in Account_Provider SHALL be a non-empty string identifying the issuing financial   institution.
 - Each attribute SHALL appear at most once in the attestation.
+- `owner_type` in Account_Ownership SHALL be present and SHALL contain exactly one of the values `legal_person` or `natural_person`.
+- If `owner_type` = `legal_person`, owner_name SHALL be present and `given_name` and `surname` SHALL NOT be present.
+- If `owner_type` = `natural_person`, `given_name` and `surname` SHALL both be present and `owner_name` MAY be present as a derived display name.
 - The attestation SHALL NOT be used to directly initiate or execute payments.
-
----
 
 ## 3 Attestation encoding
 
@@ -267,12 +290,6 @@ The `.` notation is used to indicate the nesting of attributes.
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build.iban-ov.1`
 
 
-
-
-
-
-
-
 #### 3.2.1 Attribute Encoding Table
 
 | **Data Identifier**        | **Attribute identifier**            | **Encoding format**     | **Reference/Notes**                                                                                     | **Disclosable** |
@@ -282,11 +299,12 @@ The `.` notation is used to indicate the nesting of attributes.
 | iban                       | bank_account.iban                   | String                  | ISO 13616:2020 format                                                                                   | MUST            |
 | account_type               | bank_account.account_type           | String                  | Nature of the bank account                                                                              | MUST            |
 | account_currency           | bank_account.account_currency       | Array of Strings        | ISO 4217:2015 currency codes                                                                            | MUST            |
-| **Account_Ownership**      |                                     |                         |                                                                                                         |                 |
-| owner_name                 | account_ownership.owner_name        | String                  | Legal name of account owner                                                                             | MUST            |
-| euid                       | account_ownership.euid              | String                  | EUID of the legal entity owning the account                                                             | MUST            |
-
-
+| **Account_Ownership**      |                                      |                         |                                                                                                        |                 |
+| owner_type                 | account_ownership.owner_type         | String                  | Discriminator identifying the owner type. Enum: `entity` \| `person`			                       | MUST            |
+| owner_name                 | account_ownership.owner_name         | String                  | Legal name of the legal entity owning the account. Present only if `owner_type = entity`	           | MUST            |
+| euid                       | account_ownership.euid               | String                  | EUID of the owner of the account																	   | MUST			 |   
+| given_name           	     | account_ownership.given_name         | String                  | Given name(s) of the natural person owning the account. Present only if `owner_type = person`          | MUST            |
+| surname                    | account_ownership.surname            | String                  | Surname of the natural person owning the account. Present only if `owner_type = person`                | MUST            |
 | **Account_Provider**       |                                     |                         |                                                                                                         |                 |
 | provider_name              | account_provider.provider_name      | String                  | Name of the financial institution                                                                       | MUST            |
 | bank_identifier            | account_provider.euid               | String                  | EUID of the financial institution                                                                       | MUST            |
@@ -298,11 +316,12 @@ The `.` notation is used to indicate the nesting of attributes.
 | **Metadata**               |                                     |                         |                                                                                                         |                 |
 | issuance_date              | iat                                 | Number (Unix timestamp) | ISO 8601 — RFC 7519 / Section 2.5                                                                       | MUST NOT        |
 | expiry_date                | exp                                 | Number (Unix timestamp) | ISO 8601 — RFC 7519 / Section 2.5                                                                       | MUST NOT        |
-| issuing_entity             | issuing_entity                      | String                  | Identifier of the issuing financial institution                                                         | MUST NOT        |
+| issuing_entity             | iss				                   | String                  | Identifier of the issuing financial institution                                                         | MUST NOT        |
 | attestation_legal_category | attestation_legal_category          | String                  | "EAA" defined by eIDAS 2                                                                   | MUST NOT        |
 | vct                        | vct                                 | String                  | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential | MUST            |
 | schema_version             | schema_version                      | String                  | Version of the schema used for this attestation                                                         | MAY             |
 | trust_anchor_url           | trust_anchor_url                    | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved                              | MAY             |
+
 
 **Notes:**
 
@@ -342,7 +361,8 @@ Example:
 ```
 
 #### 3.2.3 Example Payload
-The following is a non-normative example of an IBAN-OV SD-JWT VC payload:
+
+The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a **legal person**:
 
 ```json
 {
@@ -356,10 +376,11 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload:
   "bank_account": {
     "account_name": "Company A Main Account",
     "iban": "DE89370400440532013000",
-    "account_type": "CACC",
+    "account_type": "CURRENT",
     "account_currency": ["EUR"]
   },
   "account_ownership": {
+    "owner_type": "entity",
     "owner_name": "Company A GmbH",
     "euid": "DE-HRB-123456"
   },
@@ -380,11 +401,51 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload:
   }
 }
 ```
+
+The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a **natural person (sole trader)**:
+
+```json
+{
+  "vct": "eu.we-build.iban-ov.1",
+  "iss": "https://bank.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:bank-123",
+  "attestation_legal_category": "EAA",
+  "schema_version": "1.0",
+  "bank_account": {
+    "account_name": "Maria Müller Consulting",
+    "iban": "DE89370400440532013001",
+    "account_type": "CURRENT",
+    "account_currency": ["EUR"]
+  },
+  "account_ownership": {
+    "owner_type": "person",
+    "given_name": "Maria",
+    "surname": "Müller"
+  },
+  "account_provider": {
+    "provider_name": "Example Bank AG",
+    "bank_identifier": "DE-HRB-654321",
+    "provider_country": "DEU",
+    "bic_swift": "DEUTDEDB",
+    "national_bank_code": "37040044",
+    "nace_code": "64.19",
+    "clearing_number": "37040044"
+  },
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://bank.example.com/status/iban-ov/2025",
+    "status_list_index": 457,
+    "status_purpose": "revocation"
+  }
+}
+```
+
 Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/iban-ov-sd-jwt-sample.json
 
 #### 3.3 W3C Verifiable Credentials Data Model-based encoding
-@TODO — To be discussed: which stakeholders will support this format and which use cases require it.
-
+...
 
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
@@ -408,6 +469,8 @@ Validation of integrity and policy rules will be specified in a future version o
 - The Relying Party SHALL verify that the `IBAN conforms` to ISO 13616:2020 format.
 - The Relying Party SHALL verify that the `bic_swift` conforms to ISO 9362 format.
 - The Relying Party SHALL verify that the `expiry_date` is after the issuance_date.
+- The Relying Party SHALL verify that owner_type is present in account_ownership and contains exactly one of the permitted values ('entity', 'person').
+- The Relying Party SHALL verify that the name attributes present in account_ownership are consistent with the declared owner_type: owner_name for legal persons; given_name and surname for natural persons.
 - Additional validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors

@@ -2,36 +2,32 @@
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
-  * [Stephan-A Fuchs, Deutsche Bank  ]
-    
-* Previous Authors
+  * [Stephan-A Fuchs, Deutsche Bank AG]
 
 * Reviewer(s):
+  * [Baumgardt Michaela, Commerzbank ]
+  * [Bastek-Margon Jenny, CommerzBank ]
+  * [Ricky Lamberty, Robert Bosch GmbH]
   * [Auth Sources]
     * [ ......Bundesanzeiger, Germany ]
     * [..... KVK, Holland ]
     * [ ..., Italy ]
-  * [Banks]
-    * [Bastek-Margon Jenny, CommerzBank ]
-    * [Baumgardt Michaela, Commerzbank ]
-  * [Ricky Lamberty, Robert Bosch GmbH]
   * @TODO Florin — Add the reviewers from attestation design (meetings UseCase, Banks,TransparentRegister)
- 
+
 
 | Version | Date       | Description                                                       |
 |---------|------------|-------------------------------------------------------------------|
 | 0.1     | 13.03.2026 | Initial draft based on the WeBuild design attestations mettings   |
 | 0.2     | 20.04.2026 | updates in regard to the comments and legislation                 |
 | 0.4     | 01.06.2026 | Updates of content - legal arrangements                           |
-| 0.8     | 24.06.2026 | Updates of content based on the submisson regulation and AMLR/RTS |
-| 0.9     | 29.06.2026 | Updates of content based on BOS - vocabulary                      |
+| 0.7     | 24.06.2026 | Updates of content based on the submisson regulation and AMLR/RTS |
+| 0.8     | 29.06.2026 | Updates of content based on BOS - vocabulary                      |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)*
 
 * Feedback:
-
----
 
 ## 1 Introduction
 
@@ -49,7 +45,7 @@ AMLR Article 3(17):
   investment undertaking;
 - (c) they control the activities of the collective investment undertaking through other means
 
-### 1.1 Document scope and purpose
+### 1.1 Document Scope and Purpose
 
 The UBO Attestation captures the essential attributes of a natural person who qualifies as an
 ultimate beneficial owner of a legal entity — including personal identity, nationality,
@@ -59,38 +55,34 @@ machine-readable, selectively disclosable format compliant with the EUDI Wallet 
 **Design Decisions**
 
 This UBO Attestation Rulebook is based on:
-
-- AMLR 2024/1624 for beneficial ownership definitions and requirements
-- EUDI Wallet / eIDAS 2.0 framework for digital identity and verifiable attestations
-- ISO 8601 for date formatting
-- ISO 3166-1 for country codes
+- AMLR – Regulation (EU) 2024/1624 of the European Parliament and of the Council of 31 May 2024 on the prevention of the use of the financial system for the purposes of money laundering or terrorist financing.
+- The EU Anti-Money Laundering Regulation (AMLR 2024/1624) as the primary regulatory driver for beneficial ownership transparency obligations
+- The EUDI Wallet ecosystem and eIDAS 2 framework as the digital identity infrastructure
+- The SD-JWT VC specification (draft-ietf-oauth-sd-jwt-vc-09) for verifiable credential
+  encoding
 - ICAO 9303 for travel document types and number formats
+- Regulatory Technical Standards (RTS) – Draft Regulatory Technical Standards under Article 28(1) of Regulation (EU) 2024/1624, specifying the requirements for identifying beneficial owners and the information to be collected for beneficial ownership determination.
+- Beneficial Ownership Submission Regulation – Commission on Implementing Regulation (EU) [number] on the formats for submitting beneficial ownership information.
+- Beneficial Ownership Data Standard (BODS) version 0.4
 
-### 1.2 Document structure
-
+### 1.2 Document Structure
 This Rulebook is structured as follows:
 
-- Chapter 2 describes the UBO attestation attributes and metadata in an encoding-independent
-  manner, including the data model.
-- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2
-  covers SD-JWT VC-based encoding.
-- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration
-  with KYC/KYS and AML workflows.
+- Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner, including the data model.
+- Chapter 3 specifies how the attestation attributes and metadata are encoded: Section 3.2 covers SD-JWT VC-based encoding.
+- Chapter 4 specifies attestation usage scenarios, Relying Party obligations, and integration with KYC/KYS workflows.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines revocation mechanisms for the attestation.
-- Chapter 7 provides compliance information regarding the EUDI framework, AML regulations,
-  and applicable data protection laws.
-- Chapter 8 provides references to applicable standards and specifications.
+- Chapter 7 provides compliance information regarding the EUDI framework and applicable data protection laws.
 
 ### 1.3 Keywords
 
-This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as specified in
-[RFC 2119], i.e. to indicate requirements, recommendations and options specified in this
-document.
+This document uses the capitalised keywords `SHALL`, `SHOULD` and `MAY` as specified in
+[RFC 2119], i.e. to indicate requirements, recommendations and options specified in this document.
 
-In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e. a
+In addition, `must` (non-capitalised) is used to indicate an external constraint, i.e. a
 requirement that is not mandated by this document, but, for instance, by an external document.
-The word 'can' indicates a capability, whereas other words, such as 'will', and 'is' or 'are'
+The word `can` indicates a capability, whereas other words, such as `will`, and `is` or `are`
 are intended as statements of fact.
 
 ### 1.4 Terminology
@@ -98,32 +90,32 @@ are intended as statements of fact.
 
 *Additional terminology specific to this attestation:*
 
-| **Term**                      | **Description**                                                                                                                               |
-|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| UBO                           | Ultimate Beneficial Owner — a natural person who ultimately owns or controls a legal entity, as defined under AMLR 2024/1624                  |
-| NaturalPerson                 | The natural person identified as a UBO, including their personal identity attributes                                                          |
-| BirthPlace                    | The place of birth of the natural person, including locality and country                                                                      |
-| Citizenship                   | The nationality or nationalities held by the natural person                                                                                   |
-| ResidenceAddress              | The registered residential address of the natural person                                                                                      |
-| ContactAddress                | An optional alternative contact address for the natural person                                                                                |
-| NaturalPersonIdentifier       | A government-issued identity document (e.g., passport, national ID card) used to identify the natural person                                  |
-| NaturalPersonUniqueIdentifier | An optional unique identifier issued by an authority to uniquely identify the natural person across systems                                   |
-| Justification                 | The object describing how and why the person qualifies as a UBO under applicable AML thresholds and control criteria                          |
-| threshold_met                 | The applicable AML threshold(s) or control criteria met by the UBO — see Section 2.8.2                                                        |
-| ownership_percentage          | The total direct and indirect ownership percentage held by the UBO (0–100)                                                                    |
-| voting_rights_percentage      | The total direct and indirect voting rights percentage held by the UBO (0–100)                                                                |
-| control_details               | Free text description of control exercised through means other than ownership percentage                                                      |
-| effective_date                | The date from which the UBO status has been effective                                                                                         |
-| source                        | Supporting evidence substantiating the UBO determination                                                                                      |
-| KYC                           | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                      |
-| KYS                           | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                   |
-| AML                           | Anti-Money Laundering — regulatory framework requiring financial institutions and obliged entities to identify and report suspicious activity |
-| AMLR                          | Anti-Money Laundering Regulation — EU Regulation 2024/1624 establishing harmonised AML/CFT rules across the EU                                |
-| ISO 3166-1                    | International standard defining country codes (alpha-2 and alpha-3 formats)                                                                   |
-| ISO 8601                      | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                   |
-| ICAO 9303                     | International Civil Aviation Organization standard for travel documents, defining document types and number formats                           |
+| Term                           | Description                                                                                                                                   |
+|--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| UBO                            | Ultimate Beneficial Owner — a natural person who ultimately owns or controls a legal entity, as defined under AMLR 2024/1624                  |
+| NaturalPerson                  | The natural person identified as a UBO, including their personal identity attribute (first name, surname and birth date)                      |
+| BirthPlace                     | The place of birth of the natural person, including locality and country                                                                      |
+| Citizenship                    | The nationality or nationalities held by the natural person                                                                                   |
+| ResidenceAddress               | The registered residential address of the natural person                                                                                      |
+| ContactAddress                 | An optional alternative contact address for the natural person                                                                                |
+| NaturalPersonIdentifier        | A government-issued identity document (e.g., passport, national ID card) used to identify the natural person                                  |
+| NaturalPersonUniqueIdentifier  | An optional unique identifier issued by an authority to uniquely identify the natural person across systems                                   |
+| Justification                  | The object describing how and why the person qualifies as a UBO under applicable AML thresholds and control criteria                          |
+| threshold_met                  | The applicable AML threshold(s) or control criteria met by the UBO — see Section 2.8.2                                                        |
+| ownership_percentage           | The total direct and indirect ownership percentage held by the UBO (0–100)                                                                    |
+| voting_rights_percentage       | The total direct and indirect voting rights percentage held by the UBO (0–100)                                                                |
+| control_details                | Free text description of control exercised through means other than ownership percentage                                                      |
+| effective_date                 | The date from which the UBO status has been effective                                                                                         |
+| source                         | Supporting evidence substantiating the UBO determination                                                                                      |
+| KYC                            | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                      |
+| KYS                            | Know Your Supplier — due diligence process for verifying supplier credentials, integrity, and risk exposure                                   |
+| AML                            | Anti-Money Laundering — regulatory framework requiring financial institutions and obliged entities to identify and report suspicious activity |
+| AMLR                           | Anti-Money Laundering Regulation — EU Regulation 2024/1624 establishing harmonised AML/CFT rules across the EU                                |
+| ISO 3166-1                     | International standard defining country codes (alpha-2 and alpha-3 formats)                                                                   |
+| ISO 8601                       | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                   |
+| ICAO 9303                      | International Civil Aviation Organization standard for travel documents, defining document types and number formats                           |
 
-## 2 Attestation attributes and metadata
+## 2 Attestation Attributes and Metadata
 
 The Ultimate Beneficial Owner (UBO) Attestation provides a standardized, verifiable
 representation of the natural persons who ultimately own or control a legal entity. It enables
@@ -133,58 +125,67 @@ supplier onboarding, and regulatory due diligence processes.
 
 ### 2.1 Introduction
 
-**Data Model:**
+This UBO  Attestation Rulebook is specifically designed to comply with AMLR 2024/1624:
+*Article 3(17) – Definition of Beneficial Owner:*
+*Article 60 – Beneficial Ownership Registers:*
+*Article 62 – Beneficial Ownership Information Requirements:*
 
+The names of attributes is based on the : Beneficial Ownership Submission Regulation – Commission on Implementing Regulation (EU) [number] on the formats for submitting beneficial ownership information.
+because the company need to provided to the TR, then provided to the Bank 
+and the Bank need to check it afterwards into TR.
+**Data Model:*
+
+The UBO model follows a hierarchical structure:
 ```
 UBO [1...n]
 ├─ jurisdiction (tstr) (M)
-├─ person (M)
-│   ├─ first_name (tstr) (M)
+├─ person (Object) (M)
+│   ├─ first_name (tstr) (M)      
 │   ├─ surname (tstr) (M)
-│   ├─ birth_date (date) (O)  date_of_birth
-├─ birth_place 
+│   ├─ birth_date (date) (M)      
+├─ birth_place (Object) (M)
 │   ├── locality (M)
 │   ├── country (M)
 │   └── region (O)
 ├─ citizenship
 │   └── citizenship(s) [1..n] (M)
-├─ residential_address (M)
+├─ residential_address (Object)(M)
 │   ├── street (M)
 │   ├── house_number (M)
 │   ├── locality (M)
 │   ├── region (M)
 │   ├── postal_code (M)
 │   └── country (M)
-├─ contact_address (optional)
+├─ contact_address (Object) (O)
 │   ├── street (M)
 │   ├── house_number (M)
 │   ├── locality (M)
 │   ├── region (M)
 │   ├── postal_code (M)
 │   └── country(s)
-├─ person_identifier
+├─ person_identifier (Object) M
 │   ├── document_type (M)
 │   ├── document_number (M)
 │   ├── issuing_country (M)
 │   └── expiry_date (M)
-├─ person_unique_identifier (optional)
+├─ person_unique_identifier (Object) (O)
 │   ├── identifier_unique (O)
 │   └── identifier_issuing_authority (O)
-├─ justification (M)                  // How this person qualifies as UBO
-│   ├─ threshold_met (Array of enum) (M)  // e.g., "ownership_25_plus", "control_voting_25_plus", "control_management"
-│   ├─ ownership_percentage (Decimal) (O) // Total direct/indirect ownership percentage
-│   ├─ voting_rights_percentage (Decimal) (O) // Total direct/indirect voting rights percentage
-│   └─ control_details (tstr) (O)         // Free text if control is via other means
-├─ effective_date (date) (M)              // Date when this UBO status became effective
-└─ source [1..n] (at least one piece of supporting evidence required) // Information about the source of this statement
-│   ├─ id (tstr) (M)
-│   ├─ type (tstr) (M)
-│   └─ url (uri) (O)
-│   └─ data (base64) (O)    
+├─ justification (Object) (M)                           // How this person qualifies as UBO
+│   ├─ threshold_met (Array of enum) (M)       // e.g., "ownership_25_plus", "control_voting_25_plus", "control_management"
+│   ├─ ownership_percentage (Decimal) (O)      // Total direct/indirect ownership percentage
+│   ├─ voting_rights_percentage (Decimal) (O)  // Total direct/indirect voting rights percentage
+│   └─ control_details (tstr) (O)              // Free text if control is via other means
+├─ effective_date (date) (M)                   // Date when this UBO status became effective
+└─ evidence [1..n] (M)                         // At least one evidence entry required
+│  ├─ id (tstr) (M)                            // Unique identifier, URI, or URN
+│  ├─ type (tstr) (M)                          // Evidence type — see Section 2.8.9
+│  ├─ url (uri) (O)                            // URI to publicly accessible source document
+│  └─ data (base64) (O)                        // Base64-encoded — required if url absent
 ```
+*Note*: M - mandatory / O - optional.
 
 **Explanation:**
-
 - The attestation **MAY** contain one or more UBO entries (`[1...n]`), one per identified
   ultimate beneficial owner.
 - `person`, `birth_place`, `citizenship`, `residential_address`, `person_identifier`,
@@ -203,9 +204,12 @@ UBO [1...n]
 
 This attestation type MAY be classified as:
 
-- **`EAA`** when self-issued by the legal entity subject to the UBO disclosure obligation.
-- **`QEAA`** when issued by a qualified trust service provider (QTSP) or authorised competent
-  body (e.g., a notary, commercial register authority, or AML-supervised entity).
+- **`EAA`** self-issued by the legal entity as part of its Ultimate Beneficial Owner (UBO) disclosure obligations.
+- **`QEAA`** issued by a Qualified Trust Service Provider (QTSP) or an authorized competent body (e.g., a notary, commercial register authority, or AML-supervised entity).
+  body (e.g., a notary, commercial register authority or AML-supervised entity).
+  Is the obligation of the QTSP to
+  - verify that the calculated UBO data is fully available
+  - cross-check the calculations against the TR record
 
 **Attribute Overview:**
 
@@ -213,7 +217,7 @@ This attestation type MAY be classified as:
 |----------------------------|------------------------|------------------------------------------------------------|---------------------------------------|
 | `person`                   | —                      | Personal identity attributes of the UBO                    | Object                                |
 | `birth_place`              | —                      | Place of birth of the UBO                                  | Object                                |
-| `citizenship`              | —                      | Citizenship(s) held by the UBO (one or more nationalities) | Array of Strings (ISO 3166-1 alpha-2) |
+| `citizenship`              | -                      | Citizenship(s) held by the UBO (one or more nationalities) | Array of Strings (ISO 3166-1 alpha-2) |
 | `residential_address`      | —                      | Registered residential address of the UBO                  | Object                                |
 | `contact_address`          | —                      | Optional alternative contact address of the UBO            | Object                                |
 | `person_identifier`        | —                      | Government-issued identity document details of the UBO     | Object                                |
@@ -225,11 +229,11 @@ This attestation type MAY be classified as:
 
 #### Person Attributes
 
-| **Data Identifier**  | **Semantic Reference**  | **Definition**                                                               | **Data Type**     |
-|----------------------|-------------------------|------------------------------------------------------------------------------|-------------------|
-| `first_name`         | —                       | First name(s) of the natural person, including middle names where applicable | String            |
-| `surname`            | —                       | Surname(s) / family name(s) of the natural person                            | String            |
-| `birth_date`         | —                       | Date of birth of the natural person (ISO 8601 YYYY-MM-DD)                    | String (ISO 8601) |
+| **Data Identifier**  | **Semantic Reference**  | **Definition**                                                                               | **Data Type**     |
+|----------------------|-------------------------|----------------------------------------------------------------------------------------------|-------------------|
+| `first_name`         | —                       | First name(s) / given name(s) of the natural person, including middle names where applicable | String            |
+| `surname`            | —                       | Surname(s) / family name(s) of the natural person                                            | String            |
+| `birth_date`         | —                       | Date of birth of the natural person (ISO 8601 YYYY-MM-DD)                                    | String (ISO 8601) |
 
 #### BirthPlace Attributes
 
@@ -277,6 +281,13 @@ This attestation type MAY be classified as:
 | `id`                 | —                        | Unique identifier for the source document                                 | String          |
 | `type`               | —                        | Type of source document (e.g., `"Evidence"`, `"Register"`, `"TrustDeed"`) | String          |
 
+#### UBO Mandatory Attributes
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                   | **Data Type**   |
+|---------------------|------------------------|--------------------------------------------------------------------------------------------------|-----------------|
+| `effective_date`    | —                      | Date when this ownership or control relationship became legally effective — ISO 8601 YYYY-MM-DD  | Date            |
+| `evidence`          | —                      | At least one piece of supporting evidence substantiating the declared ownership or control       | Array [Object]  |
+
 ### 2.3 Optional Attributes
 
 #### BirthPlace Optional Attributes
@@ -284,12 +295,6 @@ This attestation type MAY be classified as:
 | **Data Identifier**  | **Semantic Reference**   | **Definition**                      | **Data Type**   |
 |----------------------|--------------------------|-------------------------------------|-----------------|
 | `region`             | —                        | Region or state of birth — optional | String          |
-
-#### Person Optional Attributes
-
-| **Data Identifier**  | **Semantic Reference**   | **Definition**                                                                              | **Data Type**     |
-|----------------------|--------------------------|---------------------------------------------------------------------------------------------|-------------------|
-| `birth_date`         | —                        | Date of birth (ISO 8601 YYYY-MM-DD) — recommended, may be omitted in specific jurisdictions | String (ISO 8601) |
 
 #### ContactAddress Attributes *(entire object is optional)*
 
@@ -335,11 +340,20 @@ This attestation type MAY be classified as:
 
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**          | **Definition**                                                                     | **Data Type**  |
-|------------------------------|------------------------------------------------------------------------------------|----------------|
-| `attestation_legal_category` | Legal category of this attestation — SHALL be `"EAA"` or `"QEAA"`                  | String         |
+| **Data Identifier**        | **Definition**                                                                | **Data type** |
+|----------------------------|-------------------------------------------------------------------------------|---------------|
+| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
+| cnf                        | cryptographic Key Binding                                                                             | String        |
+
+*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
 
 ### 2.6 Optional Metadata
+
+| **Data Identifier** | **Definition**                                                             | **Data type** |
+|---------------------|----------------------------------------------------------------------------|---------------|
+| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
+| schema_version      | Version of the schema used for this attestation                            | String        |
+
 ### 2.7 Conditional Metadata
 
 No conditional metadata elements are defined for this attestation type.
@@ -470,14 +484,12 @@ The following integrity rules SHALL be enforced:
 | IR-25        | `vct` SHALL be `"eu.we-build:ubo:1"`                                                                                                                       |
 | IR-26        | `jurisdiction` SHALL be a valid ISO 3166-1 alpha-2 country code                                                                                            |
 
----
 
 ## 3 Attestation Encoding
 
 ### 3.1 ISO/IEC 18013-5-Compliant Encoding
 
-ISO/IEC 18013-5 (mdoc) is **out of scope** for this Rulebook, as offline proximity
-presentation is not a current requirement for the UBO Attestation.
+ISO/IEC 18013-5 (mdoc) is **out of scope** for this Rulebook, as offline proximity  presentation is not a current requirement for the Control Attestation.
 
 ### 3.2 SD-JWT VC-Based Encoding
 
@@ -544,7 +556,14 @@ The `.` notation is used to indicate the nesting of attributes.
 | `url`                                          | `ubo[n].source[m].url`                                         | URI                                   | URI reference to source document — optional                                                         | MAY             |
 | `data`                                         | `ubo[n].source[m].data`                                        | String (base64)                       | Base64-encoded source — required if `url` not publicly accessible                                   | MAY             |
 | **Metadata**                                   |                                                                |                                       |                                                                                                     |                 |
-| `attestation_legal_category`                   | `attestation_legal_category`                                   | String                                | SHALL be `"EAA"` or `"QEAA"`                                                                        | MUST NOT        |
+| `issuance_date`                                | `iat`                                                          | Number (Unix timestamp)               | Date and time when the attestation was issued (ISO 8601); RFC 7519                                  | MUST NOT        |
+| `expiry_date`                                  | `exp`                                                          | Number (Unix timestamp)               | Date and time when the attestation expires (ISO 8601); RFC 7519                                     | MUST NOT        |
+| `issuing_entity`                               | `iss`                                                          | String (URI or DID)                   | Identifier of the competent institution that issued the attestation; RFC 7519                       | MUST NOT        |
+| `attestation_legal_category`                   | `attestation_legal_category`                                   | String                                | One of "EAA" or "QEAA" as defined by eIDAS 2                                                        | MUST NOT        |
+| `vct`                                          | `vct`                                                          | String                                | The vct definition                                                                                  | MUST NOT        |
+| `cnf`                                          | `cnf`                                                          | String                                | Cryptographic Key Binding                                                                           | MUST NOT        |
+| `schema_version`                               | `schema_version`                                               | String                                | Version of the schema used; optional                                                                | MAY             |
+| `trust_anchor_url`                             | `trust_anchor_url`                                             | String (URI)                          | URL where the trust anchor for verifying this attestation can be retrieved; optional                | MAY             |
 
 **Notes:**
 
@@ -574,7 +593,7 @@ The `status` claim SHALL be a JSON object with the following members:
 | `status_list_index`      | Integer (>= 0) | Zero-based index into the status list bitstring |
 | `status_purpose`         | String         | SHALL be `"revocation"`                         |
 
-Example:
+**Example:**
 
 ```json
 {
@@ -586,13 +605,8 @@ Example:
   }
 }
 ```
-
-
 #### 3.2.3 Example Payload
-
-The following is a non-normative example of a UBO SD-JWT VC payload demonstrating a natural
-person qualifying as UBO through direct shareholding and management control:
-
+The following is a non-normative example of a UBO SD-JWT VC payload demonstrating a natural  person qualifying as UBO through direct shareholding and management control:
 ```json
 {
   "vct": "eu.we-build:ubo:1",
@@ -730,14 +744,9 @@ person qualifying as UBO through direct shareholding and management control:
   }
 }
 ```
-
 Sample payloads are provided under `../data-schemas/sd-jwt/sample-data/ubo-sd-jwt-sample.json`
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
-
-@TODO — To be discussed: which stakeholders will support this format and which use cases require it.
-
----
 
 ## 4 Attestation usage
 
@@ -752,17 +761,29 @@ The UBO Attestation serves the core AML/CTF compliance requirement of identifyin
 
 ### 4.1. Issuance process ###
 
-When issuing the attestation, the Issuer SHALL perform the following obligations:
+When issuing a UBO Attestation, the Issuer SHALL comply with the following obligations.
+#### UBO Determination
+The legal entity SHALL determine its Ultimate Beneficial Owner(s) (UBOs) by:
+- applying the ≥25% ownership threshold to the Ownership List to identify natural persons holding, directly or indirectly, at least 25% ownership;
+- analysing the Control List to identify natural persons exercising ultimate control through other means, irrespective of ownership percentage; and
+- applying the applicable AMLR methodologies for determining direct ownership, indirect ownership, legal arrangement roles, and other forms of control.
 
-**Issuance Flow:**
-*Calculation and Issuance:*
-- The legal entity calculates its UBO  by:Applying the ≥25% threshold to the Ownership List (identifying natural persons with ≥25% direct or indirect ownership)
-- Analyzing the Control List for natural persons exercising ultimate control through other means (even if ownership <25%)
-- Applying AMLR determination methodologies (direct ownership, indirect ownership, legal arrangement roles, nature of control)
-- The legal entity self-issues the UBO  Attestation into its Company Wallet OR a QTSP issues the UBO  Attestation to the company's wallet (as a QEAA), certifying the UBO calculation
-- Classification: "EAA" (self-issued) or "QEAA (Transparency Reqister/QTSP issued)
+#### Attestation Issuance
+- For an Electronic Attestation of Attributes (EAA), the legal entity SHALL self-issue the UBO Attestation into its Company Wallet.
+- For a Qualified Electronic Attestation of Attributes (QEAA), a Qualified Trust Service Provider (QTSP) or another authorized competent body SHALL issue the UBO Attestation to the Company's Wallet.
 
-**Attestation**
+
+#### Issuer Responsibilities
+**Electronic Attestation of Attributes (EAA)**
+- The legal entity SHALL issue the attestation based on the information and supporting documentation available at the time of issuance.
+- The issuer SHALL ensure that the attested information remains accurate throughout the attestation's validity period and SHALL revoke the attestation without undue delay whenever a change affects the validity or accuracy of the underlying information.
+
+**Qualified Electronic Attestation of Attributes (QEAA)**
+- Prior to issuing the attestation, the QTSP or other authorized competent body SHALL:
+  - verify that all information required to determine the UBO(s) is complete and available; and
+  - validate the UBO determination against the applicable Trade Register (TR) record or another authoritative data source.
+- The QTSP or other authorized competent body SHALL issue and verify the attestation exclusively on the basis of authoritative sources, such as official company register data, audited financial statements, or other legally recognized evidence.
+
 The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
 
@@ -778,7 +799,7 @@ https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob
 - Verify that each UBO has at least one determination_methodology
 
 #### 4.2.10 UseCaseSpecific: Cross-Reference with Ownership and Control Lists (AMLR Article 60) ###
-@TODO Florin -> review with the banks in regard of banks obligation for Discrepancy
+
 The AMLR compliance requires independent verification of UBO calculations.
 
 *RPs SHALL:*
@@ -823,29 +844,49 @@ For each UBO in the UBO  Attestation, the RP SHALL perform identity verification
 - If available:Use the unique ID number for identity verification
 
 ## 5 Trust anchors
+This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
 
-### 5.1 Trust Model for UBO  Attestations
+### 5.1 Qualified Electronic Attestations of Attributes (QEAAs)
 
-### 5.2 Trust Anchor Location Metadata
-UBO  Attestations SHOULD include the trust_anchor_url metadata attribute (see Section 2.6).
-@Florin -> trust topic
+For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
+The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.
+
+Successful certificate chain validation establishes that:
+- the issuer's certificate was recognized within the applicable trust framework;
+- the issuer's identity has been validated by the supervisory authority during inclusion in the TLOL; and
+- the issuer satisfies the trust requirements applicable to QEAAs.
+
+In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.
+
+### 5.2 Electronic Attestations of Attributes (EAAs)
+
+For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
+The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
+
+The Relying Party SHALL verify the EBWOID in accordance with the verification procedure defined in this Rulebook. Upon successful verification, the Relying Party obtains:
+- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
+- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
+- the public key authorized to verify the EAA signature.
+
+Authorization of the issuer is subsequently determined in accordance with the Relying Party's internal policies. Such authorization MAY be based on locally maintained wallet configuration or on trusted jurisdiction- or domain-specific trust list services that identify issuers authorized for a particular type of EAA
 
 ## 6 Revocation
-Details on the revocation mechanisms and processes for UBO  attestations will be completed in a future version of this Rulebook. This will cover how Relying Parties can check the revocation status of an attestation.
-@Florin -> revocation  topic
+An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
+
+### 6.1 Revocation Mechanism
+- Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
+- Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
+
+Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
+
+### 6.2 Revocation Triggers & Business Rules
+- QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
+- EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
+
+Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
+The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 7 References
-This chapter will be completed in a future version of this Rulebook to include specific references relevant to UBO  attestations.
-
-## 7 Compliance
-This UBO  Attestation Rulebook is specifically designed to comply with AMLR 2024/1624:
-*Article 3(17) – Definition of Beneficial Owner:*
-*Article 60 – Beneficial Ownership Registers:*
-*Article 62 – Beneficial Ownership Information Requirements:*
-
-
-
-## 8 References
 
 | **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                |
 |----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

@@ -7,14 +7,16 @@
     * [Florin Coptil, Robert Bosch GmbH]
 
 | Version | Date       | Description                                                  |
-|---------|------------|--------------------------------------------------------------|
-| 0.1     | 23.06.2026 | Initial draft based on the WeBuild design attestation meetings |
-| 0.6     | 29.06.2026 | update layout                                                |
+|--------|------------|--------------------------------------------------------------|
+| 0.1    | 23.06.2026 | Initial draft based on the WeBuild design attestation meetings |
+| 0.6    | 29.06.2026 | update layout                                                |
+| 0.8    | 29.06.2026 | Review attributes and type                                      |
+| 0.9    | 03.07.2026 | Updates in regard trust and revocation                            |
 
 * **Contact:**
-    * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com)
+    * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com) *
 
-## 1 DUNS Legal Entity Attestation
+## 1 Introduction
 
 A DUNS Legal Entity Attestation provides legal entity information according to the
 data provided by a legal entity to Dun & Bradstreet to obtain a DUNS number. A DUNS
@@ -31,7 +33,7 @@ DUNS number serves several critical functions. In several industry branches it i
 impossible for a legal entity to do business without providing this number to business
 partners.
 
-### 1.1 Document scope and purpose
+### 1.1 Document Scope and Purpose
 
 The DUNS Legal Entity Attestation is designed to provide a standardized, verifiable
 representation of a legal entity's business profile as registered with Dun & Bradstreet,
@@ -40,7 +42,7 @@ classification. This attestation complements the EUCC by providing additional no
 identity attributes required for KYS, KYC, supplier onboarding, and risk assessment
 processes.
 
-### 1.2 Document structure
+### 1.2 Document Structure
 
 This Rulebook is structured as follows:
 
@@ -54,8 +56,7 @@ This Rulebook is structured as follows:
 ### 1.3 Keywords
 
 This document uses the capitalised keywords `SHALL`, `SHOULD` and `MAY` as specified in
-[RFC 2119], i.e. to indicate requirements, recommendations and options specified in this
-document.
+[RFC 2119], i.e. to indicate requirements, recommendations and options specified in this document.
 
 In addition, `must` (non-capitalised) is used to indicate an external constraint, i.e. a
 requirement that is not mandated by this document, but, for instance, by an external document.
@@ -80,15 +81,17 @@ are intended as statements of fact.
 
 ---
 
-## 2 Attestation attributes and metadata
+## 2 Attestation Attributes and Metadata
 
 The DUNS Credential provides a standardized, verifiable representation of a company with
 all the relevant information from a DUNS perspective, including legal entity details,
 operational status, registration information, and industry classification.
 
-### 2.1 Data Model
+### 2.1 Introduction
 
-The attestation structure is defined as a structured object:
+**Data Model:**
+
+The attestation structure is defined as a structured object with a nested array of financial facts:
 
 ```
 DUNS
@@ -115,9 +118,9 @@ DUNS
 ├─ secondary_naics (Array of strings) (0-n)
 └─ naics_version (tstr)
 ```
+*Note*: M - mandatory / O - optional.
 
 **Explanation:**
-
 - `duns_number` is the mandatory nine-digit unique identifier assigned by Dun & Bradstreet to
   the legal entity.
 - `legal_entity` is a mandatory object encapsulating the legal identity of the entity,
@@ -154,11 +157,9 @@ DUNS
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** when self-issued by the legal entity subject to the disclosure.
-- **"QEAA"** when issued by a qualified trust service provider (QTSP) or authorized
-  competent body that can independently attest the company information (e.g., based on
-  official Dun & Bradstreet registry data).
-
+- **"EAA"** self-issued by the legal entity as part of its disclosures.
+- **"QEAA"** issued by a Qualified Trust Service Provider (QTSP) or authorized competent body that can independently attest the company information (e.g., based on official Dun & Bradstreet registry data).
+  
 **VC Type:** `vct: eu.we-build:duns:1`
 
 ### 2.2 Mandatory attributes
@@ -222,22 +223,21 @@ No conditional attributes are defined for this attestation type. All attributes 
 mandatory or optional as specified above. When the `registered_address` object is present,
 it MAY contain any combination of its optional sub-fields.
 
-### 2.5 Mandatory metadata
+### 2.5 Mandatory Metadata
 
-| **Data Identifier**        | **Definition**                                                                                                                                                       | **Data type** |
-|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                         | DateTime      |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                            | DateTime      |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued EAA, or the QTSP identifier for QEAA)            | String        |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA" or "QEAA")                                                                                                  | String        |
-| vct                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                              | String        |
+| **Data Identifier**        | **Definition**                                                                | **Data type** |
+|----------------------------|-------------------------------------------------------------------------------|---------------|
+| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
+| cnf                        | Cryptographic Key Binding                                                     | String        |
 
-### 2.6 Optional metadata
+*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
+
+### 2.6 Optional Metadata
 
 | **Data Identifier** | **Definition**                                                             | **Data type** |
 |---------------------|----------------------------------------------------------------------------|---------------|
 | trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used                                                 | String        |
+| schema_version      | Version of the schema used for this attestation                            | String        |
 
 ### 2.7 Conditional metadata
 
@@ -361,8 +361,15 @@ The `.` notation is used to indicate the nesting of attributes.
 | industry_classification.primary_naics       | `industry_classification.primary_naics`               | String                       | Primary NAICS code for the entity's main business activity                                   | MUST            |
 | industry_classification.secondary_naics     | `industry_classification.secondary_naics`             | Array of Strings             | Zero or more additional NAICS codes for secondary business activities; optional              | MUST            |
 | industry_classification.naics_version       | `industry_classification.naics_version`               | String                       | Version of the NAICS standard used (e.g., "2022")                                           | MUST            |
-| **Metadata**                                |                                                       |                              |                                                                                              |                 |
-| attestation_legal_category                  | `attestation_legal_category`                          | String                       | One of `EAA` or `QEAA` as defined by eIDAS 2                                                | MUST NOT        |
+| **Metadata**                            |                                              |                                  |                                                                                      |                 |
+| issuance_date                           | `iat`                                        | Number (Unix timestamp)          | Date and time when the attestation was issued (ISO 8601); RFC 7519                   | MUST NOT        |
+| expiry_date                             | `exp`                                        | Number (Unix timestamp)          | Date and time when the attestation expires (ISO 8601); RFC 7519                      | MUST NOT        |
+| issuing_entity                          | `iss`                                        | String (URI or DID)              | Identifier of the competent institution that issued the attestation; RFC 7519        | MUST NOT        |
+| attestation_legal_category              | `attestation_legal_category`                 | String                           | One of "EAA" or "QEAA" as defined by eIDAS 2                                         | MUST NOT        |
+| vct                                     | `vct`                                        | String                           | The vct definition                                                                   | MUST NOT        |
+| cnf                                     | `cnf`                                        | String                           | Cryptographic Key Binding                                                            | MUST NOT        |
+| trust_anchor_url                        | `trust_anchor_url`                           | String (URI)                     | URL where the trust anchor for verifying this attestation can be retrieved; optional | MAY             |
+| schema_version                          | `schema_version`                             | String                           | Version of the schema used; optional                                                 | MAY             |
 
 **Notes:**
 
@@ -377,21 +384,19 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.2 Status Claim
 
-For SD-JWT VC-compliant DUNS Legal Entity attestations, the attestation MUST include a
-`status` claim if the technical validity period is greater than 24 hours. This claim enables
-Relying Parties to determine if a credential has been revoked via a status list mechanism,
-as specified in SD-JWT VC.
+For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if  the technical validity period is greater than 24 hours. This claim enables Relying Parties to
+determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
 
 The `status` claim SHALL be a JSON object with the following members:
 
-- `type` (string): SHALL be `"status-list"`.
-- `status_list_credential` (string, URI): The URI of the Status List Credential document
-  that contains the status bitstring.
-- `status_list_index` (integer, >= 0): The zero-based index into the status list bitstring
-  that corresponds to this credential.
-- `status_purpose` (string): SHALL be `"revocation"` for this attestation.
+| **Field**                | **Type**       | **Value / Constraint**                                                     |
+|--------------------------|----------------|----------------------------------------------------------------------------|
+| `type`                   | String         | SHALL be `"status-list"`                                                   |
+| `status_list_credential` | String (URI)   | URI of the Status List Credential document containing the status bitstring |
+| `status_list_index`      | Integer (>= 0) | Zero-based index into the status list bitstring for this credential        |
+| `status_purpose`         | String         | SHALL be `"revocation"`                                                    |
 
-Example:
+**Example:**
 
 ```json
 {
@@ -405,8 +410,7 @@ Example:
 ```
 
 ### 3.2.3 Example Payload
-
-The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
+The following is a non-normative example of a DUNS SD-JWT VC payload:
 ```
 {
   "vct": "eu.we-build:duns:1",
@@ -460,7 +464,6 @@ The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
   }
 }
 ```
-
 Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/duns-sd-jwt-sample.json
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
@@ -468,27 +471,65 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/duns-sd-jw
 ## 4 Attestation usage
 
 ### 4.1. Issuance process ###
+**For EAA (Self-Issued / Standard Issuance)**:
+- The issuer (i.e., the legal entity itself) issues the attestation based on the information and supporting documentation available at the time of issuance.
+- The issuer is responsible for ensuring that the attested information remains accurate and must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
 
-### 4.2 Relying Party Obligations
-When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+**For QEAA (Qualified Issuance)**:
+- The issuer—either a Qualified Trust Service Provider (QTSP) or another authorized competent body—must issue and verify the attestation exclusively on the basis of authoritative sources, such as official company register data or audited financial statements.
+- The issuer is also responsible for maintaining a high level of assurance throughout the attestation's validity period by continuously monitoring the underlying information. If any change affecting the accuracy or validity of the attested data is detected, the issuer must promptly revoke the attestation.
 
-### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
+The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
 
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
-This chapter will be completed in a future version of this Rulebook.
+This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
+
+### 5.1 Qualified Electronic Attestations of Attributes (QEAAs)
+
+For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
+The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.
+
+Successful certificate chain validation establishes that:
+- the issuer's certificate was recognized within the applicable trust framework;
+- the issuer's identity has been validated by the supervisory authority during inclusion in the TLOL; and
+- the issuer satisfies the trust requirements applicable to QEAAs.
+
+In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.
+
+### 5.2 Electronic Attestations of Attributes (EAAs)
+
+For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
+The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
+
+The Relying Party SHALL verify the EBWOID in accordance with the verification procedure defined in this Rulebook. Upon successful verification, the Relying Party obtains:
+- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
+- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
+- the public key authorized to verify the EAA signature.
+
+Authorization of the issuer is subsequently determined in accordance with the Relying Party's internal policies. Such authorization MAY be based on locally maintained wallet configuration or on trusted jurisdiction- or domain-specific trust list services that identify issuers authorized for a particular type of EAA
 
 ## 6 Revocation
-This chapter will be completed in a future version of this Rulebook.
+An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
+
+### 6.1 Revocation Mechanism
+- Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
+- Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
+
+Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
+
+### 6.2 Revocation Triggers & Business Rules
+- QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
+- EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
+
+Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
+The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 7 References
-This chapter will be completed in a future version of this Rulebook.
 
-## 8 References
 | **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                           |
 |----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework                            |
