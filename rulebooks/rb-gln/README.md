@@ -132,13 +132,22 @@ Additionally, the GLN EAA's `credentialSubject["gs1:organization"]` MUST contain
 
 ### 2.3 Optional attributes
 
-The GLN EAA SHOULD contain an `credentialSubject["gs1:organization"]["gs1:address"]` which is a `gs1:address` with the datamodel given in [https://ref.gs1.org/voc/address](https://ref.gs1.org/voc/address). In particular the following fileds SHOULD be present
+The GLN EAA SHOULD contain a `credentialSubject["gs1:organization"]["gs1:address"]` which is a `gs1:PostalAddress` per the [GS1 Web Vocabulary PostalAddress](https://ref.gs1.org/voc/PostalAddress) data model. The following fields MAY be present under `gs1:address`. If an address is given at all, at least the country code MUST be present; depending on the country, all other attributes needed to make a valid postal address in that country SHOULD be present.
+
+For European postal addresses, `gs1:streetAddress` SHOULD be used for the primary address line. Additional address detail MAY be expressed in `gs1:streetAddressLine2` through `gs1:streetAddressLine4`. For post-office-box addresses, `gs1:postOfficeBoxNumber` SHOULD be used instead of street address lines.
 
 | **Attribute** | **Definition**                                                                        | **Data type**       |
 |------------------------|---------------------------------------------------------------------------------------|---------------------|
+| `gs1:streetAddress`    | The primary street address line as free-form text (e.g. street name and house number, or building name). SHOULD be used before populating additional street lines. | `rdf:langString`    |
+| `gs1:streetAddressLine2` | The second street address line as free-form text (e.g. building, unit, or c/o information). | `rdf:langString`    |
+| `gs1:streetAddressLine3` | The third street address line as free-form text.                                      | `rdf:langString`    |
+| `gs1:streetAddressLine4` | The fourth street address line as free-form text.                                      | `rdf:langString`    |
+| `gs1:postOfficeBoxNumber` | The number identifying a post-office box; SHOULD be used instead of street address lines for PO box addresses. | `xsd:string`        |
+| `gs1:postalName`       | The postal recipient name; MAY differ from `gs1:organizationName`.                    | `rdf:langString`    |
 | `gs1:postalCode`       | The postal code where the legal entity is registered or operates                      | `xsd:string`        |
-| `gs1:addressLocality`  | The city where the legal entity is registered or operates                             | `rdf:langString`    |
-| `gs1:addressRegion`    | The region where the legal entity is registered or operates                           | `rdf:langString`    |
+| `gs1:addressLocality`  | The locality (e.g. city) where the legal entity is registered or operates             | `rdf:langString`    |
+| `gs1:addressRegion`    | The province or state (e.g. in abbreviated form) where the legal entity is registered or operates | `rdf:langString`    |
+| `gs1:addressSuburb`    | A suburb within a town or city.                                                       | `rdf:langString`    |
 | `gs1:countryCode`      | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xsd:string`        |
 
 ### 2.4 Conditional attributes
