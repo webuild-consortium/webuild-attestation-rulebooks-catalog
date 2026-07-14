@@ -89,7 +89,7 @@ are intended as statements of fact.
 | GS1 Member Organization (GS1 MO) | A member organization of GS1 such as GS1 Germany, GS1 US, GS1 France, etc. |
 | GS1 Global Office (GS1 GO, legal name: GS1 AISBL)           | Overarching GS1 orchanization for the global coordination of all GS1 MOs                                                           |
 | Electronic Attribute Attestation (EAA)                              |
-| Relying Party                              | An entity that relies on the attestation data presented by a Wallet Instance to make trust decisions.                                                                        |
+| Relying Party                              | An entity that relies on the attestation data presented by a Wallet Instance to make trust decisions. Relying Party and "Verifier" are used to mean exactly the same when refering to a party/role.                                                                        |
 | Issuer                                     | The entity responsible for creating and signing an attestation and ensuring mandatory attributes are present.                                                                 |
 
 ## 2 Attestation attributes and metadata
@@ -201,6 +201,8 @@ Encoding-independent metadata identifiers used elsewhere in this rulebook map to
 |---------------------|----------------------------------------------------------------------------|---------------|
 | trust_anchor_url    | URL where the trust anchor for verifying this attestation **can** be retrieved | URI           |
 | schema_version      | Version of the schema used                                                 | String        |
+| description | A human readable description of the content and purpouse of this credential/attestation | xsd:string| 
+
 
 ### 2.7 Value Lists
 
@@ -247,6 +249,7 @@ presentation is not a current requirement for the GLN Number attestation.
 ### 3.2 SD-JWT VC-based encoding
 
 The GLN EAA **MAY** be encoded in the SD-JWT VC format to allow for selective disclosure of attestation attributes.
+
 However, the only actual use case for selective disclosure that is forseen at the time of writing would be to present the GLN while not disclosing the adress, in which case the holder might as well present the just the GLN `KeyCredential` from the credential chain or even just the `GS1CompanyPrefixLicenseCredential` rather than presenting the `OrganizationDataCredential`. This would serve exactly the same purpouse without the technical complexity of the hash obfuscation/disclosure.
 
 
@@ -263,6 +266,7 @@ The embedded VCDM payload of the GLN EAA **SHOULD** use the GS1 `OrganizationDat
 
 
 > :warning: **TBD:** Also assign vcts to `KeyCredential`, etc.?
+> Could be `"vct": "https://gs1.org/voc/OrganizationDataCredential"`
 
 #### 3.2.1 Attribute Encoding Table
 
@@ -289,7 +293,7 @@ validated using the SD-JWT VC `status` claim. When the attestation technical val
 greater than 24 hours, the `status` claim **MUST** be present.
 
 The embedded W3C VCDM payload **MAY** additionally carry a `credentialStatus` property
-(`BitstringStatusListEntry`) for structural parity with GS1 Digital Licenses (Section 6.1).
+(`BitstringStatusListEntry`) for structural parity with GS1 Digital Licenses (Section 6.1), but it the issuer **SHULD** rather just include the status list in one place matching the chosen serialization format. If the status list is represented twice it **MUST** be the exact same status list.
 Relying Parties verifying an SD-JWT VC presentation **MUST** validate revocation only via the
 `status` claim and **MUST NOT** treat `credentialStatus` as authoritative in the SD-JWT path,
 even when both are present.
@@ -309,20 +313,26 @@ status list entry as the `status` claim (equivalent `statusListCredential` /
 
 **Examples:**
 
-**SD-JWT VC (`status` claim — validated)**
+**SD-JWT VC `status` claim**
+
+Defined in https://www.ietf.org/archive/id/draft-ietf-oauth-status-list-21.html
+
+The SD-JWT definition of status lists omits purpose. Therefor the purpose `revocation` is assumed for GS1 specific credentials.
+
 ```json
-{
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/gln/2025",
-    "status_list_index": 123,
-    "status_purpose": "revocation"
+"status": {
+    "status_list": {
+      "idx": 67609,
+      "uri": "https://company-wallet-dev.prod-k8s.eecc.de/api/registry/status/revocation/20c50bdb-40f0-4466-bcc9-1ce695900dad"
+    }
   }
-}
 ```
 
 
-**W3C Data Model 2.0 (JSON-LD / Data Integrity proof — validated)**
+**W3C Data Model 2.0 `credentialStatus` claim**
+
+Defined in https://www.w3.org/TR/vc-bitstring-status-list
+
 ```json
 "credentialStatus": {
   "id": "https://company-wallet-dev.prod-k8s.eecc.de/api/registry/status/revocation/20c50bdb-40f0-4466-bcc9-1ce695900dad#67609",
@@ -332,14 +342,15 @@ status list entry as the `status` claim (equivalent `statusListCredential` /
   "statusListCredential": "https://company-wallet-dev.prod-k8s.eecc.de/api/registry/status/revocation/20c50bdb-40f0-4466-bcc9-1ce695900dad"
 }
 ```
+
+
 ### 3.2.3 Example Payload
 
 The following is a non-normative example of a GLN Number SD-JWT VC payload embedding a W3C
 VCDM 2.0 `OrganizationDataCredential` per [RFC 9901] Appendix A.4. The example shows the
 pre-issuance JWT claims set; at issuance, selectively disclosable claims within
 `credentialSubject` are replaced by `_sd` digests and corresponding Disclosures are appended to
-the SD-JWT compact serialization. The example includes both `credentialStatus` (VCDM mirror,
-not validated in SD-JWT) and `status` (validated for revocation).
+the SD-JWT compact serialization. 
 
 ```json
 {
@@ -388,10 +399,10 @@ not validated in SD-JWT) and `status` (validated for revocation).
     }
   },
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://company-wallet-dev.prod-k8s.eecc.de/api/registry/status/revocation/20c50bdb-40f0-4466-bcc9-1ce695900dad",
-    "status_list_index": 67609,
-    "status_purpose": "revocation"
+    "status_list": {
+      "idx": 67609,
+      "uri": "https://company-wallet-dev.prod-k8s.eecc.de/api/registry/status/revocation/20c50bdb-40f0-4466-bcc9-1ce695900dad"
+    }
   },
   "credentialSchema": {
     "id": "https://id.gs1.org/vc/schema/v1/organizationdata",
@@ -417,6 +428,170 @@ not validated in SD-JWT) and `status` (validated for revocation).
       "x": "abc-123_def-456_ghi-789_jkl-012",
       "y": "mno-345_pqr-678_stu-901_vwx-234"
     }
+  }
+}
+```
+
+For examples of the credentials further up in the trust chain see below.
+
+
+> :warning: TBD: Should we also include an SD-JWT representation of the other credentials in the chain? 
+> Proposition: Apply the same the same W3C DM wrapper to have a generic solution
+
+
+### 3.3 W3C Verifiable Credentials Data Model-based encoding
+
+The GLN EAA **MAY** be encoded using the [W3C Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/) (VCDM). It is is a `OrganizationDataCredential` as defined in the [GS1 Digital Licenses](https://gs1.github.io/GS1DigitalLicenses/) specification. GLN verification in the GS1 ecosystem uses credentials from the license chain:
+
+1. **`GS1PrefixLicenseCredential`** - GS1 Prefix Licenses are issued by the GS1 Global Office (GO) to GS1 MOs throughout the world. These prefix licenses are short numbers that authorize the MO to issue GS1 Company Prefixes and GS1 ID Keys to its members. This credential must be present in the trust chain and must be validated by verifiers. See Section 4 for details.
+1. **`GS1CompanyPrefixLicenseCredential`** — issued by the GS1 Member Organization when licensing a company prefix; **mandatory** `credentialSubject.organization.gs1:partyGLN` identifies the company's main party GLN. This credential carries **only** the party GLN and company name, it typically does not contain additional adress data. Verifiers must use it to validate that the GLN EAA is trusted in the GS1 Trust Eco system. See Section 4 for details.
+2. **`KeyCredential`** — cryptographically asserts that a specific GLN has been commissioned. This credentia extends from the company prefix license via `extendsCredential`. This credential may be present and Verifiers must validate it, if present. See Section 4 for details.
+3. **`OrganizationDataCredential`** — carries organization facts (legal name, party GLN, address) associated with a GLN; see [Organization Data Credential Examples](https://gs1.github.io/GS1DigitalLicenses/#sample-organization-data-credential). **MAY** be issued by the organization itself and **SHOULD** reference a valid GLN `KeyCredential` via `keyAuthorization`.
+
+
+> :warning: TBD: What are the WeBuild Credential format requirements?
+> Needs to be determined by Florin and Dominik
+
+
+European Business Wallet presentations in the WeBuild KYS workflow **MAY** use SD-JWT VC (Section 3.2) or W3C VCDM depending on wallet and verifier capability. SD-JWT VC encoding (Section 3.2) embeds the same GS1 VCDM 2.0 payload structure as JSON-LD or JWT-secured credentials (Section 3.3), following [RFC 9901] Appendix A.4; selective disclosure applies to claims within `credentialSubject` while VCDM envelope properties remain always visible.
+
+##### 3.3.1 JSON-LD contexts and credential types
+
+| Credential type | `@context` entries (minimum) | Defined in |
+|-----------------|------------------------------|------------|
+| `GS1CompanyPrefixLicenseCredential` | `https://www.w3.org/ns/credentials/v2`, `https://ref.gs1.org/gs1/vc/license-context` | [license-context](https://ref.gs1.org/gs1/vc/license-context) |
+| `KeyCredential` | `https://www.w3.org/ns/credentials/v2`, `https://ref.gs1.org/gs1/vc/declaration-context` | [declaration-context](https://ref.gs1.org/gs1/vc/declaration-context) |
+| `OrganizationDataCredential` | above + `https://ref.gs1.org/gs1/vc/organization-context` | [organization-context](https://ref.gs1.org/gs1/vc/organization-context) |
+
+The `type` array **MUST** include `VerifiableCredential` and the respective GS1 type. License credentials in the backing chain use `https://ref.gs1.org/gs1/vc/license-context` — see Section 3.2.3. The company prefix license **must** includes `credentialSubject.organization.gs1:partyGLN` (the main party GLN only).
+
+##### 3.3.2 KeyCredential (GLN identity)
+
+A GLN `KeyCredential` asserts that the licensee has commissioned a specific GLN. The party GLN **MAY**
+alternatively be verified via the parent `GS1CompanyPrefixLicenseCredential` (Section 3.3.5).
+Normative requirements from [ID Key Credential Details](https://gs1.github.io/GS1DigitalLicenses/#key-credentials-details):
+
+| **VCDM property** | **Requirement** |
+|-------------------|-----------------|
+| `credentialSubject.id` | **MUST** be a [GS1 Digital Link URI](https://www.gs1.org/standards/Digital-Link/) for the GLN (primary key **K**, no key qualifiers) |
+| `extendsCredential` | **Mandatory** — **MUST** reference the parent GS1 Company Prefix Credential per Section 3.3.5 |
+| `issuer.id` | **MUST** be a DID |
+| `validFrom` | **MUST** be present |
+| `name` | **MUST** be present (**SHOULD** be `"GS1 ID Key Credential"`) |
+| `description` | **MUST** be present |
+| `credentialStatus` | **MUST** be present; type `BitstringStatusListEntry` |
+| `credentialSchema` | **MUST** be present; type `JsonSchema` (e.g. `https://id.gs1.org/vc/schema/v1/key`) |
+| `id` | **MUST** be present; **SHOULD** be a globally unique resolvable URL |
+| `renderMethod` | **SHOULD** be present; type `TemplateRenderMethod` |
+
+The GLN is encoded in `credentialSubject.id` as a GS1 Digital Link URI with application identifier **417** (e.g. `https://id.gs1.org/417/{GLN}`), not as a separate claim property. See the [GLN Key Credential example](https://gs1.github.io/GS1DigitalLicenses/#gln-key-credential) in GS1 Digital Licenses.
+
+##### 3.3.3 OrganizationDataCredential (organization data)
+
+The GLN EAA is a `OrganizationDataCredential` which is a `DataCredential` subtype that carries organization facts for the GLN identified in `credentialSubject.id`. Normative requirements from [Organization Data Credential](https://gs1.github.io/GS1DigitalLicenses/#organization-data-credential) and [GS1 Data Credential Details](https://gs1.github.io/GS1DigitalLicenses/#data-credential-details):
+
+| **Property** | **Requirement** |
+|--------------|-----------------|
+| `id` | **MUST** be present |
+| `credentialSubject.id` | **MUST** be the same GLN GS1 Digital Link URI as the corresponding `KeyCredential` |
+| `organization` | **Mandatory** — **MUST** contain `gs1:partyGLN` and `gs1:organizationName` (see [Organization Data JSON Schema](https://id.gs1.org/vc/schema/v1/organizationdata)) |
+| `keyAuthorization` | Optional; **SHOULD** reference the `KeyCredential` when the licensee creates data credentials |
+| `validFrom` | **MUST** be present (DataCredential base requirement) |
+| `credentialStatus` | **MAY** be present; if present, **MUST** be `BitstringStatusListEntry` |
+| `credentialSchema` | **MUST** be present; type `JsonSchema` |
+| `renderMethod` | **SHOULD** be present (DataCredential base requirement) |
+
+See Section 2 for the detailed data model.
+
+
+**Note:** In the GS1 Web Vocabulary, `gs1:address` is an optional object property of `gs1:Organization` (typed `gs1:PostalAddress`). The normative GS1 `OrganizationDataCredential` schema does not require it; this rulebook makes address attributes mandatory for the WeBuild KYS attestation. The value under `gs1:address` reflects the organization's address as recorded in GS1 membership data. It **MAY** therefore differ from the statutory registered address held by national commercial registers (e.g. the German Handelsregister) or from addresses attested by other authentic sources in European Business Wallet (EUBW) KYS flows (e.g. EUCC). Relying Parties assembling multi-credential wallet presentations **SHOULD** treat each address as source-specific and **MUST NOT** assume equivalence across attestations without explicit cross-checking.
+
+Issuers **SHOULD** include `https://ref.gs1.org/voc/` (or an equivalent GS1 vocabulary context) in `@context` alongside `organization-context` when emitting extended organization properties. MO policy **MAY** restrict which optional vocabulary terms (e.g. `gs1:streetAddress`) may not or must be included.
+
+
+##### 3.3.5 Link to GS1 license chain (`extendsCredential`)
+
+The `extendsCredential` property on a GLN `KeyCredential` is **Mandatory** ([GS1 Digital Licenses — ID Key Credential extendsCredential](https://gs1.github.io/GS1DigitalLicenses/#key-credential-extends-credential)). Verifiers **MUST** apply these rules:
+
+**Party GLN vs. additional GLNs:** Each `GS1CompanyPrefixLicenseCredential` carries exactly one
+mandatory party GLN in `credentialSubject.organization.gs1:partyGLN` — the main legal-entity
+GLN assigned with the company prefix. It does **not** list other location GLNs under that
+prefix.
+
+- When the attested GLN equals the party GLN on a valid `GS1CompanyPrefixLicenseCredential`,
+  verifiers **MAY** accept either that license credential (reading `organization.gs1:partyGLN`) **or**
+  a GLN `KeyCredential` for the same GLN as sufficient evidence of GLN assignment.
+- When the attested GLN is **not** the party GLN, verifiers **MUST** require a valid GLN
+  `KeyCredential` whose `credentialSubject.id` Digital Link URI identifies that GLN.
+
+**`extendsCredential` chain rules:**
+- If `credentialSubject.id` contains a GS1 Digital Link with primary key **K** and **no key qualifiers**, then `extendsCredential` **MUST** reference a GS1 License Credential whose `licenseValue` is the prefix string that **K** starts with (typically the `GS1CompanyPrefixLicenseCredential` for the company prefix).
+- If `credentialSubject.id` contains primary key **K** **with key qualifiers**, then `extendsCredential` **MUST** reference a `KeyCredential` whose `credentialSubject.id` contains the same primary key **K** without qualifiers.
+
+Verifiers **MUST** additionally validate the full license chain back to a GS1 Global Office root credential (`GS1PrefixLicenseCredential`), including signature verification and revocation status at each hop — see [Validating GS1 ID Key Credentials](https://gs1.github.io/GS1DigitalLicenses/validating_keys.html) and [Validating GS1 License Credentials](https://gs1.github.io/GS1DigitalLicenses/license_validation.html). A reference implementation of the GS1 chain validation for verifiable credentials is available under https://github.com/european-epc-competence-center/vc-verifier-rules
+
+For a GLN `KeyCredential` **K** with subject Digital Link **D** and parent credential **P** (at `extendsCredential`), verifiers **MUST** also apply ([validating_keys.html](https://gs1.github.io/GS1DigitalLicenses/validating_keys.html)):
+
+- **K** **MUST** be valid VCDM 2.0 with a valid issuer DID signature; **K** `validFrom` **MUST NOT** be in the future.
+- If **D** has primary key **PK** without key qualifiers: **P** **MUST** be a valid GS1 License Credential; `issuer(K)` **MUST** match `credentialSubject(P)`; **PK** **MUST** begin with `licenseValue` from **P**.
+- If **D** has key qualifiers: **P** **MUST** be a valid GS1 ID Key Credential; `issuer(K)` **MUST** match `issuer(P)`; primary key of **P**'s subject **MUST** equal **PK**.
+
+The `OrganizationDataCredential` links to the GLN `KeyCredential` via `keyAuthorization` (**MUST** be included when the licensee creates data credentials).
+
+##### 3.3.6 Examples
+
+Normative GS1 examples (JWT and decoded JSON-LD) are published in [GS1 Digital Licenses](https://gs1.github.io/GS1DigitalLicenses/):
+
+- GLN KeyCredential: [gln-key-credential](https://gs1.github.io/GS1DigitalLicenses/#gln-key-credential)
+- Organization data (minimal schema): [sample-organization-data-credential](https://gs1.github.io/GS1DigitalLicenses/#sample-organization-data-credential)
+
+License examples (Company Prefix, Prefix) are in [License Examples](https://gs1.github.io/GS1DigitalLicenses/#License-Examples).
+
+The following non-normative example extends `OrganizationDataCredential` with WeBuild KYS mandatory address and legal-name attributes via GS1 Web Vocabulary:
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://ref.gs1.org/gs1/vc/organization-context",
+    "https://ref.gs1.org/voc/"
+  ],
+  "type": ["VerifiableCredential", "OrganizationDataCredential"],
+  "id": "https://example.gs1.org/vc/organization-data/0810159550000",
+  "issuer": {
+    "id": "did:web:example.gs1.org",
+    "name": "GS1 Example MO"
+  },
+  "validFrom": "2026-01-15T10:00:00Z",
+  "credentialSubject": {
+    "id": "https://id.gs1.org/417/0810159550000",
+    "keyAuthorization": "https://example.gs1.org/vc/key/0810159550000",
+    "organization": {
+      "@type": "gs1:Organization",
+      "gs1:partyGLN": "0810159550000",
+      "gs1:organizationName": "Healthy Tots",
+      "gs1:organizationLegalName": "Healthy Tots GmbH",
+      "gs1:address": {
+        "@type": "gs1:PostalAddress",
+        "gs1:postalCode": "10115",
+        "gs1:addressLocality": "Berlin",
+        "gs1:addressRegion": "Berlin",
+        "gs1:addressCountry": {
+          "@type": "gs1:Country",
+          "gs1:countryCode": "DE"
+        }
+      }
+    }
+  },
+  "credentialStatus": {
+    "type": "BitstringStatusListEntry",
+    "statusPurpose": "revocation",
+    "statusListIndex": "42",
+    "statusListCredential": "https://example.gs1.org/status/revocation/1"
+  },
+  "credentialSchema": {
+    "id": "https://id.gs1.org/vc/schema/v1/organizationdata",
+    "type": "JsonSchema"
   }
 }
 ```
@@ -507,86 +682,12 @@ in the JWT payload per [RFC 9901] Appendix A.4.
 }
 ```
 
-#### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
-The GLN Number attestation **MUST** be encoded using the [W3C Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/) (VCDM) as defined in the [GS1 Digital Licenses](https://gs1.github.io/GS1DigitalLicenses/) specification. GLN verification in the GS1 ecosystem uses credentials from the license chain and GLN-specific declarations:
+### 3.4 Mapping of attestation attributes
 
-1. **`GS1CompanyPrefixLicenseCredential`** — issued by the Member Organization when licensing a company prefix; **mandatory** `credentialSubject.organization.gs1:partyGLN` identifies the company's main party GLN. This credential carries **only** the party GLN, not additional location GLNs. Verifiers **SHOULD** use it to validate the party GLN without a separate `KeyCredential` (Section 3.3.5).
-2. **`KeyCredential`** — cryptographically asserts that a specific GLN has been commissioned; **required** for GLNs other than the party GLN, and also valid when the party GLN is explicitly commissioned as a key. Extends from the company prefix license via `extendsCredential`; see [GLN ID Key Credential](https://gs1.github.io/GS1DigitalLicenses/#gln-key-credential).
-3. **`OrganizationDataCredential`** — carries organization facts (legal name, party GLN, address) associated with a GLN; see [Organization Data Credential Examples](https://gs1.github.io/GS1DigitalLicenses/#sample-organization-data-credential). **MAY** be issued by the organization itself and **SHOULD** reference a valid GLN `KeyCredential` via `keyAuthorization`.
+THe following table summarizes where which attribute of the general data model (Section 2) is mapped in VCDM JSON-LD serialization and SD-JWT serialization.
 
-Both GLN credential types (`KeyCredential`, `OrganizationDataCredential`) conform to VCDM 2.0. The GS1 specification provides normative examples in **JWT** (`application/vc+jwt`) and **JSON-LD** (with embedded `DataIntegrityProof`) form — these are alternative serializations of the same data model, not competing standards. VCDM 2.0 defines both securing mechanisms in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) (enveloping JWT proof, media type `application/vc+jwt`) and embedded Linked Data proofs. Implementers **MAY** use either serialization; GS1 tooling accepts both.
-
-European Business Wallet presentations in the WeBuild KYS workflow **MAY** use SD-JWT VC (Section 3.2) or W3C VCDM depending on wallet and verifier capability. SD-JWT VC encoding (Section 3.2) embeds the same GS1 VCDM 2.0 payload structure as JSON-LD or JWT-secured credentials (Section 3.3), following [RFC 9901] Appendix A.4; selective disclosure applies to claims within `credentialSubject` while VCDM envelope properties remain always visible.
-
-##### 3.3.1 JSON-LD contexts and credential types
-
-| Credential type | `@context` entries (minimum) | Defined in |
-|-----------------|------------------------------|------------|
-| `GS1CompanyPrefixLicenseCredential` | `https://www.w3.org/ns/credentials/v2`, `https://ref.gs1.org/gs1/vc/license-context` | [license-context](https://ref.gs1.org/gs1/vc/license-context) |
-| `KeyCredential` | `https://www.w3.org/ns/credentials/v2`, `https://ref.gs1.org/gs1/vc/declaration-context` | [declaration-context](https://ref.gs1.org/gs1/vc/declaration-context) |
-| `OrganizationDataCredential` | above + `https://ref.gs1.org/gs1/vc/organization-context` | [organization-context](https://ref.gs1.org/gs1/vc/organization-context) |
-
-The `type` array **MUST** include `VerifiableCredential` and the respective GS1 type. License credentials in the backing chain use `https://ref.gs1.org/gs1/vc/license-context` — see Section 3.2.3. The company prefix license **must** includes `credentialSubject.organization.gs1:partyGLN` (the main party GLN only).
-
-##### 3.3.2 KeyCredential (GLN identity)
-
-A GLN `KeyCredential` asserts that the licensee has commissioned a specific GLN. It is
-**required** for every GLN under the company prefix **except** the party GLN, which **MAY**
-alternatively be verified via the parent `GS1CompanyPrefixLicenseCredential` (Section 3.3.5).
-Normative requirements from [ID Key Credential Details](https://gs1.github.io/GS1DigitalLicenses/#key-credentials-details):
-
-| **VCDM property** | **Requirement** |
-|-------------------|-----------------|
-| `credentialSubject.id` | **MUST** be a [GS1 Digital Link URI](https://www.gs1.org/standards/Digital-Link/) for the GLN (primary key **K**, no key qualifiers) |
-| `extendsCredential` | **Mandatory** — **MUST** reference the parent GS1 Company Prefix Credential per Section 3.3.5 |
-| `issuer.id` | **MUST** be a DID |
-| `validFrom` | **MUST** be present |
-| `name` | **MUST** be present (**SHOULD** be `"GS1 ID Key Credential"`) |
-| `description` | **MUST** be present |
-| `credentialStatus` | **MUST** be present; type `BitstringStatusListEntry` |
-| `credentialSchema` | **MUST** be present; type `JsonSchema` (e.g. `https://id.gs1.org/vc/schema/v1/key`) |
-| `id` | **MUST** be present; **SHOULD** be a globally unique resolvable URL |
-| `renderMethod` | **SHOULD** be present; type `TemplateRenderMethod` |
-
-The GLN is encoded in `credentialSubject.id` as a GS1 Digital Link URI with application identifier **417** (e.g. `https://id.gs1.org/417/{GLN}`), not as a separate claim property. See the [GLN Key Credential example](https://gs1.github.io/GS1DigitalLicenses/#gln-key-credential) in GS1 Digital Licenses.
-
-##### 3.3.3 OrganizationDataCredential (organization data)
-
-An `OrganizationDataCredential` is a `DataCredential` subtype that carries organization facts for the GLN identified in `credentialSubject.id`. Normative requirements from [Organization Data Credential](https://gs1.github.io/GS1DigitalLicenses/#organization-data-credential) and [GS1 Data Credential Details](https://gs1.github.io/GS1DigitalLicenses/#data-credential-details):
-
-| **Property** | **Requirement** |
-|--------------|-----------------|
-| `id` | **MUST** be present |
-| `credentialSubject.id` | **MUST** be the same GLN GS1 Digital Link URI as the corresponding `KeyCredential` |
-| `organization` | **Mandatory** — **MUST** contain `gs1:partyGLN` and `gs1:organizationName` (see [Organization Data JSON Schema](https://id.gs1.org/vc/schema/v1/organizationdata)) |
-| `keyAuthorization` | Optional; **SHOULD** reference the `KeyCredential` when the licensee creates data credentials |
-| `validFrom` | **MUST** be present (DataCredential base requirement) |
-| `credentialStatus` | **MAY** be present; if present, **MUST** be `BitstringStatusListEntry` |
-| `credentialSchema` | **MUST** be present; type `JsonSchema` |
-| `renderMethod` | **SHOULD** be present (DataCredential base requirement) |
-
-**WeBuild KYS extension (address and legal name):** The normative GS1 `OrganizationDataCredential` JSON Schema requires only `gs1:partyGLN` and `gs1:organizationName`. Section 2 additionally requires `organizationLegalName` and registered address attributes. For W3C VCDM encoding, these **MUST** be included by extending `credentialSubject.organization` with [GS1 Web Vocabulary](https://ref.gs1.org/voc/) terms:
-
-| **Section 2 attribute** | **GS1 Web Vocabulary term** | **JSON-LD path under `organization`** |
-|-------------------------|-------------------------------|---------------------------------------|
-| `organizationLegalName` | `gs1:organizationLegalName` | `gs1:organizationLegalName` |
-| `postal_code` | `gs1:postalCode` | `gs1:address` → `gs1:postalCode` |
-| `locality` | `gs1:addressLocality` | `gs1:address` → `gs1:addressLocality` |
-| `region` | `gs1:addressRegion` | `gs1:address` → `gs1:addressRegion` |
-| `country` | `gs1:countryCode` (via `gs1:addressCountry`) | `gs1:address` → `gs1:addressCountry` → `gs1:countryCode` |
-
-The address container is `gs1:address` → `gs1:PostalAddress`; country is an object property to `gs1:Country`, not a plain string. There is no `gs1:registeredAddress` term in the GS1 Web Vocabulary — use `gs1:address`. Full term URIs follow `https://ref.gs1.org/voc/{term}` (e.g. `https://ref.gs1.org/voc/postalCode`, `https://ref.gs1.org/voc/addressCountry`).
-
-> **Note:** In the GS1 Web Vocabulary, `gs1:address` is an optional object property of `gs1:Organization` (typed `gs1:PostalAddress`). The normative GS1 `OrganizationDataCredential` schema does not require it; this rulebook makes address attributes mandatory through the WeBuild KYS extension (Section 2.2). The value under `gs1:address` reflects the organization's address as recorded in GS1 membership data. It **MAY** therefore differ from the statutory registered address held by national commercial registers (e.g. the German Handelsregister) or from addresses attested by other authentic sources in European Business Wallet (EUBW) KYS flows (e.g. EUCC). Relying Parties assembling multi-credential wallet presentations **SHOULD** treat each address as source-specific and **MUST NOT** assume equivalence across attestations without explicit cross-checking.
-
-Issuers **SHOULD** include `https://ref.gs1.org/voc/` (or an equivalent GS1 vocabulary context) in `@context` alongside `organization-context` when emitting extended organization properties. MO policy **MAY** restrict which optional vocabulary terms (e.g. `gs1:streetAddress`) may be included.
-
-##### 3.3.4 Mapping to attestation attributes (Section 2)
-
-The encoding-independent attributes from Section 2 map to the GS1 credential pair as follows:
-
-| **Section 2 attribute** | **GS1 encoding** |
+| **Section 2 attribute** | **VCDM** |
 |-------------------------|-------------------|
 | `partyGLN` | GLN in `KeyCredential` `credentialSubject.id` (Digital Link URI) and `organization.gs1:partyGLN`; for the **party GLN only**, **MAY** also be read from `GS1CompanyPrefixLicenseCredential` `credentialSubject.organization.gs1:partyGLN` (Section 3.3.5) |
 | `organizationLegalName` | `organization.gs1:organizationLegalName` (WeBuild KYS); `organization.gs1:organizationName` remains required by GS1 schema |
@@ -601,103 +702,17 @@ The encoding-independent attributes from Section 2 map to the GS1 credential pai
 
 For SD-JWT VC encoding of the same attributes (embedded VCDM payload per [RFC 9901] A.4), see Section 3.2.1.
 
-##### 3.3.5 Link to GS1 license chain (`extendsCredential`)
-
-The `extendsCredential` property on a GLN `KeyCredential` is **Mandatory** ([GS1 Digital Licenses — ID Key Credential extendsCredential](https://gs1.github.io/GS1DigitalLicenses/#key-credential-extends-credential)). Verifiers **MUST** apply these rules:
-
-**Party GLN vs. additional GLNs:** Each `GS1CompanyPrefixLicenseCredential` carries exactly one
-mandatory party GLN in `credentialSubject.organization.gs1:partyGLN` — the main legal-entity
-GLN assigned with the company prefix. It does **not** list other location GLNs under that
-prefix.
-
-- When the attested GLN equals the party GLN on a valid `GS1CompanyPrefixLicenseCredential`,
-  verifiers **MAY** accept either that license credential (reading `organization.gs1:partyGLN`) **or**
-  a GLN `KeyCredential` for the same GLN as sufficient evidence of GLN assignment.
-- When the attested GLN is **not** the party GLN, verifiers **MUST** require a valid GLN
-  `KeyCredential` whose `credentialSubject.id` Digital Link URI identifies that GLN.
-
-**`extendsCredential` chain rules:**
-- If `credentialSubject.id` contains a GS1 Digital Link with primary key **K** and **no key qualifiers**, then `extendsCredential` **MUST** reference a GS1 License Credential whose `licenseValue` is the prefix string that **K** starts with (typically the `GS1CompanyPrefixLicenseCredential` for the company prefix).
-- If `credentialSubject.id` contains primary key **K** **with key qualifiers**, then `extendsCredential` **MUST** reference a `KeyCredential` whose `credentialSubject.id` contains the same primary key **K** without qualifiers.
-
-Verifiers **MUST** additionally validate the full license chain back to a GS1 Global Office root credential (`GS1PrefixLicenseCredential`), including signature verification and revocation status at each hop — see [Validating GS1 ID Key Credentials](https://gs1.github.io/GS1DigitalLicenses/validating_keys.html) and [Validating GS1 License Credentials](https://gs1.github.io/GS1DigitalLicenses/license_validation.html). A reference implementation of the GS1 chain validation for verifiable credentials is available under https://github.com/european-epc-competence-center/vc-verifier-rules
-
-For a GLN `KeyCredential` **K** with subject Digital Link **D** and parent credential **P** (at `extendsCredential`), verifiers **MUST** also apply ([validating_keys.html](https://gs1.github.io/GS1DigitalLicenses/validating_keys.html)):
-
-- **K** **MUST** be valid VCDM 2.0 with a valid issuer DID signature; **K** `validFrom` **MUST NOT** be in the future.
-- If **D** has primary key **PK** without key qualifiers: **P** **MUST** be a valid GS1 License Credential; `issuer(K)` **MUST** match `credentialSubject(P)`; **PK** **MUST** begin with `licenseValue` from **P**.
-- If **D** has key qualifiers: **P** **MUST** be a valid GS1 ID Key Credential; `issuer(K)` **MUST** match `issuer(P)`; primary key of **P**'s subject **MUST** equal **PK**.
-
-The `OrganizationDataCredential` links to the GLN `KeyCredential` via `keyAuthorization` (**MUST** be included when the licensee creates data credentials).
-
-##### 3.3.6 Examples
-
-Normative GS1 examples (JWT and decoded JSON-LD) are published in [GS1 Digital Licenses](https://gs1.github.io/GS1DigitalLicenses/):
-
-- GLN KeyCredential: [gln-key-credential](https://gs1.github.io/GS1DigitalLicenses/#gln-key-credential)
-- Organization data (minimal schema): [sample-organization-data-credential](https://gs1.github.io/GS1DigitalLicenses/#sample-organization-data-credential)
-
-License examples (Company Prefix, Prefix) are in [License Examples](https://gs1.github.io/GS1DigitalLicenses/#License-Examples).
-
-The following non-normative example extends `OrganizationDataCredential` with WeBuild KYS mandatory address and legal-name attributes via GS1 Web Vocabulary:
-
-```json
-{
-  "@context": [
-    "https://www.w3.org/ns/credentials/v2",
-    "https://ref.gs1.org/gs1/vc/organization-context",
-    "https://ref.gs1.org/voc/"
-  ],
-  "type": ["VerifiableCredential", "OrganizationDataCredential"],
-  "id": "https://example.gs1.org/vc/organization-data/0810159550000",
-  "issuer": {
-    "id": "did:web:example.gs1.org",
-    "name": "GS1 Example MO"
-  },
-  "validFrom": "2026-01-15T10:00:00Z",
-  "credentialSubject": {
-    "id": "https://id.gs1.org/417/0810159550000",
-    "keyAuthorization": "https://example.gs1.org/vc/key/0810159550000",
-    "organization": {
-      "@type": "gs1:Organization",
-      "gs1:partyGLN": "0810159550000",
-      "gs1:organizationName": "Healthy Tots",
-      "gs1:organizationLegalName": "Healthy Tots GmbH",
-      "gs1:address": {
-        "@type": "gs1:PostalAddress",
-        "gs1:postalCode": "10115",
-        "gs1:addressLocality": "Berlin",
-        "gs1:addressRegion": "Berlin",
-        "gs1:addressCountry": {
-          "@type": "gs1:Country",
-          "gs1:countryCode": "DE"
-        }
-      }
-    }
-  },
-  "credentialStatus": {
-    "type": "BitstringStatusListEntry",
-    "statusPurpose": "revocation",
-    "statusListIndex": "42",
-    "statusListCredential": "https://example.gs1.org/status/revocation/1"
-  },
-  "credentialSchema": {
-    "id": "https://id.gs1.org/vc/schema/v1/organizationdata",
-    "type": "JsonSchema"
-  }
-}
-```
 
 ## 4 GS1 Trust Chain
 
-A complete credential chain for an `OrganizationDataCredential` **must** consist of at least the 4 credentials
+A complete credential chain for GLN EAA, i.e. an `OrganizationDataCredential`, **must** consist of at least the credential itself plus 3 credentials
 
 - The `OrganizationDataCredential`
 - A matching `GS1CompanyPrefixLicenseCredential` (GCP Credential)
 - A matchin `GS1PrefixLicenseCredential` (Prefix Credential)
 
 
-It should also contain
+It may also contain
 
 - A matching GLN `KeyCredential`
 
@@ -726,15 +741,20 @@ Before issuing a GLN attestation, the Issuer **MUST** confirm the GS1 trust chai
 
 1. **Revocation status** — No credential in the chain is revoked on the issuer's Bitstring Status List (Section 6).
 2. **GLN integrity** — The GLN passes check-digit validation and its numeric prefix is consistent with the licensed company prefix (Section 2.9).
-3. **Registry consistency** — Organization name and address match GS1 registry records (where an authoritative API is available).
+3. **Registry consistency** — Organization name and address match GS1 registry records
 
 #### 4.1.2 Issuer roles
 
-Issuer roles and responsibilities within the GS1 trust hierarchy are defined in Section 5.2. At GS1 Global Office, credential issuance follows a multi-controller process: an Authorized Staff Member (ASM) prepares the credential and a GS1 Office Holder (OH) co-signs before publication.
+Issuer roles and responsibilities within the GS1 trust hierarchy are defined in Section 5.2. E.g. at GS1 Global Office, the issuance of the highes trust level credentials follows a multi-controller process: an Authorized Staff Member (ASM) prepares the credential and a GS1 Office Holder (OH) co-signs before publication. 
 
 #### 4.1.3 Issuance steps
 
 The Issuer **MUST** perform the following steps:
+
+
+> :warning: TBD: The Issuer of an `OrganizationDataCredential` would normally be the same as the holder, namely the holder of the GCP Credential. How is this forseen to integrate with the WeBuild Trust Eco system?
+
+
 
 1. **Identify the subject** — Resolve the legal entity DID (`credentialSubject.id`) and confirm it controls the DID used in the parent Company Prefix License.
 2. **Select backing license** — Obtain the URI of the valid `GS1CompanyPrefixLicenseCredential`. The GLN `KeyCredential` `extendsCredential` **MUST** satisfy the rules in Section 3.3.5.
