@@ -1,20 +1,38 @@
 {
-  "vct": "eu.we-build.ownership.1",
-  "iss": "https://issuer.example.com",
-  "iat": 1736935200,
-  "exp": 1768471200,
-  "issuing_entity": "did:example:legal-entity-789",
+  "vct": "eu.we-build:ownership:1",
+  "iss": "https://issuer.bosch.com/ownership",
+  "iat": 1747044000,
+  "exp": 1778580000,
+  "nbf": 1747044000,
+  "sub": "did:example:target-company-lei-529900T8BM49AURSDO55",
+  "issuing_entity": "http://bosch.com/did",
   "attestation_legal_category": "EAA",
-  "schema_version": "0.3.0",
+  "schema_version": "0.9.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
 
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.bosch.com/status/ownership/2025",
+    "status_list_index": 789,
+    "status_purpose": "revocation"
+  },
   "owner": [
     {
-      "type": "NP",
-      "natural_person": {
+      "type": "Person",
+      "jurisdiction": "DE",
+      "person": {
         "first_name": "Anna",
         "surname": "Schmidt",
-        "date_of_birth": "1978-04-15"
+        "birth_date": "1978-04-15"
       },
       "address": {
         "street": "Hauptstraße",
@@ -24,115 +42,153 @@
         "postal_code": "10115",
         "country": "DE"
       },
-      "ownership": [
+      "interests": {
+        "type": ["shareholding"],
+        "level": "direct",
+        "percentage": 51.0,
+        "quantity": 51000,
+        "class": "ordinary",
+        "rights": ["dividend_rights", "liquidation_rights"],
+        "description": "Direct majority shareholding acquired at company founding"
+      },
+      "effective_date": "2018-03-01",
+      "evidence": [
         {
-          "legal_identifier": "DE1234.HRB123456",
-          "type": "direct",
-          "stake": 51.0,
-          "amount": {
-            "value": 510000,
-            "currency": "EUR"
-          },
-          "category": "ordinary",
-          "economic_rights": [
-            "dividend_rights",
-            "liquidation_rights"
-          ]
+          "id": "src-001",
+          "type": "officialRegister",
+          "url": "https://www.handelsregister.de/docs/example-gesellschafterliste-2024.pdf"
         }
       ]
     },
+
     {
-      "type": "NP",
-      "natural_person": {
-        "first_name": "Marco",
-        "surname": "Rossi",
-        "date_of_birth": "1965-11-23"
+     "type": "Person",
+      "jurisdiction": "DE",
+      "person": {
+        "first_name": "Klaus",
+        "surname": "Müller",
+        "birth_date": "1965-11-22"
       },
       "address": {
-        "street": "Via Roma",
-        "house_number": "45",
-        "locality": "Milan",
-        "region": "Lombardy",
-        "postal_code": "20121",
-        "country": "IT"
-      },
-      "ownership": [
-        {
-          "legal_identifier": "DE111.HRB654321",
-          "type": "indirect",
-          "stake": 25.5,
-          "amount": {
-            "value": 255000,
-            "currency": "EUR"
-          },
-          "category": "ordinary",
-          "economic_rights": [
-            "dividend_rights",
-            "liquidation_rights"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "LE",
-      "legal_person": {
-        "legal_name": "Alpine Holding GmbH",
-        "legal_form": "GmbH",
-        "identifier": {
-          "euid": "DE111.HRB654321",
-          "lei": "5299000J2N45DDNE4Y28",
-          "tax": "DE812345678"
-        }
-      },
-      "address": {
-        "street": "Industriestraße",
-        "house_number": "5",
-        "locality": "Munich",
-        "region": "Bavaria",
-        "postal_code": "80331",
+        "street": "Berliner Allee",
+        "house_number": "88",
+        "locality": "Hamburg",
+        "region": "Hamburg",
+        "postal_code": "20095",
         "country": "DE"
       },
-      "ownership": [
+      "interests": {
+        "type": ["nomineeShareholding", "votingRights"],
+        "level": "indirect",
+        "percentage": 10.0,
+        "quantity": 10000,
+        "class": "ordinary",
+        "rights": ["dividend_rights"],
+        "description": "Indirect holding via nominee arrangement through HoldCo GmbH"
+      },
+      "effective_date": "2020-07-01",
+      "evidence": [
         {
-          "legal_identifier": "DE1234.HRB123456",
-          "type": "indirect",
-          "stake": 23.5,
-          "amount": {
-            "value": 235000,
-            "currency": "EUR"
-          },
-          "category": "preferred",
-          "economic_rights": [
-            "dividend_rights"
-          ]
+          "id": "src-002",
+          "type": "shareholderAgreement",
+          "url": "https://example.com/docs/nominee-agreement-2020.pdf"
+        }
+      ]
+    },
+
+    {
+      "type": "Entity",
+      "jurisdiction": "DE",
+      "entity": {
+        "category": "legal_entity",
+        "name": "Holding GmbH",
+        "identifier": {
+          "euid": "DE-HRB-654321",
+          "lei": "529900T8BM49AURSDO55",
+          "tax": "DE987654321"
+        },
+        "jurisdiction": "DE",
+        "form": "private_company"
+      },
+      "address": {
+        "street": "Musterstraße",
+        "house_number": "45",
+        "locality": "Frankfurt",
+        "region": "Hessen",
+        "postal_code": "60311",
+        "country": "DE"
+      },
+      "interests": {
+        "type": ["shareholding", "votingRights"],
+        "level": "indirect",
+        "percentage": 30.0,
+        "quantity": 30000,
+        "class": "preferred",
+        "rights": ["dividend_rights"],
+        "description": "Holding company controlling 30% preferred shares"
+      },
+      "effective_date": "2019-06-15",
+      "evidence": [
+        {
+          "id": "src-003",
+          "type": "shareholderAgreement",
+          "url": "https://example.com/docs/shareholder-agreement-2019.pdf"
+        },
+        {
+          "id": "src-004",
+          "type": "articlesOfAssociation",
+          "url": "https://example.com/docs/articles-of-association-holdco.pdf"
+        }
+      ]
+    },
+
+    {
+      "type": "Entity",
+      "jurisdiction": "LU",
+      "entity": {
+        "category": "legal_arrangement",
+        "name": "Schmidt Family Trust",
+        "identifier": {
+          "lei": "549300ABCDEF12345678"
+        },
+        "jurisdiction": "LU",
+        "form": "trust",
+        "subtype_info": {
+          "settlement": "Settled under Luxembourg trust law on 2015-03-01 by Anna Schmidt as settlor",
+          "purpose": "Family wealth management, succession planning, and asset protection for Schmidt family beneficiaries",
+          "assets": "Real estate holdings, securities portfolios, cash deposits, and equity stakes in operating companies",
+          "reason_for_registration": "Registered for tax transparency obligations under the OECD Common Reporting Standard (CRS) and EU DAC6"
+        }
+      },
+      "address": {
+        "street": "Rue de la Forêt",
+        "house_number": "7",
+        "locality": "Luxembourg",
+        "region": "Luxembourg",
+        "postal_code": "L-1234",
+        "country": "LU"
+      },
+      "interests": {
+        "type": ["beneficiaryOfLegalArrangement", "economicBeneficiary"],
+        "level": "indirect",
+        "percentage": 9.0,
+        "quantity": 0,
+        "rights": ["dividend_rights", "liquidation_rights"],
+        "description": "Trust holds economic interests as beneficiary without formal registered shares"
+      },
+      "effective_date": "2015-03-01",
+      "evidence": [
+        {
+          "id": "src-005",
+          "type": "trustDeed",
+          "url": "https://example.com/docs/trust-deed-schmidt-2015.pdf"
+        },
+        {
+          "id": "src-006",
+          "type": "thirdPartyVerification",
+          "data": "eyJub3RhcnkiOiAiTm90YXJpYXQgTHV4ZW1ib3VyZyIsICJkYXRlIjogIjIwMjUtMDEtMTUiLCAidmVyaWZpZWQiOiB0cnVlfQ=="
         }
       ]
     }
-  ],
-
-  "evidence": [
-    {
-      "evidence_id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
-      "evidence_type": "Evidence",
-      "evidence_data": "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0ZpbHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nCvkMlAwUDC1NNUzMVcozy/KSVUIAP//AAAA//8=",
-      "evidence_confirmation": true,
-      "evidence_date": "2025-01-15"
-    }
-  ],
-
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/ownership/2025",
-    "status_list_index": 456,
-    "status_purpose": "revocation"
-  },
-
-  "cnf": {
-    "jwk": {
-      "kty": "EC",
-      "crv": "P-256",
-      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-    }
-  }
+  ]
 }

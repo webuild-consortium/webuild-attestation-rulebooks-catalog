@@ -1,0 +1,79 @@
+{
+
+  "vct": "eu.we-build:site:1",
+
+  "attestation_legal_category": "EAA",
+
+  "iss": "did:web:bosch.com",
+
+  "iat": 1746000000,
+
+  "exp": 1777536000,
+
+  "jti": "urn:uuid:site-attestation-bosch-karlsruhe-20260515-001",
+
+  "parent_economic_operator_main_id": "DE-HRB-396699",
+
+  "parent_economic_operator_id": {
+    "euid": "DE-HRB-396699",
+    "lei": "529900HNOAA1KXQJUQ27",
+    "tax": "DE811001001",
+    "gln": "4012345000009",
+    "duns": "330502866",
+    "eori": "DE123456789012345",
+    "bpnl": "BPNL000000000001",
+    "siren": "542107651"
+  },
+
+  "site_name": "Bosch Karlsruhe Manufacturing Site",
+
+  "site_main_id": "550e8400-e29b-41d4-a716-446655440000",
+
+  "site_additional_ids": [
+    "BPNS0000000001XY",
+    "GLN-4012345000016",
+    "SIRET-54210765100047"
+  ],
+
+  "site_main_address": {
+    "street": "Auf der Breit",
+    "nr": "4",
+    "postal_code": "76227",
+    "city": "Karlsruhe"
+  },
+
+  "site_additional_addresses": [
+    {
+      "street": "Robert-Bosch-Strasse",
+      "nr": "2",
+      "postal_code": "76131",
+      "city": "Karlsruhe"
+    },
+    {
+      "street": "Haid-und-Neu-Strasse",
+      "nr": "7",
+      "postal_code": "76131",
+      "city": "Karlsruhe"
+    }
+  ],
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://trust.webuildconsortium.eu/status/site-list-2026-001",
+    "status_list_index": 789,
+    "status_purpose": "revocation"
+  },
+
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+
+  "schema_version": "0.4.0",
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
+      "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
+    }
+  }
+}
