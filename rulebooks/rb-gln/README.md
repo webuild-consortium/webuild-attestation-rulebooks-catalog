@@ -105,8 +105,28 @@ This attestation type **SHOULD** be classified as **"EAA"** when issued based on
 
 The GLN EAA is a [GS1 Organization Data Credential, as described in https://gs1.github.io/GS1DigitalLicenses section 7.3.2](https://gs1.github.io/GS1DigitalLicenses/#organization-data-credential).
 
-
 The attributes below are based on the [GS1 Web Vocabulary](https://ref.gs1.org/voc/). Terms use the `gs1:` prefix (namespace `https://ref.gs1.org/voc/`). JSON-LD paths for the WeBuild KYS address extension are specified in Section 3.3.3.
+
+#### Data types
+
+Attribute **Type** values in the tables below use standard RDF / JSON-LD datatype IRIs. JSON-LD uses the `xsd:` prefix for [XML Schema Definition (XSD)](https://www.w3.org/TR/xmlschema11-2/) datatypes (namespace `http://www.w3.org/2001/XMLSchema#`), not `xs:`.
+
+| **Type** | **Description** |
+|----------|-----------------|
+| `rdf:langString` | A language-tagged string. Properties of this type are **localized**: each value **MUST** carry a BCP 47 language tag. Multiple language variants **MAY** be provided. |
+| `xsd:string` | A plain lexical string without a language tag. |
+| `xsd:anyURI` | A URI or IRI. |
+
+**Example — localized `rdf:langString` property:**
+
+```json
+"gs1:organizationLegalName": {
+  "@value": "EECC GmbH",
+  "@language": "de"
+}
+```
+
+Multiple localized values **MAY** be expressed as an array of such objects.
 
 
 
@@ -119,13 +139,13 @@ The GLN EAA **must** contain a `credentialSubject["gs1:organization"]` which **m
 | **Attribute** | **Definition**                                      | **Type**  |
 |------------------------|-----------------------------------------------------|----------------|
 | `gs1:organizationName` | The entity name registered with GS1 (localized)      | `rdf:langString` |
-|`gs1:partyGLN`            | The 13 digit main party GLN of the company | `xs:string` |
+| `gs1:partyGLN`         | The 13 digit main party GLN of the company           | `xsd:string`   |
 
-Notice that the GLN might start with a 0 and hence `xs:integer` is not an apropriate representation of this id.
+Notice that the GLN might start with a 0 and hence `xsd:integer` is not an apropriate representation of this id.
 
 | **Attribute** | **Definition**                                      | **Type**  |
 |------------------------|-----------------------------------------------------|----------------|
-|`credentialSubject.id`| Digital Link URI representation of the GLN | xsd:anyURI |
+| `credentialSubject.id` | Digital Link URI representation of the GLN           | `xsd:anyURI`   |
 
 The `credentialSubject.id` **must** be a url with a path ending in `/417/{gs1:partyGLN}`.
 
@@ -145,17 +165,17 @@ The most important attributes of `credentialSubject["gs1:organization"]["gs1:add
 
 | **Attribute** | **Definition**                                                                        | **Type**       |
 |------------------------|---------------------------------------------------------------------------------------|---------------------|
-| `gs1:streetAddress`    | The primary street address line as free-form text (e.g. street name and house number, or building name). **SHOULD** be used before populating additional street lines. | `rdf:langString`    |
-| `gs1:streetAddressLine2` | The second street address line as free-form text (e.g. building, unit, or c/o information). | `rdf:langString`    |
-| `gs1:streetAddressLine3` | The third street address line as free-form text.                                      | `rdf:langString`    |
-| `gs1:streetAddressLine4` | The fourth street address line as free-form text.                                      | `rdf:langString`    |
+| `gs1:streetAddress`    | The primary street address line as free-form text (e.g. street name and house number, or building name). **SHOULD** be used before populating additional street lines. (localized) | `rdf:langString`    |
+| `gs1:streetAddressLine2` | The second street address line as free-form text (e.g. building, unit, or c/o information). (localized) | `rdf:langString`    |
+| `gs1:streetAddressLine3` | The third street address line as free-form text. (localized)                          | `rdf:langString`    |
+| `gs1:streetAddressLine4` | The fourth street address line as free-form text. (localized)                          | `rdf:langString`    |
 | `gs1:postOfficeBoxNumber` | The number identifying a post-office box; **SHOULD** be used instead of street address lines for PO box addresses. | `xsd:string`        |
-| `gs1:postalName`       | The postal recipient name; **MAY** differ from `gs1:organizationName`.                    | `rdf:langString`    |
+| `gs1:postalName`       | The postal recipient name; **MAY** differ from `gs1:organizationName`. (localized)    | `rdf:langString`    |
 | `gs1:postalCode`       | The postal code where the legal entity is registered or operates                      | `xsd:string`        |
-| `gs1:addressLocality`  | The locality (e.g. city) where the legal entity is registered or operates             | `rdf:langString`    |
-| `gs1:addressRegion`    | The province or state (e.g. in abbreviated form) where the legal entity is registered or operates | `rdf:langString`    |
-| `gs1:addressSuburb`    | A suburb within a town or city.                                                       | `rdf:langString`    |
-| `gs1:countryCode`      | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xs:string`        |
+| `gs1:addressLocality`  | The locality (e.g. city) where the legal entity is registered or operates. (localized) | `rdf:langString`    |
+| `gs1:addressRegion`    | The province or state (e.g. in abbreviated form) where the legal entity is registered or operates. (localized) | `rdf:langString`    |
+| `gs1:addressSuburb`    | A suburb within a town or city. (localized)                                           | `rdf:langString`    |
+| `gs1:countryCode`      | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xsd:string`        |
 
 Other attributes of `gs1:PostalAddress` data model **MAY** also be used if needed.
 
@@ -190,18 +210,18 @@ When the GLN EAA is encoded as SD-JWT VC (Section 3.2), the following additional
 
 | **Data Identifier**        | **Definition**                                                                                              | **Type** |
 |----------------------------|-------------------------------------------------------------------------------------------------------------|----------|
-| `attestation_legal_category` | Indicates the legal category of this attestation (`EAA` or `QEAA`)                                        | String   |
-| `vct`                      | A unique identifier (URL or URN) for the credential type, indicating which claims **must** be present and which **can** be selectively disclosed | String   |
+| `attestation_legal_category` | Indicates the legal category of this attestation (`EAA` or `QEAA`)                                        | `xsd:string` |
+| `vct`                      | A unique identifier (URL or URN) for the credential type, indicating which claims **must** be present and which **can** be selectively disclosed | `xsd:anyURI` |
 
 Encoding-independent metadata identifiers used elsewhere in this rulebook map to the GS1 VCDM properties above as follows: `issuance_date` → `validFrom`; `expiry_date` → `validUntil` (**SHOULD** be set); `issuing_entity` → `issuer.id`. See Section 3.3.4 for the full mapping.
 
 ### 2.5 Optional metadata
 
 | **Data Identifier** | **Definition**                                                             | **Type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation **can** be retrieved | URI           |
-| schema_version      | Version of the schema used                                                 | String        |
-| description | A human readable description of the content and purpouse of this credential/attestation | xsd:string| 
+|---------------------|----------------------------------------------------------------------------|----------|
+| `trust_anchor_url`  | URL where the trust anchor for verifying this attestation **can** be retrieved | `xsd:anyURI` |
+| `schema_version`    | Version of the schema used                                                 | `xsd:string` |
+| `description`       | A human readable description of the content and purpouse of this credential/attestation | `xsd:string` |
 
 
 ### 2.7 Value Lists
