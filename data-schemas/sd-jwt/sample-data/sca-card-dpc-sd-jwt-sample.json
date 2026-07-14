@@ -1,0 +1,21 @@
+{
+  "vct": "https://issuer.bank.example/credentials/sca/card-dpc/1.0",
+  "vct#integrity": "sha256-Cp5VgPMqzU7cphGIL0aRy54scWhTiBFB1FJYDLyO94w=",
+  "extends": "https://webuildconsortium.eu/sca/sca-card-dpc/1.0",
+  "extends#integrity": "sha256-gV1X+E7n79QEHEt9AI0VY3ZbNefHhZloJhpaHoYFqKM=",
+  "iss": "https://issuer.bank.example",
+  "iat": 1772195095,
+  "exp": 1835267095,
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "f83OJ3D2xF4wK2Yp6tK2vNhbbX6YsJhBKt3vnDnNQfQ",
+      "y": "x_FEzRu9w4J6v7P3cu6UytzszbmWzxubUANe0yoyl9A"
+    }
+  },
+  "attestation_legal_category": "non-qualified-EAA",
+  "credential_id": "urn:uuid:9f2b7a2e-3b74-4a0d-9b1a-0e6a91f5d2c8",
+  "network": "mastercard",
+  "card_id": "mc-8c3f2d1a"
+}
