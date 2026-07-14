@@ -213,7 +213,7 @@ When the GLN EAA is encoded as SD-JWT VC (Section 3.2), the following additional
 | `attestation_legal_category` | Indicates the legal category of this attestation (`EAA` or `QEAA`)                                        | `xsd:string` |
 | `vct`                      | A unique identifier (URL or URN) for the credential type, indicating which claims **must** be present and which **can** be selectively disclosed | `xsd:anyURI` |
 
-Encoding-independent metadata identifiers used elsewhere in this rulebook map to the GS1 VCDM properties above as follows: `issuance_date` → `validFrom`; `expiry_date` → `validUntil` (**SHOULD** be set); `issuing_entity` → `issuer.id`. See Section 3.3.4 for the full mapping.
+Encoding-independent metadata identifiers used elsewhere in this rulebook map to the GS1 VCDM properties above as follows: `issuance_date` → `validFrom`; `expiry_date` → `validUntil` (**SHOULD** be set); `issuing_entity` → `issuer.id`. See Section 3.4 for the full mapping.
 
 ### 2.5 Optional metadata
 
@@ -705,22 +705,42 @@ in the JWT payload per [RFC 9901] Appendix A.4.
 
 ### 3.4 Mapping of attestation attributes
 
-THe following table summarizes where which attribute of the general data model (Section 2) is mapped in VCDM JSON-LD serialization and SD-JWT serialization.
+The following table summarizes where each attribute of the general data model (Section 2) is mapped in VCDM JSON-LD serialization (Section 3.3) and SD-JWT VC serialization (Section 3.2). Paths use dot notation; GS1 vocabulary terms retain their `gs1:` prefix as JSON property names (compact JSON-LD form). In SD-JWT VC, the embedded VCDM payload is carried as top-level JWT claims per [RFC 9901] Appendix A.4 — paths below are therefore identical unless a separate JWT-native claim is listed.
 
-| **Section 2 attribute** | **VCDM** |
-|-------------------------|-------------------|
-| `partyGLN` | GLN in `KeyCredential` `credentialSubject.id` (Digital Link URI) and `organization.gs1:partyGLN`; for the **party GLN only**, **MAY** also be read from `GS1CompanyPrefixLicenseCredential` `credentialSubject.organization.gs1:partyGLN` (Section 3.3.5) |
-| `organizationLegalName` | `organization.gs1:organizationLegalName` (WeBuild KYS); `organization.gs1:organizationName` remains required by GS1 schema |
-| `licenceKey` (Company Prefix) | Derived from the `extendsCredential` chain — `licenseValue` of the referenced `GS1CompanyPrefixLicenseCredential` |
-| `address.postal_code` | `organization.gs1:address.gs1:postalCode` |
-| `address.locality` | `organization.gs1:address.gs1:addressLocality` |
-| `address.region` | `organization.gs1:address.gs1:addressRegion` |
-| `address.country` | `organization.gs1:address.gs1:addressCountry.gs1:countryCode` (ISO 3166-1 alpha-2) |
-| `issuance_date` | `validFrom` on each credential |
-| `expiry_date` | `validUntil` on each credential (**SHOULD** be set) |
-| `issuing_entity` | `issuer.id` (DID) |
+| **Section 2 attribute** | **VCDM JSON-LD** | **SD-JWT VC** |
+|---------------------------|------------------|---------------|
+| **Mandatory organization attributes** | | |
+| `gs1:partyGLN` | `credentialSubject.organization.gs1:partyGLN` | `credentialSubject.organization.gs1:partyGLN` |
+| `gs1:organizationName` | `credentialSubject.organization.gs1:organizationName` | `credentialSubject.organization.gs1:organizationName` |
+| `gs1:organizationLegalName` | `credentialSubject.organization.gs1:organizationLegalName` | `credentialSubject.organization.gs1:organizationLegalName` |
+| `credentialSubject.id` (GLN Digital Link URI) | `credentialSubject.id` (path **MUST** end in `/417/{gs1:partyGLN}`) | `credentialSubject.id` (path **MUST** end in `/417/{gs1:partyGLN}`) |
+| `gs1:address` (`gs1:PostalAddress`) | `credentialSubject.organization.gs1:address` | `credentialSubject.organization.gs1:address` (MAY be selectively disclosable via `_sd`; Section 3.2.1) |
+| `credentialSubject.keyAuthorization` | `credentialSubject.keyAuthorization` | `credentialSubject.keyAuthorization` |
+| **Derived from trust chain** | | |
+| Company Prefix (`licenceKey`) | Not stored on `OrganizationDataCredential`; derived by resolving `credentialSubject.keyAuthorization` → `KeyCredential` → `extendsCredential` chain to `licenseValue` on the referenced `GS1CompanyPrefixLicenseCredential` (Sections 3.3.5, 5.1) | Same as VCDM JSON-LD |
+| **Mandatory credential metadata** | | |
+| `@context` | `@context` | `@context` |
+| `id` | `id` | `id` |
+| `type` | `type` (includes `VerifiableCredential`, `DataCredential`, `OrganizationDataCredential`) | `type` |
+| `issuing_entity` | `issuer.id` (DID) | `issuer.id`; also JWT `iss` (RFC 7519; **SHOULD** match `issuer.id`) |
+| `issuance_date` | `validFrom` (ISO 8601 date-time) | `validFrom`; also JWT `iat` (Unix timestamp; **SHOULD** be consistent with `validFrom`) |
+| `expiry_date` | `validUntil` (ISO 8601 date-time; **SHOULD** be set) | `validUntil`; also JWT `exp` (Unix timestamp; **SHOULD** be consistent with `validUntil`) |
+| `credentialSchema` | `credentialSchema` (`JsonSchema`) | `credentialSchema` |
+| `credentialStatus` (revocation) | `credentialStatus` (`BitstringStatusListEntry`; Section 6.1) | `status` (authoritative for revocation; Section 3.2.2). `credentialStatus` **MAY** be present for structural parity but **MUST NOT** be used for revocation checks |
+| `renderMethod` | `renderMethod` (`TemplateRenderMethod`) | `renderMethod` (MAY be selectively disclosable via `_sd`; Section 3.2.1) |
+| **WeBuild / SD-JWT additional mandatory metadata** | | |
+| `attestation_legal_category` | — (SD-JWT VC only) | `attestation_legal_category` |
+| `vct` | — (SD-JWT VC only) | `vct` (`eu.we-build.gln.1`) |
+| **Optional metadata** | | |
+| `trust_anchor_url` | `trust_anchor_url` (top-level WeBuild extension; **MAY**) | `trust_anchor_url` |
+| `schema_version` | `schema_version` (top-level WeBuild extension; **MAY**) | `schema_version` |
+| `description` | `description` (**MAY**; GS1 Data Credential) | `description` |
 
-For SD-JWT VC encoding of the same attributes (embedded VCDM payload per [RFC 9901] A.4), see Section 3.2.1.
+**Notes:**
+
+- `gs1:partyGLN` is also represented implicitly in `credentialSubject.id` as the GS1 Digital Link URI with application identifier **417**. For the **party GLN only**, verifiers **MAY** additionally read the GLN from `GS1CompanyPrefixLicenseCredential` `credentialSubject.organization.gs1:partyGLN` when validating the trust chain (Section 3.3.5).
+- SD-JWT VC embeds the same VCDM claim structure as JSON-LD; selectively disclosable claims within `credentialSubject` are replaced by `_sd` digests at issuance time (Section 3.2.1).
+- Issuers **SHOULD** keep JWT-native claims (`iss`, `iat`, `exp`) and their VCDM counterparts (`issuer`, `validFrom`, `validUntil`) consistent (Section 3.2.1).
 
 
 ## 4 GS1 Trust Chain
