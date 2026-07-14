@@ -16,6 +16,7 @@
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 | 0.2     | 17.06.2026 | Reviewed version based on the initial draft 					 |
 | 0.3     | 25.06.2026 | Alignment with data schema and natural persons requirements	 |
+| 0.4     | 13.07.2026 | Harmonization and extension of natural persons requirements	 |
 
 * Contact:
   * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com)*
