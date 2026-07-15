@@ -7,18 +7,18 @@
 * Previous Authors
 * Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH](florin.coptil@de.bosch.com)
-  * [Dominic Hurni, SBB]
+  * [Dominic Hurni, SBB] (dominic.hurni@sbb.ch)
 
-| Version | Date       | Description                                                     |
-|---------|------------|-----------------------------------------------------------------|
-| 0.1     | 01.06.2026 | Initial draft based on the WeBuild design attestations meetings |
-| 0.6     | 29.06.2026 | update layout and review gln                                    |
-| 0.7     | 30.06.2026 | Major updates to include the GS1 Trust Chain details            |
-| 0.8     | 13.07.2026 | Data model refinement, aligning rule book with existing GS1 Trust Chain Data Models        |
-
-
+| Version | Date       | Description                                                                         |
+|---------|------------|-------------------------------------------------------------------------------------|
+| 0.1     | 01.06.2026 | Initial draft based on the WeBuild design attestations meetings                     |
+| 0.6     | 29.06.2026 | update layout and review gln                                                        |
+| 0.7     | 30.06.2026 | Major updates to include the GS1 Trust Chain details                                |
+| 0.8     | 13.07.2026 | Data model refinement, aligning rule book with existing GS1 Trust Chain Data Models |
+| 0.9     | 14.07.2026 | Update Meeting GS1 + EEEC                                                           |
+* 
 * Contact:
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)*
+  * [Dominik Halbeisen, GS1 Switzerland](dominik.halbeisen@gs1.ch)
   
 * Feedback:
 
@@ -66,8 +66,7 @@ This Rulebook is structured as follows:
 - Chapter 4 specifies attestation usage scenarios and Relying Party obligations in KYS workflows.
 - Chapter 5 defines the GS1 trust model, trust anchors, and verification of the credential chain.
 - Chapter 6 defines revocation mechanisms for the attestation.
-- Chapter 7 provides compliance information regarding the EUBW framework and applicable data protection laws.
-- Chapter 8 provides references to applicable standards and specifications.
+- Chapter 7 provides compliance information regarding the EUDI framework and applicable data protection laws.
 
 ### 1.3 Keywords
 
@@ -105,10 +104,7 @@ This attestation type SHOULD be classified as **"EAA"** when issued based on the
 
 The GLN EAA is a [GS1 Organization Data Credential, as described in https://gs1.github.io/GS1DigitalLicenses section 7.3.2](https://gs1.github.io/GS1DigitalLicenses/#organization-data-credential).
 
-
 The attributes below are based on the [GS1 Web Vocabulary](https://ref.gs1.org/voc/). Terms use the `gs1:` prefix (namespace `https://ref.gs1.org/voc/`). JSON-LD paths for the WeBuild KYS address extension are specified in Section 3.3.3.
-
-
 
 ### 2.2 Mandatory Attributes
 
@@ -116,24 +112,24 @@ The attributes below are based on the [GS1 Web Vocabulary](https://ref.gs1.org/v
 
 The GLN EAA must contain a `credentialSubject["gs1:organization"]` which must contain the following attributes:
 
-| **Attribute** | **Definition**                                      | **Type**  |
-|------------------------|-----------------------------------------------------|----------------|
-| `gs1:organizationName` | The entity name registered with GS1 (localized)      | `rdf:langString` |
-|`gs1:partyGLN`            | The 13 digit main party GLN of the company | `xs:string` |
+| **Attribute**           | **Definition**                                        | **Type**         |
+|-------------------------|-------------------------------------------------------|------------------|
+| `gs1:organizationName`  | The entity name registered with GS1 (localized)       | `rdf:langString` |
+| `gs1:partyGLN`          | The 13 digit main party GLN of the company            | `xs:string`      |
 
 Notice that the GLN might start with a 0 and hence `xs:integer` is not an apropriate representation of this id.
 
-| **Attribute** | **Definition**                                      | **Type**  |
-|------------------------|-----------------------------------------------------|----------------|
-|`credentialSubject.id`| Digital Link URI representation of the GLN | xsd:anyURI |
+| **Attribute**           | **Definition**                                       | **Type**    |
+|-------------------------|------------------------------------------------------|-------------|
+| `credentialSubject.id`  | Digital Link URI representation of the GLN           | xsd:anyURI  |
 
 The `credentialSubject.id` must be a url with a path ending in `/417/{gs1:partyGLN}`.
 
 Additionally, the GLN EAA's `credentialSubject["gs1:organization"]` MUST contain
 
-| **Attribute** | **Definition**                                      | **Type**  |
-|------------------------|-----------------------------------------------------|----------------|
-| `gs1:organizationLegalName` | The legal entity name registered with GS1 (localized)      | `rdf:langString` |
+| **Attribute**                | **Definition**                                            | **Type**          |
+|------------------------------|-----------------------------------------------------------|-------------------|
+| `gs1:organizationLegalName`  | The legal entity name registered with GS1 (localized)     | `rdf:langString`  |
 
 #### 2.2.2 Address
 
@@ -143,19 +139,19 @@ For a typical European postal addresses, `gs1:streetAddress` SHOULD be used for 
 
 The most important attributes of `credentialSubject["gs1:organization"]["gs1:address"]` that SHOULD be used depending on address type and country for the GLN EAA are
 
-| **Attribute** | **Definition**                                                                        | **Type**       |
-|------------------------|---------------------------------------------------------------------------------------|---------------------|
-| `gs1:streetAddress`    | The primary street address line as free-form text (e.g. street name and house number, or building name). SHOULD be used before populating additional street lines. | `rdf:langString`    |
-| `gs1:streetAddressLine2` | The second street address line as free-form text (e.g. building, unit, or c/o information). | `rdf:langString`    |
-| `gs1:streetAddressLine3` | The third street address line as free-form text.                                      | `rdf:langString`    |
-| `gs1:streetAddressLine4` | The fourth street address line as free-form text.                                      | `rdf:langString`    |
+| **Attribute**             | **Definition**                                                                        | **Type**       |
+|---------------------------|---------------------------------------------------------------------------------------|---------------------|
+| `gs1:streetAddress`       | The primary street address line as free-form text (e.g. street name and house number, or building name). SHOULD be used before populating additional street lines. | `rdf:langString`    |
+| `gs1:streetAddressLine2`  | The second street address line as free-form text (e.g. building, unit, or c/o information). | `rdf:langString`    |
+| `gs1:streetAddressLine3`  | The third street address line as free-form text.                                      | `rdf:langString`    |
+| `gs1:streetAddressLine4`  | The fourth street address line as free-form text.                                      | `rdf:langString`    |
 | `gs1:postOfficeBoxNumber` | The number identifying a post-office box; SHOULD be used instead of street address lines for PO box addresses. | `xsd:string`        |
-| `gs1:postalName`       | The postal recipient name; MAY differ from `gs1:organizationName`.                    | `rdf:langString`    |
-| `gs1:postalCode`       | The postal code where the legal entity is registered or operates                      | `xsd:string`        |
-| `gs1:addressLocality`  | The locality (e.g. city) where the legal entity is registered or operates             | `rdf:langString`    |
-| `gs1:addressRegion`    | The province or state (e.g. in abbreviated form) where the legal entity is registered or operates | `rdf:langString`    |
-| `gs1:addressSuburb`    | A suburb within a town or city.                                                       | `rdf:langString`    |
-| `gs1:countryCode`      | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xs:string`        |
+| `gs1:postalName`          | The postal recipient name; MAY differ from `gs1:organizationName`.                    | `rdf:langString`    |
+| `gs1:postalCode`          | The postal code where the legal entity is registered or operates                      | `xsd:string`        |
+| `gs1:addressLocality`     | The locality (e.g. city) where the legal entity is registered or operates             | `rdf:langString`    |
+| `gs1:addressRegion`       | The province or state (e.g. in abbreviated form) where the legal entity is registered or operates | `rdf:langString`    |
+| `gs1:addressSuburb`       | A suburb within a town or city.                                                       | `rdf:langString`    |
+| `gs1:countryCode`         | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xs:string`        |
 
 Other attributes of `gs1:PostalAddress` data model MAY also be used if needed.
 
@@ -172,35 +168,35 @@ The GLN EAA is a [GS1 Organization Data Credential](https://gs1.github.io/GS1Dig
 
 #### 2.4.1 GS1 Data Credential VCDM core properties
 
-| **Property** | **Requirement** |
-|--------------|-----------------|
-| `@context` | In addition to the W3C VCDM 2.0 context, the GS1 Data Credential context MUST be included. For `OrganizationDataCredential`, this is the [organization context](https://ref.gs1.org/gs1/vc/organization-context) (see Section 3.3.1). |
-| `id` | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials. |
-| `type` | This property MUST contain `VerifiableCredential` and MUST also contain `DataCredential`. For the GLN EAA, the type array MUST additionally include `OrganizationDataCredential` (see Section 3.3.1). |
-| `issuer.id` | This property MUST be a Decentralized Identifier (DID) as defined in [did-1.1]. |
-| `credentialSubject.id` | This property is optional in the VCDM but MUST be present and MUST be a [GS1 Digital Link URI](https://www.gs1.org/standards/Digital-Link/) as defined in [gs1-digital-link] (see Section 2.2.1). |
-| `credentialStatus` | This property is optional in the VCDM but MAY be present. If present, this property MUST be of the type `BitstringStatusListEntry` defined in [vc-bitstring-status-list]. |
-| `credentialSchema` | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials and MUST be of the type `JsonSchema` defined in [vc-json-schema]. |
-| `validFrom` | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials. |
-| `renderMethod` | This property is optional in the VCDM but SHOULD be present and SHOULD be of the type `TemplateRenderMethod` in [vc-render-method]. |
+| **Property**           | **Requirement**                                                                                                                                                                                                                       |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `@context`             | In addition to the W3C VCDM 2.0 context, the GS1 Data Credential context MUST be included. For `OrganizationDataCredential`, this is the [organization context](https://ref.gs1.org/gs1/vc/organization-context) (see Section 3.3.1). |
+| `id`                   | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials.                                                                                                                                                |
+| `type`                 | This property MUST contain `VerifiableCredential` and MUST also contain `DataCredential`. For the GLN EAA, the type array MUST additionally include `OrganizationDataCredential` (see Section 3.3.1).                                 |
+| `issuer.id`            | This property MUST be a Decentralized Identifier (DID) as defined in [did-1.1].                                                                                                                                                       |
+| `credentialSubject.id` | This property is optional in the VCDM but MUST be present and MUST be a [GS1 Digital Link URI](https://www.gs1.org/standards/Digital-Link/) as defined in [gs1-digital-link] (see Section 2.2.1).                                     |
+| `credentialStatus`     | This property is optional in the VCDM but MAY be present. If present, this property MUST be of the type `BitstringStatusListEntry` defined in [vc-bitstring-status-list].                                                             |
+| `credentialSchema`     | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials and MUST be of the type `JsonSchema` defined in [vc-json-schema].                                                                               |
+| `validFrom`            | This property is optional in the VCDM but MUST be present in all GS1 Data Credentials.                                                                                                                                                |
+| `renderMethod`         | This property is optional in the VCDM but SHOULD be present and SHOULD be of the type `TemplateRenderMethod` in [vc-render-method].                                                                                                   |
 
 #### 2.4.2 WeBuild / EUBW additional mandatory metadata
 
 When the GLN EAA is encoded as SD-JWT VC (Section 3.2), the following additional top-level claims are mandatory:
 
-| **Data Identifier**        | **Definition**                                                                                              | **Type** |
-|----------------------------|-------------------------------------------------------------------------------------------------------------|----------|
-| `attestation_legal_category` | Indicates the legal category of this attestation (`EAA` or `QEAA`)                                        | String   |
-| `vct`                      | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed | String   |
+| **Data Identifier**           | **Definition**                                                                                                                             | **Type** |
+|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| `attestation_legal_category`  | Indicates the legal category of this attestation (`EAA` or `QEAA`)                                                                         | String   |
+| `vct`                         | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed   | String   |
 
 Encoding-independent metadata identifiers used elsewhere in this rulebook map to the GS1 VCDM properties above as follows: `issuance_date` → `validFrom`; `expiry_date` → `validUntil` (SHOULD be set); `issuing_entity` → `issuer.id`. See Section 3.3.4 for the full mapping.
 
 ### 2.5 Optional metadata
 
-| **Data Identifier** | **Definition**                                                             | **Type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used                                                 | String        |
+| **Data Identifier** | **Definition**                                                             | **Type**        |
+|---------------------|----------------------------------------------------------------------------|-----------------|
+| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI             |
+| schema_version      | Version of the schema used                                                 | String          |
 
 ### 2.7 Value Lists
 
@@ -692,8 +688,7 @@ A complete credential chain for an `OrganizationDataCredential` must consist of 
 
 - The `OrganizationDataCredential`
 - A matching `GS1CompanyPrefixLicenseCredential` (GCP Credential)
-- A matchin `GS1PrefixLicenseCredential` (Prefix Credential)
-
+- A matching `GS1PrefixLicenseCredential` (Prefix Credential)
 
 It should also contain
 
@@ -885,7 +880,7 @@ GS1 license credentials, but verifiers **SHALL NOT** use `credentialStatus` for 
 checks in the SD-JWT path. W3C VCDM and JSON-LD credentials (Section 3.3) continue to use
 `credentialStatus` as defined in Section 6.1–6.2. But status properties SHOULD point to the same status list credential bit.
 
-## 7 Compliance
+## 7 References
 
 This GLN Attestation Rulebook is designed for use within the European Business Wallet (EUBW) framework and WeBuild consortium attestation catalog. Key compliance considerations:
 
@@ -894,7 +889,6 @@ This GLN Attestation Rulebook is designed for use within the European Business W
 - **KYS scope** — This rulebook covers GS1 organization identity and registered address only. Broader KYS requirements (beneficial ownership, AML, financial verification) are addressed by separate rulebooks in the WeBuild catalog.
 - **GS1 licensing terms** — Credential issuance and use remain subject to GS1 Member Organization licensing policies and the [GS1 Digital Licenses](https://gs1.github.io/GS1DigitalLicenses/) governance model.
 
-## 8 References
 | **Item Reference**                      | **Standard name/details**|
 |-----------------------------------------|---------------------------|
 | [European Digital Identity Regulation]  | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
