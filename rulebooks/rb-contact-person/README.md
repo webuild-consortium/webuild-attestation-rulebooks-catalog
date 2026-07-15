@@ -32,7 +32,7 @@ The Contact Person Attestation identifies natural persons acting as designated c
 
 Cross-company communication is daily business in supply management. To know the correct and
 valid contact persons for different issues (e.g., finance, product, quality, logistics) is
-crucial to conduct efficient business in the onboarding, pre-contracting, or contracting phase.
+crucial to conduct efficient business in the onboarding, pre-contracting, or contracting phase. But also later in Life cycle in case of claim, maintenance, refurbishment, recycle or 2nd live.  
 In the onboarding process, a minimum of one contact person is required.
 
 **Use Cases:**
@@ -51,7 +51,7 @@ In the onboarding process, a minimum of one contact person is required.
   holder company has issued Contact Person attestations for all its employees into its Company
   Wallet. The system selects the fitting employee to answer the request (e.g., a Key Account
   Manager as the battery cell sales contact person).
-- The Holder is responsible for the lifecycle of the attestation, including revocation and
+- The Holder/Self-Issuer is responsible for the lifecycle of the attestation, including revocation and
   role changes.
 
 The added value of the Contact Person attestation for organizations is to automate the
@@ -98,7 +98,7 @@ are intended as statements of fact.
 | Term                   | Description                                                                                                                                               |
 |------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Contact Person         | The attestation type defined in this Rulebook, identifying a natural person designated as a contact within a legal entity for specific business functions |
-| Economic Operator      | A legal entity participating in commercial or procurement activities, identified per the European Business Wallet (EBW) framework                         |
+| Economic Operator      |‘economic operator’ means any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession;                         |
 | EUCC                   | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                        |
 | EBW                    | European Business Wallet – the digital wallet framework for legal entities operating within the EU single market                                          |
 | Role                   | A designated function or responsibility assigned to a contact person within an organization (e.g., sales, finance, quality, logistics)                    |
@@ -127,7 +127,6 @@ procurement, and onboarding processes.
 ├─── given_name (mandatory)
 ├─── family_name (mandatory)
 ├─── role (mandatory)
-├─── employee_identifier (mandatory)
 ├─── email (mandatory)
 └─── telephone (optional)
 ````
@@ -155,7 +154,6 @@ This attestation type is classified as:
 | contactperson.given_name          | [givenName – Schema.org Property](https://schema.org/givenName)                           | Given name. In the U.S., the first name of a Person.                                                                                    | String        |
 | contactperson.family_name         | [familyName – Schema.org Property](https://schema.org/familyName)                         | Family name. In the U.S., the last name of a Person.                                                                                    | String        |
 | contactperson.role                | [The Organization Ontology](https://www.w3.org/TR/vocab-org/)                             | Denotes a role that a Person takes in an organization (e.g., sales, finance, quality, logistics)                                        | String        |
-| contactperson.employee_identifier | --                                                                                        | An alphanumeric identifier of the employee assigned by the organization                                                                 | String        |
 | contactperson.email               | [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | An electronic address through which the Contact Person can be contacted                                                                 | tstr          |
 
 ### 2.3 Optional attributes
@@ -237,8 +235,6 @@ The following integrity rules SHALL be enforced:
 - `family_name` SHALL be a non-empty string.
 - `role` SHALL be a non-empty string describing the function of the contact person within the
   organization.
-- `employee_identifier` SHALL be a non-empty alphanumeric string assigned by the employing
-  organization.
 - `email` SHALL be a valid email address conforming to **RFC 4021** (Registration of Mail and
   MIME Header Fields).
 - `telephone`, if provided, SHALL conform to **ITU-T E.164** (The international public
@@ -284,7 +280,6 @@ The `.` notation is used to indicate the nesting of attributes.
 | given_name                    | `given_name`                   | String                  | Given name of the contact person; [givenName – Schema.org](https://schema.org/givenName)                                         | MUST                |
 | family_name                   | `family_name`                  | String                  | Family name of the contact person; [familyName – Schema.org](https://schema.org/familyName)                                      | MUST                |
 | role                          | `role`                         | String                  | Role of the contact person within the organization; [Organization Ontology](https://www.w3.org/TR/vocab-org/)                    | MUST                |
-| employee_identifier           | `employee_identifier`          | String                  | Alphanumeric employee identifier assigned by the employing organization                                                          | MUST                |
 | email                         | `email`                        | String                  | Email address of the contact person; SHALL conform to RFC 4021; [CPOV](https://joinup.ec.europa.eu/collection/cpov)              | MUST                |
 | telephone                     | `telephone`                    | String                  | Telephone number; SHALL conform to ITU-T E.164; [CPOV](https://joinup.ec.europa.eu/collection/cpov); optional                    | MUST                |
 | **Metadata**                  |                                |                         |                                                                                                                                  |                     |
