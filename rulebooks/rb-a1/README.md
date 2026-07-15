@@ -2,13 +2,13 @@
 
 * Author(s):
   * [Philipp Friedl, DRV Bund]
-  * [Artur Philipp, Accenture GmbH]
+  * [Artur Philipp, DRV Bund]
   * Laurent ?
 * Previous Authors
 *
 * Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH]
-  * [Artur Philipp, Accenture GmbH]
+  * [Artur Philipp, DRV Bund]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
