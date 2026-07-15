@@ -6,22 +6,21 @@
     * [Dominic Hurni, SBB]
     * [Florin Coptil, Robert Bosch GmbH]
 
-| Version | Date       | Description                                                  |
-|--------|------------|--------------------------------------------------------------|
+| Version | Date       | Description                                                    |
+|--------|------------|----------------------------------------------------------------|
 | 0.1    | 23.06.2026 | Initial draft based on the WeBuild design attestation meetings |
-| 0.6    | 29.06.2026 | update layout                                                |
-| 0.8    | 29.06.2026 | Review attributes and type                                      |
-| 0.9    | 03.07.2026 | Updates in regard trust and revocation                            |
-
+| 0.6    | 29.06.2026 | update layout                                                  |
+| 0.8    | 29.06.2026 | Review attributes and type                                     |
+| 0.9    | 03.07.2026 | Updates in regard trust and revocation                         |
+| 0.91   | 15.07.2026 | Updates after meeting with DUNS                                |
 * **Contact:**
     * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com) *
 
 ## 1 Introduction
 
-A DUNS Legal Entity Attestation provides legal entity information according to the
-data provided by a legal entity to Dun & Bradstreet to obtain a DUNS number. A DUNS
-number is a unique identifier issued by Dun & Bradstreet (DUNS – Data Universal
-Numbering System) for three types of business entities: a) legal entities b) sites and
+A DUNS Legal Entity Attestation contains the DUNS number (DUNS – Data Universal
+Numbering System) provided by Dun & Bradstreet to a legal entity and additional legal entity name and adress information.  A DUNS
+number is a unique identifier issued by Dun & Bradstreet  for three types of business entities: a) legal entities b) sites and
 c) locations.
 
 The DUNS number is a nine-digit numeric code that uniquely identifies a business
@@ -35,12 +34,8 @@ partners.
 
 ### 1.1 Document Scope and Purpose
 
-The DUNS Legal Entity Attestation is designed to provide a standardized, verifiable
-representation of a legal entity's business profile as registered with Dun & Bradstreet,
-including its legal identity, operational status, registration details, and industry
-classification. This attestation complements the EUCC by providing additional non-core
-identity attributes required for KYS, KYC, supplier onboarding, and risk assessment
-processes.
+The DUNS Legal Entity Attestation complements the EUCC by providing the DUNS number for a legal entity. With this number an EBW owner can acces the Dun & Bradstreet Database to request additional non-core
+identity attributes required for KYS, KYC, supplier onboarding, and risk assessment processes.
 
 ### 1.2 Document Structure
 
@@ -83,9 +78,7 @@ are intended as statements of fact.
 
 ## 2 Attestation Attributes and Metadata
 
-The DUNS Credential provides a standardized, verifiable representation of a company with
-all the relevant information from a DUNS perspective, including legal entity details,
-operational status, registration information, and industry classification.
+The DUNS Legal Entity Attestation provides a standardized, verifiable representation of a legal entity DUNS number, name, legal form and main adress information.
 
 ### 2.1 Introduction
 
@@ -96,27 +89,15 @@ The attestation structure is defined as a structured object with a nested array 
 ```
 DUNS
 ├─ duns_number (tstr)
-├─ legal_entity (DUNSLegalEntity)
+├─ legal_entity (Object)
 │   ├─ legal_name (tstr)
 │   └─ legal_form (tstr)
-│   └─ registered_address (Address)
+│   └─ address (Address)
 │       ├─ [street]
 │       ├─ [nr]
 │       ├─ [postal_code]
 │       ├─ [city]
 │       └─ [country]
-├─ operational_status (tstr)
-├─ operational_status_date (date)
-├─ date_of_incorporation (date)
-├─ registration (DUNSRegistration)
-│   ├─ jurisdiction (tstr)
-│   ├─ initial_registration_date (date)
-│   ├─ last_update_date (date)
-│   └─ registration_status (date)
-└─ industry_Classification (DUNSIndustry Classification)
-├─ primary_naics (tstr)
-├─ secondary_naics (Array of strings) (0-n)
-└─ naics_version (tstr)
 ```
 *Note*: M - mandatory / O - optional.
 
@@ -134,25 +115,6 @@ DUNS
         - `postal_code`: postal or ZIP code.
         - `city`: city or municipality.
         - `country`: country of the registered address (ISO 3166-1 alpha-2).
-- `operational_status` is a mandatory field indicating the current operational status of the
-  entity (e.g., Active, Inactive, Dissolved).
-- `operational_status_date` is the mandatory date on which the operational status was last
-  confirmed or changed (ISO 8601).
-- `date_of_incorporation` is the mandatory date on which the legal entity was incorporated
-  or formally established (ISO 8601).
-- `registration` is a mandatory object providing details about the entity's formal
-  registration, containing:
-    - `jurisdiction`: the jurisdiction in which the entity is registered (mandatory).
-    - `initial_registration_date`: the date the entity was first registered (mandatory).
-    - `last_update_date`: the date the registration record was last updated (mandatory).
-    - `registration_status`: the current status of the registration record (mandatory).
-- `industry_classification` is a mandatory object providing the NAICS-based industry
-  classification of the entity, containing:
-    - `primary_naics`: the primary NAICS code representing the entity's main business
-      activity (mandatory).
-    - `secondary_naics`: an optional array of zero or more additional NAICS codes
-      representing secondary business activities.
-    - `naics_version`: the version of the NAICS standard used (mandatory).
 
 **Attestation Classification:**
 
@@ -162,249 +124,127 @@ This attestation type MAY be classified as:
   
 **VC Type:** `vct: eu.we-build:duns:1`
 
-### 2.2 Mandatory attributes
+### 2.2 Mandatory Attributes
 
-#### 2.2.1 DUNS Top-Level Attributes
+**DUNS Attestation Attributes**
 
-| **Data Identifier**    | **Semantic Reference** | **Definition**                                                                                       | **Optionality** | **Encoding format** |
-|------------------------|------------------------|------------------------------------------------------------------------------------------------------|-----------------|---------------------|
-| duns_number            | --                     | Nine-digit unique identifier assigned by Dun & Bradstreet to the legal entity                        | M               | tstr                |
-| operational_status     | --                     | Current operational status of the entity (e.g., Active, Inactive, Dissolved)                        | M               | tstr                |
-| operational_status_date| --                     | Date on which the operational status was last confirmed or changed (ISO 8601)                        | M               | date (ISO 8601)     |
-| date_of_incorporation  | --                     | Date on which the legal entity was incorporated or formally established (ISO 8601)                   | M               | date (ISO 8601)     |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                             | **Data type** |
+|:--------------------|:-----------------------|:-----------------------------------------------------------|:--------------|
+| `duns_number`       | —                      | Nine-digit unique identifier assigned by Dun & Bradstreet. | tstr          |
+| `legal_entity`      | —                      | An object encapsulating the legal identity of the entity.  | Object        |
 
-#### 2.2.2 DUNSLegalEntity Object Attributes
+**Nested Mandatory Attributes**
 
-| **Data Identifier**                    | **Semantic Reference** | **Definition**                                                                          | **Optionality** | **Encoding format**      |
-|----------------------------------------|------------------------|-----------------------------------------------------------------------------------------|-----------------|--------------------------|
-| legal_entity                           | --                     | Object encapsulating the legal identity of the entity                                   | M               | Object                   |
-| legal_entity.legal_name                | --                     | The registered legal name of the entity                                                 | M               | tstr                     |
-| legal_entity.legal_form                | --                     | The legal form of the entity (e.g., GmbH, AG, Ltd., SRL)                               | M               | tstr                     |
-| legal_entity.registered_address        | --                     | The official registered address of the entity                                           | M               | Object                   |
-| legal_entity.registered_address.street | --                     | Street name of the registered address                                                   | O               | tstr                     |
-| legal_entity.registered_address.nr     | --                     | Street or building number of the registered address                                     | O               | tstr                     |
-| legal_entity.registered_address.postal_code | --              | Postal or ZIP code of the registered address                                            | O               | tstr                     |
-| legal_entity.registered_address.city   | --                     | City or municipality of the registered address                                          | O               | tstr                     |
-| legal_entity.registered_address.country| --                     | Country of the registered address                                                       | O               | tstr (ISO 3166-1 alpha-2)|
+| **Data Identifier**       | **Semantic Reference** | **Definition**                                       | **Data type**  |
+|:--------------------------|:-----------------------|:-----------------------------------------------------|:---------------|
+| `legal_entity.legal_name` | —                      | The registered legal name of the entity.             | tstr           |
+| `legal_entity.legal_form` | —                      | The legal form of the entity (e.g., GmbH, AG, Ltd.). | tstr           |
+| `legal_entity.address`    | —                      | The official registered address of the entity.       | Address Object |
 
-#### 2.2.3 DUNSRegistration Object Attributes
 
-| **Data Identifier**                    | **Semantic Reference** | **Definition**                                                                          | **Optionality** | **Encoding format** |
-|----------------------------------------|------------------------|-----------------------------------------------------------------------------------------|-----------------|---------------------|
-| registration                           | --                     | Object providing details about the entity's formal registration                         | M               | Object              |
-| registration.jurisdiction              | --                     | The jurisdiction in which the entity is registered (e.g., country or region code)      | M               | tstr                |
-| registration.initial_registration_date | --                     | The date the entity was first registered (ISO 8601)                                    | M               | date (ISO 8601)     |
-| registration.last_update_date          | --                     | The date the registration record was last updated (ISO 8601)                           | M               | date (ISO 8601)     |
-| registration.registration_status       | --                     | The current status of the registration record (e.g., Active, Suspended, Cancelled)     | M               | tstr                |
+### 2.3 Optional Attributes
 
-#### 2.2.4 DUNSIndustryClassification Object Attributes
+**Address Optional Attributes**
+The following sub-fields within the `legal_entity.address` object are optional.
 
-| **Data Identifier**                        | **Semantic Reference** | **Definition**                                                                              | **Optionality** | **Encoding format**  |
-|--------------------------------------------|------------------------|---------------------------------------------------------------------------------------------|-----------------|----------------------|
-| industry_classification                    | --                     | Object providing the NAICS-based industry classification of the entity                      | M               | Object               |
-| industry_classification.primary_naics      | --                     | The primary NAICS code representing the entity's main business activity                     | M               | tstr                 |
-| industry_classification.secondary_naics    | --                     | Additional NAICS codes representing secondary business activities; MAY be empty             | O               | Array of tstr (0-n)  |
-| industry_classification.naics_version      | --                     | The version of the NAICS standard used (e.g., "2022", "2017")                              | M               | tstr                 |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                          | **Data type** |
+|:--------------------|:-----------------------|:--------------------------------------------------------|:--------------|
+| `street`            | —                      | Street name of the registered address.                  | tstr          |
+| `nr`                | —                      | Street or building number of the registered address.    | tstr          |
+| `postal_code`       | —                      | Postal or ZIP code of the registered address.           | tstr          |
+| `city`              | —                      | City or municipality of the registered address.         | tstr          |
+| `country`           | —                      | Country of the registered address (ISO 3166-1 alpha-2). | tstr          |
 
-### 2.3 Optional attributes
-
-| **Data Identifier**                        | **Semantic Reference** | **Definition**                                                                                                         | **Optionality** | **Encoding format** |
-|--------------------------------------------|------------------------|------------------------------------------------------------------------------------------------------------------------|-----------------|---------------------|
-| legal_entity.registered_address.street     | --                     | Street name of the registered address. MAY be omitted if not available.                                               | O               | tstr                |
-| legal_entity.registered_address.nr         | --                     | Street or building number. MAY be omitted if not available.                                                           | O               | tstr                |
-| legal_entity.registered_address.postal_code| --                     | Postal or ZIP code. MAY be omitted if not available.                                                                  | O               | tstr                |
-| legal_entity.registered_address.city       | --                     | City or municipality. MAY be omitted if not available.                                                                | O               | tstr                |
-| legal_entity.registered_address.country    | --                     | Country of the registered address (ISO 3166-1 alpha-2). MAY be omitted if not available.                             | O               | tstr                |
-| industry_classification.secondary_naics    | --                     | Array of secondary NAICS codes representing additional business activities. MAY contain zero or more values.           | O               | Array of tstr       |
-
-### 2.4 Conditional attributes
-
-No conditional attributes are defined for this attestation type. All attributes are either
-mandatory or optional as specified above. When the `registered_address` object is present,
-it MAY contain any combination of its optional sub-fields.
+### 2.4 Conditional Attributes
+No conditional attributes are defined for this attestation type.
 
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**        | **Definition**                                                                | **Data type** |
-|----------------------------|-------------------------------------------------------------------------------|---------------|
-| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
-| cnf                        | Cryptographic Key Binding                                                     | String        |
+| **Data Identifier**          | **Definition**                                                     | **Data type** |
+|:-----------------------------|:-------------------------------------------------------------------|:--------------|
+| `attestation_legal_category` | Indicates the legal category of the Attestation ("EAA" or "QEAA"). | String        |
+| `cnf`                        | Cryptographic Key Binding to prove holder possession.              | Object        |
 
-*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
+*Note: Standard JWT claims (`iss`, `iat`, `exp`) are also mandatory.*
 
 ### 2.6 Optional Metadata
 
-| **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used for this attestation                            | String        |
+| **Data Identifier** | **Definition**                                                              | **Data type** |
+|:--------------------|:----------------------------------------------------------------------------|:--------------|
+| `trust_anchor_url`  | URL where the trust anchor for verifying this attestation can be retrieved. | URI           |
+| `schema_version`    | Version of the schema used for this attestation.                            | String        |
 
 ### 2.7 Conditional metadata
-
 No conditional metadata elements are defined for this attestation type.
 
 ### 2.8 Value Lists
 
-#### 2.8.1 Operational Status Values
-
-The `operational_status` attribute SHOULD use one of the following standardized values:
-
-| **Value**   | **Definition**                                                              |
-|-------------|-----------------------------------------------------------------------------|
-| Active      | The entity is currently operating and in good standing                      |
-| Inactive    | The entity is registered but not currently operating                        |
-| Dissolved   | The entity has been formally dissolved and no longer exists as a legal entity|
-| Suspended   | The entity's operations have been temporarily suspended                     |
-| Bankrupt    | The entity has filed for or been declared bankrupt                          |
-
-#### 2.8.2 Registration Status Values
-
-The `registration.registration_status` attribute SHOULD use one of the following values:
-
-| **Value**   | **Definition**                                                              |
-|-------------|-----------------------------------------------------------------------------|
-| Active      | The registration record is current and valid                                |
-| Suspended   | The registration has been temporarily suspended by the competent authority  |
-| Cancelled   | The registration has been permanently cancelled                             |
-| Pending     | The registration is awaiting confirmation or completion                     |
-
-#### 2.8.3 NAICS Version Values
-
-The `industry_classification.naics_version` attribute SHOULD use one of the following values:
-
-| **Value** | **Definition**                                      |
-|-----------|-----------------------------------------------------|
-| 2022      | NAICS 2022 — most recent revision                   |
-| 2017      | NAICS 2017                                          |
-| 2012      | NAICS 2012                                          |
-
-#### 2.8.4 Country Codes
-
-The `legal_entity.registered_address.country` attribute SHALL use country codes as defined
-by **ISO 3166-1 alpha-2** (e.g., `DE` for Germany, `FR` for France, `US` for United States).
+#### 2.8.1 Country Codes
+The `legal_entity.address.country` attribute, if provided, **SHALL** use a country code as defined by **ISO 3166-1 alpha-2** (e.g., `DE` for Germany, `US` for United States).
 
 ### 2.9 Integrity Rules
+The following integrity rules **SHALL** be enforced:
+- `duns_number` **SHALL** be a non-empty nine-digit numeric string.
+- The `legal_entity` object **SHALL** be present.
+- `legal_entity.legal_name` and `legal_entity.legal_form` **SHALL** be non-empty strings.
+- The `legal_entity.address` object **SHALL** be present.
+- `legal_entity.address.country`, if provided, **SHALL** conform to **ISO 3166-1 alpha-2**.
 
-The following integrity rules SHALL be enforced:
-
-- `duns_number` SHALL be a non-empty nine-digit numeric string uniquely identifying the
-  entity within the Dun & Bradstreet system.
-- `legal_entity.legal_name` SHALL be a non-empty string.
-- `legal_entity.legal_form` SHALL be a non-empty string.
-- `legal_entity.registered_address.country`, if provided, SHALL conform to
-  **ISO 3166-1 alpha-2** (two-letter country code).
-- `operational_status` SHALL be a non-empty string.
-- `operational_status_date` SHALL conform to **ISO 8601** date format (YYYY-MM-DD).
-- `date_of_incorporation` SHALL conform to **ISO 8601** date format (YYYY-MM-DD).
-- `registration.jurisdiction` SHALL be a non-empty string.
-- `registration.initial_registration_date` SHALL conform to **ISO 8601** date format
-  (YYYY-MM-DD).
-- `registration.last_update_date` SHALL conform to **ISO 8601** date format (YYYY-MM-DD).
-- `registration.last_update_date` SHALL be equal to or later than
-  `registration.initial_registration_date`.
-- `registration.registration_status` SHALL be a non-empty string.
-- `industry_classification.primary_naics` SHALL be a non-empty string containing a valid
-  NAICS code.
-- `industry_classification.secondary_naics` MAY contain zero or more NAICS code strings.
-- `industry_classification.naics_version` SHALL be a non-empty string identifying the
-  applicable NAICS edition.
-- Each attribute SHALL appear at most once in the attestation.
-- The attestation SHALL be issued by an authorized issuer acting on behalf of, or with
-  the consent of, the legal entity identified by the `duns_number`.
-
----
-
-## 3 Attestation encoding
+## 3 Attestation Encoding
 
 ### 3.1 ISO/IEC 18013-5-compliant encoding
-
-ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity
-presentation is not a current requirement for the DUNS Legal Entity attestation.
+ISO/IEC 18013-5 is out of scope for this Rulebook.
 
 ### 3.2 SD-JWT VC-based encoding
+The DUNS Legal Entity attestation uses the SD-JWT VC format to allow for selective disclosure.
 
-The DUNS Legal Entity attestation uses the SD-JWT VC format to allow for selective disclosure
-of company attributes.
-
-**Selective Disclosure:** All top-level claims (`duns_number`, `legal_entity`,
-`operational_status`, `operational_status_date`, `date_of_incorporation`, `registration`,
-`industry_classification`) SHALL be individually selectively disclosable, enabling a legal
-entity to disclose only the attributes requested by a Relying Party.
-
-The `.` notation is used to indicate the nesting of attributes.
-
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build:duns:1`
+**Verifiable Credential Type (`vct`):** `eu.we-build:duns:1`
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**                         | **Attribute Identifier**                              | **Encoding format**          | **Reference/Notes**                                                                          | **Disclosable** |
-|---------------------------------------------|-------------------------------------------------------|------------------------------|----------------------------------------------------------------------------------------------|-----------------|
-| duns_number                                 | `duns_number`                                         | String                       | Nine-digit DUNS identifier; SHALL be non-empty                                               | MUST            |
-| **DUNSLegalEntity**                         | `legal_entity`                                        | Object                       | Object encapsulating the legal identity of the entity                                        | MUST            |
-| legal_entity.legal_name                     | `legal_entity.legal_name`                             | String                       | Registered legal name of the entity                                                          | MUST            |
-| legal_entity.legal_form                     | `legal_entity.legal_form`                             | String                       | Legal form of the entity (e.g., GmbH, AG, Ltd.)                                             | MUST            |
-| legal_entity.registered_address             | `legal_entity.registered_address`                     | Object                       | Official registered address of the entity                                                    | MUST            |
-| legal_entity.registered_address.street      | `legal_entity.registered_address.street`              | String                       | Street name; optional                                                                        | MUST            |
-| legal_entity.registered_address.nr          | `legal_entity.registered_address.nr`                  | String                       | Street or building number; optional                                                          | MUST            |
-| legal_entity.registered_address.postal_code | `legal_entity.registered_address.postal_code`         | String                       | Postal or ZIP code; optional                                                                 | MUST            |
-| legal_entity.registered_address.city        | `legal_entity.registered_address.city`                | String                       | City or municipality; optional                                                               | MUST            |
-| legal_entity.registered_address.country     | `legal_entity.registered_address.country`             | String (ISO 3166-1 alpha-2)  | Country of registered address; optional                                                      | MUST            |
-| operational_status                          | `operational_status`                                  | String                       | Current operational status (e.g., Active, Inactive, Dissolved)                              | MUST            |
-| operational_status_date                     | `operational_status_date`                             | String (ISO 8601 YYYY-MM-DD) | Date on which the operational status was last confirmed or changed                           | MUST            |
-| date_of_incorporation                       | `date_of_incorporation`                               | String (ISO 8601 YYYY-MM-DD) | Date on which the legal entity was incorporated or formally established                      | MUST            |
-| **DUNSRegistration**                        | `registration`                                        | Object                       | Object providing details about the entity's formal registration                              | MUST            |
-| registration.jurisdiction                   | `registration.jurisdiction`                           | String                       | Jurisdiction in which the entity is registered                                               | MUST            |
-| registration.initial_registration_date      | `registration.initial_registration_date`              | String (ISO 8601 YYYY-MM-DD) | Date the entity was first registered                                                         | MUST            |
-| registration.last_update_date               | `registration.last_update_date`                       | String (ISO 8601 YYYY-MM-DD) | Date the registration record was last updated                                                | MUST            |
-| registration.registration_status           | `registration.registration_status`                    | String                       | Current status of the registration record (e.g., Active, Suspended, Cancelled)              | MUST            |
-| **DUNSIndustryClassification**              | `industry_classification`                             | Object                       | Object providing the NAICS-based industry classification of the entity                       | MUST            |
-| industry_classification.primary_naics       | `industry_classification.primary_naics`               | String                       | Primary NAICS code for the entity's main business activity                                   | MUST            |
-| industry_classification.secondary_naics     | `industry_classification.secondary_naics`             | Array of Strings             | Zero or more additional NAICS codes for secondary business activities; optional              | MUST            |
-| industry_classification.naics_version       | `industry_classification.naics_version`               | String                       | Version of the NAICS standard used (e.g., "2022")                                           | MUST            |
-| **Metadata**                            |                                              |                                  |                                                                                      |                 |
-| issuance_date                           | `iat`                                        | Number (Unix timestamp)          | Date and time when the attestation was issued (ISO 8601); RFC 7519                   | MUST NOT        |
-| expiry_date                             | `exp`                                        | Number (Unix timestamp)          | Date and time when the attestation expires (ISO 8601); RFC 7519                      | MUST NOT        |
-| issuing_entity                          | `iss`                                        | String (URI or DID)              | Identifier of the competent institution that issued the attestation; RFC 7519        | MUST NOT        |
-| attestation_legal_category              | `attestation_legal_category`                 | String                           | One of "EAA" or "QEAA" as defined by eIDAS 2                                         | MUST NOT        |
-| vct                                     | `vct`                                        | String                           | The vct definition                                                                   | MUST NOT        |
-| cnf                                     | `cnf`                                        | String                           | Cryptographic Key Binding                                                            | MUST NOT        |
-| trust_anchor_url                        | `trust_anchor_url`                           | String (URI)                     | URL where the trust anchor for verifying this attestation can be retrieved; optional | MAY             |
-| schema_version                          | `schema_version`                             | String                           | Version of the schema used; optional                                                 | MAY             |
-
-**Notes:**
-
-- **MUST**: The claim SHALL be selectively disclosable — the holder MAY choose to disclose or
-  withhold this claim when presenting the credential to a Relying Party.
-- **MUST NOT**: The claim SHALL NOT be selectively disclosable — it is always present in plain
-  text in the JWT header/payload and cannot be withheld by the holder, as it is required for
-  credential verification and trust establishment.
-- `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
-- Individual address sub-fields within `registered_address` are independently selectively
-  disclosable to allow partial disclosure of location information.
+| **Data Identifier**         | **Attribute Identifier**           | **Encoding Format**         | **Reference/Notes**                  | **Disclosable** |
+|:----------------------------|:-----------------------------------|:----------------------------|:-------------------------------------|:----------------|
+| **DUNS Details**            |                                    |                             |                                      |                 |
+| duns_number                 | `duns_number`                      | String                      | Nine-digit DUNS identifier.          | MUST            |
+| **Legal Entity**            | `legal_entity`                     | Object                      | Object encapsulating legal identity. | MUST            |
+| legal_name                  | `legal_entity.legal_name`          | String                      | Registered legal name of the entity. | MUST            |
+| legal_form                  | `legal_entity.legal_form`          | String                      | Legal form of the entity.            | MUST            |
+| **Address**                 | `legal_entity.address`             | Object                      | The official registered address.     | MUST            |
+| street                      | `legal_entity.address.street`      | String                      | Street name; optional.               | MUST            |
+| nr                          | `legal_entity.address.nr`          | String                      | Street or building number; optional. | MUST            |
+| postal_code                 | `legal_entity.address.postal_code` | String                      | Postal or ZIP code; optional.        | MUST            |
+| city                        | `legal_entity.address.city`        | String                      | City or municipality; optional.      | MUST            |
+| country                     | `legal_entity.address.country`     | String (ISO 3166-1 alpha-2) | Country of address; optional.        | MUST            |
+| **Metadata**                |                                    |                             |                                      |                 |
+| issuance_date               | `iat`                              | Number (Unix timestamp)     | Issuance timestamp.                  | MUST NOT        |
+| expiry_date                 | `exp`                              | Number (Unix timestamp)     | Expiration timestamp.                | MUST NOT        |
+| issuing_entity              | `iss`                              | String (URI or DID)         | Identifier of the issuer.            | MUST NOT        |
+| attestation_legal_category  | `attestation_legal_category`       | String                      | "EAA" or "QEAA".                     | MUST NOT        |
+| vct                         | `vct`                              | String                      | The vct definition.                  | MUST NOT        |
+| cnf                         | `cnf`                              | Object                      | Cryptographic Key Binding.           | MUST NOT        |
+| trust_anchor_url            | `trust_anchor_url`                 | String (URI)                | Optional URL to the trust anchor.    | MAY             |
+| schema_version              | `schema_version`                   | String                      | Optional version of the schema.      | MAY             |
 
 #### 3.2.2 Status Claim
-
-For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if  the technical validity period is greater than 24 hours. This claim enables Relying Parties to
-determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
+For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if the technical validity period is greater than 24 hours.
 
 The `status` claim SHALL be a JSON object with the following members:
 
-| **Field**                | **Type**       | **Value / Constraint**                                                     |
-|--------------------------|----------------|----------------------------------------------------------------------------|
-| `type`                   | String         | SHALL be `"status-list"`                                                   |
-| `status_list_credential` | String (URI)   | URI of the Status List Credential document containing the status bitstring |
-| `status_list_index`      | Integer (>= 0) | Zero-based index into the status list bitstring for this credential        |
-| `status_purpose`         | String         | SHALL be `"revocation"`                                                    |
+| **Field** | **Type** | **Value / Constraint** |
+| :--- | :--- | :--- |
+| `type` | String | SHALL be `"status-list"` |
+| `status_list_credential` | String (URI) | URI of the Status List Credential document |
+| `status_list_index` | Integer (>= 0) | Zero-based index into the status list |
+| `status_purpose` | String | SHALL be `"revocation"` |
 
 **Example:**
-
 ```json
 {
   "status": {
- "type": "status-list",
- "status_list_credential": "https://issuer.example.com/status/duns/2025",
- "status_list_index": 456,
- "status_purpose": "revocation"
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/duns/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
   }
 }
 ```
@@ -414,53 +254,35 @@ The following is a non-normative example of a DUNS SD-JWT VC payload:
 ```
 {
   "vct": "eu.we-build:duns:1",
-  "iss": "https://issuer.example.com",
+  "iss": "did:example:duns-issuer-001",
   "iat": 1736935200,
   "exp": 1768471200,
-  "issuing_entity": "did:example:duns-issuer-001",
-  "issuing_country": "DE",
-  "attestation_legal_category": "EAA",
-  "schema_version": "1.0",
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+  "attestation_legal_category": "QEAA",
   "duns_number": "123456789",
   "legal_entity": {
- "legal_name": "Example GmbH",
- "legal_form": "GmbH",
- "registered_address": {
-   "street": "Musterstraße",
-   "nr": "42",
-   "postal_code": "70174",
-   "city": "Stuttgart",
-   "country": "DE"
- }
-  },
-  "operational_status": "Active",
-  "operational_status_date": "2025-01-01",
-  "date_of_incorporation": "2005-03-15",
-  "registration": {
- "jurisdiction": "DE",
- "initial_registration_date": "2005-03-15",
- "last_update_date": "2024-12-01",
- "registration_status": "Active"
-  },
-  "industry_classification": {
- "primary_naics": "541512",
- "secondary_naics": ["541511", "541519"],
- "naics_version": "2022"
+    "legal_name": "Example GmbH",
+    "legal_form": "GmbH",
+    "address": {
+      "street": "Musterstraße",
+      "nr": "42",
+      "postal_code": "70174",
+      "city": "Stuttgart",
+      "country": "DE"
+    }
   },
   "status": {
- "type": "status-list",
- "status_list_credential": "https://issuer.example.com/status/duns/2025",
- "status_list_index": 456,
- "status_purpose": "revocation"
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/duns/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
   },
   "cnf": {
- "jwk": {
-   "kty": "EC",
-   "crv": "P-256",
-   "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-   "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
- }
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
   }
 }
 ```
