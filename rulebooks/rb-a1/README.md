@@ -147,11 +147,11 @@ are intended as statements of fact.
 
 ## 2 Attestation Attributes and Metadata
 
-This chapter describes the PD A1 credential attributes as defined in the v0.6 PD A1 JSON schema. All field names, types, enumerations, and constraints in Sections 2.2–2.9 are derived strictly from that schema.
+This chapter describes the PD A1 credential attributes as defined in the v1.0 PD A1 JSON schema. All field names, types, enumerations, and constraints in Sections 2.2–2.9 are derived strictly from that schema. The normative source is the schema file [`pda1-sd-jwt.json`](../../data-schemas/sd-jwt/pda1-sd-jwt.json); a valid worked example is provided in [`pda1-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/pda1-sd-jwt-sample.json).
 
 ### 2.1 Introduction
 
-**Data Model (v0.6):**
+**Data Model (v1.0):**
 
 ```
 PDA1 Credential
@@ -191,9 +191,9 @@ PDA1 Credential
 │       ├── companyOrVesselName (string) — mandatory | SD Group 11
 │       ├── flagBaseHomeState (string) — optional | SD Group 11
 │       ├── companyID (string) — optional† | SD Group 11
-│       ├── typeOfCompanyID (enum) — optional† | SD Group 11
+│       ├── typeOfID (enum) — optional† | SD Group 11
 │       └── address (addressPDA1State) — mandatory | SD Group 12
-│       [† companyID and typeOfCompanyID are mutually required]
+│       [† companyID and typeOfID are mutually required]
 │       [empty array = works in that country with no fixed address]
 ├── statusConfirmation [1:1] — SD Group 13
 │   ├── statusConfirmationCode (enum, 12 codes) — mandatory | SD Group 13
@@ -218,7 +218,7 @@ PDA1 Credential
 
 ### 2.2 Definitions
 
-The following shared types are defined in `$defs` of the v0.6 schema and referenced throughout Sections 2.3–2.9.
+The following shared types are defined in `$defs` of the v1.0 schema and referenced throughout Sections 2.3–2.9.
 
 #### `gender`
 
@@ -272,29 +272,18 @@ ISO 3166-1 alpha-2 code covering **195 world states**: the 193 United Nations me
 
 #### `date`
 
-ISO 8601 full date in `YYYY-MM-DD` format. Pattern: `^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$`.
+ISO 8601 full date in `YYYY-MM-DD` format. Pattern: `^\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|02-(?:0[1-9]|1\d|2[0-9]))$`.
 
 #### `typeOfID`
 
-Type of identifier used for an employer or self-employed entity:
-
-| Code | Definition |
-|------|-----------|
-| `01` | National registration number |
-| `02` | VAT number |
-| `03` | EORI number |
-| `99` | Other |
-
-#### `typeOfCompanyID`
-
-Type of identifier used for a company at a place of work:
+Type of identifier used for an employer, self-employed entity, or company at a place of work:
 
 | Code | Definition |
 |------|-----------|
 | `01` | Identification / Registration |
 | `02` | Social Security |
 | `03` | Fiscal |
-| `98` | Unknown |
+| `99` | Unknown |
 
 #### `statusConfirmationCode`
 
@@ -329,17 +318,17 @@ Details of a single employer or self-employment activity. All five fields are re
 
 #### `placeOfWork`
 
-A fixed company address or vessel where the holder performs work. `address` and `companyOrVesselName` are required; `companyID` and `typeOfCompanyID` are co-dependent (see below). No additional properties permitted (`additionalProperties: false`).
+A fixed company address or vessel where the holder performs work. `address` and `companyOrVesselName` are required; `companyID` and `typeOfID` are co-dependent (see below). No additional properties permitted (`additionalProperties: false`).
 
 | Data Identifier | Definition | Data type | Occurrence | SD Group |
 |----------------|-----------|-----------|------------|----------|
 | `companyOrVesselName` | Name of the company or vessel where work is performed | String | 1:1 | 11 |
 | `flagBaseHomeState` | Flag state, base state, or home state for maritime or aviation workers | String | 0:1 | 11 |
 | `companyID` | Identifier of the company at the place of work | String | 0:1† | 11 |
-| `typeOfCompanyID` | Type of the company identifier (see `typeOfCompanyID` above) | typeOfCompanyID | 0:1† | 11 |
+| `typeOfID` | Type of the company identifier (see `typeOfID` above) | typeOfID | 0:1† | 11 |
 | `address` | Address of the place of work (PDA1 country) | addressPDA1State | 1:1 | 12 |
 
-† `companyID` and `typeOfCompanyID` are co-dependent (`dependentRequired`): if either is present the other MUST also be present.
+† `companyID` and `typeOfID` are co-dependent (`dependentRequired`): if either is present the other MUST also be present.
 
 ---
 
@@ -408,13 +397,13 @@ The member state whose social security legislation applies to the holder. This s
 | `placesOfWork.<CC>[].companyOrVesselName` | Name of the company or vessel where work is performed | String | 1:1 per item | 11 |
 | `placesOfWork.<CC>[].flagBaseHomeState` | Flag state, base state, or home state (maritime or aviation workers) | String | 0:1 per item | 11 |
 | `placesOfWork.<CC>[].companyID` | Identifier of the company at the place of work | String | 0:1† per item | 11 |
-| `placesOfWork.<CC>[].typeOfCompanyID` | Type of the company identifier (see §2.2) | typeOfCompanyID | 0:1† per item | 11 |
+| `placesOfWork.<CC>[].typeOfID` | Type of the company identifier (see §2.2) | typeOfID | 0:1† per item | 11 |
 | `placesOfWork.<CC>[].address.streetAndNumber` | Street name and house number of the place of work | String | 0:1 per item | 12 |
 | `placesOfWork.<CC>[].address.town` | Town of the place of work | String | 1:1 per item | 12 |
 | `placesOfWork.<CC>[].address.postcode` | Postal code of the place of work | String | 0:1 per item | 12 |
 | `placesOfWork.<CC>[].address.countryCode` | Country of the place of work (PDA1 set) | countryCodePDA1States | 1:1 per item | 12 |
 
-† `companyID` and `typeOfCompanyID` are co-dependent: if either is present, the other MUST also be present.
+† `companyID` and `typeOfID` are co-dependent: if either is present, the other MUST also be present.
 
 ---
 
@@ -462,7 +451,7 @@ The social security institution that issued this certificate. The four fields `i
 
 ### 2.10 Metadata
 
-> **Note:** The attributes listed below are **not part of the v0.6 PD A1 attestation data schema**. They are defined at the encoding or framework layer (SD-JWT VC, eIDAS 2.0) and are subject to change as the encoding specification evolves.
+> **Note:** The attributes listed below are **not part of the v1.0 PD A1 attestation data schema**. They are defined at the encoding or framework layer (SD-JWT VC, eIDAS 2.0) and are subject to change as the encoding specification evolves.
 >
 > The separation is intentional: an application-data schema describes semantic content — field names, types, and constraints — which remains stable across encoding formats. Issuance and transport metadata, by contrast, is format- and infrastructure-specific (SD-JWT VC claim names, eIDAS 2.0 lifecycle attributes). Mixing them would couple a stable data definition to volatile infrastructure choices, and would prevent the schema from being reused across different encoding formats. Metadata attributes are therefore defined at the framework or protocol layer and referenced here for completeness only.
 
@@ -470,11 +459,11 @@ The social security institution that issued this certificate. The four fields `i
 
 ### 2.11 Integrity Rules
 
-The following rules are derived strictly from constraints in the v0.6 PD A1 attestation data schema. Rules concerning metadata (§2.10) are marked as framework-layer.
+The following rules are derived strictly from constraints in the v1.0 PD A1 attestation data schema. Rules concerning metadata (§2.10) are marked as framework-layer.
 
 **Top-level required properties:** All seven properties — `subject`, `memberstateAppliedLegislation`, `employmentSituations`, `placesOfWork`, `statusConfirmation`, `documentID`, `competentInstitution` — MUST be present. No additional top-level properties are permitted (`additionalProperties: false`).
 
-**Date format:** All `date` values MUST conform to the format `YYYY-MM-DD` and match the pattern `^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$`.
+**Date format:** All `date` values MUST conform to the format `YYYY-MM-DD` and match the pattern `^\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|02-(?:0[1-9]|1\d|2[0-9]))$`.
 
 **Country-code set — world (`countryCodeWorld`, 195 codes):** MUST be used for `subject.nationalities[]`, `subject.placeOfBirth.countryCode`, `subject.address.stateOfResidence[].countryCode`, and `employmentSituations[].address.countryCode`.
 
@@ -488,13 +477,13 @@ The following rules are derived strictly from constraints in the v0.6 PD A1 atte
 
 **Places of work:** `placesOfWork` MUST contain at least one country key (`minProperties: 1`). All property names MUST be valid `countryCodePDA1States` values. An empty array value is valid and means the holder works in that country with no fixed address. Each `placeOfWork` item MUST include `address` and `companyOrVesselName`. No additional properties are permitted per item (`additionalProperties: false`).
 
-**Company ID co-dependency:** Within each `placeOfWork`, `companyID` and `typeOfCompanyID` are co-dependent (`dependentRequired`): if `companyID` is present then `typeOfCompanyID` MUST be present, and vice versa.
+**Company ID co-dependency:** Within each `placeOfWork`, `companyID` and `typeOfID` are co-dependent (`dependentRequired`): if `companyID` is present then `typeOfID` MUST be present, and vice versa.
 
 **Status exception:** `statusConfirmation.statusConfirmationCode` is required. `statusConfirmation.exceptionDescription` MUST NOT be present when `statusConfirmationCode` is any value other than `"11"`. It is optional even when the code is `"11"`.
 
 **No extra properties:** The following objects enforce `additionalProperties: false` or `unevaluatedProperties: false` — no properties beyond those defined in the schema may appear in: `subject`, `subject.names`, `subject.placeOfBirth`, `subject.address`, `memberstateAppliedLegislation`, each `employmentSituation`, `addressPDA1State`, `addressWorld`, each `placeOfWork`, `statusConfirmation`, `competentInstitution`.
 
-**Metadata integrity rules** *(framework-layer — not v0.6 schema):* `issuance_date` and `expiry_date` MUST be valid ISO 8601 DateTimes; `expiry_date` MUST be later than `issuance_date`; `attestation_legal_category` MUST be one of `"QEAA"`, `"PuB-EAA"`, or `"EAA"`; `vct` MUST be `eu.we-build.pda1.1`.
+**Metadata integrity rules** *(framework-layer — not v1.0 schema):* `issuance_date` and `expiry_date` MUST be valid ISO 8601 DateTimes; `expiry_date` MUST be later than `issuance_date`; `attestation_legal_category` MUST be one of `"QEAA"`, `"PuB-EAA"`, or `"EAA"`; `vct` MUST be `eu.we-build.pda1.1`.
 
 ## 3 Attestation Encoding
 
