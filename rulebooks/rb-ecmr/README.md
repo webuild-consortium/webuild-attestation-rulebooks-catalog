@@ -92,6 +92,7 @@ Additional terms used in this document:
 | Business Wallet | Wallet associated with a legal entity |
 | eCMR Platform | Platform managing electronic consignment records |
 | Consignment | Transport operation represented by an eCMR |
+| CMDS | Consignment Movement DataSet -> the consignment XML data |
 | Roadside Check | Verification procedure performed by enforcement authorities |
 
 # 2 Attestation attributes and metadata
@@ -111,7 +112,6 @@ The attestation provides:
 The attribute `attestation_legal_category` SHALL indicate the legal classification of the attestation. This attestation type is classified as "EAA" within the EBW Wallet ecosystem, as it is typically issued by an eCRM platform and no authentic source is used.
 
 ## 2.2 Mandatory attributes
-
 ### 2.2.1 Consignment identification 
 
 | Data Identifier |  Definition | Data Type | Example Value |
@@ -121,40 +121,37 @@ The attribute `attestation_legal_category` SHALL indicate the legal classificati
 
 <mark style="background-color: lightyellow">* The issuing eCmr platform can freely use whatever content needed to identify the consignment and its eCMR. On purpose, already defined Id fields in UN/CEFACT Electronic Road Consignment Note (eCMR)are not used [UN/CEFACT eCMR].</mark> 
 
-### 2.2.2 Parties identification 
-
-| Data Identifier |  Definition | Data Type | Example Value |
-|----------------|-------------|-----------|---------------|
-| consignor_ebwoid |  ebwoid of the issuing organisation | String | EU.ebwoid.12345678 |
-| carrier_ebwoid |  ebwoid of the carrier | String | EU.ebwoid.87654321 |
-| consigner_ebwoid |  ebwoid of the consignor | String | EU.ebwoid.11223344 |
-
-=====
-
-
 ## 2.3 Optional attributes
+### 2.4 eFTI information (Unique Information Link)
 
 | Data Identifier |  Definition | Data Type | Example Value |
 |----------------|-------------|-----------|---------------|
-| efti_dataset_identifier | Associated eFTI dataset identifier | String | EFTI-248811 |
-| efti_platform_identifier |  eFTI platform identifier | String | EFTI-PLAT-45 |
-| gate_identifier |  eFTI gateway identifier | String | EFTI-GATE-12 |
-| transport_reference | Internal transport reference | String | TRP-2026-456 |
+| efti_dataset_identifier | The unique ID of an eFTI CMDS, assigned by an eFTI platform | String-36 | EFTI-248811 |
+| efti_platform_identifier |  The identifier of an eFTI platform | String-17 | EFTI-PLAT-45 |
+| efti_gate_identifier |  The identifier of an eFTI gate | String-17 | EFTI-GATE-12 |
 
-xxxxxxxxxxxxx   base 64 choix document  xxxxxx
-xxxxxxxxxxxxxx UIL ref reglementattion comme Semantic Reference XXXXXXXXXXX
+Note: at the present time, the naming rule for eftt platform and gate identifiers has not been defined yet by the eFTI technical guidance documents. Exemples are fictionnal.
+<mark style="background-color: lightyellow">Question: should the QR Code (image of encoded UIL) be added?</mark> 
+
+### 2.4 Human readbale eCMR
+| Data Identifier |  Definition | Data Type | Example Value |
+|----------------|-------------|-----------|---------------|
+| embedded_ecmr_pdf |  Embedded human-readable eCMR document for offline presentation | actual pdf/a file as base64 string |    |
+
+Note: no embedded transport dataset representation, only a human readable document 
+
+These attributes SHALL be present when offline verification or human-readable presentation is required. Optional in MVP, mandatory in MVP+.
 
 ## 2.4 Conditional attributes
+### 2.4.1 Parties identification 
 
 | Data Identifier |  Definition | Data Type | Example Value |
 |----------------|-------------|-----------|---------------|
-| embedded_ecmr_pdf |  Embedded human-readable eCMR document for offline presentation | Binary |
-| embedded_dataset |  Embedded transport dataset representation | Binary |
-| qr_code_reference |  QR code payload supporting document retrieval | String | QR Payload |
+| consignor_ebwoid |  ebwoid of the issuing organisation | String | SEBOLREG.123456789 |
+| carrier_ebwoid |  ebwoid of the carrier | String | NOFOR.123456789 |
+| consigner_ebwoid |  ebwoid of the consignor | String | SEBOLREG.987654321 |
 
-These attributes SHALL be present when offline verification or human-readable presentation is required. 
-
-xxxxxx pdf xxxx
+<mark style="background-color: lightyellow">At least One ebwoid SHALL be included in the attestation, depending on the step reached in process.</mark> 
 
 ## 2.5 Mandatory metadata
 
@@ -166,24 +163,15 @@ xxxxxx pdf xxxx
 | trust_anchor_location |  URL of trust anchor information | URI | https://trust.webuild.eu |
 | expiry_date |  Expiration date of the attestation | DateTime | 2026-07-30T00:00:00Z |
 | schema_version |  Attestation schema version | String | 1.0 |
-| issuance_timestamp |  Timestamp of issuance | DateTime | 2026-06-30T10:25:00Z |
-| document_hash |  Cryptographic hash of the referenced eCMR document | String | SHA256:4F2C9B... |
-
+| issuance_date |  Timestamp of issuance | datetime | 2026-06-30T10:25:00Z |
 
 ## 2.6 Optional metadata
 
-| Data Identifier | Semantic Reference | Definition | Data Type | Example Value |
-|----------------|-------------------|-------------|-----------|---------------|
-| presentation_mode | WEBUILD:presentationMode | Intended presentation mode | String | online |
-| offline_support | WEBUILD:offlineSupport | Indicates offline capability | Boolean | true |
-| language | WEBUILD:language | Language of human-readable content | String | en-GB |
+None
 
 ## 2.7 Conditional metadata
 
-| Data Identifier |  Definition | Data Type | Example Value |
-|----------------|-------------|-----------|---------------|
-| evidence_document_hash |  Hash of embedded evidence document | String | SHA256:ABCDEF |
-| embedded_document_type |  Type of embedded document | String | PDF |
+None
 
 ## 2.8 Code lists
 
@@ -193,34 +181,20 @@ xxxxxx pdf xxxx
 | presentation_mode | online, offline, hybrid | Verification mode | WE BUILD |
 | embedded_document_type | PDF, eCMR-XML, eFTI | Embedded evidence format | WE BUILD |
 
-## 2.9 Integrity rules
+## 2.9 Integrity rules (to be completed)
 
 | Rule ID | Rule Statement |
 |----------|----------------|
-| IR-01 | consignment_identifier SHALL be present. |
-| IR-02 | issuer_ebwoid SHALL identify a valid legal entity. |
-| IR-03 | carrier_ebwoid and consigner_ebwoid SHALL be present. |
-| IR-04 | If embedded_ecmr_pdf is present, document_hash SHALL also be present. |
-| IR-05 | If offline_support is true, an embedded document SHALL be available. |
-| IR-06 | The document_hash SHALL correspond to the referenced or embedded document. |
+| IR-01 | |
+| IR-02 | |
+| IR-03 ||
+| IR-04 ||
+| IR-05 ||
+| IR-06 ||
 
 # 3 Attestation encoding
 
 ## 3.1 ISO/IEC 18013-5 compliant encoding
-
-### Document Type
-
-```text
-eu.webuild.ecmr.attestation.1
-```
-
-### Namespace
-
-```text
-eu.webuild.ecmr.attestation.1
-```
-
-### Encoding principles
 
 The eCMR Attestation SHALL be issued exclusively as an ISO/IEC 18013-5 compliant mDoc. This format supports:
 
@@ -230,49 +204,18 @@ The eCMR Attestation SHALL be issued exclusively as an ISO/IEC 18013-5 compliant
 - Embedded transport evidence;
 - Selective disclosure mechanisms. 
 
-### Attribute mapping
+docType `eu.webuild.ecmr.attestation.1`
+Namespace `eu.webuild.ecmr.attestation.1`
 
-| Data Identifier | Attribute Identifier | Encoding Format |
+## Attributes
+
+| Attribute Identifier | Data type | Encoding Format |
 |-----------------|----------------------|-----------------|
-| attestation_legal_category | attestation_legal_category | tstr |
-| consignment_identifier | consignment_identifier | tstr |
-| ecmr_platform_url | ecmr_platform_url | tstr |
-| issuer_ebwoid | issuer_ebwoid | tstr |
-| carrier_EBWOID | carrier_ebwoid | tstr |
-| consigner_ebwoid | consigner_ebwoid | tstr |
-| issuance_timestamp | issuance_timestamp | tdate |
-| document_hash | document_hash | tstr |
-| efti_dataset_identifier | efti_dataset_identifier | tstr |
-| embedded_ecmr_pdf | embedded_ecmr_pdf | bstr |
-| embedded_dataset | embedded_dataset | bstr |
+| attestation_legal_category | string | UTF-8 |
 
-### Online verification profile
+``` To be completed```
 
-The attestation contains:
-
-- Consignment identifier;
-- Platform URL;
-- Business identifiers;
-- Integrity evidence.
-
-The verifier retrieves the complete eCMR information from the referenced platform. 【2-3a5a60】
-
-### Offline verification profile
-
-The attestation contains:
-
-- Consignment identifier;
-- Business identifiers;
-- Integrity evidence;
-- Embedded transport evidence.
-
-Embedded evidence SHALL consist of:
-
-- A human-readable PDF representation of the eCMR; or
-- An embedded transport dataset; or
-- Both representations. 
-
-### Example mDoc payload
+## Illustrative example (to be done)
 
 ```json
 {
@@ -290,17 +233,17 @@ Embedded evidence SHALL consist of:
 }
 ```
 
-### Selective disclosure
+## Selective disclosure
 
 Selective disclosure SHOULD be supported for:
 
-- Carrier details;
-- Consignor details;
-- eFTI-related references.
+- XXXXX
+- 
+- eFTI XXX-related references.
 
 Mandatory verification attributes SHALL always be available to relying parties.
 
-# 4 Attestation usage XXXXXXXspecifies attestation usage scenarios, ISSUING  & Relying Party obligations
+# 4 Attestation usage XXXXXXXspecifies attestation usage scenarios, ISSUING  & Relying Party obligations XXXXXXXXXXXXXXX to be filled with the scenario 
 
 The eCMR Attestation SHALL support:
 
