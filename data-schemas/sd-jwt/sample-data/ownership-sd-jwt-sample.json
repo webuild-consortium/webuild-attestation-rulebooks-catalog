@@ -1,30 +1,12 @@
 {
   "vct": "eu.we-build:ownership:1",
-  "iss": "https://issuer.bosch.com/ownership",
-  "iat": 1747044000,
-  "exp": 1778580000,
-  "nbf": 1747044000,
-  "sub": "did:example:target-company-lei-529900T8BM49AURSDO55",
-  "issuing_entity": "http://bosch.com/did",
+  "iss": "https://issuer.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:legal-entity-789",
   "attestation_legal_category": "EAA",
-  "schema_version": "0.9.0",
+  "schema_version": "0.8.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-
-  "cnf": {
-    "jwk": {
-      "kty": "EC",
-      "crv": "P-256",
-      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-    }
-  },
-
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.bosch.com/status/ownership/2025",
-    "status_list_index": 789,
-    "status_purpose": "revocation"
-  },
   "owner": [
     {
       "type": "Person",
@@ -35,7 +17,7 @@
         "birth_date": "1978-04-15"
       },
       "address": {
-        "street": "Hauptstraße",
+        "street": "Hauptstrasse",
         "house_number": "12",
         "locality": "Berlin",
         "region": "Berlin",
@@ -43,59 +25,27 @@
         "country": "DE"
       },
       "interests": {
-        "type": ["shareholding"],
+        "type": [
+          "shareholding"
+        ],
         "level": "direct",
         "percentage": 51.0,
         "quantity": 51000,
         "class": "ordinary",
-        "rights": ["dividend_rights", "liquidation_rights"],
-        "description": "Direct majority shareholding acquired at company founding"
+        "rights": [
+          "dividend_rights",
+          "liquidation_rights"
+        ]
       },
       "effective_date": "2018-03-01",
       "evidence": [
         {
           "id": "src-001",
           "type": "officialRegister",
-          "url": "https://www.handelsregister.de/docs/example-gesellschafterliste-2024.pdf"
+          "url": "https://example.com/docs/shareholder-register-2024.pdf"
         }
       ]
     },
-
-    {
-     "type": "Person",
-      "jurisdiction": "DE",
-      "person": {
-        "first_name": "Klaus",
-        "surname": "Müller",
-        "birth_date": "1965-11-22"
-      },
-      "address": {
-        "street": "Berliner Allee",
-        "house_number": "88",
-        "locality": "Hamburg",
-        "region": "Hamburg",
-        "postal_code": "20095",
-        "country": "DE"
-      },
-      "interests": {
-        "type": ["nomineeShareholding", "votingRights"],
-        "level": "indirect",
-        "percentage": 10.0,
-        "quantity": 10000,
-        "class": "ordinary",
-        "rights": ["dividend_rights"],
-        "description": "Indirect holding via nominee arrangement through HoldCo GmbH"
-      },
-      "effective_date": "2020-07-01",
-      "evidence": [
-        {
-          "id": "src-002",
-          "type": "shareholderAgreement",
-          "url": "https://example.com/docs/nominee-agreement-2020.pdf"
-        }
-      ]
-    },
-
     {
       "type": "Entity",
       "jurisdiction": "DE",
@@ -108,10 +58,11 @@
           "tax": "DE987654321"
         },
         "jurisdiction": "DE",
-        "form": "private_company"
+        "form": "private_company",
+        "legal_form": "GmbH"
       },
       "address": {
-        "street": "Musterstraße",
+        "street": "Musterstrasse",
         "house_number": "45",
         "locality": "Frankfurt",
         "region": "Hessen",
@@ -119,29 +70,27 @@
         "country": "DE"
       },
       "interests": {
-        "type": ["shareholding", "votingRights"],
+        "type": [
+          "shareholding",
+          "votingRights"
+        ],
         "level": "indirect",
         "percentage": 30.0,
         "quantity": 30000,
         "class": "preferred",
-        "rights": ["dividend_rights"],
-        "description": "Holding company controlling 30% preferred shares"
+        "rights": [
+          "dividend_rights"
+        ]
       },
       "effective_date": "2019-06-15",
       "evidence": [
         {
-          "id": "src-003",
+          "id": "src-002",
           "type": "shareholderAgreement",
           "url": "https://example.com/docs/shareholder-agreement-2019.pdf"
-        },
-        {
-          "id": "src-004",
-          "type": "articlesOfAssociation",
-          "url": "https://example.com/docs/articles-of-association-holdco.pdf"
         }
       ]
     },
-
     {
       "type": "Entity",
       "jurisdiction": "LU",
@@ -154,14 +103,14 @@
         "jurisdiction": "LU",
         "form": "trust",
         "subtype_info": {
-          "settlement": "Settled under Luxembourg trust law on 2015-03-01 by Anna Schmidt as settlor",
-          "purpose": "Family wealth management, succession planning, and asset protection for Schmidt family beneficiaries",
-          "assets": "Real estate holdings, securities portfolios, cash deposits, and equity stakes in operating companies",
-          "reason_for_registration": "Registered for tax transparency obligations under the OECD Common Reporting Standard (CRS) and EU DAC6"
+          "settlement": "Settled under Luxembourg trust law on 2015-03-01",
+          "purpose": "Family wealth management and succession planning",
+          "assets": "Real estate, securities portfolios, and cash holdings",
+          "reason_for_registration": "Registered for tax transparency under CRS"
         }
       },
       "address": {
-        "street": "Rue de la Forêt",
+        "street": "Rue de la For\u00eat",
         "house_number": "7",
         "locality": "Luxembourg",
         "region": "Luxembourg",
@@ -169,26 +118,40 @@
         "country": "LU"
       },
       "interests": {
-        "type": ["beneficiaryOfLegalArrangement", "economicBeneficiary"],
+        "type": [
+          "beneficiaryOfLegalArrangement",
+          "economicBeneficiary"
+        ],
         "level": "indirect",
-        "percentage": 9.0,
+        "percentage": 19.0,
         "quantity": 0,
-        "rights": ["dividend_rights", "liquidation_rights"],
-        "description": "Trust holds economic interests as beneficiary without formal registered shares"
+        "rights": [
+          "dividend_rights",
+          "liquidation_rights"
+        ]
       },
       "effective_date": "2015-03-01",
       "evidence": [
         {
-          "id": "src-005",
+          "id": "src-003",
           "type": "trustDeed",
-          "url": "https://example.com/docs/trust-deed-schmidt-2015.pdf"
-        },
-        {
-          "id": "src-006",
-          "type": "thirdPartyVerification",
-          "data": "eyJub3RhcnkiOiAiTm90YXJpYXQgTHV4ZW1ib3VyZyIsICJkYXRlIjogIjIwMjUtMDEtMTUiLCAidmVyaWZpZWQiOiB0cnVlfQ=="
+          "url": "https://example.com/docs/trust-deed-2015.pdf"
         }
       ]
     }
-  ]
+  ],
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/ownership/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
 }
