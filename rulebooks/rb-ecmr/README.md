@@ -2,13 +2,12 @@
 ## WORK IN PROGRESS - first commit to check github 
 
 **Author(s):**
-- Christophe DANNA, WE BUILD Consortium
-- OULMAHDI, WE BUILD Consortium
-- Eelco, WE BUILD Consortium
-XXXXXXXXXXX  tous les gens de l'atelier ******
+- Christophe DANNA, IN Groupe
+- Mohamed OULMAHDI, IN Groupe
+- Heiti MERING, Digilogistika Keskus
 
 **Reviewer(s)**
-- XXXXXXXXXXXXXXXXXXXXXXXXXXX
+- [to be addeed]
 
 **Version History**
 
@@ -75,14 +74,7 @@ instance, by an external document. The word 'can' indicates a capability,
 whereas other words, such as 'will', and 'is' or 'are' are intended as
 statements of fact.
 
-## 1.4 Terminology XXXXXXXXXXXXXXXXX
-
-This document follows terminology defined by:
-
-- EUDI Architecture Reference Framework (ARF);
-- eCMR Convention;
-- eFTI Regulation;
-- WE BUILD Architecture documentation.
+## 1.4 Terminology 
 
 Additional terms used in this document:
 
@@ -111,16 +103,17 @@ The attestation provides:
 
 The attribute `attestation_legal_category` SHALL indicate the legal classification of the attestation. This attestation type is classified as "EAA" within the EBW Wallet ecosystem, as it is typically issued by an eCRM platform and no authentic source is used.
 
+<mark style="background-color: lightyellow">All attributes and metadate SHALL be disclosable. </mark> 
+
 ## 2.2 Mandatory attributes
 ### 2.2.1 Consignment identification 
 
 | Data Identifier |  Definition | Data Type | Example Value |
 |----------------|-------------|-----------|---------------|
-| consignment_identifier |  Unique identifier of the consignment* | tstr | CMR-2026-000123 |
+| consignment_identifier |  Unique identifier of the consignment* | string | CMR-2026-000123 |
 | ecmr_platform_url |  URL of the originating eCMR platform | URI | https://platform.example.eu/ecmr/CMR-2026-000123 |
 
 <mark style="background-color: lightyellow">* The issuing eCmr platform can freely use whatever content needed to identify the consignment and its eCMR. On purpose, already defined Id fields in UN/CEFACT Electronic Road Consignment Note (eCMR)are not used [UN/CEFACT eCMR].</mark> 
-
 
 ## 2.3 Optional attributes
 ### 2.4 eFTI information (Unique Information Link)
@@ -141,7 +134,7 @@ Note: at the present time, the naming rule for eftt platform and gate identifier
 
 Note: no embedded transport dataset representation, only a human readable document 
 
-These attributes SHALL be present when offline verification or human-readable presentation is required. Optional in MVP, mandatory in MVP+.
+These attributes must be present when offline verification or human-readable presentation is required. Optional in MVP, mandatory in MVP+.
 
 ## 2.4 Conditional attributes
 ### 2.4.1 Parties identification 
@@ -159,11 +152,10 @@ These attributes SHALL be present when offline verification or human-readable pr
 | Data Identifier |  Definition | Data Type | Example Value |
 |----------------|-------------|-----------|---------------|
 | attestation_legal_category |  Legal category of the attestation | String | non-qualified-EAA |
-| issuer_identifier |  Unique issuer identifier | String | WEBUILD-ECMR-PLATFORM |
 | issuer_ebwoid |  ebwoid of the issuing organisation | String | EU.ebwoid.12345678 |
-| trust_anchor_location |  URL of trust anchor information | URI | https://trust.webuild.eu |
+| trust_anchor_url |  URL of trust anchor information | URI | https://trust.webuild.eu |
 | expiry_date |  Expiration date of the attestation | DateTime | 2026-07-30T00:00:00Z |
-| schema_version |  Attestation schema version | String | 1.0 |
+| attestation_scheme |  Attestation schema | String |  |
 | issuance_date |  Timestamp of issuance | datetime | 2026-06-30T10:25:00Z |
 
 ## 2.6 Optional metadata
@@ -179,19 +171,13 @@ None
 | Field Name | Allowed Values | Meaning | Source |
 |------------|----------------|---------|---------|
 | attestation_legal_category | "non-qualified-EAA" | Legal classification of the attestation | EUDI Framework |
-| presentation_mode | online, offline, hybrid | Verification mode | WE BUILD |
-| embedded_document_type | PDF, eCMR-XML, eFTI | Embedded evidence format | WE BUILD |
 
-## 2.9 Integrity rules (to be completed)
+## 2.9 Integrity rules
 
 | Rule ID | Rule Statement |
 |----------|----------------|
-| IR-01 | |
-| IR-02 | |
-| IR-03 ||
-| IR-04 ||
-| IR-05 ||
-| IR-06 ||
+| IR-01 | A mandatory string attribute SHALL be a non-empty string |
+| IR-02 | datetime SHALL be ISO 8601 compliant |
 
 # 3 Attestation encoding
 
@@ -205,73 +191,42 @@ The eCMR Attestation SHALL be issued exclusively as an ISO/IEC 18013-5 compliant
 - Embedded transport evidence;
 - Selective disclosure mechanisms. 
 
-docType `eu.webuild.ecmr.attestation.1`
-Namespace `eu.webuild.ecmr.attestation.1`
+docType `"eu.webuildconsortium.ecmr.attestation.V1`
 
-## Attributes
+Namespace `"eu.webuildconsortium.ecmr.attestation.V1`
 
-| Attribute Identifier | Data type | Encoding Format |
-|-----------------|----------------------|-----------------|
-| attestation_legal_category | string | UTF-8 |
+### Illustrative example
 
-``` To be completed```
+Example for MVP scenario (mandatory fields only). See clarification about MVP and MVP+ scenarios in section [1.1 Document scope and purpose ](#1.1-Document-scope-and-purpose).
 
-## Illustrative example (to be done)
 
 ```json
 {
-  "docType": "eu.webuild.ecmr.attestation.1",
-  "namespace": "eu.webuild.ecmr.attestation.1",
-  "attestation_legal_category": "non-qualified-EAA",
-  "consignment_identifier": "CMR-2026-000123",
-  "ecmr_platform_url": "https://platform.example.eu/ecmr/CMR-2026-000123",
-  "issuer_ebwoid": "EU.ebwoid.12345678",
-  "carrier_ebwoid": "EU.ebwoid.87654321",
-  "consigner_ebwoid": "EU.ebwoid.11223344",
-  "issuance_timestamp": "2026-06-30T10:25:00Z",
-  "document_hash": "SHA256:4F2C9B...",
-  "embedded_ecmr_pdf": "<binary object>"
+  "docType": "eu.webuildconsortium.ecmr.attestation.V1",
+  "issuerSigned": {
+    "namespaces": {
+      "eu.webuild.ecmr.attestation.1": [
+        {"elementIdentifier": "attestation_legal_category", "elementValue": "non-qualified-EAA"},
+        {"elementIdentifier": "trust_anchor_url", "elementValue": ""},
+        {"elementIdentifier": "attestation_scheme", "elementValue": ""},
+        {"elementIdentifier": "consignment_identifier", "elementValue": "CMR-2026-000123"},
+        {"elementIdentifier": "ecmr_platform_url", "elementValue": "https://platform.example.eu/ecmr/CMR-2026-000123"},
+        {"elementIdentifier": "issuer_ebwoid", "elementValue": "EU.ebwoid.12345678"},
+        {"elementIdentifier": "carrier_ebwoid", "elementValue": "EU.ebwoid.87654321"},
+        {"elementIdentifier": "consignor_ebwoid", "elementValue": "EU.ebwoid.11223344"}
+      ]     
+    }    
 }
 ```
+Note: issuance and expiry dates to be added
 
-## Selective disclosure
+## 3.2 SD-JWT VC-based encoding
 
-Selective disclosure SHOULD be supported for:
+ SD-JWT is out of scope for this rulebook, as offline proximity is required.
 
-- XXXXX
-- 
-- eFTI XXX-related references.
+# 4 Attestation usage 
 
-Mandatory verification attributes SHALL always be available to relying parties.
-
-# 4 Attestation usage XXXXXXXspecifies attestation usage scenarios, ISSUING  & Relying Party obligations XXXXXXXXXXXXXXX to be filled with the scenario 
-
-The eCMR Attestation SHALL support:
-
-- Roadside inspections;
-- Cross-border transport verification;
-- Compliance controls;
-- Logistics interoperability services;
-- Future eFTI exchange scenarios. 
-
-The holder SHALL present the attestation through EUDI Wallet presentation protocols.
-
-The relying party SHALL:
-
-1. Verify the issuer signature.
-2. Verify the trust chain.
-3. Verify all ebwoid identifiers.
-4. Verify the validity period.
-5. Verify document integrity evidence.
-6. Validate embedded transport evidence when present. 
-
-The attestation SHALL support:
-
-- Device-to-device presentation;
-- Device-to-verifier presentation;
-- Offline inspection scenarios. 
-
-The attestation SHOULD be non-device-bound to ensure operational flexibility for transport activities.
+TO BE COMPLETED
 
 # 5 Trust anchors
 
@@ -291,35 +246,23 @@ The trust chain SHALL enable verification of:
 3. The identified legal entity.
 4. The associated trust anchor. 
 
-Trust anchor distribution mechanisms remain subject to final validation by the WE BUILD Architecture Group. 
+For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID). The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
+
+The Relying Party (eCmr Platform) SHALL verify the EBWOID. Upon successful verification, the Relying Party obtains:
+
+- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
+- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
+- the public key authorized to verify the EAA signature.
 
 # 6 Revocation
 
-The preferred operational model is based on short-lived attestations. 
+A balance between security and usability must be found:
+- Short-lived (24 hours) needs re-issuance / renewal by the issuer
+- Status List or revocation List requires internet access to retrieve trusted lists. Maintaining a cached copy of the trusted list and revocation information, updated regularly, may enable offline verification (MVP+).
 
-For longer validity periods, implementations SHOULD support:
+The eCmr Platform (self-issuing entity) SHALL immediately update or revoke its EAA eCMr Attestation when a new version is issued.
 
-- Attestation Status Lists;
-- Revocation List mechanisms defined by future EUDI technical specifications.
-
-
-# 7 Compliance
-
-This rulebook aligns with:
-
-- Regulation (EU) 2024/1183;
-- EUDI Architecture Reference Framework;
-- WE BUILD Architecture principles;
-- eCMR operational requirements;
-- eFTI interoperability objectives. 
-
-The attestation provides:
-
-- Trusted business identification;
-- Legal and technical identity binding;
-- Online and offline presentation capabilities;
-- Human-readable transport documentation support;
-- Integrity protection for transport data. 
+<mark style="background-color: lightyellow">WeBuild IETF Token Status List SHOULD be used to perform revocation checks to validate credentials</mark> 
 
 # 8 References
 
@@ -327,11 +270,10 @@ The attestation provides:
 |------------|-------------|
 | Regulation (EU) 2024/1183 | European Digital Identity Regulation |
 | ISO/IEC 18013-5 | Mobile Driving Licence (mDoc) Standard |
+| ISO 8601	| International standard for date and time representations |
 | EUDI ARF | European Digital Identity Architecture Reference Framework |
 | eFTI Regulation | Electronic Freight Transport Information Regulation |
-| SD-JWT VC | Verifiable Credentials Specification |
-| W3C VCDM | Verifiable Credentials Data Model |
-| WE BUILD SC1.3 Workshop | eCMR Attestation Workshop Outcomes |
-| WE BUILD Architecture ADR | QEAA Attestation and QERD Documents |
 | [UN/CEFACT eCMR] | Electronic Consignment Note Specification https://unece.org/trade/documents/2024/12/standards/ecmr-d24a |
+
+
 
