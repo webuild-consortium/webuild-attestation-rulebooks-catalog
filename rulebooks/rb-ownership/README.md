@@ -738,7 +738,6 @@ The following is a non-normative example of an Ownership SD-JWT VC payload demon
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
-  "issuing_entity": "did:example:legal-entity-789",
   "attestation_legal_category": "EAA",
   "schema_version": "0.8.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",

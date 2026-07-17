@@ -10,7 +10,6 @@
     "iat",
     "exp",
     "attestation_legal_category",
-    "issuing_entity",
     "owner"
   ],
   "properties": {

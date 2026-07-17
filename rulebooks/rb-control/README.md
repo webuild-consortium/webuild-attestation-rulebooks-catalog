@@ -642,7 +642,6 @@ controller:
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
-  "issuing_entity": "did:example:company-456",
   "attestation_legal_category": "EAA",
   "schema_version": "0.9.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
