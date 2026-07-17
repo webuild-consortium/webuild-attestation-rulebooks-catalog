@@ -283,7 +283,7 @@ Type of identifier used for an employer, self-employed entity, or company at a p
 | `01` | Identification / Registration |
 | `02` | Social Security |
 | `03` | Fiscal |
-| `99` | Unknown |
+| `98` | Unknown |
 
 #### `statusConfirmationCode`
 

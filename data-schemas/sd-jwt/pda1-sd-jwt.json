@@ -328,13 +328,13 @@
             "pattern": "^\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|02-(?:0[1-9]|1\\d|2[0-9]))$"
         },
         "typeOfID": {
-            "description": "Type of identifier: 01 = Identification/Registration, 02 = Social Security, 03 = Fiscal, 99 = Unknown.",
+            "description": "Type of identifier: 01 = Identification/Registration, 02 = Social Security, 03 = Fiscal, 98 = Unknown.",
             "type": "string",
             "enum": [
                 "01",
                 "02",
                 "03",
-                "99"
+                "98"
             ]
         },
         "statusConfirmationCode": {
