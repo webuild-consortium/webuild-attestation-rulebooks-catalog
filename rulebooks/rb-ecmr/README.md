@@ -121,6 +121,7 @@ The attribute `attestation_legal_category` SHALL indicate the legal classificati
 
 <mark style="background-color: lightyellow">* The issuing eCmr platform can freely use whatever content needed to identify the consignment and its eCMR. On purpose, already defined Id fields in UN/CEFACT Electronic Road Consignment Note (eCMR)are not used [UN/CEFACT eCMR].</mark> 
 
+
 ## 2.3 Optional attributes
 ### 2.4 eFTI information (Unique Information Link)
 
