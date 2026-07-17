@@ -147,7 +147,7 @@ are intended as statements of fact.
 
 ## 2 Attestation Attributes and Metadata
 
-This chapter describes the PD A1 credential attributes as defined in the v1.0 PD A1 JSON schema. All field names, types, enumerations, and constraints in Sections 2.2–2.9 are derived strictly from that schema. The normative source is the schema file [`pda1-sd-jwt.json`](../../data-schemas/sd-jwt/pda1-sd-jwt.json); a valid worked example is provided in [`pda1-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/pda1-sd-jwt-sample.json).
+This chapter describes the PD A1 credential attributes as defined in the v1.0 PD A1 JSON schema. All field names, types, enumerations, and constraints in Sections 2.2–2.9 are derived strictly from that schema. The normative source is the schema file [`pda1-sd-jwt.json`](../../data-schemas/sd-jwt/pda1-sd-jwt.json).
 
 ### 2.1 Introduction
 
@@ -557,19 +557,32 @@ and their codelists are defined in Chapter 2 and are not repeated here.
 
 #### 3.2.2 Status Claim
 
-For SD-JWT VC-compliant PD A1 Attestations, the attestation **MUST** include a `status` claim
-if the technical validity period is greater than 24 hours. This claim enables Relying Parties
-to determine if a credential has been revoked via a status list mechanism, as specified in
-SD-JWT VC.
+PD A1 attestations are based on [SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/). If a PD A1 attestation issued as an SD-JWT VC is meant to be valid for longer than 24 hours, the `status` claim as shown in [SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/) and specified in [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) MUST be used according to this rulebook. This claim enables Relying Parties to determine whether a credential has been revoked via a status list mechanism as specified in [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/).
 
-The `status` claim **SHALL** be a JSON object with the following members:
+While the [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) specification only suggests that the status object of an SD-JWT VC (if present) SHOULD be checked, this rulebook prescribes (and therefore overrules) that the status object of an SD-JWT VC PD A1 attestation (if present) MUST always be checked by the verifying party.
 
-- `type` (string): **SHALL** be `"status-list"`.
-- `status_list_credential` (string, URI): The URI of the Status List Credential document that
-  contains the status bitstring.
-- `status_list_index` (integer, >= 0): The zero-based index into the status list bitstring that
-  corresponds to this credential.
-- `status_purpose` (string): **SHALL** be `"revocation"` for this attestation.
+The status object of a PD A1 attestation SD-JWT VC MUST contain the following members according to [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/):
+
+```json
+"status": {
+    "status_list": {
+      "idx": 0,
+      "uri": "https://example.com/statuslists/1"
+    }
+  }
+```
+
+- `status`: OPTIONAL. The claim that references one or more mechanisms a relying party can use to look up status information about this credential. It's a container, and the specification allows different status mechanisms to sit inside it side by side.
+- `status_list`: REQUIRED. The member identifying that the Token Status List mechanism is in use. It bundles together the two pieces of information needed to locate this credential's entry within a published status list. While the [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) specification permits other status mechanisms to be used within the `status` claim, this rulebook prescribes that only the `status_list` mechanism MUST be used for PD A1 attestations if a status object is within the SD-JWT VC PD A1 attestation.
+- `idx`: REQUIRED. The credential's assigned position in the status list. A relying party reads the bit(s) at this position to determine the credential's current status. It must be a non-negative integer.
+- `uri`: REQUIRED. The address from which the Status List Token is retrieved. It must be a valid URI, and a relying party confirms it matches the `sub` claim of the fetched token before trusting the result.
+
+For further details see [section 6.2. in Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/).
+
+The [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) defines basic status types like `VALID`, `INVALID` and `SUSPENDED`. This rulebook limits the statuses allowed to be used for PD A1 SD-JWT VC attestations to only `VALID` and `INVALID`. Any status other than `VALID` or `INVALID` for a referenced VC is to be considered "not defined" and therefore MUST be treated as if the credential's status is `INVALID`.
+
+### 3.2.3 Example Payload
+A valid PD A1 JSON example is provided in [`pda1-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/pda1-sd-jwt-sample.json).
 
 ## 4 Attestation usage
 ### 4.1. Issuance process ###
