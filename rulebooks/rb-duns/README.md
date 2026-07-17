@@ -72,7 +72,6 @@ are intended as statements of fact.
 | ISO 8601     | International standard for date and time representations (e.g., YYYY-MM-DD)                                                         |
 | ISO 3166-1   | International standard for country codes (two-letter alpha-2 codes)                                                                  |
 | EAA          | Electronic Attestation of Attributes as defined by eIDAS 2                                                                           |
-| QEAA         | Qualified Electronic Attestation of Attributes as defined by eIDAS 2                                                                 |
 
 ---
 
@@ -119,9 +118,8 @@ DUNS
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** self-issued by the legal entity as part of its disclosures.
-- **"QEAA"** issued by a Qualified Trust Service Provider (QTSP) or authorized competent body that can independently attest the company information (e.g., based on official Dun & Bradstreet registry data).
-  
+- **"EAA"** self-issued by the legal entity as part of its disclosures or authorized competent body that can independently attest the company information (e.g., based on official Dun & Bradstreet registry data).
+
 **VC Type:** `vct: eu.we-build:duns:1`
 
 ### 2.2 Mandatory Attributes
@@ -160,10 +158,10 @@ No conditional attributes are defined for this attestation type.
 
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**          | **Definition**                                                     | **Data type** |
-|:-----------------------------|:-------------------------------------------------------------------|:--------------|
-| `attestation_legal_category` | Indicates the legal category of the Attestation ("EAA" or "QEAA"). | String        |
-| `cnf`                        | Cryptographic Key Binding to prove holder possession.              | Object        |
+| **Data Identifier**          | **Definition**                                           | **Data type** |
+|:-----------------------------|:---------------------------------------------------------|:--------------|
+| `attestation_legal_category` | Indicates the legal category of the Attestation ("EAA"). | String        |
+| `cnf`                        | Cryptographic Key Binding to prove holder possession.    | Object        |
 
 *Note: Standard JWT claims (`iss`, `iat`, `exp`) are also mandatory.*
 
@@ -219,7 +217,7 @@ The DUNS Legal Entity attestation uses the SD-JWT VC format to allow for selecti
 | issuance_date               | `iat`                              | Number (Unix timestamp)     | Issuance timestamp.                  | MUST NOT        |
 | expiry_date                 | `exp`                              | Number (Unix timestamp)     | Expiration timestamp.                | MUST NOT        |
 | issuing_entity              | `iss`                              | String (URI or DID)         | Identifier of the issuer.            | MUST NOT        |
-| attestation_legal_category  | `attestation_legal_category`       | String                      | "EAA" or "QEAA".                     | MUST NOT        |
+| attestation_legal_category  | `attestation_legal_category`       | String                      | "EAA".                               | MUST NOT        |
 | vct                         | `vct`                              | String                      | The vct definition.                  | MUST NOT        |
 | cnf                         | `cnf`                              | Object                      | Cryptographic Key Binding.           | MUST NOT        |
 | trust_anchor_url            | `trust_anchor_url`                 | String (URI)                | Optional URL to the trust anchor.    | MAY             |
@@ -257,7 +255,7 @@ The following is a non-normative example of a DUNS SD-JWT VC payload:
   "iss": "did:example:duns-issuer-001",
   "iat": 1736935200,
   "exp": 1768471200,
-  "attestation_legal_category": "QEAA",
+  "attestation_legal_category": "EAA",
   "duns_number": "123456789",
   "legal_entity": {
     "legal_name": "Example GmbH",
@@ -297,10 +295,6 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/duns-sd-jw
 - The issuer (i.e., the legal entity itself) issues the attestation based on the information and supporting documentation available at the time of issuance.
 - The issuer is responsible for ensuring that the attested information remains accurate and must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
 
-**For QEAA (Qualified Issuance)**:
-- The issuer—either a Qualified Trust Service Provider (QTSP) or another authorized competent body—must issue and verify the attestation exclusively on the basis of authoritative sources, such as official company register data or audited financial statements.
-- The issuer is also responsible for maintaining a high level of assurance throughout the attestation's validity period by continuously monitoring the underlying information. If any change affecting the accuracy or validity of the attested data is detected, the issuer must promptly revoke the attestation.
-
 The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
 
@@ -308,19 +302,10 @@ https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
-This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
+This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) . The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
 
 ### 5.1 Qualified Electronic Attestations of Attributes (QEAAs)
-
-For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
-The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.
-
-Successful certificate chain validation establishes that:
-- the issuer's certificate was recognized within the applicable trust framework;
-- the issuer's identity has been validated by the supervisory authority during inclusion in the TLOL; and
-- the issuer satisfies the trust requirements applicable to QEAAs.
-
-In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.
+not available.
 
 ### 5.2 Electronic Attestations of Attributes (EAAs)
 
@@ -344,7 +329,6 @@ An attestation SHALL remain valid only while its underlying information is accur
 Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
 
 ### 6.2 Revocation Triggers & Business Rules
-- QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
 - EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
 
 Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
