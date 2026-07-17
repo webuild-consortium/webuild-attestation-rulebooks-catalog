@@ -162,19 +162,19 @@ For a typical European postal addresses, `gs1:streetAddress` **SHOULD** be used 
 
 The most important attributes of `credentialSubject["gs1:organization"]["gs1:address"]` that **SHOULD** be used depending on address type and country for the GLN EAA are
 
-| **Attribute** | **Definition**                                                                        | **Type**       |
-|------------------------|---------------------------------------------------------------------------------------|---------------------|
-| `gs1:streetAddress`    | The primary street address line as free-form text (e.g. street name and house number, or building name). **SHOULD** be used before populating additional street lines. (localized) | `rdf:langString`    |
-| `gs1:streetAddressLine2` | The second street address line as free-form text (e.g. building, unit, or c/o information). (localized) | `rdf:langString`    |
-| `gs1:streetAddressLine3` | The third street address line as free-form text. (localized)                          | `rdf:langString`    |
-| `gs1:streetAddressLine4` | The fourth street address line as free-form text. (localized)                          | `rdf:langString`    |
+| **Attribute**             | **Definition**                                                                        | **Type**       |
+|---------------------------|---------------------------------------------------------------------------------------|---------------------|
+| `gs1:streetAddress`       | The primary street address line as free-form text (e.g. street name and house number, or building name). **SHOULD** be used before populating additional street lines. (localized) | `rdf:langString`    |
+| `gs1:streetAddressLine2`  | The second street address line as free-form text (e.g. building, unit, or c/o information). (localized) | `rdf:langString`    |
+| `gs1:streetAddressLine3`  | The third street address line as free-form text. (localized)                          | `rdf:langString`    |
+| `gs1:streetAddressLine4`  | The fourth street address line as free-form text. (localized)                          | `rdf:langString`    |
 | `gs1:postOfficeBoxNumber` | The number identifying a post-office box; **SHOULD** be used instead of street address lines for PO box addresses. | `xsd:string`        |
-| `gs1:postalName`       | The postal recipient name; **MAY** differ from `gs1:organizationName`. (localized)    | `rdf:langString`    |
-| `gs1:postalCode`       | The postal code where the legal entity is registered or operates                      | `xsd:string`        |
-| `gs1:addressLocality`  | The locality (e.g. city) where the legal entity is registered or operates. (localized) | `rdf:langString`    |
-| `gs1:addressRegion`    | The province or state (e.g. in abbreviated form) where the legal entity is registered or operates. (localized) | `rdf:langString`    |
-| `gs1:addressSuburb`    | A suburb within a town or city. (localized)                                           | `rdf:langString`    |
-| `gs1:countryCode`      | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xsd:string`        |
+| `gs1:postalName`          | The postal recipient name; **MAY** differ from `gs1:organizationName`. (localized)    | `rdf:langString`    |
+| `gs1:postalCode`          | The postal code where the legal entity is registered or operates                      | `xsd:string`        |
+| `gs1:addressLocality`     | The locality (e.g. city) where the legal entity is registered or operates. (localized) | `rdf:langString`    |
+| `gs1:addressRegion`       | The province or state (e.g. in abbreviated form) where the legal entity is registered or operates. (localized) | `rdf:langString`    |
+| `gs1:addressSuburb`       | A suburb within a town or city. (localized)                                           | `rdf:langString`    |
+| `gs1:countryCode`         | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xsd:string`        |
 
 Other attributes of `gs1:PostalAddress` data model **MAY** also be used if needed.
 
@@ -195,26 +195,26 @@ The GLN EAA is a [GS1 Organization Data Credential](https://gs1.github.io/GS1Dig
 
 #### 2.4.1 GS1 Data Credential VCDM core properties
 
-| **Property** | **Requirement** |
-|--------------|-----------------|
-| `@context` | In addition to the W3C VCDM 2.0 context, the GS1 Data Credential context **MUST** be included. For `OrganizationDataCredential`, this is the [organization context](https://ref.gs1.org/gs1/vc/organization-context) (see Section 3.3.1). |
-| `id` | This property is optional in the VCDM but **MUST** be present in all GS1 Data Credentials. |
-| `type` | This property **MUST** contain `VerifiableCredential` and **MUST** also contain `DataCredential`. For the GLN EAA, the type array **MUST** additionally include `OrganizationDataCredential` (see Section 3.3.1). |
-| `issuer.id` | This property **MUST** be a Decentralized Identifier (DID) as defined in [did-1.1]. |
-| `credentialSubject.id` | This property is optional in the VCDM but **MUST** be present and **MUST** be a [GS1 Digital Link URI](https://www.gs1.org/standards/Digital-Link/) as defined in [gs1-digital-link] (see Section 2.2.1). |
-| `credentialStatus` | This property is optional in the VCDM but **MAY** be present. If present, this property **MUST** be of the type `BitstringStatusListEntry` defined in [vc-bitstring-status-list]. |
-| `credentialSchema` | This property is optional in the VCDM but **MUST** be present in all GS1 Data Credentials and **MUST** be of the type `JsonSchema` defined in [vc-json-schema]. |
-| `validFrom` | This property is optional in the VCDM but **MUST** be present in all GS1 Data Credentials. |
-| `renderMethod` | This property is optional in the VCDM but **SHOULD** be present and **SHOULD** be of the type `TemplateRenderMethod` in [vc-render-method]. |
+| **Property**           | **Requirement**                                                                                                                                                                                                                           |
+|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `@context`             | In addition to the W3C VCDM 2.0 context, the GS1 Data Credential context **MUST** be included. For `OrganizationDataCredential`, this is the [organization context](https://ref.gs1.org/gs1/vc/organization-context) (see Section 3.3.1). |
+| `id`                   | This property is optional in the VCDM but **MUST** be present in all GS1 Data Credentials.                                                                                                                                                |
+| `type`                 | This property **MUST** contain `VerifiableCredential` and **MUST** also contain `DataCredential`. For the GLN EAA, the type array **MUST** additionally include `OrganizationDataCredential` (see Section 3.3.1).                         |
+| `issuer.id`            | This property **MUST** be a Decentralized Identifier (DID) as defined in [did-1.1].                                                                                                                                                       |
+| `credentialSubject.id` | This property is optional in the VCDM but **MUST** be present and **MUST** be a [GS1 Digital Link URI](https://www.gs1.org/standards/Digital-Link/) as defined in [gs1-digital-link] (see Section 2.2.1).                                 |
+| `credentialStatus`     | This property is optional in the VCDM but **MAY** be present. If present, this property **MUST** be of the type `BitstringStatusListEntry` defined in [vc-bitstring-status-list].                                                         |
+| `credentialSchema`     | This property is optional in the VCDM but **MUST** be present in all GS1 Data Credentials and **MUST** be of the type `JsonSchema` defined in [vc-json-schema].                                                                           |
+| `validFrom`            | This property is optional in the VCDM but **MUST** be present in all GS1 Data Credentials.                                                                                                                                                |
+| `renderMethod`         | This property is optional in the VCDM but **SHOULD** be present and **SHOULD** be of the type `TemplateRenderMethod` in [vc-render-method].                                                                                               |
 
 #### 2.4.2 WeBuild / EUBW additional mandatory metadata
 
 When the GLN EAA is encoded as SD-JWT VC (Section 3.2), the following additional top-level claims are mandatory:
 
-| **Data Identifier**        | **Definition**                                                                                              | **Type** |
-|----------------------------|-------------------------------------------------------------------------------------------------------------|----------|
+| **Data Identifier**          | **Definition**                                                                                              | **Type** |
+|------------------------------|-------------------------------------------------------------------------------------------------------------|----------|
 | `attestation_legal_category` | Indicates the legal category of this attestation (`EAA` or `QEAA`)                                        | `xsd:string` |
-| `vct`                      | A unique identifier (URL or URN) for the credential type, indicating which claims **must** be present and which **can** be selectively disclosed | `xsd:anyURI` |
+| `vct`                        | A unique identifier (URL or URN) for the credential type, indicating which claims **must** be present and which **can** be selectively disclosed | `xsd:anyURI` |
 
 Encoding-independent metadata identifiers used elsewhere in this rulebook map to the GS1 VCDM properties above as follows: `issuance_date` → `validFrom`; `expiry_date` → `validUntil` (**SHOULD** be set); `issuing_entity` → `issuer.id`. See Section 3.4 for the full mapping.
 
@@ -233,14 +233,14 @@ Encoding-independent metadata identifiers used elsewhere in this rulebook map to
 
 For a complete list, refer to the ISO 3166-1 alpha-2 standard. Some Examples:
 
-| **Code** | **Country**  |
-|----------|--------------|
-| DE       | Germany      |
-| CH       | Switzerland  |
-| FR       | France       |
-| IT       | Italy        |
-| ES       | Spain        |
-| ... | ... |
+| **Code**   | **Country**   |
+|------------|---------------|
+| DE         | Germany       |
+| CH         | Switzerland   |
+| FR         | France        |
+| IT         | Italy         |
+| ES         | Spain         |
+| ...        | ...           |
 
 
 
@@ -284,7 +284,7 @@ The embedded VCDM payload of the GLN EAA **SHOULD** use the GS1 `OrganizationDat
 **Selective Disclosure:** When using the `OrganizationDataCredential` data model, the `gs1:address` porperty **MAY** be selectively disclosable, enabling a legal entity to disclose only the attributes requested by a Relying Party.
 
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build.gln.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build:gln:1`
 
 
 
@@ -377,7 +377,7 @@ the SD-JWT compact serialization.
 
 ```json
 {
-  "vct": "eu.we-build.gln.1",
+  "vct": "eu.we-build:gln:1",
   "attestation_legal_category": "EAA",
   "iss": "did:web:company-wallet-dev.prod-k8s.eecc.de:api:registry:did:eecc",
   "iat": 1710000000,
@@ -486,11 +486,11 @@ European Business Wallet presentations in the WeBuild KYS workflow **MAY** use S
 
 ##### 3.3.1 JSON-LD contexts and credential types
 
-| Credential type | `@context` entries (minimum) | Defined in |
-|-----------------|------------------------------|------------|
-| `GS1CompanyPrefixLicenseCredential` | `https://www.w3.org/ns/credentials/v2`, `https://ref.gs1.org/gs1/vc/license-context` | [license-context](https://ref.gs1.org/gs1/vc/license-context) |
-| `KeyCredential` | `https://www.w3.org/ns/credentials/v2`, `https://ref.gs1.org/gs1/vc/declaration-context` | [declaration-context](https://ref.gs1.org/gs1/vc/declaration-context) |
-| `OrganizationDataCredential` | above + `https://ref.gs1.org/gs1/vc/organization-context` | [organization-context](https://ref.gs1.org/gs1/vc/organization-context) |
+| Credential type                     | `@context` entries (minimum)                                                             | Defined in                                                              |
+|-------------------------------------|------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `GS1CompanyPrefixLicenseCredential` | `https://www.w3.org/ns/credentials/v2`, `https://ref.gs1.org/gs1/vc/license-context`     | [license-context](https://ref.gs1.org/gs1/vc/license-context)           |
+| `KeyCredential`                     | `https://www.w3.org/ns/credentials/v2`, `https://ref.gs1.org/gs1/vc/declaration-context` | [declaration-context](https://ref.gs1.org/gs1/vc/declaration-context)   |
+| `OrganizationDataCredential`        | above + `https://ref.gs1.org/gs1/vc/organization-context`                                | [organization-context](https://ref.gs1.org/gs1/vc/organization-context) |
 
 The `type` array **MUST** include `VerifiableCredential` and the respective GS1 type. License credentials in the backing chain use `https://ref.gs1.org/gs1/vc/license-context` — see Section 3.2.3. The company prefix license **must** includes `credentialSubject.organization.gs1:partyGLN` (the main party GLN only).
 
@@ -500,18 +500,18 @@ A GLN `KeyCredential` asserts that the licensee has commissioned a specific GLN.
 alternatively be verified via the parent `GS1CompanyPrefixLicenseCredential` (Section 3.3.5).
 Normative requirements from [ID Key Credential Details](https://gs1.github.io/GS1DigitalLicenses/#key-credentials-details):
 
-| **VCDM property** | **Requirement** |
-|-------------------|-----------------|
+| **VCDM property**      | **Requirement**                                                                                                                      |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | `credentialSubject.id` | **MUST** be a [GS1 Digital Link URI](https://www.gs1.org/standards/Digital-Link/) for the GLN (primary key **K**, no key qualifiers) |
-| `extendsCredential` | **Mandatory** — **MUST** reference the parent GS1 Company Prefix Credential per Section 3.3.5 |
-| `issuer.id` | **MUST** be a DID |
-| `validFrom` | **MUST** be present |
-| `name` | **MUST** be present (**SHOULD** be `"GS1 ID Key Credential"`) |
-| `description` | **MUST** be present |
-| `credentialStatus` | **MUST** be present; type `BitstringStatusListEntry` |
-| `credentialSchema` | **MUST** be present; type `JsonSchema` (e.g. `https://id.gs1.org/vc/schema/v1/key`) |
-| `id` | **MUST** be present; **SHOULD** be a globally unique resolvable URL |
-| `renderMethod` | **SHOULD** be present; type `TemplateRenderMethod` |
+| `extendsCredential`    | **Mandatory** — **MUST** reference the parent GS1 Company Prefix Credential per Section 3.3.5                                        |
+| `issuer.id`            | **MUST** be a DID                                                                                                                    |
+| `validFrom`            | **MUST** be present                                                                                                                  |
+| `name`                 | **MUST** be present (**SHOULD** be `"GS1 ID Key Credential"`)                                                                        |
+| `description`          | **MUST** be present                                                                                                                  |
+| `credentialStatus`     | **MUST** be present; type `BitstringStatusListEntry`                                                                                 |
+| `credentialSchema`     | **MUST** be present; type `JsonSchema` (e.g. `https://id.gs1.org/vc/schema/v1/key`)                                                  |
+| `id`                   | **MUST** be present; **SHOULD** be a globally unique resolvable URL                                                                  |
+| `renderMethod`         | **SHOULD** be present; type `TemplateRenderMethod`                                                                                   |
 
 The GLN is encoded in `credentialSubject.id` as a GS1 Digital Link URI with application identifier **417** (e.g. `https://id.gs1.org/417/{GLN}`), not as a separate claim property. See the [GLN Key Credential example](https://gs1.github.io/GS1DigitalLicenses/#gln-key-credential) in GS1 Digital Licenses.
 
@@ -519,16 +519,16 @@ The GLN is encoded in `credentialSubject.id` as a GS1 Digital Link URI with appl
 
 The GLN EAA is a `OrganizationDataCredential` which is a `DataCredential` subtype that carries organization facts for the GLN identified in `credentialSubject.id`. Normative requirements from [Organization Data Credential](https://gs1.github.io/GS1DigitalLicenses/#organization-data-credential) and [GS1 Data Credential Details](https://gs1.github.io/GS1DigitalLicenses/#data-credential-details):
 
-| **Property** | **Requirement** |
-|--------------|-----------------|
-| `id` | **MUST** be present |
-| `credentialSubject.id` | **MUST** be the same GLN GS1 Digital Link URI as the corresponding `KeyCredential` |
-| `organization` | **Mandatory** — **MUST** contain `gs1:partyGLN` and `gs1:organizationName` (see [Organization Data JSON Schema](https://id.gs1.org/vc/schema/v1/organizationdata)) |
-| `keyAuthorization` | **SHOULD** reference the GLN `KeyCredential` when present; if no `KeyCredential` is in the chain, **MUST** reference the matching `GS1CompanyPrefixLicenseCredential` directly (Section 4) |
-| `validFrom` | **MUST** be present (DataCredential base requirement) |
-| `credentialStatus` | **MAY** be present; if present, **MUST** be `BitstringStatusListEntry` |
-| `credentialSchema` | **MUST** be present; type `JsonSchema` |
-| `renderMethod` | **SHOULD** be present (DataCredential base requirement) |
+| **Property**           | **Requirement**                                                                                                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                   | **MUST** be present                                                                                                                                                                        |
+| `credentialSubject.id` | **MUST** be the same GLN GS1 Digital Link URI as the corresponding `KeyCredential`                                                                                                         |
+| `organization`         | **Mandatory** — **MUST** contain `gs1:partyGLN` and `gs1:organizationName` (see [Organization Data JSON Schema](https://id.gs1.org/vc/schema/v1/organizationdata))                         |
+| `keyAuthorization`     | **SHOULD** reference the GLN `KeyCredential` when present; if no `KeyCredential` is in the chain, **MUST** reference the matching `GS1CompanyPrefixLicenseCredential` directly (Section 4) |
+| `validFrom`            | **MUST** be present (DataCredential base requirement)                                                                                                                                      |
+| `credentialStatus`     | **MAY** be present; if present, **MUST** be `BitstringStatusListEntry`                                                                                                                     |
+| `credentialSchema`     | **MUST** be present; type `JsonSchema`                                                                                                                                                     |
+| `renderMethod`         | **SHOULD** be present (DataCredential base requirement)                                                                                                                                    |
 
 See Section 2 for the detailed data model.
 
@@ -718,34 +718,34 @@ in the JWT payload per [RFC 9901] Appendix A.4.
 
 The following table summarizes where each attribute of the general data model (Section 2) is mapped in VCDM JSON-LD serialization (Section 3.3) and SD-JWT VC serialization (Section 3.2). Paths use dot notation; GS1 vocabulary terms retain their `gs1:` prefix as JSON property names (compact JSON-LD form). In SD-JWT VC, the embedded VCDM payload is carried as top-level JWT claims per [RFC 9901] Appendix A.4 — paths below are therefore identical unless a separate JWT-native claim is listed.
 
-| **Section 2 attribute** | **VCDM JSON-LD** | **SD-JWT VC** |
-|---------------------------|------------------|---------------|
-| **Mandatory organization attributes** | | |
-| `gs1:partyGLN` | `credentialSubject.organization.gs1:partyGLN` | `credentialSubject.organization.gs1:partyGLN` |
-| `gs1:organizationName` | `credentialSubject.organization.gs1:organizationName` | `credentialSubject.organization.gs1:organizationName` |
-| `gs1:organizationLegalName` | `credentialSubject.organization.gs1:organizationLegalName` | `credentialSubject.organization.gs1:organizationLegalName` |
-| `credentialSubject.id` (GLN Digital Link URI) | `credentialSubject.id` (path **MUST** end in `/417/{gs1:partyGLN}`) | `credentialSubject.id` (path **MUST** end in `/417/{gs1:partyGLN}`) |
-| `gs1:address` (`gs1:PostalAddress`) | `credentialSubject.organization.gs1:address` | `credentialSubject.organization.gs1:address` (MAY be selectively disclosable via `_sd`; Section 3.2.1) |
-| `credentialSubject.keyAuthorization` | `credentialSubject.keyAuthorization` | `credentialSubject.keyAuthorization` |
-| **Derived from credential chain (Section 4)** | | |
-| Company Prefix (`licenceKey`) | Not stored on `OrganizationDataCredential`; derived by resolving the chain per Section 4 → `KeyCredential` (if present) → `extendsCredential` → `licenseValue` on the referenced `GS1CompanyPrefixLicenseCredential` | Same as VCDM JSON-LD |
-| **Mandatory credential metadata** | | |
-| `@context` | `@context` | `@context` |
-| `id` | `id` | `id` |
-| `type` | `type` (includes `VerifiableCredential`, `DataCredential`, `OrganizationDataCredential`) | `type` |
-| `issuing_entity` | `issuer.id` (DID) | `issuer.id`; also JWT `iss` (RFC 7519; **SHOULD** match `issuer.id`) |
-| `issuance_date` | `validFrom` (ISO 8601 date-time) | `validFrom`; also JWT `iat` (Unix timestamp; **SHOULD** be consistent with `validFrom`) |
-| `expiry_date` | `validUntil` (ISO 8601 date-time; **SHOULD** be set) | `validUntil`; also JWT `exp` (Unix timestamp; **SHOULD** be consistent with `validUntil`) |
-| `credentialSchema` | `credentialSchema` (`JsonSchema`) | `credentialSchema` |
-| `credentialStatus` (revocation) | `credentialStatus` (`BitstringStatusListEntry`; Section 6.1) | `status` (authoritative for revocation; Section 3.2.2). `credentialStatus` **MAY** be present for structural parity but **MUST NOT** be used for revocation checks |
-| `renderMethod` | `renderMethod` (`TemplateRenderMethod`) | `renderMethod` (MAY be selectively disclosable via `_sd`; Section 3.2.1) |
-| **WeBuild / SD-JWT additional mandatory metadata** | | |
-| `attestation_legal_category` | — (SD-JWT VC only) | `attestation_legal_category` |
-| `vct` | — (SD-JWT VC only) | `vct` (`eu.we-build.gln.1`) |
-| **Optional metadata** | | |
-| `trust_anchor_url` | `trust_anchor_url` (top-level WeBuild extension; **MAY**) | `trust_anchor_url` |
-| `schema_version` | `schema_version` (top-level WeBuild extension; **MAY**) | `schema_version` |
-| `description` | `description` (**MAY**; GS1 Data Credential) | `description` |
+| **Section 2 attribute**                            | **VCDM JSON-LD**                                                                                                                                                                                                     | **SD-JWT VC**                                                                                                                                                      |
+|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Mandatory organization attributes**              |                                                                                                                                                                                                                      |                                                                                                                                                                    |
+| `gs1:partyGLN`                                     | `credentialSubject.organization.gs1:partyGLN`                                                                                                                                                                        | `credentialSubject.organization.gs1:partyGLN`                                                                                                                      |
+| `gs1:organizationName`                             | `credentialSubject.organization.gs1:organizationName`                                                                                                                                                                | `credentialSubject.organization.gs1:organizationName`                                                                                                              |
+| `gs1:organizationLegalName`                        | `credentialSubject.organization.gs1:organizationLegalName`                                                                                                                                                           | `credentialSubject.organization.gs1:organizationLegalName`                                                                                                         |
+| `credentialSubject.id` (GLN Digital Link URI)      | `credentialSubject.id` (path **MUST** end in `/417/{gs1:partyGLN}`)                                                                                                                                                  | `credentialSubject.id` (path **MUST** end in `/417/{gs1:partyGLN}`)                                                                                                |
+| `gs1:address` (`gs1:PostalAddress`)                | `credentialSubject.organization.gs1:address`                                                                                                                                                                         | `credentialSubject.organization.gs1:address` (MAY be selectively disclosable via `_sd`; Section 3.2.1)                                                             |
+| `credentialSubject.keyAuthorization`               | `credentialSubject.keyAuthorization`                                                                                                                                                                                 | `credentialSubject.keyAuthorization`                                                                                                                               |
+| **Derived from credential chain (Section 4)**      |                                                                                                                                                                                                                      |                                                                                                                                                                    |
+| Company Prefix (`licenceKey`)                      | Not stored on `OrganizationDataCredential`; derived by resolving the chain per Section 4 → `KeyCredential` (if present) → `extendsCredential` → `licenseValue` on the referenced `GS1CompanyPrefixLicenseCredential` | Same as VCDM JSON-LD                                                                                                                                               |
+| **Mandatory credential metadata**                  |                                                                                                                                                                                                                      |                                                                                                                                                                    |
+| `@context`                                         | `@context`                                                                                                                                                                                                           | `@context`                                                                                                                                                         |
+| `id`                                               | `id`                                                                                                                                                                                                                 | `id`                                                                                                                                                               |
+| `type`                                             | `type` (includes `VerifiableCredential`, `DataCredential`, `OrganizationDataCredential`)                                                                                                                             | `type`                                                                                                                                                             |
+| `issuing_entity`                                   | `issuer.id` (DID)                                                                                                                                                                                                    | `issuer.id`; also JWT `iss` (RFC 7519; **SHOULD** match `issuer.id`)                                                                                               |
+| `issuance_date`                                    | `validFrom` (ISO 8601 date-time)                                                                                                                                                                                     | `validFrom`; also JWT `iat` (Unix timestamp; **SHOULD** be consistent with `validFrom`)                                                                            |
+| `expiry_date`                                      | `validUntil` (ISO 8601 date-time; **SHOULD** be set)                                                                                                                                                                 | `validUntil`; also JWT `exp` (Unix timestamp; **SHOULD** be consistent with `validUntil`)                                                                          |
+| `credentialSchema`                                 | `credentialSchema` (`JsonSchema`)                                                                                                                                                                                    | `credentialSchema`                                                                                                                                                 |
+| `credentialStatus` (revocation)                    | `credentialStatus` (`BitstringStatusListEntry`; Section 6.1)                                                                                                                                                         | `status` (authoritative for revocation; Section 3.2.2). `credentialStatus` **MAY** be present for structural parity but **MUST NOT** be used for revocation checks |
+| `renderMethod`                                     | `renderMethod` (`TemplateRenderMethod`)                                                                                                                                                                              | `renderMethod` (MAY be selectively disclosable via `_sd`; Section 3.2.1)                                                                                           |
+| **WeBuild / SD-JWT additional mandatory metadata** |                                                                                                                                                                                                                      |                                                                                                                                                                    |
+| `attestation_legal_category`                       | — (SD-JWT VC only)                                                                                                                                                                                                   | `attestation_legal_category`                                                                                                                                       |
+| `vct`                                              | — (SD-JWT VC only)                                                                                                                                                                                                   | `vct` (`eu.we-build:gln:1`)                                                                                                                                        |
+| **Optional metadata**                              |                                                                                                                                                                                                                      |                                                                                                                                                                    |
+| `trust_anchor_url`                                 | `trust_anchor_url` (top-level WeBuild extension; **MAY**)                                                                                                                                                            | `trust_anchor_url`                                                                                                                                                 |
+| `schema_version`                                   | `schema_version` (top-level WeBuild extension; **MAY**)                                                                                                                                                              | `schema_version`                                                                                                                                                   |
+| `description`                                      | `description` (**MAY**; GS1 Data Credential)                                                                                                                                                                         | `description`                                                                                                                                                      |
 
 **Notes:**
 
@@ -864,26 +864,26 @@ The party GLN **MAY** be verified directly from the company prefix license witho
 
 ### 5.2 Root trust anchors and issuer DIDs
 
-| Anchor | Identifier / location | Purpose |
-|--------|----------------------|---------|
-| **GS1 Global Office DID** | `did:web:vc.gs1.org` (`did:web:vc-st.gs1.org` for staging environment) | Root issuer for `GS1PrefixLicenseCredential`; DID document publishes assertion keys |
-| **Member Organization DID** | MO-specific `did:web:` (e.g. national GS1 body) | Issues company prefix licenses and **MAY** issue GLN credentials |
-| **Member Company DID** | MC `did:web:` registered with MO | Subject of company prefix license; **MAY** issue GLN credentials when authorized |
-| **Published credentials** | Resolvable credential URLs (e.g. `https://vc.gs1.org/...`, MO registry endpoints) | Chain resolution and signature verification |
-| **GS1 contexts & schemas** | `https://ref.gs1.org/gs1/vc/*`, `https://id.gs1.org/vc/schema/v1/*` | Type definitions and JSON Schema validation |
-| **GS1 Web Vocabulary** | `https://ref.gs1.org/voc/` | Organization and address semantics (Section 3.3.3 extension) |
+| Anchor                      | Identifier / location                                                             | Purpose                                                                             |
+|-----------------------------|-----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| **GS1 Global Office DID**   | `did:web:vc.gs1.org` (`did:web:vc-st.gs1.org` for staging environment)            | Root issuer for `GS1PrefixLicenseCredential`; DID document publishes assertion keys |
+| **Member Organization DID** | MO-specific `did:web:` (e.g. national GS1 body)                                   | Issues company prefix licenses and **MAY** issue GLN credentials                    |
+| **Member Company DID**      | MC `did:web:` registered with MO                                                  | Subject of company prefix license; **MAY** issue GLN credentials when authorized    |
+| **Published credentials**   | Resolvable credential URLs (e.g. `https://vc.gs1.org/...`, MO registry endpoints) | Chain resolution and signature verification                                         |
+| **GS1 contexts & schemas**  | `https://ref.gs1.org/gs1/vc/*`, `https://id.gs1.org/vc/schema/v1/*`               | Type definitions and JSON Schema validation                                         |
+| **GS1 Web Vocabulary**      | `https://ref.gs1.org/voc/`                                                        | Organization and address semantics (Section 3.3.3 extension)                        |
 
 Verifiers **MUST** treat GO as the ultimate trust root: every valid GLN credential chain **MUST** terminate at a `GS1PrefixLicenseCredential` whose `issuer.id` resolves to a GO-controlled DID `did:web:vc.gs1.org` with a valid signature of an assertion allowed key.
 
 **Roles:**
 
-| Role | Trust responsibility |
-|------|---------------------|
-| **GS1 Global Office** | Root of trust; issues prefix licenses to MOs; maintains GO DID document and revocation infrastructure |
-| **Member Organization (MO)** | Regional licensing authority; issues company prefix licenses; **MAY** issue GLN credential pairs |
-| **Member Company (MC)** | Licensee; **MAY** issue GLN credential pairs for GLNs under its prefix when MO policy permits |
-| **Business Wallet (holder)** | Stores credentials; presents to Relying Parties via OpenID4VP |
-| **Relying Party (verifier)** | Validates the credential chain (Section 4), status, and attribute integrity (Sections 3.3.5, 5.3, 6) |
+| Role                         | Trust responsibility                                                                                  |
+|------------------------------|-------------------------------------------------------------------------------------------------------|
+| **GS1 Global Office**        | Root of trust; issues prefix licenses to MOs; maintains GO DID document and revocation infrastructure |
+| **Member Organization (MO)** | Regional licensing authority; issues company prefix licenses; **MAY** issue GLN credential pairs      |
+| **Member Company (MC)**      | Licensee; **MAY** issue GLN credential pairs for GLNs under its prefix when MO policy permits         |
+| **Business Wallet (holder)** | Stores credentials; presents to Relying Parties via OpenID4VP                                         |
+| **Relying Party (verifier)** | Validates the credential chain (Section 4), status, and attribute integrity (Sections 3.3.5, 5.3, 6)  |
 
 ### 5.3 Verification obligations
 
