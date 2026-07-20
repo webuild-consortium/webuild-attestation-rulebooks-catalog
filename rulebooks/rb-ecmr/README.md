@@ -114,6 +114,10 @@ The attribute `attestation_legal_category` SHALL indicate the legal classificati
 | ecmr_platform_url |  URL of the originating eCMR platform | URI | https://platform.example.eu/ecmr/CMR-2026-000123 |
 
 <mark style="background-color: lightyellow">* The issuing eCmr platform can freely use whatever content needed to identify the consignment and its eCMR. On purpose, already defined Id fields in UN/CEFACT Electronic Road Consignment Note (eCMR)are not used [UN/CEFACT eCMR].</mark> 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 28dc750112417cc95b6e5f7d0c144c35e187a8ab
 
 ## 2.3 Optional attributes
 ### 2.4 eFTI information (Unique Information Link)
