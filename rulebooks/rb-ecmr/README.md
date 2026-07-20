@@ -1,5 +1,4 @@
-# WE BUILD Attestation Rulebook for eCMR Attestation (mDoc)
-## WORK IN PROGRESS - first commit to check github 
+# WE BUILD SC1 Attestation Rulebook for eCMR Attestation (mDoc)
 
 **Author(s):**
 - Christophe DANNA, IN Groupe
@@ -7,16 +6,17 @@
 - Heiti MERING, Digilogistika Keskus
 
 **Reviewer(s)**
-- [to be addeed]
+- [to be added] when passing to V0.7 
 
 **Version History**
 
 | Version | Date | Description |
 |----------|----------|-------------|
-| 0.1 | 17-07-2026 | Initial draft created from SC1.3 eCMR Attestation Workshop outcomes |
+| 0.1 | 15-07-2026 | Initial draft created from SC1.3 eCMR Attestation Workshop outcomes |
+| 0.6 | 21-07-2026 | (co)Leads review. Structural consistency, terminology, and cross-references between attribute tables and the illustrative encoding example. Not a substantive review of the trust/revocation model. |
 
 **Feedback: ** 
-<mark style="background-color: lightyellow">Assumptions more subject to comments are hightlighted into Lightyellow.</mark> 
+<mark style="background-color: lightyellow">Assumptions more subject to comments are highlighted into Lightyellow.</mark> 
 
 # 1 Introduction
 
@@ -60,7 +60,7 @@ This Rulebook is structured as follows:
 - Chapter 4 specifies attestation usage scenarios and obligations.
 - Chapter 5 defines trust anchors and verification mechanisms for issuer authorization.
 - Chapter 6 defines attestation revocation mechanisms.
-- Chapter 7 provides compliance information.
+- Chapter 7 provides reference information.
 
 ### 1.3 Key words
 
@@ -101,7 +101,7 @@ The attestation provides:
 - Support for both online and offline verification scenarios;
 - Support for human-readable document presentation when required by national regulations. 
 
-The attribute `attestation_legal_category` SHALL indicate the legal classification of the attestation. This attestation type is classified as "EAA" within the EBW Wallet ecosystem, as it is typically issued by an eCRM platform and no authentic source is used.
+The attribute `attestation_legal_category` SHALL indicate the legal classification of the attestation. This attestation type is classified as "EAA" within the EBW Wallet ecosystem, as it is typically issued by an eCMR platform and no authentic source is used.
 
 <mark style="background-color: lightyellow">All attributes and metadate SHALL be disclosable. </mark> 
 
@@ -113,14 +113,16 @@ The attribute `attestation_legal_category` SHALL indicate the legal classificati
 | consignment_identifier |  Unique identifier of the consignment* | string | CMR-2026-000123 |
 | ecmr_platform_url |  URL of the originating eCMR platform | URI | https://platform.example.eu/ecmr/CMR-2026-000123 |
 
-<mark style="background-color: lightyellow">* The issuing eCmr platform can freely use whatever content needed to identify the consignment and its eCMR. On purpose, already defined Id fields in UN/CEFACT Electronic Road Consignment Note (eCMR)are not used [UN/CEFACT eCMR].</mark> 
-<<<<<<< HEAD
-=======
 
->>>>>>> 28dc750112417cc95b6e5f7d0c144c35e187a8ab
+<mark style="background-color: lightyellow">* The issuing eCMR platform can freely use whatever content needed to identify the consignment and its eCMR. On purpose, already defined Id fields in UN/CEFACT Electronic Road Consignment Note (eCMR)are not used [UN/CEFACT eCMR].</mark> 
 
 ## 2.3 Optional attributes
-### 2.4 eFTI information (Unique Information Link)
+
+Optional attributes are the eFTI Information and a human readable eCMR (MVP+).
+
+### 2.3.1 eFTI information (MVP+)
+
+eFTI Unique Information Link.
 
 | Data Identifier |  Definition | Data Type | Example Value |
 |----------------|-------------|-----------|---------------|
@@ -128,10 +130,11 @@ The attribute `attestation_legal_category` SHALL indicate the legal classificati
 | efti_platform_identifier |  The identifier of an eFTI platform | String-17 | EFTI-PLAT-45 |
 | efti_gate_identifier |  The identifier of an eFTI gate | String-17 | EFTI-GATE-12 |
 
-Note: at the present time, the naming rule for eftt platform and gate identifiers has not been defined yet by the eFTI technical guidance documents. Exemples are fictionnal.
+Note: at the present time, the naming rule for eFTI platform and gate identifiers has not been defined yet by the eFTI technical guidance documents. Examples are fictional.
+
 <mark style="background-color: lightyellow">Question: should the QR Code (image of encoded UIL) be added?</mark> 
 
-### 2.4 Human readbale eCMR
+### 2.3.2 Human readable eCMR (MVP+)
 | Data Identifier |  Definition | Data Type | Example Value |
 |----------------|-------------|-----------|---------------|
 | embedded_ecmr_pdf |  Embedded human-readable eCMR document for offline presentation | actual pdf/a file as base64 string |    |
@@ -141,17 +144,17 @@ Note: no embedded transport dataset representation, only a human readable docume
 These attributes must be present when offline verification or human-readable presentation is required. Optional in MVP, mandatory in MVP+.
 
 ## 2.4 Conditional attributes
-### 2.4.1 Parties identification 
+### 2.4.1 Parties identification (MVP)
 
 | Data Identifier |  Definition | Data Type | Example Value |
 |----------------|-------------|-----------|---------------|
 | consignor_ebwoid |  ebwoid of the issuing organisation | String | SEBOLREG.123456789 |
 | carrier_ebwoid |  ebwoid of the carrier | String | NOFOR.123456789 |
-| consigner_ebwoid |  ebwoid of the consignor | String | SEBOLREG.987654321 |
+| consignee_ebwoid |  ebwoid of the consignor | String | SEBOLREG.987654321 |
 
 <mark style="background-color: lightyellow">At least One ebwoid SHALL be included in the attestation, depending on the step reached in process.</mark> 
 
-## 2.5 Mandatory metadata
+## 2.5 Mandatory metadata (MVP)
 
 | Data Identifier |  Definition | Data Type | Example Value |
 |----------------|-------------|-----------|---------------|
@@ -159,7 +162,7 @@ These attributes must be present when offline verification or human-readable pre
 | issuer_ebwoid |  ebwoid of the issuing organisation | String | EU.ebwoid.12345678 |
 | trust_anchor_url |  URL of trust anchor information | URI | https://trust.webuild.eu |
 | expiry_date |  Expiration date of the attestation | DateTime | 2026-07-30T00:00:00Z |
-| attestation_scheme |  Attestation schema | String |  |
+| attestation_scheme |  Attestation schema | String | TBD |
 | issuance_date |  Timestamp of issuance | datetime | 2026-06-30T10:25:00Z |
 
 ## 2.6 Optional metadata
@@ -212,25 +215,37 @@ Example for MVP scenario (mandatory fields only). See clarification about MVP an
       "eu.webuild.ecmr.attestation.1": [
         {"elementIdentifier": "attestation_legal_category", "elementValue": "non-qualified-EAA"},
         {"elementIdentifier": "trust_anchor_url", "elementValue": ""},
-        {"elementIdentifier": "attestation_scheme", "elementValue": ""},
+        {"elementIdentifier": "attestation_scheme", "elementValue": "TBD"},
         {"elementIdentifier": "consignment_identifier", "elementValue": "CMR-2026-000123"},
         {"elementIdentifier": "ecmr_platform_url", "elementValue": "https://platform.example.eu/ecmr/CMR-2026-000123"},
         {"elementIdentifier": "issuer_ebwoid", "elementValue": "EU.ebwoid.12345678"},
         {"elementIdentifier": "carrier_ebwoid", "elementValue": "EU.ebwoid.87654321"},
-        {"elementIdentifier": "consignor_ebwoid", "elementValue": "EU.ebwoid.11223344"}
+        {"elementIdentifier": "consignor_ebwoid", "elementValue": "EU.ebwoid.11223344"},
+        {"elementIdentifier": "consignee_ebwoid", "elementValue": "EU.ebwoid.11789463"},
+        {"elementIdentifier": "expiry_date", "elementValue": "2026-07-30T00:00:00Z"},
+        {"elementIdentifier": "issuance_date", "elementValue": "2026-06-30T10:25:00Z"}
       ]     
     }    
 }
 ```
-Note: issuance and expiry dates to be added
 
 ## 3.2 SD-JWT VC-based encoding
 
  SD-JWT is out of scope for this rulebook, as offline proximity is required.
 
 # 4 Attestation usage 
+## 4.1. Issuance process
+The eCMR attestation is issued and managed by an eCMR platform throughout the transport lifecycle. 
+- The platform creates the initial eCMR and generates a unique identifier linked to the consignment. 
+- Pickup and delivery activities are initiated and managed through the platform using Business Wallet authentication. 
+- The eCMR platform issues updated eCMR version. 
+- The eCMR platform revoke the older eCMR Attestation when a new version is issued.
 
-TO BE COMPLETED
+## 4.2 Relying Party process (MVP+)
+The relying party, typically a competent authority, receives the eCMR attestation presented through the Business Wallet.
+Where available, the relying party extracts the eFTI UIL from the eCMR attestation. 
+The UIL is used to submit a query through the national eFTI Gate to locate the authoritative dataset. 
+In offline situations, verification may rely solely on the wallet-based presentation
 
 # 5 Trust anchors
 
@@ -252,7 +267,7 @@ The trust chain SHALL enable verification of:
 
 For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID). The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
 
-The Relying Party (eCmr Platform) SHALL verify the EBWOID. Upon successful verification, the Relying Party obtains:
+The Relying Party (eCMR Platform) SHALL verify the EBWOID. Upon successful verification, the Relying Party obtains:
 
 - assurance that the EBWOID was issued by an authorized provider and is not self-issued;
 - the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
@@ -261,14 +276,15 @@ The Relying Party (eCmr Platform) SHALL verify the EBWOID. Upon successful verif
 # 6 Revocation
 
 A balance between security and usability must be found:
-- Short-lived (24 hours) needs re-issuance / renewal by the issuer
-- Status List or revocation List requires internet access to retrieve trusted lists. Maintaining a cached copy of the trusted list and revocation information, updated regularly, may enable offline verification (MVP+).
+- Short-lived (24 hours) needs re-issuance / renewal by the issuer. ECMR lifecycle is much longer than one day. 
+- Status List or revocation List requires internet access to retrieve trusted lists. 
+Maintaining a cached copy of the trusted list and revocation information, updated regularly, may enable offline verification (MVP+).
 
-The eCmr Platform (self-issuing entity) SHALL immediately update or revoke its EAA eCMr Attestation when a new version is issued.
+The eCmr Platform (self-issuing entity) SHALL immediately update or revoke its EAA eCMR Attestation when a new version is issued. Nonetheless, the expiracy date SHALL always be set, especially when the eCMR is not the final one.
 
 <mark style="background-color: lightyellow">WeBuild IETF Token Status List SHOULD be used to perform revocation checks to validate credentials</mark> 
 
-# 8 References
+# 7 References
 
 | Reference | Description |
 |------------|-------------|
