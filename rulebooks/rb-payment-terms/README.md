@@ -136,13 +136,21 @@ PaymentTerms
 ├─ buyer_identifier (Object) (M            // At least one identifier required
 │   ├─ euid (str) (O)                       // European Unique Identifier
 │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
-│   ├─ tax (str) (O)                        // National tax or registration number
-│   └─ duns (str) (O)                       // Data Universal Numbering System number
+│   ├─ tax (str) (O)                        // National tax or registration number    
+│   ├─ gln (str) (O)                        // Global Location Number for legal entities — GS1 identifier
+│   ├─ duns (str) (O)                       // Data Universal Numbering System — Dun & Bradstreet identifier
+│   ├─ eori (str) (O)                       // Economic Operators Registration and Identification number — EU customs identifier
+│   ├─ bpnl (str) (O)                       // Business Partner Number Legal entity — Catena-X identifier per ICD 0243
+│   ├─ siren (str) (O)                      // Système d'Identification du Répertoire des ENtreprises — French company identifier
 ├─ supplier_identifier (object) (M)           // At least one identifier required
 │   ├─ euid (str) (O)                       // European Unique Identifier
 │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
-│   ├─ tax (str) (O)                        // National tax or registration number
-│   └─ duns (str) (O)                       // Data Universal Numbering System number
+│   ├─ tax (str) (O)                        // National tax or registration number    
+│   ├─ gln (str) (O)                        // Global Location Number for legal entities — GS1 identifier
+│   ├─ duns (str) (O)                       // Data Universal Numbering System — Dun & Bradstreet identifier
+│   ├─ eori (str) (O)                       // Economic Operators Registration and Identification number — EU customs identifier
+│   ├─ bpnl (str) (O)                       // Business Partner Number Legal entity — Catena-X identifier per ICD 0243
+│   ├─ siren (str) (O)                      // Système d'Identification du Répertoire des ENtreprises — French company identifier
 ├─ agreement_date (M)                       // ISO 8601 date (YYYY-MM-DD)
 ├─ payment_reference_event (O)              // Enum: invoice_date | delivery_date | order_date | ...
 ├─ contract_reference (O)                   // Reference to underlying contract or PO
@@ -185,6 +193,33 @@ This attestation type MAY be classified as:
 | transaction_amount      | --                     | The monetary value of the transaction                                                                                                  | O               | Decimal (ISO 4217)   |
 | delivery_location       | --                     | The agreed location for delivery of goods or services, specified as a full address or standardized location identifier                 | O               | String (Address)     |
 
+
+**BuyerIdentifier Optional Attributes**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                              | **Data type** |
+|-----------|------------------------|-----------------------------------------------------------------------------|---------------|
+| euid     | —                      | European Unique Identifier per Directive (EU) 2017/1132.                    | String        |
+| lei      | —                      | Legal Entity Identifier (LEI) per ISO 17442.                                | String        |
+| tax      | —                      | National tax or company registration number.                                | String        |
+| gln      | —                      | Global Location Number for legal entities (GS1 identifier).                 | String        |
+| duns     | —                      | Data Universal Numbering System (Dun & Bradstreet identifier).              | String        |
+| eori     | —                      | Economic Operators Registration and Identification number (EU customs).     | String        |
+| bpnl      | —                      | Business Partner Number Legal entity (Catena-X identifier).                 | String        |
+| siren     | —                      | Système d'Identification du Répertoire des ENtreprises (French identifier). | String        |
+
+**SupplierIdentifier Optional Attributes**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                              | **Data type** |
+|-----------|------------------------|-----------------------------------------------------------------------------|---------------|
+| euid     | —                      | European Unique Identifier per Directive (EU) 2017/1132.                    | String        |
+| lei      | —                      | Legal Entity Identifier (LEI) per ISO 17442.                                | String        |
+| tax      | —                      | National tax or company registration number.                                | String        |
+| gln      | —                      | Global Location Number for legal entities (GS1 identifier).                 | String        |
+| duns     | —                      | Data Universal Numbering System (Dun & Bradstreet identifier).              | String        |
+| eori     | —                      | Economic Operators Registration and Identification number (EU customs).     | String        |
+| bpnl      | —                      | Business Partner Number Legal entity (Catena-X identifier).                 | String        |
+| siren     | —                      | Système d'Identification du Répertoire des ENtreprises (French identifier). | String        |
+
 ### 2.4 Conditional attributes
 
 No conditional attributes are defined for this attestation type. All attributes are either
@@ -192,11 +227,11 @@ mandatory or optional as specified above.
 
 The following conditionality rules apply to identifier objects:
 
-| **Condition** | **Rule** |
-|---------------|----------|
-| `buyer_identifier` is present | At least one of `euid`, `lei`, `tax`, or `duns` SHALL be populated |
-| `supplier_identifier` is present | At least one of `euid`, `lei`, `tax`, or `duns` SHALL be populated |
-| `buyer_identifier` and `supplier_identifier` | SHALL NOT be identical within the same attestation |
+| **Condition**                                | **Rule**                                                           |
+|----------------------------------------------|--------------------------------------------------------------------|
+| `buyer_identifier` is present                | At least one of `euid`, `lei`, `tax`, or `duns` SHALL be populated |
+| `supplier_identifier` is present             | At least one of `euid`, `lei`, `tax`, or `duns` SHALL be populated |
+| `buyer_identifier` and `supplier_identifier` | SHALL NOT be identical within the same attestation                 |
 
 ### 2.5 Mandatory Metadata
 
@@ -328,38 +363,46 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**          | **Attribute Identifier**     | **Encoding Format**          | **Reference / Notes** | **Disclosable** |
-|------------------------------|------------------------------|------------------------------|-----------------------|-----------------|
-| `payment_due`                | `payment_due`                | String (ISO 8601 PnD)        | Non-negative duration; SHALL be a valid ISO 8601 duration | MUST |
-| `currency`                   | `currency`                   | String (ISO 4217)            | Valid 3-letter ISO 4217 alphabetic currency code | MUST |
-| `incoterm`                   | `incoterm`                   | String (3-letter ICC code)   | Valid Incoterms 2020 code — see Section 2.8.1 | MUST |
-| `agreement_date`             | `agreement_date`             | String (ISO 8601 YYYY-MM-DD) | SHALL NOT be a future date at issuance | MUST |
-| **Buyer Identifier**         |                              |                              | | |
-| `buyer_identifier`           | `buyer_identifier`           | Object                       | At least one of `euid`, `lei`, `tax`, `duns` SHALL be present | MUST |
-| `buyer_identifier.euid`      | `buyer_identifier.euid`      | String                       | European Unique Identifier of the buyer — optional | MAY |
-| `buyer_identifier.lei`       | `buyer_identifier.lei`       | String (20 characters)       | LEI per ISO 17442 — optional | MAY |
-| `buyer_identifier.tax`       | `buyer_identifier.tax`       | String                       | National tax or registration number — optional | MAY |
-| `buyer_identifier.duns`      | `buyer_identifier.duns`      | String                       | DUNS number of the buyer — optional | MAY |
-| **Supplier Identifier**      |                              |                              | | |
-| `supplier_identifier`        | `supplier_identifier`        | Object                       | At least one of `euid`, `lei`, `tax`, `duns` SHALL be present | MUST |
-| `supplier_identifier.euid`   | `supplier_identifier.euid`   | String                       | European Unique Identifier of the supplier — optional | MAY |
-| `supplier_identifier.lei`    | `supplier_identifier.lei`    | String (20 characters)       | LEI per ISO 17442 — optional | MAY |
-| `supplier_identifier.tax`    | `supplier_identifier.tax`    | String                       | National tax or registration number — optional | MAY |
-| `supplier_identifier.duns`   | `supplier_identifier.duns`   | String                       | DUNS number of the supplier — optional | MAY |
-| **Optional Attributes**      |                              |                              | | |
-| `payment_reference_event`    | `payment_reference_event`    | String (Enum)                | Triggers payment due period; SHALL use values from Section 2.8.3 — optional | MUST |
-| `contract_reference`         | `contract_reference`         | String                       | Reference to underlying contract or purchase order — optional | MUST |
-| `transaction_amount`         | `transaction_amount`         | Decimal (number)             | Non-negative monetary value — optional | MUST |
-| `delivery_location`          | `delivery_location`          | String (Address)             | Full address or standardized location identifier — optional | MUST |
-| **Metadata**                 |                              |                              | | |
-| `issuance_date`               | `iat`                                                  | Number (Unix timestamp)     | Date and time when the attestation was issued (ISO 8601); RFC 7519                    | MUST NOT           |
-| `expiry_date`                 | `exp`                                                  | Number (Unix timestamp)     | Date and time when the attestation expires (ISO 8601); RFC 7519                       | MUST NOT           |
-| `issuing_entity`              | `iss`                                                  | String (URI or DID)         | Identifier of the competent institution that issued the attestation; RFC 7519         | MUST NOT           |
-| `attestation_legal_category`  | `attestation_legal_category`                           | String                      | One of "EAA" or "QEAA" as defined by eIDAS 2                                          | MUST NOT           |
-| `vct`                         | `vct`                                                  | String                      | The vct definition                                                                    | MUST NOT           |
-| `cnf`                         | `cnf`                                                  | String                      | Cryptographic Key Binding                                                             | MUST NOT           |
-| `schema_version`              | `schema_version`                                       | String                      | Version of the schema used; optional                                                  | MAY                |
-| `trust_anchor_url`            | `trust_anchor_url`                                     | String (URI)                | URL where the trust anchor for verifying this attestation can be retrieved; optional  | MAY                |
+| **Data Identifier**          | **Attribute Identifier**     | **Encoding Format**          | **Reference / Notes**                                                                                                   | **Disclosable**   |
+|------------------------------|------------------------------|------------------------------|-------------------------------------------------------------------------------------------------------------------------|-------------------|
+| `payment_due`                | `payment_due`                | String (ISO 8601 PnD)        | Non-negative duration; SHALL be a valid ISO 8601 duration                                                               | MUST              |
+| `currency`                   | `currency`                   | String (ISO 4217)            | Valid 3-letter ISO 4217 alphabetic currency code                                                                        | MUST              |
+| `incoterm`                   | `incoterm`                   | String (3-letter ICC code)   | Valid Incoterms 2020 code — see Section 2.8.1                                                                           | MUST              |
+| `agreement_date`             | `agreement_date`             | String (ISO 8601 YYYY-MM-DD) | SHALL NOT be a future date at issuance                                                                                  | MUST              |
+| **Buyer Identifier**         |                              |                              |                                                                                                                         |                   |
+| `buyer_identifier`           | `buyer_identifier`           | Object                       | At least one of `euid`, `lei`, `tax`, `duns` SHALL be present                                                           | MUST              |
+| `euid`                       | `buyer_identifier.euid`      | String                       | European Unique Identifier — optional sub-field                                                                         | MUST              |
+| `lei`                        | `buyer_identifier.lei`       | String                       | Legal Entity Identifier per ISO 17442 — optional sub-field                                                              | MUST              |
+| `tax`                        | `buyer_identifier.tax`       | String                       | National tax or registration number — optional sub-field                                                                | MUST              |
+| `gln`                        | `buyer_identifier.gln`       | String                       | Global Location Number for legal entities — optional sub-field                                                          | MUST              |
+| `duns`                       | `buyer_identifier.duns`      | String                       | Dun & Bradstreet company identifier — optional sub-field                                                                | MUST              |
+| `eori`                       | `buyer_identifier.eori`      | String                       | EU customs identifier — optional sub-field                                                                              | MUST              |
+| `bpnl`                       | `buyer_identifier.bpnl`      | String                       | Catena-X BPNL identifier per ICD 0243 — optional sub-field                                                              | MUST              |
+| `siren`                      | `buyer_identifier.siren`     | String                       | French company identifier (SIREN) — optional sub-field                                                                  | MUST              |
+| **Supplier Identifier**      |                              |                              |                                                                                                                         |                   |
+| `supplier_identifier`        | `supplier_identifier`        | Object                       | At least one of `euid`, `lei`, `tax`, `duns` SHALL be present                                                           | MUST              |
+| `euid`                       | `supplier_identifier.euid`   | String                       | European Unique Identifier — optional sub-field                                                                         | MUST              |
+| `lei`                        | `supplier_identifier.lei`    | String                       | Legal Entity Identifier per ISO 17442 — optional sub-field                                                              | MUST              |
+| `tax`                        | `supplier_identifier.tax`    | String                       | National tax or registration number — optional sub-field                                                                | MUST              |
+| `gln`                        | `supplier_identifier.gln`    | String                       | Global Location Number for legal entities — optional sub-field                                                          | MUST              |
+| `duns`                       | `supplier_identifier.duns`   | String                       | Dun & Bradstreet company identifier — optional sub-field                                                                | MUST              |
+| `eori`                       | `supplier_identifier.eori`   | String                       | EU customs identifier — optional sub-field                                                                              | MUST              |
+| `bpnl`                       | `supplier_identifier.bpnl`   | String                       | Catena-X BPNL identifier per ICD 0243 — optional sub-field                                                              | MUST              |
+| `siren`                      | `supplier_identifier.siren`  | String                       | French company identifier (SIREN) — optional sub-field                                                                  | MUST              |
+| **Optional Attributes**      |                              |                              |                                                                                                                         |                   |
+| `payment_reference_event`    | `payment_reference_event`    | String (Enum)                | Triggers payment due period; SHALL use values from Section 2.8.3 — optional                                             | MUST              |
+| `contract_reference`         | `contract_reference`         | String                       | Reference to underlying contract or purchase order — optional                                                           | MUST              |
+| `transaction_amount`         | `transaction_amount`         | Decimal (number)             | Non-negative monetary value — optional                                                                                  | MUST              |
+| `delivery_location`          | `delivery_location`          | String (Address)             | Full address or standardized location identifier — optional                                                             | MUST              |
+| **Metadata**                 |                              |                              |                                                                                                                         |                   |
+| `issuance_date`              | `iat`                        | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                                                      | MUST NOT          |
+| `expiry_date`                | `exp`                        | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                                                         | MUST NOT          |
+| `issuing_entity`             | `iss`                        | String (URI or DID)          | Identifier of the competent institution that issued the attestation; RFC 7519                                           | MUST NOT          |
+| `attestation_legal_category` | `attestation_legal_category` | String                       | One of "EAA" or "QEAA" as defined by eIDAS 2                                                                            | MUST NOT          |
+| `vct`                        | `vct`                        | String                       | The vct definition                                                                                                      | MUST NOT          |
+| `cnf`                        | `cnf`                        | String                       | Cryptographic Key Binding                                                                                               | MUST NOT          |
+| `schema_version`             | `schema_version`             | String                       | Version of the schema used; optional                                                                                    | MAY               |
+| `trust_anchor_url`           | `trust_anchor_url`           | String (URI)                 | URL where the trust anchor for verifying this attestation can be retrieved; optional                                    | MAY               |
 
 **Notes:**
 
@@ -414,8 +457,19 @@ The following is a non-normative example of a Payment Terms SD-JWT VC payload:
   "payment_due": "P30D",
   "currency": "EUR",
   "incoterm": "DAP",
-  "buyer_identifier": "DE-HRB-123456",
-  "supplier_identifier": "NL-KVK-987654",
+  "buyer_identifier": {
+      "euid": "CHE-102.909.703",
+      "gln": "7601003000003",
+  },
+  "supplier_identifier": {
+      "euid": "DEB8534.HRB14000",
+      "lei": "529900F0LT5OP4SV6122",
+      "gln": "4012345000016",
+      "duns": "318280815",
+      "eori": "DE811128135",
+      "bpnl": "BPNL00000003CML1",
+      "siren": "6710101601"
+  },
   "agreement_date": "2025-01-10",
   "payment_reference_event": "invoice_date",
   "contract_reference": "PO-2025-00123",
