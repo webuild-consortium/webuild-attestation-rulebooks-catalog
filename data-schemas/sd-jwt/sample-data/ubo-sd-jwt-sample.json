@@ -1,61 +1,136 @@
 {
   "vct": "eu.we-build:ubo:1",
-  "attestation_legal_category": "EAA",
-  "iss": "did:web:example-legal-entity.eu",
+  "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
+  "attestation_legal_category": "EAA",
+  "schema_version": "0.4.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
   "ubo": [
     {
-      "jurisdiction": "NL",
+      "jurisdiction": "DE",
       "person": {
-        "first_name": "Jan",
-        "surname": "de Vries"
+        "first_name": "Anna",
+        "surname": "M\u00fcller",
+        "birth_date": "1978-04-15"
       },
-
       "birth_place": {
-        "locality": "Amsterdam",
-        "country": "NL"
+        "locality": "Munich",
+        "country": "DE",
+        "region": "Bavaria"
       },
-
-      "citizenship": ["NL"],
-
+      "citizenship": [
+        "DE",
+        "AT"
+      ],
       "residential_address": {
-        "street": "Keizersgracht",
-        "house_number": "174",
-        "locality": "Amsterdam",
-        "region": "Noord-Holland",
-        "postal_code": "1016 DW",
-        "country": "NL"
+        "street": "Hauptstrass",
+        "house_number": "12",
+        "locality": "Munich",
+        "region": "Bavaria",
+        "postal_code": "80331",
+        "country": "DE"
       },
-
+      "contact_address": {
+        "street": "Marienplatz",
+        "house_number": "1",
+        "locality": "Munich",
+        "region": "Bavaria",
+        "postal_code": "80331",
+        "country": "DE"
+      },
       "person_identifier": {
         "document_type": "PASSPORT",
-        "document_number": "NL123456789",
-        "issuing_country": "NL",
-        "expiry_date": "2029-06-30"
+        "document_number": "C01X00T47",
+        "issuing_country": "DE",
+        "expiry_date": "2030-04-14"
       },
-
+      "person_unique_identifier": {
+        "identifier_unique": "DE-12345678",
+        "identifier_issuing_authority": "Bundesamt für Justiz"
+      },
       "justification": {
-        "threshold_met": ["ownership_indirect"],
-        "ownership_percentage": 26.5
+        "threshold_met": [
+          "ownership_25_plus",
+          "control_voting_25_plus",
+          "control_management"
+        ],
+        "ownership_percentage": 45.0,
+        "voting_rights_percentage": 45.0,
+        "control_details": "Additionally controls via contractual right to appoint CEO per shareholders agreement dated 2015-03-01"
       },
-
-      "effective_date": "2020-01-15",
-
+      "effective_date": "2015-03-01",
       "source": [
         {
-          "id": "src-min-001",
+          "id": "src-ubo-001",
+          "type": "ShareRegister",
+          "url": "https://example.com/docs/share-register-extract-2024.pdf"
+        },
+        {
+          "id": "src-ubo-002",
+          "type": "ShareholderAgreement",
+          "url": "https://example.com/docs/shareholder-agreement-2015.pdf"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "DE",
+      "person": {
+        "first_name": "Klaus",
+        "surname": "Weber",
+        "birth_date": "1965-11-30"
+      },
+      "birth_place": {
+        "locality": "Hamburg",
+        "country": "DE"
+      },
+      "citizenship": [
+        "DE"
+      ],
+      "residential_address": {
+        "street": "Alsterufer",
+        "house_number": "5",
+        "locality": "Hamburg",
+        "region": "Hamburg",
+        "postal_code": "20354",
+        "country": "DE"
+      },
+      "person_identifier": {
+        "document_type": "NATIONAL_ID",
+        "document_number": "L01X00T28",
+        "issuing_country": "DE",
+        "expiry_date": "2028-11-29"
+      },
+      "justification": {
+        "threshold_met": [
+          "ownership_indirect",
+          "control_voting_indirect"
+        ],
+        "ownership_percentage": 30.0,
+        "voting_rights_percentage": 30.0
+      },
+      "effective_date": "2018-07-15",
+      "source": [
+        {
+          "id": "src-ubo-003",
           "type": "CommercialRegister",
-          "url": "https://kvk.nl/extract/12345678"
+          "url": "https://handelsregister.example.de/extract/HRB-12345"
         }
       ]
     }
   ],
-
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://trust.webuildconsortium.eu/status/ubo-list-2026-002",
-    "status_list_index": 202,
+    "status_list_credential": "https://issuer.example.com/status/ubo/2025",
+    "status_list_index": 101,
     "status_purpose": "revocation"
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
   }
 }

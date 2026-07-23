@@ -129,6 +129,7 @@ Owner [1..n]                                    // The person or entity that hol
 │   │   ├─ tax (str) (O)                        // National tax or registration number
 │   │   └─ other (str) (O)                      // Any other applicable identifier
 │   ├─ jurisdiction (tstr) (M)                  // ISO 3166-1 alpha-2
+│   ├─ legal_form (tstr) (M)                    
 │   ├─ form (tstr) (M)                          // See Section 2.8.6
 │   └─ subtype_info (object) (O)                // Mandatory when category = "legal_arrangement"
 │       ├─ settlement (tstr) (M)                // Founding instrument or trust deed
@@ -381,13 +382,14 @@ interests in another legal entity.
 
 **Entity Owner Mandatory Attributes** *(present when `type = "Entity"`)*
 
-| **Data Identifier**   | **Semantic Reference** | **Definition**                                                                         | **Data Type** |
-|-----------------------|------------------------|----------------------------------------------------------------------------------------|---------------|
-| `entity.category`     | -                      | Classification — SHALL be `"legal_entity"` or `"legal_arrangement"`                    | Enum (String) |
-| `entity.name`         | —                      | Complete official registered name of the entity or legal arrangement                   | String        |
-| `entity.identifier`   | —                      | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present                    | Object        |
-| `entity.jurisdiction` | —                      | ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled | String        |
-| `entity.form`         | —                      | Legal form of the entity — SHALL use values from Section 2.8.6                         | String        |
+| **Data Identifier**   | **Semantic Reference** | **Definition**                                                                         | **Data Type**   |
+|-----------------------|------------------------|----------------------------------------------------------------------------------------|-----------------|
+| `entity.category`     | -                      | Classification — SHALL be `"legal_entity"` or `"legal_arrangement"`                    | Enum (String)   |
+| `entity.name`         | —                      | Complete official registered name of the entity or legal arrangement                   | String          |
+| `entity.identifier`   | —                      | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present                     | Object          |
+| `entity.jurisdiction` | —                      | ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled | String          |
+| `entity.form`         | —                      | The form of the entity — SHALL use values from Section 2.8.6                           | String          |
+| `entity.legal_form`   | —                      | Legal form of the entity                                                               | String          |
 
 **Entity Identifier Fields** *(at least one SHALL be present)*
 
@@ -650,6 +652,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | `tax`                         | `owner[n].entity.identifier.tax`                       | String                      | National tax or registration number — optional                                        | MAY                |
 | `other`                       | `owner[n].entity.identifier.other`                     | String                      | Any other applicable identifier — optional                                            | MAY                |
 | `jurisdiction`                | `owner[n].entity.jurisdiction`                         | String (ISO 3166-1 alpha-2) | SHALL be non-empty                                                                    | MUST               |
+| `legal_form`                  | `owner[n].entity.legal_form`                           | String                       | The legal_form                                                                        | MUST               |
 | `form`                        | `owner[n].entity.form`                                 | String                      | SHALL use values from Section 2.8.6                                                   | MUST               |
 | **subtype_info**              | `owner[n].entity.subtype_info`                         | Object                      | Mandatory when `entity.category = "legal_arrangement"` or `entity.form = "trust"`     | MUST (conditional) |
 | `settlement`                  | `owner[n].entity.subtype_info.settlement`              | String                      | Mandatory when `subtype_info` is present                                              | MUST (conditional) |
@@ -735,7 +738,6 @@ The following is a non-normative example of an Ownership SD-JWT VC payload demon
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
-  "issuing_entity": "did:example:legal-entity-789",
   "attestation_legal_category": "EAA",
   "schema_version": "0.8.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
@@ -786,7 +788,8 @@ The following is a non-normative example of an Ownership SD-JWT VC payload demon
           "tax": "DE987654321"
         },
         "jurisdiction": "DE",
-        "form": "private_company"
+        "form": "private_company",
+        "legal_form":"GmbH"
       },
       "address": {
         "street": "Musterstraße",

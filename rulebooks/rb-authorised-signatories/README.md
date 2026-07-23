@@ -122,7 +122,7 @@ The AuthorisedSignatories Attestation is structured into a root object containin
 sub-objects:
 
 ```
-AuthorisedSignatories Attestation
+AuthorisedSignatories
 ├── Legal_Entity (M)
 │   ├─ legal_person  (M)
 │   │   ├─ legal_person_name (tstr) (M)
@@ -130,7 +130,12 @@ AuthorisedSignatories Attestation
 │   ├─ identifier  (M)                          // At least one identifier required
 │   │   ├─ euid (str) (O)                       // European Unique Identifier
 │   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
-│   │   ├─ tax (str) (O)                        // National tax or registration number                                                         — mandatory
+│   │   ├─ tax (str) (O)                        // National tax or registration number    
+│   │   ├─ gln (str) (O)                        // Global Location Number for legal entities — GS1 identifier
+│   │   ├─ duns (str) (O)                       // Data Universal Numbering System — Dun & Bradstreet identifier
+│   │   ├─ eori (str) (O)                       // Economic Operators Registration and Identification number — EU customs identifier
+│   │   ├─ bpnl (str) (O)                       // Business Partner Number Legal entity — Catena-X identifier per ICD 0243
+│   │   ├─ siren (str) (O)                      // Système d'Identification du Répertoire des ENtreprises — French company identifier
 └── Authorised_Person [1..n] 
     ├─ NaturalPerson          (first_name (M), surname (M), date_of_birth (M))                                  — mandatory
     ├─ BirthPlace             (locality (M), country (M), region (O))                                           — mandatory
@@ -211,11 +216,16 @@ This object is defined for each person represented in the AuthorisedSignatories 
 
 **LegalPersonIdentifier Optional Attributes**
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                              | **Data type**          |
-|---------------------|------------------------|---------------------------------------------|------------------------|
-| euid                | —                      | The European Unique Identifier of the company per Directive (EU) 2017/1132 | String        |
-| lei                 | —                      | Legal Entity Identifier (LEI) per ISO 17442 | String (20 characters) |
-| tax                 | —                      | National company tax or registration number | String                 |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                              | **Data type** |
+|-----------|------------------------|-----------------------------------------------------------------------------|---------------|
+| euid     | —                      | European Unique Identifier per Directive (EU) 2017/1132.                    | String        |
+| lei      | —                      | Legal Entity Identifier (LEI) per ISO 17442.                                | String        |
+| tax      | —                      | National tax or company registration number.                                | String        |
+| gln      | —                      | Global Location Number for legal entities (GS1 identifier).                 | String        |
+| duns     | —                      | Data Universal Numbering System (Dun & Bradstreet identifier).              | String        |
+| eori     | —                      | Economic Operators Registration and Identification number (EU customs).     | String        |
+| bpnl      | —                      | Business Partner Number Legal entity (Catena-X identifier).                 | String        |
+| siren     | —                      | Système d'Identification du Répertoire des ENtreprises (French identifier). | String        |
 
 **BirthPlace Optional Attributes**
 
@@ -346,9 +356,14 @@ The `.` notation is used to indicate the nesting of attributes.
 | legal_person_name               | `legal_entity.legal_person.legal_person_name`            | string                  | The complete official legal name of the company                                                               | MUST              |
 | legal_form_type                 | `legal_entity.legal_person.legal_form_type`              | string                  | Legal form of the company (e.g., GmbH, S.A., Ltd.)                                                            | MUST              |
 | **Legal Entity Identifier**     |                                                          |                         |                                                                                                               |                   |
-| euid                            | `legal_entity.identifier.euid`                           | string                  | EUID per Directive (EU) 2017/1132; mandatory                                                                  | MUST              |
-| lei                             | `legal_entity.identifier.lei`                            | string                  | LEI per ISO 17442; optional                                                                                   | MUST              |
-| tax                             | `legal_entity.identifier.tax`                            | string                  | National tax or registration number; optional                                                                 | MUST              |
+| euid                            | `legal_person.identifier.euid`                           | String                  | European Unique Identifier — optional sub-field                                                                         | MUST            |
+| lei                             | `legal_person.identifier.lei`                            | String                  | Legal Entity Identifier per ISO 17442 — optional sub-field                                                              | MUST            |
+| tax                             | `legal_person.identifier.tax`                            | String                  | National tax or registration number — optional sub-field                                                                | MUST            |
+| gln                             | `legal_person.identifier.gln`                            | String                  | Global Location Number for legal entities — optional sub-field                                                          | MUST            |
+| duns                            | `legal_person.identifier.duns`                           | String                  | Dun & Bradstreet company identifier — optional sub-field                                                                | MUST            |
+| eori                            | `legal_person.identifier.eori`                           | String                  | EU customs identifier — optional sub-field                                                                              | MUST            |
+| bpnl                            | `legal_person.identifier.bpnl`                           | String                  | Catena-X BPNL identifier per ICD 0243 — optional sub-field                                                              | MUST            |
+| siren                           | `legal_person.identifier.siren`                          | String                  | French company identifier (SIREN) — optional sub-field                                                                  | MUST            |
 | **Authorised Person**           |                                                          |                         |                                                                                                               |                   |
 | authorised_persons              | `authorised_persons`                                     | array                   | Array of authorised person objects in the AuthorisedSignatories Attestation; SHALL contain at least one entry | MUST              |
 | **NaturalPerson**               |                                                          |                         |                                                                                                               |                   |
