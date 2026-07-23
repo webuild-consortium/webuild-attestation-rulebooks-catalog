@@ -7,7 +7,6 @@
   "version": "0.1.0",
   "additionalProperties": true,
   "properties": {
-
     "vct": {
       "type": "string",
       "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:authorisedsignatories:1'.",
@@ -15,7 +14,6 @@
         "eu.we-build:authorisedsignatories:1"
       ]
     },
-
     "iss": {
       "type": "string",
       "format": "uri",
@@ -24,7 +22,6 @@
         "https://example-gmbh.de"
       ]
     },
-
     "iat": {
       "type": "integer",
       "description": "Issuance date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation was issued (ISO 8601 / RFC 7519). SHALL NOT be selectively disclosable.",
@@ -32,7 +29,6 @@
         1746000000
       ]
     },
-
     "exp": {
       "type": "integer",
       "description": "Expiry date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation expires (ISO 8601 / RFC 7519). SHALL be later than 'iat'. SHALL NOT be selectively disclosable.",
@@ -40,7 +36,6 @@
         1777536000
       ]
     },
-
     "jti": {
       "type": "string",
       "description": "JWT ID — a unique identifier for the attestation token. Follows RFC 7519.",
@@ -48,7 +43,6 @@
         "asr-attestation-20260515-001"
       ]
     },
-
     "attestation_legal_category": {
       "type": "string",
       "description": "The legal category of the attestation as defined by eIDAS 2. For the AuthorisedSignatories Attestation self-issued by the legal entity, this SHALL be 'EAA'. SHALL NOT be selectively disclosable.",
@@ -56,7 +50,6 @@
         "EAA"
       ]
     },
-
     "schema_version": {
       "type": "string",
       "description": "Version of the AuthorisedSignatories attestation schema used. SHALL be a non-empty string when present.",
@@ -66,13 +59,11 @@
         "0.1.0"
       ]
     },
-
     "legal_entity": {
       "type": "object",
       "description": "Identifies the legal entity that issued the attestation and on whose behalf the authorised persons act. SHALL appear exactly once. SHALL be individually selectively disclosable as a top-level claim.",
       "additionalProperties": false,
       "properties": {
-
         "legal_person": {
           "type": "object",
           "description": "The official legal name and legal form of the entity issuing the attestation.",
@@ -101,7 +92,6 @@
             "legal_form_type"
           ]
         },
-
         "identifier": {
           "type": "object",
           "description": "Legal identifiers for the entity. The EUID is mandatory; LEI and tax number are optional.",
@@ -129,20 +119,38 @@
               "examples": [
                 "DE123456789"
               ]
+            },
+            "gln": {
+              "type": "string",
+              "description": "Global Location Number for legal entities \u2014 GS1 identifier"
+            },
+            "duns": {
+              "type": "string",
+              "description": "Data Universal Numbering System \u2014 Dun & Bradstreet identifier"
+            },
+            "eori": {
+              "type": "string",
+              "description": "Economic Operators Registration and Identification number \u2014 EU customs identifier"
+            },
+            "bpnl": {
+              "type": "string",
+              "description": "Business Partner Number Legal entity \u2014 Catena-X identifier per ICD 0243"
+            },
+            "siren": {
+              "type": "string",
+              "description": "Syst\u00e8me d'Identification du R\u00e9pertoire des ENtreprises \u2014 French company identifier"
             }
           },
           "required": [
             "euid"
           ]
         }
-
       },
       "required": [
         "legal_person",
         "identifier"
       ]
     },
-
     "authorised_persons": {
       "type": "array",
       "description": "Array of authorised person objects. SHALL contain at least one entry. Each entry represents a natural person authorised to act on behalf of the legal entity. SHALL be individually selectively disclosable as a top-level claim.",
@@ -152,7 +160,6 @@
         "description": "A single authorised person entry containing personal, role, and optionally identification information.",
         "additionalProperties": false,
         "properties": {
-
           "natural_person": {
             "type": "object",
             "description": "Core personal identity attributes of the authorised person. All three fields are mandatory.",
@@ -190,7 +197,6 @@
               "date_of_birth"
             ]
           },
-
           "birth_place": {
             "type": "object",
             "description": "Place of birth of the authorised person. Locality and country are mandatory; region is optional.",
@@ -227,7 +233,6 @@
               "country"
             ]
           },
-
           "citizenship": {
             "type": "array",
             "description": "Nationality or nationalities of the authorised person. SHALL contain at least one valid ISO 3166-1 alpha-3 country code.",
@@ -238,11 +243,15 @@
               "pattern": "^[A-Z]{3}$"
             },
             "examples": [
-              ["DEU"],
-              ["FRA", "BEL"]
+              [
+                "DEU"
+              ],
+              [
+                "FRA",
+                "BEL"
+              ]
             ]
           },
-
           "person_role": {
             "type": "object",
             "description": "Role and representation power of the authorised person within the legal entity. representation_type is mandatory; role is optional.",
@@ -271,7 +280,6 @@
               "representation_type"
             ]
           },
-
           "residence_address": {
             "type": "object",
             "description": "Optional residential address of the authorised person. When present, country SHALL be a valid ISO 3166-1 alpha-3 code.",
@@ -281,7 +289,7 @@
                 "type": "string",
                 "description": "The street address where the authorised person currently resides.",
                 "examples": [
-                  "Musterstraße 1"
+                  "Musterstra\u00dfe 1"
                 ]
               },
               "locality": {
@@ -315,7 +323,6 @@
               }
             }
           },
-
           "identifier": {
             "type": "object",
             "description": "Optional identity document details for enhanced identification of the authorised person. When present, ALL FOUR fields SHALL be provided together: document_type, document_number, issuing_country, and document_expiry_date.",
@@ -366,7 +373,6 @@
               "document_expiry_date"
             ]
           }
-
         },
         "required": [
           "natural_person",
@@ -376,7 +382,6 @@
         ]
       }
     },
-
     "status": {
       "type": "object",
       "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period (exp - iat) is greater than 24 hours.",
@@ -420,7 +425,6 @@
         "status_purpose"
       ]
     },
-
     "trust_anchor_url": {
       "type": "string",
       "format": "uri",
@@ -429,7 +433,6 @@
         "https://trust.webuildconsortium.eu/anchors/eidas-tl"
       ]
     },
-
     "cnf": {
       "type": "object",
       "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended. The AuthorisedSignatories Attestation SHALL be cryptographically bound to the specific holder wallet.",
@@ -474,7 +477,6 @@
         "jwk"
       ]
     }
-
   },
   "required": [
     "vct",

@@ -7,7 +7,6 @@
   "version": "0.1.0",
   "additionalProperties": true,
   "properties": {
-
     "vct": {
       "type": "string",
       "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:contactperson:1'.",
@@ -15,7 +14,6 @@
         "eu.we-build:contactperson:1"
       ]
     },
-
     "iss": {
       "type": "string",
       "format": "uri",
@@ -24,7 +22,6 @@
         "https://issuer.example.com"
       ]
     },
-
     "iat": {
       "type": "integer",
       "description": "Issuance date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation was issued per ISO 8601 / RFC 7519. SHALL NOT be selectively disclosable.",
@@ -32,7 +29,6 @@
         1736935200
       ]
     },
-
     "exp": {
       "type": "integer",
       "description": "Expiry date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation expires per ISO 8601 / RFC 7519. SHALL be later than 'iat'. SHALL NOT be selectively disclosable.",
@@ -40,7 +36,6 @@
         1768471200
       ]
     },
-
     "issuing_entity": {
       "type": "string",
       "description": "The identifier of the legal entity that issued the attestation. Typically a DID or other resolvable identifier of the employing organization. SHALL NOT be selectively disclosable.",
@@ -48,7 +43,6 @@
         "did:example:webuild-company-456"
       ]
     },
-
     "attestation_legal_category": {
       "type": "string",
       "description": "The legal category of the attestation as defined by eIDAS 2. For the Contact Person Attestation self-issued by the employing legal entity, this SHALL be 'EAA'. SHALL NOT be selectively disclosable.",
@@ -56,7 +50,6 @@
         "EAA"
       ]
     },
-
     "schema_version": {
       "type": "string",
       "description": "Version of the Contact Person attestation schema used. SHALL be a non-empty string when present.",
@@ -66,7 +59,6 @@
         "0.1.0"
       ]
     },
-
     "trust_anchor_url": {
       "type": "string",
       "format": "uri",
@@ -75,44 +67,6 @@
         "https://trust.webuildconsortium.eu/anchors/eidas-tl"
       ]
     },
-
-    "legal_identifier": {
-      "type": "object",
-      "description": "Legal identifiers for the employing organization per the European Business Wallet (EBW) framework. Links the contact person(s) to the employing legal entity. At least one identifier SHOULD be present. SHALL be individually selectively disclosable as a top-level claim.",
-      "additionalProperties": false,
-      "properties": {
-
-        "euid": {
-          "type": "string",
-          "description": "The European Unique Identifier (EUID) of the employing legal entity per Directive (EU) 2017/1132 and ISO 3166-1 alpha-2. Optional but RECOMMENDED.",
-          "minLength": 1,
-          "examples": [
-            "DE-HRB-123456",
-            "FR-RCS-PARIS-987654321"
-          ]
-        },
-
-        "lei": {
-          "type": "string",
-          "description": "Legal Entity Identifier (LEI) of the employing organization per ISO 17442. When present, SHALL be exactly 20 uppercase alphanumeric characters.",
-          "pattern": "^[A-Z0-9]{20}$",
-          "examples": [
-            "5493001KJTIIGC8Y1R12"
-          ]
-        },
-
-        "tax": {
-          "type": "string",
-          "description": "National company tax or registration number of the employing organization. Optional.",
-          "examples": [
-            "DE123456789",
-            "tax21212"
-          ]
-        }
-
-      }
-    },
-
     "contact_persons": {
       "type": "array",
       "description": "Array of contact person objects. SHALL contain at least one entry. Each entry represents a distinct natural person designated as a contact within the legal entity. The array itself SHALL be selectively disclosable as a top-level claim; individual objects within the array MAY also be individually disclosed.",
@@ -122,7 +76,6 @@
         "description": "A single contact person entry containing personal identity, role, and communication attributes.",
         "additionalProperties": false,
         "properties": {
-
           "given_name": {
             "type": "string",
             "description": "Given name of the contact person. In the U.S., the first name of a Person. Per Schema.org givenName. SHALL be a non-empty string.",
@@ -132,7 +85,6 @@
               "Max"
             ]
           },
-
           "family_name": {
             "type": "string",
             "description": "Family name of the contact person. In the U.S., the last name of a Person. Per Schema.org familyName. SHALL be a non-empty string.",
@@ -142,7 +94,6 @@
               "Mustermann"
             ]
           },
-
           "role": {
             "type": "string",
             "description": "Role of the contact person within the organization, denoting their function or responsibility (e.g., sales, finance, quality, logistics). Per the W3C Organization Ontology. SHALL be a non-empty string. SHOULD use values from Section 2.8.2.",
@@ -158,17 +109,6 @@
               "technical"
             ]
           },
-
-          "employee_identifier": {
-            "type": "string",
-            "description": "An alphanumeric identifier assigned by the employing organization to uniquely identify the employee. SHALL be a non-empty string.",
-            "minLength": 1,
-            "examples": [
-              "EMP-DE-00789",
-              "EMP-DE-00790"
-            ]
-          },
-
           "email": {
             "type": "string",
             "description": "Electronic address through which the Contact Person can be contacted. SHALL be a valid email address conforming to RFC 4021. Per CPOV contact point vocabulary.",
@@ -178,7 +118,6 @@
               "max.mustermann@example.com"
             ]
           },
-
           "telephone": {
             "type": "string",
             "description": "Telephone number through which the Contact Person can be contacted. When present, SHALL conform to ITU-T E.164 international public telecommunication numbering plan, including the country code prefix (e.g., +49123456789). Per CPOV contact point vocabulary. Optional.",
@@ -189,24 +128,20 @@
               "+33612345678"
             ]
           }
-
         },
         "required": [
           "given_name",
           "family_name",
           "role",
-          "employee_identifier",
           "email"
         ]
       }
     },
-
     "status": {
       "type": "object",
       "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period (exp - iat) is greater than 24 hours. Enables Relying Parties to check revocation status of the credential.",
       "additionalProperties": false,
       "properties": {
-
         "type": {
           "type": "string",
           "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
@@ -214,7 +149,6 @@
             "status-list"
           ]
         },
-
         "status_list_credential": {
           "type": "string",
           "format": "uri",
@@ -223,7 +157,6 @@
             "https://issuer.example.com/status/contactperson/2025"
           ]
         },
-
         "status_list_index": {
           "type": "integer",
           "minimum": 0,
@@ -232,7 +165,6 @@
             321
           ]
         },
-
         "status_purpose": {
           "type": "string",
           "description": "Purpose of the status entry. For the Contact Person Attestation this SHALL be 'revocation'.",
@@ -240,7 +172,6 @@
             "revocation"
           ]
         }
-
       },
       "required": [
         "type",
@@ -249,7 +180,6 @@
         "status_purpose"
       ]
     },
-
     "cnf": {
       "type": "object",
       "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended. The Contact Person Attestation SHALL be cryptographically bound to the specific holder wallet of the employing organization.",
@@ -293,8 +223,68 @@
       "required": [
         "jwk"
       ]
+    },
+    "legal_entity": {
+      "type": "object",
+      "description": "An object containing identifiers for the legal entity.",
+      "properties": {
+        "identifier": {
+          "type": "object",
+          "description": "A structured object of legal entity identifiers; at least one sub-field SHALL be provided.",
+          "properties": {
+            "euid": {
+              "type": "string",
+              "description": "The European Unique Identifier (EUID) of the employing legal entity per Directive (EU) 2017/1132 and ISO 3166-1 alpha-2. Optional but RECOMMENDED.",
+              "minLength": 1,
+              "examples": [
+                "DE-HRB-123456",
+                "FR-RCS-PARIS-987654321"
+              ]
+            },
+            "lei": {
+              "type": "string",
+              "description": "Legal Entity Identifier (LEI) of the employing organization per ISO 17442. When present, SHALL be exactly 20 uppercase alphanumeric characters.",
+              "pattern": "^[A-Z0-9]{20}$",
+              "examples": [
+                "5493001KJTIIGC8Y1R12"
+              ]
+            },
+            "tax": {
+              "type": "string",
+              "description": "National company tax or registration number of the employing organization. Optional.",
+              "examples": [
+                "DE123456789",
+                "tax21212"
+              ]
+            },
+            "gln": {
+              "type": "string",
+              "description": "Global Location Number for legal entities (GS1 identifier)."
+            },
+            "duns": {
+              "type": "string",
+              "description": "Data Universal Numbering System (Dun & Bradstreet identifier)."
+            },
+            "eori": {
+              "type": "string",
+              "description": "Economic Operators Registration and Identification number (EU customs)."
+            },
+            "bpnl": {
+              "type": "string",
+              "description": "Business Partner Number Legal entity (Catena-X identifier)."
+            },
+            "siren": {
+              "type": "string",
+              "description": "Syst\u00e8me d'Identification du R\u00e9pertoire des ENtreprises (French identifier)."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "identifier"
+      ]
     }
-
   },
   "required": [
     "vct",
@@ -303,6 +293,7 @@
     "exp",
     "attestation_legal_category",
     "contact_persons",
-    "cnf"
+    "cnf",
+    "legal_entity"
   ]
 }

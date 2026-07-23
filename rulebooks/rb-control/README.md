@@ -141,7 +141,8 @@ Controller [1..n]                               // The person or entity exercisi
 │   │   ├─ tax (str) (O)                        // National tax or registration number
 │   │   └─ other (str) (O)                      // Any other applicable identifier
 │   ├─ jurisdiction (tstr) (M)                  // ISO 3166-1 alpha-2
-│   ├─ form (tstr) (M)                          // See Section 2.8.6
+│   ├─ legal_form (tstr) (M)                    
+│   ├─ form (tstr) (M)                          // See Section 2.8.8 -> legal_form (see XLS from Finnland)
 │   └─ subtype_info (object) (O)                // Mandatory when category = "legal_arrangement"
 │       ├─ settlement (tstr) (M)                // Founding instrument or trust deed
 │       ├─ purpose (tstr) (M)                   // Declared purpose of the arrangement
@@ -164,10 +165,10 @@ Controller [1..n]                               // The person or entity exercisi
 │   └─ rights [String] (M)                      // "dividend_rights" | "liquidation_rights"
 ├─ effective_date (date) (M)                    // ISO 8601 YYYY-MM-DD
 └─ evidence [1..n] (M)                          // At least one evidence entry required
-├─ id (tstr) (M)                            // Unique identifier, URI, or URN
-├─ type (tstr) (M)                          // Evidence type — see Section 2.8.9
-├─ url (uri) (O)                            // URI to publicly accessible source document
-└─ data (base64) (O)                        // Base64-encoded — required if url absent
+│   ├─ id (tstr) (M)                            // Unique identifier, URI, or URN
+│   ├─ type (tstr) (M)                          // Evidence type — see Section 2.8.9
+│   ├─ url (uri) (O)                            // URI to publicly accessible source document
+│   └─ data (base64) (O)                        // Base64-encoded — required if url absent
 ```
 *Note*: M - mandatory / O - optional.
 
@@ -288,9 +289,10 @@ This attestation type MAY be classified as:
 |---------------------------|------------------------|----------------------------------------------------------------------------------------|---------------|
 | `entity.category`         | —                      | Classification — SHALL be `"legal_entity"` or `"legal_arrangement"`                    | Enum (String) |
 | `entity.name`             | —                      | Complete official registered name of the entity or legal arrangement                   | String        |
-| `entity.identifier`       | —                      | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present                    | Object        |
+| `entity.identifier`       | —                      | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present                     | Object        |
 | `entity.jurisdiction`     | —                      | ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled | String        |
-| `entity.form`             | —                      | Legal form of the entity — SHALL use values from Section 2.8.6                         | String        |
+| `entity.form`             | —                      | The form of the entity — SHALL use values from Section 2.8.6                           | String        |
+| `entity.legal_form`       | —                      | Legal form of the entity                                                               | String        |
 
 **Entity Identifier Fields** *(at least one SHALL be present)*
 
@@ -533,58 +535,59 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**           | **Attribute Identifier**                                | **Encoding Format**          | **Reference / Notes**                                                                        | **Disclosable**    |
-|-------------------------------|---------------------------------------------------------|------------------------------|----------------------------------------------------------------------------------------------|--------------------|
-| `controller`                  | `controller`                                            | Array [Controller]           | SHALL contain at least one entry                                                             | MUST               |
-| `type`                        | `controller[n].type`                                    | String                       | `"Person"` \| `"Entity"`                                                                     | MUST               |
-| **Person**                    |                                                         |                              |                                                                                              |                    |
-| `first_name`                  | `controller[n].person.first_name`                       | String                       | SHALL be non-empty                                                                           | MUST               |
-| `surname`                     | `controller[n].person.surname`                          | String                       | SHALL be non-empty                                                                           | MUST               |
-| `birth_date`                  | `controller[n].person.birth_date`                       | String (ISO 8601 YYYY-MM-DD) | Optional                                                                                     | MAY                |
-| **Entity**                    |                                                         |                              |                                                                                              |                    |
-| `category`                    | `controller[n].entity.category`                         | String                       | `"legal_entity"` \| `"legal_arrangement"`                                                    | MUST               |
-| `name`                        | `controller[n].entity.name`                             | String                       | SHALL be non-empty                                                                           | MUST               |
-| `euid`                        | `controller[n].entity.identifier.euid`                  | String                       | European Unique Identifier — optional; at least one identifier field SHALL be present        | MAY                |
-| `lei`                         | `controller[n].entity.identifier.lei`                   | String (20 chars)            | LEI per ISO 17442 — optional                                                                 | MAY                |
-| `tax`                         | `controller[n].entity.identifier.tax`                   | String                       | National tax or registration number — optional                                               | MAY                |
-| `other`                       | `controller[n].entity.identifier.other`                 | String                       | Any other applicable identifier — optional                                                   | MAY                |
-| `jurisdiction`                | `controller[n].entity.jurisdiction`                     | String (ISO 3166-1 alpha-2)  | SHALL be non-empty                                                                           | MUST               |
-| `form`                        | `controller[n].entity.form`                             | String                       | SHALL use values from Section 2.8.6                                                          | MUST               |
-| **subtype_info**              | `controller[n].entity.subtype_info`                     | Object                       | Mandatory when `entity.category = "legal_arrangement"` or `entity.form = "trust"`           | MUST (conditional) |
-| `settlement`                  | `controller[n].entity.subtype_info.settlement`          | String                       | Mandatory when `subtype_info` is present                                                     | MUST (conditional) |
-| `purpose`                     | `controller[n].entity.subtype_info.purpose`             | String                       | Mandatory when `subtype_info` is present                                                     | MUST (conditional) |
-| `assets`                      | `controller[n].entity.subtype_info.assets`              | String                       | Mandatory when `subtype_info` is present                                                     | MUST (conditional) |
-| `reason_for_registration`     | `controller[n].entity.subtype_info.reason_for_registration` | String                   | Optional                                                                                     | MAY                |
-| **Address**                   |                                                         |                              |                                                                                              |                    |
-| `street`                      | `controller[n].address.street`                          | String                       | SHALL be non-empty                                                                           | MUST               |
-| `house_number`                | `controller[n].address.house_number`                    | String                       | SHALL be non-empty                                                                           | MUST               |
-| `locality`                    | `controller[n].address.locality`                        | String                       | SHALL be non-empty                                                                           | MUST               |
-| `region`                      | `controller[n].address.region`                          | String                       | SHALL be non-empty                                                                           | MUST               |
-| `postal_code`                 | `controller[n].address.postal_code`                     | String                       | SHALL be non-empty                                                                           | MUST               |
-| `country`                     | `controller[n].address.country`                         | String (ISO 3166-1 alpha-2)  | SHALL be non-empty                                                                           | MUST               |
-| **Controls**                  |                                                         |                              |                                                                                              |                    |
-| `type`                        | `controller[n].controls.type`                           | Array of Strings             | SHALL use values from Section 2.8.3 — at least one required                                  | MUST               |
-| `level`                       | `controller[n].controls.level`                          | String                       | SHALL use values from Section 2.8.2                                                          | MUST               |
-| `basis`                       | `controller[n].controls.basis`                          | String                       | SHALL use values from Section 2.8.4                                                          | MUST               |
-| `voting_percentage`           | `controller[n].controls.voting_percentage`              | Decimal (0–100)              | Percentage of voting rights — optional                                                       | MAY                |
-| `appointment_rights`          | `controller[n].controls.appointment_rights`             | String                       | Free text — optional                                                                         | MAY                |
-| `other_details`               | `controller[n].controls.other_details`                  | String                       | Free text for other control mechanisms — optional                                            | MAY                |
-| `rights`                      | `controller[n].controls.rights`                         | Array of Strings             | SHALL use values from Section 2.8.5                                                          | MUST               |
-| `effective_date`              | `controller[n].effective_date`                          | String (ISO 8601 YYYY-MM-DD) | Date control became effective — SHALL be non-empty                                           | MUST               |
-| **Evidence**                  |                                                         |                              |                                                                                              |                    |
-| `id`                          | `controller[n].evidence[m].id`                          | String                       | Unique identifier, URI, or URN — SHALL be non-empty                                          | MUST               |
-| `type`                        | `controller[n].evidence[m].type`                        | String                       | SHALL use values from Section 2.8.9 — SHALL be non-empty                                     | MUST               |
-| `url`                         | `controller[n].evidence[m].url`                         | URI                          | URI reference to source document — optional                                                  | MAY                |
-| `data`                        | `controller[n].evidence[m].data`                        | String (base64)              | Base64-encoded source — SHALL be provided if `url` not publicly accessible                   | MAY                |
-| **Metadata**                 |                                                             |                              |                                                                                       |                    |
-| `issuance_date`              | `iat`                                                       | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                    | MUST NOT           |
-| `expiry_date`                | `exp`                                                       | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                       | MUST NOT           |
-| `issuing_entity`             | `iss`                                                       | String (URI or DID)          | Identifier of the competent institution that issued the attestation; RFC 7519         | MUST NOT           |
+| **Data Identifier**         | **Attribute Identifier**                                    | **Encoding Format**          | **Reference / Notes**                                                                 | **Disclosable**    |
+|-----------------------------|-------------------------------------------------------------|------------------------------|---------------------------------------------------------------------------------------|--------------------|
+| `controller`                | `controller`                                                | Array [Controller]           | SHALL contain at least one entry                                                      | MUST               |
+| `type`                      | `controller[n].type`                                        | String                       | `"Person"` \| `"Entity"`                                                              | MUST               |
+| **Person**                  |                                                             |                              |                                                                                       |                    |
+| `first_name`                | `controller[n].person.first_name`                           | String                       | SHALL be non-empty                                                                    | MUST               |
+| `surname`                   | `controller[n].person.surname`                              | String                       | SHALL be non-empty                                                                    | MUST               |
+| `birth_date`                | `controller[n].person.birth_date`                           | String (ISO 8601 YYYY-MM-DD) | Optional                                                                              | MAY                |
+| **Entity**                  |                                                             |                              |                                                                                       |                    |
+| `category`                  | `controller[n].entity.category`                             | String                       | `"legal_entity"` \| `"legal_arrangement"`                                             | MUST               |
+| `name`                      | `controller[n].entity.name`                                 | String                       | SHALL be non-empty                                                                    | MUST               |
+| `euid`                      | `controller[n].entity.identifier.euid`                      | String                       | European Unique Identifier — optional; at least one identifier field SHALL be present | MAY                |
+| `lei`                       | `controller[n].entity.identifier.lei`                       | String (20 chars)            | LEI per ISO 17442 — optional                                                          | MAY                |
+| `tax`                       | `controller[n].entity.identifier.tax`                       | String                       | National tax or registration number — optional                                        | MAY                |
+| `other`                     | `controller[n].entity.identifier.other`                     | String                       | Any other applicable identifier — optional                                            | MAY                |
+| `jurisdiction`              | `controller[n].entity.jurisdiction`                         | String (ISO 3166-1 alpha-2)  | SHALL be non-empty                                                                    | MUST               |
+| `legal_form`                | `controller[n].entity.legal_form`                           | String                       | The legal_form                                                                        | MUST               |
+| `form`                      | `controller[n].entity.form`                                 | String                       | SHALL use values from Section 2.8.6                                                   | MUST               |
+| **subtype_info**            | `controller[n].entity.subtype_info`                         | Object                       | Mandatory when `entity.category = "legal_arrangement"` or `entity.form = "trust"`     | MUST (conditional) |
+| `settlement`                | `controller[n].entity.subtype_info.settlement`              | String                       | Mandatory when `subtype_info` is present                                              | MUST (conditional) |
+| `purpose`                   | `controller[n].entity.subtype_info.purpose`                 | String                       | Mandatory when `subtype_info` is present                                              | MUST (conditional) |
+| `assets`                    | `controller[n].entity.subtype_info.assets`                  | String                       | Mandatory when `subtype_info` is present                                              | MUST (conditional) |
+| `reason_for_registration`   | `controller[n].entity.subtype_info.reason_for_registration` | String                       | Optional                                                                              | MAY                |
+| **Address**                 |                                                             |                              |                                                                                       |                    |
+| `street`                    | `controller[n].address.street`                              | String                       | SHALL be non-empty                                                                    | MUST               |
+| `house_number`              | `controller[n].address.house_number`                        | String                       | SHALL be non-empty                                                                    | MUST               |
+| `locality`                  | `controller[n].address.locality`                            | String                       | SHALL be non-empty                                                                    | MUST               |
+| `region`                    | `controller[n].address.region`                              | String                       | SHALL be non-empty                                                                    | MUST               |
+| `postal_code`               | `controller[n].address.postal_code`                         | String                       | SHALL be non-empty                                                                    | MUST               |
+| `country`                   | `controller[n].address.country`                             | String (ISO 3166-1 alpha-2)  | SHALL be non-empty                                                                    | MUST               |
+| **Controls**                |                                                             |                              |                                                                                       |                    |
+| `type`                      | `controller[n].controls.type`                               | Array of Strings             | SHALL use values from Section 2.8.3 — at least one required                           | MUST               |
+| `level`                     | `controller[n].controls.level`                              | String                       | SHALL use values from Section 2.8.2                                                   | MUST               |
+| `basis`                     | `controller[n].controls.basis`                              | String                       | SHALL use values from Section 2.8.4                                                   | MUST               |
+| `voting_percentage`         | `controller[n].controls.voting_percentage`                  | Decimal (0–100)              | Percentage of voting rights — optional                                                | MAY                |
+| `appointment_rights`        | `controller[n].controls.appointment_rights`                 | String                       | Free text — optional                                                                  | MAY                |
+| `other_details`             | `controller[n].controls.other_details`                      | String                       | Free text for other control mechanisms — optional                                     | MAY                |
+| `rights`                    | `controller[n].controls.rights`                             | Array of Strings             | SHALL use values from Section 2.8.5                                                   | MUST               |
+| `effective_date`            | `controller[n].effective_date`                              | String (ISO 8601 YYYY-MM-DD) | Date control became effective — SHALL be non-empty                                    | MUST               |
+| **Evidence**                |                                                             |                              |                                                                                       |                    |
+| `id`                        | `controller[n].evidence[m].id`                              | String                       | Unique identifier, URI, or URN — SHALL be non-empty                                   | MUST               |
+| `type`                      | `controller[n].evidence[m].type`                            | String                       | SHALL use values from Section 2.8.9 — SHALL be non-empty                              | MUST               |
+| `url`                       | `controller[n].evidence[m].url`                             | URI                          | URI reference to source document — optional                                           | MAY                |
+| `data`                      | `controller[n].evidence[m].data`                            | String (base64)              | Base64-encoded source — SHALL be provided if `url` not publicly accessible            | MAY                |
+| **Metadata**                |                                                             |                              |                                                                                       |                    |
+| `issuance_date`             | `iat`                                                       | Number (Unix timestamp)      | Date and time when the attestation was issued (ISO 8601); RFC 7519                    | MUST NOT           |
+| `expiry_date`               | `exp`                                                       | Number (Unix timestamp)      | Date and time when the attestation expires (ISO 8601); RFC 7519                       | MUST NOT           |
+| `issuing_entity`            | `iss`                                                       | String (URI or DID)          | Identifier of the competent institution that issued the attestation; RFC 7519         | MUST NOT           |
 | `attestation_legal_category` | `attestation_legal_category`                                | String                       | One of "EAA" or "QEAA" as defined by eIDAS 2                                          | MUST NOT           |
-| `vct`                        | `vct`                                                       | String                       | The vct definition                                                                    | MUST NOT           |
-| `cnf`                        | `cnf`                                                       | String                       | Cryptographic Key Binding                                                             | MUST NOT           |
-| `schema_version`             | `schema_version`                                            | String                       | Version of the schema used; optional                                                  | MAY                |
-| `trust_anchor_url`           | `trust_anchor_url`                                          | String (URI)                 | URL where the trust anchor for verifying this attestation can be retrieved; optional  | MAY                |
+| `vct`                       | `vct`                                                       | String                       | The vct definition                                                                    | MUST NOT           |
+| `cnf`                       | `cnf`                                                       | String                       | Cryptographic Key Binding                                                             | MUST NOT           |
+| `schema_version`            | `schema_version`                                            | String                       | Version of the schema used; optional                                                  | MAY                |
+| `trust_anchor_url`          | `trust_anchor_url`                                          | String (URI)                 | URL where the trust anchor for verifying this attestation can be retrieved; optional  | MAY                |
 
 **Notes:**
 
@@ -639,7 +642,6 @@ controller:
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
-  "issuing_entity": "did:example:company-456",
   "attestation_legal_category": "EAA",
   "schema_version": "0.9.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
@@ -690,7 +692,8 @@ controller:
           "tax": "DE123456789"
         },
         "jurisdiction": "DE",
-        "form": "private_company"
+        "form": "private_company",
+        "legal_form":"GmbH"
       },
       "address": {
         "street": "Musterstraße",

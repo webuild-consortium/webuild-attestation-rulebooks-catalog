@@ -16,6 +16,7 @@
 | 0.1     | 15.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 | 0.2     | 17.06.2026 | Reviewed version based on the initial draft 					 |
 | 0.3     | 25.06.2026 | Alignment with data schema and natural persons requirements	 |
+| 0.4     | 13.07.2026 | Harmonization and extension of natural persons requirements	 |
 
 * Contact:
   * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com)*
@@ -29,13 +30,13 @@ This attestation addresses the following question:
 
 **Is a specific IBAN legally owned by a designated legal entity or natural person, and has this ownership been verified and confirmed by the account-servicing financial institution?**
 
-The IBAN Ownership Verification (IBAN-OV) Attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person acting as a sole trader, enabling structured and fraud-resistant exchange of bank account ownership data for use in KYS, KYC, and payment compliance processes.
+The IBAN Ownership Verification (IBAN-OV) Attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person (e.g. acting as a sole trader), enabling structured and fraud-resistant exchange of bank account ownership data for use in KYS, KYC, and payment compliance processes.
 
 ### 1.1 Attestation scope and purpose
 
-The IBAN-OV attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person (acting as soletraders which are registered in a national register). This verified proof of ownership can be used across various business processes (e.g. onboarding process, supporting payment-related triggers) to reduce errors and mitigate fraud risks. This attestation will not be used to initiate or execute any kind of payment.
+The IBAN-OV attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person. This verified proof of ownership can be used across various business processes (e.g. onboarding process, supporting payment-related triggers) to reduce errors and mitigate fraud risks. This attestation will not be used to initiate or execute any kind of payment.
 
-The IBAN-OV attestation will be provided within the RP registration process (e.g. bank account opening) or upon request from the legal entity owning the IBAN account. Its purpose is to ensure that, at a later stage, payments for delivered services or sold products can be properly attributed to the verified legal entity.
+The IBAN-OV attestation will be provided within the RP registration process (e.g. bank account opening) or upon request from the legal entity or natural person owning the IBAN account. Its purpose is to ensure that, at a later stage, payments for delivered services or sold products can be properly attributed to the verified legal entity or natural person.
 
 Once issued and securely stored in the EBW wallet, the IBAN-OV attestation can be reused for multiple transactions as long as it will not be revoked. This increases operational efficiency while ensuring continued compliance with banking regulations and applicable legal standards.
 
@@ -83,7 +84,7 @@ In addition, 'must' (non-capitalised) is used to indicate an external constraint
 | KYS         | Know Your Supplier — due diligence process for verifying supplier identity and integrity.																						|
 | Legal Person | A legal entity registered in a national or EU company register, identified by an EUID. For IBAN-OV purposes, the account owner in the legal_person case						|
 | Sole Trader | A natural person operating a business who is registered in a national register                                                                                                  |
-| Owner_Type  | A discriminator attribute within *Account_Ownership* that explicitly identifies whether the account owner is a legal person or a natural person.			     				|
+| Owner_Type  | A discriminator attribute within *Account_Ownership* that explicitly identifies whether the account owner is a legal entity or a natural person.			     				|
 | ISO 4217:2015    | International standard defining currency codes (e.g., EUR, USD, GBP)                                                                                                       |
 | ISO 13616-1:2020   | International standard defining the IBAN format and validation rules                                                                                                     |
 | ISO 9362:2014    | International standard defining the BIC/SWIFT code format                                                                                                                  |
@@ -193,8 +194,8 @@ The following conditional attributes are defined for the `Account_Ownership` obj
 
 - owner_name SHALL be present if and only if owner_type = entity.
 - euid SHALL be present if and only if owner_type = entity.
-- given_name and surname SHALL be present if and only if owner_type = person.
-- given_name and surname SHALL NOT be present when owner_type = legal_person.
+- given_name and surname SHALL be present if and only if owner_type = 'person'.
+- given_name and surname SHALL NOT be present when owner_type = 'entity'.
 
 This conditional structure is enforced via JSON Schema if/then validation (Draft 2020-12) in the accompanying data schema.
 
@@ -265,12 +266,13 @@ The following integrity rules SHALL be enforced:
 - `bic_swift` SHALL conform to the ISO 9362:2022 format: [A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3}).
 - `provider_country` SHALL be a valid ISO 3166-1 alpha-3 country code.
 - `account_currency` SHALL contain at least one valid ISO 4217:2015 currency code.
-- `euid` in Account_Ownership SHALL be a non-empty string identifying the register entry of the account owner, regardless of whether the owner is a legal person or a natural person (sole trader).
-- `euid` in Account_Provider SHALL be a non-empty string identifying the issuing financial   institution.
+- `euid` in Account_Provider SHALL be a non-empty string identifying the issuing financial institution.
+- If `owner_type` = `entity`, `euid` in Account_Ownership SHALL be present and SHALL be a non-empty string identifying the register entry of the account owner.
+- If `owner_type` = `person`, `euid` SHALL NOT be present.
 - Each attribute SHALL appear at most once in the attestation.
-- `owner_type` in Account_Ownership SHALL be present and SHALL contain exactly one of the values `legal_person` or `natural_person`.
-- If `owner_type` = `legal_person`, owner_name SHALL be present and `given_name` and `surname` SHALL NOT be present.
-- If `owner_type` = `natural_person`, `given_name` and `surname` SHALL both be present and `owner_name` MAY be present as a derived display name.
+- `owner_type` in Account_Ownership SHALL be present and SHALL contain exactly one of the values `entity` or `person`.
+- If `owner_type` = `entity`, owner_name SHALL be present and `given_name` and `surname` SHALL NOT be present.
+- If `owner_type` = `person`, `given_name` and `surname` SHALL both be present and `owner_name` SHALL NOT be present.
 - The attestation SHALL NOT be used to directly initiate or execute payments.
 
 ## 3 Attestation encoding

@@ -1,0 +1,45 @@
+{
+  "vct": "eu.we-build:authorizedserviceprovider:1",
+  "iss": "https://wallet.greenflowers.example/issuer",
+  "iat": 1767225600,
+  "exp": 1798761600,
+  "nbf": 1767225600,
+  "sub": "did:example:banqup-nv-BE0890123456",
+  "attestation_legal_category": "EAA",
+  "schema_version": "1.0",
+  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "8Fbmv3vEbdVWL0BlKPuOm8gr6rrc3cZm0GnT4t0K9lo",
+      "y": "mN1t0FQXPXYyOnMypVCTuKLxrLxpjVzWkX3E1sHnbcQ"
+    }
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://wallet.greenflowers.example/status/authorizedserviceprovider/2026",
+    "status_list_index": 87,
+    "status_purpose": "revocation"
+  },
+
+  "authorizing_company": {
+    "legal_name": "Green Flowers B.V.",
+    "legal_id": "NL853746281B01",
+    "peppol_id": "0106:853746281"
+  },
+
+  "authorized_service_provider": {
+    "legal_name": "Banqup N.V.",
+    "legal_id": "BE0890123456",
+    "peppol_ap_id": "POP000123"
+  },
+
+  "authorization_scope": ["peppol:send", "vida:tax_report"],
+  "tax_reporting_member_state": "NL",
+  "authorization_valid_from": "2026-01-01",
+  "authorization_valid_until": "2026-12-31",
+  "authorization_reference": "SLA-2026-AP-007"
+}
