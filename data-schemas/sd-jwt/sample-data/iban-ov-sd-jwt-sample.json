@@ -3,7 +3,6 @@
   "iss": "https://bank.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
-  "issuing_entity": "did:example:bank-123",
   "attestation_legal_category": "EAA",
   "schema_version": "1.0",
 
@@ -17,6 +16,7 @@
   },
 
   "account_ownership": {
+    "owner_type": "entity",
     "owner_name": "Company A GmbH",
     "euid": "DE-HRB-123456"
   },

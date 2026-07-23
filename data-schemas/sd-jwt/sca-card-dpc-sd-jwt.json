@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/sca/sca-card-dpc/1.0/schema",
+  "title": "WE BUILD SCA-Card (DPC) SD-JWT VC payload",
+  "description": "Resolved SD-JWT VC claim set for the WE BUILD SCA-Card (DPC) attestation, representing a digitised payment card. Derived from the EMVCo Digital Payment Credential card credential schema (com.emvco.dpc.card) with WE BUILD adaptations: URL-based VCT, attestation_legal_category, conditional nbf. The payload is open (additionalProperties true) because issued credentials also carry vct#integrity, extends and extends#integrity.",
+  "version": "0.1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["vct", "iss", "cnf", "iat", "exp", "attestation_legal_category", "credential_id", "network"],
+  "properties": {
+    "vct": { "type": "string", "format": "uri" },
+    "iss": { "type": "string", "format": "uri" },
+    "cnf": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jwk"],
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["kty"],
+          "properties": {
+            "kty": { "type": "string" },
+            "kid": { "type": "string" },
+            "use": { "type": "string" },
+            "key_ops": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+            "alg": { "type": "string" },
+            "crv": { "type": "string" },
+            "x": { "type": "string" },
+            "y": { "type": "string" },
+            "n": { "type": "string" },
+            "e": { "type": "string" }
+          }
+        }
+      }
+    },
+    "iat": { "type": "integer" },
+    "exp": { "type": "integer" },
+    "nbf": { "type": "integer" },
+    "attestation_legal_category": { "type": "string", "const": "non-qualified-EAA" },
+    "credential_id": { "type": "string", "minLength": 1 },
+    "network": { "type": "string", "minLength": 1 },
+    "card_id": { "type": "string", "minLength": 1 }
+  }
+}
