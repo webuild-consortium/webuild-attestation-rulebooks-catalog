@@ -297,12 +297,12 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier**     | **Semantic Reference** | **Definition**                                                                          | **Data type**       |
 |-------------------------|------------------------|-----------------------------------------------------------------------------------------|---------------------|
-| subject                 | ...                    | Personal identity attributes of the posted worker                                       | Object              |
-| assignment_info         | ...                    | Assignment-related information including home member state and posting dates             | Object              |
-| home_employer           | ...                    | Details of the home employer including company info and representatives                  | Object              |
-| host_company            | ...                    | Details of the host company in the receiving member state                                | Object              |
-| employee                | ...                    | Employee-specific information including job duties abroad                                | Object              |
-| places_of_work          | ...                    | Place(s) where the posted worker performs work in the host country                       | Array [PlaceOfWork] |
+| subject                 | [postedWorker](https://w3id.org/ebwv#postedWorker) | Personal identity attributes of the posted worker                                       | Object              |
+| assignment_info         | [assignment](https://w3id.org/ebwv#assignment) | Assignment-related information including home member state and posting dates             | Object              |
+| home_employer           | [employer](https://w3id.org/ebwv#employer) | Details of the home employer including company info and representatives                  | Object              |
+| host_company            | [hostEntity](https://w3id.org/ebwv#hostEntity) | Details of the host company in the receiving member state                                | Object              |
+| employee                | [employee](https://w3id.org/ebwv#employee) | Employee-specific information including job duties abroad                                | Object              |
+| places_of_work          | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Place(s) where the posted worker performs work in the host country                       | Array [PlaceOfWork] |
 | competent_institution   | ...                    | Details of the competent institution associated with the PWN                             | Object              |
 
 ---
@@ -313,76 +313,76 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier**      | **Semantic Reference** | **Definition**                                                           | **Data type**                   | **Occurrence** |
 |--------------------------|------------------------|--------------------------------------------------------------------------|---------------------------------|----------------|
-| pin                      | —                      | Personal Identification Number / ID number of the posted worker          | String                          | 1:1            |
-| family_name              | —                      | Family name(s) of the posted worker in full                              | String                          | 1:1            |
-| forename                 | —                      | Forename(s) of the posted worker in full                                 | String                          | 1:1            |
-| date_of_birth            | —                      | Date of birth of the posted worker (ISO 8601)                            | Date (YYYY-MM-DD)               | 1:1            |
-| nationality              | —                      | Nationality/ies of the posted worker                                     | Code [1:n] (ISO 3166-1 alpha-2) | 1:n            |
-| job_title_home_country   | —                      | Job title of the posted worker in the home country (PWN-specific)        | String                          | 1:1            |
+| pin                      | [identifier](https://w3id.org/ebwv#identifier) | Personal Identification Number / ID number of the posted worker          | String                          | 1:1            |
+| family_name              | [familyName](https://w3id.org/ebwv#familyName) | Family name(s) of the posted worker in full                              | String                          | 1:1            |
+| forename                 | [givenName](https://w3id.org/ebwv#givenName) | Forename(s) of the posted worker in full                                 | String                          | 1:1            |
+| date_of_birth            | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the posted worker (ISO 8601)                            | Date (YYYY-MM-DD)               | 1:1            |
+| nationality              | [citizenship](https://w3id.org/ebwv#citizenship) | Nationality/ies of the posted worker                                     | Code [1:n] (ISO 3166-1 alpha-2) | 1:n            |
+| job_title_home_country   | [jobTitle](https://w3id.org/ebwv#jobTitle) | Job title of the posted worker in the home country (PWN-specific)        | String                          | 1:1            |
 
 #### Section 2 — Assignment Related Information Attributes
 
 | **Data Identifier**                 | **Semantic Reference** | **Definition**                                                                     | **Data type**             | **Occurrence** |
 |-------------------------------------|------------------------|------------------------------------------------------------------------------------|---------------------------|----------------|
-| assignment_info.home_member_state   | —                      | Code of the home member state from which the worker is posted (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1            |
-| assignment_info.starting_date       | —                      | Start date of the posting assignment (ISO 8601)                                    | Date (YYYY-MM-DD)         | 1:1            |
-| assignment_info.ending_date         | —                      | End date of the posting assignment (ISO 8601)                                      | Date (YYYY-MM-DD)         | 1:1            |
+| assignment_info.home_member_state   | [stateOfInsurance](https://w3id.org/ebwv#stateOfInsurance) | Code of the home member state from which the worker is posted (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1            |
+| assignment_info.starting_date       | [duration](https://w3id.org/ebwv#duration) | Start date of the posting assignment (ISO 8601)                                    | Date (YYYY-MM-DD)         | 1:1            |
+| assignment_info.ending_date         | [duration](https://w3id.org/ebwv#duration) | End date of the posting assignment (ISO 8601)                                      | Date (YYYY-MM-DD)         | 1:1            |
 
 #### Section 3 — Home Employer Attributes
 
 | **Data Identifier**                                      | **Semantic Reference** | **Definition**                                                                            | **Data type**             | **Occurrence** |
 |----------------------------------------------------------|------------------------|-------------------------------------------------------------------------------------------|---------------------------|----------------|
-| home_employer.company_name                               | —                      | Full commercial name of the home employer                                                 | String                    | 1:1            |
-| home_employer.industry_sector_nace                       | —                      | Industry sector of the home employer (NACE classification)                                | String                    | 1:1            |
-| home_employer.construction_sector                        | —                      | Indicates whether the employer operates in the construction sector (true / false)         | Boolean                   | 1:1            |
-| home_employer.vat_id                                     | —                      | VAT identification number of the home employer                                            | String                    | 1:1            |
-| home_employer.address_line_1                             | —                      | Primary address line of the home employer's headquarters                                  | String                    | 1:1            |
-| home_employer.postal_code                                | —                      | Postal code of the home employer's headquarters                                           | String                    | 1:1            |
-| home_employer.city                                       | —                      | City of the home employer's headquarters                                                  | String                    | 1:1            |
-| home_employer.country                                    | —                      | Country of the home employer's headquarters (ISO 3166-1 alpha-2)                          | Code (ISO 3166-1 alpha-2) | 1:1            |
-| home_employer.phone                                      | —                      | Phone number of the home employer                                                         | String                    | 1:1            |
-| home_employer.email                                      | —                      | Email address of the home employer                                                        | String                    | 1:1            |
-| home_employer.administrative_representative.last_name    | —                      | Last name of the administrative representative                                            | String                    | 1:1            |
-| home_employer.administrative_representative.first_name   | —                      | First name of the administrative representative                                           | String                    | 1:1            |
-| home_employer.administrative_representative.telephone    | —                      | Telephone number of the administrative representative                                     | String                    | 1:1            |
-| home_employer.administrative_representative.email        | —                      | Email address of the administrative representative                                        | String                    | 1:1            |
-| home_employer.administrative_representative.city         | —                      | City of the administrative representative's address                                       | String                    | 1:1            |
-| home_employer.administrative_representative.country      | —                      | Country of the administrative representative's address (ISO 3166-1 alpha-2)               | Code (ISO 3166-1 alpha-2) | 1:1            |
-| home_employer.social_representative.last_name            | —                      | Last name of the social representative                                                    | String                    | 1:1            |
-| home_employer.social_representative.first_name           | —                      | First name of the social representative                                                   | String                    | 1:1            |
-| home_employer.social_representative.telephone            | —                      | Telephone number of the social representative                                             | String                    | 1:1            |
-| home_employer.social_representative.email                | —                      | Email address of the social representative                                                | String                    | 1:1            |
-| home_employer.social_representative.city                 | —                      | City of the social representative's address                                               | String                    | 1:1            |
-| home_employer.social_representative.country              | —                      | Country of the social representative's address (ISO 3166-1 alpha-2)                       | Code (ISO 3166-1 alpha-2) | 1:1            |
+| home_employer.company_name                               | [legalName](https://w3id.org/ebwv#legalName) | Full commercial name of the home employer                                                 | String                    | 1:1            |
+| home_employer.industry_sector_nace                       | [activity](https://w3id.org/ebwv#activity) | Industry sector of the home employer (NACE classification)                                | String                    | 1:1            |
+| home_employer.construction_sector                        | [constructionSector](https://w3id.org/ebwv#constructionSector) | Indicates whether the employer operates in the construction sector (true / false)         | Boolean                   | 1:1            |
+| home_employer.vat_id                                     | [identifier](https://w3id.org/ebwv#identifier) | VAT identification number of the home employer                                            | String                    | 1:1            |
+| home_employer.address_line_1                             | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Primary address line of the home employer's headquarters                                  | String                    | 1:1            |
+| home_employer.postal_code                                | [postCode](https://w3id.org/ebwv#postCode) | Postal code of the home employer's headquarters                                           | String                    | 1:1            |
+| home_employer.city                                       | [postName](https://w3id.org/ebwv#postName)  | City of the home employer's headquarters                                                  | String                    | 1:1            |
+| home_employer.country                                    | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the home employer's headquarters (ISO 3166-1 alpha-2)                          | Code (ISO 3166-1 alpha-2) | 1:1            |
+| home_employer.phone                                      | [hasTelephone](https://w3id.org/ebwv#hasTelephone) | Phone number of the home employer                                                         | String                    | 1:1            |
+| home_employer.email                                      | [hasEmail](https://w3id.org/ebwv#hasEmail) | Email address of the home employer                                                        | String                    | 1:1            |
+| home_employer.administrative_representative.last_name    | [familyName](https://w3id.org/ebwv#familyName)  | Last name of the administrative representative                                            | String                    | 1:1            |
+| home_employer.administrative_representative.first_name   | [givenName](https://w3id.org/ebwv#givenName) | First name of the administrative representative                                           | String                    | 1:1            |
+| home_employer.administrative_representative.telephone    | [hasTelephone](https://w3id.org/ebwv#hasTelephone) | Telephone number of the administrative representative                                     | String                    | 1:1            |
+| home_employer.administrative_representative.email        | [hasEmail](https://w3id.org/ebwv#hasEmail) | Email address of the administrative representative                                        | String                    | 1:1            |
+| home_employer.administrative_representative.city         | [postName](https://w3id.org/ebwv#postName) | City of the administrative representative's address                                       | String                    | 1:1            |
+| home_employer.administrative_representative.country      | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the administrative representative's address (ISO 3166-1 alpha-2)               | Code (ISO 3166-1 alpha-2) | 1:1            |
+| home_employer.social_representative.last_name            | [familyName](https://w3id.org/ebwv#familyName) | Last name of the social representative                                                    | String                    | 1:1            |
+| home_employer.social_representative.first_name           | [givenName](https://w3id.org/ebwv#givenName) | First name of the social representative                                                   | String                    | 1:1            |
+| home_employer.social_representative.telephone            | [hasTelephone](https://w3id.org/ebwv#hasTelephone) | Telephone number of the social representative                                             | String                    | 1:1            |
+| home_employer.social_representative.email                | [hasEmail](https://w3id.org/ebwv#hasEmail) | Email address of the social representative                                                | String                    | 1:1            |
+| home_employer.social_representative.city                 | [postName](https://w3id.org/ebwv#postName) | City of the social representative's address                                               | String                    | 1:1            |
+| home_employer.social_representative.country              | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the social representative's address (ISO 3166-1 alpha-2)                       | Code (ISO 3166-1 alpha-2) | 1:1            |
 
 #### Section 4 — Host Company Attributes
 
 | **Data Identifier**           | **Semantic Reference** | **Definition**                                                                    | **Data type**             | **Occurrence** |
 |-------------------------------|------------------------|-----------------------------------------------------------------------------------|---------------------------|----------------|
-| host_company.company_name     | —                      | Full commercial name of the host company                                          | String                    | 1:1            |
-| host_company.email            | —                      | Email address of the host company                                                 | String                    | 1:1            |
-| host_company.telephone        | —                      | Telephone number of the host company                                              | String                    | 1:1            |
-| host_company.industry_sector  | —                      | Industry sector of the host company                                               | String                    | 1:1            |
-| host_company.vat_id           | —                      | VAT identification number of the host company                                     | String                    | 1:1            |
-| host_company.address_line_1   | —                      | Primary address line of the host company's headquarters                           | String                    | 1:1            |
-| host_company.postal_code      | —                      | Postal code of the host company's headquarters                                    | String                    | 1:1            |
-| host_company.city             | —                      | City of the host company's headquarters                                           | String                    | 1:1            |
-| host_company.country          | —                      | Country of the host company's headquarters (ISO 3166-1 alpha-2)                   | Code (ISO 3166-1 alpha-2) | 1:1            |
+| host_company.company_name     | [legalName](https://w3id.org/ebwv#legalName) | Full commercial name of the host company                                          | String                    | 1:1            |
+| host_company.email            | [hasEmail](https://w3id.org/ebwv#hasEmail)  | Email address of the host company                                                 | String                    | 1:1            |
+| host_company.telephone        | [hasTelephone](https://w3id.org/ebwv#hasTelephone) | Telephone number of the host company                                              | String                    | 1:1            |
+| host_company.industry_sector  | [activity](https://w3id.org/ebwv#activity) | Industry sector of the host company                                               | String                    | 1:1            |
+| host_company.vat_id           | [identifier](https://w3id.org/ebwv#identifier) | VAT identification number of the host company                                     | String                    | 1:1            |
+| host_company.address_line_1   | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Primary address line of the host company's headquarters                           | String                    | 1:1            |
+| host_company.postal_code      | [postCode](https://w3id.org/ebwv#postCode) | Postal code of the host company's headquarters                                    | String                    | 1:1            |
+| host_company.city             | [postName](https://w3id.org/ebwv#postName) | City of the host company's headquarters                                           | String                    | 1:1            |
+| host_company.country          | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the host company's headquarters (ISO 3166-1 alpha-2)                   | Code (ISO 3166-1 alpha-2) | 1:1            |
 
 #### Section 5 — Employee Attributes
 
 | **Data Identifier**          | **Semantic Reference** | **Definition**                                                                          | **Data type** | **Occurrence** |
 |------------------------------|------------------------|-----------------------------------------------------------------------------------------|---------------|----------------|
-| employee.job_duties_abroad   | —                      | Description of the job duties and activities to be performed abroad by the posted worker | String        | 1:1            |
+| employee.job_duties_abroad   | [description](https://w3id.org/ebwv#bd67ab3de4befa12ddca1ae5092c89be951e565f05919d9bcb1e77eecb6d76ba)  | Description of the job duties and activities to be performed abroad by the posted worker | String        | 1:1            |
 
 #### Section 6 — Place(s) of Work Mandatory Fields
 
 | **Data Identifier**                   | **Semantic Reference** | **Definition**                                                | **Data type**             | **Occurrence** |
 |---------------------------------------|------------------------|---------------------------------------------------------------|---------------------------|----------------|
-| place_of_work.company_name            | —                      | Name of the company or vessel at the place of work            | String                    | 1:1            |
-| place_of_work.town                    | —                      | Town of the place of work                                     | String                    | 1:1            |
-| place_of_work.country_code            | —                      | Country of the place of work (ISO 3166-1 alpha-2)             | Code (ISO 3166-1 alpha-2) | 1:1            |
-| no_fixed_place_of_work.country_code   | —                      | Country code when no fixed place of work exists               | Code (ISO 3166-1 alpha-2) | 1:1            |
+| place_of_work.company_name            | [legalName](https://w3id.org/ebwv#legalName) | Name of the company or vessel at the place of work            | String                    | 1:1            |
+| place_of_work.town                    | [postName](https://w3id.org/ebwv#postName) | Town of the place of work                                     | String                    | 1:1            |
+| place_of_work.country_code            | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the place of work (ISO 3166-1 alpha-2)             | Code (ISO 3166-1 alpha-2) | 1:1            |
+| no_fixed_place_of_work.country_code   | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country code when no fixed place of work exists               | Code (ISO 3166-1 alpha-2) | 1:1            |
 
 #### Section 7 — Competent Institution Mandatory Attributes
 
@@ -398,25 +398,25 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier**              | **Semantic Reference** | **Definition**                                                                | **Data type**             | **Occurrence** |
 |----------------------------------|------------------------|-------------------------------------------------------------------------------|---------------------------|----------------|
-| gender                           | —                      | Gender of the posted worker (codelist tbd)                                    | String / Code             | 0:1            |
-| surname_at_birth                 | —                      | Surname(s) of the posted worker at birth (if different from current)          | String                    | 0:1            |
-| forename_at_birth                | —                      | Forename(s) of the posted worker at birth (if different from current)         | String                    | 0:1            |
-| place_of_birth.town              | —                      | Town/locality where the posted worker was born                                | String                    | 0:1            |
-| place_of_birth.country_code      | —                      | Country where the posted worker was born (ISO 3166-1 alpha-2)                 | Code (ISO 3166-1 alpha-2) | 0:1            |
-| address_residence.street_nr      | —                      | Street and number of the posted worker's residence address                    | String                    | 0:1            |
-| address_residence.town           | —                      | Town of the posted worker's residence address                                 | String                    | 0:1            |
-| address_residence.post_code      | —                      | Postal code of the posted worker's residence address                          | String                    | 0:1            |
-| address_residence.country_code   | —                      | Country code of the posted worker's residence address (ISO 3166-1 alpha-2)    | Code (ISO 3166-1 alpha-2) | 0:1            |
-| address_stay.street_nr           | —                      | Street and number of the posted worker's stay address                         | String                    | 0:1            |
-| address_stay.town                | —                      | Town of the posted worker's stay address                                      | String                    | 0:1            |
-| address_stay.post_code           | —                      | Postal code of the posted worker's stay address                               | String                    | 0:1            |
-| address_stay.country_code        | —                      | Country code of the posted worker's stay address (ISO 3166-1 alpha-2)         | Code (ISO 3166-1 alpha-2) | 0:1            |
+| gender                           | [gender](https://w3id.org/ebwv#gender) | Gender of the posted worker (codelist tbd)                                    | String / Code             | 0:1            |
+| surname_at_birth                 | [birthName](https://w3id.org/ebwv#birthName) | Surname(s) of the posted worker at birth (if different from current)          | String                    | 0:1            |
+| forename_at_birth                | [birthName](https://w3id.org/ebwv#birthName) | Forename(s) of the posted worker at birth (if different from current)         | String                    | 0:1            |
+| place_of_birth.town              | [geographicName](https://w3id.org/ebwv#geographicName) | Town/locality where the posted worker was born                                | String                    | 0:1            |
+| place_of_birth.country_code      | [geographicIdentifier](https://w3id.org/ebwv#geographicIdentifier) | Country where the posted worker was born (ISO 3166-1 alpha-2)                 | Code (ISO 3166-1 alpha-2) | 0:1            |
+| address_residence.street_nr      | [domicile](https://w3id.org/ebwv#domicile).[thoroughfare](https://w3id.org/ebwv#thoroughfare) | Street and number of the posted worker's residence address                    | String                    | 0:1            |
+| address_residence.town           | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName) | Town of the posted worker's residence address                                 | String                    | 0:1            |
+| address_residence.post_code      | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode)  | Postal code of the posted worker's residence address                          | String                    | 0:1            |
+| address_residence.country_code   | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1)  | Country code of the posted worker's residence address (ISO 3166-1 alpha-2)    | Code (ISO 3166-1 alpha-2) | 0:1            |
+| address_stay.street_nr           | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[thoroughfare](https://w3id.org/ebwv#thoroughfare)  | Street and number of the posted worker's stay address                         | String                    | 0:1            |
+| address_stay.town                | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[postName](https://w3id.org/ebwv#postName) | Town of the posted worker's stay address                                      | String                    | 0:1            |
+| address_stay.post_code           | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the posted worker's stay address                               | String                    | 0:1            |
+| address_stay.country_code        | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country code of the posted worker's stay address (ISO 3166-1 alpha-2)         | Code (ISO 3166-1 alpha-2) | 0:1            |
 
 #### Assignment Related Information Optional Attributes
 
 | **Data Identifier**                         | **Semantic Reference** | **Definition**                                                                  | **Data type** | **Occurrence** |
 |---------------------------------------------|------------------------|---------------------------------------------------------------------------------|---------------|----------------|
-| assignment_info.applies_for_duration        | —                      | Indicates whether the certificate applies for the full duration of the activity | Boolean       | 0:1            |
+| assignment_info.applies_for_duration        | [a1](https://w3id.org/ebwv#a1) | Indicates whether the certificate applies for the full duration of the activity | Boolean       | 0:1            |
 | assignment_info.determination_provisional   | —                      | Indicates whether the determination is provisional                               | Boolean       | 0:1            |
 | assignment_info.transitional_rules          | —                      | Indicates whether transitional rules apply                                       | Boolean       | 0:1            |
 
@@ -425,18 +425,18 @@ This attestation type **MAY** be classified as:
 | **Data Identifier**                                       | **Semantic Reference** | **Definition**                                                                           | **Data type**             | **Occurrence** |
 |-----------------------------------------------------------|------------------------|------------------------------------------------------------------------------------------|---------------------------|----------------|
 | home_employer.address_line_2                              | —                      | Secondary address line of the home employer's headquarters                               | String                    | 0:1            |
-| home_employer.municipality                                | —                      | Municipality of the home employer's headquarters                                         | String                    | 0:1            |
-| home_employer.state                                       | —                      | State or region of the home employer's headquarters                                      | String                    | 0:1            |
+| home_employer.municipality                                | [registeredAddress](https://w3id.org/ebwv#registeredAddress).[postName](https://w3id.org/ebwv#postName) | Municipality of the home employer's headquarters                                         | String                    | 0:1            |
+| home_employer.state                                       | [registeredAddress](https://w3id.org/ebwv#registeredAddress).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | State or region of the home employer's headquarters                                      | String                    | 0:1            |
 | home_employer.administrative_representative.address_line_1 | —                     | Primary address line of the administrative representative                                | String                    | 0:1            |
 | home_employer.administrative_representative.address_line_2 | —                     | Secondary address line of the administrative representative                              | String                    | 0:1            |
-| home_employer.administrative_representative.postal_code    | —                     | Postal code of the administrative representative's address                               | String                    | 0:1            |
-| home_employer.administrative_representative.municipality   | —                     | Municipality of the administrative representative's address                              | String                    | 0:1            |
-| home_employer.administrative_representative.state          | —                     | State or region of the administrative representative's address                           | String                    | 0:1            |
+| home_employer.administrative_representative.postal_code    | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the administrative representative's address                               | String                    | 0:1            |
+| home_employer.administrative_representative.municipality   | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName) | Municipality of the administrative representative's address                              | String                    | 0:1            |
+| home_employer.administrative_representative.state          | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | State or region of the administrative representative's address                           | String                    | 0:1            |
 | home_employer.social_representative.address_line_1         | —                     | Primary address line of the social representative                                        | String                    | 0:1            |
 | home_employer.social_representative.address_line_2         | —                     | Secondary address line of the social representative                                      | String                    | 0:1            |
-| home_employer.social_representative.postal_code            | —                     | Postal code of the social representative's address                                       | String                    | 0:1            |
-| home_employer.social_representative.municipality           | —                     | Municipality of the social representative's address                                      | String                    | 0:1            |
-| home_employer.social_representative.state                  | —                     | State or region of the social representative's address                                   | String                    | 0:1            |
+| home_employer.social_representative.postal_code            | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the social representative's address                                       | String                    | 0:1            |
+| home_employer.social_representative.municipality           | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName) | Municipality of the social representative's address                                      | String                    | 0:1            |
+| home_employer.social_representative.state                  | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | State or region of the social representative's address                                   | String                    | 0:1            |
 
 #### Host Company Optional Attributes
 
@@ -444,19 +444,19 @@ This attestation type **MAY** be classified as:
 |-------------------------------|------------------------|---------------------------------------------------------------|---------------------------|----------------|
 | host_company.address_line_2   | —                      | Secondary address line of the host company's headquarters     | String                    | 0:1            |
 | host_company.address_line_3   | —                      | Tertiary address line of the host company's headquarters      | String                    | 0:1            |
-| host_company.municipality     | —                      | Municipality of the host company's headquarters               | String                    | 0:1            |
-| host_company.state            | —                      | State or region of the host company's headquarters            | String                    | 0:1            |
-| host_company.business_reg_nr  | —                      | Business registration number of the host company             | String                    | 0:1            |
+| host_company.municipality     | [registeredAddress](https://w3id.org/ebwv#registeredAddress).[postName](https://w3id.org/ebwv#postName) | Municipality of the host company's headquarters               | String                    | 0:1            |
+| host_company.state            | [registeredAddress](https://w3id.org/ebwv#adminUnitL2).[postName](https://w3id.org/ebwv#adminUnitL2) | State or region of the host company's headquarters            | String                    | 0:1            |
+| host_company.business_reg_nr  | [identifier](https://w3id.org/ebwv#identifier)  | Business registration number of the host company             | String                    | 0:1            |
 
 #### Place of Work Optional Attributes
 
 | **Data Identifier**            | **Semantic Reference** | **Definition**                                                      | **Data type** | **Occurrence** |
 |--------------------------------|------------------------|---------------------------------------------------------------------|---------------|----------------|
-| place_of_work.flag_base_home   | —                      | Flag, base or home state of the vessel (maritime use case)          | String        | 0:1            |
-| place_of_work.company_id       | —                      | Identifier of the company at the place of work                      | String        | 0:1            |
+| place_of_work.flag_base_home   | [flagState](https://w3id.org/ebwv#flagState) | Flag, base or home state of the vessel (maritime use case)          | String        | 0:1            |
+| place_of_work.company_id       | [identifier](https://w3id.org/ebwv#identifier) | Identifier of the company at the place of work                      | String        | 0:1            |
 | place_of_work.id_type          | —                      | Type of company identifier (per EESSI codelist — tbd)               | Code          | 0:1            |
-| place_of_work.street_nr        | —                      | Street and number of the place of work                              | String        | 0:1            |
-| place_of_work.postal_code      | —                      | Postal code of the place of work                                    | String        | 0:1            |
+| place_of_work.street_nr        | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | Street and number of the place of work                              | String        | 0:1            |
+| place_of_work.postal_code      | [postCode](https://w3id.org/ebwv#postCode) | Postal code of the place of work                                    | String        | 0:1            |
 
 #### Competent Institution Optional Attributes
 
