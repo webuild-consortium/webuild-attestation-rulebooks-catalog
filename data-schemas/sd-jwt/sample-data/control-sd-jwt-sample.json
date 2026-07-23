@@ -1,119 +1,98 @@
 {
-
   "vct": "eu.we-build:control:1",
-  "attestation_legal_category": "EAA",
-  "iss": "did:web:bosch.com",
+  "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
-  "jti": "urn:uuid:control-attestation-bosch-20260601-001",
-  "issuing_entity": "did:web:bosch.com",
+  "attestation_legal_category": "EAA",
   "schema_version": "0.9.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
   "controller": [
     {
-
       "type": "Person",
-
       "jurisdiction": "DE",
-
       "person": {
         "first_name": "Alice",
         "surname": "Smith",
         "birth_date": "1975-03-20"
       },
-
       "address": {
-        "street": "Hauptstraße",
+        "street": "Hauptstrasse",
         "house_number": "10",
         "locality": "Berlin",
         "region": "Berlin",
         "postal_code": "10115",
         "country": "DE"
       },
-
       "controls": {
-        "type": ["voting_rights", "board"],
+        "type": [
+          "voting_rights",
+          "board"
+        ],
         "level": "direct",
         "basis": "shareholding",
         "voting_percentage": 60.0,
-        "appointment_rights": "Right to appoint majority of supervisory board per articles of association section 12",
-        "rights": ["dividend_rights", "liquidation_rights"]
+        "appointment_rights": "Right to appoint majority of supervisory board",
+        "rights": [
+          "dividend_rights",
+          "liquidation_rights"
+        ]
       },
-
       "effective_date": "2020-01-15",
-
       "evidence": [
         {
-          "id": "src-ctrl-001",
+          "id": "src-001",
           "type": "officialRegister",
-          "url": "https://example.com/docs/shareholder-register-extract-2024.pdf"
-        },
-        {
-          "id": "src-ctrl-002",
-          "type": "articlesOfAssociation",
-          "url": "https://example.com/docs/articles-of-association-2020.pdf"
+          "url": "https://example.com/docs/shareholder-register-2024.pdf"
         }
       ]
     },
-
     {
-
       "type": "Entity",
-
       "jurisdiction": "DE",
-
       "entity": {
         "category": "legal_entity",
         "name": "HoldCo GmbH",
         "identifier": {
-          "euid": "DE-HRB-987654",
+          "euid": "DE987654321",
           "lei": "529900T8BM49AURSDO55",
           "tax": "DE123456789"
         },
         "jurisdiction": "DE",
-        "form": "private_company"
+        "form": "private_company",
+        "legal_form": "GmbH"
       },
-
       "address": {
-        "street": "Musterstraße",
+        "street": "Musterstra\u00dfe",
         "house_number": "45",
         "locality": "Frankfurt",
         "region": "Hessen",
         "postal_code": "60311",
         "country": "DE"
       },
-
       "controls": {
-        "type": ["nominee", "voting_rights"],
+        "type": [
+          "nominee",
+          "voting_rights"
+        ],
         "level": "indirect",
         "basis": "shareholding",
         "voting_percentage": 40.0,
-        "other_details": "Shares held through nominee arrangement; ultimate beneficial owner identified separately in UBO attestation",
-        "rights": ["dividend_rights"]
+        "rights": [
+          "dividend_rights"
+        ]
       },
-
       "effective_date": "2019-06-01",
-
       "evidence": [
         {
-          "id": "src-ctrl-003",
+          "id": "src-002",
           "type": "governanceChart",
-          "url": "https://example.com/docs/group-governance-chart-2024.pdf"
-        },
-        {
-          "id": "src-ctrl-004",
-          "type": "shareholderAgreement",
-          "url": "https://example.com/docs/nominee-shareholder-agreement-2019.pdf"
+          "url": "https://example.com/docs/governance-chart-2024.pdf"
         }
       ]
     },
-
     {
-
       "type": "Entity",
-
       "jurisdiction": "LU",
-
       "entity": {
         "category": "legal_arrangement",
         "name": "Smith Family Trust",
@@ -123,55 +102,50 @@
         "jurisdiction": "LU",
         "form": "trust",
         "subtype_info": {
-          "settlement": "Settled under Luxembourg trust law (Loi du 27 juillet 2003) on 2015-03-01 per trust deed reference LU-TD-2015-0042",
-          "purpose": "Family wealth management, succession planning, and preservation of family business interests across generations",
-          "assets": "Real estate portfolio (Luxembourg and Germany), securities portfolios (equity and fixed income), cash holdings, and 15% participation in HoldCo GmbH",
-          "reason_for_registration": "Registered for tax transparency reporting under CRS and FATCA obligations"
+          "settlement": "Settled under Luxembourg trust law on 2015-03-01",
+          "purpose": "Family wealth management and succession planning",
+          "assets": "Real estate, securities portfolios, and cash holdings",
+          "reason_for_registration": "Registered for tax transparency under CRS"
         }
       },
-
       "address": {
         "street": "Rue de la Forêt",
         "house_number": "7",
-        "locality": "Luxembourg City",
+        "locality": "Luxembourg",
         "region": "Luxembourg",
         "postal_code": "L-1234",
         "country": "LU"
       },
-
       "controls": {
-        "type": ["agreements", "other_means_of_control"],
+        "type": [
+          "agreements",
+          "other_means_of_control"
+        ],
         "level": "indirect",
         "basis": "trust_arrangement",
-        "other_details": "Control exercised through trustee's legal title over trust assets including participation in HoldCo GmbH. Trustee has authority to vote shares, receive dividends, and direct disposal of assets per trust deed clause 8.",
-        "rights": ["dividend_rights", "liquidation_rights"]
+        "voting_percentage": null,
+        "other_details": "Control exercised through trustee appointment rights over beneficiary assets",
+        "rights": [
+          "dividend_rights",
+          "liquidation_rights"
+        ]
       },
-
       "effective_date": "2015-03-01",
-
       "evidence": [
         {
-          "id": "src-ctrl-005",
+          "id": "src-003",
           "type": "trustDeed",
-          "url": "https://example.com/docs/smith-family-trust-deed-2015.pdf"
-        },
-        {
-          "id": "src-ctrl-006",
-          "type": "thirdPartyVerification",
-          "url": "https://notary.example.lu/verification/trust-LU-TD-2015-0042"
+          "url": "https://example.com/docs/trust-deed-2015.pdf"
         }
       ]
     }
-
   ],
-
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://trust.webuildconsortium.eu/status/control-list-2026-001",
+    "status_list_credential": "https://issuer.example.com/status/control/2025",
     "status_list_index": 456,
     "status_purpose": "revocation"
   },
-
   "cnf": {
     "jwk": {
       "kty": "EC",

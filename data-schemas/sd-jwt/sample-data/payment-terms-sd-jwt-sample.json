@@ -8,33 +8,33 @@
   "attestation_legal_category": "EAA",
   "schema_version": "1.0",
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-
   "payment_due": "P30D",
   "currency": "EUR",
   "incoterm": "DAP",
-
   "buyer_identifier": {
-    "euid": "DE1212.HRB123456",
-    "tax": "DE123456789"
+    "euid": "CHE-102.909.703",
+    "gln": "7601003000003"
   },
-
   "supplier_identifier": {
-    "lei": "724500PM3I5IXFKXK422"
+    "euid": "DEB8534.HRB14000",
+    "lei": "529900F0LT5OP4SV6122",
+    "gln": "4012345000016",
+    "duns": "318280815",
+    "eori": "DE811128135",
+    "bpnl": "BPNL00000003CML1",
+    "siren": "6710101601"
   },
-
   "agreement_date": "2025-01-10",
   "payment_reference_event": "invoice_date",
   "contract_reference": "PO-2025-00123",
-  "transaction_amount": 250000.00,
-  "delivery_location": "Hauptstraße 12, 10115 Berlin, Germany",
-
+  "transaction_amount": 250000.0,
+  "delivery_location": "Hauptstrasse 12, 10115 Berlin, Germany",
   "status": {
     "type": "status-list",
     "status_list_credential": "https://issuer.example.com/status/paymentterms/2025",
     "status_list_index": 789,
     "status_purpose": "revocation"
   },
-
   "cnf": {
     "jwk": {
       "kty": "EC",

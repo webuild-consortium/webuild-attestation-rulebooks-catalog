@@ -1,15 +1,11 @@
 {
   "vct": "eu.we-build:companyinfo:1",
-  "iss": "https://issuer.bosch.com/companyinfo",
-  "iat": 1747044000,
-  "exp": 1778580000,
-  "nbf": 1747044000,
-  "sub": "did:example:bosch-gmbh-lei-529900T8BM49AURSDO55",
-  "issuing_entity": "did:example:529900T8BM49AURSDO55",
+  "iss": "https://issuer.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:legal-entity-123",
   "attestation_legal_category": "EAA",
   "schema_version": "1.0",
-  "trust_anchor_url": "https://trust.we-build.example.com/anchors/companyinfo",
-
   "cnf": {
     "jwk": {
       "kty": "EC",
@@ -18,32 +14,27 @@
       "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
     }
   },
-
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://issuer.bosch.com/status/companyinfo/2025",
-    "status_list_index": 456,
+    "status_list_credential": "https://issuer.example.com/status/companyinfo/2025",
+    "status_list_index": 123,
     "status_purpose": "revocation"
   },
-
-  "number_of_employees": 1000,
-
+  "number_of_employees": 1250,
   "trade_alias": [
-    "Automotive Eng & Consult",
-    "Automotive Eng & Consult GmbH "
+    "BuildCo",
+    "WeBuild Solutions"
   ],
-
   "previous_legal_name": [
-    "Automotive Eng & Consult GmbH & Co. "
+    "Former Company Name GmbH"
   ],
-
   "financial_statements": {
     "taxonomy": "IFRS",
     "facts": [
       {
         "id": "fact-001",
         "concept": "Revenue",
-        "value": 1000000.00,
+        "value": 45000000.0,
         "unit": "EUR",
         "period_start": "2024-01-01",
         "period_end": "2024-12-31"
@@ -51,23 +42,7 @@
       {
         "id": "fact-002",
         "concept": "NetIncome",
-        "value": 10000000.00,
-        "unit": "EUR",
-        "period_start": "2024-01-01",
-        "period_end": "2024-12-31"
-      },
-      {
-        "id": "fact-003",
-        "concept": "EBIT",
-        "value": 3100000.00,
-        "unit": "EUR",
-        "period_start": "2024-01-01",
-        "period_end": "2024-12-31"
-      },
-      {
-        "id": "fact-004",
-        "concept": "Assets",
-        "value": 750000.00,
+        "value": 3200000.0,
         "unit": "EUR",
         "period_start": "2024-01-01",
         "period_end": "2024-12-31"
