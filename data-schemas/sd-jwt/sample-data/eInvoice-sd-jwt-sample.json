@@ -1,0 +1,58 @@
+{
+  "vct": "eu.we-build:einvoice:1",
+  "iss": "https://wallet.greenflowers.example/issuer",
+  "iat": 1768435200,
+  "exp": 1800057600,
+  "status": {
+    "status_list": {
+      "idx": 128,
+      "uri": "https://status.webuild.example/sc5/einvoice"
+    }
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
+      "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
+    }
+  },
+  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+  "attestation_legal_category": "non-qualified-EAA",
+  "invoicePayloadHash": "sha256:9f2c8b1e7d43a0c5f6e9b2d1a4c7e0f3b6d9a2c5e8f1b4d7a0c3e6f9b2d5a8c1",
+  "invoiceFormat": "EN16931",
+  "invoiceNumber": "INV-2026-000123",
+  "issueDate": "2026-07-15",
+  "sellerLegalRegistrationIdentifier": "NL853746281B01",
+  "sellerRegistrationName": "Green Flowers B.V.",
+  "sellerVatIdentifier": "NL853746281B01",
+  "sellerCountry": "NL",
+  "buyerLegalRegistrationIdentifier": "FR59120680088",
+  "buyerVatIdentifier": "FR59120680088",
+  "buyerCountry": "FR",
+  "BuyerElectronicAddress": "0009:FR59120680088",
+  "amountDueForPayment": "1210.00",
+  "invoiceTotalVatAmount": "210.00",
+  "InvoiceCurrencyCode": "EUR",
+  "taxSubtotal": [
+    {
+      "taxCategoryCode": "S",
+      "taxableAmount": "1000.00",
+      "taxPercent": "21",
+      "taxAmount": "210.00"
+    }
+  ],
+  "paymentInstructions": {
+    "paymentMeansCode": "58",
+    "paymentMeansText": "SEPA Credit Transfer",
+    "paymentAccountIdentifier": "NL91ABNA0417164300"
+  },
+  "evidenceReferences": [
+    {
+      "evidenceReferencesType": "purchase_order",
+      "evidenceUri": "https://erp.greenflowers.example/documents/po-2026-000045",
+      "evidenceHash": "sha256:3a7c9e1b5d8f2a4c6e0b3d7f9a1c5e8b2d4f6a0c3e7b9d1f5a8c2e6b0d4f7a3c"
+    }
+  ],
+  "invoiceLifecycleStatus": "active"
+}

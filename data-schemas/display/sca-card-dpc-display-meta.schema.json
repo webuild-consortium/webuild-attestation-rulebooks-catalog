@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/sca/sca-card-dpc/1.0/display-meta",
+  "title": "WE BUILD SCA-Card (DPC) display meta-data",
+  "description": "Unsigned display meta-data object delivered with an SCA-Card (DPC) attestation in the display array of the OpenID4VCI credential offer and/or credential response. Derived from the EMVCo Digital Payment Credential display meta-data schema (com.emvco.dpc.card.meta); the card_group_id field is omitted because co-badged cards are out of scope for WE BUILD. This object is not part of the signed credential and is never presented to a verifier.",
+  "version": "0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["card"],
+  "properties": {
+    "card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["last_four", "card_art"],
+      "properties": {
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code"],
+          "properties": {
+            "code": { "type": "string", "enum": ["CREDIT", "DEBIT", "PREPAID"] },
+            "label": { "type": "string" }
+          }
+        },
+        "last_four": { "type": "string", "pattern": "^[0-9]{4}$" },
+        "card_art": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/LogoImg" },
+          "minItems": 1
+        },
+        "alias": { "type": "string" },
+        "issuer": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["branding"],
+          "properties": {
+            "branding": { "$ref": "#/$defs/Branding" },
+            "country": { "type": "string", "pattern": "^[A-Z]{2}$" },
+            "website_url": { "type": "string", "format": "uri" },
+            "support_email": { "type": "string", "format": "email" },
+            "support_phone": { "type": "string" }
+          }
+        },
+        "co_branding": { "$ref": "#/$defs/Branding" },
+        "network_branding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["network", "branding"],
+          "properties": {
+            "network": { "type": "string" },
+            "branding": { "$ref": "#/$defs/Branding" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "LogoImg": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["theme", "image_url"],
+      "properties": {
+        "theme": { "type": "string", "enum": ["DEFAULT", "LIGHT", "DARK"] },
+        "image_url": { "type": "string", "format": "uri" }
+      }
+    },
+    "Branding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "logo": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/LogoImg" },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

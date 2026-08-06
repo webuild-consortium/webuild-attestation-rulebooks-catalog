@@ -23,6 +23,7 @@
 | 0.7     | 24.06.2026 | Updates of content based on the submisson regulation and AMLR/RTS |
 | 0.8     | 29.06.2026 | Updates of content based on BOS - vocabulary                      |
 | 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
+| 1.0     | 23.07.2026 | Input PA3                                                         |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)*
@@ -173,8 +174,8 @@ UBO [1...n]
 │   └── identifier_issuing_authority (O)
 ├─ justification (Object) (M)                           // How this person qualifies as UBO
 │   ├─ threshold_met (Array of enum) (M)       // e.g., "ownership_25_plus", "control_voting_25_plus", "control_management"
-│   ├─ ownership_percentage (Decimal) (O)      // Total direct/indirect ownership percentage
-│   ├─ voting_rights_percentage (Decimal) (O)  // Total direct/indirect voting rights percentage
+│   ├─ ownership_percentage (Decimal) (M)      // Total direct/indirect ownership percentage
+│   ├─ voting_rights_percentage (Decimal) (M)  // Total direct/indirect voting rights percentage
 │   └─ control_details (tstr) (O)              // Free text if control is via other means
 ├─ effective_date (date) (M)                   // Date when this UBO status became effective
 └─ evidence [1..n] (M)                         // At least one evidence entry required
@@ -270,9 +271,11 @@ This attestation type MAY be classified as:
 
 #### Justification Attributes
 
-| **Data Identifier**   | **Semantic Reference**   | **Definition**                                                                                                                 | **Data Type**           |
-|-----------------------|--------------------------|--------------------------------------------------------------------------------------------------------------------------------|-------------------------|
-| `threshold_met`       | —                        | Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required | Array of Strings (Enum) |
+| **Data Identifier**        | **Semantic Reference** | **Definition**                                                                                                                 | **Data Type**           |
+|----------------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------|-------------------------|
+| `threshold_met`            | —                      | Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required | Array of Strings (Enum) |
+| `ownership_percentage`     | —                      | Total direct and indirect ownership percentage held (0–100)                                                                    | Decimal                 |
+| `voting_rights_percentage` | —                      | Total direct and indirect voting rights percentage held (0–100)                                                                | Decimal                 |
 
 #### Source Attributes
 
@@ -318,8 +321,6 @@ This attestation type MAY be classified as:
 
 | **Data Identifier**        | **Semantic Reference**  | **Definition**                                                                           | **Data Type**   |
 |----------------------------|-------------------------|------------------------------------------------------------------------------------------|-----------------|
-| `ownership_percentage`     | —                       | Total direct and indirect ownership percentage held (0–100)                              | Decimal         |
-| `voting_rights_percentage` | —                       | Total direct and indirect voting rights percentage held (0–100)                          | Decimal         |
 | `control_details`          | —                       | Free text description of control exercised through means other than ownership percentage | String          |
 
 #### Source Optional Attributes
@@ -473,7 +474,7 @@ The following integrity rules SHALL be enforced:
 | IR-14        | `person_identifier.issuing_country` SHALL be a valid ISO 3166-1 alpha-2 country code                                                                       |
 | IR-15        | `person_identifier.expiry_date` SHALL be a valid ISO 8601 date (YYYY-MM-DD)                                                                                |
 | IR-16        | `justification.threshold_met` SHALL contain at least one value from Section 2.8.2                                                                          |
-| IR-17        | `justification.ownership_percentage` and `justification.voting_rights_percentage`, if present, SHALL each be a decimal value between 0 and 100 inclusive   |
+| IR-17        | `justification.ownership_percentage` and `justification.voting_rights_percentage`, SHALL each be a decimal value between 0 and 100 inclusive               |
 | IR-18        | `justification.control_details` SHALL be present if `threshold_met` contains `"control_other_means"`                                                       |
 | IR-19        | `effective_date` SHALL be a valid ISO 8601 date (YYYY-MM-DD) in the past                                                                                   |
 | IR-20        | `source` SHALL contain at least one entry                                                                                                                  |

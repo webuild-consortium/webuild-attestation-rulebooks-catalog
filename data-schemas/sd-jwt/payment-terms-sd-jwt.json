@@ -1,124 +1,54 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://webuildconsortium.eu/schemas/payment-terms-sd-jwt.json",
-  "title": "WeBuild – Payment Terms Attestation – SD-JWT VC payload",
-  "description": "Schema for the SD-JWT VC payload of a Payment Terms Attestation as defined in the Payment Terms Attestation Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The attestation provides a standardized, verifiable representation of the financial conditions agreed between a buyer and a supplier, including payment due date, currency, delivery terms (Incoterms), and party identifiers.",
+  "title": "WeBuild Payment Terms Attestation SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a Payment Terms Attestation as defined in the Payment Terms Attestation Rulebook (Chapter 3.2).",
   "type": "object",
   "version": "0.1.0",
   "additionalProperties": true,
   "properties": {
-
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:paymentterms:1'. A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential. SHALL be selectively disclosable.",
-      "examples": [
-        "eu.we-build:paymentterms:1"
-      ]
+      "const": "eu.we-build:paymentterms:1"
     },
-
     "iss": {
       "type": "string",
-      "format": "uri",
-      "description": "Issuer of the attestation. Identifies the legal entity that self-issued the Payment Terms Attestation. Follows RFC 7519. SHALL NOT be selectively disclosable.",
-      "examples": [
-        "https://issuer.example.com",
-        "did:example:legal-entity-456",
-        "did:web:buyer.example.de"
-      ]
+      "format": "uri"
     },
-
     "iat": {
-      "type": "integer",
-      "description": "Issuance date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation was issued per ISO 8601 / RFC 7519. SHALL NOT be selectively disclosable.",
-      "examples": [
-        1736935200
-      ]
+      "type": "integer"
     },
-
     "exp": {
-      "type": "integer",
-      "description": "Expiry date as a Unix timestamp (seconds since epoch). Represents the date and time when the attestation expires per ISO 8601 / RFC 7519. SHALL be later than 'iat'. SHALL NOT be selectively disclosable.",
-      "examples": [
-        1768471200
-      ]
+      "type": "integer"
     },
-
     "issuing_entity": {
-      "type": "string",
-      "description": "The identifier of the legal entity that issued the attestation. For self-issued EAA this is typically a DID or URI of the buyer or supplier entity. SHALL NOT be selectively disclosable.",
-      "examples": [
-        "did:example:legal-entity-456",
-        "did:web:buyer.example.de"
-      ]
+      "type": "string"
     },
-
     "issuing_country": {
       "type": "string",
-      "description": "ISO 3166-1 alpha-2 country code of the country in which the issuer is established. SHALL NOT be selectively disclosable.",
-      "pattern": "^[A-Z]{2}$",
-      "examples": [
-        "DE",
-        "NL",
-        "FR"
-      ]
+      "pattern": "^[A-Z]{2}$"
     },
-
     "attestation_legal_category": {
       "type": "string",
-      "description": "The legal category of the attestation as defined by eIDAS 2. For the Payment Terms Attestation self-issued by the legal entity, this SHALL be 'EAA'. SHALL NOT be selectively disclosable.",
-      "enum": [
-        "EAA"
-      ]
+      "const": "EAA"
     },
-
     "schema_version": {
-      "type": "string",
-      "description": "Version of the Payment Terms attestation schema used. SHALL be a non-empty string when present. MAY be selectively disclosable.",
-      "minLength": 1,
-      "examples": [
-        "1.0",
-        "0.1.0"
-      ]
+      "type": "string"
     },
-
     "trust_anchor_url": {
       "type": "string",
-      "format": "uri",
-      "description": "URL at which a machine-readable version of the trust anchor used for verifying the Payment Terms Attestation can be found or looked up. When present, SHALL be a valid URI. MAY be selectively disclosable.",
-      "examples": [
-        "https://trust.webuildconsortium.eu/anchors/eidas-tl"
-      ]
+      "format": "uri"
     },
-
     "payment_due": {
       "type": "string",
-      "description": "The number of days within which payment must be made, expressed as a valid ISO 8601 duration in the format PnD (e.g., P30D for 30 days, P0D for immediate payment). SHALL represent a non-negative duration. SHALL be individually selectively disclosable.",
-      "pattern": "^P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?)?$",
-      "examples": [
-        "P30D",
-        "P0D",
-        "P14D",
-        "P60D",
-        "P90D"
-      ]
+      "pattern": "^P([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?)?$"
     },
-
     "currency": {
       "type": "string",
-      "description": "The currency in which the payment is to be executed. SHALL be a valid ISO 4217 alphabetic currency code (3 uppercase letters). SHALL be individually selectively disclosable.",
-      "pattern": "^[A-Z]{3}$",
-      "examples": [
-        "EUR",
-        "USD",
-        "GBP",
-        "CHF",
-        "JPY"
-      ]
+      "pattern": "^[A-Z]{3}$"
     },
-
     "incoterm": {
       "type": "string",
-      "description": "The delivery and risk transfer term agreed between buyer and seller. SHALL be a valid Incoterms 2020 three-letter code as defined in Section 2.8.1 (ICC Incoterms 2020). SHALL be individually selectively disclosable.",
       "enum": [
         "EXW",
         "FCA",
@@ -133,278 +63,132 @@
         "CIF"
       ]
     },
-
     "buyer_identifier": {
       "type": "object",
-      "description": "Object containing one or more unique identifiers of the buyer party. At least one identifier MUST be present (euid, lei, tax, or duns). SHALL be individually selectively disclosable as a top-level claim. buyer_identifier and supplier_identifier SHALL NOT be identical within the same attestation.",
-      "additionalProperties": false,
+      "description": "Unique identifiers of the buyer party. At least one identifier MUST be present.",
       "properties": {
-
         "euid": {
-          "type": "string",
-          "description": "European Unique Identifier (EUID) of the buyer legal entity per Directive (EU) 2017/1132. Optional; at least one identifier (euid, lei, tax, or duns) MUST be present.",
-          "minLength": 1,
-          "examples": [
-            "DE1212.HRB123456",
-            "DE-HRB-396699",
-            "FR-RCS-PARIS-987654321"
-          ]
+          "type": "string"
         },
-
         "lei": {
-          "type": "string",
-          "description": "Legal Entity Identifier (LEI) of the buyer per ISO 17442. When present, SHALL be exactly 20 uppercase alphanumeric characters. Optional.",
-          "pattern": "^[A-Z0-9]{20}$",
-          "examples": [
-            "5493001KJTIIGC8Y1R12",
-            "724500PM3I5IXFKXK422"
-          ]
+          "type": "string"
         },
-
         "tax": {
-          "type": "string",
-          "description": "National company tax or registration number of the buyer. Optional.",
-          "minLength": 1,
-          "examples": [
-            "DE123456789",
-            "tax21212",
-            "NL854265362B01"
-          ]
+          "type": "string"
         },
-
+        "gln": {
+          "type": "string"
+        },
         "duns": {
-          "type": "string",
-          "description": "Dun & Bradstreet DUNS number of the buyer. When present, SHALL be a nine-digit numeric string. Optional.",
-          "pattern": "^[0-9]{9}$",
-          "examples": [
-            "123456789",
-            "987654321"
-          ]
+          "type": "string"
+        },
+        "eori": {
+          "type": "string"
+        },
+        "bpnl": {
+          "type": "string"
+        },
+        "siren": {
+          "type": "string"
         }
-
       },
-      "anyOf": [
-        { "required": ["euid"] },
-        { "required": ["lei"] },
-        { "required": ["tax"] },
-        { "required": ["duns"] }
-      ]
+      "minProperties": 1,
+      "additionalProperties": false
     },
-
     "supplier_identifier": {
       "type": "object",
-      "description": "Object containing one or more unique identifiers of the supplier party. At least one identifier MUST be present (euid, lei, tax, or duns). SHALL be individually selectively disclosable as a top-level claim. buyer_identifier and supplier_identifier SHALL NOT be identical within the same attestation.",
-      "additionalProperties": false,
+      "description": "Unique identifiers of the supplier party. At least one identifier MUST be present.",
       "properties": {
-
         "euid": {
-          "type": "string",
-          "description": "European Unique Identifier (EUID) of the supplier legal entity per Directive (EU) 2017/1132. Optional; at least one identifier (euid, lei, tax, or duns) MUST be present.",
-          "minLength": 1,
-          "examples": [
-            "NL1212.HRB123456",
-            "NL-KVK-87654321",
-            "DE-HRB-123456"
-          ]
+          "type": "string"
         },
-
         "lei": {
-          "type": "string",
-          "description": "Legal Entity Identifier (LEI) of the supplier per ISO 17442. When present, SHALL be exactly 20 uppercase alphanumeric characters. Optional.",
-          "pattern": "^[A-Z0-9]{20}$",
-          "examples": [
-            "724500PM3I5IXFKXK422",
-            "5493001KJTIIGC8Y1R12"
-          ]
+          "type": "string"
         },
-
         "tax": {
-          "type": "string",
-          "description": "National company tax or registration number of the supplier. Optional.",
-          "minLength": 1,
-          "examples": [
-            "NL854265362B01",
-            "tax21212",
-            "DE811001001"
-          ]
+          "type": "string"
         },
-
+        "gln": {
+          "type": "string"
+        },
         "duns": {
-          "type": "string",
-          "description": "Dun & Bradstreet DUNS number of the supplier. When present, SHALL be a nine-digit numeric string. Optional.",
-          "pattern": "^[0-9]{9}$",
-          "examples": [
-            "987654321",
-            "112233445"
-          ]
+          "type": "string"
+        },
+        "eori": {
+          "type": "string"
+        },
+        "bpnl": {
+          "type": "string"
+        },
+        "siren": {
+          "type": "string"
         }
-
       },
-      "anyOf": [
-        { "required": ["euid"] },
-        { "required": ["lei"] },
-        { "required": ["tax"] },
-        { "required": ["duns"] }
-      ]
+      "minProperties": 1,
+      "additionalProperties": false
     },
-
     "agreement_date": {
       "type": "string",
-      "description": "Date when the payment terms were agreed upon between buyer and supplier. SHALL be a valid ISO 8601 full-date format (YYYY-MM-DD). SHALL NOT be a future date at time of attestation issuance. SHALL be individually selectively disclosable.",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
-      "examples": [
-        "2025-01-10",
-        "2024-06-15",
-        "2026-03-01"
-      ]
+      "format": "date"
     },
-
     "payment_reference_event": {
       "type": "string",
-      "description": "The event that triggers the start of the payment due period. When present, SHALL use one of the enumerated values defined in Section 2.8.3. Optional. SHALL be individually selectively disclosable.",
       "enum": [
         "invoice_date",
         "delivery_date",
         "order_date",
         "acceptance_date",
         "shipment_date"
-      ],
-      "examples": [
-        "invoice_date",
-        "delivery_date",
-        "order_date"
       ]
     },
-
     "contract_reference": {
-      "type": "string",
-      "description": "Reference to the underlying contract or purchase order associated with these payment terms. Optional. SHALL be individually selectively disclosable.",
-      "minLength": 1,
-      "examples": [
-        "PO-2025-00123",
-        "CONTRACT-2024-DE-NL-007",
-        "MSA-2025-Q1-001"
-      ]
+      "type": "string"
     },
-
     "transaction_amount": {
       "type": "number",
-      "description": "The monetary value of the transaction in the currency specified by the 'currency' field. When present, SHALL be a non-negative decimal value. Optional. SHALL be individually selectively disclosable.",
-      "minimum": 0,
-      "examples": [
-        250000.00,
-        15000.50,
-        1000000.00,
-        0.00
-      ]
+      "minimum": 0
     },
-
     "delivery_location": {
-      "type": "string",
-      "description": "The agreed location for delivery of goods or services, specified as a full address or standardized location identifier. When present, SHALL be a non-empty string. Optional. SHALL be individually selectively disclosable.",
-      "minLength": 1,
-      "examples": [
-        "Hauptstraße 12, 10115 Berlin, Germany",
-        "Industriestraße 77, 70565 Stuttgart, DE",
-        "Herengracht 100, 1017 BS Amsterdam, NL",
-        "GLN:4012345000009"
-      ]
+      "type": "string"
     },
-
     "status": {
       "type": "object",
-      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when the technical validity period (exp - iat) is greater than 24 hours. Enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.",
-      "additionalProperties": false,
-      "properties": {
-
-        "type": {
-          "type": "string",
-          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
-          "examples": [
-            "status-list"
-          ]
-        },
-
-        "status_list_credential": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the Status List Credential document that contains the bitstring indicating revocation status.",
-          "examples": [
-            "https://issuer.example.com/status/paymentterms/2025"
-          ]
-        },
-
-        "status_list_index": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Zero-based index into the status list bitstring that corresponds to this credential.",
-          "examples": [
-            789
-          ]
-        },
-
-        "status_purpose": {
-          "type": "string",
-          "description": "Purpose of the status entry. For the Payment Terms Attestation this SHALL be 'revocation'.",
-          "examples": [
-            "revocation"
-          ]
-        }
-
-      },
       "required": [
         "type",
         "status_list_credential",
         "status_list_index",
         "status_purpose"
-      ]
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "status-list"
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri"
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status_purpose": {
+          "type": "string",
+          "const": "revocation"
+        }
+      }
     },
-
     "cnf": {
       "type": "object",
-      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK is recommended. The Payment Terms Attestation SHALL be cryptographically bound to the specific holder wallet.",
-      "additionalProperties": false,
       "properties": {
         "jwk": {
-          "type": "object",
-          "description": "Public key bound to the holder wallet.",
-          "additionalProperties": true,
-          "properties": {
-            "kty": {
-              "type": "string",
-              "description": "Key type (e.g., 'EC', 'RSA')."
-            },
-            "crv": {
-              "type": "string",
-              "description": "Elliptic curve name (e.g., 'P-256'). Required for EC keys."
-            },
-            "x": {
-              "type": "string",
-              "description": "X coordinate of the EC public key (Base64url encoded)."
-            },
-            "y": {
-              "type": "string",
-              "description": "Y coordinate of the EC public key (Base64url encoded)."
-            },
-            "n": {
-              "type": "string",
-              "description": "RSA modulus (Base64url encoded). Required for RSA keys."
-            },
-            "e": {
-              "type": "string",
-              "description": "RSA public exponent (Base64url encoded). Required for RSA keys."
-            }
-          },
-          "required": [
-            "kty"
-          ]
+          "type": "object"
         }
       },
       "required": [
         "jwk"
       ]
     }
-
   },
   "required": [
     "vct",

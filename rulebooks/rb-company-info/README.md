@@ -14,7 +14,8 @@
 | 0.5     | 01.06.2026 | Review in regard to holder perspective                          |
 | 0.6     | 23.06.2026 | Review in regard to verifier perspective                        |
 | 0.8     | 29.06.2026 | Review attributes and type                                      |
-| 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                          |
+| 1.0     | 23.07.2026 | Inputs from PA3 - Perspective  + info CompanyRegisters          |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
@@ -97,10 +98,23 @@ The attestation structure is defined as a structured object with a nested array 
 
 ```
 CompanyInfo
-├─ number_of_employees  (number) (M) 
-├─ trade_alias [tstr] (O)
-├─ previous_legal_name [tstr] (O)
-└─ financial_statements (M) 
+├─ legal_entity (M)
+│   ├─ legal_person  (M)
+│   │   ├─ legal_person_name (tstr) (M)
+│   │   ├─ legal_form_type (tstr) (M)
+│   ├─ identifier  (M)                          // At least one identifier required
+│   │   ├─ euid (str) (O)                       // European Unique Identifier
+│   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
+│   │   ├─ tax (str) (O)                        // National tax or registration number    
+│   │   ├─ gln (str) (O)                        // Global Location Number for legal entities — GS1 identifier
+│   │   ├─ duns (str) (O)                       // Data Universal Numbering System — Dun & Bradstreet identifier
+│   │   ├─ eori (str) (O)                       // Economic Operators Registration and Identification number — EU customs identifier
+│   │   ├─ bpnl (str) (O)                       // Business Partner Number Legal entity — Catena-X identifier per ICD 0243
+│   │   ├─ siren (str) (O)                      // Système d'Identification du Répertoire des ENtreprises — French company identifier
+├─ number_of_employees  (String) (M)            // ex. less than 5, 52, 100 -> string   
+├─ trade_alias [tstr] (O)                       // optional attributes 
+├─ previous_legal_name [tstr] (O)     
+└─ financial_statements (O)                     //optional 
     ├─ taxonomy (tstr) (M)
     └─ facts [1..n]
         ├─ id (tstr) (M)
@@ -113,9 +127,12 @@ CompanyInfo
 *Note*: M - mandatory / O - optional.
 
 **Explanation:**
-- `number_of_employees` and `financial_statements` are mandatory top-level attributes.
+The `Legal_Entity` object **SHALL** appear exactly once and contains:
+- `Legal_Person` — the official legal name and legal form of the entity issuing the attestation.
+- `Identifier` — the EUID (mandatory) and optionally LEI and/or tax registration number.
+- `number_of_employees` is mandatory top-level attributes.
 - `trade_alias` and `previous_legal_name` are optional and may contain zero or more text values.
-- `financial_statements` is a mandatory nested object containing the reporting taxonomy and at least one financial fact.
+- `financial_statements` is a optional nested object containing the reporting taxonomy and at least one financial fact.
 - Each `Fact` in the `facts` array is a self-contained reported financial data point with its own concept, value, unit, and reporting period.
 
 **Attestation Classification:**
@@ -126,9 +143,51 @@ This attestation type MAY be classified as:
 
 ### 2.2 Mandatory attributes
 
+**LegalPerson Attributes**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                             | **Data type** |
+|---------------------|------------------------|----------------------------------------------------------------------------|---------------|
+| legal_person_name   | —                      | The complete official legal name of the legal entity                       | String        |
+| legal_form_type     | —                      | The legal form of the legal entity (e.g., SA, GmbH, Ltd, BV)              | String        |
+
+**LegalEntity Attributes**
+This object is defined once per attestation.
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                 | **Data type** |
+|:--------------------|:-----------------------|:-----------------------------------------------------------------------------------------------|:--------------|
+| `identifier`        | —                      | A structured object of legal entity identifiers; at least one sub-field **SHALL** be provided. | Object        |
+
+
 | **Data Identifier**                        | **Semantic Reference** | **Definition**                                                         | **Data type**                    |
 |--------------------------------------------|------------------------|------------------------------------------------------------------------|----------------------------------|
-| employee_number                            | ...                    | Total number of employees in the legal entity at the time of reporting | uint                             |
+| number_of_employees                        | ...                    | Total number of employees in the legal entity at the time of reporting | String                           |
+
+### 2.3 Optional attributes
+
+**LegalPersonIdentifier Optional Attributes**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                              | **Data type** |
+|-----------|------------------------|-----------------------------------------------------------------------------|---------------|
+| euid     | —                      | European Unique Identifier per Directive (EU) 2017/1132.                    | String        |
+| lei      | —                      | Legal Entity Identifier (LEI) per ISO 17442.                                | String        |
+| tax      | —                      | National tax or company registration number.                                | String        |
+| gln      | —                      | Global Location Number for legal entities (GS1 identifier).                 | String        |
+| duns     | —                      | Data Universal Numbering System (Dun & Bradstreet identifier).              | String        |
+| eori     | —                      | Economic Operators Registration and Identification number (EU customs).     | String        |
+| bpnl      | —                      | Business Partner Number Legal entity (Catena-X identifier).                 | String        |
+| siren     | —                      | Système d'Identification du Répertoire des ENtreprises (French identifier). | String        |
+
+**Main Object**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                                                                           | **Data type** |
+|---------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| trade_alias         | --                     | Registered trade names or aliases under which the legal entity operates. MAY contain zero or more text values.                                                                           | Array of tstr |
+| previous_legal_name | --                     | Previously registered legal name(s) of the entity, as recorded in official company registers prior to the current legal name. MAY contain zero or more text values.                      | Array of tstr |
+
+**financial_statements Optional Attributes**
+
+| **Data Identifier**                        | **Semantic Reference** | **Definition**                                                                                                                                                                           | **Data type** |
+|--------------------------------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
 | financial_statements                       | ...                    | financial_statements                                                   | Object                           |
 | financial_statements.taxonomy              | --                     | Financial reporting standard used (e.g., IFRS, GAAP)                   | String                           |
 | financial_statements.facts                 | --                     | List of reported financial facts                                       | Array [Fact]                     |
@@ -138,13 +197,6 @@ This attestation type MAY be classified as:
 | financial_statements.facts[n].unit         | ---                    | Unit of measurement (e.g., EUR, %, shares)                             | String (ISO 4217 for currencies) |
 | financial_statements.facts[n].period_start | ---                    | Start date of the reporting period                                     | ISO 8601 (YYYY-MM-DD)            |
 | financial_statements.facts[n].period_end   | ---                    | End date of the reporting period                                       | ISO 8601 (YYYY-MM-DD)            |
-
-### 2.3 Optional attributes
-
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                                                                           | **Data type** |
-|---------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| trade_alias         | --                     | Registered trade names or aliases under which the legal entity operates. MAY contain zero or more text values.                                                                           | Array of tstr |
-| previous_legal_name | --                     | Previously registered legal name(s) of the entity, as recorded in official company registers prior to the current legal name. MAY contain zero or more text values.                      | Array of tstr |
 
 ### 2.4 Conditional attributes
 
@@ -252,7 +304,7 @@ Fiscal year, as referenced in the `period_start` and `period_end` attributes, SH
 ### 2.9 Integrity Rules
 
 The following integrity rules SHALL be enforced:
-
+- `Legal_Entity` **SHALL** appear exactly once and **SHALL** contain `legal_person_name`, `legal_form_type`, and at least one `identifiers`.
 - `employee_number` SHALL be a non-negative integer.
 - `financial_statements` SHALL contain at least one `Fact` in the `facts` array.
 - Each `Fact` SHALL have a `value` that is a non-negative numeric value where applicable (e.g., revenue, total assets).
@@ -285,30 +337,42 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**                     | **Attribute identifier**                     | **Encoding format**              | **Reference/Notes**                                                                  | **Disclosable** |
-|-----------------------------------------|----------------------------------------------|----------------------------------|--------------------------------------------------------------------------------------|-----------------|
-| number_of_employees                     | `number_of_employees`                        | Integer (uint)                   | Total number of employees at time of reporting; SHALL be non-negative                | MUST            |
-| trade_alias                             | `trade_alias`                                | Array of Strings                 | Zero or more registered trade names/aliases; optional                                | MUST            |
-| previous_legal_name                     | `previous_legal_name`                        | Array of Strings                 | Zero or more previously registered legal names; optional                             | MUST            |
-| **financial_statements**                |                                              |                                  |                                                                                      |                 |
-| financial_statements.taxonomy           | `financial_statements.taxonomy`              | String                           | Financial reporting standard used (e.g., IFRS, GAAP)                                 | MUST            |
-| financial_statements.facts              | `financial_statements.facts`                 | Array [Fact]                     | List of reported financial facts; at least one fact SHALL be present                 | MUST            |
-| **facts**                               |                                              |                                  |                                                                                      |                 |
-| financial_statements.facts.id           | `financial_statements.facts[n].id`           | String                           | Unique identifier of the fact within the attestation                                 | MUST            |
-| financial_statements.facts.concept      | `financial_statements.facts[n].concept`      | String                           | Name of the reported metric (e.g., Revenue, Turnover, NetIncome, TotalAssets)        | MUST            |
-| financial_statements.facts.value        | `financial_statements.facts[n].value`        | Decimal (number)                 | Reported numeric value of the fact                                                   | MUST            |
-| financial_statements.facts.unit         | `financial_statements.facts[n].unit`         | String (ISO 4217 for currencies) | Unit of measurement (e.g., EUR, %, ratio)                                            | MUST            |
-| financial_statements.facts.period_start | `financial_statements.facts[n].period_start` | String (ISO 8601 YYYY-MM-DD)     | Start date of the reporting period                                                   | MUST            |
-| financial_statements.facts.period_end   | `financial_statements.facts[n].period_end`   | String (ISO 8601 YYYY-MM-DD)     | End date of the reporting period                                                     | MUST            |
-| **Metadata**                            |                                              |                                  |                                                                                      |                 |
-| issuance_date                           | `iat`                                        | Number (Unix timestamp)          | Date and time when the attestation was issued (ISO 8601); RFC 7519                   | MUST NOT        |
-| expiry_date                             | `exp`                                        | Number (Unix timestamp)          | Date and time when the attestation expires (ISO 8601); RFC 7519                      | MUST NOT        |
-| issuing_entity                          | `iss`                                        | String (URI or DID)              | Identifier of the competent institution that issued the attestation; RFC 7519        | MUST NOT        |
-| attestation_legal_category              | `attestation_legal_category`                 | String                           | One of "EAA" or "QEAA" as defined by eIDAS 2                                         | MUST NOT        |
-| vct                                     | `vct`                                        | String                           | The vct definition                                                                   | MUST NOT        |
-| cnf                                     | `cnf`                                        | String                           | Cryptographic Key Binding                                                            | MUST NOT        |
-| trust_anchor_url                        | `trust_anchor_url`                           | String (URI)                     | URL where the trust anchor for verifying this attestation can be retrieved; optional | MAY             |
-| schema_version                          | `schema_version`                             | String                           | Version of the schema used; optional                                                 | MAY             |
+| **Data Identifier**                     | **Attribute identifier**                      | **Encoding format**              | **Reference/Notes**                                                                  | **Disclosable** |
+|-----------------------------------------|-----------------------------------------------|----------------------------------|--------------------------------------------------------------------------------------|-----------------|
+| **Legal Entity**                        |                                               |                                  |                                                                                      |                   |
+| legal_person_name                       | `legal_entity.legal_person.legal_person_name` | string                           | The complete official legal name of the company                                      | MUST              |
+| legal_form_type                         | `legal_entity.legal_person.legal_form_type`   | string                           | Legal form of the company (e.g., GmbH, S.A., Ltd.)                                   | MUST              |
+| **Legal Entity Identifier**             |                                               |                                  |                                                                                      |                   |
+| euid                                    | `legal_person.identifier.euid`                | String                           | European Unique Identifier — optional sub-field                                      | MUST            |
+| lei                                     | `legal_person.identifier.lei`                 | String                           | Legal Entity Identifier per ISO 17442 — optional sub-field                           | MUST            |
+| tax                                     | `legal_person.identifier.tax`                 | String                           | National tax or registration number — optional sub-field                             | MUST            |
+| gln                                     | `legal_person.identifier.gln`                 | String                           | Global Location Number for legal entities — optional sub-field                       | MUST            |
+| duns                                    | `legal_person.identifier.duns`                | String                           | Dun & Bradstreet company identifier — optional sub-field                             | MUST            |
+| eori                                    | `legal_person.identifier.eori`                | String                           | EU customs identifier — optional sub-field                                           | MUST            |
+| bpnl                                    | `legal_person.identifier.bpnl`                | String                           | Catena-X BPNL identifier per ICD 0243 — optional sub-field                           | MUST            |
+| siren                                   | `legal_person.identifier.siren`               | String                           | French company identifier (SIREN) — optional sub-field                               | MUST            |
+| number_of_employees                     | `number_of_employees`                         | Integer (uint)                   | Total number of employees at time of reporting; SHALL be non-negative                | MUST            |
+| trade_alias                             | `trade_alias`                                 | Array of Strings                 | Zero or more registered trade names/aliases; optional                                | MUST            |
+| previous_legal_name                     | `previous_legal_name`                         | Array of Strings                 | Zero or more previously registered legal names; optional                             | MUST            |
+| **financial_statements**                |                                               |                                  |                                                                                      |                 |
+| financial_statements.taxonomy           | `financial_statements.taxonomy`               | String                           | Financial reporting standard used (e.g., IFRS, GAAP)                                 | MUST            |
+| financial_statements.facts              | `financial_statements.facts`                  | Array [Fact]                     | List of reported financial facts; at least one fact SHALL be present                 | MUST            |
+| **facts**                               |                                               |                                  |                                                                                      |                 |
+| financial_statements.facts.id           | `financial_statements.facts[n].id`            | String                           | Unique identifier of the fact within the attestation                                 | MUST            |
+| financial_statements.facts.concept      | `financial_statements.facts[n].concept`       | String                           | Name of the reported metric (e.g., Revenue, Turnover, NetIncome, TotalAssets)        | MUST            |
+| financial_statements.facts.value        | `financial_statements.facts[n].value`         | Decimal (number)                 | Reported numeric value of the fact                                                   | MUST            |
+| financial_statements.facts.unit         | `financial_statements.facts[n].unit`          | String (ISO 4217 for currencies) | Unit of measurement (e.g., EUR, %, ratio)                                            | MUST            |
+| financial_statements.facts.period_start | `financial_statements.facts[n].period_start`  | String (ISO 8601 YYYY-MM-DD)     | Start date of the reporting period                                                   | MUST            |
+| financial_statements.facts.period_end   | `financial_statements.facts[n].period_end`    | String (ISO 8601 YYYY-MM-DD)     | End date of the reporting period                                                     | MUST            |
+| **Metadata**                            |                                               |                                  |                                                                                      |                 |
+| issuance_date                           | `iat`                                         | Number (Unix timestamp)          | Date and time when the attestation was issued (ISO 8601); RFC 7519                   | MUST NOT        |
+| expiry_date                             | `exp`                                         | Number (Unix timestamp)          | Date and time when the attestation expires (ISO 8601); RFC 7519                      | MUST NOT        |
+| issuing_entity                          | `iss`                                         | String (URI or DID)              | Identifier of the competent institution that issued the attestation; RFC 7519        | MUST NOT        |
+| attestation_legal_category              | `attestation_legal_category`                  | String                           | One of "EAA" or "QEAA" as defined by eIDAS 2                                         | MUST NOT        |
+| vct                                     | `vct`                                         | String                           | The vct definition                                                                   | MUST NOT        |
+| cnf                                     | `cnf`                                         | String                           | Cryptographic Key Binding                                                            | MUST NOT        |
+| trust_anchor_url                        | `trust_anchor_url`                            | String (URI)                     | URL where the trust anchor for verifying this attestation can be retrieved; optional | MAY             |
+| schema_version                          | `schema_version`                              | String                           | Version of the schema used; optional                                                 | MAY             |
 
 **Notes:**
 
@@ -357,8 +421,19 @@ The following example shows the payload of the attestation in SD-JWT VC format b
   "exp": "2026-01-15T10:00:00Z",
   "issuing_entity": "did:example:legal-entity-123",
   "schema_version": "1.0",
-
-  "number_of_employees": 1250,
+ 
+  "legal_entity": {
+    "legal_person": {
+      "legal_person_name": "Example GmbH",
+      "legal_form_type": "GmbH"
+    },
+    "identifier": {
+      "euid": "DE1212.HRB123456",
+      "tax": "DE123456789"
+    }
+  },
+  "number_of_employees": "1250",
+  
   "trade_alias": ["BuildCo", "WeBuild Solutions"],
   "previous_legal_name": ["Former Company Name GmbH"],
   
