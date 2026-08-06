@@ -1,0 +1,38 @@
+{
+  "card": {
+    "type": {
+      "code": "DEBIT",
+      "label": "Debit Card"
+    },
+    "last_four": "4444",
+    "card_art": [
+      {
+        "theme": "DEFAULT",
+        "image_url": "https://bank.example/card.png"
+      }
+    ],
+    "issuer": {
+      "branding": {
+        "name": "Partner Bank",
+        "logo": [
+          {
+            "theme": "DEFAULT",
+            "image_url": "https://bank.example/logo.png"
+          }
+        ]
+      }
+    },
+    "network_branding": {
+      "network": "mastercard",
+      "branding": {
+        "name": "Mastercard",
+        "logo": [
+          {
+            "theme": "DEFAULT",
+            "image_url": "https://mastercard.example/logo.png"
+          }
+        ]
+      }
+    }
+  }
+}

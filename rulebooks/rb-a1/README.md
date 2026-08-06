@@ -23,16 +23,14 @@
 
 This attestation addresses the following question:
 
-**Which social security legislation applies to a citizen working in a cross-border employment situation within the EU/EFTA area?**
+**Which social security legislation applies to a citizen working in a cross-border employment situation within the EU/EFTA area (or UK)?**
 
 The Portable Document A1 (PD A1) is a certificate that documents the applicable legislation
 regarding social security for a citizen in a cross-border employment situation. By determining
 that only one legislation applies, it supports the mobility of working citizens while protecting
-their rights.
+their rights (by ensuring coverage while avoiding dual contributions).
 
-The PD A1 is issued to the citizen by the competent social security institution from the
-"sending state" upon request by the employer or the self-employed person. It is used for
-verification abroad in the "receiving state" (posted worker scenario).
+In the most common "posting" situation, where a person works abroad for a maximum of 24 months, the PD A1 is issued by the competent social security institution from the "sending state" upon request by the employer or the self-employed person. It is then used for verification abroad in the "receiving state".
 
 The **Know Your Employee (KYE)** scenario (Scenario 5) is part of BU1 and will lead to MVP
 and MVP+ implementations using both Natural Person Wallets and Legal Person Wallets. The
@@ -42,34 +40,29 @@ high-level scenario is:
 > a service to company B in country B."*
 
 This scenario requires the issuance of three main credentials:
-- **Employee Credentials**
 - **Portable Document (PD) A1**
 - **Posted Worker Notification (PWN)**
+- **Employee Credential**
 
 ### 1.1 Document Scope and Purpose
 
 The PD A1 Attestation provides a standardized, verifiable digital representation of the
-Portable Document A1 certificate. The main legal basis is:
+Portable Document A1. The main legal basis is:
 - **Regulation (EC) No. 883/2004** on the coordination of social security systems
   (especially Articles 11–16)
 - **Regulation (EC) No. 987/2009** — implementing regulation
-- National legislation regarding social security in EU/EFTA member states
-
-In the "classic" posting situation — where a citizen works abroad for a maximum of 24 months
-— the social security institution of the "sending" state issues a PD A1 which states that the
-legislation of this "sending" state stays applicable (to ensure coverage and to avoid dual
-contributions).
+- National legislation regarding social security in EU/EFTA member states (and the United Kingdom)
 
 **Design Decisions**
 
 This PD A1 Attestation Rulebook is based on:
-- The legally defined content of the Portable Document A1 as issued by competent social
+- The EU-wide legally defined content of the Portable Document A1 as issued by competent social
   security institutions
 - Regulation (EC) No. 883/2004 and Regulation (EC) No. 987/2009 as the primary legal
   framework
-- EESSI (Electronic Exchange of Social Security Information) code tables for employment
+- EESSI (Electronic Exchange of Social Security Information) code tables, e.g. for employment
   type and institution identifiers
-- ISO 3166-1 alpha-2 for country codes (EU/EFTA countries + UK = 32 countries)
+- ISO 3166-1 alpha-2 for country codes (mostly EU/EFTA countries + UK = 32 countries)
 - ISO 8601 for date formatting
 - SD-JWT VC format with selective disclosure based on logical SD element groups
   (not individual field level)
@@ -122,12 +115,12 @@ are intended as statements of fact.
 
 | **Term**               | **Description**                                                                                                                                                                                 |
 |------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| PD A1                  | Portable Document A1 — a certificate documenting the applicable social security legislation for a citizen in a cross-border employment situation within the EU/EFTA area                         |
+| PD A1                  | Portable Document A1 — a certificate documenting the applicable social security legislation for a citizen in a cross-border employment situation within the EU/EFTA area (and UK)                         |
 | Posted Worker          | A citizen employed in one EU/EFTA member state ("sending state") who is temporarily sent to work in another member state ("receiving state") for a maximum of 24 months                         |
 | Sending State          | The EU/EFTA member state whose social security legislation remains applicable to the posted worker during the posting period                                                                      |
 | Receiving State        | The EU/EFTA member state where the posted worker temporarily performs work                                                                                                                       |
 | Competent Institution  | The national social security institution of the sending state authorized to issue the PD A1 certificate                                                                                          |
-| PIN                    | Personal Identification Number — currently mostly the Social Security Number of the citizen                                                                                                             |
+| PIN                    | Personal Identification Number — currently mostly a Social Security Number of the citizen                                                                                                             |
 | PWN                    | Posted Worker Notification — an administrative requirement for companies providing intra-EU cross-border services with posted workers, filed with the host EU Member State authorities            |
 | Employee Credential    | A credential issued by an employer to its employees to certify that they are part of the company at a given point in time                                                                        |
 | KYE                    | Know Your Employee — a due diligence scenario (Scenario 5 / BU1) enabling companies to verify employee identity and posting status in cross-border work situations                               |
@@ -666,32 +659,30 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.2 Status Claim
 
-For SD-JWT VC-compliant PD A1 Attestations, the attestation **MUST** include a `status` claim
-if the technical validity period is greater than 24 hours. This claim enables Relying Parties
-to determine if a credential has been revoked via a status list mechanism, as specified in
-SD-JWT VC.
+PD A1 attestations are based on [SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/). If a PD A1 attestation issued as an SD-JWT VC is meant to be valid for longer than 24 hours, the `status` claim as shown in [SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/) and specified in [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) MUST be used according to this rulebook. This claim enables Relying Parties to determine whether a credential has been revoked via a status list mechanism as specified in [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/).
 
-The `status` claim **SHALL** be a JSON object with the following members:
+While the [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) specification only suggests that the status object of an SD-JWT VC (if present) SHOULD be checked, this rulebook prescribes (and therefore overrules) that the status object of an SD-JWT VC PD A1 attestation (if present) MUST always be checked by the verifying party.
 
-- `type` (string): **SHALL** be `"status-list"`.
-- `status_list_credential` (string, URI): The URI of the Status List Credential document that
-  contains the status bitstring.
-- `status_list_index` (integer, >= 0): The zero-based index into the status list bitstring that
-  corresponds to this credential.
-- `status_purpose` (string): **SHALL** be `"revocation"` for this attestation.
-
-**Example:**
+The status object of a PD A1 attestation SD-JWT VC MUST contain the following members according to [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/):
 
 ```json
-{
-  "status": {
- "type": "status-list",
- "status_list_credential": "https://issuer.example.com/status/pda1/2025",
- "status_list_index": 789,
- "status_purpose": "revocation"
+"status": {
+    "status_list": {
+      "idx": 0,
+      "uri": "https://example.com/statuslists/1"
+    }
   }
-}
 ```
+
+- `status`: OPTIONAL. The claim that references one or more mechanisms a relying party can use to look up status information about this credential. It's a container, and the specification allows different status mechanisms to sit inside it side by side.
+- `status_list`: REQUIRED. The member identifying that the Token Status List mechanism is in use. It bundles together the two pieces of information needed to locate this credential's entry within a published status list. While the [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) specification permits other status mechanisms to be used within the `status` claim, this rulebook prescribes that only the `status_list` mechanism MUST be used for PD A1 attestations if a status object is within the SD-JWT VC PD A1 attestation.
+- `idx`: REQUIRED. The credential's assigned position in the status list. A relying party reads the bit(s) at this position to determine the credential's current status. It must be a non-negative integer.
+- `uri`: REQUIRED. The address from which the Status List Token is retrieved. It must be a valid URI, and a relying party confirms it matches the `sub` claim of the fetched token before trusting the result.
+
+For further details see [section 6.2. in Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/).
+
+The [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) defines basic status types like `VALID`, `INVALID` and `SUSPENDED`. This rulebook limits the statuses allowed to be used for PD A1 SD-JWT VC attestations to only `VALID` and `INVALID`. Any status other than `VALID` or `INVALID` for a referenced VC is to be considered "not defined" and therefore MUST be treated as if the credential's status is `INVALID`.
+
 
 ### 3.2.3 Example Payload
 
@@ -784,10 +775,10 @@ The following is a non-normative example of a PD A1 SD-JWT VC payload:
     "country_code_address": "DE"
   },
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://example.com/status/pda1-list-1",
-    "status_list_index": 789,
-    "status_purpose": "revocation"
+    "status_list": {
+      "idx": 0,
+      "uri": "https://example.com/statuslists/1"
+    }
   },
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
   "schema_version": "0.1.0",
@@ -808,15 +799,35 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/company-in
 @TODO — To be discussed: which stakeholders will support this format and which use cases require it.
 
 ## 4 Attestation usage
-### 4.1. Issuance process ###
-TBD
-### 4.2 Relying Party Obligations
-When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
-### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
-### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
+
+The PD A1 Attestation is a certificate that documents the applicable legislation regarding social security in a cross-border employment situation. It is mainly intended for verifying that a "posted worker" abroad is covered by the social security system of his "sending state"(home country) while temporarily working in a "receiving state". Based on an application by the "sending" employer, the PD A1 Attestation is issued by a competent social security institution of the "sending state".
+
+**Typical usage scenarios include:**
+
+- presentation by the posted worker to an official authority in the receiving state
+- presentation by the posted worker towards an employer/contractor abroad
+- presentation by the "posting" employer towards an employer/contractor abroad
+- presentation by the "posting" employer (or an employer/contractor abroad) towards an official authority (abroad)
+- offline or low-connectivity verification where the verifier can at least validate the credential signature, issuer, validity period, and disclosed PD A1 data without necessarily relying on an available real-time backend
+
+**Verification contexts** include labour inspections, social security inspections, employee-to-employer/contractor, employer-to-employer interactions and administrative procedures.
+A Relying Party receiving the attestation SHALL verify:
+- the issuer signature;
+- the SD-JWT VC type (vct);
+- the issuer authorisation to issue PD A1 Attestation;
+- the credential validity period;
+- the credential status, where a status mechanism is present;
+- holder binding, where used;
+- the integrity rules defined in Section 2.9;
+
+In EUDI Wallet related usage scenarios, the Relying Party SHOULD request and verify PID or another accepted identity credential - or compare the PD A1 subject data with other identification means - to verify that it matches the affected person. In such cases, the Relying Party SHOULD compare the relevant identity attributes with the PD A1 Attestation. The Relying Party SHALL apply data minimisation and SHALL request only the attributes required for their specific purposes.
+
+Unlike many identity-related attestations, a PD A1 Attestation MAY legitimately be presented by different actors or wallets, i.e. EUDI or EBW, depending on the business process.
+
+As the PD A1 Attestation is not only relevant for usage by the citizen but also by the applying employer and also in specific "transfer" scenarios, any holder binding MUST be handled in a flexible way, based on the intended usage and a decision taken during issuance:
+- The attestation MAY have no specific binding at all;
+- The Attestation MAY be device-bound through holder binding where supported by the EUDI Wallet and the applicable SD-JWT VC profile;
+- The attestation MAY be cryptographically bound to a PID or another accepted identity attestation where the usage requires stronger identity matching. Where this binding is used, the metadata attribute cryptographically_bound_to SHOULD contain: urn:eudi:pid:1
 
 ## 5 Trust anchors
 This chapter will be completed in a future version of this Rulebook.

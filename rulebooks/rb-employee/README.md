@@ -11,7 +11,7 @@
 | 0.1     | 23.06.2026 | Initial draft based on the WeBuild design attestations meetings  |
 
 * Contact:
-    * [Loup, Laurent <laurent.loup@sicpa.com>](mailto:florin.coptil@bosch.com)*
+    * [Loup, Laurent <laurent.loup@sicpa.com>] *
 * Feedback:
 
 ## 1 Introduction
@@ -148,24 +148,23 @@ No conditional attributes are defined for this attestation type beyond those des
 section 2.2.3. When the `employment` object is present, `start_date`, `type`, and `country`
 SHALL all be provided.
 
-### 2.5 Mandatory metadata
+### 2.5 Mandatory Metadata
 
-| **Data Identifier**        | **Definition**                                                                                                                                               | **Data type** |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| issuance_date              | The date and time when the attestation was issued (ISO 8601)                                                                                                 | DateTime      |
-| expiry_date                | The date and time when the attestation expires (ISO 8601)                                                                                                    | DateTime      |
-| issuing_entity             | The identifier of the legal entity that issued the attestation (typically the employing organization for self-issued EAA attestations)                       | String        |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA")                                                                                                     | String        |
-| vct                        | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                      | String        |
+| **Data Identifier**        | **Definition**                                                                | **Data type** |
+|----------------------------|-------------------------------------------------------------------------------|---------------|
+| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
+| cnf                        | cryptographic Key Binding                                                                             | String        |
 
-### 2.6 Optional metadata
+*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
+
+### 2.6 Optional Metadata
 
 | **Data Identifier** | **Definition**                                                             | **Data type** |
 |---------------------|----------------------------------------------------------------------------|---------------|
 | trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used                                                 | String        |
+| schema_version      | Version of the schema used for this attestation                            | String        |
 
-### 2.7 Conditional metadata
+### 2.7 Conditional Metadata
 
 No conditional metadata elements are defined for this attestation type.
 
@@ -217,14 +216,14 @@ The following integrity rules SHALL be enforced:
 
 ---
 
-## 3 Attestation encoding
+## 3 Attestation Encoding
 
-### 3.1 ISO/IEC 18013-5-compliant encoding
+### 3.1 ISO/IEC 18013-5-Compliant Encoding
 
 ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity
 presentation is not a current requirement for the Employee Credential attestation.
 
-### 3.2 SD-JWT VC-based encoding
+### 3.2 SD-JWT VC-Based Encoding
 
 The Employee Credential attestation uses the SD-JWT VC format to allow for selective
 disclosure of employee attributes.
@@ -235,31 +234,32 @@ employee to disclose only the attributes requested by a Relying Party.
 
 The `.` notation is used to indicate the nesting of attributes.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.europa.ec.eudi.employee.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.europa.ec.eudi:employee:1`
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**        | **Attribute Identifier**       | **Encoding format**     | **Reference/Notes**                                                                                              | **Disclosable** |
-|----------------------------|--------------------------------|-------------------------|------------------------------------------------------------------------------------------------------------------|-----------------|
-| name                       | name                           | String                  | Given name of the employee; [givenName – Schema.org](https://schema.org/givenName)                               | MUST            |
-| surname                    | surname                        | String                  | Family name of the employee; [familyName – Schema.org](https://schema.org/familyName)                            | MUST            |
-| birth_date                 | birth_date                     | String (ISO 8601)       | Date of birth of the employee; optional                                                                          | MUST            |
-| employee_id                | employee_id                    | String                  | Alphanumeric employee identifier assigned by the employing organization                                          | MUST            |
-| **CompanyInfo**            | company_info                   | Object                  | Object encapsulating the identity of the employing organization                                                  | MUST            |
-| company_info.euid          | company_info.euid              | String                  | European Unique Identifier (EUID) of the employing legal entity                                                  | MUST            |
-| company_info.name          | company_info.name              | String                  | Registered name of the employing legal entity                                                                    | MUST            |
-| **Employment**             | employment                     | Object                  | Object providing employment details; optional                                                                    | MUST            |
-| employment.start_date      | employment.start_date          | String (ISO 8601)       | Start date of the employment relationship; mandatory if `employment` is present                                  | MUST            |
-| employment.type            | employment.type                | String                  | Type of employment (e.g., full-time, posted); mandatory if `employment` is present                               | MUST            |
-| employment.country         | employment.country             | String (ISO 3166-1 a-2) | Country of employment; mandatory if `employment` is present                                                      | MUST            |
-| **Metadata**               |                                |                         |                                                                                                                  |                 |
-| issuance_date              | iat                            | Number (Unix timestamp) | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5                             | MUST NOT        |
-| expiry_date                | exp                            | Number (Unix timestamp) | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5                                | MUST NOT        |
-| issuing_entity             | issuing_entity                 | String                  | Identifier of the legal entity that issued the attestation                                                       | MUST NOT        |
-| attestation_legal_category | attestation_legal_category     | String                  | One of EAA as defined by eIDAS 2                                                                                 | MUST NOT        |
-| vct                        | vct                            | String                  | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential          | MUST            |
-| trust_anchor_url           | trust_anchor_url               | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved; optional                             | MUST NOT        |
-| schema_version             | schema_version                 | String                  | Version of the schema used; optional                                                                             | MUST NOT        |
+| **Data Identifier**          | **Attribute Identifier**     | **Encoding format**     | **Reference/Notes**                                                                   | **Disclosable** |
+|------------------------------|------------------------------|-------------------------|---------------------------------------------------------------------------------------|-----------------|
+| name                         | name                         | String                  | Given name of the employee; [givenName – Schema.org](https://schema.org/givenName)    | MUST            |
+| surname                      | surname                      | String                  | Family name of the employee; [familyName – Schema.org](https://schema.org/familyName) | MUST            |
+| birth_date                   | birth_date                   | String (ISO 8601)       | Date of birth of the employee; optional                                               | MUST            |
+| employee_id                  | employee_id                  | String                  | Alphanumeric employee identifier assigned by the employing organization               | MUST            |
+| **CompanyInfo**              | company_info                 | Object                  | Object encapsulating the identity of the employing organization                       | MUST            |
+| company_info.euid            | company_info.euid            | String                  | European Unique Identifier (EUID) of the employing legal entity                       | MUST            |
+| company_info.name            | company_info.name            | String                  | Registered name of the employing legal entity                                         | MUST            |
+| **Employment**               | employment                   | Object                  | Object providing employment details; optional                                         | MUST            |
+| employment.start_date        | employment.start_date        | String (ISO 8601)       | Start date of the employment relationship; mandatory if `employment` is present       | MUST            |
+| employment.type              | employment.type              | String                  | Type of employment (e.g., full-time, posted); mandatory if `employment` is present    | MUST            |
+| employment.country           | employment.country           | String (ISO 3166-1 a-2) | Country of employment; mandatory if `employment` is present                           | MUST            |
+| **Metadata**                 |                              |                         |                                                                                       |                 |
+| `issuance_date`              | `iat`                        | Number (Unix timestamp) | Date and time when the attestation was issued (ISO 8601); RFC 7519                    | MUST NOT        |
+| `expiry_date`                | `exp`                        | Number (Unix timestamp) | Date and time when the attestation expires (ISO 8601); RFC 7519                       | MUST NOT        |
+| `issuing_entity`             | `iss`                        | String (URI or DID)     | Identifier of the competent institution that issued the attestation; RFC 7519         | MUST NOT        |
+| `attestation_legal_category` | `attestation_legal_category` | String                  | One of "EAA" or "QEAA" as defined by eIDAS 2                                          | MUST NOT        |
+| `vct`                        | `vct`                        | String                  | The vct definition                                                                    | MUST NOT        |
+| `cnf`                        | `cnf`                        | String                  | Cryptographic Key Binding                                                             | MUST NOT        |
+| `schema_version`             | `schema_version`             | String                  | Version of the schema used; optional                                                  | MAY             |
+| `trust_anchor_url`           | `trust_anchor_url`           | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved; optional  | MAY             |
 
 **Notes:**
 
@@ -272,21 +272,20 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.2 Status Claim
 
-For SD-JWT VC-compliant Employee Credential attestations, the attestation MUST include a
-`status` claim if the technical validity period is greater than 24 hours. This claim enables
-Relying Parties to determine if a credential has been revoked via a status list mechanism, as
-specified in SD-JWT VC.
+For SD-JWT VC-compliant Control Attestations, the attestation MUST include a `status` claim if
+the technical validity period is greater than 24 hours. This claim enables Relying Parties to
+determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
 
 The `status` claim SHALL be a JSON object with the following members:
 
-- `type` (string): SHALL be `"status-list"`.
-- `status_list_credential` (string, URI): The URI of the Status List Credential document that
-  contains the status bitstring.
-- `status_list_index` (integer, >= 0): The zero-based index into the status list bitstring that
-  corresponds to this credential.
-- `status_purpose` (string): SHALL be `"revocation"` for this attestation.
+| **Field**                | **Type**       | **Value / Constraint**                                                     |
+|--------------------------|----------------|----------------------------------------------------------------------------|
+| `type`                   | String         | SHALL be `"status-list"`                                                   |
+| `status_list_credential` | String (URI)   | URI of the Status List Credential document containing the status bitstring |
+| `status_list_index`      | Integer (>= 0) | Zero-based index into the status list bitstring for this credential        |
+| `status_purpose`         | String         | SHALL be `"revocation"`                                                    |
 
-Example:
+**Example:**
 
 ```json
 {
@@ -298,13 +297,12 @@ Example:
   }
 }
 ```
-
 ### 3.2.3 Example Payload
 
 The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
 ```
 {
-  "vct": "eu.europa.ec.eudi.employee.1",
+  "vct": "eu.europa.ec.eudi:employee:1",
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
@@ -342,34 +340,63 @@ The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
   }
 }
 ```
-
 Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/employee-sd-jwt-sample.json
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
 ## 4 Attestation usage
+
 ### 4.1. Issuance process ###
+**For EAA (Self-Issued / Standard Issuance)**:
+- The issuer (i.e., the legal entity itself) issues the attestation based on the information and supporting documentation available at the time of issuance.
+- The issuer is responsible for ensuring that the attested information remains accurate and must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
+
+The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
 
 ### 4.2 Relying Party Obligations
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
 
 ### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ## 5 Trust anchors
-This chapter will be completed in a future version of this Rulebook.
+This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
+
+### 5.2 Electronic Attestations of Attributes (EAAs)
+
+For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
+The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
+
+The Relying Party SHALL verify the EBWOID in accordance with the verification procedure defined in this Rulebook. Upon successful verification, the Relying Party obtains:
+- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
+- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
+- the public key authorized to verify the EAA signature.
+
+Authorization of the issuer is subsequently determined in accordance with the Relying Party's internal policies. Such authorization MAY be based on locally maintained wallet configuration or on trusted jurisdiction- or domain-specific trust list services that identify issuers authorized for a particular type of EAA
 
 ## 6 Revocation
-This chapter will be completed in a future version of this Rulebook.
+An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
+
+### 6.1 Revocation Mechanism
+- Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
+- Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
+
+Authorized Authority: Only the authorized issuer (the self-issuing legal entity for EAA) may modify the status list entry.
+
+### 6.2 Revocation Triggers & Business Rules
+- EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
+
+Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
+The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 7 References
-This chapter will be completed in a future version of this Rulebook.
 
-## 8 References
 | **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                           |
 |----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework                            |

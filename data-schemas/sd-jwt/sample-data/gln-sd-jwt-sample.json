@@ -1,38 +1,77 @@
 {
   "vct": "eu.we-build:gln:1",
-  "iss": "did:example:gs1-issuer-456",
+  "attestation_legal_category": "EAA",
+  "iss": "did:web:company-wallet-dev.prod-k8s.eecc.de:api:registry:did:eecc",
   "iat": 1710000000,
   "exp": 1741536000,
-  "attestation_legal_category": "EAA",
-  "schema_version": "0.1.0",
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/gs1/eidas-tl",
-
-  "gs1": {
-    "organizationLegalName": "Example Supply GmbH",
-    "licenceKey": 4012345,
-    "globalLocationNumber": "4012345000009"
+  "sub": "did:web:company-wallet-dev.prod-k8s.eecc.de:api:registry:did:eecc",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://ref.gs1.org/gs1/vc/organization-context",
+    "https://ref.gs1.org/voc/"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "OrganizationDataCredential"
+  ],
+  "id": "https://company-wallet-dev.prod-k8s.eecc.de/api/registry/vc/organization-data/4047111000006",
+  "issuer": {
+    "id": "did:web:company-wallet-dev.prod-k8s.eecc.de:api:registry:did:eecc",
+    "name": "EECC"
   },
-
-  "address": {
-    "postal_code": "10115",
-    "locality": "Berlin",
-    "region": "Berlin",
-    "country": "DE"
+  "validFrom": "2024-03-09T12:00:00Z",
+  "validUntil": "2025-03-09T12:00:00Z",
+  "name": "GS1 Organization Data Credential",
+  "description": "Carries organization facts for a commissioned GLN, including legal name and registered address. Extends the GS1 Digital License trust chain via the paired GLN KeyCredential referenced in keyAuthorization.",
+  "credentialSubject": {
+    "id": "https://id.gs1.org/417/4047111000006",
+    "keyAuthorization": "https://company-wallet-dev.prod-k8s.eecc.de/api/registry/vc/key/4047111000006",
+    "organization": {
+      "@type": "gs1:Organization",
+      "gs1:partyGLN": "4047111000006",
+      "gs1:organizationName": "EECC",
+      "gs1:organizationLegalName": "EECC GmbH",
+      "gs1:address": {
+        "@type": "gs1:PostalAddress",
+        "gs1:postalCode": "10115",
+        "gs1:addressLocality": "Berlin",
+        "gs1:addressRegion": "Berlin",
+        "gs1:addressCountry": {
+          "@type": "gs1:Country",
+          "gs1:countryCode": "DE"
+        }
+      }
+    }
   },
-
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://example.com/status/gln-list-1",
-    "status_list_index": 123,
-    "status_purpose": "revocation"
+    "status_list": {
+      "idx": 67609,
+      "uri": "https://company-wallet-dev.prod-k8s.eecc.de/api/registry/status/revocation/20c50bdb-40f0-4466-bcc9-1ce695900dad"
+    }
   },
-
+  "credentialSchema": {
+    "id": "https://id.gs1.org/vc/schema/v1/organizationdata",
+    "type": "JsonSchema"
+  },
+  "renderMethod": [
+    {
+      "template": {
+        "id": "https://gs1.github.io/GS1DigitalLicenses/templates/gs1-sample-license-template.svg",
+        "mediaType": "image/svg+xml"
+      },
+      "renderSuite": "svg-mustache",
+      "name": "SVG for web display",
+      "type": "TemplateRenderMethod"
+    }
+  ],
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/gs1/eidas-tl",
+  "schema_version": "0.1.0",
   "cnf": {
     "jwk": {
       "kty": "EC",
       "crv": "P-256",
-      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+      "x": "abc-123_def-456_ghi-789_jkl-012",
+      "y": "mno-345_pqr-678_stu-901_vwx-234"
     }
   }
 }
