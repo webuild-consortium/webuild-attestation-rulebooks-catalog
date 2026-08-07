@@ -75,22 +75,22 @@ In addition, 'must' (non-capitalised) is used to indicate an external constraint
 
 *Additional terminology specific to this attestation:*
 
-| Term        | Description                                                                                                                                                                     |
-|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| IBAN-OV     | IBAN Ownership Verification (IBAN-OV) — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
-| ASPSP       | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account                                                                    |
-| IBAN        | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020                                    |
-| BIC/SWIFT   | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022                                         |
-| EUID        | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU                                                                          |
-| KYC         | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                                                        |
-| KYS         | Know Your Supplier — due diligence process for verifying supplier identity and integrity.                                                                                       |
-| Legal Person | A legal entity registered in a national or EU company register, identified by an appropriate identifier. For IBAN-OV purposes, the account owner in the legal_person case      |
-| Sole Trader | A natural person operating a business who is registered in a national register                                                                                                  |
-| Owner Type  | A discriminator attribute within *Account_Ownership* that explicitly identifies whether the account owner is a legal entity or a natural person.                                |
-| ISO 4217:2015    | International standard defining currency codes (e.g., EUR, USD, GBP)                                                                                                       |
-| ISO 13616-1:2020   | International standard defining the IBAN format and validation rules                                                                                                     |
-| ISO 9362:2014    | International standard defining the BIC/SWIFT code format                                                                                                                  |
-| ISO 3166-1  | International standard defining country codes (Alpha-3 code)                                                                                                                    |
+| Term             | Description                                                                                                                                                                               |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| IBAN-OV          | IBAN Ownership Verification (IBAN-OV) — the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
+| ASPSP            | Account Servicing Payment Service Provider — the financial institution holding and managing the bank account                                                                              |
+| IBAN             | International Bank Account Number — a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020                                              |
+| BIC/SWIFT        | Bank Identifier Code — an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022                                                   |
+| EUID             | European Unique Identifier — the unique identifier assigned to legal entities registered within the EU                                                                                    |
+| KYC              | Know Your Customer — due diligence process for verifying customer identity and assessing risk in financial relationships                                                                  |
+| KYS              | Know Your Supplier — due diligence process for verifying supplier identity and integrity.                                                                                                 |
+| Legal Person     | A legal entity registered in a national or EU company register, identified by an appropriate identifier. For IBAN-OV purposes, the account owner in the legal_person case                 |
+| Sole Trader      | A natural person operating a business who is registered in a national register                                                                                                            |
+| Owner Type       | A discriminator attribute within *Account_Ownership* that explicitly identifies whether the account owner is a legal entity or a natural person.                                          |
+| ISO 4217:2015    | International standard defining currency codes (e.g., EUR, USD, GBP)                                                                                                                      |
+| ISO 13616-1:2020 | International standard defining the IBAN format and validation rules                                                                                                                      |
+| ISO 9362:2014    | International standard defining the BIC/SWIFT code format                                                                                                                                 |
+| ISO 3166-1       | International standard defining country codes (Alpha-3 code)                                                                                                                              |
 
 ## 2 Attestation attributes and metadata
 
@@ -292,39 +292,39 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**        | **Attribute identifier**            | **Encoding format**     | **Reference/Notes**                                                                                     | **Disclosable** |
-|----------------------------|-------------------------------------|-------------------------|---------------------------------------------------------------------------------------------------------|-----------------|
-| **Bank_Account**           |                                     |                         |                                                                                                         |                 |
-| account_name               | bank_account.account_name           | String                  | Name of the account                                                                                     | MUST            |
-| iban                       | bank_account.iban                   | String                  | ISO 13616:2020 format                                                                                   | MUST            |
-| account_type               | bank_account.account_type           | String                  | Nature of the bank account                                                                              | MUST            |
-| account_currency           | bank_account.account_currency       | Array of Strings        | ISO 4217:2015 currency codes                                                                            | MUST            |
-| **Account_Ownership**      |                                      |                         |                                                                                                        |                 |
-| owner_type                 | account_ownership.owner_type         | String                  | Discriminator identifying the owner type. Enum: `entity` \| `person`			                       | MUST            |
-| owner_name                 | account_ownership.owner_name         | String                  | Legal name of the legal entity owning the account. Present only if `owner_type = entity`	           | MUST            |
-| legal_person_identifiers   | account_ownership.legal_person_identifiers | Array [Object]   | Array of identifier objects. Present only if `owner_type = entity`					               | MUST			 |   
-| legal_person_identifiers.type| account_ownership.legal_person_identifiers[n].type | String | Scheme of the identifier (e.g., 'EUID', 'LEI', 'TAX')			                                       | MUST			 |   
-| legal_person_identifiers.value| account_ownership.legal_person_identifiers[n].value | String | Value of the identifier			                                                                   | MUST			 |   
-| given_name           	     | account_ownership.given_name         | String                  | Given name(s) of the natural person owning the account. Present only if `owner_type = person`          | MUST            |
-| surname                    | account_ownership.surname            | String                  | Surname of the natural person owning the account. Present only if `owner_type = person`                | MUST            |
-| **Account_Provider**       |                                     |                         |                                                                                                         |                 |
-| provider_name              | account_provider.provider_name      | String                  | Name of the financial institution                                                                       | MUST            |
-| legal_person_identifiers   | account_provider.legal_person_identifiers | Array [Object]    | Array of identifier objects for the provider                                                            | MUST            |
-| legal_person_identifiers.type| account_provider.legal_person_identifiers[n].type | String  | Scheme of the identifier (e.g., 'EUID', 'LEI', 'BIC')                                                 | MUST            |
-| legal_person_identifiers.value| account_provider.legal_person_identifiers[n].value | String| Value of the identifier                                                                                 | MUST            |
-| provider_country           | account_provider.provider_country   | String                  | ISO 3166-1 alpha-3 country code                                                                         | MUST            |
-| bic_swift                  | account_provider.bic_swift          | String                  | ISO 9362 BIC/SWIFT format                                                                               | MUST            |
-| national_bank_code         | account_provider.national_bank_code | String                  | Country-specific routing code                                                                           | MUST            |
-| nace_code                  | account_provider.nace_code          | String                  | NACE activity code                                                                                      | MUST            |
-| clearing_number            | account_provider.clearing_number    | String                  | Country-specific clearing number                                                                        | MUST            |
-| **Metadata**               |                                     |                         |                                                                                                         |                 |
-| issuance_date              | iat                                 | Number (Unix timestamp) | ISO 8601 — RFC 7519 / Section 2.5                                                                       | MUST NOT        |
-| expiry_date                | exp                                 | Number (Unix timestamp) | ISO 8601 — RFC 7519 / Section 2.5                                                                       | MUST NOT        |
-| issuing_entity             | iss				                   | String                  | Identifier of the issuing financial institution                                                         | MUST NOT        |
-| attestation_legal_category | attestation_legal_category          | String                  | "EAA" defined by eIDAS 2                                                                   | MUST NOT        |
-| vct                        | vct                                 | String                  | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential | MUST            |
-| schema_version             | schema_version                      | String                  | Version of the schema used for this attestation                                                         | MAY             |
-| trust_anchor_url           | trust_anchor_url                    | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved                              | MAY             |
+| **Data Identifier**             | **Attribute identifier**                            | **Encoding format**     | **Reference/Notes**                                                                                     | **Disclosable** |
+|---------------------------------|-----------------------------------------------------|-------------------------|---------------------------------------------------------------------------------------------------------|-----------------|
+| **Bank_Account**                |                                                     |                         |                                                                                                         |                 |
+| account_name                    | bank_account.account_name                           | String                  | Name of the account                                                                                     | MUST            |
+| iban                            | bank_account.iban                                   | String                  | ISO 13616:2020 format                                                                                   | MUST            |
+| account_type                    | bank_account.account_type                           | String                  | Nature of the bank account                                                                              | MUST            |
+| account_currency                | bank_account.account_currency                       | Array of Strings        | ISO 4217:2015 currency codes                                                                            | MUST            |
+| **Account_Ownership**           |                                                     |                         |                                                                                                         |                 |
+| owner_type                      | account_ownership.owner_type                        | String                  | Discriminator identifying the owner type. Enum: `entity` \| `person`			                                 | MUST            |
+| owner_name                      | account_ownership.owner_name                        | String                  | Legal name of the legal entity owning the account. Present only if `owner_type = entity`	               | MUST            |
+| legal_person_identifiers        | account_ownership.legal_person_identifiers          | Array [Object]          | Array of identifier objects. Present only if `owner_type = entity`					                                 | MUST			         |   
+| legal_person_identifiers.type   | account_ownership.legal_person_identifiers[n].type  | String                  | Scheme of the identifier (e.g., 'EUID', 'LEI', 'TAX')			                                                | MUST			         |   
+| legal_person_identifiers.value  | account_ownership.legal_person_identifiers[n].value | String                  | Value of the identifier			                                                                              | MUST			         |   
+| given_name           	          | account_ownership.given_name                        | String                  | Given name(s) of the natural person owning the account. Present only if `owner_type = person`           | MUST            |
+| surname                         | account_ownership.surname                           | String                  | Surname of the natural person owning the account. Present only if `owner_type = person`                 | MUST            |
+| **Account_Provider**            |                                                     |                         |                                                                                                         |                 |
+| provider_name                   | account_provider.provider_name                      | String                  | Name of the financial institution                                                                       | MUST            |
+| legal_person_identifiers        | account_provider.legal_person_identifiers           | Array [Object]          | Array of identifier objects for the provider                                                            | MUST            |
+| legal_person_identifiers.type   | account_provider.legal_person_identifiers[n].type   | String                  | Scheme of the identifier (e.g., 'EUID', 'LEI', 'BIC')                                                   | MUST            |
+| legal_person_identifiers.value  | account_provider.legal_person_identifiers[n].value  | String                  | Value of the identifier                                                                                 | MUST            |
+| provider_country                | account_provider.provider_country                   | String                  | ISO 3166-1 alpha-3 country code                                                                         | MUST            |
+| bic_swift                       | account_provider.bic_swift                          | String                  | ISO 9362 BIC/SWIFT format                                                                               | MUST            |
+| national_bank_code              | account_provider.national_bank_code                 | String                  | Country-specific routing code                                                                           | MUST            |
+| nace_code                       | account_provider.nace_code                          | String                  | NACE activity code                                                                                      | MUST            |
+| clearing_number                 | account_provider.clearing_number                    | String                  | Country-specific clearing number                                                                        | MUST            |
+| **Metadata**                    |                                                     |                         |                                                                                                         |                 |
+| issuance_date                   | iat                                                 | Number (Unix timestamp) | ISO 8601 — RFC 7519 / Section 2.5                                                                       | MUST NOT        |
+| expiry_date                     | exp                                                 | Number (Unix timestamp) | ISO 8601 — RFC 7519 / Section 2.5                                                                       | MUST NOT        |
+| issuing_entity                  | iss				                                             | String                  | Identifier of the issuing financial institution                                                         | MUST NOT        |
+| attestation_legal_category      | attestation_legal_category                          | String                  | "EAA" defined by eIDAS 2                                                                                | MUST NOT        |
+| vct                             | vct                                                 | String                  | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential | MUST            |
+| schema_version                  | schema_version                                      | String                  | Version of the schema used for this attestation                                                         | MAY             |
+| trust_anchor_url                | trust_anchor_url                                    | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved                              | MAY             |
 
 **Notes:**
 
@@ -350,7 +350,7 @@ This structure follows the Token Status List specification as defined in [draft-
 https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/21/
 
 Example:
-
+```
 {
   "status": {
     "status_list": {
@@ -364,7 +364,7 @@ Example:
 #### 3.2.3 Example Payload
 
 The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a **legal person**:
-
+```
 {
   "vct": "eu.we-build:iban-ov:1",
   "iss": "https://bank.example.com",
@@ -426,9 +426,9 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
     }
   }
 }
-
+```
 The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a **natural person (sole trader)**:
-
+```
 {
   "vct": "eu.we-build:iban-ov:1",
   "iss": "https://bank.example.com",
@@ -472,8 +472,7 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
     "uri": "https://bank.example.com/status/iban-ov/2026"
   }
 }
-}
-
+```
 Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/iban-ov-sd-jwt-sample.json
 
 #### 3.3 W3C Verifiable Credentials Data Model-based encoding

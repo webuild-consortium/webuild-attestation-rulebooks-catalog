@@ -5,15 +5,11 @@
   * [Stephan-A Fuchs, Deutsche Bank AG]
 
 * Reviewer(s):
-  * [Baumgardt Michaela, Commerzbank ]
-  * [Bastek-Margon Jenny, CommerzBank ]
+  * [Baumgardt Michaela, Commerzbank]
+  * [Bastek-Margo Jenny, Commerzbank]
+  * [Fabrizio Notarnicola, Infocameere IT ]
   * [Ricky Lamberty, Robert Bosch GmbH]
-  * [Auth Sources]
-    * [ ......Bundesanzeiger, Germany ]
-    * [..... KVK, Holland ]
-    * [ ..., Italy ]
-  * @TODO Florin — Add the reviewers from attestation design (meetings UseCase, Banks,TransparentRegister)
-
+  * [ , Bundesanzeiger - TR]
 
 | Version | Date       | Description                                                       |
 |---------|------------|-------------------------------------------------------------------|
@@ -27,6 +23,7 @@
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)*
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)*  
 
 * Feedback:
 

@@ -6,8 +6,11 @@
 
 * Reviewer(s):
   * [Baumgardt Michaela, Commerzbank]
+  * [Bastek-Margo Jenny, Commerzbank]
+  * [Fabrizio Notarnicola, Infocameere IT ]
   * [Ricky Lamberty, Robert Bosch GmbH]
-  * @TODO Florin — Add the reviewers from attestation design (meetings UseCase, Banks, TransparentRegister)
+  * [ , Bundesanzeiger ]
+  * [ Leone Riello , Infocert]
 
 | Version | Date       | Description                                                        |
 |---------|------------|--------------------------------------------------------------------|
@@ -21,7 +24,8 @@
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
-
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)* 
+  
 * Feedback:
 
 ## 1 Introduction
@@ -137,10 +141,10 @@ Controller [1..n]                               // The person or entity exercisi
 │   ├─ category (enum) (M)                      // "legal_entity" | "legal_arrangement"
 │   ├─ name (tstr) (M)
 │   ├─ identifier [1..n] (M)                    // At least one identifier required
-│   │   ├─ euid (str) (O)                       // European Unique Identifier
-│   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
-│   │   ├─ tax (str) (O)                        // National tax or registration number
-│   │   └─ other (str) (O)                      // Any other applicable identifier
+│   │   ├─ type:euid (str) value(O)             // European Unique Identifier
+│   │   ├─ type:lei (str) value(O)              // Legal Entity Identifier per ISO 17442
+│   │   ├─ type:tax (str) value(O)              // National tax or registration number
+│   │   └─ type:other (str) value(O)           // Any other applicable identifier 
 │   ├─ jurisdiction (tstr) (M)                  // ISO 3166-1 alpha-2
 │   ├─ legal_form (tstr) (M)                    
 │   ├─ form (tstr) (M)                          // See Section 2.8.8 -> legal_form (see XLS from Finnland)

@@ -6,9 +6,12 @@
 
 * Reviewer(s):
   * [Baumgardt Michaela, Commerzbank]
+  * [Bastek-Margo Jenny, Commerzbank]
+  * [Fabrizio Notarnicola, Infocameere IT ]
   * [Ricky Lamberty, Robert Bosch GmbH]
-  * @TODO Florin — Add the reviewers from attestation design (meetings UseCase, Banks, TransparentRegister)
-
+  * [ , Bundesanzeiger ]
+  * [ Leone Riello , Infocert]
+  
 | Version | Date       | Description                                                                            |
 |---------|------------|----------------------------------------------------------------------------------------|
 | 0.1     | 23.03.2026 | Initial draft based on the WeBuild design attestations meetings                        |
@@ -21,6 +24,7 @@
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)*
 
 * Feedback:
 

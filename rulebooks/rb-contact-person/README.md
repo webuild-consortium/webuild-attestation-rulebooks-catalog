@@ -163,20 +163,7 @@ This attestation type is classified as:
 
 ### 2.2 Mandatory Attributes
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                 | **Optionality**  | **Encoding format** |
-|---------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------|------------------|---------------------|
-| legal_person_id     | --                     | EBW Organization Identifier — Identifier of the employing legal entity according to the European Business Wallet (EBW) framework | M                | tstr                |
-| contact_person      | --                     | Object representing details of an individual contact person. This can be repeated for multiple contacts.                        | M (at least one) | Object              |
-
-**ContactPerson Attributes**
-
-| **Data Identifier** | **Semantic Reference**                                                                    | **Definition**                                                                                        | **Optionality** | **Encoding format** |
-|---------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-----------------|---------------------|
-| given_name          | [givenName – Schema.org Property](https://schema.org/givenName)                           | Given name. In the U.S., the first name of a Person.                                                  | M               | tstr                |
-| family_name         | [familyName – Schema.org Property](https://schema.org/familyName)                         | Family name. In the U.S., the last name of a Person.                                                  | M               | tstr                |
-| role                | [The Organization Ontology](https://www.w3.org/TR/vocab-org/)                             | Denotes a role that a Person takes in an organization (e.g., sales, finance, quality, logistics)      | M               | tstr                |
-| employee_identifier | [European Business Wallet Vocabulary](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#employer)                                                                                       | An alphanumeric identifier of the employee assigned by the organization                               | M               | tstr                |
-| email               | [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | An electronic address through which the Contact Person can be contacted                               | M               | tstr                |
+**LegalPerson Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                             | **Data type** |
 |---------------------|------------------------|----------------------------------------------------------------------------|---------------|

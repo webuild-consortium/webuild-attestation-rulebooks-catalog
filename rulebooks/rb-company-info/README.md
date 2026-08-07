@@ -6,6 +6,7 @@
 * Previous Authors
   * 
 * Reviewer(s):
+  * [Dominic Hurni, SBB]
   * [Ricky Lamberty, Robert Bosch GmbH]
 
 | Version | Date       | Description                                                     |
@@ -18,7 +19,7 @@
 | 1.0     | 23.07.2026 | Inputs from PA3 - Perspective  + info CompanyRegisters          |
 
 * Contact:
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)*  
 
 * Feedback:
 

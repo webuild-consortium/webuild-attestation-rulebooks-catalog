@@ -140,7 +140,7 @@ AuthorisedSignatories
     ├─ NaturalPerson          (first_name (M), surname (M), date_of_birth (M))                                  — mandatory
     ├─ BirthPlace             (locality (M), country (M), region (O))                                           — mandatory
     ├─ Citizenship            (citizenship(s) [1..n])                                                           — mandatory
-    ├─ PersonRole             (role (O), representation_type (M), email(M), phone(O))                            — mandatory
+    ├─ PersonRole             (role (O), representation_type (M), email(O), phone(O))                            — mandatory
     └─ Identifier             (document_type (M), document_number (M), issuing_country (M), expiry_date (M))    — optional
 ```
 *Note*: M - mandatory / O - optional.
