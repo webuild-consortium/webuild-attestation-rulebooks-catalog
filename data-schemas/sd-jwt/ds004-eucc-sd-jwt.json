@@ -1,16 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "EWC - EU Company Certificate",
-  "description": "Schema for EU Company Certificate - EWC WP3",
+  "title": "WE BUILD - EU Company Certificate",
+  "description": "Schema for EU Company Certificate - WE BUILD",
   "type": "object",
+  "version": "0.9.0",
   "additionalProperties": false,
   "properties": {
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'urn:eudi:eucc:1'. Domestic types MAY be of the form 'urn:eudi:eucc:<cc>:1'.",
+      "description": "Verifiable Credential Type. Base type is 'uri:eudi:eucc:1'.",
       "examples": [
-        "urn:eudi:eucc:1",
-        "urn:eudi:eucc:de:1"
+        "uri:eudi:eucc:1"
       ]
     },
     "issuing_authority": {
@@ -25,10 +25,6 @@
       "description": "Alpha-2 country code, as defined in ISO 3166-1, of the issuing country or territory.",
       "type": "string",
       "pattern": "^[A-Z]{2}$"
-    },
-    "issuing_jurisdiction": {
-      "description": "As defined in ISO 3166-2:2020, of the issuing country or territory.",
-      "type": "string"
     },
     "issuance_date": {
       "description": "Date and possibly time of issuance",
@@ -380,6 +376,7 @@
     }
   },
   "required": [
+    "attestation_legal_category",
     "legal_person_name",
     "legal_person_id",
     "legal_form_type",
@@ -391,7 +388,6 @@
     "issuing_authority",
     "issuing_authority_id",
     "issuing_country",
-    "issuance_date",
     "authentic_source_id",
     "authentic_source_name",
     "legal_representative"
@@ -400,10 +396,24 @@
     "legal_representative": {
       "oneOf": [
         {
-          "$ref": "#/$defs/legal_representative.natural_person"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "natural_person": {
+              "$ref": "#/$defs/legal_representative.natural_person"
+            }
+          },
+          "required": ["natural_person"]
         },
         {
-          "$ref": "#/$defs/legal_representative.legal_person"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "legal_person": {
+              "$ref": "#/$defs/legal_representative.legal_person"
+            }
+          },
+          "required": ["legal_person"]
         }
       ]
     },
@@ -426,11 +436,14 @@
           "type": "string"
         },
         "signatory_rule": {
-          "description": "Information if the representative can engage the company alone or jointly",
+          "description": "Information on whether the representative can engage the company alone or jointly",
           "type": "string",
           "enum": [
-            "alone",
-            "joint"
+            "sole",
+            "joint",
+            "joint_two",
+            "joint_all",
+            "limited"
           ]
         }
       },
@@ -458,11 +471,14 @@
           "type": "string"
         },
         "signatory_rule": {
-          "description": "Information if the representative can engage the company alone or jointly",
+          "description": "Information on whether the representative can engage the company alone or jointly",
           "type": "string",
           "enum": [
-            "alone",
-            "joint"
+            "sole",
+            "joint",
+            "joint_two",
+            "joint_all",
+            "limited"
           ]
         }
       },

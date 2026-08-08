@@ -9,6 +9,7 @@ This repository hosts the rulebooks and data schemas used across the WE BUILD La
 
 Project structure (high level):
 - `rulebooks/` — Human‑readable rulebooks and regulatory references.
+- `vctm/` — Verification Credential Trust Model (VCTM) documents for digestion into registry.siros.org
 - `data-schemas/` — Machine‑readable schemas (e.g., JSON Schema for SD‑JWT claims), with samples under `sample-data/`.
 - `sample-data/` — Additional example payloads that complement the schemas.
 

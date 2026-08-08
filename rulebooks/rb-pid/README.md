@@ -159,13 +159,18 @@ The PID defined in this rulebook does not contain any condition attributes.
 | location_status      | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data.                                                     | <https://example.com/statuslists/pid/> |
 
 
+### 2.7 Additional mandatory attributes specified in this Rulebook
+| **Data Identifier**        | **Definition**                                                                                                                                                                                                                                                                                                                   | **Example value** |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
+| attestation_legal_category | This attribute indicates that a PID has indeed been issued as a PID. *Note: According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation] an indication, at least in a form suitable for automated processing, that the attestation has been issued as a QEAA or Pub-EAA SHALL be defined.* | PID               |
+
 ### 2.7 Additional optional attributes specified in this Rulebook
 
 | **Data Identifier**        | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | **Example value**                       |
 |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
 | issuance_date              | Date (and if possible time) when the person identification data was issued and/or the administrative validity period of the person identification data began. See also the clarification for expiry_date in [Section 2.5](#25-mandatory-metadata-specified-in-cir-20242977).                                                                                                                                                                                                                                                        | 19-12-2025                              |
 | trust_anchor               | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the PID can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.* | <https://example.com/trustanchors/pid/> |
-| attestation_legal_category | This attribute indicates that a PID has indeed been issued as a PID. *Note: According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation] an indication, at least in a form suitable for automated processing, that the attestation has been issued as a QEAA or Pub-EAA SHALL be defined. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.*              | PID                                     |
+
 
 # 3 Attestation encoding
 
@@ -405,8 +410,8 @@ EXAMPLE: The following example shows the payload of a PID in SD-JWT VC format be
 
 ```json
 {
-    "vct": "urn:eudi:pid:de:1",
-    "attestation_legal_category": "PUB-EAA",
+    "vct": "urn:eudi:pid:1",
+    "attestation_legal_category": "PID",
 
     "given_name": "Jean",
     "family_name": "Dupont",

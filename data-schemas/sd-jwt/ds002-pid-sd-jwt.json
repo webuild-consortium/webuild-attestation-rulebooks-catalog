@@ -9,10 +9,9 @@
   "properties": {
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'urn:eudi:pid:1'. Domestic types MAY be of the form 'urn:eudi:pid:<cc>:1'.",
+      "description": "Verifiable Credential Type. Base type is 'urn:eudi:pid:1'.",
       "examples": [
-        "urn:eudi:pid:1",
-        "urn:eudi:pid:de:1"
+        "urn:eudi:pid:1"
       ]
     },
     "given_name": {
