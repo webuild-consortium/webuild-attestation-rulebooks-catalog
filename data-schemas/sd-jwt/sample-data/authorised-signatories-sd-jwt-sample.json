@@ -6,7 +6,6 @@
   "jti": "asr-attestation-20260515-001",
   "attestation_legal_category": "EAA",
   "schema_version": "0.1.0",
-
   "legal_entity": {
     "legal_person": {
       "legal_person_name": "Example GmbH",
@@ -18,7 +17,6 @@
       "tax": "DE123456789"
     }
   },
-
   "authorised_persons": [
     {
       "natural_person": {
@@ -118,16 +116,13 @@
       }
     }
   ],
-
   "status": {
     "type": "status-list",
     "status_list_credential": "https://example-gmbh.de/status/authorisedsignatories/2026",
     "status_list_index": 789,
     "status_purpose": "revocation"
   },
-
   "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-
   "cnf": {
     "jwk": {
       "kty": "EC",

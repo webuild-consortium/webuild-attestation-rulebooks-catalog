@@ -14,8 +14,8 @@
 | 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
 
 * **Contact:**
-  * [Dominic Hurni](mailto:dominic.hurni@sbb.ch)
-  * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com)
+  * [Dominic Hurni](mailto:dominic.hurni@sbb.ch) *
+  * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com) *
 
 * **Sources:**
   * [Powerpoint](https://portal.webuildconsortium.eu/group/3/files/6256/collabora-online/edit/3001)
@@ -148,325 +148,230 @@ are intended as statements of fact.
 
 ## 2 Attestation Attributes and Metadata
 
-The Site Attestation is designed to provide a standardized, verifiable digital representation of
-a specific physical location (site) operated by an economic operator. It captures all essential
-attributes required to identify a site, link it to its operating economic operator, and support
-cross-business processes within supply chain management, compliance verification, and
-regulatory reporting.
+The Site Attestation provides a standardized, verifiable digital representation of a specific physical location (site) operated by an economic operator. It captures the essential attributes required to uniquely identify a site, link it to its operating economic operator, and support cross-business processes within supply chain management and compliance verification.
 
 ### 2.1 Introduction
+The data model for the Site Attestation is structured as follows:
 
 **Data Model:**
-[Economic Operator] ---operates--- [Site]
+[Economic Operator] ---operates--- [Site] [1 - 1 ]
 ```
-Site [1]
-├─ parent_economic_operator_main_id (string) — mandatory
-├─ parent_economic_operator_id[1..n] (M)            // At least one identifier required
-│   ├─ euid (str) (O)                               // European Unique Identifier
-│   ├─ lei (str) (O)                                // Legal Entity Identifier per ISO 17442
-│   ├─ tax (str) (O)                                // National tax or registration number
-│   ├─ gln (str) (O)                                // Global Location Number for legal entities — GS1 identifier
-│   ├─ duns (str) (O)                               // Data Universal Numbering System — Dun & Bradstreet identifier
-│   ├─ eori (str) (O)                               // Economic Operators Registration and Identification number — EU customs identifier
-│   ├─ bpnl (str) (O)                               // Business Partner Number Legal entity — Catena-X identifier per ICD 0243
-│   └─ siren (str) (O)                              // Système d'Identification du Répertoire des ENtreprises — French company identifier
-├─ site_name (string) — mandatory
-├─ site_main_id (uuid) — mandatory
-├─ site_additional_ids (Array of identifier strings) — optional [0..n]
-├─ site_main_address (Address) — mandatory
-│   ├─ street (string)
-│   ├─ nr (string)
-│   ├─ postal_code (string)
-│   └─ city (string)
-└─ site_additional_addresses (Array of Address) — optional [0..n]
-├─ street (string)
-├─ nr (string)
-├─ postal_code (string)
-└─ city (string)
+├─ name (string) — mandatory
+├─ identifier (uuid) — mandatory
+├─ additional_identifiers - optional 
+│   ├─ gln (str) (O)                          // Global Location Number for site 
+│   ├─ duns (str) (O)                         // duns number for site 
+│   ├─ bpns (str) (O)                         // Business Partner Number Site
+│   ├─ siret (str) (O)                        // Système d'Identification du Répertoire des Établissements
+├─ address (Address) (M)           
+│   ├─ street (tstr) (M)
+│   ├─ house_number (tstr) (M)
+│   ├─ locality (tstr) (M)
+│   ├─ region (tstr) (M)
+│   ├─ postal_code (tstr) (M)
+│   └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
+└─ additional_addresses [0..n]                  //(Array of Address) 
+│   ├─ street (tstr) (M)
+│   ├─ house_number (tstr) (M)
+│   ├─ locality (tstr) (M)
+│   ├─ region (tstr) (M)
+│   ├─ postal_code (tstr) (M)
+│   └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
+├── economic_operator (M) 
+│   ├─ identifier  (M)                    
+│   │   ├─ euid (str) (O)                       // European Unique Identifier
+│   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
+│   │   ├─ tax (str) (O)                        // National tax or registration number    
+│   │   ├─ gln (str) (O)                        // Global Location Number for legal entities — GS1 identifier
+│   │   ├─ duns (str) (O)                       // Data Universal Numbering System — Dun & Bradstreet identifier
+│   │   ├─ eori (str) (O)                       // Economic Operators Registration and Identification number — EU customs identifier
+│   │   ├─ bpnl (str) (O)                       // Business Partner Number Legal entity — Catena-X identifier per ICD 0243
+│   │   ├─ siren (str) (O)                      // Système d'Identification du Répertoire des ENtreprises — French company identifier
 ```
+*Note*: M - mandatory / O - optional.
 
 **Explanation:**
 
-- The `Site` object **SHALL** appear exactly once per attestation.
-- `parent_economic_operator_main_id`, `site_name`, `site_main_id`, and
-  `site_main_address` are mandatory attributes.
-- `parent_economic_operator_id` **MUST** contain at least one identifier. Each sub-field
-  is optional (`O`), but at least one of the listed identifier fields **SHALL** be provided.
-- `site_additional_ids` and `site_additional_addresses` are optional and **MAY** contain
-  zero or more entries.
-- `site_main_id` is a globally unique identifier (UUID) generated by the Economic Operator
-  using his EBW. This identifier **SHALL NOT** change during the lifecycle of the site.
-- The attestation **MUST** be linked to the economic operator by providing at least one unique
-  identifier in `parent_economic_operator_id`.
-- `site_additional_addresses` **MAY** represent additional entrances of the main location or
-  addresses of external (e.g., rented) buildings used by the site.
+- The root object of the attestation is the `Site`.
+- A `Site` is defined by its mandatory `name`, a unique `identifier` (UUID), and its primary `address`.
+- It is optionally possible to add `additional_identifiers` (like GLN, DUNS, BPNS for the site) and a list of `additional_addresses`.
+- Each `Site` attestation **SHALL** contain a mandatory `economic_operator` object, which links the site to the legal entity that operates it.
+- The `economic_operator` object **SHALL** contain an `identifier` object with at least one official identifier of the legal entity (e.g., `euid`, `lei`, `bpnl`).
 
 **Attestation Classification:**
 
-This attestation type **MAY** be classified as:
+This attestation type is classified as:
 - **"EAA"** when self-issued by the economic operator operating the site.
 
-**Top-Level Data Identifiers:**
-
-| **Data Identifier**                    | **Semantic Reference** | **Definition**                                                                                     | **Data type**    |
-|----------------------------------------|------------------------|----------------------------------------------------------------------------------------------------|------------------|
-| parent_economic_operator_main_id       | —                      | Primary unique identifier of the economic operator that operates this site (preferred: EUID)       | String           |
-| parent_economic_operator_id            | —                      | Structured object of economic operator identifiers; at least one sub-field SHALL be provided       | Object           |
-| parent_economic_operator_id.euid       | —                      | European Unique Identifier                                                                         | String (O)       |
-| parent_economic_operator_id.lei        | —                      | Legal Entity Identifier per ISO 17442                                                              | String (O)       |
-| parent_economic_operator_id.tax        | —                      | National tax or registration number                                                                | String (O)       |
-| parent_economic_operator_id.gln        | —                      | Global Location Number for legal entities — GS1 identifier                                        | String (O)       |
-| parent_economic_operator_id.duns       | —                      | Data Universal Numbering System — Dun & Bradstreet identifier                                     | String (O)       |
-| parent_economic_operator_id.eori       | —                      | Economic Operators Registration and Identification number — EU customs identifier                  | String (O)       |
-| parent_economic_operator_id.bpnl       | —                      | Business Partner Number Legal entity — Catena-X identifier per ICD 0243                           | String (O)       |
-| parent_economic_operator_id.siren      | —                      | Système d'Identification du Répertoire des ENtreprises — French company identifier                 | String (O)       |
-| site_name                              | —                      | The name of the site                                                                               | String           |
-| site_main_id                           | —                      | Globally unique identifier of the site, generated by the EBW as a UUID                            | UUID (String)    |
-| site_additional_ids                    | —                      | Array of additional site-level identifiers                                                         | Array of Strings |
-| site_main_address                      | —                      | Physical main address of the site                                                                  | Object (Address) |
-| site_additional_addresses              | —                      | Array of additional addresses associated to the site                                               | Array of Address |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                            | **Data type** |
+|:--------------------|:-----------------------|:----------------------------------------------------------|:--------------|
+| `Site`              | —                      | The root object containing all site information.          | Object        |
+| `economic_operator` | —                      | An object linking the site to its operating legal entity. | Object        |
 
 ### 2.2 Mandatory Attributes
 
-#### Site Top-Level Attributes
+**Site Attributes**
 
-| **Data Identifier**              | **Semantic Reference** | **Definition**                                                                                                                                                                | **Data type**  | **Existing Vocabularies**                 |
-|----------------------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|-------------------------------------------|
-| parent_economic_operator_main_id | —                      | The Economic Operator's primary identifier. Preferred: EUID for EU entities                                                                                                   | String         | European Business Wallet Vocabulary v0.1  |
-| parent_economic_operator_id      | —                      | Structured object containing economic operator identifiers; **MUST** contain at least one non-empty sub-field (see Section 2.8.1 for valid identifier types)                  | Object         | European Business Wallet Vocabulary v0.1  |
-| site_name                        | —                      | The name of the site                                                                                                                                                          | String         | The Organization Ontology                 |
-| site_main_id                     | —                      | A globally unique identifier created by the Economic Operator using his EBW. The identifier is an attribute of the site that will not change during the lifecycle of the site | UUID           | UUID generated by the wallet via API call |
-| site_main_address                | —                      | Physical main address of the site                                                                                                                                             | Address object | Core Location Vocabulary                  |
+| **Data Identifier** | **Semantic Reference**                   | **Definition**                                                             | **Data type**  |
+|:--------------------|:-----------------------------------------|:---------------------------------------------------------------------------|:---------------|
+| `name`              | —                                        | The common name of the site.                                               | String         |
+| `identifier`        | —                                        | A globally unique identifier (UUID) for the site, generated by the wallet. | String (UUID)  |
+| `address`           | Core Location Vocabulary                 | The primary physical address of the site.                                  | Address Object |
+| `economic_operator` | European Business Wallet Vocabulary v0.1 | Object linking the site to its operating legal entity.                     | Object         |
 
-#### Economic Operator Identifier Sub-Fields (`parent_economic_operator_id`)
+**Nested Mandatory Attributes**
 
-At least one of the following sub-fields **SHALL** be provided. All sub-fields are individually
-optional (`O`):
-
-| **Sub-Field** | **Semantic Reference** | **Definition**                                                                      | **Data type** |
-|---------------|------------------------|-------------------------------------------------------------------------------------|---------------|
-| euid          | —                      | European Unique Identifier per Directive (EU) 2017/1132                             | String (O)    |
-| lei           | —                      | Legal Entity Identifier per ISO 17442 (20-character alphanumeric code)              | String (O)    |
-| tax           | —                      | National tax or registration number                                                 | String (O)    |
-| gln           | —                      | Global Location Number for legal entities — GS1 identifier                         | String (O)    |
-| duns          | —                      | Data Universal Numbering System — Dun & Bradstreet company identifier               | String (O)    |
-| eori          | —                      | Economic Operators Registration and Identification number — EU customs identifier   | String (O)    |
-| bpnl          | —                      | Business Partner Number Legal entity — Catena-X identifier per ICD 0243            | String (O)    |
-| siren         | —                      | Système d'Identification du Répertoire des ENtreprises — French company identifier  | String (O)    |
-
-#### Address Object Attributes
-
-Applies to both `site_main_address` and entries within `site_additional_addresses`:
-
-| **Data Identifier** | **Semantic Reference** | **Definition**                          | **Data type** |
-|---------------------|------------------------|-----------------------------------------|---------------|
-| street              | —                      | Street name of the address              | String        |
-| nr                  | —                      | House or building number of the address | String        |
-| postal_code         | —                      | Postal code of the address              | String        |
-| city                | —                      | City of the address                     | String        |
+| **Data Identifier**            | **Semantic Reference** | **Definition**                                                                           | **Data type** |
+|:-------------------------------|:-----------------------|:-----------------------------------------------------------------------------------------|:--------------|
+| `address.street`               | —                      | The street name of the address.                                                          | String        |
+| `address.house_number`         | —                      | The house or building number of the address.                                             | String        |
+| `address.locality`             | —                      | The city or locality of the address.                                                     | String        |
+| `address.region`               | —                      | The state, province, or region of the address.                                           | String        |
+| `address.postal_code`          | —                      | The postal code of the address.                                                          | String        |
+| `address.country`              | —                      | The country of the address (ISO 3166-1 alpha-2).                                         | String        |
+| `economic_operator.identifier` | —                      | An object of identifiers for the legal entity; **SHALL** contain at least one sub-field. | Object        |
 
 ### 2.3 Optional Attributes
 
-| **Data Identifier**       | **Semantic Reference** | **Definition**                                                                                                                                                                     | **Data type**           | **Existing Vocabularies**                |
-|---------------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|------------------------------------------|
-| site_additional_ids       | —                      | Array of additional site identifiers associated to this site. **MAY** contain zero or more entries. **SHALL** use identifier types from Section 2.8.2                              | Array of Strings [0..n] | Core Location Vocabulary                 |
-| site_additional_addresses | —                      | Array of additional addresses associated to the site (e.g., additional entrances or addresses of external/rented buildings used by the site). **MAY** contain zero or more entries | Array of Address [0..n] | Core Location Vocabulary                 |
+**Site Optional Attributes**
+
+| **Data Identifier**      | **Semantic Reference**   | **Definition**                                                                                       | **Data type**    |
+|:-------------------------|:-------------------------|:-----------------------------------------------------------------------------------------------------|:-----------------|
+| `additional_identifiers` | Core Location Vocabulary | An object containing additional standardized identifiers for the site itself (e.g., BPNS, SIRET).    | Object           |
+| `additional_addresses`   | Core Location Vocabulary | An array of additional addresses associated with the site (e.g., other entrances, rented buildings). | Array of Address |
+
+**Economic Operator Identifier Optional Attributes**
+At least one of the following sub-fields **SHALL** be provided within the `economic_operator.identifier` object.
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                              | **Data type** |
+|:--------------------|:-----------------------|:----------------------------------------------------------------------------|:--------------|
+| `euid`              | —                      | European Unique Identifier per Directive (EU) 2017/1132.                    | String        |
+| `lei`               | —                      | Legal Entity Identifier (LEI) per ISO 17442.                                | String        |
+| `tax`               | —                      | National tax or company registration number.                                | String        |
+| `gln`               | —                      | Global Location Number for legal entities (GS1 identifier).                 | String        |
+| `duns`              | —                      | Data Universal Numbering System (Dun & Bradstreet identifier).              | String        |
+| `eori`              | —                      | Economic Operators Registration and Identification number (EU customs).     | String        |
+| `bpnl`              | —                      | Business Partner Number Legal entity (Catena-X identifier).                 | String        |
+| `siren`             | —                      | Système d'Identification du Répertoire des ENtreprises (French identifier). | String        |
 
 ### 2.4 Conditional Attributes
-
-No conditional attributes are defined for this attestation type. All attributes are either
-mandatory or optional as specified above.
+No conditional attributes are defined for this attestation type.
 
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**        | **Definition**                                                                | **Data type** |
-|----------------------------|-------------------------------------------------------------------------------|---------------|
-| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
-| cnf                        | cryptographic Key Binding                                                                             | String        |
+| **Data Identifier**          | **Definition**                                           | **Data type**  |
+|:-----------------------------|:---------------------------------------------------------|:---------------|
+| `attestation_legal_category` | Indicates the legal category of the Attestation ("EAA"). | String         |
+| `cnf`                        | Cryptographic Key Binding to prove holder possession.    | Object         |
 
-*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
+*Note: Standard JWT claims (`iss`, `iat`, `exp`) are also mandatory.*
 
 ### 2.6 Optional Metadata
 
-| **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used for this attestation                            | String        |
+| **Data Identifier** | **Definition**                                                              | **Data type** |
+|:--------------------|:----------------------------------------------------------------------------|:--------------|
+| `trust_anchor_url`  | URL where the trust anchor for verifying this attestation can be retrieved. | URI           |
+| `schema_version`    | Version of the schema used for this attestation.                            | String        |
 
-### 2.7 Conditional Metadata
-
+### 2.7 Conditional metadata
 No conditional metadata elements are defined for this attestation type.
 
 ### 2.8 Value Lists
 
 #### 2.8.1 Economic Operator Identifier Type Codes
+The `economic_operator.identifier` object **SHOULD** use one or more of the following standardized identifier types as keys:
 
-The `parent_economic_operator_main_id` and `parent_economic_operator_id` sub-fields
-**SHALL** use one or more of the following standardized identifier types:
-
-| **Code** | **Definition**                                                                                                          |
-|----------|-------------------------------------------------------------------------------------------------------------------------|
-| EUID     | European Unique Identifier per Directive (EU) 2017/1132 — preferred identifier for EU legal entities                   |
-| LEI      | Legal Entity Identifier per ISO 17442 (20-character alphanumeric code)                                                  |
-| DUNS     | Data Universal Numbering System — Dun & Bradstreet company identifier                                                   |
-| EORI     | Economic Operators Registration and Identification number — EU customs identifier                                        |
-| TAX      | National tax or registration number — national identifier                                                                |
-| BPNL     | Business Partner Number Legal entity — Catena-X identifier per International Code Designator (ICD): 0243                |
-| GLN      | Global Location Number for legal entities — GS1 identifier                                                              |
-| SIREN    | Système d'Identification du Répertoire des ENtreprises — French company identifier                                      |
+| **Code**   | **Definition**                                                              |
+|:-----------|:----------------------------------------------------------------------------|
+| `euid`     | European Unique Identifier per Directive (EU) 2017/1132.                    |
+| `lei`      | Legal Entity Identifier per ISO 17442.                                      |
+| `tax`      | National tax or company registration number.                                |
+| `gln`      | Global Location Number for legal entities (GS1 identifier).                 |
+| `duns`     | Data Universal Numbering System (Dun & Bradstreet identifier).              |
+| `eori`     | Economic Operators Registration and Identification number (EU customs).     |
+| `bpnl`     | Business Partner Number Legal entity (Catena-X identifier per ICD 0243).    |
+| `siren`    | Système d'Identification du Répertoire des ENtreprises (French identifier). |
 
 #### 2.8.2 Site Identifier Type Codes
+The `additional_identifiers` object **SHOULD** use one or more of the following standardized site-level identifier types as keys:
 
-The `site_additional_ids` attribute **SHALL** use one or more of the following standardized
-site-level identifier types:
-
-| **Code**  | **Definition**                                                                                                          |
-|-----------|-------------------------------------------------------------------------------------------------------------------------|
-| DUNS_site | DUNS site-level identifier issued by Dun & Bradstreet                                                                   |
-| BPNS      | Business Partner Number Site — Catena-X site-level identifier per International Code Designator (ICD): 0243             |
-| GLN_site  | Global Location Number for physical locations — GS1 site-level identifier                                               |
-| SIRET     | Système d'Identification du Répertoire des ETablissements — French site-level identifier (establishment number)         |
-
-> **Notes on identifier standards:**
-> - **SIRET**: see [Numéro SIRET — L'Annuaire des Entreprises](https://annuaire-entreprises.data.gouv.fr)
-> - **GLN_site**: see [Global Location Number — Schema.org Property](https://schema.org/globalLocationNumber)
-> - **site_main_id (UUID)**: see [Self Attested siteID — Schema.org Property](https://schema.org/propertyID)
-> - **DUNS**: Dun & Bradstreet issues and maintains the DUNS Number database
-> - **BPNL / BPNS**: assigned per International Code Designator (ICD): 0243 as standardized
-    >   by DIN e.V. for use in the Catena-X automotive data ecosystem
-> - For all other attributes within the Site Attestation, no public value lists are currently available
+| **Code**   | **Definition**                                                                            |
+|:-----------|:------------------------------------------------------------------------------------------|
+| `gln`      | Global Location Number for physical locations (GS1 site-level identifier).                |
+| `duns`     | DUNS site-level identifier issued by Dun & Bradstreet.                                    |
+| `bpns`     | Business Partner Number Site (Catena-X site-level identifier per ICD 0243).               |
+| `siret`    | Système d'Identification du Répertoire des ETablissements (French site-level identifier). |
 
 ### 2.9 Integrity Rules
-
-The following integrity rules **SHALL** be enforced:
-
-- The `Site` object **SHALL** appear exactly once per attestation.
-- `parent_economic_operator_main_id` **SHALL** be a non-empty string containing at least
-  one valid economic operator identifier.
-- `parent_economic_operator_main_id` **SHOULD** be an EUID for economic operators
-  registered within the EU.
-- `parent_economic_operator_id` **SHALL** contain at least one non-empty sub-field drawn
-  from the identifier types listed in Section 2.8.1.
-- `site_name` **SHALL** be a non-empty string.
-- `site_main_id` **SHALL** be a valid UUID string.
-- `site_main_id` **SHALL NOT** change during the lifecycle of the site.
-- `site_main_address` **SHALL** be present and **SHALL** contain at minimum `street`, `nr`,
-  `postal_code`, and `city`.
-- `site_additional_ids`, when present, **SHALL** be an array of non-empty strings using
-  identifier types from Section 2.8.2.
-- `site_additional_addresses`, when present, **SHALL** be an array of Address objects each
-  containing at minimum `street`, `nr`, `postal_code`, and `city`.
-- `issuance_date` and `expiry_date` **SHALL** be valid ISO 8601 DateTimes.
-- `expiry_date` **SHALL** be later than `issuance_date`.
-- `issuance_date` **SHALL** be in the past.
-- `attestation_legal_category` **SHALL** be `"EAA"`.
-- `vct` **SHALL** be a non-empty string conforming to a URL or URN format.
-- If `trust_anchor_url` is present, it **SHALL** be a valid URI.
-- If `schema_version` is present, it **SHALL** be a non-empty string.
-- Each attribute **SHALL** appear at most once within its respective object scope.
-
+- The root `Site` object SHALL be present.
+- `name`, `identifier`, `address`, and `economic_operator` SHALL be present and non-empty.
+- The `identifier` for the site SHALL be a valid UUID.
+- The `economic_operator.identifier` object SHALL contain at least one valid, non-empty identifier sub-field.
+- All `Address` objects SHALL contain non-empty `street`, `house_number`, `locality`, `postal_code`, and `country`.
 
 ## 3 Attestation Encoding
 
-### 3.1 ISO/IEC 18013-5-Compliant Encoding
+### 3.1 ISO/IEC 18013-5-compliant encoding
+ISO/IEC 18013-5 is out of scope for this Rulebook.
 
-ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity
-presentation is not a current requirement for the Site Attestation.
+### 3.2 SD-JWT VC-based encoding
+The Site Attestation uses the SD-JWT VC format to allow for selective disclosure.
 
-### 3.2 SD-JWT VC-Based Encoding
-
-The Site Attestation uses the SD-JWT VC format to allow for selective disclosure of site
-attributes.
-
-**Selective Disclosure:** Top-level claims (e.g., `parent_economic_operator_main_id`,
-`parent_economic_operator_id`, `site_name`, `site_main_id`, `site_main_address`,
-`site_additional_addresses`) **SHALL** be individually selectively disclosable, enabling an
-economic operator to disclose only the attributes requested by a Relying Party.
-
-The `.` notation is used to indicate the nesting of attributes.
-
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build:site:1`
+**Verifiable Credential Type (`vct`):** `eu.we-build:site:1`
 
 #### 3.2.1 Attribute Encoding Table
 
-**Site**
-
-| **Data Identifier**                      | **Attribute Identifier**                 | **Encoding Format**     | **Reference / Notes**                                                                                                   | **Disclosable** |
-|------------------------------------------|------------------------------------------|-------------------------|-------------------------------------------------------------------------------------------------------------------------|-----------------|
-| **Site**                                 |                                          |                         |                                                                                                                         |                 |
-| parent_economic_operator_main_id         | parent_economic_operator_main_id         | String                  | Primary unique identifier of the economic operator; **SHALL** be non-empty; preferred: EUID for EU entities             | MUST            |
-| parent_economic_operator_id              | parent_economic_operator_id              | Object                  | Structured identifier object; **MUST** contain at least one non-empty sub-field from Section 2.8.1                      | MUST            |
-| parent_economic_operator_id.euid         | parent_economic_operator_id.euid         | String                  | European Unique Identifier — optional sub-field                                                                         | MUST            |
-| parent_economic_operator_id.lei          | parent_economic_operator_id.lei          | String                  | Legal Entity Identifier per ISO 17442 — optional sub-field                                                              | MUST            |
-| parent_economic_operator_id.tax          | parent_economic_operator_id.tax          | String                  | National tax or registration number — optional sub-field                                                                | MUST            |
-| parent_economic_operator_id.gln          | parent_economic_operator_id.gln          | String                  | Global Location Number for legal entities — optional sub-field                                                          | MUST            |
-| parent_economic_operator_id.duns         | parent_economic_operator_id.duns         | String                  | Dun & Bradstreet company identifier — optional sub-field                                                                | MUST            |
-| parent_economic_operator_id.eori         | parent_economic_operator_id.eori         | String                  | EU customs identifier — optional sub-field                                                                              | MUST            |
-| parent_economic_operator_id.bpnl         | parent_economic_operator_id.bpnl         | String                  | Catena-X BPNL identifier per ICD 0243 — optional sub-field                                                              | MUST            |
-| parent_economic_operator_id.siren        | parent_economic_operator_id.siren        | String                  | French company identifier (SIREN) — optional sub-field                                                                  | MUST            |
-| site_name                                | site_name                                | String                  | The name of the site; **SHALL** be non-empty                                                                            | MUST            |
-| site_main_id                             | site_main_id                             | String (UUID)           | Globally unique identifier of the site; generated by EBW as UUID; **SHALL NOT** change during the lifecycle of the site | MUST            |
-| site_additional_ids                      | site_additional_ids                      | Array of Strings        | Optional additional site-level identifiers; **SHOULD** use codes from Section 2.8.2                                     | MUST            |
-| **SiteMainAddress**                      |                                          |                         |                                                                                                                         |                 |
-| site_main_address.street                 | site_main_address.street                 | String                  | Street of the site's main address                                                                                       | MUST            |
-| site_main_address.nr                     | site_main_address.nr                     | String                  | House/building number of the site's main address                                                                        | MUST            |
-| site_main_address.postal_code            | site_main_address.postal_code            | String                  | Postal code of the site's main address                                                                                  | MUST            |
-| site_main_address.city                   | site_main_address.city                   | String                  | City of the site's main address                                                                                         | MUST            |
-| **SiteAdditionalAddresses**              |                                          |                         |                                                                                                                         |                 |
-| site_additional_addresses                | site_additional_addresses                | Array of Address        | Optional array of additional addresses associated to the site (e.g., additional entrances or external/rented buildings) | MUST            |
-| site_additional_addresses[n].street      | site_additional_addresses[n].street      | String                  | Street of the additional address                                                                                        | MUST            |
-| site_additional_addresses[n].nr          | site_additional_addresses[n].nr          | String                  | House/building number of the additional address                                                                         | MUST            |
-| site_additional_addresses[n].postal_code | site_additional_addresses[n].postal_code | String                  | Postal code of the additional address                                                                                   | MUST            |
-| site_additional_addresses[n].city        | site_additional_addresses[n].city        | String                  | City of the additional address                                                                                          | MUST            |
-| **Metadata**                             |                                          |                         |                                                                                                                         |                 |
-| `issuance_date`                          | `iat`                                    | Number (Unix timestamp) | Date and time when the attestation was issued (ISO 8601); RFC 7519                                                      | MUST NOT        |
-| `expiry_date`                            | `exp`                                    | Number (Unix timestamp) | Date and time when the attestation expires (ISO 8601); RFC 7519                                                         | MUST NOT        |
-| `issuing_entity`                         | `iss`                                    | String (URI or DID)     | Identifier of the competent institution that issued the attestation; RFC 7519                                           | MUST NOT        |
-| `attestation_legal_category`             | `attestation_legal_category`             | String                  | One of "EAA" or "QEAA" as defined by eIDAS 2                                                                            | MUST NOT        |
-| `vct`                                    | `vct`                                    | String                  | The vct definition                                                                                                      | MUST NOT        |
-| `cnf`                                    | `cnf`                                    | String                  | Cryptographic Key Binding                                                                                               | MUST NOT        |
-| `schema_version`                         | `schema_version`                         | String                  | Version of the schema used; optional                                                                                    | MAY             |
-| `trust_anchor_url`                       | `trust_anchor_url`                       | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved; optional                                    | MAY             |
-
-**Notes:**
-
-- **MUST**: The claim **SHALL** be selectively disclosable — the holder **MAY** choose to
-  disclose or withhold this claim when presenting the credential to a Relying Party.
-- **MAY**: The claim **MAY** be selectively disclosable if the issuer supports it; the holder
-  can choose to disclose or withhold.
-- **MUST NOT**: The claim **SHALL NOT** be selectively disclosable — it is always present in
-  plain text in the JWT header/payload and cannot be withheld by the holder, as it is required
-  for credential verification and trust establishment.
-- `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
-- `site_additional_addresses` entries are marked as `MUST` disclosable as a unit — individual
-  address attributes within an array entry are not independently selectively disclosable in
-  this version.
-- Individual sub-fields of `parent_economic_operator_id` are selectively disclosable
-  independently, allowing an economic operator to present only the identifier(s) requested
-  by a Relying Party.
+| **Data Identifier**             | **Attribute Identifier**            | **Encoding Format** | **Reference/Notes**                            | **Disclosable** |
+|:--------------------------------|:------------------------------------|:--------------------|:-----------------------------------------------|:----------------|
+| **Site Details**                |                                     |                     |                                                |                 |
+| name                            | `name`                              | String              | The common name of the site.                   | MUST            |
+| identifier                      | `identifier`                        | String (UUID)       | Unique identifier for the site.                | MUST            |
+| **Additional Site Identifiers** | `additional_identifiers`            | Object              | Object containing other site IDs.              | MUST            |
+| gln                             | `additional_identifiers.gln`        | String              | GS1 Global Location Number for the site.       | MUST            |
+| duns                            | `additional_identifiers.duns`       | String              | Dun & Bradstreet number for the site.          | MUST            |
+| bpns                            | `additional_identifiers.bpns`       | String              | Catena-X Business Partner Number for the site. | MUST            |
+| siret                           | `additional_identifiers.siret`      | String              | French SIRET number for the establishment.     | MUST            |
+| **Main Address**                | `address`                           | Object              | The primary address of the site.               | MUST            |
+| street                          | `address.street`                    | String              | Street name of the primary address.            | MUST            |
+| house\_number                   | `address.house_number`              | String              | House number of the primary address.           | MUST            |
+| locality                        | `address.locality`                  | String              | Locality of the primary address.               | MUST            |
+| region                          | `address.region`                    | String              | Region of the primary address.                 | MUST            |
+| postal\_code                    | `address.postal_code`               | String              | Postal code of the primary address.            | MUST            |
+| country                         | `address.country`                   | String              | Country of the primary address.                | MUST            |
+| **Additional Addresses**        | `additional_addresses`              | Array               | Array of additional site addresses.            | MUST            |
+| **Economic Operator**           | `economic_operator`                 | Object              | The operating legal entity.                    | MUST            |
+| euid                            | `economic_operator.identifier.euid` | String              | European Unique Identifier.                    | MUST            |
+| lei                             | `economic_operator.identifier.lei`  | String              | Legal Entity Identifier.                       | MUST            |
+| tax                             | `economic_operator.identifier.tax`  | String              | National tax/registration number.              | MUST            |
+| bpnl                            | `economic_operator.identifier.bpnl` | String              | Catena-X BPNL identifier.                      | MUST            |
+| **Metadata**                    |                                     |                     |                                                |                 |
+| issuance_date                   | `iat`                               | Number              | Issuance timestamp.                            | MUST NOT        |
+| expiry_date                     | `exp`                               | Number              | Expiration timestamp.                          | MUST NOT        |
+| issuing_entity                  | `iss`                               | String              | Identifier of the issuer.                      | MUST NOT        |
+| attestation\_legal\_category    | `attestation_legal_category`        | String              | "EAA"                                          | MUST NOT        |
+| vct                             | `vct`                               | String              | Verifiable Credential Type.                    | MUST NOT        |
+| cnf                             | `cnf`                               | Object              | Cryptographic Key Binding.                     | MUST NOT        |
+| trust_anchor_url                | `trust_anchor_url`                  | String (URI)        | Optional URL to the trust anchor.              | MAY             |
+| schema_version                  | `schema_version`                    | String              | Optional version of the schema.                | MAY             |
 
 #### 3.2.2 Status Claim
-
-For SD-JWT VC-compliant Ownership Attestations, the attestation MUST include a `status` claim
-if the technical validity period is greater than 24 hours. This claim enables Relying Parties
-to determine if a credential has been revoked via a status list mechanism.
+For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if the technical validity period is greater than 24 hours.
 
 The `status` claim SHALL be a JSON object with the following members:
 
-| **Field**                | **Type**       | **Value**                                       |
-|--------------------------|----------------|-------------------------------------------------|
-| `type`                   | String         | SHALL be `"status-list"`                        |
-| `status_list_credential` | String (URI)   | URI of the Status List Credential document      |
-| `status_list_index`      | Integer (>= 0) | Zero-based index into the status list bitstring |
-| `status_purpose`         | String         | SHALL be `"revocation"`                         |
+| **Field**                | **Type**       | **Value / Constraint**                     |
+|:-------------------------|:---------------|:-------------------------------------------|
+| `type`                   | String         | SHALL be `"status-list"`                   |
+| `status_list_credential` | String (URI)   | URI of the Status List Credential document |
+| `status_list_index`      | Integer (>= 0) | Zero-based index into the status list      |
+| `status_purpose`         | String         | SHALL be `"revocation"`                    |
 
 **Example:**
-
 ```json
 {
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/site/2025",
+    "status_list_credential": "https://issuer.example.com/status/site/2026",
     "status_list_index": 789,
     "status_purpose": "revocation"
   }
@@ -479,56 +384,52 @@ The following is a non-normative example of a Site Attestation SD-JWT VC payload
 ```
 {
   "vct": "eu.we-build:site:1",
-  "attestation_legal_category": "EAA",
   "iss": "did:example:robert-bosch-gmbh",
   "iat": 1746000000,
   "exp": 1777536000,
-  "jti": "site-attestation-20260515-001",
-  "parent_economic_operator_main_id": "DE-HRB-396699",
-  "parent_economic_operator_id": {
-    "euid": "DE-HRB-396699",
-    "lei": "529900HNOAA1KXQJUQ27",
-    "duns": "330502866",
-    "eori": "DE123456789",
-    "bpnl": "BPNL000000000001",
-    "tax": "DE811001001",
-    "gln": "4012345000009",
-    "siren": "542107651"
+  "attestation_legal_category": "EAA",
+  "name": "Bosch Karlsruhe Manufacturing Site",
+  "identifier": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+  "additional_identifiers": {
+    "bpns": "BPNS0000000001XY",
+    "gln": "4012345000016"
   },
-  "site_name": "Bosch Karlsruhe Manufacturing Site",
-  "site_main_id": "550e8400-e29b-41d4-a716-446655440000",
-  "site_additional_ids": [
-    "BPNS0000000001XY",
-    "GLN-4012345000016"
-  ],
-  "site_main_address": {
+  "address": {
     "street": "Auf der Breit",
-    "nr": "4",
+    "house_number": "4",
+    "locality": "Karlsruhe",
+    "region": "Baden-Württemberg",
     "postal_code": "76227",
-    "city": "Karlsruhe"
+    "country": "DE"
   },
-  "site_additional_addresses": [
+  "additional_addresses": [
     {
       "street": "Robert-Bosch-Strasse",
-      "nr": "2",
+      "house_number": "2",
+      "locality": "Karlsruhe",
+      "region": "Baden-Württemberg",
       "postal_code": "76131",
-      "city": "Karlsruhe"
+      "country": "DE"
     }
   ],
+  "economic_operator": {
+    "identifier": {
+      "euid": "DE.HRB.12345",
+      "bpnl": "BPNL00000003CML1"
+    }
+  },
   "status": {
     "type": "status-list",
-    "status_list_credential": "https://example.com/status/site-list-1",
+    "status_list_credential": "https://issuer.example.com/status/site/2026",
     "status_list_index": 789,
     "status_purpose": "revocation"
   },
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-  "schema_version": "0.4.0",
   "cnf": {
     "jwk": {
       "kty": "EC",
       "crv": "P-256",
-      "x": "abc-123_def-456_ghi-789_jkl-012",
-      "y": "mno-345_pqr-678_stu-901_vwx-234"
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
     }
   }
 }
