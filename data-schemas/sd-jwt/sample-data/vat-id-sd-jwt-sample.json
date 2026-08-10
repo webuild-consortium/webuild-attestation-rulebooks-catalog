@@ -12,54 +12,54 @@
     "kid": "https://www.belastingdienst.nl/keys/vat-issuer-2024-01"
   },
 
-    "vct": "uri:eu.eudi.vat.1",
-    "iss": "https://www.belastingdienst.nl",
-    "iat": 1704067200,
-    "exp": 1830902400,
+  "vct": "uri:eu.eudi.vat.1",
+  "iss": "https://www.belastingdienst.nl",
+  "iat": 1704067200,
+  "exp": 1830902400,
 
-    "vat_id": "NL001234567B01",
-    "administrative_unit_name": "KLM Royal Dutch Airlines",
-    "registered_EU_cross_border_transactions": true,
+  "vat_id": "NL001234567B01",
+  "administrative_unit_name": "KLM Royal Dutch Airlines",
+  "registered_EU_cross_border_transactions": true,
 
-    "validity_period": [
-      {
-        "start_date": "2020-01-15",
-        "end_date": "2027-12-31"
-      }
-    ],
+  "validity_period": [
+    {
+      "start_date": "2020-01-15",
+      "end_date": "2027-12-31"
+    }
+  ],
 
-    "economic_operator": {
-      "legal_identifier": "NL801234567B01",
-      "legal_name": "KLM Royal Dutch Airlines N.V."
-    },
-
-    "issuer": {
-      "authentic_source_country": "NL",
-      "vat_id_authentic_source": "Ministerie van Financiën - Belastingdienst",
-      "issuing_authority": "Dutch Tax Administration",
-      "attestation_legal_category": "PUB-EAA",
-      "attestation_issuing_date": 1704067200,
-      "attestation_expiry_date": 1830902400,
-      "location_status": "https://www.belastingdienst.nl/vat-status/NL001234567B01"
-    },
-
-    "status": {
-      "type": "status-list",
-      "status_list_credential": "https://www.belastingdienst.nl/status-list/vat-id/2024",
-      "status_list_index": 12547,
-      "status_purpose": "revocation"
-    },
-
-    "trust_anchor": "https://www.belastingdienst.nl/trust-anchor/vat-id-2024",
-
-    "_sd": [
-      "hash_admin_type",
-      "hash_admin_address",
-      "hash_activity",
-      "hash_validity"
-    ],
-    "sd_hash": "sha-256"
+  "economic_operator": {
+    "legal_identifier": "NL801234567B01",
+    "legal_name": "KLM Royal Dutch Airlines N.V."
   },
+
+  "issuer": {
+    "authentic_source_country": "NL",
+    "vat_id_authentic_source": "Ministerie van Financiën - Belastingdienst",
+    "issuing_authority": "Dutch Tax Administration",
+    "attestation_legal_category": "PUB-EAA",
+    "attestation_issuing_date": 1704067200,
+    "attestation_expiry_date": 1830902400,
+    "location_status": "https://www.belastingdienst.nl/vat-status/NL001234567B01"
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://www.belastingdienst.nl/status-list/vat-id/2024",
+    "status_list_index": 12547,
+    "status_purpose": "revocation"
+  },
+
+  "trust_anchor": "https://www.belastingdienst.nl/trust-anchor/vat-id-2024",
+
+  "_sd": [
+    "hash_admin_type",
+    "hash_admin_address",
+    "hash_activity",
+    "hash_validity"
+  ],
+  "sd_hash": "sha-256"
+  
 
   "selectively_disclosable_claims": {
     "administrative_unit_type": {
@@ -138,5 +138,5 @@
       "status_list_credential": "https://www.belastingdienst.nl/status-list/vat-id/2024",
       "status_list_index": 12547
     }
-  
+  }
 }
