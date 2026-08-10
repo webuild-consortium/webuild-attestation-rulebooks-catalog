@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/eudi/vat-id-attestation.json",
+
+  "title": "EUDI VAT ID Attestation",
+  "type": "object",
+
+  "properties": {
+    "vct": {
+      "type": "string",
+      "const": "uri:eu.eudi.vat.1"
+    },
+
+    "vat_id": {
+      "type": "string"
+    },
+
+    "administrative_unit_name": {
+      "type": "string"
+    },
+
+    "validity_period": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": ["start_date"],
+        "additionalProperties": false
+      }
+    },
+
+    "economic_operator": {
+      "type": "object",
+      "properties": {
+        "legal_identifier": { "type": "string" },
+        "legal_name": { "type": "string" },
+        "family_name": { "type": "string" },
+        "given_name": { "type": "string" },
+        "birth_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "birth_place": { "type": "string" },
+        "tin": { "type": "string" },
+        "personal_administrative_number": { "type": "string" }
+      },
+
+      "oneOf": [
+        {
+          "required": ["legal_identifier", "legal_name"]
+        },
+        {
+          "required": ["family_name", "given_name"]
+        }
+      ],
+
+      "additionalProperties": false
+    },
+
+    "registered_EU_cross_border_transactions": {
+      "type": "boolean"
+    },
+
+    "administrative_unit_type": {
+      "type": "string"
+    },
+
+    "administrative_unit_address": {
+      "type": "object",
+      "properties": {
+        "po_box": { "type": "string" },
+        "thoroughfare": { "type": "string" },
+        "location_designator": { "type": "string" },
+        "post_code": { "type": "string" },
+        "post_name": { "type": "string" },
+        "admin_unit_l1": { "type": "string" },
+        "admin_unit_l2": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "economic_activity_type": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nomenclature": {
+            "type": "string",
+            "enum": [
+              "NACE","NACE-BEL","CZ-NACE","DB07","WZ","KAD","CNAE",
+              "NAF","NKD","ATECO","TEAOR","SBI","ONACE","PKD",
+              "CAE","CAEN","SKD","OKEC","TOL","SNI","UK SIC","NOGA"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "language": { "type": "string" },
+                "value": { "type": "string" }
+              },
+              "required": ["language", "value"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["nomenclature", "id"],
+        "additionalProperties": false
+      }
+    },
+
+    "issuer": {
+      "type": "object",
+      "properties": {
+        "authentic_source_country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "vat_id_authentic_source": {
+          "type": "string"
+        },
+        "issuing_authority": {
+          "type": "string"
+        },
+        "attestation_legal_category": {
+          "type": "string",
+          "enum": ["QEAA", "PUB-EAA"]
+        },
+        "attestation_issuing_date": {
+          "type": "number"
+        },
+        "attestation_expiry_date": {
+          "type": "number"
+        },
+        "location_status": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "authentic_source_country",
+        "vat_id_authentic_source",
+        "issuing_authority",
+        "attestation_legal_category",
+        "attestation_issuing_date"
+      ],
+      "additionalProperties": false
+    },
+
+    "status": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["status-list"]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri"
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status_purpose": {
+          "type": "string",
+          "enum": ["revocation"]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ],
+      "additionalProperties": false
+    },
+
+    "trust_anchor": {
+      "type": "string",
+      "format": "uri"
+    },
+
+    "display": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "locale": { "type": "string" },
+          "label": { "type": "string" }
+        },
+        "required": ["name", "locale", "label"],
+        "additionalProperties": false
+      }
+    }
+  },
+
+  "required": [
+    "vct",
+    "vat_id",
+    "administrative_unit_name",
+    "validity_period",
+    "economic_operator",
+    "issuer",
+    "registered_EU_cross_border_transactions"
+  ],
+
+  "additionalProperties": true
+}
+``
