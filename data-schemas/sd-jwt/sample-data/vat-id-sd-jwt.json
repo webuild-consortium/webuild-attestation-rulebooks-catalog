@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/schemas/eudi/vat-id-attestation.json",
+  "$id": "https://webuilconsortium.eu/schemas/eudi/vat-id-sd-jwt.json",
 
   "title": "EUDI VAT ID Attestation",
   "type": "object",
