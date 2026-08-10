@@ -58,7 +58,7 @@
     "hash_activity",
     "hash_validity"
   ],
-  "sd_hash": "sha-256"
+  "sd_hash": "sha-256",
   
 
   "selectively_disclosable_claims": {
