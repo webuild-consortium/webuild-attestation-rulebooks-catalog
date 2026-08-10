@@ -41,15 +41,17 @@
       "attestation_legal_category": "PUB-EAA",
       "attestation_issuing_date": 1704067200,
       "attestation_expiry_date": 1830902400,
-      "location_status": "https://www.belastingdienst.nl/vat-status/NL001234567B01",
-      "trust_anchor": "https://www.belastingdienst.nl/trust-anchor/vat-id-2024"
+      "location_status": "https://www.belastingdienst.nl/vat-status/NL001234567B01"
     },
 
     "status": {
+      "type": "status-list",
       "status_list_credential": "https://www.belastingdienst.nl/status-list/vat-id/2024",
       "status_list_index": 12547,
       "status_purpose": "revocation"
     },
+
+    "trust_anchor": "https://www.belastingdienst.nl/trust-anchor/vat-id-2024",
 
     "_sd": [
       "hash_admin_type",
