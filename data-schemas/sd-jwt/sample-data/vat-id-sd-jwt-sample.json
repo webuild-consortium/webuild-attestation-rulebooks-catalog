@@ -12,7 +12,6 @@
     "kid": "https://www.belastingdienst.nl/keys/vat-issuer-2024-01"
   },
 
-  "payload": {
     "vct": "uri:eu.eudi.vat.1",
     "iss": "https://www.belastingdienst.nl",
     "iat": 1704067200,
@@ -139,5 +138,5 @@
       "status_list_credential": "https://www.belastingdienst.nl/status-list/vat-id/2024",
       "status_list_index": 12547
     }
-  }
+  
 }
