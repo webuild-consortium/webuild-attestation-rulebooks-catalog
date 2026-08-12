@@ -6,21 +6,26 @@
 
 * Reviewer(s):
   * [Baumgardt Michaela, Commerzbank]
+  * [Bastek-Margo Jenny, Commerzbank]
+  * [Fabrizio Notarnicola, Infocameere IT ]
   * [Ricky Lamberty, Robert Bosch GmbH]
-  * @TODO Florin — Add the reviewers from attestation design (meetings UseCase, Banks, TransparentRegister)
+  * [ , Bundesanzeiger ]
+  * [ Leone Riello , Infocert]
 
-| Version | Date       | Description                                                       |
-|---------|------------|-------------------------------------------------------------------|
-| 0.1     | 23.03.2026 | Initial draft based on the WeBuild design attestations meetings   |
-| 0.3     | 01.06.2026 | Updates of content (review ubo documents)                         |
-| 0.4     | 01.06.2026 | Updates of content - legal arrangements                           |
-| 0.7     | 24.06.2026 | Updates of content based on the submission regulation and AMLR/RTS|
-| 0.8     | 29.06.2026 | Updates of BODS vocabulary                                        |
-| 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
+| Version | Date       | Description                                                        |
+|---------|------------|--------------------------------------------------------------------|
+| 0.1     | 23.03.2026 | Initial draft based on the WeBuild design attestations meetings    |
+| 0.3     | 01.06.2026 | Updates of content (review ubo documents)                          |
+| 0.4     | 01.06.2026 | Updates of content - legal arrangements                            |
+| 0.7     | 24.06.2026 | Updates of content based on the submission regulation and AMLR/RTS |
+| 0.8     | 29.06.2026 | Updates of BODS vocabulary                                         |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                             |
+| 1.0     | 23.07.2026 | Updates input PA3 - Review                                         |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
-
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)* 
+  
 * Feedback:
 
 ## 1 Introduction
@@ -136,10 +141,10 @@ Controller [1..n]                               // The person or entity exercisi
 │   ├─ category (enum) (M)                      // "legal_entity" | "legal_arrangement"
 │   ├─ name (tstr) (M)
 │   ├─ identifier [1..n] (M)                    // At least one identifier required
-│   │   ├─ euid (str) (O)                       // European Unique Identifier
-│   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
-│   │   ├─ tax (str) (O)                        // National tax or registration number
-│   │   └─ other (str) (O)                      // Any other applicable identifier
+│   │   ├─ type:euid (str) value(O)             // European Unique Identifier
+│   │   ├─ type:lei (str) value(O)              // Legal Entity Identifier per ISO 17442
+│   │   ├─ type:tax (str) value(O)              // National tax or registration number
+│   │   └─ type:other (str) value(O)           // Any other applicable identifier 
 │   ├─ jurisdiction (tstr) (M)                  // ISO 3166-1 alpha-2
 │   ├─ legal_form (tstr) (M)                    
 │   ├─ form (tstr) (M)                          // See Section 2.8.8 -> legal_form (see XLS from Finnland)
@@ -159,7 +164,7 @@ Controller [1..n]                               // The person or entity exercisi
 │   ├─ type [enum] [1..n] (M)                   // See Section 2.8.3
 │   ├─ level (tstr) (M)                         // "direct" | "indirect" | "joint" | "unknown"
 │   ├─ basis [enum] (M)                         // e.g., "corporate_position", "contractual"
-│   ├─ voting_percentage (Decimal) (O)          // Percentage of voting rights (0–100)
+│   ├─ voting_percentage (Decimal) (M)          // Percentage of voting rights (0–100)
 │   ├─ appointment_rights (tstr) (O)            // Free text details on appointment rights
 │   ├─ other_details (tstr) (O)                 // Free text for other control mechanisms
 │   └─ rights [String] (M)                      // "dividend_rights" | "liquidation_rights"
@@ -324,12 +329,13 @@ This attestation type MAY be classified as:
 
 **Controls Mandatory Attributes** *(at least one record per Controller entry)*
 
-| **Data Identifier**  | **Semantic Reference** | **Definition**                                                                                       | **Data Type** |
-|----------------------|------------------------|------------------------------------------------------------------------------------------------------|---------------|
-| `controls.type`      | Section 2.8.3          | Array of one or more control mechanism types — SHALL use values from Section 2.8.3                   | Array [Enum]  |
-| `controls.level`     | Section 2.8.2          | How control is held — SHALL be one of: `"direct"`, `"indirect"`, `"joint"`, or `"unknown"`           | Enum (String) |
-| `controls.basis`     | Section 2.8.4          | Legal or structural basis for control — SHALL use values from Section 2.8.4                          | Enum (String) |
-| `controls.rights`    | Section 2.8.5          | Array of economic rights associated with the control — SHALL use values from Section 2.8.5           | Array [Enum]  |
+| **Data Identifier**          | **Semantic Reference** | **Definition**                                                                                       | **Data Type** |
+|------------------------------|------------------------|------------------------------------------------------------------------------------------------------|---------------|
+| `controls.type`              | Section 2.8.3          | Array of one or more control mechanism types — SHALL use values from Section 2.8.3                   | Array [Enum]  |
+| `controls.level`             | Section 2.8.2          | How control is held — SHALL be one of: `"direct"`, `"indirect"`, `"joint"`, or `"unknown"`           | Enum (String) |
+| `controls.basis`             | Section 2.8.4          | Legal or structural basis for control — SHALL use values from Section 2.8.4                          | Enum (String) |
+| `controls.rights`            | Section 2.8.5          | Array of economic rights associated with the control — SHALL use values from Section 2.8.5           | Array [Enum]  |
+| `controls.voting_percentage` | —                      | Percentage of voting rights held — decimal value in range 0–100                        | Decimal          |
 
 **Evidence Mandatory Attributes** *(at least one entry per Controller entry)*
 
@@ -356,7 +362,6 @@ This attestation type MAY be classified as:
 
 | **Data Identifier**          | **Semantic Reference** | **Definition**                                                                         | **Data Type**    |
 |------------------------------|------------------------|----------------------------------------------------------------------------------------|------------------|
-| `controls.voting_percentage` | —                      | Percentage of voting rights held — decimal value in range 0–100                        | Decimal          |
 | `controls.appointment_rights`| —                      | Free text details on appointment rights                                                | String           |
 | `controls.other_details`     | —                      | Free text for other control mechanisms not captured by structured fields               | String           |
 
@@ -507,7 +512,7 @@ The following integrity rules SHALL be enforced during issuance and verification
 | IR-08       | `controls.level` SHALL use one of the values defined in Section 2.8.2                                                                                               |
 | IR-09       | `controls.basis` SHALL use one of the values defined in Section 2.8.4                                                                                               |
 | IR-10       | `controls.rights` SHALL be an array containing at least one value from Section 2.8.5                                                                                |
-| IR-11       | `controls.voting_percentage`, when present, SHALL be a decimal value in the range 0–100                                                                             |
+| IR-11       | `controls.voting_percentage`, SHALL be a decimal value in the range 0–100                                                                             |
 | IR-12       | Each `Controller` entry SHALL contain at least one `evidence` entry                                                                                                 |
 | IR-13       | Each `evidence` entry SHALL contain a non-empty `id` and `type`                                                                                                     |
 | IR-14       | If `evidence[n].url` is absent or not publicly accessible, `evidence[n].data` (base64-encoded) SHALL be provided                                                    |
@@ -749,7 +754,7 @@ controller:
         "type": ["agreements", "other_means_of_control"],
         "level": "indirect",
         "basis": "trust_arrangement",
-        "voting_percentage": null,
+        "voting_percentage": 0.0,
         "other_details": "Control exercised through trustee appointment rights over beneficiary assets",
         "rights": ["dividend_rights", "liquidation_rights"]
       },

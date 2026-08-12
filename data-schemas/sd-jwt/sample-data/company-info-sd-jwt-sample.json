@@ -20,7 +20,17 @@
     "status_list_index": 123,
     "status_purpose": "revocation"
   },
-  "number_of_employees": 1250,
+  "legal_entity": {
+    "legal_person": {
+      "legal_person_name": "Example GmbH",
+      "legal_form_type": "GmbH"
+    },
+    "identifier": {
+      "euid": "DE1212.HRB123456",
+      "tax": "DE123456789"
+    }
+  },
+  "number_of_employees": "1250",
   "trade_alias": [
     "BuildCo",
     "WeBuild Solutions"

@@ -448,7 +448,8 @@
         "type",
         "level",
         "basis",
-        "rights"
+        "rights",
+        "voting_percentage"
       ],
       "properties": {
         "type": {
@@ -497,8 +498,7 @@
         },
         "voting_percentage": {
           "type": [
-            "number",
-            "null"
+            "number"
           ],
           "description": "Percentage of voting rights held by the controller (0\u2013100). Optional.",
           "minimum": 0,

@@ -13,6 +13,7 @@
 | 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 | 0.6     | 29.06.2026 | update layout and review gln                                    |
 | 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
+| 1.ß     | 03.07.2026 | Updates in regard trust and revocation                            |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)*

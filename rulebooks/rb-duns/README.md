@@ -6,13 +6,15 @@
     * [Dominic Hurni, SBB]
     * [Florin Coptil, Robert Bosch GmbH]
 
-| Version | Date       | Description                                                    |
-|--------|------------|----------------------------------------------------------------|
-| 0.1    | 23.06.2026 | Initial draft based on the WeBuild design attestation meetings |
-| 0.6    | 29.06.2026 | update layout                                                  |
-| 0.8    | 29.06.2026 | Review attributes and type                                     |
-| 0.9    | 03.07.2026 | Updates in regard trust and revocation                         |
-| 0.91   | 15.07.2026 | Updates after meeting with DUNS                                |
+| Version | Date       | Description                                                  |
+|---------|------------|--------------------------------------------------------------|
+| 0.1     | 23.06.2026 | Initial draft based on the WeBuild design attestation meetings |
+| 0.6     | 29.06.2026 | update layout                                                |
+| 0.8     | 29.06.2026 | Review attributes and type                                   |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                       |
+| 0.91    | 15.07.2026 | Updates after meeting with DUNS                              |
+| 1.0     | 30.07.2026 | Updates review meeting ( 4.2.1)                              |
+
 * **Contact:**
     * [Werner Folkendt](mailto:werner.folkendt@de.bosch.com) *
 
@@ -297,6 +299,14 @@ Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/duns-sd-jw
 
 The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
+
+### 4.2 Relying Party Obligations
+When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
+
+### 4.2.1 – 4.2.8 Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
 ### 4.2.9 Validate Integrity Rules
 Validation of integrity and policy rules will be specified in a future version of this Rulebook.

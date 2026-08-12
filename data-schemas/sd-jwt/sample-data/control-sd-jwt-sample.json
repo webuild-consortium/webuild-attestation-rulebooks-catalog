@@ -123,7 +123,7 @@
         ],
         "level": "indirect",
         "basis": "trust_arrangement",
-        "voting_percentage": null,
+        "voting_percentage": 0.0,
         "other_details": "Control exercised through trustee appointment rights over beneficiary assets",
         "rights": [
           "dividend_rights",

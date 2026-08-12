@@ -10,7 +10,6 @@
 * **Reviewer(s):**
   * [Dominic Hurni, SBB]
   * [Werner Folkendt, Robert Bosch GmbH]
-  * [....., CommerzBank]
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
@@ -18,7 +17,8 @@
 | 0.6     | 23.06.2026 | Review holder and bank perspective                              |
 | 0.8     | 29.06.2026 | Review supplier perspective                                     |
 | 0.8     | 03.07.2026 | Review from data delivered perspective                          |
-| 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                          |
+| 1.0     | 23.07.2026 | Inputs from PA3 - Perspective                                   |
 
 * **Contact:**
   * [Florin Coptil](mailto:florin.coptil@bosch.com)
@@ -140,8 +140,8 @@ AuthorisedSignatories
     ├─ NaturalPerson          (first_name (M), surname (M), date_of_birth (M))                                  — mandatory
     ├─ BirthPlace             (locality (M), country (M), region (O))                                           — mandatory
     ├─ Citizenship            (citizenship(s) [1..n])                                                           — mandatory
-    ├─ PersonRole             (role (O), representation_type (M))                                               — mandatory
-    └─ NaturalPersonIdentifier (document_type (M), document_number (M), issuing_country (M), expiry_date (M))  — optional
+    ├─ PersonRole             (role (O), representation_type (M), email(O), phone(O))                            — mandatory
+    └─ Identifier             (document_type (M), document_number (M), issuing_country (M), expiry_date (M))    — optional
 ```
 *Note*: M - mandatory / O - optional.
 
@@ -235,9 +235,11 @@ This object is defined for each person represented in the AuthorisedSignatories 
 
 **PersonRole Optional Attributes**
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                                  | **Data type** |
-|---------------------|------------------------|---------------------------------------------------------------------------------|---------------|
-| role                | ...                    | The role of the authorised person within the company (e.g., CEO, CFO, Director) | String        |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                   | **Data type** |
+|---------------------|------------------------|----------------------------------------------------------------------------------|---------------|
+| role                | ...                    | The role of the authorised person within the company (e.g., CEO, CFO, Director)  | String        |
+| email               | ...                    | The email of the authorised person within the company (e.g., CEO, CFO, Director) | String        |
+| phone               | ...                    | The phone of the authorised person within the company (e.g., CEO, CFO, Director) | String        |
 
 **NaturalPersonIdentifier Optional Attributes**
 
@@ -350,49 +352,51 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### 3.2.1 Attribute Encoding Table
 
-| **Data Identifier**             | **Attribute Identifier**                                 | **Encoding Format**     | **Reference/Notes**                                                                                           | **Disclosable**   |
-|---------------------------------|----------------------------------------------------------|-------------------------|---------------------------------------------------------------------------------------------------------------|-------------------|
-| **Legal Entity**                |                                                          |                         |                                                                                                               |                   |
-| legal_person_name               | `legal_entity.legal_person.legal_person_name`            | string                  | The complete official legal name of the company                                                               | MUST              |
-| legal_form_type                 | `legal_entity.legal_person.legal_form_type`              | string                  | Legal form of the company (e.g., GmbH, S.A., Ltd.)                                                            | MUST              |
-| **Legal Entity Identifier**     |                                                          |                         |                                                                                                               |                   |
-| euid                            | `legal_person.identifier.euid`                           | String                  | European Unique Identifier — optional sub-field                                                                         | MUST            |
-| lei                             | `legal_person.identifier.lei`                            | String                  | Legal Entity Identifier per ISO 17442 — optional sub-field                                                              | MUST            |
-| tax                             | `legal_person.identifier.tax`                            | String                  | National tax or registration number — optional sub-field                                                                | MUST            |
-| gln                             | `legal_person.identifier.gln`                            | String                  | Global Location Number for legal entities — optional sub-field                                                          | MUST            |
-| duns                            | `legal_person.identifier.duns`                           | String                  | Dun & Bradstreet company identifier — optional sub-field                                                                | MUST            |
-| eori                            | `legal_person.identifier.eori`                           | String                  | EU customs identifier — optional sub-field                                                                              | MUST            |
-| bpnl                            | `legal_person.identifier.bpnl`                           | String                  | Catena-X BPNL identifier per ICD 0243 — optional sub-field                                                              | MUST            |
-| siren                           | `legal_person.identifier.siren`                          | String                  | French company identifier (SIREN) — optional sub-field                                                                  | MUST            |
-| **Authorised Person**           |                                                          |                         |                                                                                                               |                   |
-| authorised_persons              | `authorised_persons`                                     | array                   | Array of authorised person objects in the AuthorisedSignatories Attestation; SHALL contain at least one entry | MUST              |
-| **NaturalPerson**               |                                                          |                         |                                                                                                               |                   |
-| first_name                      | `authorised_persons[n].natural_person.first_name`        | string                  | Full first name(s) of the authorised person per Art. 2 RTS                                                    | MUST              |
-| surname                         | `authorised_persons[n].natural_person.surname`           | string                  | Full surname(s) of the authorised person per Art. 2 RTS                                                       | MUST              |
-| date_of_birth                   | `authorised_persons[n].natural_person.date_of_birth`     | string                  | Date of birth of the authorised person; ISO 8601 full-date format (YYYY-MM-DD)                                | MUST              |
-| **BirthPlace**                  |                                                          |                         |                                                                                                               |                   |
-| birth_place.locality            | `authorised_persons[n].birth_place.locality`             | string                  | Locality (city or town) where the authorised person was born                                                  | MUST              |
-| birth_place.country             | `authorised_persons[n].birth_place.country`              | string                  | Country where the authorised person was born, per Art. 4 RTS; ISO 3166-1 alpha-3                              | MUST              |
-| birth_place.region              | `authorised_persons[n].birth_place.region`               | string                  | Optional region or state of birth                                                                             | MAY               |
-| **Citizenship**                 |                                                          |                         |                                                                                                               |                   |
-| citizenship                     | `authorised_persons[n].citizenship`                      | array                   | Nationality or nationalities of the authorised person; ISO 3166-1 alpha-3 codes                               | MUST              |
-| **PersonRole**                  |                                                          |                         |                                                                                                               |                   |
-| person_role.representation_type | `authorised_persons[n].person_role.representation_type ` | string                  | The nature of the power of representation; SHALL use codes from Section 2.8.1 ("SOLE" or "JOINT")             | MUST              |
-| person_role.role                | `authorised_persons[n].person_role.role `                | string                  | The role of the authorised person within the company (e.g., CEO, CFO); optional                               | MUST              |
-| **NaturalPersonIdentifier**     |                                                          |                         |                                                                                                               |                   |
-| identifier.document_type        | `authorised_persons[n].identifier.document_type`         | string                  | Type of identity document; SHALL use codes from Section 2.8.2; optional                                       | MAY               |
-| identifier.document_number      | `authorised_persons[n].identifier.document_number`       | string                  | The number of the identity document; optional                                                                 | MAY               |
-| identifier.issuing_country      | `authorised_persons[n].identifier.issuing_country`       | string                  | Country that issued the identity document; ISO 3166-1 alpha-3; optional                                       | MAY               |
-| identifier.document_expiry_date | `authorised_persons[n].identifier.document_expiry_date`  | string                  | Expiration date of the identity document; ISO 8601 full-date format (YYYY-MM-DD); optional                    | MAY               |
-| **Metadata**                    |                                                          |                         |                                                                                                               |                   |
-| issuance_date                   | `iat`                                                    | Number (Unix timestamp) | Date and time when the attestation was issued (ISO 8601); RFC 7519                                            | MUST NOT          |
-| expiry_date                     | `exp`                                                    | Number (Unix timestamp) | Date and time when the attestation expires (ISO 8601); RFC 7519                                               | MUST NOT          |
-| issuing_entity                  | `iss`                                                    | String (URI or DID)     | Identifier of the competent institution that issued the attestation; RFC 7519                                 | MUST NOT          |
-| attestation_legal_category      | `attestation_legal_category`                             | String                  | One of "EAA" or "QEAA" as defined by eIDAS 2                                                                  | MUST NOT          |
-| vct                             | `vct`                                                    | String                  | The vct definition                                                                                            | MUST NOT          |
-| cnf                             | `cnf`                                                    | String                  | Cryptographic Key Binding                                                                                     | MUST NOT          |
-| schema_version                  | `schema_version`                                         | String                  | Version of the schema used; optional                                                                          | MAY               |
-| trust_anchor_url                | `trust_anchor_url`                                       | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved; optional                          | MAY               |
+| **Data Identifier**              | **Attribute Identifier**                               | **Encoding Format**     | **Reference/Notes**                                                                                           | **Disclosable**   |
+|----------------------------------|--------------------------------------------------------|-------------------------|---------------------------------------------------------------------------------------------------------------|-------------------|
+| **Legal Entity**                 |                                                        |                         |                                                                                                               |                   |
+| legal_person_name                | `legal_entity.legal_person.legal_person_name`          | string                  | The complete official legal name of the company                                                               | MUST              |
+| legal_form_type                  | `legal_entity.legal_person.legal_form_type`            | string                  | Legal form of the company (e.g., GmbH, S.A., Ltd.)                                                            | MUST              |
+| **Legal Entity Identifier**      |                                                        |                         |                                                                                                               |                   |
+| euid                             | `legal_person.identifier.euid`                         | String                  | European Unique Identifier — optional sub-field                                                               | MUST            |
+| lei                              | `legal_person.identifier.lei`                          | String                  | Legal Entity Identifier per ISO 17442 — optional sub-field                                                    | MUST            |
+| tax                              | `legal_person.identifier.tax`                          | String                  | National tax or registration number — optional sub-field                                                      | MUST            |
+| gln                              | `legal_person.identifier.gln`                          | String                  | Global Location Number for legal entities — optional sub-field                                                | MUST            |
+| duns                             | `legal_person.identifier.duns`                         | String                  | Dun & Bradstreet company identifier — optional sub-field                                                      | MUST            |
+| eori                             | `legal_person.identifier.eori`                         | String                  | EU customs identifier — optional sub-field                                                                    | MUST            |
+| bpnl                             | `legal_person.identifier.bpnl`                         | String                  | Catena-X BPNL identifier per ICD 0243 — optional sub-field                                                    | MUST            |
+| siren                            | `legal_person.identifier.siren`                        | String                  | French company identifier (SIREN) — optional sub-field                                                        | MUST            |
+| **Authorised Person**            |                                                        |                         |                                                                                                               |                   |
+| authorised_persons               | `authorised_persons`                                   | array                   | Array of authorised person objects in the AuthorisedSignatories Attestation; SHALL contain at least one entry | MUST              |
+| **NaturalPerson**                |                                                        |                         |                                                                                                               |                   |
+| first_name                       | `authorised_persons[n].natural_person.first_name`      | string                  | Full first name(s) of the authorised person per Art. 2 RTS                                                    | MUST              |
+| surname                          | `authorised_persons[n].natural_person.surname`         | string                  | Full surname(s) of the authorised person per Art. 2 RTS                                                       | MUST              |
+| date_of_birth                    | `authorised_persons[n].natural_person.date_of_birth`   | string                  | Date of birth of the authorised person; ISO 8601 full-date format (YYYY-MM-DD)                                | MUST              |
+| **BirthPlace**                   |                                                        |                         |                                                                                                               |                   |
+| birth_place.locality             | `authorised_persons[n].birth_place.locality`           | string                  | Locality (city or town) where the authorised person was born                                                  | MUST              |
+| birth_place.country              | `authorised_persons[n].birth_place.country`            | string                  | Country where the authorised person was born, per Art. 4 RTS; ISO 3166-1 alpha-3                              | MUST              |
+| birth_place.region               | `authorised_persons[n].birth_place.region`             | string                  | Optional region or state of birth                                                                             | MAY               |
+| **Citizenship**                  |                                                        |                         |                                                                                                               |                   |
+| citizenship                      | `authorised_persons[n].citizenship`                    | array                   | Nationality or nationalities of the authorised person; ISO 3166-1 alpha-3 codes                               | MUST              |
+| **PersonRole**                   |                                                        |                         |                                                                                                               |                   |
+| person_role.representation_type  | `authorised_persons[n].person_role.representation_type ` | string                  | The nature of the power of representation; SHALL use codes from Section 2.8.1 ("SOLE" or "JOINT")             | MUST              |
+| person_role.role                 | `authorised_persons[n].person_role.role`               | string                  | The role of the authorised person within the company (e.g., CEO, CFO); optional                               | MUST              |
+| person_role.email                | `authorised_persons[n].person_role.email`              | string                  | The role of the authorised person within the company (e.g., CEO, CFO); optional                               | MUST              |
+| person_role.phone                | `authorised_persons[n].person_role.phone`              | string                  | The role of the authorised person within the company (e.g., CEO, CFO); optional                               | MUST              |
+| **NaturalPersonIdentifier**      |                                                        |                         |                                                                                                               |                   |
+| identifier.document_type         | `authorised_persons[n].identifier.document_type`       | string                  | Type of identity document; SHALL use codes from Section 2.8.2; optional                                       | MAY               |
+| identifier.document_number       | `authorised_persons[n].identifier.document_number`     | string                  | The number of the identity document; optional                                                                 | MAY               |
+| identifier.issuing_country       | `authorised_persons[n].identifier.issuing_country`     | string                  | Country that issued the identity document; ISO 3166-1 alpha-3; optional                                       | MAY               |
+| identifier.document_expiry_date  | `authorised_persons[n].identifier.document_expiry_date` | string                  | Expiration date of the identity document; ISO 8601 full-date format (YYYY-MM-DD); optional                    | MAY               |
+| **Metadata**                     |                                                        |                         |                                                                                                               |                   |
+| issuance_date                    | `iat`                                                  | Number (Unix timestamp) | Date and time when the attestation was issued (ISO 8601); RFC 7519                                            | MUST NOT          |
+| expiry_date                      | `exp`                                                  | Number (Unix timestamp) | Date and time when the attestation expires (ISO 8601); RFC 7519                                               | MUST NOT          |
+| issuing_entity                   | `iss`                                                  | String (URI or DID)     | Identifier of the competent institution that issued the attestation; RFC 7519                                 | MUST NOT          |
+| attestation_legal_category       | `attestation_legal_category`                           | String                  | One of "EAA" or "QEAA" as defined by eIDAS 2                                                                  | MUST NOT          |
+| vct                              | `vct`                                                  | String                  | The vct definition                                                                                            | MUST NOT          |
+| cnf                              | `cnf`                                                  | String                  | Cryptographic Key Binding                                                                                     | MUST NOT          |
+| schema_version                   | `schema_version`                                       | String                  | Version of the schema used; optional                                                                          | MAY               |
+| trust_anchor_url                 | `trust_anchor_url`                                     | String (URI)            | URL where the trust anchor for verifying this attestation can be retrieved; optional                          | MAY               |
 
 **Notes:**
 

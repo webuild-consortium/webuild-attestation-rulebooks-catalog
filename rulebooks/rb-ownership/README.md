@@ -6,9 +6,12 @@
 
 * Reviewer(s):
   * [Baumgardt Michaela, Commerzbank]
+  * [Bastek-Margo Jenny, Commerzbank]
+  * [Fabrizio Notarnicola, Infocameere IT ]
   * [Ricky Lamberty, Robert Bosch GmbH]
-  * @TODO Florin — Add the reviewers from attestation design (meetings UseCase, Banks, TransparentRegister)
-
+  * [ , Bundesanzeiger ]
+  * [ Leone Riello , Infocert]
+  
 | Version | Date       | Description                                                                            |
 |---------|------------|----------------------------------------------------------------------------------------|
 | 0.1     | 23.03.2026 | Initial draft based on the WeBuild design attestations meetings                        |
@@ -16,10 +19,12 @@
 | 0.4     | 01.06.2026 | Updates of content - legal arrangements                                                |
 | 0.7     | 24.06.2026 | Updates of content based on the submission regulation and AMLR/RTS and BODS vocabulary |
 | 0.8     | 29.06.2026 | Updates of BODS vocabulary                                                             |
-| 0.9     | 03.07.2026 | Updates in regard trust and revocation                            |
+| 0.9     | 03.07.2026 | Updates in regard trust and revocation                                                 |
+| 1.0     | 23.07.2026 | Updates input PA3-Review                                                               |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)*
 
 * Feedback:
 

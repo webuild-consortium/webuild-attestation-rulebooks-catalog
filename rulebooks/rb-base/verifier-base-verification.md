@@ -4,10 +4,9 @@
 
 * Author(s):
   * [Folkendt Werner , Robert Bosch GmbH]
-* 
-* Reviewer(s):
   * [Florin Coptil, Robert Bosch GmbH]
-  * [ .... ] 
+* Reviewer(s):
+  * [Dominic Hurni, SBB]
 
 *Provide versioning information about the Rulebook in the following form:*
 
@@ -15,10 +14,10 @@
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 06.05.2026 | Initial draft based on the WeBuild attestation design meetings  |
 
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
-Contact: werner.folkendt@de.bosch.com
-
+* Contact:
+  * [Folkendt Werner](mailto:werner.folkendt@de.bosch.com)*
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)*
+s
 **Feedback:**
 
 ## Intro

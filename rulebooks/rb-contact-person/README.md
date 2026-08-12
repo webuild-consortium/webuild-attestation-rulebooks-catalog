@@ -15,6 +15,7 @@
 | 0.6     | 23.06.2026 | Review in regard to verifier perspective                        |
 | 0.8     | 29.06.2026 | Review format and cleanup                                       |
 | 0.9     | 14.07.2026 | Review attributes names and cardinality                         |
+| 1.0     | 23.07.2026 | Inputs from PA3 - Perspective                                   |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)*
@@ -27,14 +28,14 @@ This attestation addresses the following question:
 
 **Who are the designated contact persons within a legal entity and what are their roles and contact details?**
 
-The Contact Person Attestation identifies natural persons acting as designated contacts within a legal entity, enabling automated and trusted exchange of contact person data between organizations in supply chain, procurement, and onboarding processes.
+The Contact Person Attestation identifies and verifies natural persons acting as designated contacts of a economic operator, enabling automated and secure exchange of trustworthy contact person data between economic operators in supply chain, procurement, and onboarding processes.
 
 ### 1.1 Document Scope and Purpose
 
-Cross-company communication is daily business in supply management. To know the correct and
-valid contact persons for different issues (e.g., finance, product, quality, logistics) is
-crucial to conduct efficient business in the onboarding, pre-contracting, or contracting phase.
-In the onboarding process, a minimum of one contact person is required.
+Cross-company communication and data exchange is daily business in supply management. Knowing the correct and
+valid contact persons for different issues (e.g., finance, product, quality, logistics) saves time and money and therefore crucial to conduct efficient business in the supplier onboarding, pre-contracting, or contracting phase.
+Minimum one contact person is required for the onboarding process. The Contact Person Attestation identifies and verifies natural persons acting as designated
+contacts of the corresponding economic operator, enabling automated and secure exchange of contact person data between economic operators within supply chain and procurement processes.
 
 **Use Cases:**
 
@@ -42,9 +43,7 @@ In the onboarding process, a minimum of one contact person is required.
 - Logistics employees have instant access to valid logistics contact person data. For example,
   in the event of a wrongly delivered battery cell, an employee contacts the responsible sales
   representative by email or phone.
-- The Relying Party Wallet validates the revocation status of contact person data. Workflows
-  into internal systems (e.g., master data management) follow automatically. Administrative
-  employees receive a notification if a contact person is no longer valid.
+- The Relying Party Wallet validates the revocation status of contact person data. Administrative employee receives a notification and takes contact with HR responsible contact person of supplier. 
 
 *Holder:*
 - An administrative employee receives a request from a procurer to provide contact persons for
@@ -52,25 +51,28 @@ In the onboarding process, a minimum of one contact person is required.
   holder company has issued Contact Person attestations for all its employees into its Company
   Wallet. The system selects the fitting employee to answer the request (e.g., a Key Account
   Manager as the battery cell sales contact person).
-- The Holder is responsible for the lifecycle of the attestation, including revocation and
-  role changes.
+- The Holder is responsible for the lifecycle of the attestation content, including revocation and
+  role changes. Holder is not responsible for the attestation schema. 
 
 The added value of the Contact Person attestation for organizations is to automate the
 onboarding and maintenance process of contact person data, increasing data accuracy and
-enabling fast and secure business interactions.
+enabling fast and secure business interactions. Self issued attestation can be n times reused. 
 
-This attestation flows only between organizations where a business relationship exists.
+This attestation flows only between organizations where a business relationship exists. 
+After mutual identification and authentication. 
 
 **Design Decisions**
 
 This Contact Person Attestation Rulebook is based on:
 - EU Company Certificate (EUCC) / European Business Wallet (EBW) framework as the foundational
-  legal identity layer for the employing organization
+  legal identity layer for the employing organization, including identifier.  
 - Schema.org vocabulary for personal name attributes
 - Core Public Organisation Vocabulary (CPOV) for contact point attributes
+- European Business Wallet Vocabulary (https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html)
 - The Organization Ontology for role classification
 - RFC 4021 for email address formatting
 - ITU-T E.164 for telephone number formatting
+- EAA as proof for employeeship for each employee issued by the economic operator. 
 
 ### 1.2 Document Structure
 This Rulebook is structured as follows:
@@ -96,25 +98,30 @@ are intended as statements of fact.
 
 *Additional terminology specific to this attestation:*
 
-| Term                   | Description                                                                                                                                               |
-|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Contact Person         | The attestation type defined in this Rulebook, identifying a natural person designated as a contact within a legal entity for specific business functions |
-| Economic Operator      | A legal entity participating in commercial or procurement activities, identified per the European Business Wallet (EBW) framework                         |
-| EUCC                   | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                        |
-| EBW                    | European Business Wallet – the digital wallet framework for legal entities operating within the EU single market                                          |
-| Role                   | A designated function or responsibility assigned to a contact person within an organization (e.g., sales, finance, quality, logistics)                    |
-| Employee Identifier    | An alphanumeric identifier assigned by the employing organization to uniquely identify an employee                                                        |
-| KYS                    | Know Your Supplier – due diligence process for verifying supplier credentials, integrity, and risk exposure                                               |
-| Schema.org             | A collaborative, community-based vocabulary for structured data markup on the internet, used here for personal name attributes                            |
-| CPOV                   | Core Public Organisation Vocabulary – a standardized EU vocabulary for describing public organizations and their contact points                           |
-| Organization Ontology  | A W3C ontology for describing organizational structures, roles, and memberships                                                                           |
-| RFC 4021               | IETF standard for the registration of mail and MIME header fields, used here as the reference for valid email address format                              |
-| E.164                  | ITU-T international public telecommunication numbering plan, used here as the reference for valid telephone number format                                 |
-| ISO 8601               | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                               |
+| Term                  | Description                                                                                                                                                      |
+|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Contact Person        | The attestation type defined in this Rulebook, identifying a natural person designated as a contact of an economic operator for specific business functions      |
+| Economic Operator     | A legal entity participating in commercial or procurement activities, identified per the European Business Wallet (EBW) framework                                |
+| EUCC                  | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                               |
+| EBW                   | European Business Wallet – the digital wallet framework for legal entities operating within the EU single market                                                 |
+| Role                  | A designated function or responsibility assigned to a contact person within an organization (e.g., sales, finance, quality, logistics)                           |
+| Employee Identifier   | An alphanumeric identifier assigned by the employing organization to uniquely identify an employee                                                               |
+| KYS                   | Know Your Supplier – due diligence process to onboard suppliers including verifing credentials to assure integrity and estimate risk exposure                   |
+| Schema.org            | A collaborative, community-based vocabulary for structured data markup on the internet, used here for personal name attributes                                   |
+| CPOV                  | Core Public Organisation Vocabulary – a standardized EU vocabulary for describing public organizations and their contact points                                  |
+| Organization Ontology | A W3C ontology for describing organizational structures, roles, and memberships                                                                                  |
+| RFC 4021              | IETF standard for the registration of mail and MIME header fields, used here as the reference for valid email address format                                     |
+| E.164                 | ITU-T international public telecommunication numbering plan, used here as the reference for valid telephone number format                                        |
+| ISO 8601              | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                                     |
 
-## 2 Attestation Attributes and Metadata
+---
 
-The Contact Person Attestation is designed to provide a standardized, verifiable representation of a natural person designated as a contact within a legal entity. This attestation enables trusted and automated exchange of contact person data between organizations in supply chain, procurement, and onboarding processes.
+## 2 Attestation attributes and metadata
+
+The Contact Person Attestation is designed to provide a standardized, verifiable representation
+of a natural person designated as a contact of an economic operator. This attestation enables
+trusted and automated exchange of contact person data between economic operators in supply chain,
+procurement, and onboarding processes.
 
 ### 2.1 Introduction
 The data model for the Contact Person Attestation is structured as follows:
@@ -123,6 +130,9 @@ The data model for the Contact Person Attestation is structured as follows:
 ````
 ContactPerson Attestation
 ├─ legal_entity (M)
+│   ├─ legal_person  (M)
+│   │   ├─ legal_person_name (tstr) (M)
+│   │   ├─ legal_form_type (tstr) (M)
 │   ├─ identifier  (M)                          // At least one identifier required
 │   │   ├─ euid (str) (O)                       // European Unique Identifier
 │   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
@@ -157,6 +167,13 @@ This attestation type is classified as:
 | `contact_persons`   | —                      | An array of objects, each representing an individual contact person. | Array of Objects |
 
 ### 2.2 Mandatory Attributes
+
+**LegalPerson Attributes**
+
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                             | **Data type** |
+|---------------------|------------------------|----------------------------------------------------------------------------|---------------|
+| legal_person_name   | —                      | The complete official legal name of the legal entity                       | String        |
+| legal_form_type     | —                      | The legal form of the legal entity (e.g., SA, GmbH, Ltd, BV)              | String        |
 
 **LegalEntity Attributes**
 This object is defined once per attestation.
@@ -209,7 +226,12 @@ No conditional attributes are defined for this attestation type.
 
 *Note: Standard JWT claims (`iss`, `iat`, `exp`) are also mandatory.*
 
-### 2.6 Optional Metadata
+| **Register Type**         | **Example Identifier Format**    |
+|---------------------------|----------------------------------|
+| EU Company Register       | EUID (e.g., DE-HRB-123456)       |
+| VAT Register              | VAT number (e.g., DE123456789)   |
+| National Company Register | Country-specific registration ID |
+| Gleif Register Authorities | [GLEIF Registration Authority List](https://www.gleif.org/en/lei-data/code-lists/gleif-registration-authorities-list?cachepath=de%2Flei-data%2Fcode-lists%2Fgleif-registration-authorities-list)|
 
 | **Data Identifier**   | **Definition**                                                              | **Data type**  |
 |:----------------------|:----------------------------------------------------------------------------|:---------------|
@@ -235,7 +257,7 @@ The `role` attribute SHOULD use descriptive role labels aligned with organizatio
 
 ### 2.9 Integrity Rules
 The following integrity rules **SHALL** be enforced:
-- The `legal_entity.identifier` object **SHALL** contain at least one non-empty identifier sub-field.
+- `Legal_Entity` **SHALL** appear exactly once and **SHALL** contain `legal_person_name`, `legal_form_type`, and at least one `identifiers`.
 - The `contact_persons` array **SHALL** contain at least one entry.
 - Each `contact_person` entry **SHALL** contain a non-empty `given_name`, `family_name`, `role`, and `email`.
 - `email` **SHALL** be a valid email address conforming to **RFC 4021**.
@@ -255,16 +277,18 @@ The Contact Person Attestation uses the SD-JWT VC format to allow for selective 
 
 | **Data Identifier**          | **Attribute Identifier**                        | **Encoding Format**     | **Reference/Notes**                                                                            | **Disclosable** |
 |:-----------------------------|:------------------------------------------------|:------------------------|:-----------------------------------------------------------------------------------------------|:----------------|
-| **Legal Entity**             | `legal_entity`                                  | Object                  | The legal entity that employs the contact persons.                                             | MUST            |
-| **Legal Entity Identifier**  |                                                 |                         |                                                                                                |                 |
-| euid                         | `legal_entity.identifier.euid`                  | String                  | European Unique Identifier — optional sub-field.                                               | MUST            |
-| lei                          | `legal_entity.identifier.lei`                   | String                  | Legal Entity Identifier (LEI) — optional sub-field.                                            | MUST            |
-| tax                          | `legal_entity.identifier.tax`                   | String                  | National tax or registration number — optional sub-field.                                      | MUST            |
-| gln                          | `legal_entity.identifier.gln`                   | String                  | Global Location Number for legal entities — optional sub-field.                                | MUST            |
-| duns                         | `legal_entity.identifier.duns`                  | String                  | Dun & Bradstreet company identifier — optional sub-field.                                      | MUST            |
-| eori                         | `legal_entity.identifier.eori`                  | String                  | EU customs identifier — optional sub-field.                                                    | MUST            |
-| bpnl                         | `legal_entity.identifier.bpnl`                  | String                  | Catena-X BPNL identifier — optional sub-field.                                                 | MUST            |
-| siren                        | `legal_entity.identifier.siren`                 | String                  | French company identifier (SIREN) — optional sub-field.                                        | MUST            |
+| **Legal Entity**             |                                                          |                         |                                                                                                               |                   |
+| legal_person_name            | `legal_entity.legal_person.legal_person_name`            | string                  | The complete official legal name of the company                                                               | MUST              |
+| legal_form_type              | `legal_entity.legal_person.legal_form_type`              | string                  | Legal form of the company (e.g., GmbH, S.A., Ltd.)                                                            | MUST              |
+| **Legal Entity Identifier**  |                                                          |                         |                                                                                                               |                   |
+| euid                         | `legal_person.identifier.euid`                           | String                  | European Unique Identifier — optional sub-field                                                                         | MUST            |
+| lei                          | `legal_person.identifier.lei`                            | String                  | Legal Entity Identifier per ISO 17442 — optional sub-field                                                              | MUST            |
+| tax                          | `legal_person.identifier.tax`                            | String                  | National tax or registration number — optional sub-field                                                                | MUST            |
+| gln                          | `legal_person.identifier.gln`                            | String                  | Global Location Number for legal entities — optional sub-field                                                          | MUST            |
+| duns                         | `legal_person.identifier.duns`                           | String                  | Dun & Bradstreet company identifier — optional sub-field                                                                | MUST            |
+| eori                         | `legal_person.identifier.eori`                           | String                  | EU customs identifier — optional sub-field                                                                              | MUST            |
+| bpnl                         | `legal_person.identifier.bpnl`                           | String                  | Catena-X BPNL identifier per ICD 0243 — optional sub-field                                                              | MUST            |
+| siren                        | `legal_person.identifier.siren`                          | String                  | French company identifier (SIREN) — optional sub-field                                                                  | MUST            |
 | **Contact Persons**          | `contact_persons`                               | Array                   | Array of contact person objects; SHALL contain at least one entry.                             | MUST            |
 | **ContactPerson Attributes** | `contact_person`                                | Object                  |                                                                                                |                 |
 | given_name                   | `given_name`                                    | String                  | Given name of the contact person; [givenName – Schema.org](https://schema.org/givenName).      | MUST            |
@@ -317,13 +341,19 @@ Here is a non-normative example payload reflecting the new model:
   "attestation_legal_category":"EAA",
   "schema_version":"1.0",
   "trust_anchor_url":"https://trust.webuildconsortium.eu/anchors/eidas-tl",
-  "legal_entity":{
-    "identifier":{
-      "euid":"DE-HRB-123456",
-      "tax":"DE123456789",
-      "lei":"529900T8BM49AURSDO55"
+
+  "legal_entity": {
+    "legal_person": {
+      "legal_person_name": "Example GmbH",
+      "legal_form_type": "GmbH"
+    },
+    "identifier": {
+      "euid": "DE-HRB-123456",
+      "lei": "5493001KJTIIGC8Y1R12",
+      "tax": "DE123456789"
     }
   },
+
   "contact_persons":[
     {
       "given_name":"Anna",
@@ -339,6 +369,7 @@ Here is a non-normative example payload reflecting the new model:
       "email":"max.mustermann@example.com"
     }
   ],
+  
   "status":{
     "type":"status-list",
     "status_list_credential":"https://issuer.example.com/status/contactperson/2026",

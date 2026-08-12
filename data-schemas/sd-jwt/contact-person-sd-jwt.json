@@ -226,24 +226,53 @@
     },
     "legal_entity": {
       "type": "object",
-      "description": "An object containing identifiers for the legal entity.",
+      "description": "Identifies the legal entity that issued the attestation and on whose behalf the authorised persons act. SHALL appear exactly once. SHALL be individually selectively disclosable as a top-level claim.",
+      "additionalProperties": false,
       "properties": {
+        "legal_person": {
+          "type": "object",
+          "description": "The official legal name and legal form of the entity issuing the attestation.",
+          "additionalProperties": false,
+          "properties": {
+            "legal_person_name": {
+              "type": "string",
+              "description": "The complete official legal name of the legal entity.",
+              "examples": [
+                "Example GmbH"
+              ]
+            },
+            "legal_form_type": {
+              "type": "string",
+              "description": "The legal form of the legal entity (e.g., GmbH, S.A., Ltd, BV).",
+              "examples": [
+                "GmbH",
+                "S.A.",
+                "Ltd",
+                "BV"
+              ]
+            }
+          },
+          "required": [
+            "legal_person_name",
+            "legal_form_type"
+          ]
+        },
         "identifier": {
           "type": "object",
-          "description": "A structured object of legal entity identifiers; at least one sub-field SHALL be provided.",
+          "description": "Legal identifiers for the entity. The EUID is mandatory; LEI and tax number are optional.",
+          "additionalProperties": false,
           "properties": {
             "euid": {
               "type": "string",
-              "description": "The European Unique Identifier (EUID) of the employing legal entity per Directive (EU) 2017/1132 and ISO 3166-1 alpha-2. Optional but RECOMMENDED.",
+              "description": "The European Unique Identifier (EUID) of the legal entity per Directive (EU) 2017/1132. SHALL be a non-empty string.",
               "minLength": 1,
               "examples": [
-                "DE-HRB-123456",
-                "FR-RCS-PARIS-987654321"
+                "DE-HRB-123456"
               ]
             },
             "lei": {
               "type": "string",
-              "description": "Legal Entity Identifier (LEI) of the employing organization per ISO 17442. When present, SHALL be exactly 20 uppercase alphanumeric characters.",
+              "description": "Legal Entity Identifier (LEI) per ISO 17442. When present, SHALL be exactly 20 characters.",
               "pattern": "^[A-Z0-9]{20}$",
               "examples": [
                 "5493001KJTIIGC8Y1R12"
@@ -251,37 +280,39 @@
             },
             "tax": {
               "type": "string",
-              "description": "National company tax or registration number of the employing organization. Optional.",
+              "description": "National company tax or registration number. Optional.",
               "examples": [
-                "DE123456789",
-                "tax21212"
+                "DE123456789"
               ]
             },
             "gln": {
               "type": "string",
-              "description": "Global Location Number for legal entities (GS1 identifier)."
+              "description": "Global Location Number for legal entities \u2014 GS1 identifier"
             },
             "duns": {
               "type": "string",
-              "description": "Data Universal Numbering System (Dun & Bradstreet identifier)."
+              "description": "Data Universal Numbering System \u2014 Dun & Bradstreet identifier"
             },
             "eori": {
               "type": "string",
-              "description": "Economic Operators Registration and Identification number (EU customs)."
+              "description": "Economic Operators Registration and Identification number \u2014 EU customs identifier"
             },
             "bpnl": {
               "type": "string",
-              "description": "Business Partner Number Legal entity (Catena-X identifier)."
+              "description": "Business Partner Number Legal entity \u2014 Catena-X identifier per ICD 0243"
             },
             "siren": {
               "type": "string",
-              "description": "Syst\u00e8me d'Identification du R\u00e9pertoire des ENtreprises (French identifier)."
+              "description": "Syst\u00e8me d'Identification du R\u00e9pertoire des ENtreprises \u2014 French company identifier"
             }
           },
-          "additionalProperties": false
+          "required": [
+            "euid"
+          ]
         }
       },
       "required": [
+        "legal_person",
         "identifier"
       ]
     }
