@@ -1,7 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://webuild-consortium.github.io/attestation-catalog/eu.we-build.ereceipt.1/schema.json",
+  "$id": "https://webuildconsortium.eu/schemas/e-receipt-sd-jwt.json",
   "title": "WE BUILD eReceipt SD-JWT VC payload (vct eu.we-build.ereceipt.1)",
+  "description": "SD-JWT VC payload schema for the WE BUILD eReceipt attestation. Implements Chapters 2 and 3 of the rb-e-receipt Rulebook v2.0 (22 June 2026): the mandatory, optional and conditional attributes, the Section 2.8 code lists and the Section 3.2 SD-JWT VC encoding. The Section 3.2.5 illustrative example is published unchanged as the sample under sample-data/.",
+  "version": "2.0.0",
   "$comment": "Final, aligned with rb-e-receipt-rulebook v2.0 (version 1.5, 19 Jun 2026): instrument-agnostic verifications (EMV/OCMF/SCT/SCT-INST), payments[].type CARD/CREDIT_TRANSFER/MOBILEPAY/GIFTCARD (CASH and handedAmount removed), nested IETF Token Status List (status.status_list), media type dc+sd-jwt. This validates the logical SD-JWT VC claim set (the JWT claim set before SD-JWT _sd processing, as in rulebook 3.2.5); the issued SD-JWT additionally wraps the disclosable claims in _sd arrays. Single source of truth is the rulebook README; NOT the EWC ds011 schema. Cross-field integrity rules (IR-01/02/03 arithmetic, IR-04/06 ordering, exp>iat) are noted in field $comments but cannot be expressed in JSON Schema.",
   "type": "object",
   "required": [
