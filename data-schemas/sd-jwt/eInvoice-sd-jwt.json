@@ -403,7 +403,7 @@
 	  }
     }
   },
-  "x-rulebook-version": "0.71",
+  "x-rulebook-version": "0.8",
   "allOf": [
     {
       "if": {
