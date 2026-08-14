@@ -21,6 +21,7 @@
 |------------------|--------------------|--------------------------------------------------|
 | 01                | 12.01.2025         | Initial Draft based on the previous [work of EWC ](https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/rulebooks/rb002_eu_company_certificate.md) |
 | 02                | 10.04.2026         | Updated according to the work done in WE BUILD, using the [WE BUILD EUCC attestation description](https://portal.webuildconsortium.eu/group/bu2-create-company-branch/files?mid=7087&fid%5B0%5D=56&fid%5B1%5D=58&fid%5B2%5D=62) |
+| 03                | 27.07.2026         | Restructured to comply with the WE BUILD Attestation Rulebook Template v1.1 |
 
 **Feedback:**
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
@@ -28,7 +29,7 @@ Alternative: Contact Business usecase 2 contact points in WE BUILD.
 
 ## 1 Introduction
 
-### 1.1 Attestation introduction
+### 1.1 Document scope and purpose
 
 This document is the EU Company Certificate Data Rulebook (referred to as EUCC) based on
 the [EU Company Law regulation](https://eur-lex.europa.eu/eli/dir/2025/25/oj/eng). It contains the specific requirements, issuance process, formatting and content of the EUCC. 
@@ -49,16 +50,7 @@ It embodies:
 - The legal representatives authorized to bind the company
 - The applicable signatory rules
 
-### 1.2 Introduction attribute specification
-
-The attestation attributes are defined in the tables of Chapter 2 of this document. These tables contain the following information:
-- The first column specifies the identifiers of the attestation attributes. The attribute identifiers in this column SHALL be used in requests and responses. There SHALL be at most one attribute with the same attribute identifier in each attestation attribute.
-- The second column describes the meaning of the attribute.
-- The third column specifies whether the presence of the attribute in an attestation is mandatory (M), or optional (O).
-    - NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.
-- The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].
-
-### 1.3 Document structure
+### 1.2 Document structure
 
 - Chapter 2, Attestation attributes and metadata in an encoding-independent manner. 
 - Chapter 3, Attestation attributes for the specific encodings [SD-JWT VC] and [W3C VCDM v2.0].
@@ -68,7 +60,7 @@ The attestation attributes are defined in the tables of Chapter 2 of this docume
 - Chapter 7, Compliance information
 
 
-### 1.4 Keywords
+### 1.3 Key words
 
 
 This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as
@@ -81,7 +73,7 @@ instance, by an external document. The word 'can' indicates a capability,
 whereas other words, such as 'will', and 'is' or 'are' are intended as
 statements of fact.
 
-### 1.5 Terminology
+### 1.4 Terminology
 
 This document uses terminology specified in [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/eli/reg/2024/1183/oj/eng) and [Annex 1 of the ARF](https://eudi.dev/1.4.0/annexes/annex-1/annex-1-definitions/).
 
@@ -98,6 +90,8 @@ In addition to the attributes definition necessary to understand the data schema
 
 ## 2 Attestation attributes and metadata
 
+### Chapter overview and requirements
+
 *This section is used for defining all attributes that an
 attestation of the defined type may contain. In this section
 the attributes SHALL be defined in an encoding-independent manner (see ARB_06 in [Topic 12]). 
@@ -107,6 +101,10 @@ and it SHALL be specified in the corresponding section (see ARB_09 in [Topic 12]
 *When attributes are defined, referring to attributes that
 already exist in a catalogue of attestation attributes 
 SHOULD be considered (see ARB_07 in [Topic 12]).*
+
+The attribute identifiers specified in the tables of this chapter SHALL be used in requests and responses. There SHALL be at most one attribute with the same attribute identifier in each attestation.
+
+NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.
 
 *[Topic 12] of Annex 2 of the ARF defines the following High-Level Requirements with
 respect to the Attestation Rulebooks*
@@ -154,124 +152,115 @@ looked up SHOULD be defined. What this location indicates precisely is dependent
 on the nature of the mechanism used for distributing trust anchors, detailed in section 
 5 (see ARB_21 in [Topic 12])
 
-### 2.1 Overview attributes attestation
+### 2.1 Introduction
 
-The following table combines all attestation attributes for the EUCC (mandatory, optional, and conditional) in a single overview. Attribute identifiers SHALL be used in requests and responses.
+According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation]
+an indication, at least in a form suitable for automated processing, that the attestation
+has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
+of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.
+This document defines the attribute `attestation_legal_category` which SHALL have
+the value "QEAA" or "PuB-EAA" or "non-qualified-EAA".
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| attestation_legal_category | One of EAA, Pub-EAA or QEAA | M | string |
-| legal_person_name | Official current legal person name as registered in the business register. | M | string |
-| legal_person_id | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | Legal form of the company. | M | string |
-| registration_member_state | The member state where the company is registered (Alpha-2 country code). | M | string |
-| registered_address | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
-| registration_date | Date of company registration. | M | string (date) |
-| legal_person_status | Status of the company as defined in national law. | M | string |
-| legal_person_activity | Main activity of the company (NACE). | M | string |
-| legal_representative | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
-| share_capital | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
-| legal_person_duration | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
-| digital_contact_point | Correspondence address of the company, such as electronic mail and/or website | O | object |
+There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used for the `registered_address` object.
 
-### 2.2 Code lists
+The . notation is used in the tables of this chapter to indicate the nesting of attributes.
 
-The following code lists apply to specific attributes:
+### 2.2 Mandatory attributes
 
-**legal_person_status**
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of "QEAA", "PuB-EAA" or "non-qualified-EAA", see Section 2.1 | string | QEAA |
+| legal_person_name | [legalName](https://iri.suomi.fi/terminology/webuild/legalname) | Official current legal person name as registered in the business register. | string | EUDI WALLET SOLUTIONS AS |
+| legal_person_id | [legalIdentifier](https://iri.suomi.fi/terminology/webuild/legalidentifier) | Unique ID for the legal person in the EUID structure. | string | NOFOR.987654321 |
+| legal_form_type | N/A | Legal form of the company. | string | Aksjeselskap (AS) |
+| registration_member_state | N/A | The member state where the company is registered (Alpha-2 country code). | string | NO |
+| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. Optional sub-attributes are listed in [Section 2.3](#23-optional-attributes) | object | *see sub-attributes* |
+| registered_address.full_address | [fullAddress](https://w3id.org/ebwv#fullAddress) | Complete address of the company, written as a string, separated by semicolons. | string | Storgata 1; 9008; Tromsø; NO |
+| registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | string (date) | 2020-05-20 |
+| legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | string | active |
+| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). | object | code: 62.010, description: Computer programming activities |
+| legal_representative | N/A | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | array&lt;object&gt; | *see Section 2.4* |
 
-Examples (Member-State specific):
-- active
-- dissolved
-- in_liquidation
-- insolvent
-- struck_off
+### 2.3 Optional attributes
 
-**legal_person_activity**
-
-Values:
-- NACE codes (EU)
-- ATECO (Italy)
-
-**registration_member_state**
-
-ISO 3166-1 alpha-2 country codes
-
-**signatory_rule**
-
-Values:
-- sole
-- joint
-- joint_two
-- joint_all
-- limited
-
-### 2.3 Integrity rules
-
-- registration_member_state MUST be a valid ISO 3166-1 alpha-2 code.
-- registration_date MUST be equal to or earlier than the issuance date of the attestation.
-- legal_person_id MUST follow the EUID structure.
-- At least one legal_representative MUST be present.
-- signatory_rule MUST be defined for each legal representative.
-
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| registered_address.care_of | N/A | Used when the address is at the address of another person or legal person. | string | c/o ACME Services AS |
+| registered_address.thorough_fare | [thoroughfare](https://sanastot.suomi.fi/en/terminology/webuild/concept/thoroughfare) | The name of a passage or way through from one location to another. | string | Storgata |
+| registered_address.locator_designator | [locatorDesignator](https://iri.suomi.fi/terminology/webuild/locatordesignator) | A number or sequence that uniquely identifies the locator. | string | 1 |
+| registered_address.post_code | [postCode](https://iri.suomi.fi/terminology/webuild/postcode) | The code created and maintained for postal purposes. | string | 9008 |
+| registered_address.post_name | [postName](https://iri.suomi.fi/terminology/webuild/postname) | A name identifying a subdivision of addresses (e.g., city). | string | Tromsø |
+| registered_address.post_office_box | [poBox](https://w3id.org/ebwv#poBox) | A location designator for a postal delivery point at a post office. | string | PO Box 123 |
+| registered_address.locator_name | N/A | Proper noun(s) applied to the real-world entity. | string | Building A |
+| registered_address.admin_unit_level_1 | [adminUnitL1](https://iri.suomi.fi/terminology/webuild/adminUnitL1) | The uppermost administrative unit (typically country). | string | NO |
+| registered_address.admin_unit_level_2 | [adminUnitL2](https://iri.suomi.fi/terminology/webuild/adminUnitL2) | Secondary level/region (typically county or state). | string | Troms |
+| share_capital | N/A | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | object | amount: 30000, currency: NOK |
+| legal_person_duration | N/A | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | string (date) | 2030-12-31 |
+| digital_contact_point | N/A | Correspondence address of the company, such as electronic mail and/or website | object | website: https://www.example-eudi-wallet.no, email: post@example-eudi-wallet.no |
 
 ### 2.4 Conditional attributes
 
 If a Natural Person is representative of a legal person, the following attributes SHALL be included:
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| full_name | Full name of the natural person representing the company. | M | string |
-| date_of_birth | Date of birth of the natural person representing the company. | M | string (date) |
-| identifier | Natural person representative identifier | O | string |
-| nationality | OPTIONAL: Nationality of the natural person representing the company. | O | string |
-| signatory_rule | Information on whether the representative can engage the company alone or jointly. | M | string |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| full_name | N/A | Full name of the natural person representing the company. | string | Lysende Blomst |
+| date_of_birth | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person representing the company. | string (date) | 1980-01-01 |
+| identifier | N/A | OPTIONAL: Natural person representative identifier | string | NO-01018012345 |
+| nationality | N/A | OPTIONAL: Nationality of the natural person representing the company. | string | Norwegian |
+| signatory_rule | N/A | Information on whether the representative can engage the company alone or jointly. | string | sole |
 
 
 
 If a Legal Person is representative of a legal person, the following attributes SHALL be included:
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| name | Details about the legal person representing the company. | M | string |
-| id | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | Legal form of the legal person representing the company. | M | string |
-| signatory_rule | Information on whether the representative can engage the company alone or jointly. | M | string |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| name | [legalName](https://iri.suomi.fi/terminology/webuild/legalname) | Details about the legal person representing the company. | string | PARENT HOLDING AS |
+| id | [legalIdentifier](https://iri.suomi.fi/terminology/webuild/legalidentifier) | Unique ID for the legal person in the EUID structure. | string | NOFOR.123456789 |
+| legal_form_type | N/A | Legal form of the legal person representing the company. | string | Aksjeselskap (AS) |
+| signatory_rule | N/A | Information on whether the representative can engage the company alone or jointly. | string | sole |
 
 A combination of natural and legal persons can be legal representatives of a legal person.
 
-### 2.5 Address
-There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.
+### 2.5 Mandatory metadata
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| full_address | Complete address of the company, written as a string, separated by semicolons. | M | string |
-| care_of | Used when the address is at the address of another person or legal person. | O | string |
-| thorough_fare | The name of a passage or way through from one location to another. | O | string |
-| locator_designator | A number or sequence that uniquely identifies the locator. | O | string |
-| post_code | The code created and maintained for postal purposes. | O | string |
-| post_name | A name identifying a subdivision of addresses (e.g., city). | O | string |
-| post_office_box | A location designator for a postal delivery point at a post office. | O | string |
-| locator_name | Proper noun(s) applied to the real-world entity. | O | string |
-| admin_unit_level_1 | The uppermost administrative unit (typically country). | O | string |
-| admin_unit_level_2 | Secondary level/region (typically county or state). | O | string |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| expiry_date | N/A | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. | string (date-time) | 2027-01-15T10:00:00Z |
+| issuing_authority | N/A | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC. | string | Brønnøysundregistrene |
+| issuing_country | N/A | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data. | string | NO |
 
+### 2.6 Optional metadata
 
-### 2.6 Mandatory metadata 
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| trust_anchor | N/A | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs.* | string (URI) | https://trust.example.org/anchors/eidas |
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                           |
-|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| expiry_date          | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
-| issuing_authority    | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.             |
-| issuing_country      | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                         |
+### 2.7 Conditional metadata
 
-### 2.7 Conditional metadata 
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| location_status | N/A | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours. | object | *see Section [3.2.1](#321-attribute-status)* |
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| location_status      | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours.                                                                                                                                                                                                                                                            |
-| trust_anchor         | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs.   |
+### 2.8 Code lists
 
+| **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
+|----------------|--------------------|-------------|--------------------------|---------------------------|
+| legal_person_status | active, dissolved, in_liquidation, insolvent, struck_off | Status of the company as defined in national law | National law of the Member State of registration | Examples (Member-State specific) |
+| legal_person_activity | NACE codes (EU), ATECO (Italy) | Main activity of the company | NACE and national adaptations | National adaptations of the NACE nomenclature MAY be used |
+| registration_member_state | ISO 3166-1 alpha-2 country codes | The member state where the company is registered | ISO 3166-1 | Closed list; no extensions |
+| signatory_rule | sole, joint, joint_two, joint_all, limited | Information on whether the representative can engage the company alone or jointly | EUCC attestation description / WE BUILD company representation model | N/A |
+
+### 2.9 Integrity rules
+
+| **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
+|-------------|--------------------|-------------------|--------------------|-------------------------------------------|
+| IR-01 | registration_member_state MUST be a valid ISO 3166-1 alpha-2 code. | Interoperable identification of the Member State of registration | Issuer, schema validation | Issuer SHALL NOT issue the attestation; verifier SHALL treat the attestation as invalid |
+| IR-02 | registration_date MUST be equal to or earlier than the issuance date of the attestation. | Prevents temporal inconsistencies | Issuer, verifier business validation | Issuer SHALL NOT issue the attestation; verifier SHALL treat the attestation as invalid |
+| IR-03 | legal_person_id MUST follow the EUID structure. | Unique identification of the company across Member States | Issuer, schema validation | Issuer SHALL NOT issue the attestation; verifier SHALL treat the attestation as invalid |
+| IR-04 | At least one legal_representative MUST be present. | Representation information is a mandated part of the EUCC | Issuer, schema validation | Issuer SHALL NOT issue the attestation; verifier SHALL treat the attestation as invalid |
+| IR-05 | signatory_rule MUST be defined for each legal representative. | A Relying Party needs the signatory rule to determine whether a representative can bind the company alone or jointly | Issuer, schema validation | Issuer SHALL reject incomplete representative data; verifier SHALL treat the representation information as invalid or insufficient for the transaction |
 
 
 # 3 Attestation encoding 
@@ -282,8 +271,8 @@ ISO/IEC 18013-5 (also called mdoc) is out of scope for this rulebook, as offline
 
 ### 3.2 SD-JWT VC-based encoding 
 
-The EUCC attestation uses the SD-JWT VC format to allow for selective disclosure of company attributes.
-Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to preserve the legally mandated content of the EUCC.
+The EUCC attestation uses the SD-JWT VC format.
+Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to preserve the legally mandated content of the EUCC. The **Disclosable** column therefore specifies "MUST NOT" for every claim.
 
 
 The . notation is used to indicate the nesting of attributes.
@@ -292,52 +281,52 @@ The . notation is used to indicate the nesting of attributes.
 **Verifiable Credential Type (`vct`):** `uri:eu.eudi.eucc.1`
 
 
-| **Data Identifier**                                | **Attribute identifier**                          | **Encoding format** | **Reference/Notes**                                                        |
-|----------------------------------------------------|---------------------------------------------------|---------------------|----------------------------------------------------------------------------|
-| attestation_legal_category                         | attestation_legal_category                        | string              | One of EAA, Pub-EAA, QEAA as defined by eIDAS 2                            |
-| issuing_authority                                  | iss                                               | string              | RFC 7519 / Section 2.6                                                     |
-| expiry_date                                        | exp                                               | number              | RFC 7519 / Section 2.6 (Unix timestamp)                                    |
-| issuing_country                                    | issuing_country                                   | string              | ISO 3166-1 alpha-2                                                         |
-| legal_person_name                                  | legal_person_name                                 | string              | Official current legal person name as registered in the business register. |
-| legal_person_id                                    | legal_person_id                                   | string              | EUID                                                                       |
-| legal_form_type                                    | legal_form_type                                   | string              | Legal form of the company.                                                 |
-| registration_member_state                          | registration_member_state                         | string              | The member state where the company is registered (Alpha-2 country code).   |
-| registration_date                                  | registration_date                                 | string              | ISO 8601 (YYYY-MM-DD)                                                      |
-| legal_person_status                                | legal_person_status                               | string              |                                                                            |
-| legal_person_activity                              | legal_person_activity                             | object              | The NACE code describing the main activity                                 |
-| legal_person_activity.code                         | legal_person_activity.code                        | string              |                                                                            |
-| legal_person_activity.description                  | legal_person_activity.description                 | string              |                                                                            |
-| legal_person_duration                              | legal_person_duration                             | date                | Given as date following ISO 8601                                           |
-| registered_address                                 | registered_address                                | object              | See section 2.5 for structure                                              |
-| registered_address.full_address                    | registered_address.full_address                   | string              |                                                                            |
-| registered_address.care_of                         | registered_address.care_of                        | string              |                                                                            |
-| registered_address.thorough_fare                   | registered_address.thorough_fare                  | string              |                                                                            |
-| registered_address.locator_designator              | registered_address.locator_designator             | string              |                                                                            |
-| registered_address.post_code                       | registered_address.post_code                      | string              |                                                                            |
-| registered_address.post_name                       | registered_address.post_name                      | string              |                                                                            |
-| registered_address.post_office_box                 | registered_address.post_office_box                | string              |                                                                            |
-| registered_address.locator_name                    | registered_address.locator_name                   | string              |                                                                            |
-| registered_address.admin_unit_level_1              | registered_address.admin_unit_level_1             | string              |                                                                            |
-| registered_address.admin_unit_level_2              | registered_address.admin_unit_level_2             | string              |                                                                            |
-| legal_representative                               | legal_representative                              | array               | Array of natural/legal persons                                             |
-| legal_representative.legal_person                  | legal_representative.legal_person                 | object              |                                                                            |
-| legal_representative.legal_person.name             | legal_representative.legal_person.name            | string              |                                                                            |
-| legal_representative.legal_person.id               | legal_representative.legal_person.id              | string              |                                                                            |
-| legal_representative.legal_person.formtype         | legal_representative.legal_person.formtype        | string              |                                                                            |
-| legal_representative.legal_person.signatory_rule   | legal_representative.legal_person.signatory_rule  | string              |                                                                            |
-| legal_representative.natural_person                | legal_representative.natural_person               | object              |                                                                            |
-| legal_representative.natural_person.full_name      | legal_representative.natural_person.full_name     | string              |                                                                            |
-| legal_representative.natural_person.identifier | legal_representative.natural_person.identifier | string | Natural person representative identifier |
-| legal_representative.natural_person.date_of_birth  | legal_representative.natural_person.date_of_birth | string              |                                                                            |
-| legal_representative.natural_person.nationality    | legal_representative.natural_person.nationality   | string              |                                                                            |
-| legal_representative.natural_person.signatory_rule | legal_representative.natural_person.signatory_rule | string   |                                                                            |
-| share_capital                                      | share_capital                                     | object              |                                                                            |
-| share_capital.amount                               | share_capital.amount                              | string              |                                                                            |
-| share_capital.currency                             | share_capital.currency                            | string              |                                                                            |
-| digital_contact_point                              | digital_contact_point                             | object              |                                                                            |
-| digital_contact_point.website                      | digital_contact_point.website                     | string              |                                                                            |
-| digital_contact_point.email                        | digital_contact_point.email                       | string              |                                                                            |
-| location_status                                    | status                                            | object              | See chapter [3.2.3](#321-attribute-status)                                 |
+| **Data Identifier**                                | **Attribute identifier**                          | **Encoding format** | **Reference/Notes**                                                        | **Disclosable** |
+|----------------------------------------------------|---------------------------------------------------|---------------------|----------------------------------------------------------------------------|-----------------|
+| attestation_legal_category                         | attestation_legal_category                        | string              | One of QEAA, PuB-EAA or non-qualified-EAA as defined by eIDAS 2            | MUST NOT        |
+| issuing_authority                                  | iss                                               | string              | RFC 7519 / Section 2.5                                                     | MUST NOT        |
+| expiry_date                                        | exp                                               | number              | RFC 7519 / Section 2.5 (Unix timestamp)                                    | MUST NOT        |
+| issuing_country                                    | issuing_country                                   | string              | ISO 3166-1 alpha-2                                                         | MUST NOT        |
+| legal_person_name                                  | legal_person_name                                 | string              | Official current legal person name as registered in the business register. | MUST NOT        |
+| legal_person_id                                    | legal_person_id                                   | string              | EUID                                                                       | MUST NOT        |
+| legal_form_type                                    | legal_form_type                                   | string              | Legal form of the company.                                                 | MUST NOT        |
+| registration_member_state                          | registration_member_state                         | string              | The member state where the company is registered (Alpha-2 country code).   | MUST NOT        |
+| registration_date                                  | registration_date                                 | string              | ISO 8601 (YYYY-MM-DD)                                                      | MUST NOT        |
+| legal_person_status                                | legal_person_status                               | string              |                                                                            | MUST NOT        |
+| legal_person_activity                              | legal_person_activity                             | object              | The NACE code describing the main activity                                 | MUST NOT        |
+| legal_person_activity.code                         | legal_person_activity.code                        | string              |                                                                            | MUST NOT        |
+| legal_person_activity.description                  | legal_person_activity.description                 | string              |                                                                            | MUST NOT        |
+| legal_person_duration                              | legal_person_duration                             | date                | Given as date following ISO 8601                                           | MUST NOT        |
+| registered_address                                 | registered_address                                | object              | See sections 2.2 and 2.3 for structure                                     | MUST NOT        |
+| registered_address.full_address                    | registered_address.full_address                   | string              |                                                                            | MUST NOT        |
+| registered_address.care_of                         | registered_address.care_of                        | string              |                                                                            | MUST NOT        |
+| registered_address.thorough_fare                   | registered_address.thorough_fare                  | string              |                                                                            | MUST NOT        |
+| registered_address.locator_designator              | registered_address.locator_designator             | string              |                                                                            | MUST NOT        |
+| registered_address.post_code                       | registered_address.post_code                      | string              |                                                                            | MUST NOT        |
+| registered_address.post_name                       | registered_address.post_name                      | string              |                                                                            | MUST NOT        |
+| registered_address.post_office_box                 | registered_address.post_office_box                | string              |                                                                            | MUST NOT        |
+| registered_address.locator_name                    | registered_address.locator_name                   | string              |                                                                            | MUST NOT        |
+| registered_address.admin_unit_level_1              | registered_address.admin_unit_level_1             | string              |                                                                            | MUST NOT        |
+| registered_address.admin_unit_level_2              | registered_address.admin_unit_level_2             | string              |                                                                            | MUST NOT        |
+| legal_representative                               | legal_representative                              | array               | Array of natural/legal persons                                             | MUST NOT        |
+| legal_representative.legal_person                  | legal_representative.legal_person                 | object              |                                                                            | MUST NOT        |
+| legal_representative.legal_person.name             | legal_representative.legal_person.name            | string              |                                                                            | MUST NOT        |
+| legal_representative.legal_person.id               | legal_representative.legal_person.id              | string              |                                                                            | MUST NOT        |
+| legal_representative.legal_person.formtype         | legal_representative.legal_person.formtype        | string              |                                                                            | MUST NOT        |
+| legal_representative.legal_person.signatory_rule   | legal_representative.legal_person.signatory_rule  | string              |                                                                            | MUST NOT        |
+| legal_representative.natural_person                | legal_representative.natural_person               | object              |                                                                            | MUST NOT        |
+| legal_representative.natural_person.full_name      | legal_representative.natural_person.full_name     | string              |                                                                            | MUST NOT        |
+| legal_representative.natural_person.identifier | legal_representative.natural_person.identifier | string | Natural person representative identifier | MUST NOT |
+| legal_representative.natural_person.date_of_birth  | legal_representative.natural_person.date_of_birth | string              |                                                                            | MUST NOT        |
+| legal_representative.natural_person.nationality    | legal_representative.natural_person.nationality   | string              |                                                                            | MUST NOT        |
+| legal_representative.natural_person.signatory_rule | legal_representative.natural_person.signatory_rule | string   |                                                                            | MUST NOT        |
+| share_capital                                      | share_capital                                     | object              |                                                                            | MUST NOT        |
+| share_capital.amount                               | share_capital.amount                              | string              |                                                                            | MUST NOT        |
+| share_capital.currency                             | share_capital.currency                            | string              |                                                                            | MUST NOT        |
+| digital_contact_point                              | digital_contact_point                             | object              |                                                                            | MUST NOT        |
+| digital_contact_point.website                      | digital_contact_point.website                     | string              |                                                                            | MUST NOT        |
+| digital_contact_point.email                        | digital_contact_point.email                       | string              |                                                                            | MUST NOT        |
+| location_status                                    | status                                            | object              | See chapter [3.2.1](#321-attribute-status)                                 | MUST NOT        |
 
 
 #### 3.2.1 Attribute status
@@ -362,8 +351,8 @@ Example:
 }
 ```
 
-#### 3.2.3 Example Payload 
-Sample payloads provided under `../../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json`
+#### 3.2.2 Example Payload 
+Sample payloads provided under `../../data-schemas/sd-jwt/sample-data/ds004-eucc-sd-jwt-sample.json`
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
@@ -509,7 +498,7 @@ The EUCC is **not** intended to be used as a standalone authentication mechanism
 * The EUCC SHALL be issued in a format that is compatible with the EUDI Wallet ecosystem (e.g., **OpenID4VP** profiles adopted by the ecosystem).
 * To recive an EUCC with keybinding, the application shall ensure that the wallet is owned by the company that the EUCC is issued for through presentation, and matching of key material of the European busesiness wallet owner identifaction data (OID). **Note** If bulk issued to the same wallet, the authorisation process of the OID process SHOULD be considered sufficent for reciept of an EUCC with keybinding in the same transaction. 
 
-### 4.5 Relying Party obligations when processing an EUCC
+### 4.2 Relying Party obligations when processing an EUCC
 
 Beyond protocol-level checks, an RP processing an EUCC presentation **SHALL** perform at least the following controls:
 
@@ -593,6 +582,14 @@ will never be necessary, or that the attestations are revocable.*
 that will be specified by the Commission.
 * Use an Attestation Revocation List mechanism included in a Technical Specification 
 that will be specified by the Commission.
+
+
+## 7 Compliance
+
+*In this section explicitly state how this specific rulebook complies with the
+general EUDI framework, ARF, and relevant regulations*
+
+[RULEBOOK AUTHOR TO DEFINE]
 
 
 ## 8 References
