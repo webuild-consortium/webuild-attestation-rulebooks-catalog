@@ -197,7 +197,7 @@ Administrative unit
 #### 2.2.1 Mandatory attributes
 | data identifier                | Semantic Reference                          | Definition                              | Data Type       | Example Value      |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| vat_id                         | VAT Identification Number                   | Unique identifier for VAT purposes     | String           | DE123456789        |
+| vat_id                         | [VatID](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#VatId)                   | Unique identifier for VAT purposes     | String           | DE123456789        |
 | administrative_unit_name       | Name of the Administrative Unit             | Name of the unit responsible for VAT    | String           | Siemens        |
 | validity_period                | Period of Validity                          | Duration during which the data is valid| Date Range       | 2026-01-01 to 2026-12-31 |
 | economic_operator              | Operator conducting economic activity       | Entity responsible for economic operations | Economic Operator object        | ..|
@@ -270,9 +270,9 @@ No mandatory attributes
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| issuer.authentic_source_country | issuing_country | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | date | 05 |
+| issuer.authentic_source_country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | date | 05 |
 | issuer.vat_id_authenticsource | authenticSource | Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation| tstr |  |
-| issuer.country | issuing_country | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | tstr |  |
+| issuer.country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | tstr |  |
 | issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | tstr |  |
 | issuer.attestation_legal_category | issuerLegalCategory | The type of attestation category. (Pub-EAA/QEAA) | tstr | PUB-EAA |
 | issuer.attestation_issuing_date | iat | The date the attestation was issued | Number (Unix timestamp) | |
@@ -294,8 +294,8 @@ No mandatory attributes
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | display.title | title | VAT-ID of the card as shown in the wallet with the label in a specific language using  BCP 47 | String | en-EN: VAT-ID: DE123456789 |
-| display.organisation_name| organisation_name | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name| tstr |  |
-| display.issuing_authority | issuing_authority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | tstr | nl-NL: Belastingdienst |
+| display.organisation_name| organisationName | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name| tstr |  |
+| display.issuing_authority | issuingAuthority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | tstr | nl-NL: Belastingdienst |
 
 
 #### 2.8.2 Optional display items
