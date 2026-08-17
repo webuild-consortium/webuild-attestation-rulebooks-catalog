@@ -193,7 +193,7 @@
     "trust_anchor": {
       "type": "string",
       "format": "uri"
-    },
+    }
 
     
   },
