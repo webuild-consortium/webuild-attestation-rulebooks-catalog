@@ -183,14 +183,6 @@ Administrative unit
 │   ├─ issuing_organisation                [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
 │   ├─ issuing_date                        [1]        (date on which the attestation is issued)
 │   └─ attestation_issuing_organisation    [1]
-└─ display                                 [1]       Items to be displayd on the card in the wallet
-    ├─ title                               [1]       Name of the card displayed in wallet (VAT-ID)
-    ├─ organisation_name                   [1]       legal_name of the organisation that owns the VAT-ID
-    ├─ subtitle                            [0]       
-    ├─ issuer_logo                         [0]       
-    ├─ isuer_name                          [1]       issuing_organisation
-    ├─ background_color                    [0]       
-    └─ text_color                          [0]       
 ````
 
 ### 2.2 Administrative Unit 
@@ -288,48 +280,15 @@ No mandatory attributes
 
 
 
-### 2.8 Display
-#### 2.8.1 Mandatory Display items 
 
-| **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| display.title | title | VAT-ID of the card as shown in the wallet with the label in a specific language using  BCP 47 | String | en-EN: VAT-ID: DE123456789 |
-| display.organisation_name| organisation_name | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name| tstr |  |
-| display.issuing_authority | issuing_authority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | tstr | nl-NL: Belastingdienst |
-
-
-#### 2.8.2 Optional display items
-
-| **Data Identifier** |**Semantic Reference** | **Definition** | **Data type** | **Example value** | 
-|--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| display.subtitle | subtitle | Additional reference to a part of the organisation if the organisation has multiple administrative units | tstr |  |
-| display.issuer_logo | issuer_logo | Logo of the issuer base64 encoded SVG, PNG or JPG | tstr |  |
-| background_color | background_color | Hex-colour voor de background. **formally not part of the Display object** | tstr | |
-| text_color | text_color |Hex-colour voor de text **formally not part of the Display object**  | tstr | |
-
-```
-  "display": [
-    {
-      "name": "title",
-      "locale": "en-EN",
-      "label": "VAT-ID: "
-    }
-    {
-      "name": "title"
-      "locale": "nl_NL",
-      "label": "BTW-Nummer: "
-    }
-  ]
-```
-
-### 2.9 Code lists
+### 2.8 Code lists
 
 
 | **field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | economic_activity_type.nomenclature | NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA | Each name refers to the local adaptation of the NACE list. | [Overview of alternative nomenclatures](#81-list-of-alternative-nace-codes) | List SHOULD be used or refer to NACE closest alternative |
 
-### 2.10 Integrity rules
+### 2.9 Integrity rules
 
 
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
