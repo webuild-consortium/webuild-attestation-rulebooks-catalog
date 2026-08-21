@@ -221,13 +221,13 @@ This attestation type MAY be classified as:
 | **Data Identifier**        | **Semantic Reference** | **Definition**                                             | **Data Type**                         |
 |----------------------------|------------------------|------------------------------------------------------------|---------------------------------------|
 | `jurisdiction`             | [jurisdiction](https://w3id.org/ebwv#jurisdiction)| The object describing how and why the person qualifies as a UBO under applicable AML thresholds and control criteria | Object                                |
-| `person`                   | [NaturalPerson](https://w3id.org/ebwv#NaturalPerson) | Personal identity attributes of the UBO                | Object                                |
+| `person`                   | [person](https://w3id.org/ebwv#person) | Personal identity attributes of the UBO                | Object                                |
 | `birth_place`              | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Place of birth of the UBO                                | Object                                |
 | `citizenship`              | [citizenship](https://w3id.org/ebwv#citizenship) | Citizenship(s) held by the UBO (one or more nationalities) | Array of Strings (ISO 3166-1 alpha-2) |
-| `residential_address`      | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Registered residential address of the UBO      | Object                                |
+| `residential_address`      | [domicile](https://w3id.org/ebwv#domicile) | Registered residential address of the UBO      | Object                                |
 | `contact_address`          | [correspondenceAddress](https://w3id.org/ebwv#correspondenceAddress) | Optional alternative contact address of the UBO | Object                                |
-| `person_identifier`        | [NaturalPersonIdentifierDocument](https://w3id.org/ebwv#NaturalPersonIdentifierDocument) in NL, DE this is a private number | Government-issued identity document details of the UBO               | Object                                |
-| `person_unique_identifier` | [naturalPersonIdentifier](https://w3id.org/ebwv#naturalPersonIdentifier) | Optional unique identifier assigned by an authority                                                     | Object                                |
+| `person_identifier`        | [identifier](https://w3id.org/ebwv#identifier) in NL, DE this is a private number | Government-issued identity document details of the UBO               | Object                                |
+| `person_unique_identifier` | [identifier](https://w3id.org/ebwv#identifier) | Optional unique identifier assigned by an authority                                                     | Object                                |
 | `justification`            | [justification](https://w3id.org/ebwv#justification) | How and why this person qualifies as UBO under AMLR    | Object                                |
 | `source`                   | [source](https://w3id.org/ebwv#source) | Supporting evidence for the UBO determination                        | Array of Objects                      |
 
@@ -249,8 +249,8 @@ This attestation type MAY be classified as:
 
 | **Data Identifier**   |  **Semantic Reference** | **Definition**                        | **Data Type**       |
 |-----------------------|-------------------------|---------------------------------------|---------------------|
-| `locality`            | Check! [locatorName](https://w3id.org/ebwv#locatorName) | City or locality of birth             | String              |
-| `country`             | Check! [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of birth (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
+| `locality`            | [Location](https://w3id.org/ebwv#Location) | City or locality of birth             | String              |
+| `country`             | [Location](https://w3id.org/ebwv#Location) | Country of birth (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
 
 #### Citizenship Attributes
 
@@ -262,12 +262,12 @@ This attestation type MAY be classified as:
 
 | **Data Identifier**  | **Semantic Reference**  | **Definition**                                          | **Data Type**       |
 |----------------------|-------------------------|---------------------------------------------------------|---------------------|
-| `street`             | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Street name of the residential address                  | String              |
-| `house_number`       | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | House or building number of the residential address     | String              |
-| `locality`           | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | City or locality of the residential address             | String              |
-| `region`             | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Region or state of the residential address              | String              |
-| `postal_code`        | [postCode](https://w3id.org/ebwv#postCode) | Postal code of the residential address                  | String              |
-| `country`            | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Country of the residential address (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
+| `street`             | [domicile](https://w3id.org/ebwv#domicile) | Street name of the residential address                  | String              |
+| `house_number`       | [domicile](https://w3id.org/ebwv#domicile) | House or building number of the residential address     | String              |
+| `locality`           | [domicile](https://w3id.org/ebwv#domicile) | City or locality of the residential address             | String              |
+| `region`             | [domicile](https://w3id.org/ebwv#domicile) | Region or state of the residential address              | String              |
+| `postal_code`        | [domicile](https://w3id.org/ebwv#domicile) | Postal code of the residential address                  | String              |
+| `country`            | [domicile](https://w3id.org/ebwv#domicile) | Country of the residential address (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
 
 #### PersonIdentifier Attributes
 
@@ -277,13 +277,14 @@ This attestation type MAY be classified as:
 | `document_number`     | TBD | Number of the identity document as printed on the document      | String              |
 | `issuing_country`     | TBD | Country that issued the identity document (ISO 3166-1 alpha-2)  | String (ISO 3166-1) |
 | `expiry_date`         | Add: [expiryDate](https://w3id.org/ebwv#expiryDate) | Expiry date of the identity document (ISO 8601 YYYY-MM-DD)      | String (ISO 8601)   |
+**Isn't this the old way of thinking? Use the PID, trust the system!**
 
 #### Justification Attributes
 
 | **Data Identifier**        | **Semantic Reference** | **Definition**                                                                                                                 | **Data Type**           |
 |----------------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------|-------------------------|
-| `threshold_met`            | to be introduced                     | Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required | Array of Strings (Enum) |
-| `ownership_percentage`     | to be introduced, also calculation method | Total direct and indirect ownership percentage held (0–100)                                                                    | Decimal                 |
+| `threshold_met`            | to be calculated by the wallet | Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required | Array of Strings (Enum) |
+| `ownership_percentage`     | [ownershipPercentage](https://w3id.org/ebwv#ownershipPercentage) | Total direct and indirect ownership percentage held (0–100)                                                                    | Decimal                 |
 | `voting_rights_percentage` | to be introduced, also calculation method  | Total direct and indirect voting rights percentage held (0–100)                                                                | Decimal                 |
 
 #### Source Attributes
@@ -330,7 +331,7 @@ This attestation type MAY be classified as:
 
 | **Data Identifier**        | **Semantic Reference**  | **Definition**                                                                           | **Data Type**   |
 |----------------------------|-------------------------|------------------------------------------------------------------------------------------|-----------------|
-| `control_details`          | TBD | Free text description of control exercised through means other than ownership percentage | String          |
+| `control_details`          | **please define a code list** | Free text description of control exercised through means other than ownership percentage | String          |
 
 **is this always free text? Not machine interpretable**
 
