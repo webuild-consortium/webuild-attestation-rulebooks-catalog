@@ -220,16 +220,20 @@ This attestation type MAY be classified as:
 
 | **Data Identifier**        | **Semantic Reference** | **Definition**                                             | **Data Type**                         |
 |----------------------------|------------------------|------------------------------------------------------------|---------------------------------------|
-| `jurisdiction`             | [residency](https://w3id.org/ebwv#residency) | Personal identity attributes of the UBO                    | Object                                |
-| `person`                   | [NaturalPerson](https://w3id.org/ebwv#NaturalPerson) | Personal identity attributes of the UBO                    | Object                                |
-| `birth_place`              | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Place of birth of the UBO                                  | Object                                |
+| `jurisdiction`             | [jurisdiction](https://w3id.org/ebwv#jurisdiction)| The object describing how and why the person qualifies as a UBO under applicable AML thresholds and control criteria | Object                                |
+| `person`                   | [NaturalPerson](https://w3id.org/ebwv#NaturalPerson) | Personal identity attributes of the UBO                | Object                                |
+| `birth_place`              | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Place of birth of the UBO                                | Object                                |
 | `citizenship`              | [citizenship](https://w3id.org/ebwv#citizenship) | Citizenship(s) held by the UBO (one or more nationalities) | Array of Strings (ISO 3166-1 alpha-2) |
-| `residential_address`      | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Registered residential address of the UBO                  | Object                                |
-| `contact_address`          | [correspondenceAddress](https://w3id.org/ebwv#correspondenceAddress) | Optional alternative contact address of the UBO            | Object                                |
-| `person_identifier`        | TBD in NL, DE this is a private number | Government-issued identity document details of the UBO     | Object                                |
-| `person_unique_identifier` | TBD | Optional unique identifier assigned by an authority        | Object                                |
-| `justification`            | TBD | How and why this person qualifies as UBO under AMLR        | Object                                |
-| `source`                   | TBD | Supporting evidence for the UBO determination              | Array of Objects                      |
+| `residential_address`      | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Registered residential address of the UBO      | Object                                |
+| `contact_address`          | [correspondenceAddress](https://w3id.org/ebwv#correspondenceAddress) | Optional alternative contact address of the UBO | Object                                |
+| `person_identifier`        | [NaturalPersonIdentifierDocument](https://w3id.org/ebwv#NaturalPersonIdentifierDocument) in NL, DE this is a private number | Government-issued identity document details of the UBO               | Object                                |
+| `person_unique_identifier` | [naturalPersonIdentifier](https://w3id.org/ebwv#naturalPersonIdentifier) | Optional unique identifier assigned by an authority                                                     | Object                                |
+| `justification`            | [justification](https://w3id.org/ebwv#justification) | How and why this person qualifies as UBO under AMLR    | Object                                |
+| `source`                   | [source](https://w3id.org/ebwv#source) | Supporting evidence for the UBO determination                        | Array of Objects                      |
+
+>**Something is to be made clear: UBO, person, jurisdiction, birth_place, citizenship, etc. are all so called object type properties.**
+>**They point to an object with it's own attributes. So we can't unambiguously declare a semantic mapping.**
+>**So the column header Data Type should be renamed to something like Range, or the value of the datatype of birth_place should be property or attribute.**
 
 ### 2.2 Mandatory Attributes
 
