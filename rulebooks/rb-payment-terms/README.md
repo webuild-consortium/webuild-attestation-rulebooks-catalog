@@ -178,7 +178,7 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                              | **Optionality** | **Encoding format**          |
 |---------------------|------------------------|---------------------------------------------------------------------------------------------|-----------------|------------------------------|
-| payment_due         | --                     | The number of days within which payment must be made, defined as a duration (e.g., P30D)    | M               | ISO 8601 duration (PnD)      |
+| payment_due         | [paymentDueDuration](https://w3id.org/ebwv#paymentDueDuration) | The number of days within which payment must be made, defined as a duration (e.g., P30D)    | M               | ISO 8601 duration (PnD)      |
 | currency            | --                     | The currency in which the payment is to be executed, following international standards      | M               | String (ISO 4217)            |
 | incoterm            | --                     | The delivery and risk transfer term agreed between buyer and seller                         | M               | String (3-letter ICC code)   |
 | buyer_identifier    | --                     | Unique identifier of the buyer party (e.g., EUID, VAT number, or DUNS number)              | M               | String                       |
