@@ -224,16 +224,16 @@ Base postal address object:
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence |
 |----------------|----|-------|-----------|------------|
 | `streetAndNumber` | [thoroughfare](https://w3id.org/ebwv#thoroughfare)<br>[locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street name and house or building number | String | 0:1 |
-| `town` |   | Name of the city or town | String | 1:1 |
-| `postcode` |   | Postal code (format varies by country) | String | 0:1 |
+| `town` | [postName](https://w3id.org/ebwv#postName) | Name of the city or town | String | 1:1 |
+| `postcode` | [postCode](https://w3id.org/ebwv#postCode) | Postal code (format varies by country) | String | 0:1 |
 
 #### `addressPDA1State`
 
 Postal address restricted to a PDA1-participating country. Extends `addressBase` with:
 
-| Data Identifier | Definition | Data type | Occurrence |
-|----------------|-----------|-----------|------------|
-| `countryCode` | Country of the address (PDA1 set) | countryCodePDA1States | 1:1 |
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence |
+|----------------|---|--------|-----------|------------|
+| `countryCode` | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1)  | Country of the address (PDA1 set) | countryCodePDA1States | 1:1 |
 
 No additional properties permitted (`unevaluatedProperties: false`).
 
@@ -241,9 +241,9 @@ No additional properties permitted (`unevaluatedProperties: false`).
 
 Postal address for any recognized country in the world. Extends `addressBase` with:
 
-| Data Identifier | Definition | Data type | Occurrence |
-|----------------|-----------|-----------|------------|
-| `countryCode` | Country of the address (world set) | countryCodeWorld | 1:1 |
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence |
+|----------------|---|--------|-----------|------------|
+| `countryCode` | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the address (world set) | countryCodeWorld | 1:1 |
 
 No additional properties permitted (`unevaluatedProperties: false`).
 
@@ -301,13 +301,13 @@ Confirmation of the situation on which applicable legislation is determined (12 
 
 Details of a single employer or self-employment activity. All five fields are required. No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `typeOfEmployment` | Type of employment: `01` = Employee, `02` = Self-employed | enum | 1:1 | 9 |
-| `name` | Name of the employer or self-employed entity | String | 1:1 | 9 |
-| `employerID` | Identifier of the employer or self-employed entity | String | 1:1 | 9 |
-| `typeOfID` | Type of the employer identifier (see `typeOfID` above) | typeOfID | 1:1 | 9 |
-| `address` | Address of the employer or self-employed entity (any world country) | addressWorld | 1:1 | 10 |
+| Data Identifier | Semantic Reference| Definition | Data type | Occurrence | SD Group |
+|----------------|---|--------|-----------|------------|----------|
+| `typeOfEmployment` | [typeOfEmployment](https://w3id.org/ebwv#typeOfEmployment)<br>code list for the property needs to be checked | Type of employment: `01` = Employee, `02` = Self-employed | enum | 1:1 | 9 |
+| `name` | [legalName](https://w3id.org/ebwv#legalName) | Name of the employer or self-employed entity | String | 1:1 | 9 |
+| `employerID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the employer or self-employed entity | String | 1:1 | 9 |
+| `typeOfID` | [identifier](https://w3id.org/ebwv#identifier).[Identifier](https://w3id.org/ebwv#Identifier) | Type of the employer identifier (see `typeOfID` above) | typeOfID | 1:1 | 9 |
+| `address` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  | Address of the employer or self-employed entity (any world country) | addressWorld | 1:1 | 10 |
 
 #### `placeOfWork`
 
