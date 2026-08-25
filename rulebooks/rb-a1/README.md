@@ -329,20 +329,20 @@ A fixed company address or vessel where the holder performs work. `address` and 
 
 Personal details of the PD A1 certificate holder. All seven top-level keys (`pin`, `gender`, `names`, `dateOfBirth`, `nationalities`, `placeOfBirth`, `address`) are required. No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `pin` | Personal Identification Number (social security number) of the holder | String | 1:1 | 1 |
-| `gender` | Gender of the holder | gender | 1:1 | 2 |
-| `names.surnames` | Current family name(s) of the holder | String | 1:1 | 3 |
-| `names.forenames` | Current given name(s) of the holder | String | 1:1 | 3 |
-| `names.surnameAtBirth` | Family name at birth, if different from current surname | String | 0:1 | 3 |
-| `names.forenamesAtBirth` | Given name(s) at birth, if different from current forename(s) | String | 0:1 | 3 |
-| `dateOfBirth` | Date of birth of the holder | date | 1:1 | 4 |
-| `nationalities` | Nationality/ies of the holder as world-set country codes; at least one required, no duplicates | Array of countryCodeWorld (`minItems: 1`, `uniqueItems`) | 1:n | 5 |
-| `placeOfBirth.town` | Town or city of birth | String | 1:1 | 6 |
-| `placeOfBirth.countryCode` | Country of birth (world set) | countryCodeWorld | 1:1 | 6 |
-| `address.stateOfResidence[]` | Residence address(es); each item is a complete world address | Array of addressWorld | 0:n | 7 |
-| `address.stateOfStay[]` | Stay address(es); each item is a complete PDA1-country address | Array of addressPDA1State | 0:n | 8 |
+| Data Identifier | Semantic Reference| Definition | Data type | Occurrence | SD Group |
+|----------------|---|--------|-----------|------------|----------|
+| `pin` | [identifier](https://w3id.org/ebwv#identifier) OR<br> [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber)| Personal Identification Number (social security number) of the holder | String | 1:1 | 1 |
+| `gender` | [gender](https://w3id.org/ebwv#gender) | Gender of the holder | gender | 1:1 | 2 |
+| `names.surnames` | [familyName](https://w3id.org/ebwv#familyName) | Current family name(s) of the holder | String | 1:1 | 3 |
+| `names.forenames` | [givenName](https://w3id.org/ebwv#givenName) | Current given name(s) of the holder | String | 1:1 | 3 |
+| `names.surnameAtBirth` | [birthName](https://w3id.org/ebwv#birthName) |  Family name at birth, if different from current surname | String | 0:1 | 3 |
+| `names.forenamesAtBirth` | [birthName](https://w3id.org/ebwv#birthName) | Given name(s) at birth, if different from current forename(s) | String | 0:1 | 3 |
+| `dateOfBirth` | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the holder | date | 1:1 | 4 |
+| `nationalities` | [citizenship](https://w3id.org/ebwv#citizenship) | Nationality/ies of the holder as world-set country codes; at least one required, no duplicates | Array of countryCodeWorld (`minItems: 1`, `uniqueItems`) | 1:n | 5 |
+| `placeOfBirth.town` | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Town or city of birth | String | 1:1 | 6 |
+| `placeOfBirth.countryCode` | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Country of birth (world set) | countryCodeWorld | 1:1 | 6 |
+| `address.stateOfResidence[]` | [domicile](https://w3id.org/ebwv#domicile) | Residence address(es); each item is a complete world address | Array of addressWorld | 0:n | 7 |
+| `address.stateOfStay[]` | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress) | Stay address(es); each item is a complete PDA1-country address | Array of addressPDA1State | 0:n | 8 |
 
 The `address` object MUST satisfy `anyOf`: either `stateOfResidence` is present with `minItems: 1`, or `stateOfStay` is present with `minItems: 1` (both MAY be present simultaneously). Only `stateOfResidence` and `stateOfStay` are permitted in `address` (`additionalProperties: false`). The `names` and `placeOfBirth` sub-objects also enforce `additionalProperties: false`.
 
