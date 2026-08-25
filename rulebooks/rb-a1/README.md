@@ -221,11 +221,11 @@ ISO/IEC 5218 gender code (string enum): `"0"` = Not known / Not specified · `"1
 
 Base postal address object:
 
-| Data Identifier | Definition | Data type | Occurrence |
-|----------------|-----------|-----------|------------|
-| `streetAndNumber` | Street name and house or building number | String | 0:1 |
-| `town` | Name of the city or town | String | 1:1 |
-| `postcode` | Postal code (format varies by country) | String | 0:1 |
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence |
+|----------------|----|-------|-----------|------------|
+| `streetAndNumber` | [thoroughfare](https://w3id.org/ebwv#thoroughfare)<br>[locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street name and house or building number | String | 0:1 |
+| `town` |   | Name of the city or town | String | 1:1 |
+| `postcode` |   | Postal code (format varies by country) | String | 0:1 |
 
 #### `addressPDA1State`
 
