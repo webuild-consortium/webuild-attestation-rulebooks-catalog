@@ -313,13 +313,13 @@ Details of a single employer or self-employment activity. All five fields are re
 
 A fixed company address or vessel where the holder performs work. `address` and `companyOrVesselName` are required; `companyID` and `typeOfID` are co-dependent (see below). No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `companyOrVesselName` | Name of the company or vessel where work is performed | String | 1:1 | 11 |
-| `flagBaseHomeState` | Flag state, base state, or home state for maritime or aviation workers | String | 0:1 | 11 |
-| `companyID` | Identifier of the company at the place of work | String | 0:1† | 11 |
-| `typeOfID` | Type of the company identifier (see `typeOfID` above) | typeOfID | 0:1† | 11 |
-| `address` | Address of the place of work (PDA1 country) | addressPDA1State | 1:1 | 12 |
+| Data Identifier  | Semantic Reference| Definition | Data type | Occurrence | SD Group |
+|----------------|---|--------|-----------|------------|----------|
+| `companyOrVesselName` | [Vessel](https://w3id.org/ebwv#Vessel).[schema:name](https://schema.org/name)<br>"name" needs to be added to class Vessel<br> [legalName](https://w3id.org/ebwv#legalName) | Name of the company or vessel where work is performed | String | 1:1 | 11 |
+| `flagBaseHomeState` | [flagState](https://w3id.org/ebwv#flagState) | Flag state, base state, or home state for maritime or aviation workers | String | 0:1 | 11 |
+| `companyID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the company at the place of work | String | 0:1† | 11 |
+| `typeOfID` | TBD; this needs an Identifier class with ID scheme information (like adms:Identifier) | Type of the company identifier (see `typeOfID` above) | typeOfID | 0:1† | 11 |
+| `address` | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Address of the place of work (PDA1 country) | addressPDA1State | 1:1 | 12 |
 
 † `companyID` and `typeOfID` are co-dependent (`dependentRequired`): if either is present the other MUST also be present.
 
