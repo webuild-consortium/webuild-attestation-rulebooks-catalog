@@ -122,7 +122,7 @@
             }
           }
         },
-        "required": ["nomenclature", "id"],
+        "required": ["nomenclature", "id", "description"],
         "additionalProperties": false
       }
     },
