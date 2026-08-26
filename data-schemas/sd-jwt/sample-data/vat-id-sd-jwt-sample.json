@@ -19,7 +19,8 @@
 
   "vat_id": "NL001234567B01",
   "administrative_unit_name": "KLM Royal Dutch Airlines",
-  "registered_EU_cross_border_transactions": true,
+  "registered_eu_cross_border_transactions": true,
+  "attestation_legal_category": "PUB-EAA",
 
   "validity_period": [
     {
