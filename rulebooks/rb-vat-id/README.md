@@ -177,7 +177,7 @@ Administrative unit
 ├─ economic_activity_type                  [0..n]    (reference to the economic operator)
 │   ├─ economic_activity_type_nomenclature [1]       (nomenclature used to describe the economic activity)
 │   ├─ economic_activity_type_id           [1]       (id used in the nomenclature)
-│   └─ economic_activity_type_description  [0..n]    (object using language:, value)
+│   └─ economic_activity_type_description  [1..n]    (object using language:, value)
 ├─ issuer                                  [1]   
 │   ├─ issuing_country                     [1]
 │   ├─ issuing_organisation                [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
