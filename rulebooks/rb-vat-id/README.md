@@ -164,7 +164,7 @@ Administrative unit
 ├─ validity_period                         [1..n]    (period(s) for which the vat-id is valid)
 │   ├─ start_date                          [1]       (start date of the validity period of the vat-id)
 │   └─ end_date                            [0]       (end date of the validity period of the vat-id)
-├─ registered_EU_cross_border_transactions [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
+├─ registered_eu_cross_border_transactions [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
 ├─ adminitrative_unit_type                 [0]       (type of organisation in free text)
 ├─ administrative_unit_address             [0]       (the postal address registered for the administrative unit)
 │   ├─ po_box                              [0]  
@@ -202,6 +202,8 @@ Administrative unit
 | validity_period                | Period of Validity                          | Duration during which the data is valid| Date Range       | 2026-01-01 to 2026-12-31 |
 | economic_operator              | Operator conducting economic activity       | Entity responsible for economic operations | Economic Operator object        | ..|
 | issuer                         | Issuing Authority                           | Authority that issues the VAT ID       | Issuer Object           | ..   |
+| registered_eu_cross_border_transactions | ...                 | Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services   | Boolean            | TRUE |
+| attestation_legal_category | attestationLegalCategory | The type of attestation category. (Pub-EAA/QEAA) | tstr | PUB-EAA |
 
 
 
@@ -211,7 +213,6 @@ Administrative unit
 | administrative_unit_type                | ...                 | Type (e.g., Government, Local Authority, B.V, GmbH)| String | GmbH          |
 | administrative_unit_address             | ...                 |  The address where the company is located based on the information from the authentic source of the VAT-ID. This address may differ from the address in the business register.           | Address Object           | ...  |
 | economic_activity_type                  | ...                 | Type of business this administrative unit is registered| Economic Activity Type Object | ...     |
-| registered_EU_cross_border_transactions | ...                 | Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services   | Boolean            | TRUE |
 
 ### 2.3 Economic Operator 
 #### 2.3.1 Mandatory attributes
@@ -274,7 +275,6 @@ No mandatory attributes
 | issuer.vat_id_authenticsource | authenticSource | Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation| tstr |  |
 | issuer.country | issuing_country | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | tstr |  |
 | issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | tstr |  |
-| issuer.attestation_legal_category | issuerLegalCategory | The type of attestation category. (Pub-EAA/QEAA) | tstr | PUB-EAA |
 | issuer.attestation_issuing_date | iat | The date the attestation was issued | Number (Unix timestamp) | |
 | issuer.attestation_expiry_date | exp | The date the attestation was issued | Number (Unix timestamp) | |
 
@@ -340,7 +340,7 @@ No mandatory attributes
 | VP3 | If 'validity_Period.end_Date' < issuer.attestation_issuing_date - 5 years| Old validity periods are not relevant to relying parties, the limit of 5 years should be used as a rule of thumb ||
 | VP4 | If there is more than one 'validity_Period' the issuer MAY omit older validity_Periods| Issuers have the freedom to omit older validity periods, when they find they are not relevant ||
 | EA1 | If ('Economic_Activity_Type.ID' AND 'Economic_Activity_Type.Nomenclature <>"NACE")  is equal ('Economic_Activity_Type.ID' AND 'Economic_Activity_Type.Nomenclature == "NACE") Then 'Economic_Activity_Type.Nomenclature SHOULD be "NACE"| The default Nomenclature is NACE, if the ID in the local Nomenclature directly relates to the NACE ID, the NACE ID and TYPE SHOULD be used. | Issuers SHOULD implement a tranlation table to create mostly NACE codes|
-| XB1 | If ('issuing_country' is not in EU Then  'registered_EU_cross_border_transactions' SHOULD be false| Only countries in the EU can take part in the registered_EU_cross_border_transactions|
+| XB1 | If ('issuing_country' is not in EU Then  'registered_eu_cross_border_transactions' SHOULD be false| Only countries in the EU can take part in the registered_eu_cross_border_transactions|
 
 
 # 3 Attestation encoding
