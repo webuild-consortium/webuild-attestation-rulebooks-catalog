@@ -67,7 +67,7 @@
       "additionalProperties": false
     },
 
-    "registered_EU_cross_border_transactions": {
+    "registered_eu_cross_border_transactions": {
       "type": "boolean"
     },
 
@@ -217,7 +217,7 @@
     "validity_period",
     "economic_operator",
     "issuer",
-    "registered_EU_cross_border_transactions"
+    "registered_eu_cross_border_transactions"
   ],
 
   "additionalProperties": true
