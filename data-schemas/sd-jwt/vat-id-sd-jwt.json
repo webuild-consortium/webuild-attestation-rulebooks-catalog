@@ -18,6 +18,10 @@
     "administrative_unit_name": {
       "type": "string"
     },
+    "attestation_legal_category": {
+      "type": "string",
+      "enum": ["QEAA", "PUB-EAA"]
+    },
 
     "validity_period": {
       "type": "array",
@@ -65,7 +69,7 @@
       ],
 
       "additionalProperties": false
-    },
+      },
 
     "registered_eu_cross_border_transactions": {
       "type": "boolean"
@@ -136,10 +140,6 @@
         "issuing_authority": {
           "type": "string"
         },
-        "attestation_legal_category": {
-          "type": "string",
-          "enum": ["QEAA", "PUB-EAA"]
-        },
         "attestation_issuing_date": {
           "type": "number"
         },
@@ -155,7 +155,6 @@
         "authentic_source_country",
         "vat_id_authentic_source",
         "issuing_authority",
-        "attestation_legal_category",
         "attestation_issuing_date"
       ],
       "additionalProperties": false
@@ -218,6 +217,8 @@
     "economic_operator",
     "issuer",
     "registered_eu_cross_border_transactions"
+    "attestation_legal_category",
+
   ],
 
   "additionalProperties": true
