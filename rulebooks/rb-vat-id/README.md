@@ -197,22 +197,21 @@ Administrative unit
 #### 2.2.1 Mandatory attributes
 | data identifier                | Semantic Reference                          | Definition                              | Data Type       | Example Value      |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| vat_id                         | VAT Identification Number                   | Unique identifier for VAT purposes     | String           | DE123456789        |
-| administrative_unit_name       | Name of the Administrative Unit             | Name of the unit responsible for VAT    | String           | Siemens        |
-| validity_period                | Period of Validity                          | Duration during which the data is valid| Date Range       | 2026-01-01 to 2026-12-31 |
-| economic_operator              | Operator conducting economic activity       | Entity responsible for economic operations | Economic Operator object        | ..|
-| issuer                         | Issuing Authority                           | Authority that issues the VAT ID       | Issuer Object           | ..   |
-| registered_eu_cross_border_transactions | ...                 | Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services   | Boolean            | TRUE |
-| attestation_legal_category | attestationLegalCategory | The type of attestation category. (Pub-EAA/QEAA) | tstr | PUB-EAA |
+| vat_id                         | [identifier](https://w3id.org/ebwv#identifier)  | Unique identifier for VAT purposes     | String           | DE123456789        |
+| administrative_unit_name       | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[schema:name](https://schema.org/name) | Name of the unit responsible for VAT    | String           | Siemens        |
+| validity_period                | [cred:validFrom](https://www.w3.org/2018/credentials/#validFrom)<br>[cred:validUntil](https://www.w3.org/2018/credentials/#validUntil) | Duration during which the data is valid| Date Range       | 2026-01-01 to 2026-12-31 |
+| economic_operator              | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator)  | Entity responsible for economic operations | Economic Operator object        | ..|
+| issuer                         | [cred:issuer](https://www.w3.org/2018/credentials#issuer) | Authority that issues the VAT ID       | Issuer Object           | ..   |
 
 
 
 #### 2.2.2 Optional attributes
 | **data identifier**  | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| administrative_unit_type                | ...                 | Type (e.g., Government, Local Authority, B.V, GmbH)| String | GmbH          |
-| administrative_unit_address             | ...                 |  The address where the company is located based on the information from the authentic source of the VAT-ID. This address may differ from the address in the business register.           | Address Object           | ...  |
-| economic_activity_type                  | ...                 | Type of business this administrative unit is registered| Economic Activity Type Object | ...     |
+| administrative_unit_type                | [type](https://w3id.org/ebwv#type)  | Type (e.g., Government, Local Authority, B.V, GmbH)| String | GmbH          |
+| administrative_unit_address             | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[address](https://w3id.org/ebwv#address)|  The address where the company is located based on the information from the authentic source of the VAT-ID. This address may differ from the address in the business register.           | Address Object           | ...  |
+| economic_activity_type                  | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[activity](https://w3id.org/ebwv#activity)  | Type of business this administrative unit is registered| Economic Activity Type Object | ...     |
+| registered_EU_cross_border_transactions | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[references](https://w3id.org/ebwv#references) | Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services   | Boolean            | TRUE |
 
 ### 2.3 Economic Operator 
 #### 2.3.1 Mandatory attributes
@@ -222,6 +221,14 @@ There SHALL be a reference from the Administrative Unit to the Economic Operator
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|---------------------------------------------------------------|------------|--------------|
+| economic_operator.legal_identifier | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) |The relevant unique identifier attributed in accordance with Article 9 of EWB (WEBUILD specific EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2>. eks. SE +  BOLREG + 123456789 -> SEBOLREG.123456789 | tstr | SEBOLREG.123456789 |
+| economic_operator.legal_name | [legalName](https://w3id.org/ebwv#legalname) | the name under which the legal entity is legally registered | tstr | ACME |
+| economic_operator.family_name | [familyName](https://w3id.org/ebwv#familyName) | Current last name(s) or surname(s) of the user to whom the person identification data relates. | tstr | Doe |
+| economic_operator.given_name | [givenName](https://w3id.org/ebwv#givenName) | Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates. | tstr | John |
+| economic_operator.birth_date | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Day, month, and year on which the user to whom the person identification data relates was born. | Date | 1968-04-27 |
+| economic_operator.birth_place | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | The country as an alpha-2 country code as specified in ISO 3166-1, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born. | tstr | Amsterdam |
+| economic_operator.tin | [identifier](https://w3id.org/ebwv#identifier) | tax reference number | tstr |  |
+| economic_operator. personal_administrative_number | [personalAdministrative Number](https://w3id.org/ebwv#personalAdministrativeNumber) | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. The personal Administrative Number may only be used if the local law allows for unrestricted use | tstr | 123456782 |
 | economic_operator.legal_identifier | [legalIdentifier](https://iri.suomi.fi/terminology/webuild/legalidentifier) |The relevant unique identifier attributed in accordance with Article 9 of EWB (WEBUILD specific EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2>. eks. SE +  BOLREG + 123456789 -> SEBOLREG.123456789 | tstr | SEBOLREG.123456789 |
 | economic_operator.legal_name | [legalName](https://iri.suomi.fi/terminology/webuild/legalname) | the name under which the legal entity is legally registered | tstr | ACME |
 | economic_operator.family_name | [familyName](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#familyName) | Current last name(s) or surname(s) of the user to whom the person identification data relates. | tstr | Doe |
@@ -235,13 +242,13 @@ There SHALL be a reference from the Administrative Unit to the Economic Operator
 #### 2.4.1 Mandatory attributes
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| validity_period.start_date| [PeriodOfTime.startDate](https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#startDate) | Date of registration of the VAT-ID. | date |2011-12-24 | 
+| validity_period.start_date| [startDate](https://w3id.org/ebwv#startDate) | Date of registration of the VAT-ID. | date |2011-12-24 | 
 
 ### 2.4.2 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| validity_period.end_date | [PeriodOfTime.endDate](https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#endDate) | The end date after which VAT-ID registration ended. | date | 2021-01-24|
+| validity_period.end_date | [endDate](https://w3id.org/ebwv#endDate) | The end date after which VAT-ID registration ended. | date | 2021-01-24|
 
 ### 2.5 Address
 #### 2.5.1 Mandatory attributes
@@ -249,22 +256,22 @@ No mandatory attributes
 #### 2.5.2 Optional attributes
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| address.po_box | [registeredAddress.poBox](https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#poBox) | P.O. box number or identifier within the address; optional | tstr | PO Box 123 |
-| address.thoroughfare | [registeredAddress.thoroughfare](https://sanastot.suomi.fi/en/terminology/webuild/concept/thoroughfare) | Street name and house number or other thoroughfare designation; optional | tstr | Main Street 10 |
-| address.location_designator | [registeredAddress.locationDesignator](https://iri.suomi.fi/terminology/webuild/locatordesignator) | Internal location designation within a building (e.g., floor, unit); optional | tstr | Floor 3, Unit B |
-| address.post_code | [registeredAddress.postCode](https://iri.suomi.fi/terminology/webuild/postcode) | Postal or ZIP code; optional | tstr | 12345 |
-| address.post_name | [registeredAddress.postName](https://iri.suomi.fi/terminology/webuild/postname) | Town or locality name; optional | tstr | Amsterdam |
-| address.admin_unit_L1 | [registeredAddress.adminUnitL1](https://iri.suomi.fi/terminology/webuild/adminUnitL1) | First-level administrative division (e.g., province, state); optional | tstr | North Holland |
-| address.admin_unit_L2 | [registeredAddress.adminUnitL2](https://iri.suomi.fi/terminology/webuild/adminUnitL2) | Second-level administrative division (e.g., district, municipality); optional | tstr | Amsterdam Municipality
+| address.po_box | [poBox](https://w3id.org/ebwv#poBox) | P.O. box number or identifier within the address; optional | tstr | PO Box 123 |
+| address.thoroughfare | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | Street name and house number or other thoroughfare designation; optional | tstr | Main Street 10 |
+| address.location_designator | [locationDesignator](https://w3id.org/ebwv#locatordesignator) | Internal location designation within a building (e.g., floor, unit); optional | tstr | Floor 3, Unit B |
+| address.post_code | [postCode](https://w3id.org/ebwv#postcode) | Postal or ZIP code; optional | tstr | 12345 |
+| address.post_name | [postName](https://w3id.org/ebwv#postname) | Town or locality name; optional | tstr | Amsterdam |
+| address.admin_unit_L1 | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | First-level administrative division (e.g., province, state); optional | tstr | North Holland |
+| address.admin_unit_L2 | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | Second-level administrative division (e.g., district, municipality); optional | tstr | Amsterdam Municipality
 
 ### 2.6 Economic Activity Type attributes
 #### 2.6.1 Mandatory attributes
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| economic_activity_type.nomenclature | tbd | The nomenclature that is used to describe the administrative unit. NACE should be used as default. However some countries have more elaborate nomenclature. | tstr | nace |
-| economic_activity_type.id | tbd | The ID that under which the Administrative unit is registered. | tstr | C26.5.2 |
-| economic_activity_type.description | Economic Activity Description | The human readable text that describes the economic ativity in a specific language. The language is described in BCP 47 standard  | array | en-EN: Manufacture of bearings, gears, gearing and driving elements  |
+| economic_activity_type.nomenclature | [activity](https://w3id.org/ebwv#activity) | The nomenclature that is used to describe the administrative unit. NACE should be used as default. However some countries have more elaborate nomenclature. | tstr | nace |
+| economic_activity_type.id | [activity](https://w3id.org/ebwv#activity) | The ID that under which the Administrative unit is registered. | tstr | C26.5.2 |
+| economic_activity_type.description | [activity](https://w3id.org/ebwv#activity) | The human readable text that describes the economic ativity in a specific language. The language is described in BCP 47 standard  | array | en-EN: Manufacture of bearings, gears, gearing and driving elements  |
 
 ### 2.7 Metadata
 #### 2.7.1 Mandatory metadata 
@@ -294,7 +301,7 @@ No mandatory attributes
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | display.title | title | VAT-ID of the card as shown in the wallet with the label in a specific language using  BCP 47 | String | en-EN: VAT-ID: DE123456789 |
-| display.organisation_name| organisation_name | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name| tstr |  |
+| display.organisation_name| [legalName](https://w3id.org/ebwv#legalname) | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name| tstr |  |
 | display.issuing_authority | issuing_authority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | tstr | nl-NL: Belastingdienst |
 
 
