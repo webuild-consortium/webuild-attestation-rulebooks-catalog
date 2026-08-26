@@ -216,11 +216,9 @@
     "validity_period",
     "economic_operator",
     "issuer",
-    "registered_eu_cross_border_transactions"
-    "attestation_legal_category",
-
+    "registered_eu_cross_border_transactions",
+    "attestation_legal_category"
   ],
 
   "additionalProperties": true
 }
-
