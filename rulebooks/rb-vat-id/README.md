@@ -344,7 +344,7 @@ No mandatory attributes
 
 | **field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| administrative_unit.economic_activity_type.nomenclature | NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA | Each name refers to the local adaptation of the NACE list. | [Overview of alternative nomenclatures](#81-list-of-alternative-nace-codes) | List SHOULD be used or refer to NACE closest alternative |
+| administrative_unit.economic_activity_type. nomenclature | NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA | Each name refers to the local adaptation of the NACE list. | [Overview of alternative nomenclatures](#81-list-of-alternative-nace-codes) | List SHOULD be used or refer to NACE closest alternative |
 
 ### 2.11 Integrity rules
 
