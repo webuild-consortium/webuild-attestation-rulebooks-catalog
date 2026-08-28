@@ -381,7 +381,7 @@ The VAT-ID attestation uses the SD-JWT VC format to allow for selective disclosu
 | administrative_unit.validity_period                    |validity_period                       | Array [validity period]|                    | MUST NOT|
 | administrative_unit.economic_operator                  | economic_operator                    | object                 | ..                 | MUST NOT|
 | issuer                             | issuer                               | Object                 | ..                 | MUST NOT|
-| administrative_unit.type           | administrative_unit_type             | Object                 | ...                | MUST   |
+| administrative_unit.organisation_type           | organisation_type             | Object                 | ...                | MUST   |
 | administrative_unit.address        | administrative_unit_address          | Object                 | ...                | MUST|
 | administrative_unit.registered_eu_cross_border_transactions| registered_eu_cross_border_transactions         | Boolean | ..                 | MUST NOT|
 | administrative_unit.economic_operator.legal_identifier | economic_operator.legal_identifier   | String                 | ..                 | MUST |
