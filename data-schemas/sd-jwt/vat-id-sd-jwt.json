@@ -78,7 +78,7 @@
           "type": "boolean"
         },
     
-        "type": {
+        "organisation_type": {
           "type": "string"
         },
     
@@ -129,12 +129,13 @@
             "additionalProperties": false
           }
         }
-      "required": [
+      },
+     "required": [
           "vat_id","name","validity_period","economic_operator",
           "registered_eu_cross_border_transactions"
       ]
-      }
-    },
+      "additionalProperties": false
+     },
     "issuer": {
       "type": "object",
       "properties": {
