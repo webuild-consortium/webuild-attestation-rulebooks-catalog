@@ -166,7 +166,7 @@ vat_id_attestation
 │   │   ├─ start_date                          [1]       (start date of the validity period of the vat-id)
 │   │   └─ end_date                            [0]       (end date of the validity period of the vat-id)
 │   ├─ registered_eu_cross_border_transactions [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
-│   ├─ type                                    [0]       (type of organisation in free text)
+│   ├─ organisation_type                       [0]       (type of organisation in free text)
 │   ├─ address                                 [0]       (the postal address registered for the administrative unit)
 │   │   ├─ po_box                              [0]  
 │   │   ├─ thoroughfare                        [0]  
