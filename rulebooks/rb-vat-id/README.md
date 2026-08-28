@@ -291,8 +291,8 @@ No mandatory attributes
 | issuer.vat_id_authenticsource | authenticSource | Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation| string |  |
 | issuer.country | issuing_country | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | string |  |
 | issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | string |  |
-| issuer.attestation_issuing_date | iat | The date the attestation was issued | Number (Unix timestamp) | |
-| issuer.attestation_expiry_date | exp | The date the attestation was issued | Number (Unix timestamp) | |
+| issuer.attestation_issuing_date | iat | The date the attestation was issued | Integer (Unix timestamp) | |
+| issuer.attestation_expiry_date | exp | The date the attestation was issued | Integer (Unix timestamp) | |
 
 
 #### 2.8.2 Optional metadata
@@ -412,8 +412,8 @@ The VAT-ID attestation uses the SD-JWT VC format to allow for selective disclosu
 | issuer.attestation_legal_category  | issuer.attestation_legal_category    |String | ..| MUST NOT| 
 | issuer.location_status             | issuer.location_status               |String (URI)|..|MUST NOT|
 | trust_anchor                       | trustAnchor                          | String (URI) |..|MUST NOT|
-| issuer.issuance_date               | `iat`                                | Number (Unix timestamp)      | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5  | MUST NOT        |
-| issuer.expiry_date                   | `exp`                                | Number (Unix timestamp)      | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5    | MUST NOT        |
+| issuer.issuance_date               | `iat`                                | Integer (Unix timestamp)      | The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 2.5  | MUST NOT        |
+| issuer.expiry_date                   | `exp`                                | Integer (Unix timestamp)      | The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 2.5    | MUST NOT        |
 
 **Notes:**
 
