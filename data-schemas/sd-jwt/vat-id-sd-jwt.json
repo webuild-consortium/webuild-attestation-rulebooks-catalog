@@ -131,9 +131,11 @@
         }
       },
      "required": [
-          "vat_id","name","validity_period","economic_operator",
+          "vat_id","name",
+          "validity_period",
+          "economic_operator",
           "registered_eu_cross_border_transactions"
-      ]
+      ],
       "additionalProperties": false
      },
     "issuer": {
