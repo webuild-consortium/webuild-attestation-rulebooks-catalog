@@ -31,14 +31,17 @@ providing feedback, e.g.:*
   - [Chapter overview and requirements](#chapter-overview-and-requirements)
   - [2.1 Introduction](#21-introduction)
   - [2.2 VAT-ID Attestation](#22-vat-id-attestation)
-  - [2.3 Economic Operator](#23-economic-operator)
-  - [2.4 Validity Period](#24-validity-period)
-  - [2.5 Address](#25-address)
-  - [2.6 Economic Activity Type attributes](#26-economic-activity-type-attributes)
-  - [2.7 Metadata](#27-metadata)
-  - [2.8 Display](#28-display)
-  - [2.9 Code lists](#29-code-lists)
-  - [2.10 Integrity rules](#210-integrity-rules)
+  - [2.3 administrative_unit](#23-administrative_unit)
+  - [2.4 Economic Operator](#24-economic-operator)
+  - [2.5 Legal_person](#25-legal-person)
+  - [2.6 Natural person](#26e-natural-person)
+  - [2.7 Validity Period](#27-validity-period)
+  - [2.8 Address](#28-address)
+  - [2.9 Economic Activity Type attributes](#29-economic-activity-type-attributes)
+  - [2.10 Metadata](#210-metadata)
+  - [2.11 Display](#211-display)
+  - [2.12 Code lists](#212-code-lists)
+  - [2.13 Integrity rules](#213-integrity-rules)
 - [3 Attestation encoding](#3-attestation-encoding)
   - [3.1 ISO/IEC 18013-5-compliant encoding](#31-isoiec-18013-5-compliant-encoding)
   - [3.2 SD-JWT VC-based encoding](#32-sd-jwt-vc-based-encoding)
@@ -234,7 +237,7 @@ There SHALL be a reference from the Administrative Unit to the Economic Operator
 | legal_person | [legalPerson](https://w3id.org/ebwv#LegalPerson) |  individual, company, or organization recognized by law. It possesses distinct rights and responsibilities, meaning it can own property, enter into contracts, incur debts, pay taxes, and sue or be sued in | oBeject |  |
 | natural_person | [naturalPerson](https://w3id.org/ebwv#NaturalPerson) | The natural person the VAT-ID is issued to | Object |  |
 
-### 2.5 Legal_person
+### 2.5 Legal person
 
 #### 2.5.1 Mandatory attributes
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
@@ -244,7 +247,8 @@ There SHALL be a reference from the Administrative Unit to the Economic Operator
 
 #### 2.5.2 Optional attributes
 If the Legal person is filled, there are no optional attributes
-### 2.6 Natural_person
+
+### 2.6 Natural person
 #### 2.6.1 Mandatory attributes
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|---------------------------------------------------------------|------------|--------------|
@@ -298,9 +302,9 @@ No mandatory attributes
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| issuer.authentic_source_country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | date | 05 |
+| issuer.authentic_source_country | issuingCountry | Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | date | 05 |
 | issuer.vat_id_authenticsource | authenticSource | Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation| string |  |
-| issuer.country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | string |  |
+| issuer.country | issuingCountry | Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | string |  |
 | issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | string |  |
 | issuer.attestation_issuing_date | iat | The date the attestation was issued | Integer (Unix timestamp) | |
 | issuer.attestation_expiry_date | exp | The date the attestation was issued | Integer (Unix timestamp) | |
