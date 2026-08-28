@@ -32,6 +32,8 @@ Each rulebook folder contains a single required file:
 
 - `README.md`, the rulebook itself, following the rulebook template at [`rulebooks/templates/webuild-rulebook-generic-template.md`](templates/webuild-rulebook-generic-template.md).
 
+How to use the template, including the markers and the pre-submission checklist, is in [`rulebooks/templates/README.md`](templates/README.md).
+
 Authors should not renumber or rename the template's sections. Sections that do not apply to a specific attestation type should be retained with a short note explaining why.
 
 Schemas, samples, machine-readable metadata, and supporting assets are out of scope for this version of the convention. They will be addressed in a follow-up proposal once the per-folder README structure is in place across all rulebooks.

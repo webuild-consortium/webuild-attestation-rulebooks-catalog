@@ -56,7 +56,6 @@ leave it alone. Strip all three before submission to the EC catalogue.
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
-   * [10.1 Trust anchor location](#101-trust-anchor-location)
 - [11 References](#11-references)
 
 
@@ -225,7 +224,8 @@ FIXED
 > The schema artefacts referenced above are normative for encoding. Where this
 > document and a referenced artefact disagree, the artefact prevails for encoding
 > questions and this document prevails for semantics, presence and disclosure rules.
-> Each artefact SHALL be versioned and immutably addressable.
+> Each artefact SHALL be versioned and immutably addressable. Versioning of the
+> artefacts SHALL align on major releases.
 
 Note on selective disclosure: for SD-JWT VC, whether a claim is selectively
 disclosable is stated in the tables below, not in the schema (EW-DM-12-034). Where
@@ -459,7 +459,10 @@ FIXED
 > 3. check revocation status as described in chapter 8, unless the attestation is
 >    short-lived;
 > 4. verify device binding where section 7.1 records the attestation as device-bound;
-> 5. request only those attributes it is registered and authorised to request.
+> 5. request only those attributes that are necessary for the stated purpose of the
+>    transaction, and, where the trust model for this attestation requires Relying
+>    Party registration, only those attributes it is registered and authorised to
+>    request.
 
 [AUTHOR] Add obligations specific to this attestation type below. Do not edit the
 list above.
@@ -481,7 +484,8 @@ electronic payments.
 
 ## 10 Trust Framework
 
-Keep the branch matching the legal category and delete the other.
+Of the two legal category branches below, keep the one matching this attestation and
+delete the other. Trust anchor location applies in both cases.
 
 **PID, QEAA, PuB-EAA and attestations resolved via Trusted Lists**
 
@@ -507,7 +511,7 @@ FIXED
 > A Wallet Unit MAY verify Provider authorisation using the mechanism described in
 > ISSU_34 of Topic 10 of Annex 2 of the ARF.
 
-### 10.1 Trust anchor location
+**Trust anchor location**
 
 FIXED
 
@@ -539,26 +543,3 @@ chapter 4.
 | [RFC 2119] | Key words for use in RFCs to Indicate Requirement Levels |
 | [SD-JWT VC] | SD-JWT-based Verifiable Credentials |
 | [W3C VCDM v2.0] | Verifiable Credentials Data Model v2.0 |
-
----
-
-## Pre-submission checklist
-
-1. Section 2.3 has no blank rows.
-2. Every format marked supported in chapter 5 has a schema artefact in section 3.1,
-   versioned and immutably addressable.
-3. No schema fragments are pasted into chapters 3 or 4.
-4. Every SD-JWT VC claim in chapter 3 states whether it is selectively disclosable.
-5. The `category` value matches the legal category and uses the ETSI URN form.
-   `attestation_legal_category` appears nowhere.
-6. Section 7.1 has no blank rows, and matches the presence or absence of
-   `cryptographically_bound_to` in section 4.2.
-7. The trust anchor attribute in chapter 10 is the one declared in chapter 4.
-8. If revocable, chapter 8 states the retrieval location.
-9. Proximity presentation in chapter 9 implies mdoc in chapter 5.
-10. Every code list in 4.4 states its source and extensibility.
-11. Every integrity rule in 4.5 states enforcement point and failure behaviour.
-12. The ARF version and template version are in the header, version-pinned rather
-    than `/latest/`.
-
-Maintained by the WE BUILD rulebook quality assurance group.

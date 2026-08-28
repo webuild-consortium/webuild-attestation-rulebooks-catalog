@@ -14,6 +14,7 @@ We welcome contributions that improve clarity, correctness, and coverage of rule
 
 - Edit or add Markdown files under `rulebooks/`.
 - Use the [webuild-rulebook-generic-template.md](rulebooks/templates/webuild-rulebook-generic-template.md) as a starting point for new rulebooks.
+- Read [rulebooks/templates/README.md](rulebooks/templates/README.md) for the template markers and the pre-submission checklist.
 - Keep terminology consistent with EUDI specifications and the existing rulebooks.
 - Use RFC 2119 keywords (`SHALL`, `SHOULD`, `MAY`, etc.) for normative requirements.
 - Follow the standard section structure: Introduction, Document Scope, Document Structure, Keywords, Terminology, and numbered chapters.
