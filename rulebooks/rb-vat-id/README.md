@@ -149,35 +149,36 @@ This document defines the attribute "VAT-ID" which SHALL have
 the value "QEAA" or "PuB-EAA".*
 
 ````
-Administrative unit
-├─ vat_id                                  [1]       (Number of the administrative unit)
-├─ administrative_unit_name                [1]       (name of the administrative unit)
-├─ economic_operator                       [1]       (Reference to the Economic Operator that owns the VAT ID)
-│   ├─ legal_identifier                    [0]       
-│   ├─ legal_name                          [0]       
-│   ├─ family_name                         [0]       
-│   ├─ given_name                          [0]       
-│   ├─ birth_date                          [0]       
-│   ├─ birth_place                         [0]       
-│   ├─ tin                                 [0]       
-│   └─ personal_administrative_number      [0]       
-├─ validity_period                         [1..n]    (period(s) for which the vat-id is valid)
-│   ├─ start_date                          [1]       (start date of the validity period of the vat-id)
-│   └─ end_date                            [0]       (end date of the validity period of the vat-id)
-├─ registered_eu_cross_border_transactions [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
-├─ adminitrative_unit_type                 [0]       (type of organisation in free text)
-├─ administrative_unit_address             [0]       (the postal address registered for the administrative unit)
-│   ├─ po_box                              [0]  
-│   ├─ thoroughfare                        [0]  
-│   ├─ location_designator                 [0]  
-│   ├─ post_code                           [0]  
-│   ├─ post_name                           [0]  
-│   ├─ admin_unit_l1                       [0]  
-│   └─ admin_unit_l2                       [0]  
-├─ economic_activity_type                  [0..n]    (reference to the economic operator)
-│   ├─ economic_activity_type_nomenclature [1]       (nomenclature used to describe the economic activity)
-│   ├─ economic_activity_type_id           [1]       (id used in the nomenclature)
-│   └─ economic_activity_type_description  [1..n]    (object using language:, value)
+VAT_ID_attestation
+├─ Administrative unit
+│   ├─ vat_id                                  [1]       (Number of the administrative unit)
+│   ├─ administrative_unit_name                [1]       (name of the administrative unit)
+│   ├─ economic_operator                       [1]       (Reference to the Economic Operator that owns the VAT ID)
+│   │   ├─ legal_identifier                    [0]       
+│   │   ├─ legal_name                          [0]       
+│   │   ├─ family_name                         [0]       
+│   │   ├─ given_name                          [0]       
+│   │   ├─ birth_date                          [0]       
+│   │   ├─ birth_place                         [0]       
+│   │   ├─ tin                                 [0]       
+│   │   └─ personal_administrative_number      [0]       
+│   ├─ validity_period                         [1..n]    (period(s) for which the vat-id is valid)
+│   │   ├─ start_date                          [1]       (start date of the validity period of the vat-id)
+│   │   └─ end_date                            [0]       (end date of the validity period of the vat-id)
+│   ├─ registered_eu_cross_border_transactions [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
+│   ├─ adminitrative_unit_type                 [0]       (type of organisation in free text)
+│   ├─ administrative_unit_address             [0]       (the postal address registered for the administrative unit)
+│   │   ├─ po_box                              [0]  
+│   │   ├─ thoroughfare                        [0]  
+│   │   ├─ location_designator                 [0]  
+│   │   ├─ post_code                           [0]  
+│   │   ├─ post_name                           [0]  
+│   │   ├─ admin_unit_l1                       [0]  
+│   │   └─ admin_unit_l2                       [0]  
+│   ├─ economic_activity_type                  [0..n]    (reference to the economic operator)
+│   │   ├─ economic_activity_type_nomenclature [1]       (nomenclature used to describe the economic activity)
+│   │   ├─ economic_activity_type_id           [1]       (id used in the nomenclature)
+│   │   └─ economic_activity_type_description  [1..n]    (object using language:, value)
 ├─ issuer                                  [1]   
 │   ├─ issuing_country                     [1]
 │   ├─ issuing_organisation                [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
