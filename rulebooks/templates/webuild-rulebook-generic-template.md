@@ -145,22 +145,23 @@ Keep the block matching the legal category and delete the others.
 **QEAA**
 
 > This attestation includes the data required by Annex V of Regulation (EU)
-> 2024/1183, points a, b, c, e and h, satisfying ARB_11, ARB_13, ARB_16, ARB_18 and
-> ARB_20 respectively. It is issued by a qualified trust service provider.
+> 2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-016,
+> EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by a
+> qualified trust service provider.
 
 **PuB-EAA**
 
 > This attestation includes the data required by Annex VII of Regulation (EU)
-> 2024/1183, points a, b, c, e and h, satisfying ARB_11, ARB_14, ARB_16, ARB_18 and
-> ARB_20 respectively. It is issued by or on behalf of a public sector body
-> responsible for an authentic source.
+> 2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-017,
+> EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by or on
+> behalf of a public sector body responsible for an authentic source.
 
 **Non-qualified EAA**
 
 > This attestation is not a qualified electronic attestation of attributes. The data
 > described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
-> required by ARB_15 and as recommended by ARB_17 and ARB_19. Where a recommendation
-> is not followed, the reason is stated below.
+> required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
+> Where a recommendation is not followed, the reason is stated below.
 
 **EBWOID**
 
@@ -172,35 +173,35 @@ Keep the block matching the legal category and delete the others.
 Every applicable requirement mapped to the section that satisfies it. Mark a
 requirement not applicable only with a stated reason. No blank rows at submission.
 
-| Requirement | Applies | Satisfied in section | Note |
-| --- | --- | --- | --- |
-| ARB_01a | | | Format restriction, W3C VCDM permitted for non-qualified EAA only |
-| ARB_01b | | | SD-JWT VC per the HAIP profile |
-| ARB_02 | | | mdoc required if proximity presentation is in scope |
-| ARB_04 | | | Approved specifications for W3C VCDM encoding |
-| ARB_05 | | | Unique attestation type or vct |
-| ARB_06 | | | Encoding-independent attribute definitions |
-| ARB_06a | | | mdoc attribute identifiers and namespaces |
-| ARB_06b | | | SD-JWT VC claim naming |
-| ARB_07 | | | Reuse of catalogued attributes |
-| ARB_09 | | | Mandatory, optional or conditional marking |
-| ARB_10 | | | Domestic namespace, if defined |
-| ARB_11 | | | Annex V or VII point a |
-| ARB_12 | | | EAA indication, non-qualified only |
-| ARB_13 / ARB_14 / ARB_15 | | | Point b, by category |
-| ARB_16 / ARB_17 | | | Point c, by category |
-| ARB_18 / ARB_19 | | | Point e, by category |
-| ARB_20 / ARB_21 | | | Trust anchor or certificate location, by category |
-| ARB_26 | | | Trust anchor publication, non-qualified EAA |
-| ARB_27 | | | Whether the Relying Party must also verify a PID |
-| ARB_28 | | | `cryptographically_bound_to`, if used |
-| ARB_30 | | | Selective disclosure per claim |
-| ARB_31 | | | Claim Selective Disclosure Metadata |
-| ARB_34 | | | Device binding |
+| Requirement | Legacy ID | Applies | Satisfied in section | Note |
+| --- | --- | --- | --- | --- |
+| EW-DM-12-001 | ARB_01a | | | Format restriction, W3C VCDM permitted for non-qualified EAA only |
+| EW-DM-12-002 | ARB_01b | | | SD-JWT VC per the HAIP profile |
+| EW-DM-12-003 | ARB_02 | | | mdoc required if proximity presentation is in scope |
+| EW-DM-12-005 | ARB_04 | | | Approved specifications for W3C VCDM encoding |
+| EW-DM-12-006 | ARB_05 | | | Unique attestation type or vct |
+| EW-DM-12-007 | ARB_06 | | | Encoding-independent attribute definitions |
+| EW-DM-12-008 | ARB_06a | | | mdoc attribute identifiers and namespaces |
+| EW-DM-12-009 | ARB_06b | | | SD-JWT VC claim naming |
+| EW-DM-12-010 | ARB_07 | | | Reuse of catalogued attributes |
+| EW-DM-12-012 | ARB_09 | | | Mandatory, optional or conditional marking |
+| EW-DM-12-013 | ARB_10 | | | Domestic namespace, if defined |
+| EW-DM-12-014 | ARB_11 | | | Annex V or VII point a |
+| EW-DM-12-015 | ARB_12 | | | EAA indication, non-qualified only |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | | | Point b, by category |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | | | Point c, by category |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | | | Point e, by category |
+| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | | | Trust anchor or certificate location, by category |
+| EW-DM-12-030 | ARB_26 | | | Trust anchor publication, non-qualified EAA |
+| EW-DM-12-031 | ARB_27 | | | Whether the Relying Party must also verify a PID |
+| EW-DM-12-032 | ARB_28 | | | `cryptographically_bound_to`, if used |
+| EW-DM-12-034 | ARB_30 | | | Selective disclosure per claim |
+| EW-DM-12-035 | ARB_31 | | | Claim Selective Disclosure Metadata |
+| EW-DM-12-038 | ARB_34 | | | Device binding |
 
 ## 3 Attestation attributes
 
-Attributes are defined here in an encoding-independent manner (ARB_06). The
+Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
 authoritative encoding lives in the machine-readable schema artefacts referenced in
 section 3.1, not in this document. Do not paste schema fragments into the prose,
 they will drift.
@@ -227,8 +228,9 @@ FIXED
 > Each artefact SHALL be versioned and immutably addressable.
 
 Note on selective disclosure: for SD-JWT VC, whether a claim is selectively
-disclosable is stated in the tables below, not in the schema (ARB_30). Where a Claim
-Selective Disclosure Metadata document is used (ARB_31), reference it above.
+disclosable is stated in the tables below, not in the schema (EW-DM-12-034). Where
+a Claim Selective Disclosure Metadata document is used (EW-DM-12-035), reference it
+above.
 
 ### 3.2 Mandatory attributes
 
@@ -288,7 +290,7 @@ FIXED
 ### 4.2 Optional metadata
 
 Includes `cryptographically_bound_to` where section 7.1 records a cryptographic
-binding (ARB_28).
+binding (EW-DM-12-032).
 
 | Data identifier | Semantic reference | Definition | Data type | Example value |
 | --- | --- | --- | --- | --- |
@@ -326,15 +328,15 @@ and the rules for using each format live in chapters 7 and 9.
 
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
-| ISO/IEC 18013-5 mdoc | yes / no | doctype `[VALUE]`, namespace `[VALUE]` | [ISO/IEC 18013-5] | Required if proximity presentation is in scope (ARB_02) |
-| SD-JWT VC | yes / no | `vct` `[VALUE]` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile (ARB_01b) |
-| W3C VCDM | yes / no | type `[VALUE]`, context `[URL]` | [W3C VCDM v2.0] | Permitted for non-qualified EAA only (ARB_01a) |
+| ISO/IEC 18013-5 mdoc | yes / no | doctype `[VALUE]`, namespace `[VALUE]` | [ISO/IEC 18013-5] | Required if proximity presentation is in scope (EW-DM-12-003) |
+| SD-JWT VC | yes / no | `vct` `[VALUE]` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile (EW-DM-12-002) |
+| W3C VCDM | yes / no | type `[VALUE]`, context `[URL]` | [W3C VCDM v2.0] | Permitted for non-qualified EAA only (EW-DM-12-001) |
 
 FIXED
 
 > A PID SHALL be issued in both the ISO/IEC 18013-5 and SD-JWT VC formats. For other
 > attestation types, at least one format SHALL be marked as supported. Identifiers
-> SHALL be unique to this attestation type (ARB_05).
+> SHALL be unique to this attestation type (EW-DM-12-006).
 
 [AUTHOR] Where more than one format is supported, state whether a Provider SHALL
 offer all of them or MAY choose.
@@ -372,9 +374,9 @@ FIXED table shape. Complete every row, none may be left blank.
 
 | Field | Value | Source |
 | --- | --- | --- |
-| Device-bound | SHALL / SHOULD / MAY / non device-bound | ARB_34 |
-| Cryptographically bound to | none / attestation type or vct value | ARB_28 |
-| Relying Party must also verify a PID | yes / no / not applicable | ARB_27 |
+| Device-bound | SHALL / SHOULD / MAY / non device-bound | EW-DM-12-038 |
+| Cryptographically bound to | none / attestation type or vct value | EW-DM-12-032 |
+| Relying Party must also verify a PID | yes / no / not applicable | EW-DM-12-031 |
 | Binding subject | natural person / legal person / wallet unit | |
 
 [AUTHOR] Justify any answer that departs from the category default. For QEAA and
@@ -511,9 +513,10 @@ FIXED
 
 > The attribute or metadata carrying the trust anchor location contains at least the
 > URL at which a machine-readable version can be found or looked up. For a QEAA this
-> location refers to the trust anchor (ARB_20). For a PuB-EAA it refers to the
-> qualified certificate that signed the attestation (ARB_20). For a non-qualified EAA
-> the location and its meaning are as described above (ARB_21, ARB_26).
+> location refers to the trust anchor (EW-DM-12-023). For a PuB-EAA it refers to the
+> qualified certificate that signed the attestation (EW-DM-12-023). For a
+> non-qualified EAA the location and its meaning are as described above
+> (EW-DM-12-024, EW-DM-12-030).
 
 Coherence check: the attribute named here SHALL be the same attribute declared in
 chapter 4.
