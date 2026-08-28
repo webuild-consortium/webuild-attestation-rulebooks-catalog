@@ -21,12 +21,15 @@
 | 0.8     | 29.06.2026 | Updates of BODS vocabulary                                                             |
 | 0.9     | 03.07.2026 | Updates in regard trust and revocation                                                 |
 | 1.0     | 23.07.2026 | Updates input PA3-Review                                                               |
+| 1.0     | 23.07.2026 | Feedback Semantics (Monika & Bart)                                                     |
 
 * Contact:
   * [Florin Coptil](mailto:florin.coptil@bosch.com)* 
   * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)*
 
 * Feedback:
+  * Monika
+  * Bart
 
 ## 1 Introduction
 
@@ -59,6 +62,8 @@ This Ownership Attestation Rulebook is based on:
 - Beneficial Ownership Submission Regulation – Commission on Implementing Regulation (EU) [number] on the formats for submitting beneficial ownership information.
 - Beneficial Ownership Data Standard (BODS) version 0.4
 
+**please add links to a referenced document or artikle and state page number plus paragraph.**
+
 ### 1.2 Document Structure
 This Rulebook is structured as follows:
 
@@ -83,22 +88,22 @@ are intended as statements of fact.
 
 *Additional terminology specific to this attestation:*
 
-| Term                                               | Definition                                                                                                                                                                                              |
-|----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Ownership                                          | A comprehensive record of all natural and legal persons holding direct or indirect ownership or control in a legal entity, including ownership percentages and supporting evidence                      |
-| Beneficial Owner / Ultimate Beneficial Owner (UBO) | A natural person who ultimately owns or controls a legal entity, either directly or indirectly (typically defined as holding ≥25% ownership or control, per AMLD requirements)                          |
-| Direct Ownership                                   | Ownership interest held directly by a natural or legal person in the subject entity, without intermediary entities                                                                                      |
-| Indirect Ownership                                 | Ownership interest held through one or more intermediary legal entities (e.g., Person A owns 50% of Company B, which owns 60% of Company C → Person A has 30% indirect ownership in Company C)          |
-| Total Ownership                                    | The sum of direct and indirect ownership percentages across all layers of the ownership structure                                                                                                       |
-| Ownership Category                                 | Classification of the type of ownership or control relationship (e.g., shareholder, controller via voting rights, trustee, partner, holder of convertible rights, person exercising dominant influence) |
-| Legal Entity Identifier Chain                      | The list of all intermediate legal entities through which indirect ownership is held, enabling full traceability of ownership layers                                                                    |
-| KYC                                                | Know Your Customer – due diligence process for verifying customer identity and assessing risk in financial relationships                                                                                |
-| KYS                                                | Know Your Supplier – due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                             |
-| PEP                                                | Politically Exposed Person – individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                         |
-| EUCC                                               | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                                                                      |
-| Evidence                                           | Supporting documentation substantiating the ownership structure (e.g., shareholder register, organizational chart, trust deed)                                                                          |
-| Legal Arrangement                                  | A non-corporate structure (e.g., trust, foundation, fiduciary arrangement) used to hold assets or exercise control over a legal entity                                                                  |
-| Identifier                                         | A formal reference code used to uniquely identify a legal entity (e.g., EUID, LEI, national tax or registry number)                                                                                     |
+| Term | Definition | Remark |
+|--|--|--|
+| Ownership  | A comprehensive record of all natural and legal persons holding direct or indirect ownership or control in a legal entity, including ownership percentages and supporting evidence | based on what calculation method? Does this cover all legal types? Who is the authentic source? How can we know the information is truthful and recent? |
+| Beneficial Owner / Ultimate Beneficial Owner (UBO) | A natural person who ultimately owns or controls a legal entity, either directly or indirectly (typically defined as holding ≥25% ownership or control, per AMLD requirements)  | Is this ownership info? There are self issued statements and can be very indirect. It is covered in it's own attestation.  |
+| Direct Ownership    | Ownership interest held directly by a natural or legal person in the subject entity, without intermediary entities                        |                                                               |
+| Indirect Ownership     | Ownership interest held through one or more intermediary legal entities (e.g., Person A owns 50% of Company B, which owns 60% of Company C → Person A has 30% indirect ownership in Company C) | is this UBO or a trust that issues certificates to employees for instance?         |
+| Total Ownership      | The sum of direct and indirect ownership percentages across all layers of the ownership structure                                                                 | why do you use percentages? It is derivable if you work with the amount of shares. Or do some memberstates work with a different share system?               |
+| Ownership Category             | Classification of the type of ownership or control relationship (e.g., shareholder, controller via voting rights, trustee, partner, holder of convertible rights, person exercising dominant influence) | do not mention e.g. but state a code list. |
+| Legal Entity Identifier Chain                      | The list of all intermediate legal entities through which indirect ownership is held, enabling full traceability of ownership layers                                                                  | this is UBO, It is not ownership, is it?  |
+| KYC                                                | Know Your Customer – due diligence process for verifying customer identity and assessing risk in financial relationships                                                            | how do you catch a process? What specific attributes do you expect?                   |
+| KYS                                                | Know Your Supplier – due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                  | how do you catch a process?            |
+| PEP                                                | Politically Exposed Person – individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                   | Is there a separate attestation for PEP's?     |
+| EUCC                                               | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                                                                |      |
+| Evidence                                           | Supporting documentation substantiating the ownership structure (e.g., shareholder register, organizational chart, trust deed)                                                                    |   using e.g. again. Please define a codelist or an enumeration.   |
+| Legal Arrangement                                  | A non-corporate structure (e.g., trust, foundation, fiduciary arrangement) used to hold assets or exercise control over a legal entity                                                           |  using e.g. again. Please define a codelist or an enumeration.     |
+| Identifier                                         | A formal reference code used to uniquely identify a legal entity (e.g., EUID, LEI, national tax or registry number)                                                                               | using e.g. again. Please define a codelist or an enumeration.     |
 
 ## 2 Attestation Attributes and Metadata
 
@@ -150,11 +155,11 @@ Owner [1..n]                                    // The person or entity that hol
 │   └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
 ├─ interests (M)                                // Details of the economic or control interest
 │   ├─ type [enum] [1..n] (M)                   // Array — see Section 2.8.5
-│   ├─ level (tstr) (M)                         // "direct" | "indirect" | "joint" | "unknown"
-│   ├─ percentage (Decimal) (M)                 // Ownership percentage (0–100)
+│   ├─ level (tstr) (M)                         // "direct" | "indirect" | "joint" | "unknown" **an enumeration, well done**
+│   ├─ percentage (Decimal) (M)                 // Ownership percentage (0–100) **percentages are derivable**
 │   ├─ quantity (uint) (M)                      // Number of shares or units held
-│   ├─ description (tstr) (O)                   // Free-text description of the interest
-│   ├─ class (tstr) (O)                         // "ordinary" | "preferred" | "dual-class" | "other"
+│   ├─ description (tstr) (O)                   // Free-text description of the interest **are you sure?**
+│   ├─ class (tstr) (O)                         // "ordinary" | "preferred" | "dual-class" | "other" **an enumeration, well done**
 │   └─ rights [String] [1..n] (M)              // "dividend_rights" | "liquidation_rights"
 ├─ effective_date (date) (M)                    // ISO 8601 YYYY-MM-DD
 └─ evidence [1..n] (M)                          // At least one evidence entry required
@@ -164,7 +169,7 @@ Owner [1..n]                                    // The person or entity that hol
 │  └─ data (base64) (O)                        // Base64-encoded — required if url absent
 ```
 *Note*: M - mandatory / O - optional.
-
+**strange modelling, owner.type is derivable. jurisdiction is mentioned on two levels, are they different? subtype_info are all strings; how do you consume this information in the wallet or system behined the wallet? Is it a human? Try defining a codelist!**
 **Explanation:**
 - The attestation SHALL contain at least one `Owner` entry of `type = "Person"` to comply with
   AML requirements mandating identification of the natural persons who ultimately own or control
@@ -885,6 +890,8 @@ The following is a non-normative example of an Ownership SD-JWT VC payload demon
 Sample payloads are provided under `../data-schemas/sd-jwt/sample-data/ownership-sd-jwt-sample.json`
 
 ### 3.3 W3C Verifiable Credentials Data Model-based encoding
+
+**If you are refering to LD? Because then you can easily link them.**
 
 ## 4 Attestation usage
 
