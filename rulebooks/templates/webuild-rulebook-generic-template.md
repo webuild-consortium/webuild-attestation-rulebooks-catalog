@@ -457,7 +457,8 @@ FIXED
 >    described in chapter 10;
 > 2. verify that the attestation is within its validity period;
 > 3. check revocation status as described in chapter 8, unless the attestation is
->    short-lived;
+>    short-lived; or remaining lifetime of the attestation is below revocation time
+>    threshold;
 > 4. verify device binding where section 7.1 records the attestation as device-bound;
 > 5. request only those attributes that are necessary for the stated purpose of the
 >    transaction, and, where the trust model for this attestation requires Relying
