@@ -17,21 +17,50 @@
   "iat": 1704067200,
   "exp": 1830902400,
 
-  "vat_id": "NL001234567B01",
-  "administrative_unit_name": "KLM Royal Dutch Airlines",
-  "registered_eu_cross_border_transactions": true,
-  "attestation_legal_category": "PUB-EAA",
+  "administrative_unit": {
+    "vat_id": "NL001234567B01",
+    "name": "KLM Royal Dutch Airlines",
+    "attestation_legal_category": "PUB-EAA",
+    "registered_eu_cross_border_transactions": true,
+    "type": "N.V.",
 
-  "validity_period": [
-    {
-      "start_date": "2020-01-15",
-      "end_date": "2027-12-31"
-    }
-  ],
+    "validity_period": [
+      {
+        "start_date": "2020-01-15",
+        "end_date": "2027-12-31"
+      }
+    ],
 
-  "economic_operator": {
-    "legal_identifier": "NL801234567B01",
-    "legal_name": "KLM Royal Dutch Airlines N.V."
+    "economic_operator": {
+      "legal_identifier": "NL801234567B01",
+      "legal_name": "KLM Royal Dutch Airlines N.V."
+    },
+
+    "address": {
+      "thoroughfare": "Amsterdamse Ring 2",
+      "location_designator": "Building A",
+      "post_code": "1101 DA",
+      "post_name": "Amsterdam",
+      "admin_unit_l1": "North Holland",
+      "admin_unit_l2": "Amsterdam"
+    },
+
+    "economic_activity_type": [
+      {
+        "nomenclature": "NACE",
+        "id": "51.1",
+        "description": [
+          {
+            "language": "en",
+            "value": "Passenger air transport"
+          },
+          {
+            "language": "nl",
+            "value": "Luchtvervoer van passagiers"
+          }
+        ]
+      }
+    ]
   },
 
   "issuer": {
@@ -59,17 +88,16 @@
     "hash_validity"
   ],
   "sd_hash": "sha-256",
-  
 
   "selectively_disclosable_claims": {
-    "administrative_unit_type": {
+    "type": {
       "salt": "salt1",
       "value": "N.V.",
-      "claim_name": "administrative_unit_type",
+      "claim_name": "type",
       "sha256_digest": "hash_admin_type"
     },
 
-    "administrative_unit_address": {
+    "address": {
       "salt": "salt2",
       "value": {
         "thoroughfare": "Amsterdamse Ring 2",
@@ -79,7 +107,7 @@
         "admin_unit_l1": "North Holland",
         "admin_unit_l2": "Amsterdam"
       },
-      "claim_name": "administrative_unit_address",
+      "claim_name": "address",
       "sha256_digest": "hash_admin_address"
     },
 
@@ -119,19 +147,20 @@
   },
 
   "holder_presentation_example": {
-    "vat_id": "NL001234567B01",
-    "administrative_unit_name": "KLM Royal Dutch Airlines",
-
-    "validity_period": [
-      {
-        "start_date": "2020-01-15",
-        "end_date": "2027-12-31"
-      }
-    ],
+    "administrative_unit": {
+      "vat_id": "NL001234567B01",
+      "name": "KLM Royal Dutch Airlines",
+      "validity_period": [
+        {
+          "start_date": "2020-01-15",
+          "end_date": "2027-12-31"
+        }
+      ]
+    },
 
     "issuer": {
       "issuing_authority": "Dutch Tax Administration",
-      "attestation_legal_category": "PUB-EAA"
+      "authentic_source_country": "NL"
     },
 
     "status": {
