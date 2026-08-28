@@ -150,10 +150,10 @@
           "type": "string"
         },
         "attestation_issuing_date": {
-          "type": "number"
+          "type": "integer"
         },
         "attestation_expiry_date": {
-          "type": "number"
+          "type": "integer"
         },
         "location_status": {
           "type": "string",
