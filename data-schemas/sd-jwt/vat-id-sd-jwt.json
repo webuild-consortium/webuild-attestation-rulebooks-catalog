@@ -195,7 +195,7 @@
 
             "description": {
               "type": "array",
-              "description": "Localized descriptions of the economic activity.",
+              "description": "Localised descriptions of the economic activity.",
               "items": {
                 "type": "object",
                 "properties": {
@@ -207,7 +207,7 @@
 
                   "value": {
                     "type": "string",
-                    "description": "Localized description of the economic activity.",
+                    "description": "Localised description of the economic activity.",
                     "examples": ["Passenger air transport"]
                   }
                 }
@@ -312,7 +312,7 @@
 
   "display": {
     "type": "array",
-    "description": "Localized display metadata for wallet presentation.",
+    "description": "Localised display metadata for wallet presentation.",
     "items": {
       "type": "object",
       "properties": {
@@ -330,7 +330,7 @@
 
         "label": {
           "type": "string",
-          "description": "Localized label shown to the wallet user.",
+          "description": "Localised label shown to the wallet user.",
           "examples": ["VAT Identification Number"]
         }
       }
