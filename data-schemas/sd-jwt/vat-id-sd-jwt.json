@@ -126,7 +126,7 @@
           "required": ["nomenclature", "id", "description"],
           "additionalProperties": false
         }
-      },
+      }
     },
     "issuer": {
       "type": "object",
