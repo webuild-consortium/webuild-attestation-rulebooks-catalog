@@ -30,7 +30,7 @@ providing feedback, e.g.:*
 - [2 Attestation attributes and metadata](#2-attestation-attributes-and-metadata)
   - [Chapter overview and requirements](#chapter-overview-and-requirements)
   - [2.1 Introduction](#21-introduction)
-  - [2.2 Administrative Unit](#22-administrative-unit)
+  - [2.2 VAT-ID Attestation](#22-vat-id-attestation)
   - [2.3 Economic Operator](#23-economic-operator)
   - [2.4 Validity Period](#24-validity-period)
   - [2.5 Address](#25-address)
@@ -146,28 +146,29 @@ an indication, at least in a form suitable for automated processing, that the at
 has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
 of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.
 
-This document defines the attribute "VAT-ID" which SHALL have
-the value "QEAA" or "PuB-EAA".*
+This document defines the attribute "VAT-ID" which SHALL either be issued as QEAA or a PuB-EAA
 
 ````
 vat_id_attestation
 ├─ administrative_unit                         [1]
 │   ├─ vat_id                                  [1]       (VAT-ID of the administrative unit)
 │   ├─ name                                    [1]       (name of the administrative unit)
-│   ├─ economic_operator                       [1]       (Reference to the Economic Operator that owns the VAT ID)
-│   │   ├─ legal_identifier                    [0]       
-│   │   ├─ legal_name                          [0]       
-│   │   ├─ family_name                         [0]       
-│   │   ├─ given_name                          [0]       
-│   │   ├─ birth_date                          [0]       
-│   │   ├─ birth_place                         [0]       
-│   │   ├─ tin                                 [0]       
-│   │   └─ personal_administrative_number      [0]       
+│   ├─ organisation_type                       [0]       (type of organisation in free text)
 │   ├─ validity_period                         [1..n]    (period(s) for which the vat-id is valid)
 │   │   ├─ start_date                          [1]       (start date of the validity period of the vat-id)
 │   │   └─ end_date                            [0]       (end date of the validity period of the vat-id)
 │   ├─ registered_eu_cross_border_transactions [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
-│   ├─ organisation_type                       [0]       (type of organisation in free text)
+│   ├─ economic_operator                       [1]       (Reference to the Economic Operator that owns the VAT ID)
+│   │   ├─ legal_person                        [0]       
+│   │   │   ├─ legal_identifier                [1]       
+│   │   │   ├─ legal_name                      [1]       
+│   │   ├─ natural_person                      [0]       
+│   │   │   ├─ family_name                     [1]       
+│   │   │   ├─ given_name                      [1]       
+│   │   │   ├─ birth_date                      [1]       
+│   │   │   ├─ birth_place                     [0]       
+│   │   │   ├─ tin                             [0]       
+│   │   │   └─ personal_administrative_number  [0]       
 │   ├─ address                                 [0]       (the postal address registered for the administrative unit)
 │   │   ├─ po_box                              [0]  
 │   │   ├─ thoroughfare                        [0]  
@@ -177,25 +178,25 @@ vat_id_attestation
 │   │   ├─ admin_unit_l1                       [0]  
 │   │   └─ admin_unit_l2                       [0]  
 │   └─ economic_activity_type                  [0..n]    (reference to the economic operator)
-│       ├─ economic_activity_type_nomenclature [1]       (nomenclature used to describe the economic activity)
+│       ├─ nomenclature                        [1]       (nomenclature used to describe the economic activity)
 │       ├─ economic_activity_type_id           [1]       (id used in the nomenclature)
 │       └─ economic_activity_type_description  [1..n]    (object using language:, value)
 ├─ issuer                                      [1]   
 │   ├─ issuing_country                         [1]
-│   ├─ issuing_organisation                    [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
-│   ├─ issuing_date                            [1]        (date on which the attestation is issued)
+│   ├─ issuing_authority                       [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
+│   ├─ attestation_issuing_date                [1]        (date on which the attestation is issued)
 │   └─ attestation_issuing_organisation        [1]
 └─ display                                     [1]       Items to be displayd on the card in the wallet
     ├─ title                                   [1]       Name of the card displayed in wallet (VAT-ID)
     ├─ organisation_name                       [1]       legal_name of the organisation that owns the VAT-ID
     ├─ subtitle                                [0]       
     ├─ issuer_logo                             [0]       
-    ├─ isuer_name                              [1]       issuing_organisation
+    ├─ issuer_name                              [1]       issuing_organisation
     ├─ background_color                        [0]       
     └─ text_color                              [0]       
 ````
 
-### 2.2 vat_it_attestation 
+### 2.2 VAT-ID Attestation 
 #### 2.2.1 Mandatory attributes
 | data identifier                | Semantic Reference                          | Definition                              | Data Type       | Example Value      |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -218,7 +219,7 @@ vat_id_attestation
 #### 2.3.2 Optional attributes
 | **data identifier**  | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| administrative_unit.type                | [type](https://w3id.org/ebwv#type)  | Type (e.g., Government, Local Authority, B.V, GmbH)| String | GmbH          |
+| administrative_unit.organisation_type                | [type](https://w3id.org/ebwv#type)  | Type (e.g., Government, Local Authority, B.V, GmbH)| String | GmbH          |
 | administrative_unit.address             | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[address](https://w3id.org/ebwv#address)|  The address where the company is located based on the information from the authentic source of the VAT-ID. This address may differ from the address in the business register.           | Address Object           | ...  |
 | administrative_unit.economic_activity_type                  | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[activity](https://w3id.org/ebwv#activity)  | Type of business this administrative unit is registered| Economic Activity Type Object | ...     |
 | administrative_unit. registered_eu_cross_border_transactions | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[references](https://w3id.org/ebwv#references) | Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services   | Boolean            | TRUE |
@@ -228,42 +229,51 @@ vat_id_attestation
 There SHALL be a reference from the Administrative Unit to the Economic Operator. However the the Economic Operator can either be a [Legal Person](https://iri.suomi.fi/terminology/webuild/concept-109) or a [Natural Person](https://iri.suomi.fi/terminology/webuild/concept-6005). The economic operator object SHALL be filled to one of the two, not to both. 
 
 #### 2.4.2 Optional attributes
-
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|---------------------------------------------------------------|------------|--------------|
-| economic_operator.legal_identifier | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) |The relevant unique identifier attributed in accordance with Article 9 of EWB (WEBUILD specific EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2>. eks. SE +  BOLREG + 123456789 -> SEBOLREG.123456789 | string | SEBOLREG.123456789 |
-| economic_operator.legal_name | [legalName](https://w3id.org/ebwv#legalname) | the name under which the legal entity is legally registered | string | ACME |
-| economic_operator.family_name | [familyName](https://w3id.org/ebwv#familyName) | Current last name(s) or surname(s) of the user to whom the person identification data relates. | string | Doe |
-| economic_operator.given_name | [givenName](https://w3id.org/ebwv#givenName) | Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates. | string | John |
-| economic_operator.birth_date | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Day, month, and year on which the user to whom the person identification data relates was born. | Date | 1968-04-27 |
-| economic_operator.birth_place | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | The country as an alpha-2 country code as specified in ISO 3166-1, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born. | string | Amsterdam |
-| economic_operator.tin | [identifier](https://w3id.org/ebwv#identifier) | tax reference number | string |  |
-| economic_operator. personal_administrative_number | [personalAdministrative Number](https://w3id.org/ebwv#personalAdministrativeNumber) | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. The personal Administrative Number may only be used if the local law allows for unrestricted use | string | 123456782 |
-| economic_operator.legal_identifier | [legalIdentifier](https://iri.suomi.fi/terminology/webuild/legalidentifier) |The relevant unique identifier attributed in accordance with Article 9 of EWB (WEBUILD specific EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2>. eks. SE +  BOLREG + 123456789 -> SEBOLREG.123456789 | string | SEBOLREG.123456789 |
-| economic_operator.legal_name | [legalName](https://iri.suomi.fi/terminology/webuild/legalname) | the name under which the legal entity is legally registered | string | ACME |
-| economic_operator.family_name | [familyName](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#familyName) | Current last name(s) or surname(s) of the user to whom the person identification data relates. | string | Doe |
-| economic_operator.given_name | [givenName](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#givenName) | Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates. | string | John |
-| economic_operator.birth_date | [dateOfBirth](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#dateOfBirth) | Year, month, and day on which the user to whom the person identification data relates was born. | Date | 1968-04-27 |
-| economic_operator.birth_place | [placeOfBirth](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#placeOfBirth) | The country as an alpha-2 country code as specified in ISO 3166-1, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born. | string | Amsterdam |
-| economic_operator.tin | tin | tax reference number | string |  |
-| economic_operator. personal_administrative_number | [personalAdministrative Number](https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#personalAdministrativeNumber) | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. The personal Administrative Number may only be used if the local law allows for unrestricted use | string | 123456782 |
+| legal_person | [legalPerson](https://w3id.org/ebwv#LegalPerson) |  individual, company, or organization recognized by law. It possesses distinct rights and responsibilities, meaning it can own property, enter into contracts, incur debts, pay taxes, and sue or be sued in | oBeject |  |
+| natural_person | [naturalPerson](https://w3id.org/ebwv#NaturalPerson) | The natural person the VAT-ID is issued to | Object |  |
 
-### 2.5 Validity Period
+### 2.5 Legal_person
+
 #### 2.5.1 Mandatory attributes
+| **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|--------|----------|---------------------------------------------------------------|------------|--------------|
+| legal_person.legal_identifier | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) |The relevant unique identifier attributed in accordance with Article 9 of EWB (WEBUILD specific EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2>. eks. SE +  BOLREG + 123456789 -> SEBOLREG.123456789 | string | SEBOLREG.123456789 |
+| legal_person.legal_name | [legalName](https://w3id.org/ebwv#legalname) | the name under which the legal entity is legally registered | string | ACME |
+
+#### 2.5.2 Optional attributes
+If the Legal person is filled, there are no optional attributes
+### 2.6 Natural_person
+#### 2.6.1 Mandatory attributes
+| **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|--------|----------|---------------------------------------------------------------|------------|--------------|
+| natural_person.family_name | [familyName](https://w3id.org/ebwv#familyName) | Current last name(s) or surname(s) of the user to whom the person identification data relates. | string | Doe |
+| natural_person.given_name | [givenName](https://w3id.org/ebwv#givenName) | Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates. | string | John |
+| natural_person.birth_date | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Day, month, and year on which the user to whom the person identification data relates was born. | Date | 1968-04-27 |
+#### 2.6.2 Optional attributes
+| **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|--------|----------|---------------------------------------------------------------|------------|--------------|
+| natural_person.birth_place | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | The country as acountry code as specified in ISO 3166-1 alpha-2, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born. | string | Amsterdam |
+| natural_person.tin | [identifier](https://w3id.org/ebwv#identifier) | tax reference number | string |  |
+| natural_person.personal_administrative_number | [personalAdministrative Number](https://w3id.org/ebwv#personalAdministrativeNumber) | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. The personal Administrative Number may only be used if the local law allows for unrestricted use | string | 123456782 |
+
+### 2.7 Validity Period
+#### 2.7.1 Mandatory attributes
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | validity_period.start_date| [startDate](https://w3id.org/ebwv#startDate) | Date of registration of the VAT-ID. | date |2011-12-24 | 
 
-### 2.5.2 Optional attributes
+### 2.7.2 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | validity_period.end_date | [endDate](https://w3id.org/ebwv#endDate) | The end date after which VAT-ID registration ended. | date | 2021-01-24|
 
-### 2.6 Address
-#### 2.6.1 Mandatory attributes
+### 2.8 Address
+#### 2.8.1 Mandatory attributes
 No mandatory attributes
-#### 2.5.2 Optional attributes
+#### 2.8.2 Optional attributes
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | address.po_box | [poBox](https://w3id.org/ebwv#poBox) | P.O. box number or identifier within the address; optional | string | PO Box 123 |
@@ -274,8 +284,8 @@ No mandatory attributes
 | address.admin_unit_L1 | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | First-level administrative division (e.g., province, state); optional | string | North Holland |
 | address.admin_unit_L2 | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | Second-level administrative division (e.g., district, municipality); optional | string | Amsterdam Municipality
 
-### 2.7 Economic Activity Type attributes
-#### 2.7.1 Mandatory attributes
+### 2.9 Economic Activity Type attributes
+#### 2.9.1 Mandatory attributes
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -283,20 +293,20 @@ No mandatory attributes
 | economic_activity_type.id | [activity](https://w3id.org/ebwv#activity) | The ID that under which the Administrative unit is registered. | string | C26.5.2 |
 | economic_activity_type.description | [activity](https://w3id.org/ebwv#activity) | The human readable text that describes the economic ativity in a specific language. The language is described in BCP 47 standard  | array | en-EN: Manufacture of bearings, gears, gearing and driving elements  |
 
-### 2.8 Metadata
-#### 2.8.1 Mandatory metadata 
+### 2.10 Metadata
+#### 2.10.1 Mandatory metadata 
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| issuer.authentic_source_country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | date | 05 |
+| issuer.authentic_source_country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | date | 05 |
 | issuer.vat_id_authenticsource | authenticSource | Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation| string |  |
-| issuer.country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | string |  |
+| issuer.country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | string |  |
 | issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | string |  |
 | issuer.attestation_issuing_date | iat | The date the attestation was issued | Integer (Unix timestamp) | |
 | issuer.attestation_expiry_date | exp | The date the attestation was issued | Integer (Unix timestamp) | |
 
 
-#### 2.8.2 Optional metadata
+#### 2.10.2 Optional metadata
 
 | **Data Identifier** |**Semantic Reference** | **Definition** | **Data type** | **Example value** | 
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -305,8 +315,8 @@ No mandatory attributes
 
 
 
-### 2.9 Display
-#### 2.9.1 Mandatory Display items 
+### 2.11 Display
+#### 2.11.1 Mandatory Display items 
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -314,8 +324,7 @@ No mandatory attributes
 | display.organisation_name| [legalName](https://w3id.org/ebwv#legalname) | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name| string |  |
 | display.issuing_authority | issuingAuthority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | string | nl-NL: Belastingdienst |
 
-
-#### 2.9.2 Optional display items
+#### 2.11.2 Optional display items
 
 | **Data Identifier** |**Semantic Reference** | **Definition** | **Data type** | **Example value** | 
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -339,19 +348,19 @@ No mandatory attributes
   ]
 ```
 
-### 2.10 Code lists
+### 2.12 Code lists
 
 
 | **field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | administrative_unit.economic_activity_type. nomenclature | NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA | Each name refers to the local adaptation of the NACE list. | [Overview of alternative nomenclatures](#81-list-of-alternative-nace-codes) | List SHOULD be used or refer to NACE closest alternative |
 
-### 2.11 Integrity rules
+### 2.13 Integrity rules
 
 
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
 |-------------|--------------------|-------------------|--------------------|-------------------------------------------|
-| EO1 | If 'administrative_unit.economic_Operator.legal_identifier' is present, only 'administrative_unit.economic_Operator.legal_name', all other variables SHALL be NULL. If 'administrative_unit.economic_Operator.legal_identifier' is NULL, 'Tin' OR 'administrative_unit.personal_Administrative_Number' OR "Personal Identifiers that can be linked to the PID" SHALL be filled. | There may only be one reference to the holder of the Wallet. If there is more than one, there could be an inconsistancy  | *Issuer, verifier, schema validation, or business process* | *Describe rejection, warning, or remediation behavior* |
+| EO1 | Exactly one of legal_person or natural_person SHALL be present.| There may only be one reference to the holder of the Wallet. If there is more than one, there could be an inconsistency  | *Issuer, verifier, schema validation, or business process* | *Describe rejection, warning, or remediation behavior* |
 | VP1 | If 'administrative_unit.validity_Period.end_Date' is not NULL, 'administrative_unit.validity_Period.end_Date' SHALL be higher than 'administrative_unit.validity_Period.start_Date'| Validity periods may not be negative | The VAT-ID attestation may not be issued, because there shouldn't be a negative period in the register|
 | VP2 | If any 'validity_Period' overlaps with another validity period the attestation SHALL NOT be issued| Validity periods may not overlap because this should not happen and might create problems for relying parties. This rule also takes care of the issue of multiple validity periods without an enddate||
 | VP3 | If 'administrative_unit.validity_Period.end_Date' < issuer.attestation_issuing_date - 5 years| Old validity periods are not relevant to relying parties, the limit of 5 years should be used as a rule of thumb ||
@@ -406,7 +415,7 @@ The VAT-ID attestation uses the SD-JWT VC format to allow for selective disclosu
 | administrative_unit.economic_activity_type.nomenclature| economic_activity_type.nomenclature|String one of(NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA)|..|MUST NOT|
 | administrative_unit.economic_activity_type.id          | economic_activity_type.id         | String | .. |MUST|
 | administrative_unit.economic_activity_type.description | economic_activity_type.description |object ("langue code iso 639-1": "description")|..|MUST| 
-| issuer.authentic_source_country    | issuer.authentic_source_country      |String (iso 3166-2)|..| MUST NOT 
+| issuer.authentic_source_country    | issuer.authentic_source_country      |String (ISO 3166-1 alpha-2)|..| MUST NOT 
 | issuer.vat_id_authenticsource      | issuer.vat_id_authenticsource        | String | ..| MUST NOT|
 | issuer.country                     | issuer.country                       |String | ..| MUST NOT| 
 | issuer.issuing_authority           | issuer.issuing_authority             | String | ..| MUST NOT|
@@ -457,7 +466,7 @@ Example:
 ## 4 Attestation usage
 
 ### 4.1 Usecases
-The VAT_ID attestion aims to be used in two general usecases, but it could be used elsewhere. The first usecae is where the relying party requires proof that the Economic Operator has a valid VAT-ID. In the 'paper' world, the relying party would request a 'Certificate of the VAT-ID' relyably issued by the relevant Tax Authority. The Economic Operator requests the Certificate, and it will be sent to the registered address of the Economic Operator. The Certificate is printed on paper of the Tax Authority and or contains stamps, signature or other ways to proof its validity. 
+The VAT_ID attestation aims to be used in two general usecases, but it could be used elsewhere. The first usecae is where the relying party requires proof that the Economic Operator has a valid VAT-ID. In the 'paper' world, the relying party would request a 'Certificate of the VAT-ID' relyably issued by the relevant Tax Authority. The Economic Operator requests the Certificate, and it will be sent to the registered address of the Economic Operator. The Certificate is printed on paper of the Tax Authority and or contains stamps, signature or other ways to proof its validity. 
 
 The second usecase is where a seller needs proof, in case of intra-communitairy business, that the buyer will pay tax in his own country and that it can sell services or goods without TAX. In the current world the seller needs to check with VIES and keep proof in its administration. The VAT-ID attestation will provide the proof, and a check with VIES is not necessary anymore. 
 
@@ -468,15 +477,15 @@ If an agent wishes to receive the attestation of another economic operator, the 
 * Check the identity of the Agent
     - check if the agent has a mandate with the right scope and actors
       -    the mandate is not revoked
-      -    the mandate is currenty valid     
+      -    the mandate is currently valid     
 
 
 ### 4.3 Verification needs
 The VAT-ID provides proof that the Economic Operator, registered in the attestation, is the owner of the VAT-ID. It does not prove that the party that presents the attestation also is the owner of the attestation. The VAT-ID attestion can also be issued to an Agent ( Intermediary party), if they have the right mandate to receive the attestation. However the mandate may be revoked by the owner, but the VAT-ID attestation will (likely) not be revoked. Therefore the attestation itself (even if holderbinding is active) is not proof that the presenter actually holds, or may present the attestation. 
 
 The relying party SHOULD:
-- Check the status of revocation and expiary date of the attestation.
-- Check the validy period in the attestation.
+- Check the status of revocation and expiry date of the attestation.
+- Check the validity period in the attestation.
 
 - Check if the Economic Operator in the Attestation is:
    - equal to the owner of the EBW (via EBWOID, PID, or other means) OR
@@ -486,7 +495,7 @@ The relying party SHOULD:
 
 If the relying party does not perform all verification aspects, he MUST accept the risks involved. 
 
-The attestation SHALL be non-device-bound. The relying party SHOULD check the ownership of the VAT-ID using the method described above. Device binding might create a false sence of trustworthyness. Because the VAT-ID can be issued to an itermediary organisation, using a mandate, presenting the VAT-ID is no proof of owenership. The VAT-ID attestation will not be revoked by the issuer, when the mandate is revoked. 
+The attestation SHALL be non-device-bound. The relying party SHOULD check the ownership of the VAT-ID using the method described above. Device binding might create a false sence of trustworthyness. Because the VAT-ID can be issued to an intermediary organisation, using a mandate, presenting the VAT-ID is no proof of ownership. The VAT-ID attestation will not be revoked by the issuer, when the mandate is revoked. 
 
 ## 5 Trust anchors
 
