@@ -398,14 +398,14 @@ The VAT-ID attestation uses the SD-JWT VC format to allow for selective disclosu
 | administrative_unit.organisation_type           | organisation_type             | Object                 | ...                | MUST   |
 | administrative_unit.address        | administrative_unit_address          | Object                 | ...                | MUST|
 | administrative_unit.registered_eu_cross_border_transactions| registered_eu_cross_border_transactions         | Boolean | ..                 | MUST NOT|
-| administrative_unit.economic_operator.legal_identifier | economic_operator.legal_identifier   | String                 | ..                 | MUST |
-| administrative_unit.economic_operator.legal_name       | economic_operator.legal_name         | String                 | ..|  MUST |
-| administrative_unit.economic_operator.family_name      | economic_operator.family_name        | String                 | .. | MUST|
-| administrative_unit.economic_operator.given_name       | economic_operator.given_name         | String                 | .. |MUST|
-| administrative_unit.economic_operator.birth_date       | economic_operator.birth_date         | String (ISO 8601 YYYY-MM-DD)| ..| MUST|
-| administrative_unit.economic_operator.birth_place      | economic_operator.birth_place        | String                 | .. | MUST|
-| administrative_unit.economic_operator.tin              | economic_operator.tin                | String                 | .. |MUST|
-| administrative_unit.economic_operator.personal_administrative_number                         | economic_operator. personal_administrative_number |String | .. |MUST|
+| administrative_unit.economic_operator.legal_person.legal_identifier | legal_identifier   | String                 | ..                 | MUST |
+| administrative_unit.economic_operator.legal_person.legal_name       | legal_name         | String                 | ..|  MUST |
+| administrative_unit.economic_operator.natural_person.family_name      | family_name        | String                 | .. | MUST|
+| administrative_unit.economic_operator.natural_person.given_name       | given_name         | String                 | .. |MUST|
+| administrative_unit.economic_operator.natural_person.birth_date       | birth_date         | String (ISO 8601 YYYY-MM-DD)| ..| MUST|
+| administrative_unit.economic_operator.natural_person.birth_place      | birth_place        | String                 | .. | MUST|
+| administrative_unit.economic_operator.natural_person.tin              | tin                | String                 | .. |MUST|
+| administrative_unit.economic_operator.natural_person.personal_administrative_number      | personal_administrative_number |String | .. |MUST|
 | administrative_unit.validity_period.start_date         | validity_period.start_date        | String (ISO 8601 YYYY-MM-DD)| .. |MUST NOT| 
 | administrative_unit.validity_period.end_date           | validity_period.end_date          | String (ISO 8601 YYYY-MM-DD)| .. |MUST NOT| 
 | administrative_unit.address.po_box                     | address.po_box                       | String                 | .. |MUST|
