@@ -288,9 +288,9 @@ No mandatory attributes
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| issuer.authentic_source_country | issuing_country | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | date | 05 |
+| issuer.authentic_source_country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | date | 05 |
 | issuer.vat_id_authenticsource | authenticSource | Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation| string |  |
-| issuer.country | issuing_country | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | string |  |
+| issuer.country | issuingCountry | Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the VAT ID. | string |  |
 | issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | string |  |
 | issuer.attestation_issuing_date | iat | The date the attestation was issued | Integer (Unix timestamp) | |
 | issuer.attestation_expiry_date | exp | The date the attestation was issued | Integer (Unix timestamp) | |
@@ -312,7 +312,7 @@ No mandatory attributes
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | display.title | title | VAT-ID of the card as shown in the wallet with the label in a specific language using  BCP 47 | String | en-EN: VAT-ID: DE123456789 |
 | display.organisation_name| [legalName](https://w3id.org/ebwv#legalname) | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name| string |  |
-| display.issuing_authority | issuing_authority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | string | nl-NL: Belastingdienst |
+| display.issuing_authority | issuingAuthority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | string | nl-NL: Belastingdienst |
 
 
 #### 2.9.2 Optional display items
