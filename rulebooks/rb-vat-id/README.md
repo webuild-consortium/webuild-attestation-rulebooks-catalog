@@ -152,7 +152,7 @@ the value "QEAA" or "PuB-EAA".*
 vat_id_attestation
 ├─ administrative_unit                         [1]
 │   ├─ vat_id                                  [1]       (VAT-ID of the administrative unit)
-│   ├─ administrative_unit_name                [1]       (name of the administrative unit)
+│   ├─ name                                    [1]       (name of the administrative unit)
 │   ├─ economic_operator                       [1]       (Reference to the Economic Operator that owns the VAT ID)
 │   │   ├─ legal_identifier                    [0]       
 │   │   ├─ legal_name                          [0]       
