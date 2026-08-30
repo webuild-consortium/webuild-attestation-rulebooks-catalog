@@ -16,7 +16,7 @@
   "iss": "https://www.belastingdienst.nl",
   "iat": 1704067200,
   "exp": 1830902400,
-  "attestation_legal_category": "PUB-EAA",
+  "attestation_legal_category": "PuB-EAA",
 
   "administrative_unit": {
     "vat_id": "NL001234567B01",
