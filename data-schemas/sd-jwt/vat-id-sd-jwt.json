@@ -236,10 +236,10 @@
 
                 }
               }
-            }
-          },
-          "required": ["nomenclature", "id"],
-          "additionalProperties": false
+            },
+            "required": ["nomenclature", "id"],
+            "additionalProperties": false
+          }
         }
       },
         "required": [
