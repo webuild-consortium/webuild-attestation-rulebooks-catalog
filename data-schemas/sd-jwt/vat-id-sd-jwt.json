@@ -15,9 +15,9 @@
   
     "attestation_legal_category": {
       "type": "string",
-      "enum": ["QEAA", "PUB-EAA"],
+      "enum": ["QEAA", "PuB-EAA"],
       "description": "Legal category of the attestation issuer.",
-      "examples": ["PUB-EAA"]
+      "examples": ["PuB-EAA"]
     },
   
     "administrative_unit": {
@@ -246,7 +246,7 @@
           "vat_id",
           "validity_period",
           "economic_operator",
-          "registered_EU_cross_border_transactions"
+          "registered_eu_cross_border_transactions"
         ]
     },
   
@@ -298,7 +298,6 @@
         "authentic_source_country",
         "vat_id_authentic_source",
         "issuing_authority",
-        "attestation_legal_category",
         "attestation_issuing_date"
       ],
       "additionalProperties": false
