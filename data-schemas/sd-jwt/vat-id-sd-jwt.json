@@ -380,12 +380,12 @@
           }
         }
       }
-    },
-     "required": [
-      "vct",
-      "administrative_unit",
-      "issuer"
+    }
+  },
+   "required": [
+    "vct",
+    "administrative_unit",
+    "issuer"
   ]
 
-  }
 }
