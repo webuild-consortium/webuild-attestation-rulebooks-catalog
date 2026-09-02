@@ -19,7 +19,26 @@
       "description": "Legal category of the attestation issuer.",
       "examples": ["PuB-EAA"]
     },
-  
+   "iss": {
+    "type": "string",
+    "format':"uri",
+    "description": "Authority issuing the attestation.",
+    "examples": ["www.belastingdienst.nl"]
+  },
+
+  "iat": {
+    "type": "integer",
+    "description": "Unix timestamp indicating when the attestation was issued.",
+    "examples": [1704067200]
+  },
+
+  "exp": {
+    "type": "integer",
+    "description": "Unix timestamp indicating when the attestation expires.",
+    "examples": [1830902400]
+  },
+
+ 
     "administrative_unit": {
       "type": "object",
       "description": "Administrative unit that uses the VAT-ID",
@@ -272,24 +291,6 @@
           "examples": ["Ministerie van Financiën - Belastingdienst"]
         },
   
-        "issuing_authority": {
-          "type": "string",
-          "description": "Authority issuing the attestation.",
-          "examples": ["Dutch Tax Administration"]
-        },
-  
-        "attestation_issuing_date": {
-          "type": "integer",
-          "description": "Unix timestamp indicating when the attestation was issued.",
-          "examples": [1704067200]
-        },
-  
-        "attestation_expiry_date": {
-          "type": "integer",
-          "description": "Unix timestamp indicating when the attestation expires.",
-          "examples": [1830902400]
-        },
-  
         "location_status": {
           "type": "string",
           "format": "uri",
@@ -302,8 +303,6 @@
       "required": [
         "authentic_source_country",
         "vat_id_authentic_source",
-        "issuing_authority",
-        "attestation_issuing_date"
       ],
       "additionalProperties": false
     },
