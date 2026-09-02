@@ -141,6 +141,12 @@ certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [T
 The VAT-ID attestation is an attestation provided by an authentic source such as a TAX-Administration. The attestation proves the VAT-ID of the company or administrative unit within the company and the validity period of that VAT-ID. The VAT-ID attestation only contains information directly related to the VAT-ID. 
 The VAT-ID attestation can be used by a company to prove that the company really is the company with that number. The receiver of the attestation can trust the content and there is no need for checking the VAT-ID at VIES (VAT Information Exchange System)1 or request a (paper) VAT-ID Certificate. 
 
+The VAT-ID attestation contains some information for which the TAX-agency usually is not the authentic source. We choose to include the information because:
+* it is currently on the paper certificate,
+* the information might be relevant to the receiver of the attestation. Alternatively the holder should present multiple attestations at once. 
+
+Both the attributes of the address and the economic activity usually are not administered by the TAX Agency but at the business register. However the TAX-Administration might hold different addresses and have specific economic activities registered for an administrative unit in the case that an economic operator has multiple administrative units. 
+
 *According to Annex V point a) and  Annex VII point a) of the [European Digital Identity Regulation]
 an indication, at least in a form suitable for automated processing, that the attestation
 has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
@@ -176,10 +182,11 @@ vat_id_attestation
 │   │   ├─ post_name                           [0]  
 │   │   ├─ admin_unit_l1                       [0]  
 │   │   └─ admin_unit_l2                       [0]  
-│   └─ economic_activity_type                  [0..n]    (reference to the economic operator)
-│       ├─ economic_activity_type_nomenclature [1]       (nomenclature used to describe the economic activity)
-│       ├─ economic_activity_type_id           [1]       (id used in the nomenclature)
-│       └─ economic_activity_type_description  [1..n]    (object using language:, value)
+│   └─ economic_activity                       [0..n]    (reference to the economic operator)
+│       ├─ economic_activity_nomenclature      [1]       (nomenclature used to describe the economic activity)
+│       ├─ economic_activity_nomenclature_version[0]     (version of the nomenclature)
+│       ├─ economic_activity_id                [1]       (id used in the nomenclature)
+│       └─ economic_activity_description.      [1..n]    (object using language:, value)
 ├─ issuer                                      [1]   
 │   ├─ issuing_country                         [1]
 │   ├─ issuing_organisation                    [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
@@ -220,7 +227,7 @@ vat_id_attestation
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | administrative_unit.type                | [type](https://w3id.org/ebwv#type)  | Type (e.g., Government, Local Authority, B.V, GmbH)| String | GmbH          |
 | administrative_unit.address             | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[address](https://w3id.org/ebwv#address)|  The address where the company is located based on the information from the authentic source of the VAT-ID. This address may differ from the address in the business register.           | Address Object           | ...  |
-| administrative_unit.economic_activity_type                  | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[activity](https://w3id.org/ebwv#activity)  | Type of business this administrative unit is registered| Economic Activity Type Object | ...     |
+| administrative_unit.economic_activity                   | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[activity](https://w3id.org/ebwv#activity)  | Type of business this administrative unit is registered| Economic Activity Type Object | ...     |
 | administrative_unit. registered_eu_cross_border_transactions | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[references](https://w3id.org/ebwv#references) | Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services   | Boolean            | TRUE |
 
 ### 2.4 Economic Operator 
@@ -279,9 +286,15 @@ No mandatory attributes
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| economic_activity_type.nomenclature | [activity](https://w3id.org/ebwv#activity) | The nomenclature that is used to describe the administrative unit. NACE should be used as default. However some countries have more elaborate nomenclature. | string | nace |
-| economic_activity_type.id | [activity](https://w3id.org/ebwv#activity) | The ID that under which the Administrative unit is registered. | string | C26.5.2 |
-| economic_activity_type.description | [activity](https://w3id.org/ebwv#activity) | The human readable text that describes the economic ativity in a specific language. The language is described in BCP 47 standard  | array | en-EN: Manufacture of bearings, gears, gearing and driving elements  |
+| economic_activity.nomenclature | [activity](https://w3id.org/ebwv#activity) | The nomenclature that is used to describe the administrative unit. NACE should be used as default. However some countries have more elaborate nomenclature. | string | nace |
+| economic_activity.id | [activity](https://w3id.org/ebwv#activity) | The ID that under which the Administrative unit is registered. | string | C26.5.2 |
+| economic_activity.description | [activity](https://w3id.org/ebwv#activity) | The human readable text that describes the economic ativity in a specific language. The language is described in BCP 47 standard  | array | en-EN: Manufacture of bearings, gears, gearing and driving elements  |
+
+#### 2.7.2 Optional attributes
+| **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|--------|----------|--------------------------------------------------------------------------|------------|--------------|
+| economic_activity.nomenclature_version | [activity](https://w3id.org/ebwv#activity) | The version of the nomenclature that is used to describe the administrative unit. | string | Rev 2.1 |
+
 
 ### 2.8 Metadata
 #### 2.8.1 Mandatory metadata 
