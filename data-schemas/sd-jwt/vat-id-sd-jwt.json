@@ -302,7 +302,7 @@
       },
       "required": [
         "authentic_source_country",
-        "vat_id_authentic_source",
+        "vat_id_authentic_source"
       ],
       "additionalProperties": false
     },
