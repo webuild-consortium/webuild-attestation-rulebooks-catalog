@@ -195,7 +195,7 @@
           }
         },
   
-        "economic_activity_type": {
+        "economic_activity": {
           "type": "array",
           "description": "Economic activity classifications associated with the operator.",
           "items": {
@@ -205,6 +205,11 @@
                 "type": "string",
                 "description": "Classification system used for economic activity.",
                 "examples": ["NACE"]
+              },
+              "nomenclature_version": {
+                "type": "string",
+                "description": "Version of the Classification system used for economic activity.",
+                "examples": ["Rev 2.1"]
               },
   
               "id": {
