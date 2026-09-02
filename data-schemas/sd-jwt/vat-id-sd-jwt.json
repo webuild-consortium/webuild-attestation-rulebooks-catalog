@@ -21,7 +21,7 @@
     },
    "iss": {
     "type": "string",
-    "format':"uri",
+    "format": "uri",
     "description": "Authority issuing the attestation.",
     "examples": ["www.belastingdienst.nl"]
   },
