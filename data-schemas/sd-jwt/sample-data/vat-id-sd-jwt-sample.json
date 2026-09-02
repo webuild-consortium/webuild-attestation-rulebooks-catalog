@@ -66,9 +66,6 @@
   "issuer": {
     "authentic_source_country": "NL",
     "vat_id_authentic_source": "Ministerie van Financiën - Belastingdienst",
-    "issuing_authority": "Dutch Tax Administration",
-    "attestation_issuing_date": 1704067200,
-    "attestation_expiry_date": 1830902400,
     "location_status": "https://www.belastingdienst.nl/vat-status/NL001234567B01"
   },
 
