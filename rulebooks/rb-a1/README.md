@@ -329,7 +329,7 @@ A fixed company address or vessel where the holder performs work. `address` and 
 
 Personal details of the PD A1 certificate holder. All seven top-level keys (`pin`, `gender`, `names`, `dateOfBirth`, `nationalities`, `placeOfBirth`, `address`) are required. No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Semantic Reference| Definition | Data type | Occurrence | SD Group |
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
 |----------------|---|--------|-----------|------------|----------|
 | `pin` | [identifier](https://w3id.org/ebwv#identifier) OR<br> [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber)| Personal Identification Number (social security number) of the holder | String | 1:1 | 1 |
 | `gender` | [gender](https://w3id.org/ebwv#gender) | Gender of the holder | gender | 1:1 | 2 |
@@ -352,14 +352,14 @@ The `address` object MUST satisfy `anyOf`: either `stateOfResidence` is present 
 
 The member state whose social security legislation applies to the holder. This section is annotated `$comment: "Always disclosed"` — it is **Non-SD** and is fully disclosed to the Relying Party in every presentation. No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `memberstate` | Country code of the member state whose legislation applies | countryCodePDA1States | 1:1 | Non-SD |
-| `startDate` | Start date from which the member state legislation applies | date | 1:1 | Non-SD |
-| `endDate` | End date until which the member state legislation applies | date | 1:1 | Non-SD |
-| `certificateAppliesForDuranceOfStay` | Indicates whether the certificate applies for the entire duration of the stay | Boolean | 0:1 | Non-SD |
-| `determinationIsProvisional` | Indicates whether the determination of applicable legislation is provisional | Boolean | 0:1 | Non-SD |
-| `transitionRulesApplyAccordingEG` | Indicates whether transitional rules apply according to EC Regulation No 883/2004 | Boolean | 0:1 | Non-SD |
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+|----------------|---|--------|-----------|------------|----------|
+| `memberstate` |  [jurisdiction](https://w3id.org/ebwv#jurisdiction) | Country code of the member state whose legislation applies | countryCodePDA1States | 1:1 | Non-SD |
+| `startDate` | could be [cred:validFrom](https://www.w3.org/2018/credentials#validFrom)<br>or then needs a "PeriodOfTime" reference, but from which class? |  Start date from which the member state legislation applies | date | 1:1 | Non-SD |
+| `endDate` | could be [cred:validUntil](https://www.w3.org/2018/credentials#validUntil)<br>or then needs a "PeriodOfTime" reference, but from which class?  | End date until which the member state legislation applies | date | 1:1 | Non-SD |
+| `certificateAppliesForDuranceOfStay` | [activityDurationCovered](https://w3id.org/ebwv#activityDurationCovered) | Indicates whether the certificate applies for the entire duration of the stay | Boolean | 0:1 | Non-SD |
+| `determinationIsProvisional` | [provisionalDetermination](https://w3id.org/ebwv#provisionalDetermination) | Indicates whether the determination of applicable legislation is provisional | Boolean | 0:1 | Non-SD |
+| `transitionRulesApplyAccordingEG` | [transitionalRules](https://w3id.org/ebwv#transitionalRules)   | Indicates whether transitional rules apply according to EC Regulation No 883/2004 | Boolean | 0:1 | Non-SD |
 
 ---
 
@@ -367,16 +367,16 @@ The member state whose social security legislation applies to the holder. This s
 
 `employmentSituations` is an array of `employmentSituation` objects (see §2.2). At least one item is required (`minItems: 1`). Each item's fields are listed below with their SD group annotations.
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `employmentSituations[].typeOfEmployment` | Type of employment: `01` = Employee, `02` = Self-employed | enum | 1:1 per item | 9 |
-| `employmentSituations[].name` | Name of the employer or self-employed entity | String | 1:1 per item | 9 |
-| `employmentSituations[].employerID` | Identifier of the employer or self-employed entity | String | 1:1 per item | 9 |
-| `employmentSituations[].typeOfID` | Type of employer identifier (see §2.2) | typeOfID | 1:1 per item | 9 |
-| `employmentSituations[].address.streetAndNumber` | Street name and house number of the employer | String | 0:1 per item | 10 |
-| `employmentSituations[].address.town` | Town of the employer's address | String | 1:1 per item | 10 |
-| `employmentSituations[].address.postcode` | Postal code of the employer's address | String | 0:1 per item | 10 |
-| `employmentSituations[].address.countryCode` | Country of the employer's address (world set) | countryCodeWorld | 1:1 per item | 10 |
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+|----------------|---|--------|-----------|------------|----------|
+| `employmentSituations[].typeOfEmployment` | [typeOfEmployment](https://w3id.org/ebwv#typeOfEmployment) <br> property needs another code list than the present (Permanent, Temporary)  | Type of employment: `01` = Employee, `02` = Self-employed | enum | 1:1 per item | 9 |
+| `employmentSituations[].name` | [employer](https://w3id.org/ebwv#employer).[legalName](https://w3id.org/ebwv#legalName) <br> covers employers that are Economic Operators |  Name of the employer or self-employed entity | String | 1:1 per item | 9 |
+| `employmentSituations[].employerID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) <br> [identifier](https://w3id.org/ebwv#identifier) |  Identifier of the employer or self-employed entity | String | 1:1 per item | 9 |
+| `employmentSituations[].typeOfID` | TBD; needs the construct identifier.Identifier |  Type of employer identifier (see §2.2) | typeOfID | 1:1 per item | 9 |
+| `employmentSituations[].address.streetAndNumber` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) |  Street name and house number of the employer | String | 0:1 per item | 10 |
+| `employmentSituations[].address.town` |  [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Town of the employer's address  | String | 1:1 per item | 10 |
+| `employmentSituations[].address.postcode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) |  Postal code of the employer's address | String | 0:1 per item | 10 |
+| `employmentSituations[].address.countryCode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  |  Country of the employer's address (world set) | countryCodeWorld | 1:1 per item | 10 |
 
 ---
 
@@ -384,17 +384,17 @@ The member state whose social security legislation applies to the holder. This s
 
 `placesOfWork` is a JSON **object** (not an array) whose property names are `countryCodePDA1States` values. At least one property must be present (`minProperties: 1`). Each property value is an **array** of `placeOfWork` objects (see §2.2). An **empty array** indicates the holder works in that country **with no fixed address**.
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `placesOfWork.<CC>` | Work-location entries for country `<CC>`; empty array = no fixed address in that country | Array of placeOfWork | 1:n countries | 11 |
-| `placesOfWork.<CC>[].companyOrVesselName` | Name of the company or vessel where work is performed | String | 1:1 per item | 11 |
-| `placesOfWork.<CC>[].flagBaseHomeState` | Flag state, base state, or home state (maritime or aviation workers) | String | 0:1 per item | 11 |
-| `placesOfWork.<CC>[].companyID` | Identifier of the company at the place of work | String | 0:1† per item | 11 |
-| `placesOfWork.<CC>[].typeOfID` | Type of the company identifier (see §2.2) | typeOfID | 0:1† per item | 11 |
-| `placesOfWork.<CC>[].address.streetAndNumber` | Street name and house number of the place of work | String | 0:1 per item | 12 |
-| `placesOfWork.<CC>[].address.town` | Town of the place of work | String | 1:1 per item | 12 |
-| `placesOfWork.<CC>[].address.postcode` | Postal code of the place of work | String | 0:1 per item | 12 |
-| `placesOfWork.<CC>[].address.countryCode` | Country of the place of work (PDA1 set) | countryCodePDA1States | 1:1 per item | 12 |
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+|----------------|---|-----------|-----------|------------|----------|
+| `placesOfWork.<CC>` | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Work-location entries for country `<CC>`; empty array = no fixed address in that country | Array of placeOfWork | 1:n countries | 11 |
+| `placesOfWork.<CC>[].companyOrVesselName`  | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Vessel](https://w3id.org/ebwv#Vessel).[schema:name](https://schema.org/name) <br> OR [legalName](https://w3id.org/ebwv#legalName) of the Economic Operator acting as host   | Name of the company or vessel where work is performed | String | 1:1 per item | 11 |
+| `placesOfWork.<CC>[].flagBaseHomeState`  | [flagState](https://w3id.org/ebwv#flagState)  | Flag state, base state, or home state (maritime or aviation workers) | String | 0:1 per item | 11 |
+| `placesOfWork.<CC>[].companyID`  | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the company at the place of work | String | 0:1† per item | 11 |
+| `placesOfWork.<CC>[].typeOfID`  | TBD; needs the construct identifier.Identifier  | Type of the company identifier (see §2.2) | typeOfID | 0:1† per item | 11 |
+| `placesOfWork.<CC>[].address.streetAndNumber` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address)  | Street name and house number of the place of work | String | 0:1 per item | 12 |
+| `placesOfWork.<CC>[].address.town` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address)  | Town of the place of work | String | 1:1 per item | 12 |
+| `placesOfWork.<CC>[].address.postcode` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address)  | Postal code of the place of work | String | 0:1 per item | 12 |
+| `placesOfWork.<CC>[].address.countryCode` |  [placeOfWork](https://w3id.org/ebwv#placeOfWork).[CountryCode](https://w3id.org/ebwv#CountryCode) | Country of the place of work (PDA1 set) | countryCodePDA1States | 1:1 per item | 12 |
 
 † `companyID` and `typeOfID` are co-dependent: if either is present, the other MUST also be present.
 
@@ -404,10 +404,10 @@ The member state whose social security legislation applies to the holder. This s
 
 Confirmation of the situation on which applicable legislation is determined. No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `statusConfirmation.statusConfirmationCode` | Status confirmation code (see §2.2) | statusConfirmationCode | 1:1 | 13 |
-| `statusConfirmation.exceptionDescription` | Free-text description of the exception situation | String | 0:1‡ | 13 |
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+|----------------|---|--------|-----------|------------|----------|
+| `statusConfirmation.statusConfirmationCode` | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) | Status confirmation code (see §2.2) | statusConfirmationCode | 1:1 | 13 |
+| `statusConfirmation.exceptionDescription` | not covered by EBWV since "status confirmation" is a property; the proposed property to be used here is [schema:description](https://schema.org/description)  | Free-text description of the exception situation | String | 0:1‡ | 13 |
 
 ‡ `exceptionDescription` is only permitted when `statusConfirmationCode` = `"11"` (Exception); it is optional even then. It MUST NOT appear when any other code is used.
 
@@ -417,9 +417,9 @@ Confirmation of the situation on which applicable legislation is determined. No 
 
 `documentID` is a **top-level string** — the unique identifier of the issued PD A1 certificate.
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `documentID` | Unique identifier of the issued PD A1 certificate | String | 1:1 | 14 |
+| Data Identifier  | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+|----------------|---|--------|-----------|------------|----------|
+| `documentID` | [identifier](https://w3id.org/ebwv#identifier) | Unique identifier of the issued PD A1 certificate | String | 1:1 | 14 |
 
 ---
 
@@ -427,18 +427,18 @@ Confirmation of the situation on which applicable legislation is determined. No 
 
 The social security institution that issued this certificate. The four fields `institutionID`, `institutionName`, `countryCode`, and `address` are required. No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Definition | Data type | Occurrence | SD Group |
-|----------------|-----------|-----------|------------|----------|
-| `competentInstitution.institutionID` | Unique identifier of the competent institution | String | 1:1 | 15 |
-| `competentInstitution.institutionName` | Name of the competent institution | String | 1:1 | 15 |
-| `competentInstitution.countryCode` | Country code of the competent institution (PDA1 set) | countryCodePDA1States | 1:1 | 15 |
-| `competentInstitution.address.streetAndNumber` | Street name and house number of the institution | String | 0:1 | 16 |
-| `competentInstitution.address.town` | Town of the institution's address | String | 1:1 | 16 |
-| `competentInstitution.address.postcode` | Postal code of the institution's address | String | 0:1 | 16 |
-| `competentInstitution.address.countryCode` | Country of the institution's address (PDA1 set) | countryCodePDA1States | 1:1 | 16 |
-| `competentInstitution.officeFaxNumber` | Office fax number (E.164 format) | phoneNumber | 0:1 | 16 |
-| `competentInstitution.officePhoneNumber` | Office phone number (E.164 format) | phoneNumber | 0:1 | 16 |
-| `competentInstitution.email` | Email address of the institution | email | 0:1 | 16 |
+| Data Identifier | Semantic Reference  | Definition | Data type | Occurrence | SD Group |
+|----------------|---|--------|-----------|------------|----------|
+| `competentInstitution.institutionID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) <br> OR <br> [identifier](https://w3id.org/ebwv#identifier) latter one used if the competent institution is not registered nationally as a legal entity | Unique identifier of the competent institution | String | 1:1 | 15 |
+| `competentInstitution.institutionName` | [legalName](https://w3id.org/ebwv#legalName) <br> OR <br> [schema:name](https://schema.org/name) latter one used if the competent institution is not registered nationally as a legal entity | Name of the competent institution | String | 1:1 | 15 |
+| `competentInstitution.countryCode` | TBD | Country code of the competent institution (PDA1 set) | countryCodePDA1States | 1:1 | 15 |
+| `competentInstitution.address.streetAndNumber` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity  |  Street name and house number of the institution | String | 0:1 | 16 |
+| `competentInstitution.address.town` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity| Town of the institution's address | String | 1:1 | 16 |
+| `competentInstitution.address.postcode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity| Postal code of the institution's address | String | 0:1 | 16 |
+| `competentInstitution.address.countryCode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity| Country of the institution's address (PDA1 set) | countryCodePDA1States | 1:1 | 16 |
+| `competentInstitution.officeFaxNumber` | [contactPoint](https://w3id.org/ebwv#contactPoint) <br> note that "fax number" is not included as a property of the "Contact Point" class in EBWV | Office fax number (E.164 format) | phoneNumber | 0:1 | 16 |
+| `competentInstitution.officePhoneNumber` | [contactPoint](https://w3id.org/ebwv#contactPoint)  | Office phone number (E.164 format) | phoneNumber | 0:1 | 16 |
+| `competentInstitution.email` | [contactPoint](https://w3id.org/ebwv#contactPoint) | Email address of the institution | email | 0:1 | 16 |
 
 ---
 
