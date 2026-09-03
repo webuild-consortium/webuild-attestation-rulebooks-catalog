@@ -4,7 +4,7 @@
   "title": "ds002 - Person Identification Data (PID) – SD-JWT VC payload",
   "description": "Schema for the SD-JWT VC payload of a PID as defined in the ds002 PID Rulebook (Chapter 4). This models the JSON claims set prior to SD-JWT disclosure/packing.",
   "type": "object",
-  "version": "0.9.0",
+  "version": "2.0.0",
   "additionalProperties": true,
   "properties": {
     "vct": {
@@ -230,6 +230,20 @@
       "format": "date",
       "examples": [
         "2025-01-15"
+      ]
+    },
+    "unique_persistent_identifier": {
+      "type": "string",
+      "description": "Unique persistent identifier assigned to the natural person from an authentic source for unequivocal identity matching where legally required.",
+      "examples": [
+        "9800523-123456"
+      ]
+    },
+    "nonce": {
+      "type": "string",
+      "description": "Obligatory cryptographic seed provisioned by the PID provider in the PID attestation for directed pseudonym derivation and attestation freshness/binding.",
+      "examples": [
+        "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
       ]
     },
     "personal_administrative_number": {
@@ -458,6 +472,8 @@
     "birthdate",
     "place_of_birth",
     "nationalities",
+    "unique_persistent_identifier",
+    "nonce",
     "attestation_legal_category",
     "date_of_expiry",
     "issuing_authority",
