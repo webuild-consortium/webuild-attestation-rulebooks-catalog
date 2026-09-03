@@ -248,7 +248,6 @@
     "nationalities",
     "unique_persistent_identifier",
     "nonce",
-    "attestation_legal_category",
     "expiry_date",
     "issuing_authority",
     "issuing_country"

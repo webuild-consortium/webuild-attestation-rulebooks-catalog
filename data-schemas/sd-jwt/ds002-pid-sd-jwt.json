@@ -474,7 +474,6 @@
     "nationalities",
     "unique_persistent_identifier",
     "nonce",
-    "attestation_legal_category",
     "date_of_expiry",
     "issuing_authority",
     "issuing_country",
