@@ -14,9 +14,8 @@
 |----------|----------|-------------|
 | 0.1 | 15-07-2026 | Initial draft created from SC1.3 eCMR Attestation Workshop outcomes |
 | 0.6 | 21-07-2026 | (co)Leads review. Structural consistency, terminology, and cross-references between attribute tables and the illustrative encoding example. Not a substantive review of the trust/revocation model. |
+| 1.0 | 03-09-2026 | MVP version, updates with optional fields will be done for MVP+ |
 
-**Feedback: ** 
-<mark style="background-color: lightyellow">Assumptions more subject to comments are highlighted into Lightyellow.</mark> 
 
 # 1 Introduction
 
@@ -103,7 +102,7 @@ The attestation provides:
 
 The attribute `attestation_legal_category` SHALL indicate the legal classification of the attestation. This attestation type is classified as "EAA" within the EBW Wallet ecosystem, as it is typically issued by an eCMR platform and no authentic source is used.
 
-<mark style="background-color: lightyellow">All attributes and metadate SHALL be disclosable. </mark> 
+All attributes and metadate SHALL be disclosable.
 
 ## 2.2 Mandatory attributes
 ### 2.2.1 Consignment identification 
@@ -114,7 +113,7 @@ The attribute `attestation_legal_category` SHALL indicate the legal classificati
 | ecmr_platform_url |  URL of the originating eCMR platform | URI | https://platform.example.eu/ecmr/CMR-2026-000123 |
 
 
-<mark style="background-color: lightyellow">* The issuing eCMR platform can freely use whatever content needed to identify the consignment and its eCMR. On purpose, already defined Id fields in UN/CEFACT Electronic Road Consignment Note (eCMR)are not used [UN/CEFACT eCMR].</mark> 
+* The issuing eCMR platform can freely use whatever content needed to identify the consignment and its eCMR. On purpose, already defined Id fields in UN/CEFACT Electronic Road Consignment Note (eCMR)are not used [UN/CEFACT eCMR].
 
 ## 2.3 Optional attributes
 
@@ -130,9 +129,11 @@ eFTI Unique Information Link.
 | efti_platform_identifier |  The identifier of an eFTI platform | String-17 | EFTI-PLAT-45 |
 | efti_gate_identifier |  The identifier of an eFTI gate | String-17 | EFTI-GATE-12 |
 
-Note: at the present time, the naming rule for eFTI platform and gate identifiers has not been defined yet by the eFTI technical guidance documents. Examples are fictional.
+Note1: at the present time, the naming rule for eFTI platform and gate identifiers has not been defined yet by the eFTI technical guidance documents. Examples are fictional.
 
-<mark style="background-color: lightyellow">Question: should the QR Code (image of encoded UIL) be added?</mark> 
+Note2: Other fields might be considered whith MVP+ scenario and added later if needed.
+- QR Code image could be added later if needed.
+- XML MMT file (base64).
 
 ### 2.3.2 Human readable eCMR (MVP+)
 | Data Identifier |  Definition | Data Type | Example Value |
@@ -152,7 +153,7 @@ These attributes must be present when offline verification or human-readable pre
 | carrier_ebwoid |  ebwoid of the carrier | String | NOFOR.123456789 |
 | consignee_ebwoid |  ebwoid of the consignor | String | SEBOLREG.987654321 |
 
-<mark style="background-color: lightyellow">At least One ebwoid SHALL be included in the attestation, depending on the step reached in process.</mark> 
+Note: At least One ebwoid SHALL be included in the attestation, depending on the step reached in process.
 
 ## 2.5 Mandatory metadata (MVP)
 
@@ -282,7 +283,7 @@ Maintaining a cached copy of the trusted list and revocation information, update
 
 The eCmr Platform (self-issuing entity) SHALL immediately update or revoke its EAA eCMR Attestation when a new version is issued. Nonetheless, the expiracy date SHALL always be set, especially when the eCMR is not the final one.
 
-<mark style="background-color: lightyellow">WeBuild IETF Token Status List SHOULD be used to perform revocation checks to validate credentials</mark> 
+Note: WeBuild IETF Token Status List SHOULD be used to perform revocation checks to validate credentials.
 
 # 7 References
 
