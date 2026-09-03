@@ -2,8 +2,7 @@
 name: Validate data-schemas JSON Schemas
 
 on:
-  workflow_dispatch:
-  pull_request:
+    pull_request:
     paths:
       - 'data-schemas/**'
       - 'sample-data/**'
@@ -271,3 +270,4 @@ jobs:
           if failed:
               sys.exit(1)
           PY
+          
