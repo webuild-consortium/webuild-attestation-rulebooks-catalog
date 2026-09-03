@@ -1,0 +1,97 @@
+{
+  "iss": "https://issuer.merchant.example",
+  "iat": 1745402075,
+  "exp": 1761127275,
+  "vct": "eu.we-build.ereceipt.1",
+  "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } },
+  "attestation_legal_category": "non-qualified-EAA",
+  "type": "PURCHASE",
+  "receiptNumber": "R-2026-04-23-000412",
+  "receiptTimeStamp": "2026-04-23T10:14:32Z",
+  "currencyISOCode": "EUR",
+  "totalPriceExcVAT": 4250,
+  "totalVATAmount": 1020,
+  "totalPriceIncVAT": 5270,
+  "merchant": {
+    "name": "Acme Retail Oy",
+    "companyID": "FI12345678",
+    "branch": {
+      "id": "BR-HEL-001",
+      "posId": "POS-12",
+      "name": "Acme Helsinki Centre",
+      "subName": "Café"
+    },
+    "address": {
+      "streetAddress": "Mannerheimintie 10",
+      "city": "Helsinki",
+      "zipCode": "00100",
+      "country": "FI"
+    }
+  },
+  "products": [
+    {
+      "name": "Espresso",
+      "quantity": "2",
+      "quantityCode": "H87",
+      "unitPriceIncVAT": 350,
+      "totalAmountExcVAT": 565,
+      "totalAmountIncVAT": 700,
+      "vats": [
+        {
+          "VATRate": "24",
+          "VATAmount": 135,
+          "totalAmountExcVAT": 565,
+          "totalAmountIncVAT": 700
+        }
+      ],
+      "categorization": { "category": "F&B", "department": "Café" }
+    },
+    {
+      "name": "Sandwich",
+      "quantity": "1",
+      "quantityCode": "H87",
+      "unitPriceIncVAT": 4570,
+      "totalAmountExcVAT": 3685,
+      "totalAmountIncVAT": 4570,
+      "vats": [
+        {
+          "VATRate": "24",
+          "VATAmount": 885,
+          "totalAmountExcVAT": 3685,
+          "totalAmountIncVAT": 4570
+        }
+      ]
+    }
+  ],
+  "vats": [
+    {
+      "VATRate": "24",
+      "totalVATAmount": 1020,
+      "totalAmountExcVAT": 4250,
+      "totalAmountIncVAT": 5270,
+      "VATCode": "S"
+    }
+  ],
+  "payments": [
+    {
+      "type": "CARD",
+      "amount": 5270,
+      "attributes": {
+        "AID": "A0000000031010",
+        "maskedPAN": "411111******1111",
+        "authorizationCode": "AB12CD",
+        "terminalId": "POS-12",
+        "transactionId": "T-20260423-000871"
+      }
+    }
+  ],
+  "verifications": [
+    {
+      "type": "EMV",
+      "version": "1.0",
+      "publicKey": "MIIBIjANBg…",
+      "transactionId": "T-20260423-000871"
+    }
+  ],
+  "status": { "status_list": { "idx": 17, "uri": "https://issuer.merchant.example/status/v1" } }
+}

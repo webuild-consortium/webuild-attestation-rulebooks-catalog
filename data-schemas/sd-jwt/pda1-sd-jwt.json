@@ -1,0 +1,792 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://we-build.example.com/schemas/PDA1/1.0/pda1-sd-jwt-vc-schema.json",
+    "title": "PD A1 Attestation SD-JWT VC Schema",
+    "description": "A Portable Document A1 (PD A1) is a certificate issued by the competent social security institution of a European Union member state pursuant to Regulation (EC) No 883/2004, certifying which country's social security legislation applies to the subject. It is used e.g. when a worker is posted or seconded to another EU/EEA member state, Switzerland, or the United Kingdom, confirming the worker remains subject to home-country social security legislation and is exempt from contributions in the host country. The document records the subject's identity, employer and employment details, the applicable member state legislation, the period of validity, and the issuing competent institution.",
+    "version": "1.0",
+    "$defs": {
+        "gender": {
+            "description": "Gender based on ISO/IEC 5218: 0 = Not known / Not specified; 1 = Male; 2 = Female",
+            "type": "string",
+            "enum": [
+                "0",
+                "1",
+                "2"
+            ]
+        },
+        "addressBase": {
+            "description": "Common postal address fields, excluding the country code.",
+            "type": "object",
+            "properties": {
+                "streetAndNumber": {
+                    "description": "Street name and house or building number.",
+                    "type": "string"
+                },
+                "town": {
+                    "description": "Name of the city or town.",
+                    "type": "string"
+                },
+                "postcode": {
+                    "description": "Postal code. Format varies by country.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "town"
+            ]
+        },
+        "addressPDA1State": {
+            "description": "A postal address whose country is one of the PD A1 states.",
+            "allOf": [
+                {
+                    "$ref": "#/$defs/addressBase"
+                }
+            ],
+            "properties": {
+                "countryCode": {
+                    "description": "Country code of the address.",
+                    "$ref": "#/$defs/countryCodePDA1States"
+                }
+            },
+            "required": [
+                "countryCode"
+            ],
+            "unevaluatedProperties": false
+        },
+        "addressWorld": {
+            "description": "A postal address whose country may be any recognized state of the world.",
+            "allOf": [
+                {
+                    "$ref": "#/$defs/addressBase"
+                }
+            ],
+            "properties": {
+                "countryCode": {
+                    "description": "Country code of the address.",
+                    "$ref": "#/$defs/countryCodeWorld"
+                }
+            },
+            "required": [
+                "countryCode"
+            ],
+            "unevaluatedProperties": false
+        },
+        "phoneNumber": {
+            "description": "Phone number in E.164 international format (e.g. +4930123456).",
+            "type": "string",
+            "pattern": "^\\+[1-9]\\d{1,14}$"
+        },
+        "email": {
+            "description": "Email address as defined by RFC 5321/5322.",
+            "type": "string",
+            "format": "email",
+            "pattern": "^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$"
+        },
+        "countryCodePDA1States": {
+            "description": "Two-letter country code as defined by ISO 3166-1 alpha-2, restricted to the 27 EU member states plus Iceland (IS), Liechtenstein (LI), Norway (NO), Great Britain (GB) and Switzerland (CH).",
+            "type": "string",
+            "enum": [
+                "AT",
+                "BE",
+                "BG",
+                "CH",
+                "CY",
+                "CZ",
+                "DE",
+                "DK",
+                "EE",
+                "ES",
+                "FI",
+                "FR",
+                "GB",
+                "GR",
+                "HR",
+                "HU",
+                "IE",
+                "IS",
+                "IT",
+                "LI",
+                "LT",
+                "LU",
+                "LV",
+                "MT",
+                "NL",
+                "NO",
+                "PL",
+                "PT",
+                "RO",
+                "SE",
+                "SI",
+                "SK"
+            ]
+        },
+        "countryCodeWorld": {
+            "description": "Two-letter country code as defined by ISO 3166-1 alpha-2, covering the 193 United Nations member states plus the two UN observer states (Holy See (VA) and State of Palestine (PS)).",
+            "type": "string",
+            "enum": [
+                "AD",
+                "AE",
+                "AF",
+                "AG",
+                "AL",
+                "AM",
+                "AO",
+                "AR",
+                "AT",
+                "AU",
+                "AZ",
+                "BA",
+                "BB",
+                "BD",
+                "BE",
+                "BF",
+                "BG",
+                "BH",
+                "BI",
+                "BJ",
+                "BN",
+                "BO",
+                "BR",
+                "BS",
+                "BT",
+                "BW",
+                "BY",
+                "BZ",
+                "CA",
+                "CD",
+                "CF",
+                "CG",
+                "CH",
+                "CI",
+                "CL",
+                "CM",
+                "CN",
+                "CO",
+                "CR",
+                "CU",
+                "CV",
+                "CY",
+                "CZ",
+                "DE",
+                "DJ",
+                "DK",
+                "DM",
+                "DO",
+                "DZ",
+                "EC",
+                "EE",
+                "EG",
+                "ER",
+                "ES",
+                "ET",
+                "FI",
+                "FJ",
+                "FM",
+                "FR",
+                "GA",
+                "GB",
+                "GD",
+                "GE",
+                "GH",
+                "GM",
+                "GN",
+                "GQ",
+                "GR",
+                "GT",
+                "GW",
+                "GY",
+                "HN",
+                "HR",
+                "HT",
+                "HU",
+                "ID",
+                "IE",
+                "IL",
+                "IN",
+                "IQ",
+                "IR",
+                "IS",
+                "IT",
+                "JM",
+                "JO",
+                "JP",
+                "KE",
+                "KG",
+                "KH",
+                "KI",
+                "KM",
+                "KN",
+                "KP",
+                "KR",
+                "KW",
+                "KZ",
+                "LA",
+                "LB",
+                "LC",
+                "LI",
+                "LK",
+                "LR",
+                "LS",
+                "LT",
+                "LU",
+                "LV",
+                "LY",
+                "MA",
+                "MC",
+                "MD",
+                "ME",
+                "MG",
+                "MH",
+                "MK",
+                "ML",
+                "MM",
+                "MN",
+                "MR",
+                "MT",
+                "MU",
+                "MV",
+                "MW",
+                "MX",
+                "MY",
+                "MZ",
+                "NA",
+                "NE",
+                "NG",
+                "NI",
+                "NL",
+                "NO",
+                "NP",
+                "NR",
+                "NZ",
+                "OM",
+                "PA",
+                "PE",
+                "PG",
+                "PH",
+                "PK",
+                "PL",
+                "PS",
+                "PT",
+                "PW",
+                "PY",
+                "QA",
+                "RO",
+                "RS",
+                "RU",
+                "RW",
+                "SA",
+                "SB",
+                "SC",
+                "SD",
+                "SE",
+                "SG",
+                "SI",
+                "SK",
+                "SL",
+                "SM",
+                "SN",
+                "SO",
+                "SR",
+                "SS",
+                "ST",
+                "SV",
+                "SY",
+                "SZ",
+                "TD",
+                "TG",
+                "TH",
+                "TJ",
+                "TL",
+                "TM",
+                "TN",
+                "TO",
+                "TR",
+                "TT",
+                "TV",
+                "TZ",
+                "UA",
+                "UG",
+                "US",
+                "UY",
+                "UZ",
+                "VA",
+                "VC",
+                "VE",
+                "VN",
+                "VU",
+                "WS",
+                "YE",
+                "ZA",
+                "ZM",
+                "ZW"
+            ]
+        },
+        "date": {
+            "description": "ISO 8601 full date in the format YYYY-MM-DD.",
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|02-(?:0[1-9]|1\\d|2[0-9]))$"
+        },
+        "typeOfID": {
+            "description": "Type of identifier: 01 = Identification/Registration, 02 = Social Security, 03 = Fiscal, 98 = Unknown.",
+            "type": "string",
+            "enum": [
+                "01",
+                "02",
+                "03",
+                "98"
+            ]
+        },
+        "statusConfirmationCode": {
+            "description": "Confirmation of the situation on the basis of which the applicable legislation is determined: 01 = Posted employed person; 02 = Employed, working in two or more States; 03 = Posted self-employed person; 04 = Self-employed, working in two or more States; 05 = Civil servant; 06 = Contract staff; 07 = Mariner; 08 = Working as an employed person and as a self-employed person in different States; 09 = Working as a civil servant in one State and as an employed/self-employed person in one or more other States; 10 = Flight or cabin crew member; 11 = Exception; 12 = Working as an employed / self-employed person in the State which legislation applies.",
+            "type": "string",
+            "enum": [
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
+                "10",
+                "11",
+                "12"
+            ]
+        },
+        "employmentSituation": {
+            "description": "Details of a single employer or self-employment activity of the holder.",
+            "type": "object",
+            "properties": {
+                "typeOfEmployment": {
+                    "title": "3.1 Type of Employment",
+                    "description": "Type of employment: 01 = Employee, 02 = Self-employed.",
+                    "type": "string",
+                    "enum": [
+                        "01",
+                        "02"
+                    ],
+                    "$comment": "SD element group 9"
+                },
+                "name": {
+                    "title": "3.2 Name",
+                    "description": "Name of the employer or self-employed entity.",
+                    "type": "string",
+                    "$comment": "SD element group 9"
+                },
+                "employerID": {
+                    "title": "3.3 EmployerID",
+                    "description": "Identifier of the employer or self-employed entity.",
+                    "type": "string",
+                    "$comment": "SD element group 9"
+                },
+                "typeOfID": {
+                    "title": "3.4 Type of ID",
+                    "description": "Type of the employer identifier.",
+                    "$ref": "#/$defs/typeOfID",
+                    "$comment": "SD element group 9"
+                },
+                "address": {
+                    "title": "3.5 Address",
+                    "description": "Address of the employer or self-employed entity.",
+                    "$ref": "#/$defs/addressWorld",
+                    "$comment": "SD element group 10"
+                }
+            },
+            "required": [
+                "typeOfEmployment",
+                "name",
+                "employerID",
+                "typeOfID",
+                "address"
+            ],
+            "additionalProperties": false
+        },
+        "placeOfWork": {
+            "title": "4.2 Place of work",
+            "description": "A fixed company address or vessel where the holder performs work.",
+            "type": "object",
+            "properties": {
+                "address": {
+                    "title": "4.2.5 Street, N°;4.2.6 Town;4.2.7 Postal Code;4.2.8 Country code",
+                    "description": "Address of the place of work.",
+                    "$ref": "#/$defs/addressPDA1State",
+                    "$comment": "SD element group 12"
+                },
+                "companyOrVesselName": {
+                    "title": "4.2.1 Company/vessel name",
+                    "description": "Name of the company or vessel where work is performed.",
+                    "type": "string",
+                    "$comment": "SD element group 11"
+                },
+                "flagBaseHomeState": {
+                    "title": "4.2.2 Flag Base Home State",
+                    "description": "Flag state, base state, or home state for maritime or aviation workers.",
+                    "type": "string",
+                    "$comment": "SD element group 11"
+                },
+                "companyID": {
+                    "title": "4.2.3 CompanyID",
+                    "description": "Identifier of the company at the place of work.",
+                    "type": "string",
+                    "$comment": "SD element group 11"
+                },
+                "typeOfID": {
+                    "title": "4.2.4 Type of ID ",
+                    "description": "Type of the company identifier provided in companyID.",
+                    "$ref": "#/$defs/typeOfID",
+                    "$comment": "SD element group 11"
+                }
+            },
+            "required": [
+                "address",
+                "companyOrVesselName"
+            ],
+            "dependentRequired": {
+                "companyID": [
+                    "typeOfID"
+                ],
+                "typeOfID": [
+                    "companyID"
+                ]
+            },
+            "additionalProperties": false
+        }
+    },
+    "type": "object",
+    "properties": {
+        "subject": {
+            "title": "1. Subject",
+            "description": "Personal details of the PD A1 certificate holder.",
+            "type": "object",
+            "properties": {
+                "pin": {
+                    "title": "1.1 PIN",
+                    "description": "Personal Identification Number (social security number) of the holder.",
+                    "type": "string",
+                    "$comment": "SD element group 1"
+                },
+                "gender": {
+                    "title": "1.2 Gender",
+                    "description": "Gender of the holder.",
+                    "$ref": "#/$defs/gender",
+                    "$comment": "SD element group 2"
+                },
+                "names": {
+                    "description": "Name details of the holder.",
+                    "type": "object",
+                    "properties": {
+                        "surnames": {
+                            "title": "1.3 Familyname(s)",
+                            "description": "Current surname(s) of the holder.",
+                            "type": "string",
+                            "$comment": "SD element group 3"
+                        },
+                        "forenames": {
+                            "title": "1.4 Forename(s)",
+                            "description": "Forename(s) or given name(s) of the holder.",
+                            "type": "string",
+                            "$comment": "SD element group 3"
+                        },
+                        "surnameAtBirth": {
+                            "title": "1.5 Surname at birth",
+                            "description": "Surname(s) of the holder at birth, if different from the current surname.",
+                            "type": "string",
+                            "$comment": "SD element group 3"
+                        },
+                        "forenamesAtBirth": {
+                            "title": "1.6 Forename(s) at birth",
+                            "description": "Forename(s) of the holder at birth, if different from the current forename(s).",
+                            "type": "string",
+                            "$comment": "SD element group 3"
+                        }
+                    },
+                    "required": [
+                        "surnames",
+                        "forenames"
+                    ],
+                    "additionalProperties": false
+                },
+                "dateOfBirth": {
+                    "title": "1.7 Date of Birth",
+                    "description": "Date of birth of the holder.",
+                    "$ref": "#/$defs/date",
+                    "$comment": "SD element group 4"
+                },
+                "nationalities": {
+                    "title": "1.8 Nationality",
+                    "description": "Nationalities of the holder as ISO 3166-1 alpha-2 country codes. One or more may be provided.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/countryCodeWorld"
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "$comment": "SD element group 5"
+                },
+                "placeOfBirth": {
+                    "title": "1.9 Place of Birth",
+                    "description": "Place of birth of the holder.",
+                    "type": "object",
+                    "properties": {
+                        "town": {
+                            "title": "1.9.1 Town",
+                            "description": "Town or city of birth.",
+                            "$ref": "#/$defs/addressBase/properties/town",
+                            "$comment": "SD element group 6"
+                        },
+                        "countryCode": {
+                            "title": "1.9.2 Country code",
+                            "description": "Country of birth.",
+                            "$ref": "#/$defs/countryCodeWorld",
+                            "$comment": "SD element group 6"
+                        }
+                    },
+                    "required": [
+                        "town",
+                        "countryCode"
+                    ],
+                    "additionalProperties": false
+                },
+                "address": {
+                    "title": "1.10 Address",
+                    "description": "Address(es) of the holder. At least one non-empty address list must be present: one or more state-of-residence addresses, one or more state-of-stay addresses, or both.",
+                    "type": "object",
+                    "properties": {
+                        "stateOfResidence": {
+                            "title": "1.10.1 Address in the state of residence",
+                            "description": "Addresses of the state(s) of residence. Zero or more may be provided.",
+                            "type": "array",
+                            "items": {
+                                "title": "1.10.1.1 Street, N°;1.10.1.2 Town;1.10.1.3 Post code;1.10.1.4 Country code",
+                                "$ref": "#/$defs/addressWorld",
+                                "$comment": "SD element group 7"
+                            }
+                        },
+                        "stateOfStay": {
+                            "title": "1.10.2 Address in the state of stay",
+                            "description": "Addresses of the state(s) of stay. Zero or more may be provided.",
+                            "type": "array",
+                            "items": {
+                                "title": "1.10.2.1 Street, N°;1.10.2.2 Town;1.10.2.3 Post code;1.10.2.4 Country code",
+                                "$ref": "#/$defs/addressPDA1State",
+                                "$comment": "SD element group 8"
+                            },
+                            "$comment": "SD element group 8"
+                        }
+                    },
+                    "anyOf": [
+                        {
+                            "required": [
+                                "stateOfResidence"
+                            ],
+                            "properties": {
+                                "stateOfResidence": {
+                                    "minItems": 1
+                                }
+                            }
+                        },
+                        {
+                            "required": [
+                                "stateOfStay"
+                            ],
+                            "properties": {
+                                "stateOfStay": {
+                                    "minItems": 1
+                                }
+                            }
+                        }
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "pin",
+                "gender",
+                "names",
+                "dateOfBirth",
+                "placeOfBirth",
+                "address",
+                "nationalities"
+            ],
+            "additionalProperties": false
+        },
+        "memberstateAppliedLegislation": {
+            "title": "2. Member state legislation which applies",
+            "description": "The member state whose social security legislation applies to the holder.",
+            "type": "object",
+            "properties": {
+                "memberstate": {
+                    "description": "Country code of the member state whose legislation applies.",
+                    "$ref": "#/$defs/countryCodePDA1States"
+                },
+                "startDate": {
+                    "description": "Start date from which the legislation of the member state applies.",
+                    "$ref": "#/$defs/date"
+                },
+                "endDate": {
+                    "description": "End date until which the legislation of the member state applies.",
+                    "$ref": "#/$defs/date"
+                },
+                "certificateAppliesForDuranceOfStay": {
+                    "description": "Indicates whether the certificate applies for the entire duration of the stay.",
+                    "type": "boolean"
+                },
+                "determinationIsProvisional": {
+                    "description": "Indicates whether the determination of applicable legislation is provisional.",
+                    "type": "boolean"
+                },
+                "transitionRulesApplyAccordingEG": {
+                    "description": "Indicates whether transitional rules apply according to EC Regulation No 883/2004.",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "memberstate",
+                "startDate",
+                "endDate"
+            ],
+            "additionalProperties": false,
+            "$comment": "Always disclosed"
+        },
+        "employmentSituations": {
+            "title": "3. Details of Employer(s)/Self-employment",
+            "description": "List of the holder's employment situations (employers or self-employment activities). At least one must be provided.",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/employmentSituation"
+            },
+            "minItems": 1,
+            "$comment": "SD element group 9"
+        },
+        "placesOfWork": {
+            "title": "4. Place(s) of work",
+            "description": "Places where the holder works, grouped by country. At least one country must be present. Each country maps to a list of fixed addresses or vessels; an empty list means the holder works in that country with no fixed address.",
+            "type": "object",
+            "minProperties": 1,
+            "propertyNames": {
+                "$ref": "#/$defs/countryCodePDA1States"
+            },
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/$defs/placeOfWork"
+                }
+            },
+            "$comment": "SD element group 11"
+        },
+        "statusConfirmation": {
+            "title": "5. Status confirmation",
+            "description": "Confirmation status of the certificate.",
+            "type": "object",
+            "properties": {
+                "statusConfirmationCode": {
+                    "title": "5.1 Status confirmation",
+                    "description": "Status confirmation code.",
+                    "$ref": "#/$defs/statusConfirmationCode",
+                    "$comment": "SD element group 13"
+                },
+                "exceptionDescription": {
+                    "title": "-",
+                    "description": "Free-text description of the exception. Only permitted when code is \"11\" (Exception); optional even then.",
+                    "type": "string",
+                    "$comment": "SD element group 13"
+                }
+            },
+            "required": [
+                "statusConfirmationCode"
+            ],
+            "if": {
+                "required": [
+                    "statusConfirmationCode"
+                ],
+                "properties": {
+                    "statusConfirmationCode": {
+                        "const": "11"
+                    }
+                }
+            },
+            "then": {},
+            "else": {
+                "not": {
+                    "required": [
+                        "exceptionDescription"
+                    ]
+                }
+            },
+            "$comment": "SD element group 13",
+            "additionalProperties": false
+        },
+        "documentID": {
+            "title": "6. Unique Number of Issued Document (Credential)",
+            "description": "Unique identifier of the PD A1 certificate.",
+            "type": "string",
+            "$comment": "SD element group 14"
+        },
+        "competentInstitution": {
+            "title": "7. Competent Institution",
+            "description": "The social security institution that issued this certificate.",
+            "type": "object",
+            "properties": {
+                "institutionID": {
+                    "title": "7.1 InstitutionID",
+                    "description": "Unique identifier of the competent institution.",
+                    "type": "string",
+                    "$comment": "SD element group 15"
+                },
+                "institutionName": {
+                    "title": "7.2 Institution Name",
+                    "description": "Name of the competent institution issuing the certificate.",
+                    "type": "string",
+                    "$comment": "SD element group 15"
+                },
+                "countryCode": {
+                    "title": "7.3 Country code",
+                    "description": "Country code of competent institution.",
+                    "$ref": "#/$defs/countryCodePDA1States",
+                    "$comment": "SD element group 15"
+                },
+                "address": {
+                    "title": "7.7 Street, N°;7.8 Town;7.9 Postal Code;7.10 Country code",
+                    "description": "Address of the competent institution.",
+                    "$ref": "#/$defs/addressPDA1State",
+                    "$comment": "SD element group 16"
+                },
+                "officeFaxNumber": {
+                    "description": "Fax number of the competent institution.",
+                    "$ref": "#/$defs/phoneNumber",
+                    "$comment": "SD element group 16"
+                },
+                "officePhoneNumber": {
+                    "description": "Phone number of the competent institution.",
+                    "$ref": "#/$defs/phoneNumber",
+                    "$comment": "SD element group 16"
+                },
+                "email": {
+                    "description": "Email address of the competent institution.",
+                    "$ref": "#/$defs/email",
+                    "$comment": "SD element group 16"
+                }
+            },
+            "required": [
+                "institutionID",
+                "institutionName",
+                "countryCode",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$comment": "SD element group 15"
+        }
+    },
+    "required": [
+        "subject",
+        "memberstateAppliedLegislation",
+        "employmentSituations",
+        "placesOfWork",
+        "statusConfirmation",
+        "documentID",
+        "competentInstitution"
+    ],
+    "additionalProperties": false
+}

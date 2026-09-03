@@ -1,0 +1,831 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/e-receipt-sd-jwt.json",
+  "title": "WE BUILD eReceipt SD-JWT VC payload (vct eu.we-build.ereceipt.1)",
+  "description": "SD-JWT VC payload schema for the WE BUILD eReceipt attestation. Implements Chapters 2 and 3 of the rb-e-receipt Rulebook v2.0 (22 June 2026): the mandatory, optional and conditional attributes, the Section 2.8 code lists and the Section 3.2 SD-JWT VC encoding. The Section 3.2.5 illustrative example is published unchanged as the sample under sample-data/.",
+  "version": "2.0.0",
+  "$comment": "Final, aligned with rb-e-receipt-rulebook v2.0 (version 1.5, 19 Jun 2026): instrument-agnostic verifications (EMV/OCMF/SCT/SCT-INST), payments[].type CARD/CREDIT_TRANSFER/MOBILEPAY/GIFTCARD (CASH and handedAmount removed), nested IETF Token Status List (status.status_list), media type dc+sd-jwt. This validates the logical SD-JWT VC claim set (the JWT claim set before SD-JWT _sd processing, as in rulebook 3.2.5); the issued SD-JWT additionally wraps the disclosable claims in _sd arrays. Single source of truth is the rulebook README; NOT the EWC ds011 schema. Cross-field integrity rules (IR-01/02/03 arithmetic, IR-04/06 ordering, exp>iat) are noted in field $comments but cannot be expressed in JSON Schema.",
+  "type": "object",
+  "required": [
+    "iss",
+    "iat",
+    "exp",
+    "cnf",
+    "vct",
+    "attestation_legal_category",
+    "type",
+    "receiptNumber",
+    "receiptTimeStamp",
+    "currencyISOCode",
+    "totalPriceExcVAT",
+    "totalVATAmount",
+    "totalPriceIncVAT",
+    "merchant",
+    "products",
+    "vats",
+    "payments",
+    "verifications"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "$comment": "Section 2.5 mandatory metadata. IR-09: an HTTPS URL resolvable to the issuer OpenID4VCI metadata endpoint. The HTTPS prefix is enforced; actual resolvability is a runtime check not expressible in JSON Schema."
+    },
+    "iat": {
+      "type": "integer",
+      "minimum": 0,
+      "$comment": "Section 2.5 mandatory metadata. Issuance time as a NumericDate (seconds since epoch)."
+    },
+    "exp": {
+      "type": "integer",
+      "minimum": 0,
+      "$comment": "Section 2.5 mandatory metadata. Expiry time as a NumericDate. Rulebook requires exp greater than iat; a comparison between two sibling fields is not expressible in JSON Schema and must be checked by the issuer and verifier."
+    },
+    "cnf": {
+      "type": "object",
+      "$comment": "Section 2.5 mandatory metadata. RFC 7800 holder key binding establishing proof of possession (typically a jwk). Inner structure left open to allow jwk or kid forms.",
+      "properties": {
+        "jwk": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    },
+    "vct": {
+      "const": "eu.we-build.ereceipt.1",
+      "$comment": "Section 2.5 mandatory metadata and Section 3.2.2 public name. SHALL be eu.we-build.ereceipt.1."
+    },
+    "status": {
+      "$ref": "#/$defs/statusClaim",
+      "$comment": "Section 2.6 optional metadata. IETF Token Status List object enabling revocation checking (Chapter 6). Classified optional in 2.6; issuers populate it for revocation per Chapter 4."
+    },
+    "cryptographically_bound_to": {
+      "type": "string",
+      "$comment": "Section 2.6 optional metadata (ARB_28, Topic 12). If present, identifies another attestation type or vct on the same Wallet Unit to which this eReceipt is cryptographically bound. Not listed in the task field set but defined in the rulebook; included for fidelity."
+    },
+    "attestation_legal_category": {
+      "type": "string",
+      "enum": [
+        "QEAA",
+        "PuB-EAA",
+        "non-qualified-EAA"
+      ],
+      "$comment": "Section 2.2 mandatory. Section 2.8 code list. Default value for this Rulebook is non-qualified-EAA."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "PURCHASE",
+        "RETURN",
+        "PURCHASE_AND_RETURN"
+      ],
+      "$comment": "Section 2.2 mandatory. Section 2.8 code list. Drives the sign rules in IR-10 (see the conditional allOf at the end of this schema)."
+    },
+    "receiptNumber": {
+      "type": "string",
+      "$comment": "Section 2.2 mandatory."
+    },
+    "receiptTimeStamp": {
+      "type": "string",
+      "format": "date-time",
+      "$comment": "Section 2.2 mandatory. ISO 8601 date-time. IR-04 (greater than or equal to the timestamp inside verifications[].transactionEnd.signedData) and IR-06 (earlier than attachments[].validUntil) compare against other values and are not expressible in JSON Schema."
+    },
+    "currencyISOCode": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "$comment": "Section 2.2 mandatory. Section 2.8 code list: ISO 4217 alphabetic code."
+    },
+    "totalPriceExcVAT": {
+      "type": "integer",
+      "$comment": "Section 2.2 mandatory. Currency minor unit (IR-10). Sign governed by IR-10 conditional on type. IR-01: totalPriceIncVAT = totalPriceExcVAT + totalVATAmount (arithmetic reconciliation, not expressible here)."
+    },
+    "totalVATAmount": {
+      "type": "integer",
+      "$comment": "Section 2.2 mandatory. Currency minor unit. IR-02: equals the sum of vats[].totalVATAmount (not expressible here)."
+    },
+    "totalPriceIncVAT": {
+      "type": "integer",
+      "$comment": "Section 2.2 mandatory. Currency minor unit. IR-01 and IR-03 reconciliations apply (not expressible here): IR-03 the sum of payments[].amount equals totalPriceIncVAT."
+    },
+    "merchant": {
+      "$ref": "#/$defs/merchant",
+      "$comment": "Section 2.2 mandatory. Container for name, companyID, branch and address (rulebook 3.2.3 and the 3.2.5 example nest branch and address inside merchant)."
+    },
+    "products": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/product"
+      },
+      "$comment": "Section 2.2 mandatory (per-element). minItems 1 added as a reasonable constraint for a meaningful receipt."
+    },
+    "vats": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/receiptVat"
+      },
+      "$comment": "Section 2.2 mandatory receipt-level VAT breakdown (per-element). minItems 1 added as a reasonable constraint."
+    },
+    "payments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/payment"
+      },
+      "$comment": "Section 2.2 mandatory (per-element). minItems 1 added as a reasonable constraint. CASH removed from the type code list and handedAmount removed entirely on 18 Jun 2026."
+    },
+    "verifications": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/verification"
+      },
+      "$comment": "Section 2.2 mandatory plus Section 2.4 conditional sub-fields. Technical proof; in the issued SD-JWT these claims are not selectively disclosable (3.2.3). minItems 1 added as a reasonable constraint."
+    },
+    "freeText": {
+      "type": "string",
+      "$comment": "Section 2.3 optional."
+    },
+    "customAttributes": {
+      "type": "array",
+      "$comment": "Section 2.3 optional. Free-form extension point; element structure intentionally unconstrained.",
+      "items": {}
+    },
+    "originalReceiptNumber": {
+      "type": "string",
+      "$comment": "Section 2.3 optional. For a correction eReceipt (type RETURN or PURCHASE_AND_RETURN that reverses or corrects a prior transaction), the receiptNumber of the original eReceipt being corrected; analogous to EN 16931-1 BT-25. Correction-linkage rule (the task brief calls this IR-11): it is described in Section 2.3 and the revocation/correction chapter rather than numbered in the 2.9 table, and the cross-receipt linkage cannot be enforced in JSON Schema."
+    },
+    "journey": {
+      "$ref": "#/$defs/journey",
+      "$comment": "Section 2.4 conditional object. Optional at the receipt level; when present its own required list enforces type, origin and destination (IR-07)."
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/attachment"
+      },
+      "$comment": "Section 2.4 conditional (per-element). Optional array; when an entry is present its required list enforces type, kind, title and data."
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "IR-10 sign rule, expressible part. For type PURCHASE all monetary integer amounts SHALL be non-negative. For RETURN amounts MAY be negative, and for PURCHASE_AND_RETURN returned lines and the matching payments[].amount MAY be negative while purchased lines stay non-negative and the header totals reflect the net; those mixed-sign cases are left unconstrained here.",
+      "if": {
+        "properties": {
+          "type": {
+            "const": "PURCHASE"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "totalPriceExcVAT": {
+            "minimum": 0
+          },
+          "totalVATAmount": {
+            "minimum": 0
+          },
+          "totalPriceIncVAT": {
+            "minimum": 0
+          },
+          "products": {
+            "items": {
+              "properties": {
+                "unitPriceIncVAT": {
+                  "minimum": 0
+                },
+                "totalAmountExcVAT": {
+                  "minimum": 0
+                },
+                "totalAmountIncVAT": {
+                  "minimum": 0
+                },
+                "vats": {
+                  "items": {
+                    "properties": {
+                      "VATAmount": {
+                        "minimum": 0
+                      },
+                      "totalAmountExcVAT": {
+                        "minimum": 0
+                      },
+                      "totalAmountIncVAT": {
+                        "minimum": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "vats": {
+            "items": {
+              "properties": {
+                "totalVATAmount": {
+                  "minimum": 0
+                },
+                "totalAmountExcVAT": {
+                  "minimum": 0
+                },
+                "totalAmountIncVAT": {
+                  "minimum": 0
+                }
+              }
+            }
+          },
+          "payments": {
+            "items": {
+              "properties": {
+                "amount": {
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "merchant": {
+      "type": "object",
+      "required": [
+        "name",
+        "companyID",
+        "branch",
+        "address"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory. Merchant legal name."
+        },
+        "companyID": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory. Merchant company identifier (for example VAT or business ID)."
+        },
+        "branch": {
+          "$ref": "#/$defs/branch"
+        },
+        "address": {
+          "$ref": "#/$defs/address"
+        }
+      }
+    },
+    "branch": {
+      "type": "object",
+      "required": [
+        "id",
+        "posId",
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "posId": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "subName": {
+          "type": "string",
+          "$comment": "Section 2.3 optional."
+        },
+        "email": {
+          "type": "string",
+          "$comment": "Section 2.3 optional."
+        },
+        "phone": {
+          "type": "string",
+          "$comment": "Section 2.3 optional."
+        },
+        "websiteURL": {
+          "type": "string",
+          "$comment": "Section 2.3 optional."
+        }
+      }
+    },
+    "address": {
+      "type": "object",
+      "required": [
+        "streetAddress",
+        "city",
+        "zipCode",
+        "country"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "streetAddress": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "city": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "zipCode": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "$comment": "Section 2.2 mandatory. Section 2.8 code list: ISO 3166-1 alpha-2 code."
+        }
+      }
+    },
+    "product": {
+      "type": "object",
+      "required": [
+        "name",
+        "quantity",
+        "quantityCode",
+        "unitPriceIncVAT",
+        "totalAmountExcVAT",
+        "totalAmountIncVAT",
+        "vats"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "quantity": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory. Quantity carried as a string."
+        },
+        "quantityCode": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory. Section 2.8 code list: UN/ECE Recommendation 20 unit code (open list). Examples: H87, KGM, LTR, MTR. Not constrained to an enum because the list is open."
+        },
+        "unitPriceIncVAT": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. Sign per IR-10."
+        },
+        "unitPriceIncVATDecimal": {
+          "type": "string",
+          "$comment": "Section 2.3 optional. Unit price including VAT in decimal form, for display only."
+        },
+        "totalAmountExcVAT": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. Sign per IR-10."
+        },
+        "totalAmountIncVAT": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. Sign per IR-10."
+        },
+        "vats": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/productVat"
+          },
+          "$comment": "Section 2.2 mandatory product-level VAT breakdown."
+        },
+        "discounts": {
+          "type": "array",
+          "$comment": "Section 2.3 optional. Structure not specified by the rulebook; left unconstrained.",
+          "items": {}
+        },
+        "EANCode": {
+          "type": "string",
+          "$comment": "Section 2.3 optional. Section 2.8 code list: valid EAN-8, EAN-13 or GTIN-14 barcode."
+        },
+        "productId": {
+          "type": "string",
+          "$comment": "Section 2.3 optional."
+        },
+        "freeText": {
+          "type": "string",
+          "$comment": "Section 2.3 optional."
+        },
+        "categorization": {
+          "type": "object",
+          "$comment": "Section 2.3 optional. Free-form categorization object (for example category and department); inner structure left open.",
+          "additionalProperties": true
+        },
+        "customAttributes": {
+          "type": "array",
+          "$comment": "Section 2.3 optional. Free-form extension point; element structure unconstrained.",
+          "items": {}
+        }
+      }
+    },
+    "productVat": {
+      "type": "object",
+      "required": [
+        "VATRate",
+        "VATAmount",
+        "totalAmountExcVAT",
+        "totalAmountIncVAT"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "VATRate": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory. VAT rate as a string (for example 24)."
+        },
+        "VATAmount": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. Sign per IR-10."
+        },
+        "totalAmountExcVAT": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. Sign per IR-10."
+        },
+        "totalAmountIncVAT": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. Sign per IR-10."
+        },
+        "VATCode": {
+          "type": "string",
+          "enum": [
+            "S",
+            "Z",
+            "E",
+            "AE",
+            "K",
+            "G",
+            "O",
+            "L",
+            "M",
+            "B"
+          ],
+          "$comment": "Section 2.3 optional. Section 2.8 code list: EN 16931-1 duty/tax/fee category code."
+        }
+      }
+    },
+    "receiptVat": {
+      "type": "object",
+      "required": [
+        "VATRate",
+        "totalVATAmount",
+        "totalAmountExcVAT",
+        "totalAmountIncVAT"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "VATRate": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory. VAT rate as a string."
+        },
+        "totalVATAmount": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. IR-02: the sum across receipt-level vats[] equals totalVATAmount (not expressible here). Sign per IR-10."
+        },
+        "totalAmountExcVAT": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. Sign per IR-10."
+        },
+        "totalAmountIncVAT": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. Sign per IR-10."
+        },
+        "VATCode": {
+          "type": "string",
+          "enum": [
+            "S",
+            "Z",
+            "E",
+            "AE",
+            "K",
+            "G",
+            "O",
+            "L",
+            "M",
+            "B"
+          ],
+          "$comment": "Section 2.3 optional. Section 2.8 code list: EN 16931-1 duty/tax/fee category code."
+        }
+      }
+    },
+    "payment": {
+      "type": "object",
+      "required": [
+        "type",
+        "amount"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "CARD",
+            "CREDIT_TRANSFER",
+            "MOBILEPAY",
+            "GIFTCARD"
+          ],
+          "$comment": "Section 2.2 mandatory. Section 2.8 code list. CASH was removed on 18 Jun 2026 and is intentionally excluded."
+        },
+        "amount": {
+          "type": "integer",
+          "$comment": "Section 2.2 mandatory. Currency minor unit. IR-03: the sum of payments[].amount equals totalPriceIncVAT (not expressible here). Sign per IR-10. The removed handedAmount field is intentionally absent."
+        },
+        "attributes": {
+          "$ref": "#/$defs/paymentAttributes",
+          "$comment": "Section 2.3 optional. EMV/PSP terminal data sub-fields."
+        }
+      }
+    },
+    "paymentAttributes": {
+      "type": "object",
+      "$comment": "Section 2.3 optional. Section 2.8 code list of EMV/PSP terminal data keys. Known keys are listed as string properties; additional PSP-specific keys are permitted.",
+      "additionalProperties": true,
+      "properties": {
+        "AID": {
+          "type": "string"
+        },
+        "TVR": {
+          "type": "string"
+        },
+        "TSI": {
+          "type": "string"
+        },
+        "AC": {
+          "type": "string"
+        },
+        "cryptogramType": {
+          "type": "string"
+        },
+        "CID": {
+          "type": "string"
+        },
+        "CVM": {
+          "type": "string"
+        },
+        "authorizationCode": {
+          "type": "string"
+        },
+        "transactionId": {
+          "type": "string"
+        },
+        "terminalId": {
+          "type": "string"
+        },
+        "maskedPAN": {
+          "type": "string"
+        },
+        "APP": {
+          "type": "string"
+        },
+        "ENTRY": {
+          "type": "string"
+        },
+        "ARC": {
+          "type": "string"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": [
+        "type",
+        "version",
+        "publicKey",
+        "transactionId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "EMV",
+            "OCMF",
+            "SCT",
+            "SCT-INST"
+          ],
+          "$comment": "Section 2.2 mandatory. Section 2.8 code list. Standard of the technical proof."
+        },
+        "version": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "publicKey": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory. Public key used to verify the proof."
+        },
+        "transactionId": {
+          "type": "string",
+          "$comment": "Section 2.2 mandatory."
+        },
+        "currentType": {
+          "type": "string",
+          "enum": [
+            "AC",
+            "DC"
+          ],
+          "$comment": "Section 2.4 conditional. Section 2.8 code list. OCMF electrical-current type (AC or DC). Required when type is OCMF (IR-05); not applicable otherwise. This is not an EMV cryptogram type; card evidence is carried in payments[].attributes."
+        },
+        "transactionBegin": {
+          "$ref": "#/$defs/signedDataObject",
+          "$comment": "Section 2.4 conditional. Signed data captured at the beginning of the verification event. Required when type is OCMF (IR-05)."
+        },
+        "transactionEnd": {
+          "$ref": "#/$defs/signedDataObject",
+          "$comment": "Section 2.4 conditional. Signed data captured at the end of the verification event. Required when the profile defines it."
+        }
+      },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "OCMF"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "currentType",
+          "transactionBegin"
+        ],
+        "properties": {
+          "transactionBegin": {
+            "required": [
+              "signedData"
+            ]
+          }
+        },
+        "$comment": "IR-05: when verifications[].type is OCMF, currentType and transactionBegin.signedData SHALL be present."
+      }
+    },
+    "signedDataObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "signedData": {
+          "type": "string",
+          "$comment": "bstr carrying base64url-encoded signed data as defined by the verifications[].type profile (for example OCMF metering data)."
+        }
+      }
+    },
+    "journey": {
+      "type": "object",
+      "required": [
+        "type",
+        "origin",
+        "destination"
+      ],
+      "additionalProperties": false,
+      "$comment": "Section 2.4 conditional object, present only for travel and mobility receipts. IR-07: when the journey object is present, type, origin and destination SHALL be present. Modelled as an optional top-level property whose own required list enforces the conditional presence.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "TRAIN",
+            "BUS",
+            "TAXI",
+            "FLIGHT",
+            "FERRY"
+          ],
+          "$comment": "Section 2.4 conditional. Section 2.8 code list. Mode of transport."
+        },
+        "id": {
+          "type": "string",
+          "$comment": "Section 2.3 optional."
+        },
+        "distance": {
+          "type": "integer",
+          "$comment": "Section 2.3 optional."
+        },
+        "duration": {
+          "type": "integer",
+          "$comment": "Section 2.3 optional."
+        },
+        "CO2Emissions": {
+          "type": "integer",
+          "$comment": "Section 2.3 optional."
+        },
+        "origin": {
+          "$ref": "#/$defs/journeyPlace",
+          "$comment": "Section 2.4 conditional. Origin of the journey."
+        },
+        "destination": {
+          "$ref": "#/$defs/journeyPlace",
+          "$comment": "Section 2.4 conditional. Destination of the journey."
+        }
+      }
+    },
+    "journeyPlace": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "Journey origin/destination sub-fields per Section 2.4. Sub-fields are not individually marked mandatory in the rulebook, so none are required here.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "$comment": "ISO 3166-1 alpha-2 code."
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "datetime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "attachment": {
+      "type": "object",
+      "required": [
+        "type",
+        "kind",
+        "title",
+        "data"
+      ],
+      "additionalProperties": false,
+      "$comment": "Section 2.4 conditional. When an attachments[] entry is present, type, kind, title and data SHALL be present (IR-07 family of conditional-presence rules).",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "BARCODE",
+            "QRCODE"
+          ],
+          "$comment": "Section 2.4 conditional. Section 2.8 code list. Attachment encoding type."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "TICKET",
+            "RETURN",
+            "VOUCHER"
+          ],
+          "$comment": "Section 2.4 conditional. Section 2.8 code list. Attachment purpose."
+        },
+        "title": {
+          "type": "string",
+          "$comment": "Section 2.4 conditional. Title or label for the attachment."
+        },
+        "data": {
+          "type": "string",
+          "$comment": "Section 2.4 conditional. Encoded attachment data."
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Section 2.3 optional."
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time",
+          "$comment": "Section 2.3 optional. IR-06: SHALL be later than receiptTimeStamp (cross-field rule, not expressible here)."
+        }
+      }
+    },
+    "statusClaim": {
+      "type": "object",
+      "required": [
+        "status_list"
+      ],
+      "additionalProperties": false,
+      "$comment": "Section 2.6 optional metadata. The payload claim is status; it contains status_list per the IETF Token Status List.",
+      "properties": {
+        "status_list": {
+          "type": "object",
+          "required": [
+            "idx",
+            "uri"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "idx": {
+              "type": "integer",
+              "minimum": 0,
+              "$comment": "Index of this credential in the referenced status list."
+            },
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "$comment": "URI of the status list."
+            }
+          }
+        }
+      }
+    }
+  }
+}

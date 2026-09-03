@@ -134,7 +134,7 @@ transaction data structure, processing rules, and display requirements that appl
 **Layer 2 — SCA-User abstract base type:**
 
 ```
-https://webuildconsortium.eu/sca-user/1.0
+https://webuildconsortium.eu/sca/sca-user/1.0
 ```
 
 This type has claims `"extends"` and `"extends#integrity"` pointing to the base SCA VCT above. It defines the
@@ -159,7 +159,7 @@ The issuer SHALL publish a VCT metadata document at the issuer-specific VCT URL.
   "vct": "https://issuer.bank.cz/credentials/sca/user/1.0",
   "name": "SCA-User — Bank CZ",
   "description": "Strong Customer Authentication user credential issued by Bank CZ for use in 2-party banking flows.",
-  "extends": "https://webuildconsortium.eu/sca-user/1.0",
+  "extends": "https://webuildconsortium.eu/sca/sca-user/1.0",
   "extends#integrity": "sha256-<hash-of-sca-user-base-vct-document>",
   "display": [
     {
@@ -288,7 +288,7 @@ Attribute values in the example:
 The SCA-User attestation supports the SD-JWT VC format as specified in [SD-JWT VC], compliant with the [HAIP] profile.
 
 **VCT (Verifiable Credential Type):** `https://issuer.bank.cz/credentials/sca/user/1.0`
-(issuer-specific; MUST extend `https://webuildconsortium.eu/sca-user/1.0` via `"extends"` and
+(issuer-specific; MUST extend `https://webuildconsortium.eu/sca/sca-user/1.0` via `"extends"` and
 `"extends#integrity"` claims in VCT metadata)
 
 **Note:** SCA-User does NOT support selective disclosure. All claims are non-selectively disclosable (`MUST NOT`).
@@ -324,7 +324,7 @@ The SCA-User attestation supports the SD-JWT VC format as specified in [SD-JWT V
   "exp": 1748822400,
   "vct": "https://issuer.bank.cz/credentials/sca/user/1.0",
   "vct#integrity": "sha256-abc123def456...",
-  "extends": "https://webuildconsortium.eu/sca-user/1.0",
+  "extends": "https://webuildconsortium.eu/sca/sca-user/1.0",
   "extends#integrity": "sha256-def456abc123...",
   "sub": "urn:uuid:123e4567-e89b-12d3-a456-426614174000",
   "masked_psu_id": "DE89****3000",

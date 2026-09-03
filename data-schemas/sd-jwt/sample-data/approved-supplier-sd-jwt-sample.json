@@ -1,0 +1,44 @@
+{
+  "vct": "eu.we-build:approvedsupplier:1",
+  "iss": "https://wallet.lesrosesdor.example/issuer",
+  "iat": 1767225600,
+  "exp": 1798761600,
+  "nbf": 1767225600,
+  "sub": "did:example:green-flowers-bv-NL853746281B01",
+  "attestation_legal_category": "EAA",
+  "schema_version": "1.0",
+  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  },
+
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://wallet.lesrosesdor.example/status/approvedsupplier/2026",
+    "status_list_index": 412,
+    "status_purpose": "revocation"
+  },
+
+  "approving_party": {
+    "legal_name": "Les Roses d'Or SARL",
+    "legal_id": "FR59120680088",
+    "peppol_id": "0009:FR59120680088"
+  },
+
+  "approved_supplier": {
+    "legal_name": "Green Flowers B.V.",
+    "legal_id": "NL853746281B01",
+    "peppol_id": "0106:853746281"
+  },
+
+  "approval_scope": "peppol:einvoice",
+  "approval_valid_from": "2026-01-01",
+  "approval_valid_until": "2026-12-31",
+  "approval_reference": "PO-FRAME-2026-0042"
+}

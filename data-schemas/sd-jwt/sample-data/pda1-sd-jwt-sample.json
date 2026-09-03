@@ -1,0 +1,92 @@
+{
+    "subject": {
+        "pin": "65170839J002",
+        "gender": "2",
+        "names": {
+            "surnames": "Rossi",
+            "forenames": "Maria Elena",
+            "surnameAtBirth": "Bianchi",
+            "forenamesAtBirth": "Maria"
+        },
+        "dateOfBirth": "1978-11-30",
+        "placeOfBirth": {
+            "town": "Milano",
+            "countryCode": "IT"
+        },
+        "nationalities": ["IT", "DE", "AR"],
+        "address": {
+            "stateOfResidence": [
+                {
+                    "streetAndNumber": "Via Roma 15",
+                    "town": "Milano",
+                    "postcode": "20121",
+                    "countryCode": "IT"
+                }
+            ],
+            "stateOfStay": [
+                {
+                    "streetAndNumber": "Hauptstraße 8",
+                    "town": "München",
+                    "postcode": "80331",
+                    "countryCode": "DE"
+                }
+            ]
+        }
+    },
+    "memberstateAppliedLegislation": {
+        "memberstate": "IT",
+        "startDate": "2026-02-01",
+        "endDate": "2027-01-31",
+        "certificateAppliesForDuranceOfStay": true,
+        "determinationIsProvisional": false,
+        "transitionRulesApplyAccordingEG": true
+    },
+    "employmentSituations": [
+        {
+            "typeOfEmployment": "01",
+            "name": "Costruzioni Rossi S.p.A.",
+            "employerID": "IT12345678901",
+            "typeOfID": "02",
+            "address": {
+                "streetAndNumber": "Via Torino 100",
+                "town": "Milano",
+                "postcode": "20123",
+                "countryCode": "IT"
+            }
+        }
+    ],
+    "placesOfWork": {
+        "DE": [
+            {
+                "address": {
+                    "streetAndNumber": "Baustelle Ost 3",
+                    "town": "München",
+                    "postcode": "80333",
+                    "countryCode": "DE"
+                },
+                "companyOrVesselName": "Baustelle München Ost",
+                "flagBaseHomeState": "DE",
+                "companyID": "DE987654321",
+                "typeOfID": "01"
+            }
+        ]
+    },
+    "statusConfirmation": {
+        "statusConfirmationCode": "01"
+    },
+    "documentID": "PDA1-IT-2026-000042",
+    "competentInstitution": {
+        "institutionID": "IT-INPS-001",
+        "institutionName": "Istituto Nazionale della Previdenza Sociale",
+        "countryCode": "IT",
+        "address": {
+            "streetAndNumber": "Via Ciro il Grande 21",
+            "town": "Roma",
+            "postcode": "00144",
+            "countryCode": "IT"
+        },
+        "officeFaxNumber": "+390659054000",
+        "officePhoneNumber": "+390659051",
+        "email": "posted.workers@inps.it"
+    }
+}

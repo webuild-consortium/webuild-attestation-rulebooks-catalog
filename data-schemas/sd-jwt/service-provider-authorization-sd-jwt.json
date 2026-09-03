@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://we-build.example.com/schemas/authorizedserviceprovider/1.0/sd-jwt-vc-schema.json",
+  "title": "AuthorizedServiceProvider SD-JWT VC Schema",
+  "description": "Schema for the Authorized Service Provider Attestation encoded as SD-JWT VC, based on the WE BUILD Attestation Rulebook for attestations of type Authorized Service Provider (Use Case SC5, eInvoicing) and draft-ietf-oauth-sd-jwt-vc",
+  "type": "object",
+
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "attestation_legal_category",
+    "status",
+    "cnf",
+    "authorizing_company",
+    "authorized_service_provider",
+    "authorization_scope",
+    "authorization_valid_from"
+  ],
+
+  "properties": {
+
+    "vct": {
+      "type": "string",
+      "const": "eu.we-build:authorizedserviceprovider:1",
+      "description": "Verifiable Credential Type — uniquely identifies the credential type. Always present in plain text. NOT selectively disclosable."
+    },
+
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer identifier — a URI identifying the issuer of the credential (the authorising company's issuing system / EBW). As per RFC 7519. NOT selectively disclosable."
+    },
+
+    "iat": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Issued At — Unix timestamp (seconds since epoch) indicating when the attestation was issued. NOT selectively disclosable."
+    },
+
+    "exp": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Expiration Time — Unix timestamp after which the attestation is no longer valid. NOT selectively disclosable."
+    },
+
+    "nbf": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Not Before — Unix timestamp before which the credential MUST NOT be accepted. Optional. NOT selectively disclosable."
+    },
+
+    "sub": {
+      "type": "string",
+      "description": "Subject — identifier for the subject of the credential (the authorised Service Provider legal entity). Optional. NOT selectively disclosable."
+    },
+
+    "attestation_legal_category": {
+      "type": "string",
+      "enum": ["EAA"],
+      "description": "Legal category of this attestation under eIDAS 2. For the Authorized Service Provider attestation this SHALL be 'EAA' (self-issued by the authorising company). NOT selectively disclosable."
+    },
+
+    "schema_version": {
+      "type": "string",
+      "description": "Version of the Authorized Service Provider attestation schema used. Optional metadata.",
+      "examples": ["1.0"]
+    },
+
+    "trust_anchor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor used for verifying the attestation can be found or looked up. Optional metadata; for this EAA, trust is anchored in the issuer's EBWOID per Chapter 5 of the Rulebook."
+    },
+
+    "cryptographically_bound_to": {
+      "type": "string",
+      "const": "uri:eu.ebw.oid.1",
+      "description": "vct of the attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Service Provider's EBWOID). RECOMMENDED per ARB_28. NOT selectively disclosable."
+    },
+
+    "authorizing_company": {
+      "type": "object",
+      "description": "The authorising company (Peppol corner C1 or C4) issuing the mandate. Mandatory. MAY be selectively disclosable.",
+      "additionalProperties": false,
+      "required": ["legal_name", "legal_id", "peppol_id"],
+      "properties": {
+        "legal_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Registered legal name of the authorising company."
+        },
+        "legal_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique legal-person identifier (EUID) of the company, sourced from its EBWOID."
+        },
+        "peppol_id": {
+          "type": "string",
+          "pattern": "^[0-9]{4}:.+$",
+          "description": "Peppol participant identifier of the company (scheme:value)."
+        }
+      }
+    },
+
+    "authorized_service_provider": {
+      "type": "object",
+      "description": "The Service Provider / Access Point (Peppol corner C2 or C3) being mandated — the holder/subject. Mandatory. MAY be selectively disclosable.",
+      "additionalProperties": false,
+      "required": ["legal_name", "legal_id", "peppol_ap_id"],
+      "properties": {
+        "legal_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Registered legal name of the Service Provider."
+        },
+        "legal_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique legal-person identifier (EUID) of the Service Provider."
+        },
+        "peppol_ap_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the Service Provider's Peppol Access Point (CN of the AP certificate, e.g. 'POP000123')."
+        }
+      }
+    },
+
+    "authorization_scope": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["peppol:send", "peppol:receive", "vida:tax_report"]
+      },
+      "description": "One or more authorised operations per the code list in Section 2.8 of the Rulebook. SHALL contain at least one value. Mandatory. MAY be selectively disclosable."
+    },
+
+    "authorization_valid_from": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Date from which the authorization is valid (RFC 3339 full-date). SHALL NOT be later than authorization_valid_until when present. Mandatory. MAY be selectively disclosable."
+    },
+
+    "authorization_valid_until": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Date until which the authorization is valid (business validity, distinct from the technical exp claim). Optional. MAY be selectively disclosable."
+    },
+
+    "tax_reporting_member_state": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 code of the Member State for which the provider is authorised to perform tax reporting. Conditional: SHALL be present if and only if authorization_scope contains 'vida:tax_report' (integrity rule IR-ASP-02). MAY be selectively disclosable."
+    },
+
+    "authorization_reference": {
+      "type": "string",
+      "description": "Company-internal reference for the service agreement underlying the mandate. Optional. MUST be selectively disclosable (SD claim)."
+    },
+
+    "status": {
+      "type": "object",
+      "description": "Status object per SD-JWT VC status-list mechanism. MUST be present when validity period is greater than 24 hours.",
+      "additionalProperties": false,
+      "required": ["type", "status_list_credential", "status_list_index", "status_purpose"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": ["status-list"]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating revocation status."
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential."
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For the Authorized Service Provider attestation this SHALL be 'revocation'.",
+          "examples": ["revocation"]
+        }
+      }
+    },
+
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims per SD-JWT VC. Holder binding via JWK to the Service Provider's wallet is recommended.",
+      "additionalProperties": false,
+      "required": ["jwk"],
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": { "type": "string" },
+            "crv": { "type": "string" },
+            "x": { "type": "string" },
+            "y": { "type": "string" },
+            "n": { "type": "string" },
+            "e": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "authorization_scope": {
+            "contains": { "const": "vida:tax_report" }
+          }
+        },
+        "required": ["authorization_scope"]
+      },
+      "then": {
+        "required": ["tax_reporting_member_state"]
+      },
+      "else": {
+        "not": { "required": ["tax_reporting_member_state"] }
+      }
+    }
+  ],
+
+  "additionalProperties": false
+}
