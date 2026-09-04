@@ -171,21 +171,14 @@
                   ]
                 }
               }
-            },
-            "oneOf": [
-              {
-                "required": [
-                  "legal_person"
-                ]
-              },
-              {
-                "required": [
-                  "natural_person"
-                ]
-              }
-            ],
-            "additionalProperties": false
-          }
+            }
+          },
+          "oneOf": [
+            {"required": ["legal_person"]},
+            {"required": ["natural_person"]}
+          ],
+          "additionalProperties": false
+
         },
         "registered_eu_cross_border_transactions": {
           "type": "boolean",
