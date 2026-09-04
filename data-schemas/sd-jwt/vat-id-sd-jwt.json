@@ -321,7 +321,7 @@
                       "type": "string",
                       "description": "Language code of the description.",
                       "examples": [
-                        "en"
+                        "en-GB"
                       ]
                     },
                     "value": {

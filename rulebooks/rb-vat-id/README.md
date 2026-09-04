@@ -303,7 +303,7 @@ No mandatory attributes
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | economic_activity.nomenclature | [activity](https://w3id.org/ebwv#activity) | The nomenclature that is used to describe the administrative unit. NACE should be used as default. However some countries have more elaborate nomenclature. | string | nace |
 | economic_activity.id | [activity](https://w3id.org/ebwv#activity) | The ID that under which the Administrative unit is registered. | string | C26.5.2 |
-| economic_activity.description | [activity](https://w3id.org/ebwv#activity) | The human readable text that describes the economic ativity in a specific language. The language is described in BCP 47 standard  | array | en-EN: Manufacture of bearings, gears, gearing and driving elements  |
+| economic_activity.description | [activity](https://w3id.org/ebwv#activity) | The human readable text that describes the economic ativity in a specific language. The language is described in BCP 47 standard  | array | en-GB: Manufacture of bearings, gears, gearing and driving elements  |
 
 #### 2.7.2 Optional attributes
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
@@ -318,8 +318,8 @@ No mandatory attributes
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
 | issuer.authentic_source_country | issuingCountry | Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | date | 05 |
 | issuer.vat_id_authenticsource | authenticSource | Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation| string |  |
-| issuer.country | issuingCountry | Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | string |  |
-| issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | string |  |
+| issuer.country | issuingCountry | Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | string | NL |
+| issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | string | en-GB |
 | issuer.attestation_issuing_date | iat | The date the attestation was issued | Integer (Unix timestamp) | |
 | issuer.attestation_expiry_date | exp | The date the attestation was issued | Integer (Unix timestamp) | |
 
@@ -338,7 +338,7 @@ No mandatory attributes
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| display.title | title | VAT-ID of the card as shown in the wallet with the label in a specific language using  BCP 47 | String | en-EN: VAT-ID: DE123456789 |
+| display.title | title | VAT-ID of the card as shown in the wallet with the label in a specific language using  BCP 47 | String | en-GB: VAT-ID: DE123456789 |
 | display.organisation_name| [legalName](https://w3id.org/ebwv#legalname) | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name| string |  |
 | display.issuing_authority | issuingAuthority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | string | nl-NL: Belastingdienst |
 
@@ -355,7 +355,7 @@ No mandatory attributes
   "display": [
     {
       "name": "title",
-      "locale": "en-EN",
+      "locale": "en-GB",
       "label": "VAT-ID: "
     },
     {
