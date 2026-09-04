@@ -387,9 +387,12 @@
     }
   },
    "required": [
-    "vct",
-    "administrative_unit",
-    "issuer"
+     "vct",
+     "administrative_unit",
+     "attestation_legal_category",
+     "iss",
+     "iat",
+     "issuer"
   ]
 
 }

@@ -1,0 +1,62 @@
+{
+  "iss": "https://djustconnect.be",
+  "iat": 1782205200,
+  "nbf": 1782205200,
+  "exp": 1813741200,
+  "jti": "urn:uuid:8d6f0e3c-1c2a-4e2b-9f1a-1234567890ab",
+  "vct": "eu.we-build.ds-membership.1",
+  "attestation_legal_category": "EAA",
+  "id": "did:web:example.com:participant:123",
+  "member": {
+    "legalName": "Farm Example BV",
+    "legalIdentifier": {
+      "scheme": "Euid",
+      "value": "BEEUID0123456789"
+    }
+  },
+  "memberOf": "https://agri-x.eu",
+  "holderIdentifier": "BE0123456789",
+  "role": [
+    "https://w3id.org/ebwv#DataRightsHolder",
+    "https://w3id.org/ebwv#DataProvider"
+  ],
+  "termsOfUse": {
+    "url": "https://agri-x.eu/rulebook",
+    "version": "1.2",
+    "hash": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    "acceptedAt": "2026-06-20T14:30:00Z"
+  },
+  "onboardedBy": {
+    "platformId": "did:web:djustconnect.be",
+    "name": "DjustConnect",
+    "operator": {
+      "legalName": "Instituut voor Landbouw-, Visserij- en Voedingsonderzoek (ILVO)",
+      "identifier": {
+        "scheme": "VatId",
+        "value": "BE0848278827"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "identifier": {
+        "scheme": "VatId",
+        "value": "BE0123456789"
+      }
+    }
+  ],
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://djustconnect.be/status/membership/1",
+    "status_list_index": 42,
+    "status_purpose": "revocation"
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}
