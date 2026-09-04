@@ -122,7 +122,12 @@
                     "KLM Royal Dutch Airlines N.V."
                   ]
                 }
-              }
+              },
+              "required": [
+                "legal_identifier",
+                "legal_name"
+              ],
+
             },
             "natural_person": {
               "type": "object",
@@ -170,7 +175,12 @@
                     "999999999"
                   ]
                 }
-              }
+              },
+              "required": [
+                "family_name",
+                "given_name",
+                "birth_date"
+              ],
             }
           },
           "oneOf": [
