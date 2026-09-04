@@ -1,183 +1,433 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.org/schemas/eudi/vat-id-attestation.json",
-
   "title": "EUDI VAT ID Attestation",
   "type": "object",
-
   "properties": {
     "vct": {
       "type": "string",
-      "const": "uri:eu.eudi.vat.1"
-    },
-
-    "vat_id": {
-      "type": "string"
-    },
-
-    "administrative_unit_name": {
-      "type": "string"
+      "const": "uri:eu.eudi.vat.1",
+      "description": "Credential type identifier for an EUDI VAT ID Attestation.",
+      "examples": [
+        "uri:eu.eudi.vat.1"
+      ]
     },
     "attestation_legal_category": {
       "type": "string",
-      "enum": ["QEAA", "PUB-EAA"]
+      "enum": [
+        "QEAA",
+        "PuB-EAA"
+      ],
+      "description": "Legal category of the attestation issuer.",
+      "examples": [
+        "PuB-EAA"
+      ]
     },
-
-    "validity_period": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "properties": {
-          "start_date": {
-            "type": "string",
-            "format": "date"
-          },
-          "end_date": {
-            "type": "string",
-            "format": "date"
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Authority issuing the attestation.",
+      "examples": [
+        "www.belastingdienst.nl"
+      ]
+    },
+    "iat": {
+      "type": "integer",
+      "description": "Unix timestamp indicating when the attestation was issued.",
+      "examples": [
+        1704067200
+      ]
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Unix timestamp indicating when the attestation expires.",
+      "examples": [
+        1830902400
+      ]
+    },
+    "administrative_unit": {
+      "type": "object",
+      "description": "Administrative unit that uses the VAT-ID",
+      "properties": {
+        "vat_id": {
+          "type": "string",
+          "description": "VAT identification number assigned to the economic operator.",
+          "examples": [
+            "NL001234567B01"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "Official name associated with the VAT registration.",
+          "examples": [
+            "KLM Royal Dutch Airlines"
+          ]
+        },
+        "validity_period": {
+          "type": "array",
+          "description": "Period during which the VAT registration is valid.",
+          "examples": [
+            [
+              {
+                "start_date": "2020-01-15",
+                "end_date": "2027-12-31"
+              }
+            ]
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "start_date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date from which the VAT registration is valid.",
+                "examples": [
+                  "2020-01-15"
+                ]
+              },
+              "end_date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date until which the VAT registration remains valid.",
+                "examples": [
+                  "2027-12-31"
+                ]
+              }
+            },
+            "required": [
+              "start_date"
+            ],
+            "additionalProperties": false
           }
         },
-        "required": ["start_date"],
-        "additionalProperties": false
-      }
-    },
-
-    "economic_operator": {
-      "type": "object",
-      "properties": {
-        "legal_identifier": { "type": "string" },
-        "legal_name": { "type": "string" },
-        "family_name": { "type": "string" },
-        "given_name": { "type": "string" },
-        "birth_date": {
-          "type": "string",
-          "format": "date"
-        },
-        "birth_place": { "type": "string" },
-        "tin": { "type": "string" },
-        "personal_administrative_number": { "type": "string" }
-      },
-
-      "oneOf": [
-        {
-          "required": ["legal_identifier", "legal_name"]
-        },
-        {
-          "required": ["family_name", "given_name"]
-        }
-      ],
-
-      "additionalProperties": false
-      },
-
-    "registered_eu_cross_border_transactions": {
-      "type": "boolean"
-    },
-
-    "administrative_unit_type": {
-      "type": "string"
-    },
-
-    "administrative_unit_address": {
-      "type": "object",
-      "properties": {
-        "po_box": { "type": "string" },
-        "thoroughfare": { "type": "string" },
-        "location_designator": { "type": "string" },
-        "post_code": { "type": "string" },
-        "post_name": { "type": "string" },
-        "admin_unit_l1": { "type": "string" },
-        "admin_unit_l2": { "type": "string" }
-      },
-      "additionalProperties": false
-    },
-
-    "economic_activity_type": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "nomenclature": {
-            "type": "string",
-            "enum": [
-              "NACE","NACE-BEL","CZ-NACE","DB07","WZ","KAD","CNAE",
-              "NAF","NKD","ATECO","TEAOR","SBI","ONACE","PKD",
-              "CAE","CAEN","SKD","OKEC","TOL","SNI","UK SIC","NOGA"
-            ]
-          },
-          "id": {
-            "type": "string"
-          },
-          "description": {
-            "type": "array",
-            "items": {
+        "economic_operator": {
+          "type": "object",
+          "description": "Legal entity or natural person holding the VAT registration.",
+          "properties": {
+            "legal_person": {
+              "type": "object",
+              "description": "reference to the legal_person holding the vat-id",
+              "properties": {
+                "legal_identifier": {
+                  "type": "string",
+                  "description": "Official legal identifier of the organization.",
+                  "examples": [
+                    "NL801234567B01"
+                  ]
+                },
+                "legal_name": {
+                  "type": "string",
+                  "description": "Registered legal name of the organization.",
+                  "examples": [
+                    "KLM Royal Dutch Airlines N.V."
+                  ]
+                }
+              },
+              "required": [
+                "legal_identifier",
+                "legal_name"
+              ],
+              "additionalProperties": false
+            },
+            "natural_person": {
               "type": "object",
               "properties": {
-                "language": { "type": "string" },
-                "value": { "type": "string" }
+                "family_name": {
+                  "type": "string",
+                  "description": "Family name of the natural person.",
+                  "examples": [
+                    "Jansen"
+                  ]
+                },
+                "given_name": {
+                  "type": "string",
+                  "description": "Given name of the natural person.",
+                  "examples": [
+                    "Pieter"
+                  ]
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth of the natural person.",
+                  "examples": [
+                    "1980-05-10"
+                  ]
+                },
+                "birth_place": {
+                  "type": "string",
+                  "description": "Place of birth of the natural person.",
+                  "examples": [
+                    "Amsterdam"
+                  ]
+                },
+                "tin": {
+                  "type": "string",
+                  "description": "Tax Identification Number of the economic operator.",
+                  "examples": [
+                    "123456789"
+                  ]
+                },
+                "personal_administrative_number": {
+                  "type": "string",
+                  "description": "National administrative identification number.",
+                  "examples": [
+                    "999999999"
+                  ]
+                }
               },
-              "required": ["language", "value"],
+              "required": [
+                "family_name",
+                "given_name",
+                "birth_date"
+              ],
               "additionalProperties": false
+            }
+          },
+          "oneOf": [
+            {"required": ["legal_person"]},
+            {"required": ["natural_person"]}
+          ],
+          "additionalProperties": false
+
+        },
+        "registered_eu_cross_border_transactions": {
+          "type": "boolean",
+          "description": "Indicates whether the operator is registered for EU cross-border transactions.",
+          "examples": [
+            true
+          ]
+        },
+        "organisation_type": {
+          "type": "string",
+          "description": "Legal form of the organization.",
+          "examples": [
+            "N.V."
+          ]
+        },
+        "address": {
+          "type": "object",
+          "description": "Registered address of the economic operator.",
+          "properties": {
+            "po_box": {
+              "type": "string",
+              "description": "Post office box number.",
+              "examples": [
+                "PO Box 100"
+              ]
+            },
+            "thoroughfare": {
+              "type": "string",
+              "description": "Street name.",
+              "examples": [
+                "Amsterdamse Ring"
+              ]
+            },
+            "location_designator": {
+              "type": "string",
+              "description": "Street number, building, or unit identifier.",
+              "examples": [
+                "2A"
+              ]
+            },
+            "post_code": {
+              "type": "string",
+              "description": "Postal code.",
+              "examples": [
+                "1101 DA"
+              ]
+            },
+            "post_name": {
+              "type": "string",
+              "description": "City or locality name.",
+              "examples": [
+                "Amsterdam"
+              ]
+            },
+            "admin_unit_l1": {
+              "type": "string",
+              "description": "First-level administrative region.",
+              "examples": [
+                "North Holland"
+              ]
+            },
+            "admin_unit_l2": {
+              "type": "string",
+              "description": "Second-level administrative region.",
+              "examples": [
+                "Amsterdam"
+              ]
             }
           }
         },
-        "required": ["nomenclature", "id", "description"],
-        "additionalProperties": false
-      }
+        "economic_activity": {
+          "type": "array",
+          "description": "Economic activity classifications associated with the operator.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "nomenclature": {
+                "type": "string",
+                "description": "Classification system used for economic activity.",
+                "enum": [
+                  "NACE",
+                  "NACE-BEL",
+                  "CZ-NACE",
+                  "DB07",
+                  "WZ",
+                  "KAD",
+                  "CNAE",
+                  "NAF",
+                  "NKD",
+                  "ATECO",
+                  "TEAOR",
+                  "SBI",
+                  "ONACE",
+                  "PKD",
+                  "CAE",
+                  "CAEN",
+                  "SKD",
+                  "OKEC",
+                  "TOL",
+                  "SNI",
+                  "UK SIC",
+                  "NOGA"
+                ],
+                "examples": [
+                  "NACE"
+                ]
+              },
+              "nomenclature_version": {
+                "type": "string",
+                "description": "Version of the Classification system used for economic activity.",
+                "examples": [
+                  "Rev 2.1"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Code identifying the economic activity.",
+                "examples": [
+                  "51.10"
+                ]
+              },
+              "description": {
+                "type": "array",
+                "description": "Localised descriptions of the economic activity.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "language": {
+                      "type": "string",
+                      "description": "Language code of the description.",
+                      "examples": [
+                        "en"
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "Localised description of the economic activity.",
+                      "examples": [
+                        "Passenger air transport"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "language",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "nomenclature",
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "vat_id",
+        "validity_period",
+        "economic_operator",
+        "registered_eu_cross_border_transactions"
+      ]
     },
-
     "issuer": {
       "type": "object",
+      "description": "Information about the authority that issues the attestation.",
       "properties": {
         "authentic_source_country": {
           "type": "string",
-          "pattern": "^[A-Z]{2}$"
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 country code of the authentic source.",
+          "examples": [
+            "NL"
+          ]
         },
         "vat_id_authentic_source": {
-          "type": "string"
-        },
-        "issuing_authority": {
-          "type": "string"
-        },
-        "attestation_issuing_date": {
-          "type": "number"
-        },
-        "attestation_expiry_date": {
-          "type": "number"
+          "type": "string",
+          "description": "Authoritative source maintaining VAT registration information.",
+          "examples": [
+            "Ministerie van Financiën - Belastingdienst"
+          ]
         },
         "location_status": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "description": "URI where the VAT registration status can be verified.",
+          "examples": [
+            "https://www.belastingdienst.nl/vat-status/NL001234567B01"
+          ]
         }
       },
       "required": [
         "authentic_source_country",
-        "vat_id_authentic_source",
-        "issuing_authority",
-        "attestation_issuing_date"
+        "vat_id_authentic_source"
       ],
       "additionalProperties": false
     },
-
     "status": {
       "type": "object",
+      "description": "Credential status information used for revocation checks.",
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["status-list"]
+          "enum": [
+            "status-list"
+          ],
+          "description": "Status mechanism used by the credential.",
+          "examples": [
+            "status-list"
+          ]
         },
         "status_list_credential": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "description": "URI of the status list credential.",
+          "examples": [
+            "https://www.belastingdienst.nl/status-list/vat-id/2024"
+          ]
         },
         "status_list_index": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "description": "Entry index of the credential in the status list.",
+          "examples": [
+            12547
+          ]
         },
         "status_purpose": {
           "type": "string",
-          "enum": ["revocation"]
+          "enum": [
+            "revocation"
+          ],
+          "description": "Purpose of the status information.",
+          "examples": [
+            "revocation"
+          ]
         }
       },
       "required": [
@@ -188,37 +438,51 @@
       ],
       "additionalProperties": false
     },
-
     "trust_anchor": {
       "type": "string",
-      "format": "uri"
+      "format": "uri",
+      "description": "Trust anchor URI used to validate the attestation chain.",
+      "examples": [
+        "https://www.belastingdienst.nl/trust-anchor/vat-id-2024"
+      ]
     },
-
     "display": {
       "type": "array",
+      "description": "Localised display metadata for wallet presentation.",
       "items": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "locale": { "type": "string" },
-          "label": { "type": "string" }
-        },
-        "required": ["name", "locale", "label"],
-        "additionalProperties": false
+          "name": {
+            "type": "string",
+            "description": "Display name of the credential.",
+            "examples": [
+              "VAT ID Attestation"
+            ]
+          },
+          "locale": {
+            "type": "string",
+            "description": "Locale identifier for the display entry.",
+            "examples": [
+              "en-GB"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "description": "Localised label shown to the wallet user.",
+            "examples": [
+              "VAT Identification Number"
+            ]
+          }
+        }
       }
     }
   },
-
   "required": [
     "vct",
-    "vat_id",
-    "administrative_unit_name",
-    "validity_period",
-    "economic_operator",
-    "issuer",
-    "registered_eu_cross_border_transactions",
-    "attestation_legal_category"
-  ],
-
-  "additionalProperties": true
+    "administrative_unit",
+    "attestation_legal_category",
+    "iss",
+    "iat",
+    "issuer"
+  ]
 }
