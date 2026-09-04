@@ -349,7 +349,7 @@ register its IRI in this code list before issuing.
 | **Field name** | **Value** | **Meaning** | **Source / vocabulary** | 
 |----------------|--------------------|-------------|--------------------------|
 | `memberOf` | `https://agri-x.eu` | The common agriculture dataspace (federation level). | WE BUILD SC2 use case | 
-| `memberOf` | `https://dih-agrifood.com/` | DSI operated by ITC. | WE BUILD SC2 use case | 
+| `memberOf` | `https://dataspace.dih-agrifood.com/` | DSI operated by ITC. | WE BUILD SC2 use case | 
 | `memberOf` | `https://djustconnect.be` | DSI operated by ILVO. | WE BUILD SC2 use case | 
 | `memberOf` | `https://www.dataspace.fi/` | DSI operated by DataSpace Europe Oy. | WE BUILD SC2 use case | 
 
