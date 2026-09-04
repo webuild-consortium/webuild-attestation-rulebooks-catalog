@@ -159,51 +159,51 @@ This document defines the attribute "VAT-ID" which SHALL either be issued as QEA
 
 ````
 vat_id_attestation
-├─ administrative_unit                         [1]
-│   ├─ vat_id                                  [1]       (VAT-ID of the administrative unit)
-│   ├─ name                                    [1]       (name of the administrative unit)
-│   ├─ organisation_type                       [0]       (type of organisation in free text)
-│   ├─ validity_period                         [1..n]    (period(s) for which the vat-id is valid)
-│   │   ├─ start_date                          [1]       (start date of the validity period of the vat-id)
-│   │   └─ end_date                            [0]       (end date of the validity period of the vat-id)
-│   ├─ registered_eu_cross_border_transactions [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
-│   ├─ economic_operator                       [1]       (Reference to the Economic Operator that owns the VAT ID)
-│   │   ├─ legal_person                        [0]       
-│   │   │   ├─ legal_identifier                [1]       
-│   │   │   ├─ legal_name                      [1]       
-│   │   ├─ natural_person                      [0]       
-│   │   │   ├─ family_name                     [1]       
-│   │   │   ├─ given_name                      [1]       
-│   │   │   ├─ birth_date                      [1]       
-│   │   │   ├─ birth_place                     [0]       
-│   │   │   ├─ tin                             [0]       
-│   │   │   └─ personal_administrative_number  [0]       
-│   ├─ address                                 [0]       (the postal address registered for the administrative unit)
-│   │   ├─ po_box                              [0]  
-│   │   ├─ thoroughfare                        [0]  
-│   │   ├─ location_designator                 [0]  
-│   │   ├─ post_code                           [0]  
-│   │   ├─ post_name                           [0]  
-│   │   ├─ admin_unit_l1                       [0]  
-│   │   └─ admin_unit_l2                       [0]  
-│   └─ economic_activity                       [0..n]    (reference to the economic operator)
-│       ├─ economic_activity_nomenclature      [1]       (nomenclature used to describe the economic activity)
-│       ├─ economic_activity_nomenclature_version[0]     (version of the nomenclature)
-│       ├─ economic_activity_id                [1]       (id used in the nomenclature)
-│       └─ economic_activity_description.      [1..n]    (object using language:, value)
-├─ issuer                                      [1]   
-│   ├─ issuing_country                         [1]
-│   ├─ issuing_authority                       [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
-│   ├─ attestation_issuing_date                [1]        (date on which the attestation is issued)
-│   └─ attestation_issuing_organisation        [1]
-└─ display                                     [1]       Items to be displayd on the card in the wallet
-    ├─ title                                   [1]       Name of the card displayed in wallet (VAT-ID)
-    ├─ organisation_name                       [1]       legal_name of the organisation that owns the VAT-ID
-    ├─ subtitle                                [0]       
-    ├─ issuer_logo                             [0]       
-    ├─ issuer_name                              [1]       issuing_organisation
-    ├─ background_color                        [0]       
-    └─ text_color                              [0]       
+├─ administrative_unit                            [1]
+│   ├─ vat_id                                     [1]       (VAT-ID of the administrative unit)
+│   ├─ name                                       [1]       (name of the administrative unit)
+│   ├─ organisation_type                          [0]       (type of organisation in free text)
+│   ├─ validity_period                            [1..n]    (period(s) for which the vat-id is valid)
+│   │   ├─ start_date                             [1]       (start date of the validity period of the vat-id)
+│   │   └─ end_date                               [0]       (end date of the validity period of the vat-id)
+│   ├─ registered_eu_cross_border_transactions    [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
+│   ├─ economic_operator                          [1]       (Reference to the Economic Operator that owns the VAT ID)
+│   │   ├─ legal_person                           [0]       
+│   │   │   ├─ legal_identifier                   [1]       
+│   │   │   ├─ legal_name                         [1]       
+│   │   ├─ natural_person                         [0]       
+│   │   │   ├─ family_name                        [1]       
+│   │   │   ├─ given_name                         [1]       
+│   │   │   ├─ birth_date                         [1]       
+│   │   │   ├─ birth_place                        [0]       
+│   │   │   ├─ tin                                [0]       
+│   │   │   └─ personal_administrative_number     [0]       
+│   ├─ address                                    [0]       (the postal address registered for the administrative unit)
+│   │   ├─ po_box                                 [0]  
+│   │   ├─ thoroughfare                           [0]  
+│   │   ├─ location_designator                    [0]  
+│   │   ├─ post_code                              [0]  
+│   │   ├─ post_name                              [0]  
+│   │   ├─ admin_unit_l1                          [0]  
+│   │   └─ admin_unit_l2                          [0]  
+│   └─ economic_activity                          [0..n]    (reference to the economic operator)
+│       ├─ economic_activity_nomenclature         [1]       (nomenclature used to describe the economic activity)
+│       ├─ economic_activity_nomenclature_version [0]     (version of the nomenclature)
+│       ├─ economic_activity_id                   [1]       (id used in the nomenclature)
+│       └─ economic_activity_description.         [1..n]    (object using language:, value)
+├─ issuer                                         [1]   
+│   ├─ issuing_country                            [1]
+│   ├─ issuing_authority                          [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
+│   ├─ attestation_issuing_date                   [1]        (date on which the attestation is issued)
+│   └─ attestation_issuing_organisation           [1]
+└─ display                                        [1]       Items to be displayd on the card in the wallet
+    ├─ title                                      [1]       Name of the card displayed in wallet (VAT-ID)
+    ├─ organisation_name                          [1]       legal_name of the organisation that owns the VAT-ID
+    ├─ subtitle                                   [0]       
+    ├─ issuer_logo                                [0]       
+    ├─ issuer_name                                [1]       issuing_organisation
+    ├─ background_color                           [0]       
+    └─ text_color                                 [0]       
 ````
 
 ### 2.2 VAT-ID Attestation 
