@@ -158,21 +158,21 @@ on the nature of the mechanism used for distributing trust anchors, detailed in 
 
 The following table combines all attestation attributes for the EUCC (mandatory, optional, and conditional) in a single overview. Attribute identifiers SHALL be used in requests and responses.
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| attestation_legal_category | One of EAA, Pub-EAA or QEAA | M | string |
-| legal_person_name | Official current legal person name as registered in the business register. | M | string |
-| legal_person_id | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | Legal form of the company. | M | string |
-| registration_member_state | The member state where the company is registered (Alpha-2 country code). | M | string |
-| registered_address | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
-| registration_date | Date of company registration. | M | string (date) |
-| legal_person_status | Status of the company as defined in national law. | M | string |
-| legal_person_activity | Main activity of the company (NACE). | M | string |
-| legal_representative | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
-| share_capital | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
-| legal_person_duration | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
-| digital_contact_point | Correspondence address of the company, such as electronic mail and/or website | O | object |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+|---|---|---|---|---|
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | M | string |
+| legal_person_name | [legalName](https://w3id.org/ebwv#legalName) | Official current legal person name as registered in the business register. | M | string |
+| legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
+| legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
+| registration_member_state | The registration member state information can be retrieved from the EUID. | The member state where the company is registered (Alpha-2 country code). | M | string |
+| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
+| registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
+| legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | M | string |
+| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). | M | string |
+| legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
+| share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
+| legal_person_duration | [endDate](https://w3id.org/ebwv#endDate) | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
+| digital_contact_point | [contactPoint](https://w3id.org/ebwv#contactPoint) | Correspondence address of the company, such as electronic mail and/or website | O | object |
 
 ### 2.2 Code lists
 
@@ -219,58 +219,58 @@ Values:
 
 If a Natural Person is representative of a legal person, the following attributes SHALL be included:
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| full_name | Full name of the natural person representing the company. | M | string |
-| date_of_birth | Date of birth of the natural person representing the company. | M | string (date) |
-| identifier | Natural person representative identifier | O | string |
-| nationality | OPTIONAL: Nationality of the natural person representing the company. | O | string |
-| signatory_rule | Information on whether the representative can engage the company alone or jointly. | M | string |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+|---|---|---|---|---|
+| full_name | [Person](https://w3id.org/ebwv#Person).[fullName](https://w3id.org/ebwv#fullName) | Full name of the natural person representing the company. | M | string |
+| date_of_birth | [Person](https://w3id.org/ebwv#Person).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person representing the company. | M | string (date) |
+| identifier | [legalRepresentativeId](https://w3id.org/ebwv#legalRepresentativeId) | Natural person representative or national identifier | O | string |
+| nationality | [Person](https://w3id.org/ebwv#Person).[citizenship](https://w3id.org/ebwv#citizenship) | OPTIONAL: Nationality of the natural person representing the company. | O | string |
+| signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
 
 
 
 If a Legal Person is representative of a legal person, the following attributes SHALL be included:
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| name | Details about the legal person representing the company. | M | string |
-| id | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | Legal form of the legal person representing the company. | M | string |
-| signatory_rule | Information on whether the representative can engage the company alone or jointly. | M | string |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+|---|---|---|---|---|
+| name | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalName](https://w3id.org/ebwv#legalName) | Details about the legal person representing the company. | M | string |
+| id | [legalRepresentativeId](https://w3id.org/ebwv#legalRepresentativeId) | Unique ID for the legal person in the EUID structure. | M | string |
+| legal_form_type | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the legal person representing the company. | M | string |
+| signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
 
 A combination of natural and legal persons can be legal representatives of a legal person.
 
 ### 2.5 Address
 There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.
 
-| **Data Identifier** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|
-| full_address | Complete address of the company, written as a string, separated by semicolons. | M | string |
-| care_of | Used when the address is at the address of another person or legal person. | O | string |
-| thorough_fare | The name of a passage or way through from one location to another. | O | string |
-| locator_designator | A number or sequence that uniquely identifies the locator. | O | string |
-| post_code | The code created and maintained for postal purposes. | O | string |
-| post_name | A name identifying a subdivision of addresses (e.g., city). | O | string |
-| post_office_box | A location designator for a postal delivery point at a post office. | O | string |
-| locator_name | Proper noun(s) applied to the real-world entity. | O | string |
-| admin_unit_level_1 | The uppermost administrative unit (typically country). | O | string |
-| admin_unit_level_2 | Secondary level/region (typically county or state). | O | string |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+|---|---|---|---|---|
+| full_address | [fullAddress](https://w3id.org/ebwv#fullAddress) | Complete address of the company, written as a string, separated by semicolons. | M | string |
+| care_of | |  Used when the address is at the address of another person or legal person. | O | string |
+| thorough_fare | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | The name of a passage or way through from one location to another. | O | string |
+| locator_designator | [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | A number or sequence that uniquely identifies the locator. | O | string |
+| post_code | [postCode](https://w3id.org/ebwv#postCode) | The code created and maintained for postal purposes. | O | string |
+| post_name | [postName](https://w3id.org/ebwv#postName) | A name identifying a subdivision of addresses (e.g., city). | O | string |
+| post_office_box | [poBox](https://w3id.org/ebwv#poBox) | A location designator for a postal delivery point at a post office. | O | string |
+| locator_name | [locatorName](https://w3id.org/ebwv#locatorName) | Proper noun(s) applied to the real-world entity. | O | string |
+| admin_unit_level_1 | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | The uppermost administrative unit (typically country). | O | string |
+| admin_unit_level_2 | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2)| Secondary level/region (typically county or state). | O | string |
 
 
 ### 2.6 Mandatory metadata 
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                           |
-|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| expiry_date          | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
-| issuing_authority    | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.             |
-| issuing_country      | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                         |
+| **Data Identifier** | **Semantic Reference**  | **Definition**                                                                                                                                                                                           |
+|-------------------|---|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| expiry_date       | [cred:validUntil](https://w3.org/2018/credentials#validUntil)   | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
+| issuing_authority | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName)  | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.             |
+| issuing_country   | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction)  |  Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                         |
 
 ### 2.7 Conditional metadata 
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| location_status      | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours.                                                                                                                                                                                                                                                            |
-| trust_anchor         | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs.   |
+| **Data Identifier** | **Semantic Reference**   | **Definition** |
+|-------------------|---|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| location_status   | [cred:credentialStatus](https://w3.org/2018/credentials#credentialStatus)  | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours.  |
+| trust_anchor      | [cred:termsOfUse](https://w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs.  |
 
 
 
