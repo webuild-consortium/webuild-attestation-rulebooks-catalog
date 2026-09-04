@@ -32,8 +32,10 @@
     ],
 
     "economic_operator": {
-      "legal_identifier": "NL801234567B01",
-      "legal_name": "KLM Royal Dutch Airlines N.V."
+      "legal_person":{
+        "legal_identifier": "NL801234567B01",
+        "legal_name": "KLM Royal Dutch Airlines N.V."
+      }
     },
 
     "address": {
