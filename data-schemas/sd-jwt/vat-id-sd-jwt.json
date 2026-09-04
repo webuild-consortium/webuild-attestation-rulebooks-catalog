@@ -127,7 +127,7 @@
                 "legal_identifier",
                 "legal_name"
               ],
-
+              "additionalProperties": false
             },
             "natural_person": {
               "type": "object",
@@ -181,6 +181,7 @@
                 "given_name",
                 "birth_date"
               ],
+              "additionalProperties": false
             }
           },
           "oneOf": [
