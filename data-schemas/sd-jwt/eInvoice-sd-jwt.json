@@ -13,16 +13,16 @@
     "status",
     "cnf",
     "attestation_legal_category",
-    "invoicePayloadHash",
-    "invoiceNumber",
-    "issueDate",
-    "sellerLegalRegistrationIdentifier",
-    "sellerRegistrationName",
-    "sellerVatIdentifier",
-    "sellerCountry",
-    "amountDueForPayment",
-    "invoiceTotalVatAmount",
-    "InvoiceCurrencyCode"
+    "invoice_payload_hash",
+    "invoice_number",
+    "issue_date",
+    "seller_legal_registration_identifier",
+    "seller_registration_name",
+    "seller_vat_identifier",
+    "seller_country",
+    "amount_due_for_payment",
+    "invoice_total_vat_amount",
+    "invoice_currency_code"
   ],
   "properties": {
     "vct": {
@@ -97,12 +97,12 @@
       "const": "non-qualified-EAA",
       "description": "Legal category of the attestation. For this rulebook profile the exact value SHALL be `non-qualified-EAA`. Section 2.1."
     },
-    "invoicePayloadHash": {
+    "invoice_payload_hash": {
       "type": "string",
       "pattern": "^sha256:[0-9a-fA-F]{64}$",
       "description": "Hash of the canonicalized invoice payload; binds the attestation to the external EN 16931 / Peppol BIS invoice (IR-EI-03). Section 2.2. NOTE: canonicalization method and hash algorithm are OPEN pending WP4 confirmation; sha256 assumed here."
     },
-    "invoiceFormat": {
+    "invoice_format": {
       "type": "string",
       "description": "Identifier of the invoice representation/profile used for the payload. Code list, Section 2.8.",
       "examples": [
@@ -111,89 +111,89 @@
         "INSBOUW"
       ]
     },
-    "invoiceNumber": {
+    "invoice_number": {
       "type": "string",
       "minLength": 1,
       "description": "EN 16931 BT-1. Invoice identifier, unique for the Supplier within the duplicate-detection window (IR-EI-04). Section 2.2."
     },
-    "issueDate": {
+    "issue_date": {
       "type": "string",
       "format": "date",
       "description": "EN 16931 BT-2. Invoice issue date (RFC 3339 full-date). Section 2.2."
     },
-    "sellerLegalRegistrationIdentifier": {
+    "seller_legal_registration_identifier": {
       "type": "string",
       "minLength": 1,
       "description": "EN 16931 BT-30. Reference to the Supplier's Legal Person identity (EUCC/LPID). Section 2.2."
     },
-    "sellerRegistrationName": {
+    "seller_registration_name": {
       "type": "string",
       "minLength": 1,
       "description": "EN 16931 BT-27. Registered legal name of the Supplier. Section 2.2."
     },
-    "sellerVatIdentifier": {
+    "seller_vat_identifier": {
       "type": "string",
       "minLength": 1,
       "description": "EN 16931 BT-31. VAT/tax registration identifier of the Supplier. Section 2.2."
     },
-    "sellerCountry": {
+    "seller_country": {
       "type": "string",
       "pattern": "^[A-Z]{2}$",
       "description": "EN 16931 BT-40. ISO 3166-1 alpha-2 country code of the Supplier. Section 2.2."
     },
-    "buyerLegalRegistrationIdentifier": {
+    "buyer_legal_registration_identifier": {
       "type": "string",
       "minLength": 1,
       "description": "EN 16931 BT-47. Reference to the Buyer's Legal Person identity (EUCC/LPID). Section 2.3."
     },
-    "buyerVatIdentifier": {
+    "buyer_vat_identifier": {
       "type": "string",
       "minLength": 1,
       "description": "EN 16931 BT-48. VAT/tax registration identifier of the Buyer. Section 2.3."
     },
-    "buyerCountry": {
+    "buyer_country": {
       "type": "string",
       "pattern": "^[A-Z]{2}$",
       "description": "EN 16931 BT-55. ISO 3166-1 alpha-2 country code of the Buyer. Section 2.3."
     },
-    "BuyerElectronicAddress": {
+    "buyer_electronic_address": {
       "type": "string",
       "minLength": 1,
       "description": "EN 16931 BT-49. Address/endpoint identifier for delivery/receipt handling. Section 2.3."
     },
-    "amountDueForPayment": {
-      "$ref": "#/$defs/monetaryString",
+    "amount_due_for_payment": {
+      "$ref": "#/$defs/monetary_string",
       "description": "EN 16931 BT-115. Total payable amount. Section 2.2."
     },
-    "invoiceTotalVatAmount": {
-      "$ref": "#/$defs/monetaryString",
-      "description": "EN 16931 BT-110. Total VAT amount for this invoice; SHALL equal the sum of taxSubtotal.taxAmount when taxSubtotal is present (IR-EI-07). Section 2.2."
+    "invoice_total_vat_amount": {
+      "$ref": "#/$defs/monetary_string",
+      "description": "EN 16931 BT-110. Total VAT amount for this invoice; SHALL equal the sum of tax_subtotal.tax_amount when tax_subtotal is present (IR-EI-07). Section 2.2."
     },
-    "InvoiceCurrencyCode": {
+    "invoice_currency_code": {
       "type": "string",
       "pattern": "^[A-Z]{3}$",
       "description": "EN 16931 BT-5. ISO 4217 invoice currency code. Section 2.2."
     },
-    "taxSubtotal": {
+    "tax_subtotal": {
       "type": "array",
       "description": "EN 16931 BG-23. VAT breakdown, one entry per tax category/rate. Section 2.3/2.4.",
       "minItems": 1,
       "items": {
-        "$ref": "#/$defs/taxSubtotalItem"
+        "$ref": "#/$defs/tax_subtotal_item"
       }
     },
-    "paymentInstructions": {
-      "$ref": "#/$defs/paymentInstructions",
+    "payment_instructions": {
+      "$ref": "#/$defs/payment_instructions",
       "description": "EN 16931 BG-16. Payment-related information. Contains sensitive payment data; issuer MUST make selectively disclosable. Section 2.3/2.4/3.2."
     },
-    "evidenceReferences": {
+    "evidence_references": {
       "type": "array",
       "description": "References to supporting evidence items (e.g. purchase order, delivery note). Section 2.3/2.4.",
       "items": {
-        "$ref": "#/$defs/evidenceReferenceItem"
+        "$ref": "#/$defs/evidence_reference_item"
       }
     },
-    "invoiceLifecycleStatus": {
+    "invoice_lifecycle_status": {
       "type": "string",
       "enum": [
         "active",
@@ -203,34 +203,34 @@
       ],
       "description": "Business lifecycle status for corrections, cancellations and credit notes. If omitted, the lifecycle status SHALL be interpreted as `active`. Distinct from the registered `status` metadata claim used for Token Status List revocation. Sections 2.3, 2.8 and IR-EI-09."
     },
-    "precedingInvoiceReference": {
+    "preceding_invoice_reference": {
       "type": "string",
       "minLength": 1,
-      "description": "EN 16931 BT-25. Identifier of the original or preceding invoice. SHALL be present when invoiceLifecycleStatus is corrected, cancelled or credited; MAY be omitted when the lifecycle status is active or omitted. Section 2.4 and IR-EI-09."
+      "description": "EN 16931 BT-25. Identifier of the original or preceding invoice. SHALL be present when invoice_lifecycle_status is corrected, cancelled or credited; MAY be omitted when the lifecycle status is active or omitted. Section 2.4 and IR-EI-09."
     }
   },
   "$defs": {
-    "monetaryString": {
+    "monetary_string": {
       "type": "string",
       "pattern": "^-?[0-9]+(\\.[0-9]+)?$",
       "description": "Monetary amount carried as a string to preserve exact decimal representation."
     },
-    "percentString": {
+    "percent_string": {
       "type": "string",
       "pattern": "^[0-9]+(\\.[0-9]+)?$",
       "description": "Percentage carried as a string."
     },
-    "taxSubtotalItem": {
+    "tax_subtotal_item": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "taxCategoryCode",
-        "taxableAmount",
-        "taxPercent",
-        "taxAmount"
+        "tax_category_code",
+        "taxable_amount",
+        "tax_percent",
+        "tax_amount"
       ],
       "properties": {
-        "taxCategoryCode": {
+        "tax_category_code": {
           "type": "string",
           "enum": [
             "S",
@@ -243,33 +243,33 @@
           ],
           "description": "EN 16931 BT-118 / UNCL 5305 VAT category code (EN 16931-aligned subset). Section 2.8."
         },
-        "taxableAmount": {
-          "$ref": "#/$defs/monetaryString",
+        "taxable_amount": {
+          "$ref": "#/$defs/monetary_string",
           "description": "EN 16931 BT-116. Sum of net amounts for this VAT category/rate."
         },
-        "taxPercent": {
-          "$ref": "#/$defs/percentString",
+        "tax_percent": {
+          "$ref": "#/$defs/percent_string",
           "description": "EN 16931 BT-119. VAT percentage rate."
         },
-        "taxAmount": {
-          "$ref": "#/$defs/monetaryString",
+        "tax_amount": {
+          "$ref": "#/$defs/monetary_string",
           "description": "EN 16931 BT-117. Total VAT calculated for this subtotal."
         },
-        "taxExemptionReasonCode": {
+        "tax_exemption_reason_code": {
           "type": "string",
           "description": "EN 16931 BT-121. Standardized VAT exemption reason code (optional within group)."
         }
       }
     },
-    "paymentInstructions": {
+    "payment_instructions": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "paymentMeansCode",
-        "paymentAccountIdentifier"
+        "payment_means_code",
+        "payment_account_identifier"
       ],
       "properties": {
-        "paymentMeansCode": {
+        "payment_means_code": {
           "type": "string",
           "enum": [
             "30",
@@ -279,29 +279,29 @@
           ],
           "description": "EN 16931 BT-81 / UNCL 4461. 30=Credit transfer, 48=Bank card, 49=Direct debit, 58=SEPA credit transfer. Section 2.8."
         },
-        "paymentMeansText": {
+        "payment_means_text": {
           "type": "string",
           "description": "EN 16931 BT-82. Text description of the payment method (optional within group)."
         },
-        "paymentAccountIdentifier": {
+        "payment_account_identifier": {
           "type": "string",
           "minLength": 1,
           "description": "EN 16931 BT-84. Payment account identifier (IBAN or other bank account number)."
         },
-        "paymentCardPAN": {
+        "payment_card_pan": {
           "type": "string",
           "description": "EN 16931 BT-87. Payment card PAN, masked or full (optional within group)."
         }
       }
     },
-    "evidenceReferenceItem": {
+    "evidence_reference_item": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "evidenceReferencesType"
+        "evidence_references_type"
       ],
       "properties": {
-        "evidenceReferencesType": {
+        "evidence_references_type": {
           "type": "string",
           "enum": [
             "purchase_order",
@@ -312,56 +312,56 @@
           ],
           "description": "Type of the referenced supporting evidence item. Section 2.8."
         },
-        "evidenceInlinePdfBase64": {
+        "evidence_inline_pdf_base64": {
           "type": "string",
           "contentEncoding": "base64",
           "description": "Inline PDF evidence, BASE64-encoded (one of three supported evidence forms, Section 2.8)."
         },
-        "evidenceInlineUblBase64": {
+        "evidence_inline_ubl_base64": {
           "type": "string",
           "contentEncoding": "base64",
           "description": "Inline UBL evidence, BASE64-encoded (one of three supported evidence forms, Section 2.8)."
         },
-        "evidenceUri": {
+        "evidence_uri": {
           "type": "string",
           "format": "uri",
           "description": "Publicly accessible URI of the evidence item (must be public; no protected-URI auth mechanism is standardized). Section 2.8."
         },
-        "evidenceHash": {
+        "evidence_hash": {
           "type": "string",
           "pattern": "^sha256:[0-9a-fA-F]{64}$",
-          "description": "Hash of the evidence item referenced by evidenceUri, for integrity binding (IR-EI-08)."
+          "description": "Hash of the evidence item referenced by evidence_uri, for integrity binding (IR-EI-08)."
         }
       },
       "oneOf": [
         {
           "required": [
-            "evidenceInlinePdfBase64"
+            "evidence_inline_pdf_base64"
           ]
         },
         {
           "required": [
-            "evidenceInlineUblBase64"
+            "evidence_inline_ubl_base64"
           ]
         },
         {
           "required": [
-            "evidenceUri",
-            "evidenceHash"
+            "evidence_uri",
+            "evidence_hash"
           ]
         }
       ]
     }
   },
-  "x-rulebook-version": "0.71",
+  "x_rulebook_version": "0.71",
   "allOf": [
     {
       "if": {
         "required": [
-          "invoiceLifecycleStatus"
+          "invoice_lifecycle_status"
         ],
         "properties": {
-          "invoiceLifecycleStatus": {
+          "invoice_lifecycle_status": {
             "enum": [
               "corrected",
               "cancelled",
@@ -372,7 +372,7 @@
       },
       "then": {
         "required": [
-          "precedingInvoiceReference"
+          "preceding_invoice_reference"
         ]
       }
     }
