@@ -16,8 +16,9 @@
 | 1.ß     | 03.07.2026 | Updates in regard trust and revocation                            |
 
 * Contact:
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)*
-
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)
+  * [Dominic Hurni](mailto:dominic.hurni@sbb.ch) 
+  
 * Feedback:
 
 ## 1 Introduction
