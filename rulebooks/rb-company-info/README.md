@@ -144,24 +144,37 @@ This attestation type MAY be classified as:
 
 ### 2.2 Mandatory attributes
 
-**LegalPerson Attributes**
+#### 2.2.1 CompanyInfo Top-Level Attributes
+
+| **Data Identifier**  | **Semantic Reference** | **Definition**                                                        | **Data type** |
+|----------------------|------------------------|-----------------------------------------------------------------------|---------------|
+| employee_number      | [numberOfEmployees](https://w3id.org/ebwv#numberOfEmployees) | Total number of employees in the legal entity at the time of reporting | uint          |
+| trade_alias          | [alternativeName](https://w3id.org/ebwv#alternativeName) | Registered trade names or aliases under which the legal entity operates | Array of tstr |
+| previous_legal_name  | [previousLegalName](https://w3id.org/ebwv#previousLegalName) | Previously registered legal name(s) of the entity                    | Array of tstr |
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                             | **Data type** |
 |---------------------|------------------------|----------------------------------------------------------------------------|---------------|
 | legal_person_name   | —                      | The complete official legal name of the legal entity                       | String        |
 | legal_form_type     | —                      | The legal form of the legal entity (e.g., SA, GmbH, Ltd, BV)              | String        |
 
-**LegalEntity Attributes**
-This object is defined once per attestation.
+| **Data Identifier** | **Semantic Reference** | **Definition**                                         | **Data type** |
+|---------------------|------------------------|--------------------------------------------------------|-------------|
+| taxonomy            | [conformsToTaxonomy](https://w3id.org/ebwv#conformsToTaxonomy) | Financial reporting standard used (e.g., IFRS, GAAP)   | String        |
+| facts               | [qb:dataSet](http://purl.org/linked-data/cube#dataSet) (inverse of) | List of reported financial facts                       | Array [Fact]  |
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                                 | **Data type** |
 |:--------------------|:-----------------------|:-----------------------------------------------------------------------------------------------|:--------------|
 | `identifier`        | —                      | A structured object of legal entity identifiers; at least one sub-field **SHALL** be provided. | Object        |
 
 
-| **Data Identifier**                        | **Semantic Reference** | **Definition**                                                         | **Data type**                    |
-|--------------------------------------------|------------------------|------------------------------------------------------------------------|----------------------------------|
-| number_of_employees                        | ...                    | Total number of employees in the legal entity at the time of reporting | String                           |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                         | **Data type** |
+|---------------------|------------------------|--------------------------------------------------------|------------|
+| id                  | [dcterms:identifier](http://purl.org/dc/terms/identifier)  | Unique identifier of the fact                          | String                          |
+| concept             | [observedMetric](https://w3id.org/ebwv#observedMetric)  | Name of the reported metric (e.g., Revenue, NetIncome) | String                          |
+| value               | [sdmx-measure:obsValue](http://purl.org/linked-data/sdmx/2009/measure#obsValue) | Reported value of the fact                             | Decimal                         |
+| unit                | [sdmx-concept:unitMeasure](http://purl.org/linked-data/sdmx/2009/concept#unitMeasure) | Unit of measurement (e.g., EUR, %, shares)             | String (ISO 4217 for currencies) |
+| period_start        | [dcat:startDate](https://www.w3.org/ns/dcat#startDate) | Start date of the reporting period                     | ISO 8601 (YYYY-MM-DD)           |
+| period_end          | [dcat:endDate](https://www.w3.org/ns/dcat#endDate) | End date of the reporting period                       | ISO 8601 (YYYY-MM-DD)           |
 
 ### 2.3 Optional attributes
 
@@ -182,8 +195,8 @@ This object is defined once per attestation.
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                                                                           | **Data type** |
 |---------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| trade_alias         | --                     | Registered trade names or aliases under which the legal entity operates. MAY contain zero or more text values.                                                                           | Array of tstr |
-| previous_legal_name | --                     | Previously registered legal name(s) of the entity, as recorded in official company registers prior to the current legal name. MAY contain zero or more text values.                      | Array of tstr |
+| trade_alias         | [alternativeName](https://w3id.org/ebwv#alternativeName) | Registered trade names or aliases under which the legal entity operates. MAY contain zero or more text values.                                                                           | Array of tstr |
+| previous_legal_name | [previousLegalName](https://w3id.org/ebwv#previousLegalName) | Previously registered legal name(s) of the entity, as recorded in official company registers prior to the current legal name. MAY contain zero or more text values.                      | Array of tstr |
 
 **financial_statements Optional Attributes**
 
@@ -210,14 +223,20 @@ No conditional attributes are defined for this attestation type. All attributes 
 | attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
 | cnf                        | Cryptographic Key Binding                                                     | String        |
 
-*Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
+| **Data Identifier**       | **Semantic Reference**  | **Definition**                                                                                                                                                     | **Data type**   |
+|-------------------------|---|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| issuance_date   | [cred:validFrom](https://www.w3.org/2018/credentials/#validFrom) | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime        |
+| expiry_date     | [cred:validUntil](https://www.w3.org/2018/credentials/#validUntil)  | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime        |
+| issuing_entity    | [cred:issuer](https://www.w3.org/2018/credentials/#issuer)  | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String          |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | Indicates the legal category of this attestation ("EAA" )                                                                                                          | String          |
+| vct    |                    | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                            | String          |
 
 ### 2.6 Optional Metadata
 
-| **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used for this attestation                            | String        |
+| **Data Identifier**  | **Semantic Reference**  | **Definition**                                                             | **Data type** |
+|------------------|---|----------------------------------------------------------------------------|---------------|
+| trust_anchor_url  | cred:? | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
+| schema_version    | cred:? | Version of the schema used                                                 | String        |
 
 ### 2.7 Conditional metadata
 

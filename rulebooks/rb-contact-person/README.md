@@ -166,10 +166,21 @@ This attestation type is classified as:
 | `legal_entity`      | —                      | An object containing identifiers for the legal entity.               | Object           |
 | `contact_persons`   | —                      | An array of objects, each representing an individual contact person. | Array of Objects |
 
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                 | **Optionality**  | **Encoding format** |
+|---------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------|------------------|---------------------|
+| legal_person_id     | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | EBW Organization Identifier — Identifier of the employing legal entity according to the European Business Wallet (EBW) framework | M                | tstr                |
+| contact_person      | [org:hasMembership](https://www.w3.org/ns/org#hasMembership).[org:member](https://www.w3.org/ns/org#member) | Object representing details of an individual contact person. This can be repeated for multiple contacts.                        | M (at least one) | Object              |
 ### 2.2 Mandatory Attributes
 
 **LegalPerson Attributes**
 
+| **Data Identifier** | **Semantic Reference**                                                                    | **Definition**                                                                                        | **Optionality** | **Encoding format** |
+|---------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-----------------|---------------------|
+| given_name          | [givenName](https://w3id.org/ebwv#givenName)<br>[givenName – Schema.org Property](https://schema.org/givenName)  | Given name. In the U.S., the first name of a Person.                                                  | M               | tstr                |
+| family_name         | [familyName](https://w3id.org/ebwv#familyName)<br>[familyName – Schema.org Property](https://schema.org/familyName)   | Family name. In the U.S., the last name of a Person.                                                  | M               | tstr                |
+| role                | [org:role](https://www.w3.org/ns/org#role) | Denotes a role that a Person takes in an organization (e.g., sales, finance, quality, logistics)      | M               | tstr                |
+| employee_identifier | [employee](https://w3id.org/ebwv#employee).[identifier](https://w3id.org/ebwv#identifier) | An alphanumeric identifier of the employee assigned by the organization                               | M               | tstr                |
+| email               | [hasEmail](https://w3id.org/ebwv#hasEmail) <br> [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | An electronic address through which the Contact Person can be contacted                               | M               | tstr                |
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                             | **Data type** |
 |---------------------|------------------------|----------------------------------------------------------------------------|---------------|
 | legal_person_name   | —                      | The complete official legal name of the legal entity                       | String        |
@@ -178,6 +189,9 @@ This attestation type is classified as:
 **LegalEntity Attributes**
 This object is defined once per attestation.
 
+| **Data Identifier** | **Semantic Reference**                                                                     | **Definition**                                                       | **Optionality** | **Encoding format** |
+|---------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------|-----------------|---------------------|
+| telephone           | [hasTelephone](https://w3id.org/ebwv#hasTelephone) <br> [Core Public Organisation Vocabulary (CPOV)](https://joinup.ec.europa.eu/collection/cpov) | A telephone number through which the Contact Person can be contacted | O               | tstr                |
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                                 | **Data type** |
 |:--------------------|:-----------------------|:-----------------------------------------------------------------------------------------------|:--------------|
 | `identifier`        | —                      | A structured object of legal entity identifiers; at least one sub-field **SHALL** be provided. | Object        |
@@ -194,6 +208,13 @@ This object is defined for each person represented in the Contact Person Attesta
 
 ### 2.3 Optional Attributes
 
+| **Data Identifier**      | **Semantic Reference**     | **Definition**                                                                                                                                               | **Data type** |
+|-------------------------|---|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| issuance_date          |  [cred:validFrom](https://www.w3.org/2018/credentials/#validFrom)  | The date and time when the attestation was issued (ISO 8601)                                                                                                 | DateTime      |
+| expiry_date            |  [cred:validUntil](https://www.w3.org/2018/credentials/#validUntil)  | The date and time when the attestation expires (ISO 8601)                                                                                                    | DateTime      |
+| issuing_entity         |  [cred:issuer](https://www.w3.org/2018/credentials/#issuer)  | The identifier of the legal entity that issued the attestation (typically the employing organization for self-issued EAA attestations)                       | String        |
+| attestation_legal_category |  [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | Indicates the legal category of this attestation ("EAA")                                                                                                     | String        |
+| vct                    |    | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential                                                      | String        |
 **LegalEntity Identifier Optional Attributes**
 At least one of the following sub-fields **SHALL** be provided within the `legal_entity.identifier` object.
 
@@ -208,6 +229,10 @@ At least one of the following sub-fields **SHALL** be provided within the `legal
 | `bpnl`              | —                       | Business Partner Number Legal entity (Catena-X identifier).                 | String        |
 | `siren`             | —                       | Système d'Identification du Répertoire des ENtreprises (French identifier). | String        |
 
+| **Data Identifier** | **Semantic Reference**  | **Definition**                                                             | **Data type** |
+|------------------|---|----------------------------------------------------------------------------|---------------|
+| trust_anchor_url  | cred:? | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
+| schema_version    | cred:? | Version of the schema used                                                 | String        |
 **ContactPerson Optional Attributes**
 
 | **Data Identifier** | **Semantic Reference**                                                                    | **Definition**                              | **Data type** |
