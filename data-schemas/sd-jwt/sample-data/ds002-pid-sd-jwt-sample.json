@@ -1,6 +1,6 @@
 {
   "vct": "urn:eudi:pid:de:1",
-  "attestation_legal_category": "PUB-EAA",
+  "attestation_legal_category": "PID",
   "given_name": "Jean",
   "family_name": "Dupont",
   "birthdate": "1980-05-23",
@@ -22,13 +22,15 @@
   "email": "jean.dupont@example.fr",
   "phone_number": "+33123456789",
   "picture": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2w==",
-  "issuing_authority": "DE",
-  "issuing_country": "DE",
-  "issuing_jurisdiction": "DE-BE",
+  "issuing_authority": "NO",
+  "issuing_country": "NO",
+  "issuing_jurisdiction": "NO",
   "date_of_issuance": "2025-01-15",
   "date_of_expiry": "2030-01-14",
-  "personal_administrative_number": "DE-19800523-123456",
-  "document_number": "PID-DE-00001234",
+  "unique_persistent_identifier": "NO-19800523-123456",
+  "nonce": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+  "personal_administrative_number": "NO-19800523-123456",
+  "document_number": "PID-00001234",
   "trust_anchor": "https://example.org/trust/pid-ta.json",
   "cnf": {
     "jwk": {

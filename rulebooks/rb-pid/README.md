@@ -1,16 +1,12 @@
----
-title: "European Digital Identity Wallet"
-subtitle: "ARF Annex 3.01 - PID Rulebook"
-...
-
 #  Attestation Rulebook for attestations of type Personal Identification Data (PID)
 
-| Version | Date        | Description                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|---------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Version | Date        | Description                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|---------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 0.1.3   | 27 Oct 2025 | Transferred main structure and content from [EUDI repository](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md) and modified template to closer align to [EUDI template](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/template/attestation-rulebook-template.md). First specific draft for WE BUILD |
 | 0.9.0   | 2025-12-12  | Feedback of WE BUILD WP 4 Task 2 implemented                                                                                                                                                                                                                                                                                                                                                                                      |
-| 0.9.9   | 2026-05-21  | Alignment to the ARF version 2.8.0 defined [PID version 1.5  ](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md)                                                                                                                                                                                                                                     |
-| 1.0.0   | 2026-05-22  | Minor language and consistency adjustments                                                                                                                                                                                                                                                                                                                                                                                       |
+| 0.9.9   | 2026-05-21  | Alignment to the ARF version 2.8.0 defined [PID version 1.5  ](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md)                                                                                                                                                                                                                                      |
+| 1.0.0   | 2026-05-22  | Minor language and consistency adjustments                                                                                                                                                                                                                                                                                                                                                                                        |
+| 2.0.0   | 2026-06-16  | Major version update: Alignment with WE BUILD Architecture Decision Record on Identity Matching and Subject Linking; introduces two new obligatory attributes for PID: `unique_persistent_identifier` and `nonce` (seed for directed pseudonym generation and freshness), and the optional `picture` from CIR 2026/1731                                                                                                                    |
 
 <!-- Usage help: (Name LastName, Affiliation) -->
 *  Authors
@@ -35,14 +31,14 @@ how the mandatory and optional person identification data for the natural
 person, as defined in Tables 1 and 2 in the Annex of the Commission Implementing
 Regulation on PID and EAA [CIR 2024/2977], as well as the metadata specified in
 Table 5 of that CIR, will be encoded within the EUDI Wallet ecosystem.
-Additionally, this document specifies further optional PID attributes that are
-not included in the CIR.
+Additionally, this document specifies further obligatory and optional PID attributes that are not included in the CIR.
 
 This document also specifies how a PID and all attributes in it are encoded if
 the PID complies with [ISO/IEC 18013-5] and if it complies with [SD-JWT VC].
 
 This PID Rulebook should be read in conjunction with the high-level requirements for PIDs in [Topic 3](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a232-topic-3---pid-rulebook) in Annex 2 of the Architecture Reference Framework. In particular, the values to be used for the namespace and document type for [ISO/IEC 18013-5]-compliant PIDs and for the vct claim in [SD-JWT VC]-compliant PIDs are defined in Topic 3.
 
+This document also implements the ADRs of the [WEBUILD Architecture group](https://github.com/webuild-consortium/wp4-architecture/tree/main/adr).
 Person identification data for the legal person is out of scope of this document.
 
 ### 1.2 Document structure
@@ -52,8 +48,8 @@ This PID Rulebook is structured as follows:
 - [Chapter 2](#2-pid-attributes-and-metadata) describes the PID attributes and
   metadata on a generic level, regardless of the encoding used for the PID. Most
   of the content of this chapter is a direct copy of the Annex of Commission
-  Implementing Regulation 2024/2977 on PID and EAA. However, a few additional
-  attributes are specified in this chapter.
+  Implementing Regulation 2024/2977 on PID and EAA. However, additional obligatory
+  attributes (`unique_persistent_identifier`, `nonce`), additional optional attributes, and clarifications are specified in this chapter.
 - [Chapter 3](#3-attestation-encoding) specifies how the PID
   attributes and metadata are encoded in case the PID complies with [ISO/IEC
   18013-5] or [SD-JWT VC]
@@ -86,6 +82,7 @@ This document uses the terminology specified in [Annex 1](https://eu-digital-ide
 2. The structure of this rulebook follows the EUDI template version 1.1. The ARF PID rulebook is diverging from this version. 
 3. WE BUILD specifies an explicit token-list-based status mapping for SD-JWT in line with [Architecture Decision Record for WE BUILD on the topic ](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/attestation-revocation-mechanism.md)
 4. [Chapter 4](#4-pid-usage), [Chapter 5](#5-trust-anchors) and [Chapter 6](#6-revocation) have been expanded compared out over the ARF 2.8.0 PID version 1.5
+5. In alignment with the [WE BUILD ADR — Identity Matching] (Major Version Update v2.0.0), two additional attributes are introduced in WE BUILD: `unique_persistent_identifier` and `nonce`.
 
 ## 2 PID attributes and metadata
 
@@ -131,7 +128,7 @@ names used for PIDs complying with [SD-JWT VC]. [Section 3.2](#32-sd-jwt-vc-base
 | resident_street                | [domicile](https://w3id.org/ebwv#domicile).[thoroughfare](https://w3id.org/ebwv#thoroughfare)      | The name of the street where the user to whom the person identification data relates currently resides.                                                                                                                                                                                                                                                                                                                                                                      | Rietveld                                                    |
 | resident_house_number          |                                                                                                                                                                        | The house number where the user to whom the person identification data relates currently resides, including any affix or suffix.                                                                                                                                                                                                                                                                                                                                             | 1                                                           |
 | personal_administrative_number | [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber)                                                   | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. Where Member States opt to include this attribute, they shall describe in their electronic identification schemes under which the person identification data is issued, the policy that they apply to the values of this attribute, including, where applicable, specific conditions for the processing of this value. | 123456782                                                   |
-| portrait                       | [portrait](https://w3id.org/ebwv#portrait)                                                                                           | [Facial image of the wallet user compliant with ISO 19794-5 or ISO 39794 specifications. Further clarification added in this PID Rulebook: The detailed format of the portrait is specified in requirement PID_03 in Annex 2, Topic 3.](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a232-topic-3---pid-rulebook)                               | \-                                                          |
+| portrait                       | [portrait](https://w3id.org/ebwv#portrait)                                                                                           | [Facial image of the wallet user compliant with ISO 19794-5 or ISO 39794 specifications. Further clarification added in this PID Rulebook: The detailed format of the portrait is specified in requirement PID_03 in Annex 2, Topic 3.](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a232-topic-3---pid-rulebook)                               | \-                                                          |
 | family_name_birth              | [birthName](https://w3id.org/ebwv#birthName)                                                                                         | Last name(s) or surname(s) of the user to whom the person identification data relates at the time of birth.                                                                                                                                                                                                                                                                                                                                                                  | Poepjes                                                     |
 | given_name_birth               | [birthName](https://w3id.org/ebwv#birthName)                                                                                         | First name(s), including middle name(s), of the user to whom the person identification data relates at the time of birth.                                                                                                                                                                                                                                                                                                                                                    | Björn                                                       |
 | sex                            | [gender](https://w3id.org/ebwv#gender)                                                                                               | Values shall be one of the following: 0 = not known; 1 = male; 2 = female; 3 = other; 4 = inter; 5 = diverse; 6 = open; 9 = not applicable. For values 0, 1, 2 and 9, ISO/IEC 5218 applies.                                                                                                                                                                                                                                                                                  | 1                                                           |
@@ -145,7 +142,7 @@ The PID defined in this rulebook does not contain any condition attributes.
 
 | **Data Identifier** | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | **Example value**                    |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| expiry_date         | Date (and if possible time) when the person identification data will expire. **Further clarification added in this PID Rulebook:** This attribute, as well as the optional issuance_date attribute specified in [Section 2.7](#27-additional-optional-attributes-specified-in-this-rulebook), pertains to the administrative validity period of the PID. It is up to the PID Provider to decide whether a PID has an administrative validity period. However, if present, it in general is different from the technical validity period of a PID. The technical validity period is a mandatory element of all PIDs (and also attestations) in the EUDI Wallet ecosystem. It typically is short, a few days or weeks at most, if not shorter, to mitigate challenges regarding tracking of users by malicious Relying Parties based on the repeated presentation of the same PID. On the other hand, the administrative validity period is typically at least a few years long. During the administrative validity period of a PID, the PID Provider will therefore provide multiple successive PIDs to a user, typically without any actions being expected from the user. However, when the administrative validity period of a PID ends, typically the user has to apply for an entirely new PID. | 19-12-2025                           |
+| expiry_date         | Date (and if possible time) when the person identification data will expire. **Further clarification added in this PID Rulebook:** This attribute, as well as the optional issuance_date attribute specified in [Section 2.8](#28-additional-optional-attributes-specified-in-this-rulebook), pertains to the administrative validity period of the PID. It is up to the PID Provider to decide whether a PID has an administrative validity period. However, if present, it in general is different from the technical validity period of a PID. The technical validity period is a mandatory element of all PIDs (and also attestations) in the EUDI Wallet ecosystem. It typically is short, a few days or weeks at most, if not shorter, to mitigate challenges regarding tracking of users by malicious Relying Parties based on the repeated presentation of the same PID. On the other hand, the administrative validity period is typically at least a few years long. During the administrative validity period of a PID, the PID Provider will therefore provide multiple successive PIDs to a user, typically without any actions being expected from the user. However, when the administrative validity period of a PID ends, typically the user has to apply for an entirely new PID. | 19-12-2025                           |
 | issuing_authority   | Name of the administrative authority that issued the person identification data, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue person identification data.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Rijksdienst voor Identiteitsgegevens |
 | issuing_country     | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | NL                                   |
 
@@ -159,7 +156,17 @@ The PID defined in this rulebook does not contain any condition attributes.
 | location_status      | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data.                                                     | <https://example.com/statuslists/pid/> |
 
 
-### 2.7 Additional optional attributes specified in this Rulebook
+### 2.7 Additional obligatory attributes specified in this Rulebook
+
+This PID Rulebook introduces two additional obligatory attributes in WE BUILD to fulfill the requirements of the [WE BUILD ADR — Identity Matching]:
+
+| **Data Identifier**            | **Semantic Reference** | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | **Example value**                                                  |
+|--------------------------------|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| `unique_persistent_identifier` |                        | A unique persistent identifier assigned to the natural person by the PID provider, used for unequivocal identity matching in cross-border and regulated use cases where legally required. The PID provider can reuse the same value as the `personal_administrative_number` as this attribute, but does not need to. This attribute SHALL be selectively disclosable and only requested/disclosed when the relying party has a statutory obligation to process an official persistent identifier. The value used SHALL be persistent across issuance and reissuance. It SHALL be unique per underlying identity. It SHALL never be reused once used. | `DE-19800523-123456`, `29e4da4a-9d8d-447c-8b57-8ab68e79d3d9` |
+| `nonce`                        |                        | A required cryptographic seed provisioned by the PID Provider in the PID attestation. It is used as the cryptographic input seed to enable the Wallet Unit or dedicated pseudonym service to deterministically derive directed pseudonym attestations (enforcing the principle of one pseudonym per subject and per relying party) and support attestation freshness and cryptographic binding. | `9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08` |
+
+
+### 2.8 Additional optional attributes specified in this Rulebook
 
 | **Data Identifier**        | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | **Example value**                       |
 |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
@@ -223,6 +230,8 @@ Note that the presence of each attribute (mandatory or optional) is already spec
 | birth_date                     | birth_date                     | ``full-date``, see [Section 3.1.5](#315-attribute-birth_date).                                           |
 | birth_place                    | place_of_birth                 | ``place_of_birth``, see [Section 3.1.6](#316-attribute-place_of_birth).                                  |
 | nationality                    | nationality                    | ``nationalities``, see [Section 3.1.3](#313-attribute-nationality).                                      |
+| unique_persistent_identifier   | unique_persistent_identifier   | ``tstr``                                                                                                 |
+| nonce                          | nonce                          | ``tstr``                                                                                                 |
 | resident_address               | resident_address               | ``tstr``                                                                                                 |
 | resident_country               | resident_country               | ``tstr``                                                                                                 |
 | resident_state                 | resident_state                 | ``tstr``                                                                                                 |
@@ -340,20 +349,22 @@ Note: The standard JWT claims nbf and exp are used to express the technical vali
 
 The following Private Names specific to the attestation type defined in this document are to be used for PIDs:
 
-| **Data Identifier**            | **Attribute identifier**       | **Encoding format** | **Notes**                                                                                                                                                                    |
-|--------------------------------|--------------------------------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| attestation_legal_category     | attestation_legal_category     | string              | SHALL be `PID`                                                                                                                                                                |
-| expiry_date                    | date_of_expiry                 | string              | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema]                                                                                     |
-| issuance_date                  | date_of_issuance               | string              | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema]                                                                                     |
-| personal_administrative_number | personal_administrative_number | string              |                                                                                                                                                                              |
-| resident_house_number          | address.house_number           | string              | This document extends the specification of ``address`` in [OIDC] with an additional member ``address.house_number``                                                          |
+| **Data Identifier**            | **Attribute identifier**       | **Encoding format** | **Notes**                                                                                                                                                                   |
+|--------------------------------|--------------------------------|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| unique_persistent_identifier   | unique_persistent_identifier   | string              | A unique persistent identifier assigned to the natural person by the PID provider, used for unequivocal identity matching in cross-border and regulated use cases where legally required. The PID provider can reuse the same value as the `personal_administrative_number` as this attribute, but does not need to. This attribute SHALL be selectively disclosable and only requested/disclosed when the relying party has a statutory obligation to process an official persistent identifier. The value used SHALL be persistent across issuance and reissuance. It SHALL be unique per underlying identity. It SHALL never be reused once used. |
+| nonce                          | nonce                          | string              | A required cryptographic seed provisioned by the PID Provider in the PID attestation. It is used as the cryptographic input seed to enable the Wallet Unit or dedicated pseudonym service to deterministically derive directed pseudonym attestations (enforcing the principle of one pseudonym per subject and per relying party) and support attestation freshness and cryptographic binding. |
+| attestation_legal_category     | attestation_legal_category     | string              | SHALL be `PID`                                                                                                                                                               |
+| expiry_date                    | date_of_expiry                 | string              | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema]                                                                                    |
+| issuance_date                  | date_of_issuance               | string              | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema]                                                                                    |
+| personal_administrative_number | personal_administrative_number | string              | Optional personal administrative number defined in CIR 2024/2977. Distinct from unique_persistent_identifier (see Section 2.3).                                            |
+| resident_house_number          | address.house_number           | string              | This document extends the specification of ``address`` in [OIDC] with an additional member ``address.house_number``                                                         |
 | sex                            | sex                            | number              | numeric encoding as described in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977); gender from [OIDC] uses a different value range and is therefore not used |
-| issuing_authority              | issuing_authority              | string              |                                                                                                                                                                              |
-| issuing_country                | issuing_country                | string              |                                                                                                                                                                              |
-| document_number                | document_number                | string              |                                                                                                                                                                              |
-| issuing_jurisdiction           | issuing_jurisdiction           | string              |                                                                                                                                                                              |
-| location_status                         | status                         | JSON object         | See [Section 3.2.2](#322-attribute-status)                                                                                                                                   |
-| trust_anchor                   | trust_anchor                   | string              |                                                                                                                                                                              |
+| issuing_authority              | issuing_authority              | string              |                                                                                                                                                                             |
+| issuing_country                | issuing_country                | string              |                                                                                                                                                                             |
+| document_number                | document_number                | string              |                                                                                                                                                                             |
+| issuing_jurisdiction           | issuing_jurisdiction           | string              |                                                                                                                                                                             |
+| location_status                | status                         | JSON object         | See [Section 3.2.2](#322-attribute-status)                                                                                                                                  |
+| trust_anchor                   | trust_anchor                   | string              |                                                                                                                                                                             |
 
 
 ### 3.2.2 Attribute status
@@ -406,7 +417,7 @@ EXAMPLE: The following example shows the payload of a PID in SD-JWT VC format be
 ```json
 {
     "vct": "urn:eudi:pid:de:1",
-    "attestation_legal_category": "PUB-EAA",
+    "attestation_legal_category": "PID",
 
     "given_name": "Jean",
     "family_name": "Dupont",
@@ -427,6 +438,9 @@ EXAMPLE: The following example shows the payload of a PID in SD-JWT VC format be
     "place_of_birth": {
         "country": "DD"
     },
+
+    "unique_persistent_identifier": "1980570523-123456",
+    "nonce": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
 
     "cnf": {
         "jwk": {
@@ -462,37 +476,48 @@ references to the issuer and more.
 PID is used to identify a natural person (user) in national and cross-border digital services within the EUDI Wallet ecosystem.
 
 Primary use cases:
-- Proving the identity of a natural person (user) to a Relying Party(RP) in online services.
+- Proving the identity of a natural person (user) to a Relying Party (RP) in online services.
 - Supporting regulated or high-trust onboarding and access control flows where identification is required.
 - Supporting attribute verification (e.g., residency, age) subject to data minimisation and proportionality.
+- Supporting unequivocal identity matching for public-sector and cross-border interactions.
+- Enabling privacy-preserving returning user authentication without cross-context tracking.
+- Serving as the foundational identity layer for subject linking and representation of legal entities.
 
-Issuance requirements and expectations:
+
+### 4.2 Issuance, Relying Party, and Presentation Obligations
+
+#### 4.2.1 Issuance requirements and expectations
 - PID Providers SHALL issue PID only after identity verification according to the applicable Member State PID issuance framework.
 - PID Providers SHALL bind PID to the Wallet Unit key material as defined in Chapter 3 (e.g., `cnf` for SD-JWT VC).
+- PID Providers SHALL provide the obligatory `nonce` attribute in the PID attestation to enable downstream generation of directed pseudonym attestations and support attestation freshness and cryptographic binding.
+- PID Providers SHALL ensure that the obligatory `unique_persistent_identifier` is present and is selectively disclosable in the issued credential.
 - PID Providers SHALL set technical validity (`exp`, and `nbf` if present) and SHALL provide status/revocation capability as defined in Chapter 6.
 - For SD-JWT VC PIDs, the PID SHALL include a `status` claim when required by Section 3.2.2 (technical validity period > 25 hours).
 
-Expected user behaviours:
+#### 4.2.2 Expected user behaviours
 - The user SHOULD approve PID presentation only when the Wallet Unit shows the RP identity, intended use, and a privacy policy reference.
 - The user SHOULD approve presentation only when the requested attributes are necessary for the transaction.
+- The user SHOULD leverage selective disclosure to disclose only the minimum attributes required, withholding official unique identifiers when interacting with non-regulated relying parties.
 - Preferably, the user SHOULD either approve all requested attributes or deny the request. If the user does not want to disclose a requested attribute, the user SHOULD deny the request and allow the RP to send a revised request (see Section 2.1).
-- Where selective disclosure is supported by the format, the user SHOULD disclose only the minimum attributes required by the transaction.
 
-Relying Party (RP) behaviours:
+#### 4.2.3 Relying Party (RP) behaviours
 - The RP SHALL be registered as a Wallet RP and SHALL request only attributes justified for the intended use.
+- The RP SHALL NOT request `unique_persistent_identifier` unless it has a legal obligation or statutory requirement to register that identifier.
+- The RP SHOULD accept directed pseudonym attestations for returning user recognition and account linking where official identification is not mandated by law.
 - The RP SHALL authenticate to the Wallet Unit (e.g., using its access certificate chain) in the applicable presentation protocol.
 - The RP SHOULD include (or enable retrieval of) the registered intended use information and privacy policy reference so the Wallet Unit can inform the user.
 - The RP SHALL verify the PID signature according to Chapter 3 and SHALL validate issuer trust and authorisation using applicable trust anchors (Chapter 5).
 - The RP SHALL validate technical validity (check `exp`, and `nbf` if present) and SHALL apply revocation/status checks as defined in Chapter 6.
 - The RP MAY verify device binding / proof of possession where supported. If the RP requests cryptographic holder binding in the presentation protocol, it SHALL NOT accept a non-device-bound PID.
 
-Presentation requirements:
+#### 4.2.4 Presentation requirements
 - The RP SHOULD request only the minimum attributes needed for the transaction (data minimisation).
 - The RP SHALL NOT rely on non-unique contact attributes (e.g., `email_address`) as unique identifiers, as already stated in Chapter 3.
 
-Transactional data:
+#### 4.2.5 Transactional data
 - The RP MAY keep minimal logs necessary to demonstrate verification events and security-relevant auditability (e.g., timestamps, verification outcome, issuer identifier, status-check result).
 - The RP SHOULD avoid storing full PID payloads unless required by law or strictly necessary for dispute handling.
+- Verification and revocation checks SHALL NOT enable cross-relying-party correlation of user identities.
 
 ## 5 Trust anchors
 
@@ -583,6 +608,8 @@ This PID Rulebook complies with all applicable requirements in [Topic 12
 
 The attributes specified in this Rulebook comply with [CIR 2024/2977](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202402977).
 
+Furthermore, the identity matching and subject linking mechanisms in this Rulebook comply with the requirements of [European Digital Identity Regulation] (Regulation (EU) 2024/1183) for unequivocal identity matching by public bodies in cross-border services, while upholding GDPR data minimisation principles as established in the [WE BUILD ADR — Identity Matching].
+
 Further requirements in this Rulebook comply with or reference the applicable requirements in the ARF and the relevant Implementing Acts.
 
 ## 8 References
@@ -591,12 +618,15 @@ Further requirements in this Rulebook comply with or reference the applicable re
 |----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
 | [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09                                                                                                                    |
+| [ISO/IEC 23220]                        | ISO/IEC 23220 series, Cards and security devices for personal identification — Building blocks for identity cards and devices                                                                                                                                            |
 | [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html>                                                                                                                                    | 
 | [EKYC]                                 | OpenID Connect for Identity Assurance Claims Registration <https://openid.net/specs/openid-connect-4-ida-claims-1_0-final.html#ICAO-Doc9303>                                                                                                                             |
 | [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>                                                                                                                                               |
 | [Topic 3]                              | ARF Annex 2 - Topic 3 - Attestation revocation and revocation checking Available: <https://eudi.dev/latest/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                 |
 | [Topic 12]                             | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eudi.dev/latest/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                                        |
 | [W3C VCDM v2.0]                        | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.                                                                                                                                                                                          |
+| [WE BUILD ADR — Identity Matching]     | WE BUILD Architecture Decision Record: "Identity Matching and Subject Linking in WE BUILD", Michelle Ludovici (DIGG), Malin Norlander (Bolagsverket), June 2026.                                                                                                         |
+| [WE BUILD ADR — Revocation]            | WE BUILD Architecture Decision Record: "Attestation Revocation Mechanism", Available: <https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/attestation-revocation-mechanism.md>                                                                        |
 
 For further references please see [ARF Chapter 10](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/architecture-and-reference-framework-main.md#10-references) of the ARF main document.
 
