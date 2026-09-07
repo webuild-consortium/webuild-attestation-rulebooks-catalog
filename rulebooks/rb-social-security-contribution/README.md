@@ -11,6 +11,8 @@
 | Version | Date | Description |
 |---------|------------|------------|
 | 0.1 | 30/06/2026 | Initial draft based on SSC attestation description |
+| 0.11 | 02/09/2026 | WP4 Semantics added most Semantic References |
+
 
 * Contact:
     * bruno.salinier@orange.com
@@ -121,13 +123,13 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| liableEmployer |  | Identifies the employer whose obligations are certified | Object |  |
-| liableEmployer.legalName | | Official legal name of the employer | String | Orange Business Services SA |
-| liableEmployer.legalIdentifier | | Legal identifier of the employer <Can be MS specific or EU-wide (VATID)> | String | 345039416 |
-| legalBasis |  | Legal provision or framework under which the attestation is issued | String | Article L243-15 du Code de la sécurité sociale |
-| coveredObligationType  |  | Type of social security, employment-related contribution, reporting, or payment obligation covered | Array of Strings | ["familyAllowanceContribution", "employmentDeclarationObligation"] |
-| complianceStatus |  | Assessed status of the employer’s fulfilment of the covered obligations | String | upToDate |
-| validAsOfDate |  | Date on which the facts or status were assessed | Date (YYYY-MM-DD) | 2026-07-01 |
+| liableEmployer | [employer](https://w3id.org/ebwv#employer)  | Identifies the employer whose obligations are certified | Object |  |
+| liableEmployer.legalName | [legalName](https://w3id.org/ebwv#legalName) | Official legal name of the employer | String | Orange Business Services SA |
+| liableEmployer.legalIdentifier | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Legal identifier of the employer <Can be MS specific or EU-wide (VATID)> | String | 345039416 |
+| legalBasis | [legalBasis](https://w3id.org/ebwv#legalBasis) | Legal provision or framework under which the attestation is issued | String | Article L243-15 du Code de la sécurité sociale |
+| coveredObligationType  | [coveredObligationType](https://w3id.org/ebwv#coveredObligationType) | Type of social security, employment-related contribution, reporting, or payment obligation covered | Array of Strings | ["familyAllowanceContribution", "employmentDeclarationObligation"] |
+| complianceStatus | [complianceStatus](https://w3id.org/ebwv#complianceStatus) | Assessed status of the employer’s fulfilment of the covered obligations | String | upToDate |
+| validAsOfDate | TBD <br> is this a cred: property?  | Date on which the facts or status were assessed | Date (YYYY-MM-DD) | 2026-07-01 |
 
  **Possible `coveredObligationType` values:**
 
@@ -157,21 +159,21 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| averagePeriodWorkforce |  | Average number of employed persons for the reporting period. Implies reportingPeriod to be present.  | String | 2365 |
-| totalPayroll |  | Total payroll, wage sum, or declared remuneration for the reporting period. Implies reportingPeriod to be present.  | String | 129350000.00 EUR |
-| hasSite |  | A site, establishment, local unit, branch, workplace, or comparable operational location | Object |  |
-| hasSite.siteIdentifier |  | identifier of the site, may be referenced in business register in some MS | String | 34503941600012 |
-| hasSite.registeredAddress | Address | Adress of the site | String | 1 Place des Droits de l'Homme, 93200 Saint-Denis, France |
-| coverageStatement |  | A human-readable statement describing the establishments, sites, obligations, regimes, or reporting scope covered by the attestation | String | This attestation covers the liable employer and the establishments declared to the issuing authority for the reporting period. Where obligations are handled centrally, the attestation applies within the scope of that centralised reporting arrangement. |
-| qualificationNote |  | A human-readable note about caveat, limitation, condition that qualifies the interpretation of the attestation. | String | The attestation confirms the status recorded by the issuing authority for the covered obligations at the valid-as-of date. It does not replace any separate attestation required for obligations outside the stated scope or outside the issuing jurisdiction |
+| averagePeriodWorkforce | [averagePeriodWorkforce](https://w3id.org/ebwv#averagePeriodWorkforce) | Average number of employed persons for the reporting period. Implies reportingPeriod to be present.  | String | 2365 |
+| totalPayroll | [totalPayroll](https://w3id.org/ebwv#totalPayroll) | Total payroll, wage sum, or declared remuneration for the reporting period. Implies reportingPeriod to be present.  | String | 129350000.00 EUR |
+| hasSite | [hasSite](https://w3id.org/ebwv#hasSite) | A site, establishment, local unit, branch, workplace, or comparable operational location | Object |  |
+| hasSite.siteIdentifier | [identifier](https://w3id.org/ebwv#identifier) | identifier of the site, may be referenced in business register in some MS | String | 34503941600012 |
+| hasSite.registeredAddress | [hasAddress](https://w3id.org/ebwv#hasAddress)<br>OR<br>[registeredAddress](https://w3id.org/ebwv#registeredAddress) <br> the latter can be used only if the Site is considered a legal entity (registered organisation) according to national legislation  | Adress of the site | String | 1 Place des Droits de l'Homme, 93200 Saint-Denis, France |
+| coverageStatement | [coverageStatement](https://w3id.org/ebwv#coverageStatement) | A human-readable statement describing the establishments, sites, obligations, regimes, or reporting scope covered by the attestation | String | This attestation covers the liable employer and the establishments declared to the issuing authority for the reporting period. Where obligations are handled centrally, the attestation applies within the scope of that centralised reporting arrangement. |
+| qualificationNote | [qualificationNote](https://w3id.org/ebwv#qualificationNote) | A human-readable note about caveat, limitation, condition that qualifies the interpretation of the attestation. | String | The attestation confirms the status recorded by the issuing authority for the covered obligations at the valid-as-of date. It does not replace any separate attestation required for obligations outside the stated scope or outside the issuing jurisdiction |
 
 ### 2.4 Conditional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| reportingPeriod |  | Period to which declarations, payroll, workforce, or other reported data relate. Mandatory when averagePeriodWorkforce or totalPayroll are reported. | Object |  |
-| reportingPeriod.startDate |  | Starting date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-01 |
-| reportingPeriod.endDate |  | Ending date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-30 |
+| reportingPeriod | [reportingPeriod](https://w3id.org/ebwv#reportingPeriod) | Period to which declarations, payroll, workforce, or other reported data relate. Mandatory when averagePeriodWorkforce or totalPayroll are reported. | Object |  |
+| reportingPeriod.startDate | [reportingPeriod](https://w3id.org/ebwv#reportingPeriod).[startDate](https://w3id.org/ebwv#startDate) | Starting date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-01 |
+| reportingPeriod.endDate | [reportingPeriod](https://w3id.org/ebwv#reportingPeriod).[startDate](https://w3id.org/ebwv#endDate) | Ending date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-30 |
 
 ### 2.5 Mandatory metadata
 
