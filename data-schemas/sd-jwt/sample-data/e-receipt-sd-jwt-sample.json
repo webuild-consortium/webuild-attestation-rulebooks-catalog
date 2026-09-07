@@ -3,28 +3,35 @@
   "iat": 1745402075,
   "exp": 1761127275,
   "vct": "eu.we-build.ereceipt.1",
-  "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "…",
+      "y": "…"
+    }
+  },
   "attestation_legal_category": "non-qualified-EAA",
   "type": "PURCHASE",
-  "receiptNumber": "R-2026-04-23-000412",
-  "receiptTimeStamp": "2026-04-23T10:14:32Z",
-  "currencyISOCode": "EUR",
-  "totalPriceExcVAT": 4250,
-  "totalVATAmount": 1020,
-  "totalPriceIncVAT": 5270,
+  "receipt_number": "R-2026-04-23-000412",
+  "receipt_timestamp": "2026-04-23T10:14:32Z",
+  "currency_iso_code": "EUR",
+  "total_price_exc_vat": 4250,
+  "total_vat_amount": 1020,
+  "total_price_inc_vat": 5270,
   "merchant": {
     "name": "Acme Retail Oy",
-    "companyID": "FI12345678",
+    "company_id": "FI12345678",
     "branch": {
       "id": "BR-HEL-001",
-      "posId": "POS-12",
+      "pos_id": "POS-12",
       "name": "Acme Helsinki Centre",
-      "subName": "Café"
+      "sub_name": "Café"
     },
     "address": {
-      "streetAddress": "Mannerheimintie 10",
+      "street_address": "Mannerheimintie 10",
       "city": "Helsinki",
-      "zipCode": "00100",
+      "zip_code": "00100",
       "country": "FI"
     }
   },
@@ -32,44 +39,47 @@
     {
       "name": "Espresso",
       "quantity": "2",
-      "quantityCode": "H87",
-      "unitPriceIncVAT": 350,
-      "totalAmountExcVAT": 565,
-      "totalAmountIncVAT": 700,
+      "quantity_code": "H87",
+      "unit_price_inc_vat": 350,
+      "total_amount_exc_vat": 565,
+      "total_amount_inc_vat": 700,
       "vats": [
         {
-          "VATRate": "24",
-          "VATAmount": 135,
-          "totalAmountExcVAT": 565,
-          "totalAmountIncVAT": 700
+          "vat_rate": "24",
+          "vat_amount": 135,
+          "total_amount_exc_vat": 565,
+          "total_amount_inc_vat": 700
         }
       ],
-      "categorization": { "category": "F&B", "department": "Café" }
+      "categorization": {
+        "category": "F&B",
+        "department": "Café"
+      }
     },
     {
       "name": "Sandwich",
       "quantity": "1",
-      "quantityCode": "H87",
-      "unitPriceIncVAT": 4570,
-      "totalAmountExcVAT": 3685,
-      "totalAmountIncVAT": 4570,
+      "quantity_code": "H87",
+      "unit_price_inc_vat": 4570,
+      "total_amount_exc_vat": 3685,
+      "total_amount_inc_vat": 4570,
       "vats": [
         {
-          "VATRate": "24",
-          "VATAmount": 885,
-          "totalAmountExcVAT": 3685,
-          "totalAmountIncVAT": 4570
+          "vat_rate": "24",
+          "vat_amount": 885,
+          "total_amount_exc_vat": 3685,
+          "total_amount_inc_vat": 4570
         }
       ]
     }
   ],
   "vats": [
     {
-      "VATRate": "24",
-      "totalVATAmount": 1020,
-      "totalAmountExcVAT": 4250,
-      "totalAmountIncVAT": 5270,
-      "VATCode": "S"
+      "vat_rate": "24",
+      "total_vat_amount": 1020,
+      "total_amount_exc_vat": 4250,
+      "total_amount_inc_vat": 5270,
+      "vat_code": "S"
     }
   ],
   "payments": [
@@ -78,10 +88,10 @@
       "amount": 5270,
       "attributes": {
         "AID": "A0000000031010",
-        "maskedPAN": "411111******1111",
-        "authorizationCode": "AB12CD",
-        "terminalId": "POS-12",
-        "transactionId": "T-20260423-000871"
+        "masked_pan": "411111******1111",
+        "authorization_code": "AB12CD",
+        "terminal_id": "POS-12",
+        "transaction_id": "T-20260423-000871"
       }
     }
   ],
@@ -89,9 +99,14 @@
     {
       "type": "EMV",
       "version": "1.0",
-      "publicKey": "MIIBIjANBg…",
-      "transactionId": "T-20260423-000871"
+      "public_key": "MIIBIjANBg…",
+      "transaction_id": "T-20260423-000871"
     }
   ],
-  "status": { "status_list": { "idx": 17, "uri": "https://issuer.merchant.example/status/v1" } }
+  "status": {
+    "status_list": {
+      "idx": 17,
+      "uri": "https://issuer.merchant.example/status/v1"
+    }
+  }
 }
