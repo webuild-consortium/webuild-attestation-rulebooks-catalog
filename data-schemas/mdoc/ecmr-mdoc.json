@@ -1,0 +1,379 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://webuild.eu/schemas/ecmr-attestation-mdoc-v1.json",
+    "title": "eCMR Attestation - ISO/IEC 18013-5 mdoc",
+    "description": "Schema for issuance and presentation (DeviceResponse) of an eCMR Attestation",
+    "oneOf": [
+        {
+            "$ref": "#/$defs/issuance"
+        },
+        {
+            "$ref": "#/$defs/device_response"
+        }
+    ],
+    "$defs": {
+        "cddl_tstr": {
+            "type": "string",
+            "maxLength": 500
+        },
+        "cddl_uint": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "cddl_bstr": {
+            "type": "string",
+            "contentEncoding": "base64"
+        },
+        "uri": {
+            "type": "string",
+            "format": "uri"
+        },
+        "ebwoid": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100
+        },
+        "efti_dataset_identifier": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 36
+        },
+        "efti_platform_identifier": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 17
+        },
+        "efti_gate_identifier": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 17
+        },
+        "issuer_signed_item": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "elementIdentifier": {
+                    "type": "string",
+                    "enum": [
+                        "consignment_identifier",
+                        "ecmr_platform_url",
+                        "consignor_ebwoid",
+                        "carrier_ebwoid",
+                        "consignee_ebwoid",
+                        "efti_dataset_identifier",
+                        "efti_platform_identifier",
+                        "efti_gate_identifier",
+                        "embedded_ecmr_pdf",
+                        "attestation_legal_category",
+                        "issuer_ebwoid",
+                        "trust_anchor_url",
+                        "attestation_scheme",
+                        "issuance_date",
+                        "expiry_date"
+                    ]
+                },
+                "elementValue": {}
+            },
+            "required": [
+                "elementIdentifier",
+                "elementValue"
+            ]
+        },
+        "validity_info": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "signed": {
+                    "$ref": "#/$defs/cddl_uint"
+                },
+                "validFrom": {
+                    "$ref": "#/$defs/cddl_uint"
+                },
+                "validUntil": {
+                    "$ref": "#/$defs/cddl_uint"
+                }
+            },
+            "required": [
+                "signed",
+                "validFrom",
+                "validUntil"
+            ]
+        },
+        "ecmr_namespace_items": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/issuer_signed_item"
+            },
+            "minItems": 8,
+            "allOf": [
+                {
+                    "contains": {
+                        "properties": {
+                            "elementIdentifier": {
+                                "const": "consignment_identifier"
+                            }
+                        },
+                        "required": [
+                            "elementIdentifier"
+                        ]
+                    }
+                },
+                {
+                    "contains": {
+                        "properties": {
+                            "elementIdentifier": {
+                                "const": "ecmr_platform_url"
+                            }
+                        },
+                        "required": [
+                            "elementIdentifier"
+                        ]
+                    }
+                },
+                {
+                    "contains": {
+                        "properties": {
+                            "elementIdentifier": {
+                                "const": "attestation_legal_category"
+                            },
+                            "elementValue": {
+                                "const": "non-qualified-EAA"
+                            }
+                        },
+                        "required": [
+                            "elementIdentifier",
+                            "elementValue"
+                        ]
+                    }
+                },
+                {
+                    "contains": {
+                        "properties": {
+                            "elementIdentifier": {
+                                "const": "issuer_ebwoid"
+                            }
+                        },
+                        "required": [
+                            "elementIdentifier"
+                        ]
+                    }
+                },
+                {
+                    "contains": {
+                        "properties": {
+                            "elementIdentifier": {
+                                "const": "trust_anchor_url"
+                            }
+                        },
+                        "required": [
+                            "elementIdentifier"
+                        ]
+                    }
+                },
+                {
+                    "contains": {
+                        "properties": {
+                            "elementIdentifier": {
+                                "const": "attestation_scheme"
+                            }
+                        },
+                        "required": [
+                            "elementIdentifier"
+                        ]
+                    }
+                },
+                {
+                    "contains": {
+                        "properties": {
+                            "elementIdentifier": {
+                                "const": "issuance_date"
+                            }
+                        },
+                        "required": [
+                            "elementIdentifier"
+                        ]
+                    }
+                },
+                {
+                    "contains": {
+                        "properties": {
+                            "elementIdentifier": {
+                                "const": "expiry_date"
+                            }
+                        },
+                        "required": [
+                            "elementIdentifier"
+                        ]
+                    }
+                },
+                {
+                    "anyOf": [
+                        {
+                            "contains": {
+                                "properties": {
+                                    "elementIdentifier": {
+                                        "const": "consignor_ebwoid"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "contains": {
+                                "properties": {
+                                    "elementIdentifier": {
+                                        "const": "carrier_ebwoid"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "contains": {
+                                "properties": {
+                                    "elementIdentifier": {
+                                        "const": "consignee_ebwoid"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "issuer_namespaces": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "eu.webuildconsortium.ecmr.attestation.v1": {
+                    "$ref": "#/$defs/ecmr_namespace_items"
+                }
+            },
+            "required": [
+                "eu.webuildconsortium.ecmr.attestation.v1"
+            ]
+        },
+        "device_namespaces": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "eu.webuildconsortium.ecmr.attestation.v1": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/issuer_signed_item"
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "eu.webuildconsortium.ecmr.attestation.v1"
+            ]
+        },
+        "issuance": {
+            "type": "object",
+            "properties": {
+                "docType": {
+                    "type": "string",
+                    "const": "eu.webuildconsortium.ecmr.attestation.v1"
+                },
+                "issuerSigned": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "nameSpaces": {
+                            "$ref": "#/$defs/issuer_namespaces"
+                        },
+                        "validityInfo": {
+                            "$ref": "#/$defs/validity_info"
+                        },
+                        "issuerAuth": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "nameSpaces",
+                        "validityInfo",
+                        "issuerAuth"
+                    ]
+                }
+            },
+            "required": [
+                "docType",
+                "issuerSigned"
+            ],
+            "additionalProperties": false
+        },
+        "device_response": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "const": "1.0"
+                },
+                "documents": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "docType": {
+                                "type": "string",
+                                "const": "eu.webuildconsortium.ecmr.attestation.v1"
+                            },
+                            "issuerSigned": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "nameSpaces": {
+                                        "$ref": "#/$defs/issuer_namespaces"
+                                    },
+                                    "validityInfo": {
+                                        "$ref": "#/$defs/validity_info"
+                                    },
+                                    "issuerAuth": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "nameSpaces",
+                                    "validityInfo",
+                                    "issuerAuth"
+                                ]
+                            },
+                            "deviceSigned": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "nameSpaces": {
+                                        "$ref": "#/$defs/device_namespaces"
+                                    },
+                                    "deviceAuth": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "nameSpaces",
+                                    "deviceAuth"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "docType",
+                            "issuerSigned",
+                            "deviceSigned"
+                        ]
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "const": "ok"
+                }
+            },
+            "required": [
+                "version",
+                "documents",
+                "status"
+            ],
+            "additionalProperties": false
+        }
+    }
+}

@@ -1,85 +1,49 @@
-| Version | Date | Description |
-|---------|------------|------------|
-| 0.9 | 02-04-2026 | Copy created from the EUDI attestation rulebook template as the basis for the WE BUILD template. |
-| 1.0 | 02-04-2026 | Added WE BUILD v1 author guidance in Sections 1.1 and 2.1 and introduced Sections 2.8 Code lists and 2.9 Integrity rules. |
-| 1.1 | 08-04-2026 | Added a Semantic Reference column to Chapter 2 attribute and metadata tables. |
 
-# WE BUILD Attestation Rulebook Template for attestations of type *ADD THE ATTESTATION TYPE HERE*
-
-*This WE BUILD v1 template is derived from the EUDI attestation rulebook template and keeps its
-main chapter structure while adding practical author guidance and reusable placeholders.*
-
-*Provide information about the author(s) of this Rulebook in the following form:*
+# WE BUILD Attestation Rulebook for attestations of type Social Security Contribution
 
 * Author(s):
-    * [NAME SURNAME, AFFILIATION]
-    * [NAME SURNAME, AFFILIATION]
+    * [Bruno Salinier, Orange Business]
+    
 * Previous Authors
-    * [NAME SURNAME, AFFILIATION (versions)]
-    * [NAME SURNAME, AFFILIATION (versions)]
-
+    
 *Provide versioning information about the Rulebook in the following form:*
 
 | Version | Date | Description |
 |---------|------------|------------|
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG] |
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG] |
+| 0.1 | 30/06/2026 | Initial draft based on SSC attestation description |
 
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
+* Contact:
+    * bruno.salinier@orange.com
 
 **Feedback:**
-
-* <https://example.com/tracker>
 
 ## 1 Introduction
 
 ### 1.1 Document scope and purpose
 
-*Provide a concise explanation of the purpose of the defined attestation type, explicitly stating
-why it exists and what its primary objective is within the context of the EUDI Wallet ecosystem*
+The SocialSecurityContribution (SSC for short) attestation allows a Customer to verify that their Supplier fullfills their legal obligation regarding social declarations and payment of social contributions. 
 
-*In addition, authors SHOULD describe the attestation in plain language so that readers can quickly
-understand what it does in practice, who it is for, and in which use case(s) it is expected to be
-used. Content may be reused and refined from an existing attestation description where available.*
+The SSC attestation is issued by public bodies to employers to certify that they have fulfilled their social reporting obligations for their establishments.
 
-*When drafting this section, authors SHOULD cover at least the following points:*
+The primary purpose of this attestation is to provide proof that the employer has submitted the necessary social declarations and paid the corresponding contributions and contributions related to social security, family allowances, unemployment insurance, and wage guarantee fund contributions. It is intended for use in administrative or legal contexts to verify compliance with social security obligations. For example, the provision by suppliers of such an attestation is required by national law in some EU Countries when signing a contract and on a regular basis thereafter.
 
-* What real-world fact, entitlement, role, status, or capability the attestation expresses.
-* Which issuers, holders, and relying parties are expected to use it.
-* Which use case or user journey the attestation supports.
-* Which existing attestation description, use-case document, or functional specification can be
-used as a source for copy-paste or refinement.
-* Which terminology should remain aligned with the source attestation description.
+This attestation is therefore essential for Customers as Relying Parties to get the SSC attestation from their Suppliers as Holders in the Know Your Supplier (KYS) process. 
 
-[RULEBOOK AUTHOR TO DEFINE]
-
-> Example
->
-> This attestation enables a relying party to verify, in plain language, that the holder is
-> authorised to act in a specific project role. It is intended for project operators, service
-> providers, and supervisory relying parties in the WE BUILD ecosystem. The functional description
-> and actor terminology can be reused from the corresponding use-case attestation description and
-> refined here into rulebook language.
+The main source for the design of the SSC attestation is the French "attestation de vigilance" issued by URSSAF in accordance to Article L243-15 of the social security code in France.
 
 ### 1.2 Document structure
 
-*Provide a brief overview of the Rulebook's sections and their purpose. The main
-sections of the Rulebook SHOULD be*
+The rulebook is structured as follows:
 
-* Chapter 2, which describes the attestation attributes and metadata in an
-encoding-independent manner.
-* Chapter 3, which specifies how the attestation
-attributes and metadata are encoded in case the attestation complies with [ISO/IEC
-18013-5] and/or [SD-JWT VC] and/or [W3C VCDM v2.0]. Each encoding SHALL be specified in a separate section, or even in a separate chapter.
-* Chapter 4, which specifies attestation usage.
-* Chapter 5, which defines how trust anchors for attestation verification can be obtained.
-* Chapter 6, which defines attestation revocation mechanisms.
-* Chapter 7, which provides compliance information.
+* Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner,
+* Chapter 3 specifies how the attestation,
+attributes and metadata are encoded following [SD-JWT VC],
+* Chapter 4 specifies attestation usage,
+* Chapter 5 defines how trust anchors for attestation verification can be obtained,
+* Chapter 6 defines attestation revocation mechanisms,
+* Chapter 7 provides compliance information.
 
 ### 1.3 Key words
-
-*The following are the recommended keywords. Modify if necessary*
 
 This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as
 specified in [RFC 2119], i.e., to indicate requirements, recommendations and
@@ -93,134 +57,121 @@ statements of fact.
 
 ### 1.4 Terminology
 
-*It is recommended to use the terminology defined in Annex 1 of ARF. For example
-the following text can be used.*
+This document uses the terminology specified in Annex 1 of the ARF. In addition, the terminology below is used in this document.
 
-This document uses the terminology specified in Annex 1 of the ARF.
+> < TODO >
+
 
 ## 2 Attestation attributes and metadata
 
-### Chapter overview and requirements
-
-*This chapter is used for defining all attributes that an
-attestation of the defined type may contain. In this section
-the attributes SHALL be defined in an encoding-independent manner (see ARB_06 in [Topic 12]).
-Each attribute can be mandatory, optional, or conditional
-and this SHALL be specified in the corresponding section (see ARB_09 in [Topic 12]).*
-
-*When attributes are defined, referring to attributes that
-already exist in a catalogue of attestation attributes
-SHOULD be considered (see ARB_07 in [Topic 12]).*
-
-*Where use-case documentation or an attestation description already defines attribute meanings,
-logical models, code lists, or integrity constraints, authors SHOULD align terminology with those
-sources and may copy and refine that material for this Rulebook.*
-
-*[Topic 12] of Annex 2 of the ARF defines the following High-Level Requirements with
-respect to the Attestation Rulebooks:*
-
-**Requirements for QEAA**
-
-* An attribute as meant in Annex V point a)  of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_13 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point c)  
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex V point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* One or more attributes or metadata representing the location meant in Annex V point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL
-indicate at least the URL at which a machine-readable version of the trust anchor to be
-used for verifying the QEAA can be found or looked up (see ARB_20 in [Topic 12]).
-
-**Requirements for PuB-EAA**
-
-* An attribute as meant in  Annex VII point a) of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
- VII point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_14 in [Topic 12]).
-* One or more attributes representing the set of data meant in Annex VII point c)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex VII point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* one or more attributes or metadata representing the location meant in Annex VII point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL
-indicate at least the URL at which a machine-readable version of the qualified
-certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [Topic 12])
-
-**Requirements for non-qualified EAA**
-
-* An attribute indicating that the attestation is an EAA should be included (see ARB_12 in [Topic 12]).
-See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_15 in [Topic 12]).
-* One or more attributes representing the set of data meant in Annex V point c) of the
-[European Digital Identity Regulation] SHOULD be included (see ARB_17 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point e) of
-the [European Digital Identity Regulation] SHOULD be defined (see ARB_19 in [Topic 12]).
-* One or more attributes or metadata representing the location at which a machine-readable
-version of the trust anchor to be used for verifying the EAA can be found or
-looked up SHOULD be defined. What this location indicates precisely is dependent
-on the nature of the mechanism used for distributing trust anchors, detailed in section
-5 (see ARB_21 in [Topic 12])
+The SocialSecurityContribution attestation provides a standardized representation of the declaration and status of a company in regard to its social contributions.
 
 ### 2.1 Introduction
 
-*In this section, briefly introduce the overall design and purpose of the specific attestation type
-defined by this Rulebook, including key decisions regarding its attributes and
-legal categorization.*
+The attestation structure is defined as a structured object:
 
-*According to Annex V point a) and  Annex VII point a) of the [European Digital Identity Regulation]
-an indication, at least in a form suitable for automated processing, that the attestation
-has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
-of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.
+**Data Model:**
+````
+SocialSecurityContribution
+├─ liableEmployer (M)
+│   └──legalName (M)
+│   └──legalIdentifier (M)
+├─ legalBasis (M)
+├─ coveredObligationType (M)
+├─ complianceStatus (M)
+├─ validAsOfDate (M)
+├─ reportingPeriod (C)
+├─ averagePeriodWorkforce (O)
+├─ totalPayroll (O)
+├─ hasSite [1..n] (O)
+│   └── siteIdentifier (M)
+│   └── registeredAddress (M)
+├─ coverageStatement (O)
+└─ qualificationNote (O)
 
-This document defines the attribute "attestation_legal_category" which SHALL have
-the value "QEAA" or "PuB-EAA" or "non-qualified-EAA".*
+````
+Note: M - Mandatory O - Optional C - Conditional
 
-*For complex attestations, authors SHOULD include or reference a logical model, diagram, or similar
-representation that explains the main entities, relationships, and attribute groupings. Such models
-may often be reused from an existing attestation description or use-case documentation.*
+**Explanation:**
 
-> Example
->
-> The attestation description for Use Case X already contains a domain model showing the holder,
-> issuer, project, permit, and validity period. That model may be copied here and adjusted so that
-> the terminology exactly matches the rulebook.
+- `liableEmployer` identifies the employer whose obligations are certified and is an object **SHALL** appear exactly once and contains:
+  - `legalName` — the legal name of the employer.
+  - `legalIdentifier` — the official identifier of the employer.
 
-*In the following subsections 2.2 - 2.7 define in an encoding independent manner all
-mandatory, optional, and conditional attributes and metadata. In each subsection
-provide a table of the following form. When applicable, use Sections 2.8 and 2.9 to document
-code lists and integrity rules that are needed to interpret these attributes consistently:*
+- `legalBasis` is the legal provision or framework under which the attestation is issued.
+- `coveredObligationType` is the type of social security, employment-related contribution, reporting, or payment obligation covered.
+- `complianceStatus` is the assessed status of the employer’s fulfilment of the covered obligations.
+- `validAsOfDate` is the date on which the facts or status were assessed.
+- `reportingPeriod` is the period to which the declarations, payroll, workforce, or other reported data relate.
+- `averagePeriodWorkforce` is the average number of employed persons for the reporting period.
+- `totalPayroll` is the total gross payroll, wage sum, or declared remuneration for the reporting period.
+- The `hasSite` object **MAY** appear at most once and **SHALL** contains at least one `Site` object defined by its `siteIdentifier` and `registeredAddress` and representing a site, establishment, local unit, branch, workplace, or comparable operational location covered by the attestation.
+- `coverageStatement` provides a human-readable statement describing the establishments, sites, obligations, regimes, or reporting scope covered by the attestation.
+-  `qualificationNote` provides a caveat, limitation, condition, or explanatory note that qualifies the interpretation of the attestation. 
 
-*Where available, authors SHOULD include a stable semantic term reference (for example a URI,
-IRI, or controlled identifier from an agreed semantics catalogue) for each attribute or metadata item.*
+**Attestation Classification:**
 
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a unique attribute identifier* | *Provide a stable semantics term reference* | *Briefly describe the semantic of this attribute* | *Provide a type, e.g., integer, string, boolean, date.* | *Give an example value* |
+This attestation type MAY be classified as:
 
-*NOTE Data identifiers should be unambiguous, machine-readable where possible, and
-avoid natural-language ambiguities.*
+- **`QEAA`** when issued by a qualified trust service provider (QTSP) or authorised competent
+  body (e.g. a social security agency).
+- **`Pub-EAA`** when issued by a member state institution (To be verified).
 
 ### 2.2 Mandatory attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+| liableEmployer |  | Identifies the employer whose obligations are certified | Object |  |
+| liableEmployer.legalName | | Official legal name of the employer | String | Orange Business Services SA |
+| liableEmployer.legalIdentifier | | Legal identifier of the employer <Can be MS specific or EU-wide (VATID)> | String | 345039416 |
+| legalBasis |  | Legal provision or framework under which the attestation is issued | String | Article L243-15 du Code de la sécurité sociale |
+| coveredObligationType  |  | Type of social security, employment-related contribution, reporting, or payment obligation covered | Array of Strings | ["familyAllowanceContribution", "employmentDeclarationObligation"] |
+| complianceStatus |  | Assessed status of the employer’s fulfilment of the covered obligations | String | upToDate |
+| validAsOfDate |  | Date on which the facts or status were assessed | Date (YYYY-MM-DD) | 2026-07-01 |
+
+ **Possible `coveredObligationType` values:**
+
+| Value | Meaning |
+|---|---|
+| `socialSecurityContribution` | Social security contribution obligations. |
+| `familyAllowanceContribution` | Family allowance-related contributions. |
+| `unemploymentInsuranceContribution` | Unemployment insurance contributions. |
+| `wageGuaranteeFundContribution` | Wage guarantee fund contributions. |
+| `employmentDeclarationObligation` | Obligations to submit employment-related declarations. |
+| `agriculturalSocialContribution` | Agricultural-sector social contribution obligations. |
+| `selfEmployedSocialContribution` | Self-employed worker contribution obligations. |
+| `otherEmploymentRelatedContribution` | Other employment-related contribution obligations. |
+
+**Possible `complianceStatus` values:**
+
+| Value | Meaning |
+|---|---|
+| `upToDate` | The employer is assessed as up to date with the covered obligations. |
+| `notUpToDate` | The employer is not assessed as up to date. |
+| `compliantUnderPaymentPlan` | The employer is treated as compliant because an accepted payment plan exists. |
+| `disputedAmount` | The status is affected by a disputed contribution amount. |
+| `notApplicable` | The obligation is not applicable to the employer or period. |
+| `unknown` | The status cannot be determined from the attestation data. |
 
 ### 2.3 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+| averagePeriodWorkforce |  | Average number of employed persons for the reporting period. Implies reportingPeriod to be present.  | String | 2365 |
+| totalPayroll |  | Total payroll, wage sum, or declared remuneration for the reporting period. Implies reportingPeriod to be present.  | String | 129350000.00 EUR |
+| hasSite |  | A site, establishment, local unit, branch, workplace, or comparable operational location | Object |  |
+| hasSite.siteIdentifier |  | identifier of the site, may be referenced in business register in some MS | String | 34503941600012 |
+| hasSite.registeredAddress | Address | Adress of the site | String | 1 Place des Droits de l'Homme, 93200 Saint-Denis, France |
+| coverageStatement |  | A human-readable statement describing the establishments, sites, obligations, regimes, or reporting scope covered by the attestation | String | This attestation covers the liable employer and the establishments declared to the issuing authority for the reporting period. Where obligations are handled centrally, the attestation applies within the scope of that centralised reporting arrangement. |
+| qualificationNote |  | A human-readable note about caveat, limitation, condition that qualifies the interpretation of the attestation. | String | The attestation confirms the status recorded by the issuing authority for the covered obligations at the valid-as-of date. It does not replace any separate attestation required for obligations outside the stated scope or outside the issuing jurisdiction |
 
 ### 2.4 Conditional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| *Provide a value* | *Provide a value or N/A* | *Provide succinct text* | *Provide a value* | *Provide a value* |
+| reportingPeriod |  | Period to which declarations, payroll, workforce, or other reported data relate. Mandatory when averagePeriodWorkforce or totalPayroll are reported. | Object |  |
+| reportingPeriod.startDate |  | Starting date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-01 |
+| reportingPeriod.endDate |  | Ending date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-30 |
 
 ### 2.5 Mandatory metadata
 
@@ -550,8 +501,8 @@ general EUDI framework, ARF, and relevant regulations*
 | [RFC 8943] | RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
 | [RFC 8949] | RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
 | [SD-JWT VC] |  SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09  |
-| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a235-topic-7---attestation-revocation-and-revocation-checking>|
-| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a237-topic-10---issuing-a-pid-or-attestation-to-a-wallet-unit>|
-| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a239-topic-12---attestation-rulebooks>|
-| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a2313-topic-20---strong-user-authentication-for-electronic-payments>|
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking>|
+| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit>|
+| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks>|
+| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments>|
 | [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.  |
