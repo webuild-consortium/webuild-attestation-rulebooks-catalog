@@ -382,15 +382,15 @@ FIXED
 
 | Protocol | Supported | Profile or version | Specification | Notes |
 | --- | --- | --- | --- | --- |
-| OpenID4VCI | yes / no | | [OpenID4VCI], [HAIP] | |
+| OpenID4VCI | yes / no | [OpenID4VCI], [HAIP], [ETSI TS 119 472-3], [CIR (EU) 2026/1731] | [Specify URL to profile] | |
 | [OTHER] | | | | |
 
 ### 6.2 Presentation
 
 | Protocol | Supported | Profile or version | Specification | Notes |
 | --- | --- | --- | --- | --- |
-| OpenID4VP, remote | yes / no | | [OpenID4VP], [HAIP] | |
-| ISO/IEC 18013-5, proximity | yes / no | | [ISO/IEC 18013-5] | Requires the mdoc format |
+| OpenID4VP, remote | yes / no | [OpenID4VP], [HAIP], [ETSI TS 119 472-2], [CIR (EU) 2026/1731] | [Specify URL to profile] | |
+| ISO/IEC 18013-5, proximity | yes / no | [ISO/IEC 18013-5], [ETSI TS 119 472-2], [CIR (EU) 2026/1731] | [Specify URL to profile] | Requires the mdoc format |
 | [OTHER] | | | | |
 
 FIXED
@@ -415,15 +415,12 @@ FIXED table shape. Complete every row, none may be left blank.
 PuB-EAA the defaults are device-bound and bound to the PID unless justified. For
 EBWOID all four rows are TO AGREE.
 
-### 7.2 Lifecycle management
+### 7.2 Issuance Policy
 
 [AUTHOR] Specify:
 
-- the authentic source of the attributes, and how currency is assured;
-- validity period, or the rule that determines it;
-- reissuance and renewal, including cadence for short-lived attestations;
-- update or correction when the underlying facts change;
-- batch issuance, if used, and any limits on reuse.
+- reference to the generic QEAA/Pub-EAA/EAA provider's trust services policy in accordance with ETSI TS 119 471;
+- reference to the EAA Policy (for each EAA type) in accordance with ETSI TS 119 471;
 
 **Attestation Provider obligations.** FIXED opening, then attestation-specific
 additions.
@@ -432,12 +429,26 @@ additions.
 > They are specified in Topic 10 of Annex 2 of the ARF, in the applicable Implementing
 > Regulations, and in [ETSI TS 119 471]. This Rulebook states only obligations
 > specific to this attestation type.
+> More specifically, the generic QEAA/Pub-EAA/EAA provider's trust services policy should be provided in accordance with ETSI TS 119 471.
+> Each EAA Policy (per QEAA/Pub-EAA/EAA type) should specify:
+> - identity proofing in accordance with ETSI TS 119 461;
+> - attribute proofing in accordance with ETSI TS 119 461;
+> - batch issuance, if used, and any limits on reuse;
+> - authentic source of the attributes (if applicable according to ETSI TS 119 478), and how currency is assured;
 
 [AUTHOR] List the attestation-specific obligations, if any, each as a pointer to the
 section that states it, for example format obligations from chapter 5, selective
 disclosure rules from chapter 3, trust anchor publication from chapter 10.
 
-### 7.3 Issuance Policy
+### 7.3 Lifecycle management
+
+[AUTHOR] Specify:
+
+- validity period, or the rule that determines it;
+- reissuance and renewal, including cadence for short-lived attestations;
+- update or correction when the underlying facts change;
+- batch issuance, if used, and any limits on reuse;
+- the authentic source of the attributes (if applicable according to ETSI TS 119 478), and how currency is assured.
 
 ### 7.4 Embedded disclosure policy
 
@@ -453,8 +464,6 @@ FIXED
 > Annex 2 of the ARF. No standardised encoding exists in ISO/IEC 18013-5, SD-JWT VC,
 > OpenID4VCI or OpenID4VP at the time of writing. This Rulebook declares which policy
 > applies and does not specify a local encoding.
-
-
 
 ## 8 Revocation
 
