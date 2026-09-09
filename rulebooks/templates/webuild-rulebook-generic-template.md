@@ -450,6 +450,8 @@ disclosure rules from chapter 3, trust anchor publication from chapter 10.
 - batch issuance, if used, and any limits on reuse;
 - the authentic source of the attributes (if applicable according to ETSI TS 119 478), and how currency is assured.
 
+Alternative: If the lifecycle management is specified in the EAA Policy and/or the QEAA/Pub-EAA/EAA provider's trust services policy (as mentioned in the Issuance Policy section 7.2), then it is possible to refer these document(s) instead of specifying the details of the lifecycle management.
+
 ### 7.4 Embedded disclosure policy
 
 | Field | Value |
