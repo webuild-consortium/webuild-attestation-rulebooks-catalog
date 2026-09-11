@@ -47,8 +47,8 @@ leave it alone. Strip all three before submission to the EC catalogue.
    * [6.2 Presentation](#62-presentation)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
-   * [7.2 Lifecycle management](#72-lifecycle-management)
-   * [7.3 Issuance Policy](#73-issuance-policy)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#72-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
@@ -382,15 +382,15 @@ FIXED
 
 | Protocol | Supported | Profile or version | Specification | Notes |
 | --- | --- | --- | --- | --- |
-| OpenID4VCI | yes / no | [OpenID4VCI], [HAIP], [ETSI TS 119 472-3], [CIR (EU) 2026/1731] | [Specify URL to profile] | |
+| OpenID4VCI | yes / no | [Specify URL to profile] | [OpenID4VCI], [HAIP], [ETSI TS 119 472-3], [CIR (EU) 2026/1731] | |
 | [OTHER] | | | | |
 
 ### 6.2 Presentation
 
 | Protocol | Supported | Profile or version | Specification | Notes |
 | --- | --- | --- | --- | --- |
-| OpenID4VP, remote | yes / no | [OpenID4VP], [HAIP], [ETSI TS 119 472-2], [CIR (EU) 2026/1731] | [Specify URL to profile] | |
-| ISO/IEC 18013-5, proximity | yes / no | [ISO/IEC 18013-5], [ETSI TS 119 472-2], [CIR (EU) 2026/1731] | [Specify URL to profile] | Requires the mdoc format |
+| OpenID4VP, remote | yes / no | [Specify URL to profile] | [OpenID4VP], [HAIP], [ETSI TS 119 472-2], [CIR (EU) 2026/1731] | |
+| ISO/IEC 18013-5, proximity | yes / no | [Specify URL to profile] | [ISO/IEC 18013-5], [ETSI TS 119 472-2], [CIR (EU) 2026/1731] | Requires the mdoc format |
 | [OTHER] | | | | |
 
 FIXED
@@ -419,8 +419,8 @@ EBWOID all four rows are TO AGREE.
 
 [AUTHOR] Specify:
 
-- reference to the generic QEAA/Pub-EAA/EAA provider's trust services policy in accordance with ETSI TS 119 471;
-- reference to the EAA Policy (for each EAA type) in accordance with ETSI TS 119 471;
+- reference to the Attestion Provider's generic trust services policy in accordance with ETSI TS 119 471;
+- reference to the EAA Policy (for each attestation type) in accordance with ETSI TS 119 471;
 
 **Attestation Provider obligations.** FIXED opening, then attestation-specific
 additions.
@@ -429,8 +429,8 @@ additions.
 > They are specified in Topic 10 of Annex 2 of the ARF, in the applicable Implementing
 > Regulations, and in [ETSI TS 119 471]. This Rulebook states only obligations
 > specific to this attestation type.
-> More specifically, the generic QEAA/Pub-EAA/EAA provider's trust services policy should be provided in accordance with ETSI TS 119 471.
-> Each EAA Policy (per QEAA/Pub-EAA/EAA type) should specify:
+> More specifically, the Attestation Provider's generic trust services policy can be provided in accordance with ETSI TS 119 471.
+> Each EAA Policy (per attestation type) can specify:
 > - identity proofing in accordance with ETSI TS 119 461;
 > - attribute proofing in accordance with ETSI TS 119 461;
 > - batch issuance, if used, and any limits on reuse;
@@ -446,11 +446,9 @@ disclosure rules from chapter 3, trust anchor publication from chapter 10.
 
 - validity period, or the rule that determines it;
 - reissuance and renewal, including cadence for short-lived attestations;
-- update or correction when the underlying facts change;
-- batch issuance, if used, and any limits on reuse;
-- the authentic source of the attributes (if applicable according to ETSI TS 119 478), and how currency is assured.
+- update or correction when the underlying facts change.
 
-Alternative: If the lifecycle management is specified in the EAA Policy and/or the QEAA/Pub-EAA/EAA provider's trust services policy (as mentioned in the Issuance Policy section 7.2), then it is possible to refer these document(s) instead of specifying the details of the lifecycle management.
+Alternative: If the lifecycle management is specified in the EAA Policy and/or the Attestation Provider's trust services policy (as mentioned in the Issuance Policy section 7.2), then it is possible to refer these document(s) instead of specifying the details of the lifecycle management.
 
 ### 7.4 Embedded disclosure policy
 
@@ -597,10 +595,14 @@ they apply, and state explicitly where one does not:
 | [Regulation] | Regulation (EU) 2024/1183 amending Regulation (EU) No 910/2014 |
 | [CIR 2024/2977] | Commission Implementing Regulation (EU) 2024/2977, PID and EAA |
 | [CIR 2024/2979] | Commission Implementing Regulation (EU) 2024/2979, integrity and core functionality |
+| [CIR 2026/1731] | Commission Implementing Regulation (EU) 2026/1731, as regards applicable standards and specifications |
 | [ARF] | EUDI Wallet Architecture and Reference Framework, version [VERSION] |
+| [ETSI TS 119 461] | Policy and security requirements for trust service components providing identity proofing of trust service subjects  |
 | [ETSI TS 119 471] | Policy and security requirements for EAA service providers |
-| [ETSI TS 119 472-1] | Electronic Attestation of Attributes, Part 1 |
-| [ETSI TS 119 472-2] | Electronic Attestation of Attributes, Part 2 |
+| [ETSI TS 119 472-1] | Profiles for Electronic Attestations of Attributes; Part 1 - General requirements |
+| [ETSI TS 119 472-2] | Profiles for Electronic Attestations of Attributes; Part 2 - Profiles for EAA/PID Presentations to Relying Party  |
+| [ETSI TS 119 472-3] | Profiles for Electronic Attestations of Attributes; Part 3 - Profiles for issuance of EAA or PID |
+| [ETSI TS 119 478] | Specification of interfaces related to Authentic Sources |
 | [HAIP] | OpenID4VC High Assurance Interoperability Profile |
 | [ISO/IEC 18013-5] | Personal identification, ISO-compliant driving licence, Part 5, 2021 |
 | [OpenID4VCI] | OpenID for Verifiable Credential Issuance |
