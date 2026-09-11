@@ -111,7 +111,7 @@ capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 ### 1.4 Terminology
 
 
-This document uses the terminology specified in [Annex 1](https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-1/annex-1-definitions/) of the ARF.
+This document uses the terminology specified in [Annex 1](https://eudi.dev/3.0.0/annexes/annex-1/annex-1-definitions/) of the ARF.
 
 ## 2 Certification
 
@@ -626,7 +626,7 @@ presentation, and ISO/IEC 18013-5 device retrieval for proximity presentation.
 | Device-bound | SHALL | EW-DM-12-038 |
 | Cryptographically bound to | none | EW-DM-12-032 |
 | Relying Party must also verify a PID | not applicable | EW-DM-12-031 |
-| Binding subject | natural person | |
+| Binding subject | natural person | CIR 2024/2977, person identification data for the natural person |
 
 A PID SHALL be bound to the Wallet Unit key material. For SD-JWT VC this is expressed
 through the `cnf` claim, as stated in section 5.2. The row for EW-DM-12-031 is not
@@ -830,8 +830,8 @@ For information regarding the use of the trust list in WE BUILD, please consult 
 | [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html>                                                                                                                                    | 
 | [EKYC]                                 | OpenID Connect for Identity Assurance Claims Registration <https://openid.net/specs/openid-connect-4-ida-claims-1_0-final.html#ICAO-Doc9303>                                                                                                                             |
 | [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>                                                                                                                                               |
-| [Topic 3]                              | ARF Annex 2 - Topic 3 - Attestation revocation and revocation checking Available: <https://eudi.dev/latest/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                 |
-| [Topic 12]                             | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eudi.dev/latest/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                                        |
+| [Topic 3]                              | ARF Annex 2 - Topic 3 - Attestation revocation and revocation checking Available: <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                 |
+| [Topic 12]                             | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                                        |
 | [W3C VCDM v2.0]                        | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.                                                                                                                                                                                          |
 
 For further references please see [ARF Chapter 10](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/architecture-and-reference-framework-main.md#10-references) of the ARF main document.
