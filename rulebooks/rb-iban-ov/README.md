@@ -22,7 +22,8 @@
 | 1.0     | 30.07.2026 | Introduced legal_person_identifiers array for both Account_(Ownership) and (Provider) |
 
 * Contact:
-  * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com)*
+  * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com) 
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com) 
 * Feedback:
 
 ## 1 Introduction

@@ -22,7 +22,8 @@
 
 * **Contact:**
   * [Florin Coptil](mailto:florin.coptil@bosch.com)
-
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com) 
+   
 * **Feedback:**
 
 ## 1 Introduction

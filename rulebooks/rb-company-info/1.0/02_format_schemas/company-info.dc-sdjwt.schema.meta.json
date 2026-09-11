@@ -1,0 +1,38 @@
+{
+  "vct": "eu.we-build:companyinfo:1",
+  "name": "WEBuild – CompanyInfo Attestation 1.0",
+  "display": [
+    {
+      "locale": "en-US",
+      "name": "WeBuild Corporate Identity",
+      "rendering": { "backgroundColor": "#0B1F3F", "textColor": "#FFFFFF" }
+    }
+  ],
+  "claims": [
+    {
+      "path": ["attestation_legal_category"],
+      "display": [{"locale": "en-US", "label": "Attestation Category"}],
+      "sd": "never"
+    },
+    {
+      "path": ["legal_entity"],
+      "display": [{"locale": "en-US", "label": "Corporate Registration Data"}],
+      "sd": "always"
+    },
+    {
+      "path": ["number_of_employees"],
+      "display": [{"locale": "en-US", "label": "Total Employees"}],
+      "sd": "always"
+    },
+    {
+      "path": ["trade_alias"],
+      "display": [{"locale": "en-US", "label": "Trade Aliases"}],
+      "sd": "always"
+    },
+    {
+      "path": ["financial_statements"],
+      "display": [{"locale": "en-US", "label": "Financial Statements"}],
+      "sd": "always"
+    }
+  ]
+}

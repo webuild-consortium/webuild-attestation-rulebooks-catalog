@@ -18,8 +18,9 @@
 | 1.0     | 23.07.2026 | Inputs from PA3 - Perspective                                   |
 
 * Contact:
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)*
-
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)
+  * [Dominic Hurni](mailto:dominic.hurni@sbb.ch) 
+  
 * Feedback:
 
 ## 1 Introduction
