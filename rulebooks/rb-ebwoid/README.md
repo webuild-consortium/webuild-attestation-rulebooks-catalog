@@ -192,11 +192,19 @@ This chapter defines the legally required minimum attributes, as well as optiona
 All data identifiers and definitions in this chapter are independent of any encoding used. Consequently, the data identifiers in these tables are not necessarily the same as the claim names used for EBWOID complying with [SD-JWT VC]. [Chapter 3.2](#32-sd-jwt-vc-based-encoding) specifies the claim names to be
   used for such EBWOID.
 
-> **Note on schema artefacts.** Section 3.1 of the generic template requires a
-> machine-readable schema artefact for every format marked supported in chapter 5,
-> versioned and immutably addressable. No such artefact exists yet for this
-> attestation under `data-schemas/`. Adding one is follow-up work, tracked as a known
-> gap rather than resolved here.
+The machine-readable schema artefact for this attestation is:
+
+| Format | Identifier | Schema artefact | Version | Location |
+| --- | --- | --- | --- | --- |
+| SD-JWT VC | `vct` `uri:eu.ebw.oid.1` | JSON schema | 1.0.0 | `data-schemas/sd-jwt/ds001-ebwoid-sd-jwt.json` |
+
+Sample data is at `data-schemas/sd-jwt/sample-data/ds001-ebwoid-sd-jwt-sample.json`.
+
+> **Two points on the artefact.** Its `$id` is
+> `https://example.org/schemas/ds001-ebw-oid-sd-jwt.json`, which is a placeholder
+> domain and does not satisfy the requirement above that each artefact be immutably
+> addressable. That `$id` also names the file `ds001-ebw-oid-sd-jwt.json` while the
+> file on disk is `ds001-ebwoid-sd-jwt.json`. Both need resolving before submission.
 
 ### 3.2 Mandatory attributes
 
