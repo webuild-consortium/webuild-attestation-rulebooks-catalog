@@ -526,6 +526,22 @@ FIXED
 Coherence check: the attribute named here SHALL be the same attribute declared in
 chapter 4.
 
+**Deployment profile**
+
+[AUTHOR] Record the trust anchor arrangements specific to this attestation and to the
+deployment it runs in. Do not edit the FIXED text above. Cover the following where
+they apply, and state explicitly where one does not:
+
+- how Provider trust anchors are distributed, naming any List of Trusted Entities or
+  Trusted List involved and the registration or notification process behind it;
+- how a Relying Party or Wallet Unit looks a trust anchor up, including the
+  attributes the lookup keys on and any caching or update policy;
+- the ordered steps a Relying Party follows to verify the authenticity of this
+  attestation, and the ordered steps a Wallet Unit follows to authenticate a Relying
+  Party before presentation;
+- any consortium-specific endpoint, profile or extension the deployment depends on;
+- worked examples.
+
 ## 11 References
 
 | Reference | Details |
