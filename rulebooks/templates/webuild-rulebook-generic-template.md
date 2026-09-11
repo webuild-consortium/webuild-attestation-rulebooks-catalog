@@ -48,7 +48,7 @@ leave it alone. Strip all three before submission to the EC catalogue.
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
    * [7.2 Issuance Policy](#72-issuance-policy)
-   * [7.3 Lifecycle management](#72-lifecycle-management)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
