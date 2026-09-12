@@ -4,6 +4,7 @@
 | 0.6 | 2026-07-14 | Review draft for SC5 rulebook review meeting. Aligned with the WE BUILD attestation rulebooks catalog conventions: vct pattern `eu.we-build:<slug>:1`, legal category value `EAA`, EBWOID-anchored EAA trust model per rb-base, Chapter 4 issuer/RP obligations referencing the Base Verification rulebook, and Token Status List metadata (`status_list_credential`/`status_list_index`). Attributes, code lists and integrity rules transposed from the eInvoice Attestation description v0.5 into the template structure. |
 | 0.7 | 2026-07-15 | Finalised for SC5. Reconciled attribute naming between the attribute tables and the integrity rules (`buyerLegalRegistrationIdentifier`, `invoiceTotalVatAmount`), completed the SD-JWT VC encoding and selective-disclosure table, and completed Chapters 4–7. Open items (payload canonicalization/hash algorithm, LoTE/trust-registry mechanism) flagged inline pending WP4 confirmation. |
 | 0.71 | 2026-07-23 | Small corrections: renamed the business lifecycle claim to `invoiceLifecycleStatus` to avoid collision with Token Status List metadata; corrected `attestation_legal_category` to `non-qualified-EAA`; added conditional `precedingInvoiceReference` (EN 16931 BT-25) for corrections, cancellations and credit notes; and explicitly retained the broad supporting-document scope of `evidenceReferences`. |
+| 0.8 | 2026-08-11 | Review-feedback update. Replaced the flat seller/buyer identity fields with nested `seller`/`buyer` objects (`name`, `identifier`, `vat`, `country`), and introduced a multi-scheme `identifier` object supporting `euid`, `lei`, `tax`, `gln`, `duns`, `eori`, `bpnl` and `siren`. `identifier.euid` is mandatory — it is the EU-law-recognized legal-entity identifier and the one this Rulebook's trust model verifies against the EBWOID/LoTE chain (IR-EI-06); the other seven are optional, unverified supplementary identifiers. `buyer` remains optional as a whole, but `name`/`identifier`/`vat`/`country` are mandatory once a `buyer` object is present.  |
 
 # WE BUILD Attestation Rulebook for attestations of type *eInvoice*
 
@@ -17,14 +18,13 @@ Business Wallets).*
     * Maarten Boender, Sphereon 
 
 
-| Version | Date | Description |
-|---------|------------|------------|
-| 0.1 | 2026-07-01 | Initial draft |
-| 0.6 | 2026-07-14 | Draft aligned with conventions |
-| 0.7 | 2026-07-15 | Finalised |
-| 0.71 | 2026-07-23 | Small corrections |
-
-
+| Version | Date       | Description                     |
+|---------|------------|-------------------------------- |
+| 0.1     | 2026-07-01 | Initial draft                   |
+| 0.6     | 2026-07-14 | Draft aligned with conventions  |
+| 0.7     | 2026-07-15 | Finalised                       |
+| 0.71    | 2026-07-23 | Small corrections               |
+| 0.8     | 2026-08-11 | Addressed review feedback       |
 
 ## 1 Introduction
 
@@ -131,6 +131,11 @@ Per ARB_12 of [Topic 12], this document defines the attribute **`attestation_leg
 this Rulebook profiles a non-qualified EAA for the WE BUILD pilot, the attribute SHALL have the exact
 value **`non-qualified-EAA`**.
 
+`Seller` and `buyer` are each modelled as an object carrying `name`, `identifier`, `vat` and `country`. `identifier` is itself an object supporting multiple identification schemes, because implementers legitimately hold different registry identifiers for the same legal entity: `euid`, `lei` (Legal Entity Identifier, ISO 17442), `vat`, `gln` (GS1 Global Location
+Number), `duns`, `eori` (EU customs identifier), `bpnl` and `siren` (French national company identifier). Of these, only
+`identifier.euid` is mandatory. The other identifiers are OPTIONAL.
+
+
 **Logical model (informative):**
 
 ```
@@ -140,16 +145,26 @@ eInvoiceAttestation
 ├── invoiceFormat                      (optional; EN 16931 default, may be country-specific)
 ├── invoiceNumber
 ├── issueDate
-├── seller                             (Supplier — the issuer)
-│   ├── sellerLegalRegistrationIdentifier   (EUCC/LPID identity reference)
-│   ├── sellerRegistrationName
-│   ├── sellerVatIdentifier
-│   └── sellerCountry
-├── buyer                              (Buyer — the relying party; optional identity fields)
-│   ├── buyerLegalRegistrationIdentifier    (optional; EUCC/LPID identity reference)
-│   ├── buyerVatIdentifier
-│   ├── buyerCountry
-│   └── BuyerElectronicAddress
+├── seller                             (Supplier — the issuer; mandatory)
+│   ├── name                                (EN 16931 BT-27)
+│   ├── identifier                          (M; at least euid required)
+│   │   ├── euid    (M)                     (European Unique Identifier — verified, IR-EI-06)
+│   │   ├── lei     (O)                     (Legal Entity Identifier, ISO 17442 — unverified)
+│   │   ├── tax     (O)                     (national tax/registration number — unverified)
+│   │   ├── gln     (O)                     (GS1 Global Location Number — unverified)
+│   │   ├── duns    (O)                     (Dun & Bradstreet DUNS — unverified)
+│   │   ├── eori    (O)                     (EU customs identifier — unverified)
+│   │   ├── bpnl    (O)                     (Catena-X Business Partner Number Legal, ICD 0243 — unverified)
+│   │   └── siren   (O)                     (French national company identifier — unverified)
+│   ├── vat                                 (EN 16931 BT-31)
+│   └── country                             (EN 16931 BT-40)
+├── buyer                              (Buyer — the relying party; optional as a whole)
+│   ├── name                                (required within group, EN 16931 BT-44)
+│   ├── identifier                          (required within group; at least euid required)
+│   │   └── (same sub-schema as seller.identifier)
+│   ├── vat                                 (required within group, EN 16931 BT-48)
+│   └── country                             (required within group, EN 16931 BT-55)
+├── BuyerElectronicAddress             (optional)
 ├── amountDueForPayment
 ├── invoiceTotalVatAmount
 ├── InvoiceCurrencyCode
@@ -164,15 +179,19 @@ eInvoiceAttestation
 │   ├── paymentMeansText               (optional)
 │   ├── paymentAccountIdentifier
 │   └── paymentCardPAN                 (optional)
-├── evidenceReferences[]               (optional array; supporting business documents)
-│   └── evidenceReferencesType
+├── evidenceReferences[]               (optional array; supporting business documents; URI + hash only)
+│   ├── evidenceReferencesType
+│   ├── evidenceUri
+│   └── evidenceHash
 ├── precedingInvoiceReference          (conditional; required for non-active lifecycle states)
 └── invoiceLifecycleStatus             (optional; defaults to active when omitted)
 ```
 
 This model preserves the information content of the eInvoice Attestation description v0.5 while grouping
-the seller and buyer fields for readability. The grouping is informative; the normative encoding
-(Chapter 3) follows the flat/`camelCase` identifiers used in the attribute tables below.
+the seller and buyer fields, and their identifiers, into nested objects for readability and for
+consistency with the identifier convention used across other WE BUILD financial-sector attestations. The
+grouping is informative; the normative encoding (Chapter 3) follows the JSON object/`camelCase`
+identifiers used in the attribute tables below.
 
 Subsections 2.2–2.7 define the attributes and metadata. Section 2.8 documents the code lists and
 Section 2.9 the integrity rules.
@@ -184,10 +203,7 @@ Section 2.9 the integrity rules.
 | `invoicePayloadHash` | N/A (WE BUILD SC5 domestic namespace) | Hash of the canonicalized invoice payload as defined by the rulebook (see IR-EI-03). Binds the attestation to the external structured invoice. | tstr | `sha256:9f2c…a1` |
 | `invoiceNumber` | EN 16931 BT-1 (Invoice number) | Invoice identifier, unique for the Supplier within the agreed duplicate-detection window. | tstr | `INV-2026-000123` |
 | `issueDate` | EN 16931 BT-2 (Invoice issue date) | Invoice issue date (ISO 8601 / RFC 3339 full-date). | tstr | `2026-07-15` |
-| `sellerLegalRegistrationIdentifier` | EN 16931 BT-30 (Seller legal registration identifier) | Reference to the Supplier's Legal Person identity (e.g., EUCC/LPID identifier reference). | tstr | `NL853746281B01` |
-| `sellerRegistrationName` | EN 16931 BT-27 (Seller name) | The registered legal name of the Supplier. | tstr | `Green Flowers B.V.` |
-| `sellerVatIdentifier` | EN 16931 BT-31 (Seller VAT identifier) | The VAT / tax registration identifier of the Supplier. | tstr | `NL853746281B01` |
-| `sellerCountry` | EN 16931 BT-40 (Seller country code) | The country code of the Supplier (ISO 3166-1 alpha-2). | tstr | `NL` |
+| `seller` | EN 16931 BT-27/BT-30/BT-31/BT-40 (Seller group) | The Supplier's identification group: `name`, `identifier` (at least `euid`), `vat`, `country`. See Section 2.4 for its members. | container | *(see 2.4)* |
 | `amountDueForPayment` | EN 16931 BT-115 (Amount due for payment) | Total payable amount as per the chosen binding rules (EN 16931 / BIS). | tstr | `1210.00` |
 | `invoiceTotalVatAmount` | EN 16931 BT-110 (Invoice total VAT amount) | The total VAT amount for this invoice. | tstr | `210.00` |
 | `InvoiceCurrencyCode` | EN 16931 BT-5 (Invoice currency code) | Invoice currency code (ISO 4217). | tstr | `EUR` |
@@ -197,9 +213,7 @@ Section 2.9 the integrity rules.
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
 | `invoiceFormat` | N/A (see code list 2.8) | Identifier of the invoice representation / profile used for the payload. EN 16931 is the default; may be country-specific. | tstr | `EN16931` |
-| `buyerLegalRegistrationIdentifier` | EN 16931 BT-47 (Buyer legal registration identifier) | Reference to the Buyer's Legal Person identity (e.g., EUCC/LPID identifier reference). | tstr | `FR59120680088` |
-| `buyerVatIdentifier` | EN 16931 BT-48 (Buyer VAT identifier) | The VAT / tax registration identifier of the Buyer. | tstr | `FR59120680088` |
-| `buyerCountry` | EN 16931 BT-55 (Buyer country code) | The country code of the Buyer (ISO 3166-1 alpha-2). | tstr | `FR` |
+| `buyer` | EN 16931 BT-44/BT-47/BT-48/BT-55 (Buyer group) | The Buyer's identification group. Optional as a whole; if present, `name`/`identifier` (at least `euid`)/`vat`/`country` SHALL be present. See Section 2.4 for its members. | container | *(see 2.4)* |
 | `BuyerElectronicAddress` | EN 16931 BT-49 (Buyer electronic address) | Address/endpoint identifier for delivery/receipt handling. | tstr | `0009:FR59120680088` |
 | `paymentInstructions` | EN 16931 BG-16 (Payment instructions) | Group for all payment-related information. See Section 2.4 for its members. | container | *(see 2.4)* |
 | `taxSubtotal` | EN 16931 BG-23 (VAT breakdown) | VAT breakdown group (one or more entries per tax code/rate). See Section 2.4 for its members. | container (array) | *(see 2.4)* |
@@ -218,6 +232,39 @@ the parent group is present, members marked "M (within group)" SHALL be present 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
 | `precedingInvoiceReference` | EN 16931 BT-25 (Preceding Invoice reference) | Identifier of the original or preceding invoice to which a correction, cancellation or credit note relates. It SHALL be present when `invoiceLifecycleStatus` is `corrected`, `cancelled` or `credited`, and MAY be omitted when the lifecycle status is `active` or omitted. The reference SHALL allow the verifier to identify the corresponding preceding eInvoice attestation within the Supplier's invoice context. | tstr | `INV-2026-000123` |
+
+**`seller` group members** (`seller` is mandatory; all members below are M within group):
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| `seller.name` | EN 16931 BT-27 (Seller name) — M within group | The registered legal name of the Supplier. | tstr | `Green Flowers B.V.` |
+| `seller.identifier` | EN 16931 BT-30 (Seller legal registration identifier) — M within group | Multi-scheme legal-entity identifier group; see the `identifier` group below. At least `euid` SHALL be present. | container | *(see below)* |
+| `seller.vat` | EN 16931 BT-31 (Seller VAT identifier) — M within group | The VAT / tax registration identifier of the Supplier. | tstr | `NL853746281B01` |
+| `seller.country` | EN 16931 BT-40 (Seller country code) — M within group | The country code of the Supplier (ISO 3166-1 alpha-2). | tstr | `NL` |
+
+**`buyer` group members** (conditional on `buyer` being present; all members below are M within group
+once `buyer` is present):
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| `buyer.name` | EN 16931 BT-44 (Buyer name) — M within group | The registered legal name of the Buyer. | tstr | `Fleurs de Paris S.A.S.` |
+| `buyer.identifier` | EN 16931 BT-47 (Buyer legal registration identifier) — M within group | Multi-scheme legal-entity identifier group; see the `identifier` group below. At least `euid` SHALL be present. | container | *(see below)* |
+| `buyer.vat` | EN 16931 BT-48 (Buyer VAT identifier) — M within group | The VAT / tax registration identifier of the Buyer. | tstr | `FR59120680088` |
+| `buyer.country` | EN 16931 BT-55 (Buyer country code) — M within group | The country code of the Buyer (ISO 3166-1 alpha-2). | tstr | `FR` |
+
+**`identifier` group members** (used identically as `seller.identifier` and `buyer.identifier`; conditional
+on the parent `seller`/`buyer` group being present):
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+|------------------------|--------------------------|--------------|--------------|--------------|
+| `identifier.euid` | EN 16931 BT-30/BT-47 (Legal registration identifier) — **M within group** | European Unique Identifier. The identifier standardized under the Company Law Directive ((EU) 2017/1132) and resolvable via BRIS; the identifier this Rulebook's trust model verifies against the EBWOID/LoTE chain (IR-EI-06). | tstr | `NL853746281B01` |
+| `identifier.lei` | N/A — O within group | Legal Entity Identifier per ISO 17442. Not independently verified within the WE BUILD pilot scope. | tstr | `724500XU9CQ0FN6RJ782` |
+| `identifier.tax` | N/A — O within group | National tax or registration number, distinct from `vat`. Not independently verified within the WE BUILD pilot scope. | tstr | `NL853746281B01` |
+| `identifier.gln` | N/A — O within group | Global Location Number for legal entities — GS1 identifier. Not independently verified within the WE BUILD pilot scope. | tstr | `5410000000004` |
+| `identifier.duns` | N/A — O within group | Data Universal Numbering System — Dun & Bradstreet identifier. Not independently verified within the WE BUILD pilot scope. | tstr | `123456789` |
+| `identifier.eori` | N/A — O within group | Economic Operators Registration and Identification number — EU customs identifier. Legally mandated only for entities engaged in customs operations, not universally for invoicing; not independently verified within the WE BUILD pilot scope. | tstr | `NL853746281` |
+| `identifier.bpnl` | N/A — O within group | Business Partner Number Legal entity — Catena-X identifier per ICD 0243. Not independently verified within the WE BUILD pilot scope. | tstr | `BPNL00000003AYRE` |
+| `identifier.siren` | N/A — O within group | Système d'Identification du Répertoire des ENtreprises — French national company identifier. Legally mandated for French-registered entities only, not EU-wide; not independently verified within the WE BUILD pilot scope. | tstr | `512068008` |
 
 **`taxSubtotal` container members** (conditional on `taxSubtotal` being present):
 
@@ -243,14 +290,9 @@ the parent group is present, members marked "M (within group)" SHALL be present 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
 | `evidenceReferencesType` | N/A (see code list 2.8) — M within group | The type of the referenced evidence item. | tstr | `purchase_order` |
-
-*NOTE Each `evidenceReferences` entry carries the supporting business evidence itself in one of the
-supported forms defined in Section 2.8 (inline PDF/UBL as BASE64, or a publicly accessible URI plus
-hash). Its scope intentionally includes purchase orders, delivery notes, contracts and acceptance
-evidence, including evidence used for invoice acceptance or dispute resolution. It SHALL NOT be used as
-the correction-chain reference to the original invoice; that role is fulfilled by
-`precedingInvoiceReference`. The `dueDate` attribute referenced in integrity rule IR-EI-05 is reserved
-for a future profile and is not defined in this version.*
+| `evidenceUri` | N/A (see code list 2.8) — M within group | Publicly accessible URI of the evidence item. | tstr (URI) | `https://erp.greenflowers.example/documents/po-2026-000045` |
+| `evidenceHash` | N/A — M within group | Hash of the evidence item referenced by `evidenceUri`, for integrity binding (IR-EI-08). | tstr | `sha256:3a7c…a3c` |
+*NOTE Each `evidenceReferences` entry carries the supporting business evidence itself in one of the supported forms defined in Section 2.8 such as a publicly accessible URI plus hash.
 
 ### 2.5 Mandatory metadata
 
@@ -282,7 +324,7 @@ for a future profile and is not defined in this version.*
 |----------------|--------------------|-------------|--------------------------|---------------------------|
 | `invoiceFormat` | `EN16931` (default); country-specific profiles e.g. `ZUGFeRD`, `INSBOUW` | Identifies the invoice representation/profile used for the payload. | EN 16931; national CIUS/profiles | EN 16931 is assumed as the default but can be country-specific. WP4 Semantic WG to confirm the controlled set. |
 | `paymentInstructions.paymentMeansCode` | `30`, `48`, `49`, `58` | Payment method: `30` Credit transfer (bank transfer buyer→seller); `48` Bank card (debit/credit card); `49` Direct debit (debited from customer's bank account); `58` SEPA credit transfer (SEPA-compliant credit transfer). | UNTDED 4461 (UNCL 4461) code list | Provides machine-readable payment method identification for automated processing by banks and tax authorities. Additional UNCL 4461 codes MAY be used if agreed across issuer and verifier implementations. |
-| `evidenceReferences` | Inline `PDF as BASE64`; inline `UBL as BASE64`; `URI identifier + hash` | Supported forms for carrying/referencing a supporting business evidence item. | WE BUILD SC5 domestic vocabulary | Broad scope is intentional: purchase-order, delivery, contractual and acceptance/dispute evidence are supported. This field SHALL NOT be used for correction-chain linking. If a URI form is used, the link MUST be publicly accessible (rationale: no standard authorization mechanism exists for protected URIs). |
+| `evidenceReferences` | `URI identifier + hash` | Supported forms for carrying/referencing a supporting business evidence item. | WE BUILD SC5 domestic vocabulary | Broad scope is intentional: purchase-order, delivery, contractual and acceptance/dispute evidence are supported. This field SHALL NOT be used for correction-chain linking. If a URI form is used, the link MUST be publicly accessible (rationale: no standard authorization mechanism exists for protected URIs). |
 | `evidenceReferencesType` | `purchase_order`, `delivery_note`, `contract`, `acceptance_evidence`, `other` | The type of the referenced supporting evidence. | WE BUILD SC5 domestic vocabulary | Extensible only if new values are defined consistently across issuers and verifiers and registered in the WE BUILD Attestation Rulebooks catalog. |
 | `invoiceLifecycleStatus` | `active`, `corrected`, `cancelled`, `credited` | Business lifecycle status of the invoice for corrections, cancellations and credit notes. | WE BUILD SC5 domestic vocabulary | If omitted, the value is interpreted as `active`. State transitions SHALL follow IR-EI-09. Values other than `active` require `precedingInvoiceReference`. |
 | `taxSubtotal.taxCategoryCode` | e.g. `S` (standard), `Z` (zero rated), `E` (exempt), `AE` (reverse charge), `G`, `O`, `K` | VAT category code. | UNCL 5305 (EN 16931 code list) | Use the EN 16931-aligned subset of UNCL 5305. |
@@ -291,7 +333,10 @@ for a future profile and is not defined in this version.*
 
 *NOTE Two naming inconsistencies in the source description v0.5 have been reconciled here to match the
 attribute tables in Sections 2.2–2.4: `buyerRegistrationIdentifier` → `buyerLegalRegistrationIdentifier`,
-and `totalTaxAmount` → `invoiceTotalVatAmount`.*
+and `totalTaxAmount` → `invoiceTotalVatAmount` and
+`buyerLegalRegistrationIdentifier` were themselves superseded by `seller.identifier.euid` and
+`buyer.identifier.euid` respectively; IR-EI-01 and IR-EI-06 below use the v0.8 paths.*
+
 
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
 |-------------|--------------------|-------------------|--------------------|-------------------------------------------|
@@ -300,9 +345,9 @@ and `totalTaxAmount` → `invoiceTotalVatAmount`.*
 | `IR-EI-03` | `invoicePayloadHash` SHALL equal the hash of the canonicalized invoice payload, using the rulebook-defined canonicalization method and hash algorithm. | Binds the attestation to the exact invoice content and detects tampering. | Issuer at issuance; verifier recomputes on receipt. | Verifier SHALL reject/quarantine on mismatch. *[OPEN — canonicalization method and hash algorithm to be confirmed by WP4 Architecture WG.]* |
 | `IR-EI-04` | `invoiceNumber` SHALL be present and unique for the Supplier within the Relying Party's duplicate-detection window; duplicates SHALL trigger reject or quarantine per Relying Party policy. | Prevents duplicate/replayed invoices. | Verifier business validation. | Verifier SHALL reject or quarantine per policy. |
 | `IR-EI-05` | `issueDate` SHALL be present and not unreasonably in the future (allow clock-skew tolerance). If `dueDate` is present (in a future profile), it SHALL be ≥ `issueDate`. | Ensures temporal plausibility and consistency of dates. | Verifier business validation. | Verifier SHALL reject/quarantine. |
-| `IR-EI-06` | `sellerLegalRegistrationIdentifier` and (when present) `buyerLegalRegistrationIdentifier` SHALL match the corresponding identities in the invoice payload; mismatches invalidate the attestation. | Ensures the attestation parties and the payload parties are the same. | Verifier cross-check against payload. | Verifier SHALL treat the attestation as invalid. |
+| `IR-EI-06` | `seller.identifier.euid` and (when `buyer` is present) `buyer.identifier.euid` SHALL match the corresponding identities in the invoice payload; mismatches invalidate the attestation. The other `identifier` members (`lei`, `tax`, `gln`, `duns`, `eori`, `bpnl`, `siren`) are informational and are not subject to this cross-check within the WE BUILD pilot. | Ensures the attestation parties and the payload parties are the same, using the one identifier scheme this Rulebook's trust model actually verifies. | Verifier cross-check against payload. | Verifier SHALL treat the attestation as invalid. |
 | `IR-EI-07` | If `taxSubtotal` is used, `invoiceTotalVatAmount` SHALL strictly equal the sum of all `taxSubtotal.taxAmount` values. | Guarantees internal arithmetic consistency of VAT amounts. | Issuer; verifier arithmetic check. | Verifier SHALL reject/quarantine. |
-| `IR-EI-08` | Any referenced or embedded evidence SHALL be integrity-bound and, where applicable, valid at verification time (status/expiry/revocation). | Ensures supporting evidence cannot be substituted or tampered with. | Verifier evidence verification (see Section 4.2.9). | Verifier SHALL reject/quarantine the affected evidence and apply policy. |
+| `IR-EI-08` | Any referenced evidence SHALL be integrity-bound (hash match) and, where applicable, valid at verification time (status/expiry/revocation). | Ensures supporting evidence cannot be substituted or tampered with. | Verifier evidence verification (see Section 4.2.9). | Verifier SHALL reject/quarantine the affected evidence and apply policy. |
 | `IR-EI-09` | If `invoiceLifecycleStatus` is `corrected`, `cancelled` or `credited`, `precedingInvoiceReference` SHALL be present and SHALL identify the original or preceding invoice and its corresponding eInvoice attestation. Only rulebook-defined lifecycle values and state transitions (see code list 2.8) SHALL be used. | Maintains an auditable, well-formed correction lifecycle and makes the original invoice reference machine-verifiable. | Issuer business rules; verifier reference and state validation. | Verifier SHALL reject an invalid lifecycle value, invalid transition, missing reference or unresolvable preceding invoice/attestation reference. |
 
 ## 3 Attestation encoding
@@ -332,7 +377,7 @@ Chapter 6 of [SD-JWT VC] (ARB_31).
 Encoding conventions: `tstr` attributes are encoded as JSON strings; monetary and percentage values are
 carried as strings (as in the source description) to preserve exact decimal representation; dates use
 RFC 3339 full-date strings; `taxSubtotal` and `evidenceReferences` are JSON arrays of objects; and
-`paymentInstructions` is a JSON object.
+`paymentInstructions`, `seller`, `buyer` and `identifier` are JSON objects.
 
 **Registered / standard claims:**
 
@@ -354,13 +399,8 @@ RFC 3339 full-date strings; `taxSubtotal` and `evidenceReferences` are JSON arra
 | `invoiceFormat` | invoiceFormat | string | Code list 2.8 | MAY |
 | `invoiceNumber` | invoiceNumber | string | Mandatory (2.2) | MAY |
 | `issueDate` | issueDate | string (full-date) | Mandatory (2.2) | MAY |
-| `sellerLegalRegistrationIdentifier` | sellerLegalRegistrationIdentifier | string | Mandatory (2.2) | MAY |
-| `sellerRegistrationName` | sellerRegistrationName | string | Mandatory (2.2) | MAY |
-| `sellerVatIdentifier` | sellerVatIdentifier | string | Mandatory (2.2) | MAY |
-| `sellerCountry` | sellerCountry | string | Mandatory (2.2) | MAY |
-| `buyerLegalRegistrationIdentifier` | buyerLegalRegistrationIdentifier | string | Optional (2.3) | MAY |
-| `buyerVatIdentifier` | buyerVatIdentifier | string | Optional (2.3) | MAY |
-| `buyerCountry` | buyerCountry | string | Optional (2.3) | MAY |
+| `seller` | seller | object | Mandatory (2.2); members `name`, `identifier{euid,lei,tax,gln,duns,eori,bpnl,siren}`, `vat`, `country` in 2.4. `identifier.euid` is verified (IR-EI-06); the other `identifier` members are unverified. v0.8: replaces `sellerLegalRegistrationIdentifier`/`sellerRegistrationName`/`sellerVatIdentifier`/`sellerCountry`. | MAY |
+| `buyer` | buyer | object | Optional as a whole (2.3); members in 2.4, same shape as `seller`. v0.8: replaces `buyerLegalRegistrationIdentifier`/`buyerVatIdentifier`/`buyerCountry`. | MAY |
 | `BuyerElectronicAddress` | BuyerElectronicAddress | string | Optional (2.3) | MAY |
 | `amountDueForPayment` | amountDueForPayment | string | Mandatory (2.2) | MAY |
 | `invoiceTotalVatAmount` | invoiceTotalVatAmount | string | Mandatory (2.2) | MAY |
@@ -383,17 +423,29 @@ RFC 3339 full-date strings; `taxSubtotal` and `evidenceReferences` are JSON arra
   "attestation_legal_category": "non-qualified-EAA",
   "status": { "status_list": { "idx": 128, "uri": "https://status.webuild.example/sc5/einvoice" } },
   "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." } },
+  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
   "invoicePayloadHash": "sha256:9f2c8b1e7d43a0c5f6e9b2d1a4c7e0f3b6d9a2c5e8f1b4d7a0c3e6f9b2d5a8c1",
   "invoiceFormat": "EN16931",
   "invoiceNumber": "INV-2026-000123",
   "issueDate": "2026-07-15",
-  "sellerLegalRegistrationIdentifier": "NL853746281B01",
-  "sellerRegistrationName": "Green Flowers B.V.",
-  "sellerVatIdentifier": "NL853746281B01",
-  "sellerCountry": "NL",
-  "buyerLegalRegistrationIdentifier": "FR59120680088",
-  "buyerVatIdentifier": "FR59120680088",
-  "buyerCountry": "FR",
+  "seller": {
+    "name": "Green Flowers B.V.",
+    "identifier": {
+      "euid": "NL853746281B01",
+      "gln": "5410000000004"
+    },
+    "vat": "NL853746281B01",
+    "country": "NL"
+  },
+  "buyer": {
+    "name": "Fleurs de Paris S.A.S.",
+    "identifier": {
+      "euid": "FR59120680088",
+      "siren": "512068008"
+    },
+    "vat": "FR59120680088",
+    "country": "FR"
+  },
   "BuyerElectronicAddress": "0009:FR59120680088",
   "amountDueForPayment": "1210.00",
   "invoiceTotalVatAmount": "210.00",
@@ -412,7 +464,11 @@ RFC 3339 full-date strings; `taxSubtotal` and `evidenceReferences` are JSON arra
     "paymentAccountIdentifier": "NL91ABNA0417164300"
   },
   "evidenceReferences": [
-    { "evidenceReferencesType": "purchase_order" }
+    {
+      "evidenceReferencesType": "purchase_order",
+      "evidenceUri": "https://erp.greenflowers.example/documents/po-2026-000045",
+      "evidenceHash": "sha256:3a7c9e1b5d8f2a4c6e0b3d7f9a1c5e8b2d4f6a0c3e7b9d1f5a8c2e6b0d4f7a3c"
+    }
   ],
   "invoiceLifecycleStatus": "active"
 }
@@ -503,13 +559,15 @@ binding (4.2.8).
 In addition to the base verification, the Relying Party SHALL apply the integrity rules IR-EI-01 to
 IR-EI-09 defined in Section 2.9. In particular, the Relying Party SHALL: recompute `invoicePayloadHash`
 over the received invoice payload and confirm it matches (IR-EI-03); confirm that the invoice's buyer
-field matches the receiving Wallet's own identity (IR-EI-01); verify VAT arithmetic consistency
-(IR-EI-07); and, where `evidenceReferences` are present, retrieve the referenced artefacts and verify
-their integrity and validity (IR-EI-08); and validate `invoiceLifecycleStatus` together with
-`precedingInvoiceReference` for corrections, cancellations and credit notes (IR-EI-09). If all checks
-pass, the Buyer's Wallet accepts the invoice and
-stores the attestation for audit; if any check fails, it rejects or quarantines the invoice with an
-error code. In both cases an optional status message MAY be returned to the Supplier's Wallet.
+field matches the receiving Wallet's own identity (IR-EI-01); confirm `seller.identifier.euid` (and, when
+present, `buyer.identifier.euid`) matches the corresponding payload identities (IR-EI-06) — the other
+`identifier` members are informational only and are not cross-checked; verify VAT arithmetic consistency
+(IR-EI-07); and, where `evidenceReferences` are present, retrieve the referenced artefacts via their URI
+and verify their hash and, where applicable, validity (IR-EI-08); and validate `invoiceLifecycleStatus`
+together with `precedingInvoiceReference` for corrections, cancellations and credit notes (IR-EI-09). If
+all checks pass, the Buyer's Wallet accepts the invoice and stores the attestation for audit; if any
+check fails, it rejects or quarantines the invoice with an error code. In both cases an optional status
+message MAY be returned to the Supplier's Wallet.
 
 ## 5 Trust anchors
 
@@ -617,6 +675,8 @@ Sections 2.9 and 5.
 | [UNCL 4461] | UNTDED 4461 (UN/CEFACT) Payment means code list |
 | [UNCL 5305] | UN/CEFACT Duty/tax/fee category code list (VAT category codes) |
 | [ViDA] | Council Directive amending Directive 2006/112/EC as regards VAT rules for the digital age (Digital Reporting Requirements) |
+| [Company Law Directive] | Directive (EU) 2017/1132 relating to certain aspects of company law (basis for the EUID and the Business Registers Interconnection System, BRIS) |
+| [ISO 17442] | ISO 17442 — Legal Entity Identifier (LEI) |
 | [EWC RB001] | EWC LPID Rulebook |
 | [EWC RB002] | EWC EUCC Rulebook |
 | [WP4 Blueprint] | WE BUILD Deliverable D4.1 (trust infrastructure blueprint) |
