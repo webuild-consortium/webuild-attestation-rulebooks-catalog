@@ -9,7 +9,9 @@
     "locality": "Paris"
   },
   "nationalities": ["FR"],
-  "attestation_legal_category": "PUB-EAA",
+  "unique_persistent_identifier": "FR-19800523-123456",
+  "nonce": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+  "attestation_legal_category": "PID",
   "resident_address": "123 Via Appia, 00100 Rome, Italy",
   "resident_country": "IT",
   "resident_state": "Lazio",
