@@ -1,0 +1,51 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix ebwv: <https://w3id.org/ebwv#> .
+@prefix dsm:  <https://webuildconsortium.eu/shapes/ds-membership#> .
+
+# =============================================================================
+# WE BUILD - Membership Credential - SHACL-SPARQL companion shapes
+#
+# One rule that SHACL Core cannot express. Load this graph *in addition to*
+# ds-membership-shacl.ttl, with an engine that implements SHACL-SPARQL. pySHACL
+# takes a single shapes graph, so concatenate the two:
+#
+#   cat ds-membership-shacl.ttl ds-membership-shacl-sparql.ttl > all-shapes.ttl
+#   pyshacl -s all-shapes.ttl -df nt credential.nt
+#
+# Note that pySHACL's -e flag will not do: it loads an ontology graph, which is
+# merged into the *data*, so the shape would never be applied.
+#
+# rdf-validate-shacl does not implement SHACL-SPARQL and raises an error on
+# sh:sparql, which is why this rule is kept out of the main shapes graph.
+# validate-membership.mjs enforces the same rule natively instead.
+# =============================================================================
+
+dsm:MembershipSparqlShape
+    a sh:NodeShape ;
+    rdfs:label "Membership credential subject, SPARQL-only rules" ;
+    sh:targetClass ebwv:Membership ;
+
+    # IR-06. Not expressible in SHACL Core: the two values carry different
+    # datatypes, an identifier scheme such as ebwv:VatId against ebwv:Euid, or
+    # none at all, so sh:equals and sh:disjoint, which compare RDF terms, cannot
+    # see a collision of lexical forms.
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "IR-06: a value of member.identifier, on the credential subject or on onboardedBy, must not repeat the value of member.legalIdentifier." ;
+        sh:prefixes dsm: ;
+        sh:select """
+            SELECT $this ?value WHERE {
+                $this ebwv:member ?member .
+                ?member ebwv:legalIdentifier ?legalIdentifier .
+                { ?member ebwv:identifier ?value }
+                UNION
+                { $this ebwv:onboardedBy/ebwv:member/ebwv:identifier ?value }
+                FILTER (str(?value) = str(?legalIdentifier))
+            }
+        """ ;
+    ] .
+
+dsm: sh:declare [ sh:prefix "ebwv" ; sh:namespace "https://w3id.org/ebwv#"^^xsd:anyURI ] .
