@@ -1,0 +1,87 @@
+{
+  "iss": "https://issuer.webuild.eu",
+  "vct": "https://credentials.webuild.eu/power-of-x/v7",
+  "iat": 1784023200,
+  "nbf": 1784023200,
+  "exp": 1815559200,
+  "jti": "urn:uuid:22222222-2222-2222-2222-222222222222",
+  "status": {
+    "status_list": "https://status.webuild.eu/statuslists/pox/1",
+    "status_index": 42
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "alg": "ES256"
+    }
+  },
+  "credential": {
+    "type": "power_of_representation",
+    "legal_category": "QEAA"
+  },
+  "represented_economic_operator": {
+    "identifier": {
+      "scheme": "EBWOID",
+      "value": "EU-DE-HRB-123456"
+    },
+    "legal_name": "Hans Schreiner GmbH"
+  },
+  "proxy": {
+    "entity_type": "natural_entity",
+    "natural_entity_proxy": {
+      "family_name": "Schreiner",
+      "given_name": "Hans",
+      "birth_date": "1975-02-18",
+      "birth_place": "Nuremberg",
+      "nationality": [
+        "DE"
+      ]
+    }
+  },
+  "authority": {
+    "authority_source": "proxy_position",
+    "proxy_position": {
+      "position": "Sole Administrator",
+      "inscription_date": "2024-01-15",
+      "expiration_date": "",
+      "cardinality": 1,
+      "issuing_authority": {
+        "name": "WE BUILD QTSP",
+        "type": "QEAA",
+        "country": "DE",
+        "region": "BY"
+      },
+      "authentic_source": {
+        "id": "DE-BR-001",
+        "name": "German Business Register"
+      },
+      "evidence": {
+        "uri": "https://example.org/register/123456",
+        "description": "Commercial Register Extract"
+      },
+      "assurance_level": "HIGH"
+    }
+  },
+  "credential_metadata": {
+    "schema": {
+      "id": "https://schemas.webuild.eu/power-of-x/v7",
+      "version": "7.0.0"
+    },
+    "display": {
+      "language": "en",
+      "name": "WE BUILD Power of Representation"
+    },
+    "policies": [
+      "https://webuild.eu/policies/pox"
+    ]
+  },
+  "_sd_alg": "sha-256",
+  "_sd": [
+    "<digest:represented_economic_operator.identifier>",
+    "<digest:represented_economic_operator.legal_name>",
+    "<digest:proxy.natural_entity_proxy.family_name>",
+    "<digest:proxy.natural_entity_proxy.given_name>",
+    "<digest:authority.proxy_position>"
+  ]
+}
