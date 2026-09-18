@@ -16,10 +16,7 @@
     "invoicePayloadHash",
     "invoiceNumber",
     "issueDate",
-    "sellerLegalRegistrationIdentifier",
-    "sellerRegistrationName",
-    "sellerVatIdentifier",
-    "sellerCountry",
+    "seller",
     "amountDueForPayment",
     "invoiceTotalVatAmount",
     "InvoiceCurrencyCode"
@@ -121,40 +118,69 @@
       "format": "date",
       "description": "EN 16931 BT-2. Invoice issue date (RFC 3339 full-date). Section 2.2."
     },
-    "sellerLegalRegistrationIdentifier": {
-      "type": "string",
-      "minLength": 1,
-      "description": "EN 16931 BT-30. Reference to the Supplier's Legal Person identity (EUCC/LPID). Section 2.2."
+    "seller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "identifier",
+        "vat",
+        "country"
+      ],
+      "description": "The Supplier (issuer). Mandatory. v0.8: replaces the flat seller* claims.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "EN 16931 BT-27 (seller)/BT-44 (buyer). Registered legal name."
+        },
+        "identifier": {
+          "$ref": "#/$defs/identifier",
+          "description": "Legal-entity identifiers; at least euid SHALL be present."
+        },
+        "vat": {
+          "type": "string",
+          "minLength": 1,
+          "description": "EN 16931 BT-31 (seller)/BT-48 (buyer). VAT/tax registration identifier."
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "EN 16931 BT-40 (seller)/BT-55 (buyer). ISO 3166-1 alpha-2 country code."
+        }
+      }
     },
-    "sellerRegistrationName": {
-      "type": "string",
-      "minLength": 1,
-      "description": "EN 16931 BT-27. Registered legal name of the Supplier. Section 2.2."
-    },
-    "sellerVatIdentifier": {
-      "type": "string",
-      "minLength": 1,
-      "description": "EN 16931 BT-31. VAT/tax registration identifier of the Supplier. Section 2.2."
-    },
-    "sellerCountry": {
-      "type": "string",
-      "pattern": "^[A-Z]{2}$",
-      "description": "EN 16931 BT-40. ISO 3166-1 alpha-2 country code of the Supplier. Section 2.2."
-    },
-    "buyerLegalRegistrationIdentifier": {
-      "type": "string",
-      "minLength": 1,
-      "description": "EN 16931 BT-47. Reference to the Buyer's Legal Person identity (EUCC/LPID). Section 2.3."
-    },
-    "buyerVatIdentifier": {
-      "type": "string",
-      "minLength": 1,
-      "description": "EN 16931 BT-48. VAT/tax registration identifier of the Buyer. Section 2.3."
-    },
-    "buyerCountry": {
-      "type": "string",
-      "pattern": "^[A-Z]{2}$",
-      "description": "EN 16931 BT-55. ISO 3166-1 alpha-2 country code of the Buyer. Section 2.3."
+    "buyer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "identifier",
+        "vat",
+        "country"
+      ],
+      "description": "The Buyer (relying party). Optional as a whole; if present, all members SHALL be present. v0.8: replaces the flat buyer* claims.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "EN 16931 BT-27 (seller)/BT-44 (buyer). Registered legal name."
+        },
+        "identifier": {
+          "$ref": "#/$defs/identifier",
+          "description": "Legal-entity identifiers; at least euid SHALL be present."
+        },
+        "vat": {
+          "type": "string",
+          "minLength": 1,
+          "description": "EN 16931 BT-31 (seller)/BT-48 (buyer). VAT/tax registration identifier."
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "EN 16931 BT-40 (seller)/BT-55 (buyer). ISO 3166-1 alpha-2 country code."
+        }
+      }
     },
     "BuyerElectronicAddress": {
       "type": "string",
@@ -219,6 +245,56 @@
       "type": "string",
       "pattern": "^[0-9]+(\\.[0-9]+)?$",
       "description": "Percentage carried as a string."
+    },
+	    "identifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "euid"
+      ],
+      "description": "Legal-entity identifiers. euid mandatory (verified, IR-EI-06); others optional/unverified.",
+      "properties": {
+        "euid": {
+          "type": "string",
+          "minLength": 1,
+          "description": "European Unique Identifier. Verified (IR-EI-06)."
+        },
+        "lei": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Legal Entity Identifier, ISO 17442. Unverified."
+        },
+        "tax": {
+          "type": "string",
+          "minLength": 1,
+          "description": "National tax/registration number. Unverified."
+        },
+        "gln": {
+          "type": "string",
+          "minLength": 1,
+          "description": "GS1 Global Location Number. Unverified."
+        },
+        "duns": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Dun & Bradstreet DUNS. Unverified."
+        },
+        "eori": {
+          "type": "string",
+          "minLength": 1,
+          "description": "EU customs identifier. Unverified."
+        },
+        "bpnl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Catena-X Business Partner Number Legal, ICD 0243. Unverified."
+        },
+        "siren": {
+          "type": "string",
+          "minLength": 1,
+          "description": "French national company identifier. Unverified."
+        }
+      }
     },
     "taxSubtotalItem": {
       "type": "object",
@@ -298,7 +374,9 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "evidenceReferencesType"
+        "evidenceReferencesType",
+        "evidenceUri",
+        "evidenceHash"
       ],
       "properties": {
         "evidenceReferencesType": {
@@ -312,16 +390,6 @@
           ],
           "description": "Type of the referenced supporting evidence item. Section 2.8."
         },
-        "evidenceInlinePdfBase64": {
-          "type": "string",
-          "contentEncoding": "base64",
-          "description": "Inline PDF evidence, BASE64-encoded (one of three supported evidence forms, Section 2.8)."
-        },
-        "evidenceInlineUblBase64": {
-          "type": "string",
-          "contentEncoding": "base64",
-          "description": "Inline UBL evidence, BASE64-encoded (one of three supported evidence forms, Section 2.8)."
-        },
         "evidenceUri": {
           "type": "string",
           "format": "uri",
@@ -332,28 +400,10 @@
           "pattern": "^sha256:[0-9a-fA-F]{64}$",
           "description": "Hash of the evidence item referenced by evidenceUri, for integrity binding (IR-EI-08)."
         }
-      },
-      "oneOf": [
-        {
-          "required": [
-            "evidenceInlinePdfBase64"
-          ]
-        },
-        {
-          "required": [
-            "evidenceInlineUblBase64"
-          ]
-        },
-        {
-          "required": [
-            "evidenceUri",
-            "evidenceHash"
-          ]
-        }
-      ]
+	  }
     }
   },
-  "x-rulebook-version": "0.71",
+  "x-rulebook-version": "0.8",
   "allOf": [
     {
       "if": {
