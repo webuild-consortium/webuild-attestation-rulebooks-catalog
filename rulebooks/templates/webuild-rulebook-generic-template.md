@@ -26,7 +26,7 @@ leave it alone. Strip all three before submission to the EC catalogue.
    * [1.2 Document structure](#12-document-structure)
    * [1.3 Key words](#13-key-words)
    * [1.4 Terminology](#14-terminology)
-- [2 Certification](#2-certification)
+- [2 Compliance](#2-compliance)
    * [2.1 Compliance statement](#21-compliance-statement)
    * [2.2 Regulatory basis](#22-regulatory-basis)
    * [2.3 Traceability](#23-traceability)
@@ -52,7 +52,7 @@ leave it alone. Strip all three before submission to the EC catalogue.
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
-   * [9.1 Relying Party policy](#91-relying-party-policy)
+   * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
@@ -117,11 +117,14 @@ define. Do not restate ARF definitions.
 | --- | --- | --- |
 | | | |
 
-## 2 Certification
+## 2 Compliance
 
-Written last, although it appears first. Sections 2.1 and 2.2 are largely fixed by
-the legal category. Section 2.3 can only be completed once chapters 3 to 10 are
-final.
+FIXED
+
+> This chapter states how this Rulebook complies with the Architecture and Reference
+> Framework and with the applicable Regulations. Sections 2.1 and 2.2 follow from the
+> legal category of this attestation. Section 2.3 maps each applicable requirement to
+> the section that satisfies it.
 
 ### 2.1 Compliance statement
 
@@ -133,7 +136,10 @@ FIXED
 
 ### 2.2 Regulatory basis
 
-Keep the block matching the legal category and delete the others.
+FIXED
+
+> The regulatory basis below is the one applicable to the legal category of this
+> attestation.
 
 **PID**
 
@@ -169,8 +175,10 @@ Keep the block matching the legal category and delete the others.
 
 ### 2.3 Traceability
 
-Every applicable requirement mapped to the section that satisfies it. Mark a
-requirement not applicable only with a stated reason. No blank rows at submission.
+FIXED
+
+> Every applicable requirement mapped to the section that satisfies it. Mark a
+> requirement not applicable only with a stated reason. No blank rows at submission.
 
 | Requirement | Legacy ID | Applies | Satisfied in section | Note |
 | --- | --- | --- | --- | --- |
@@ -200,10 +208,12 @@ requirement not applicable only with a stated reason. No blank rows at submissio
 
 ## 3 Attestation attributes
 
-Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
-authoritative encoding lives in the machine-readable schema artefacts referenced in
-section 3.1, not in this document. Do not paste schema fragments into the prose,
-they will drift.
+FIXED
+
+> Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+> authoritative encoding lives in the machine-readable schema artefacts referenced in
+> section 3.1, not in this document. Do not paste schema fragments into the prose,
+> they will drift.
 
 ### 3.1 Introduction
 
@@ -234,7 +244,9 @@ above.
 
 ### 3.2 Mandatory attributes
 
-Attributes that SHALL be present in every attestation of this type.
+FIXED
+
+> Attributes that SHALL be present in every attestation of this type.
 
 | Data identifier | Semantic reference | Definition | Data type | Selectively disclosable | Example value |
 | --- | --- | --- | --- | --- | --- |
@@ -242,7 +254,9 @@ Attributes that SHALL be present in every attestation of this type.
 
 ### 3.3 Optional attributes
 
-Attributes the Provider MAY include at its discretion.
+FIXED
+
+> Attributes the Provider MAY include at its discretion.
 
 | Data identifier | Semantic reference | Definition | Data type | Selectively disclosable | Example value |
 | --- | --- | --- | --- | --- | --- |
@@ -250,8 +264,10 @@ Attributes the Provider MAY include at its discretion.
 
 ### 3.4 Conditional attributes
 
-Attributes required only when a stated condition holds. State the condition
-explicitly in the definition, not in a footnote.
+FIXED
+
+> Attributes required only when a stated condition holds. State the condition
+> explicitly in the definition, not in a footnote.
 
 | Data identifier | Semantic reference | Definition | Condition | Data type | Selectively disclosable | Example value |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -260,12 +276,16 @@ explicitly in the definition, not in a footnote.
 
 ## 4 Metadata
 
-Metadata describes the attestation rather than its subject. Use the same schema
-artefacts referenced in section 3.1.
+FIXED
+
+> Metadata describes the attestation rather than its subject. Use the same schema
+> artefacts referenced in section 3.1.
 
 ### 4.1 Mandatory metadata
 
-Includes the `category` attribute for all categories except PID.
+FIXED
+
+> Includes the `category` attribute for all categories except PID.
 
 | Category | `category` value |
 | --- | --- |
@@ -289,8 +309,10 @@ FIXED
 
 ### 4.2 Optional metadata
 
-Includes `cryptographically_bound_to` where section 7.1 records a cryptographic
-binding (EW-DM-12-032).
+FIXED
+
+> Includes `cryptographically_bound_to` where section 7.1 records a cryptographic
+> binding (EW-DM-12-032).
 
 | Data identifier | Semantic reference | Definition | Data type | Example value |
 | --- | --- | --- | --- | --- |
@@ -304,9 +326,11 @@ binding (EW-DM-12-032).
 
 ### 4.4 Code lists
 
-Controlled vocabularies, enumerations and value sets needed to interpret attributes
-consistently. Reference an external vocabulary wherever one exists rather than
-defining a local list.
+FIXED
+
+> Controlled vocabularies, enumerations and value sets needed to interpret attributes
+> consistently. Reference an external vocabulary wherever one exists rather than
+> defining a local list.
 
 | Field | Allowed values or vocabulary | Meaning | Source | Extensible |
 | --- | --- | --- | --- | --- |
@@ -314,8 +338,10 @@ defining a local list.
 
 ### 4.5 Integrity rules
 
-Consistency rules not captured by the schema alone: cross-field dependencies,
-temporal consistency, mutual exclusivity, conditional combinations.
+FIXED
+
+> Consistency rules not captured by the schema alone: cross-field dependencies,
+> temporal consistency, mutual exclusivity, conditional combinations.
 
 | Rule ID | Rule statement | Why it exists | Where enforced | Behaviour on failure |
 | --- | --- | --- | --- | --- |
@@ -323,8 +349,11 @@ temporal consistency, mutual exclusivity, conditional combinations.
 
 ## 5 Formats
 
-Identification only. Encoding detail lives in the schema artefacts of section 3.1,
-and the rules for using each format live in chapters 7 and 9.
+FIXED
+
+> This chapter identifies the formats in which this attestation is issued. The
+> encoding detail lives in the schema artefacts referenced in section 3.1, and the
+> rules for using each format are in chapters 7 and 9.
 
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
@@ -343,8 +372,11 @@ offer all of them or MAY choose.
 
 ## 6 Protocols
 
-Identification only. Substantive issuance rules are in chapter 7, presentation rules
-in chapter 9.
+FIXED
+
+> This chapter identifies the protocols used to issue and present this attestation.
+> The substantive issuance rules are in chapter 7 and the presentation rules are in
+> chapter 9.
 
 ### 6.1 Issuance
 
@@ -401,9 +433,9 @@ additions.
 > Regulations, and in [ETSI TS 119 471]. This Rulebook states only obligations
 > specific to this attestation type.
 
-[AUTHOR] List the attestation-specific obligations, each as a pointer to the section
-that states it, for example format obligations from chapter 5, selective disclosure
-rules from chapter 3, trust anchor publication from chapter 10.
+[AUTHOR] List the attestation-specific obligations, if any, each as a pointer to the
+section that states it, for example format obligations from chapter 5, selective
+disclosure rules from chapter 3, trust anchor publication from chapter 10.
 
 ### 7.3 Issuance Policy
 
@@ -426,7 +458,12 @@ FIXED
 
 ## 8 Revocation
 
-Keep one branch and delete the other. Consortium default: TO AGREE.
+FIXED
+
+> This chapter states whether attestations of this type are revocable, and if so how
+> revocation status is published and how a Relying Party checks it.
+
+TO AGREE. The consortium default for this chapter is an open decision.
 
 **Short-lived**
 
@@ -442,16 +479,18 @@ Keep one branch and delete the other. Consortium default: TO AGREE.
 > other entities can retrieve the relevant lists at [DOMAIN OR URL]. The full
 > location relevant to an individual attestation is included in that attestation.
 
-[AUTHOR] State who may request revocation, on what grounds, and the expected time
-from trigger to status list update.
+[AUTHOR] State who may request revocation, and the grounds specific to this
+attestation type, in addition to any grounds already imposed by regulation. State the
+expected time from trigger to status list update.
 
 ## 9 Presentation
 
-### 9.1 Relying Party policy
+### 9.1 Presentation Policy
 
 FIXED
 
-> A Relying Party receiving an attestation of this type SHALL:
+> To verify and validate a received presentation of an attestation of this type,
+> the following steps SHALL be performed:
 >
 > 1. verify the signature over the attestation using a trust anchor obtained as
 >    described in chapter 10;
@@ -485,8 +524,11 @@ electronic payments.
 
 ## 10 Trust Framework
 
-Of the two legal category branches below, keep the one matching this attestation and
-delete the other. Trust anchor location applies in both cases.
+FIXED
+
+> The trust anchor for this attestation is obtained as described in the branch below
+> that corresponds to its legal category. The trust anchor location applies in either
+> case.
 
 **PID, QEAA, PuB-EAA and attestations resolved via Trusted Lists**
 
@@ -496,18 +538,13 @@ FIXED
 > of the ARF main document. The Provider may sign the attestation with an
 > intermediate signing certificate, in which case the trust anchor is used to verify
 > that certificate rather than the attestation directly.
->
-> For a PuB-EAA, a Relying Party Instance first verifies the Provider signature using
-> the Provider certificate issued by a QTSP, then verifies that certificate using the
-> corresponding trust anchor from the QTSP Trusted List. One or more extra
-> certificates are therefore involved compared with a PID or QEAA.
 
 **Non-qualified EAA**
 
 > The trust anchor is not obtained from a Trusted List of qualified trust service
-> providers. A Relying Party obtains it as follows: [CONSORTIUM DEFAULT MECHANISM,
-> TO AGREE]. It then verifies that the Provider is authorised to issue this
-> attestation type by [PROCEDURE].
+> providers. It is obtained as follows: [CONSORTIUM DEFAULT MECHANISM, TO AGREE].
+> Authorisation of the Provider to issue this attestation type is then verified by
+> [PROCEDURE].
 >
 > A Wallet Unit MAY verify Provider authorisation using the mechanism described in
 > ISSU_34 of Topic 10 of Annex 2 of the ARF.
