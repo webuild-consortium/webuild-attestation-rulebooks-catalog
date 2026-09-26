@@ -434,7 +434,8 @@ Relying Party checks:
 
 ### 9.1 Presentation Policy
 
-> A Relying Party receiving an attestation of this type SHALL:
+> To verify and validate a received presentation of an attestation of this type,
+> the following steps SHALL be performed:
 >
 > 1. verify the signature over the attestation using a trust anchor obtained as
 >    described in chapter 10;
@@ -495,11 +496,6 @@ logging expectations are recorded in section 9.1.
 > of the ARF main document. The Provider may sign the attestation with an
 > intermediate signing certificate, in which case the trust anchor is used to verify
 > that certificate rather than the attestation directly.
->
-> For a PuB-EAA, a Relying Party Instance first verifies the Provider signature using
-> the Provider certificate issued by a QTSP, then verifies that certificate using the
-> corresponding trust anchor from the QTSP Trusted List. One or more extra
-> certificates are therefore involved compared with a PID or QEAA.
 
 Which branch of the template applies here depends on the legal category question
 recorded in section 2.2. The Trusted List branch is reproduced above because it
