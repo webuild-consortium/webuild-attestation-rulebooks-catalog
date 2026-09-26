@@ -44,8 +44,8 @@ Category: EBWOID
    * [6.2 Presentation](#62-presentation)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
-   * [7.2 Lifecycle management](#72-lifecycle-management)
-   * [7.3 Issuance Policy](#73-issuance-policy)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
@@ -400,17 +400,17 @@ scope.
 
 The `cnf` claim shown in the example in section 5.3 expresses key binding.
 
-### 7.2 Lifecycle management
+### 7.2 Issuance Policy
+
+EBWOID Providers SHALL support revocation as described in chapter 8.
+
+### 7.3 Lifecycle management
 
 - EBWOID is issued by an administrative authority, by the Commission for Union
   entities, or by a QTSP, as recorded in section 4.1.
 - EBWOID is expected to be long-lived but revocable, as recorded in chapter 8.
 - `expiry_date`, where present, expresses an administrative validity period distinct
   from the technical validity expressed by `exp`. See section 4.2.
-
-### 7.3 Issuance Policy
-
-EBWOID Providers SHALL support revocation as described in chapter 8.
 
 ### 7.4 Embedded disclosure policy
 
