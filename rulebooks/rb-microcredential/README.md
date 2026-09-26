@@ -46,8 +46,8 @@ Category: non-qualified EAA
    * [6.2 Presentation](#62-presentation)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
-   * [7.2 Lifecycle management](#72-lifecycle-management)
-   * [7.3 Issuance Policy](#73-issuance-policy)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
@@ -571,7 +571,11 @@ Holder binding is expressed through the `cnf` claim recorded in section 4.1, whe
 is used. Where the attestation must be presented together with PID or another identity
 attestation, `cryptographically_bound_to` is used as recorded in section 4.3.
 
-### 7.2 Lifecycle management
+### 7.2 Issuance Policy
+
+The issuer SHOULD support revocation or suspension as described in chapter 8.
+
+### 7.3 Lifecycle management
 
 - The awarding body or an authorised academic identity provider issues the attestation
   after the underlying learning achievement has been formally assessed and completed.
@@ -580,10 +584,6 @@ attestation, `cryptographically_bound_to` is used as recorded in section 4.3.
   chapter 8.
 - Where a corrected or superseding credential is issued, the original is revoked and
   the relationship between the two is recorded as described in chapter 8.
-
-### 7.3 Issuance Policy
-
-The issuer SHOULD support revocation or suspension as described in chapter 8.
 
 ### 7.4 Embedded disclosure policy
 
