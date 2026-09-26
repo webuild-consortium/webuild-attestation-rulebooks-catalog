@@ -60,8 +60,8 @@ Category: EAA or QEAA, selected at issuance per integrity rule IR-24 in section 
    * [6.2 Presentation](#62-presentation)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
-   * [7.2 Lifecycle management](#72-lifecycle-management)
-   * [7.3 Issuance Policy](#73-issuance-policy)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
@@ -933,15 +933,7 @@ records the mdoc encoding as out of scope.
 Holder binding is expressed through the `cnf` claim recorded in section 4.1, where it
 is used.
 
-### 7.2 Lifecycle management
-
-- The attestation is issued by the legal entity itself in the EAA case, or by a QTSP
-  or authorised competent body in the QEAA case, as recorded in section 7.3.
-- Revocation and suspension triggers are recorded in chapter 8.
-- Where beneficial ownership changes, a superseding attestation is issued and the
-  previous one revoked, as described in chapter 8.
-
-### 7.3 Issuance Policy
+### 7.2 Issuance Policy
 
 When issuing a UBO Attestation, the Issuer SHALL comply with the following obligations.
 #### UBO Determination
@@ -968,6 +960,14 @@ The legal entity SHALL determine its Ultimate Beneficial Owner(s) (UBOs) by:
 
 The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
+
+### 7.3 Lifecycle management
+
+- The attestation is issued by the legal entity itself in the EAA case, or by a QTSP
+  or authorised competent body in the QEAA case, as recorded in section 7.3.
+- Revocation and suspension triggers are recorded in chapter 8.
+- Where beneficial ownership changes, a superseding attestation is issued and the
+  previous one revoked, as described in chapter 8.
 
 ### 7.4 Embedded disclosure policy
 
