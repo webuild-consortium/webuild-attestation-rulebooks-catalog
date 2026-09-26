@@ -685,7 +685,8 @@ Timing:
 
 ### 9.1 Presentation Policy
 
-> A Relying Party receiving an attestation of this type SHALL:
+> To verify and validate a received presentation of an attestation of this type,
+> the following steps SHALL be performed:
 >
 > 1. verify the signature over the attestation using a trust anchor obtained as
 >    described in chapter 10;
