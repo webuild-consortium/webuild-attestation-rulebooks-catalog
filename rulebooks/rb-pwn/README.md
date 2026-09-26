@@ -144,14 +144,14 @@ are intended as statements of fact.
 
 ## 2 Attestation Attributes and Metadata
 
-The PWN Attestation is designed to provide a standardized, verifiable digital representation of
+The PWN Attestation is designed to provide a verifiable digital representation of
 the Posted Worker Notification. It captures all key attributes required by host Member State
 authorities for compliance verification, including subject identity, assignment details, home
 employer information, host company details, and employee job duties.
 
 ### 2.1 Introduction
 
-**Data Model:**
+**Data Model of the PWN in The Netherlands:**
 
 ```
 PWN Credential
@@ -161,14 +161,14 @@ PWN Credential
 │ ├── forename (String) — mandatory
 │ ├── date_of_birth (date) — mandatory
 │ ├── nationality (Code [1:n], ISO 3166-1 alpha-2) — mandatory
-│ ├── job_title_home_country (String) — mandatory
+│ ├── job_title_home_country (String) — optional
 │ ├── gender (String/Code) — optional
 │ ├── surname_at_birth (String) — optional
 │ ├── forename_at_birth (String) — optional
 │ ├── place_of_birth [1:1] — optional
 │ │ ├── town (String)
 │ │ └── country_code (Code, ISO 3166-1 alpha-2)
-│ └── address [1:n] — mandatory
+│ └── address [1:n] — optional
 │ ├── address_residence [0:1] — optional
 │ │ ├── street_nr (String)
 │ │ ├── town (String)
@@ -179,19 +179,24 @@ PWN Credential
 │ ├── town (String)
 │ ├── post_code (String)
 │ └── country_code (Code, ISO 3166-1 alpha-2)
-│
+ │
 ├── Assignment Related Information [1:1] — mandatory
-│ ├── home_member_state (Code, ISO 3166-1 alpha-2) — mandatory
+│ ├── home_member_state (Code, ISO 3166-1 alpha-2) — optional 
 │ ├── starting_date (date) — mandatory
 │ ├── ending_date (date) — mandatory
 │ ├── applies_for_duration (boolean) — optional
 │ ├── determination_provisional (boolean) — optional
 │ └── transitional_rules (boolean) — optional
+    
+    Project Sector : mandatory
+    Project Subsector : mandatory
+    Project SBI Code : mandatory
 │
 ├── Details of Home Employer(s)/Self-employment [1:1] — mandatory
 │ ├── company_name (String) — mandatory
-│ ├── industry_sector_nace (String) — mandatory
-│ ├── construction_sector (boolean) — mandatory
+│ ├── industry_sector_nace (String) — optional
+│ ├── construction_sector (boolean) — optional
+      Chamber of Commerce registration number - mandatory
 │ ├── vat_id (String) — mandatory
 │ ├── address_line_1 (String) — mandatory
 │ ├── address_line_2 (String) — optional
@@ -200,38 +205,33 @@ PWN Credential
 │ ├── municipality (String) — optional
 │ ├── state (String) — optional
 │ ├── country (Code, ISO 3166-1 alpha-2) — mandatory
+  _ Legal representative - mandatory
+    last_name (string) — mandatory
+│ ├── first_name (String) — mandatory
+│ ├── date_of_birth (date) — mandatory
+│ ├── nationality (Code [1:n], ISO 3166-1 alpha-2) — mandatory
 │ ├── phone (String) — mandatory
 │ ├── email (String) — mandatory
 │ ├── administrative_representative [1:1] — mandatory
-│ │ ├── last_name (String)
-│ │ ├── first_name (String)
-│ │ ├── telephone (String)
-│ │ ├── email (String)
-│ │ ├── address_line_1 (String)
+│ │ ├── last_name (String) - mandatory
+│ │ ├── first_name (String) - mandatory
+│ │ ├── date_of_birth (date) — mandatory
+│ ├── nationality (Code [1:n], ISO 3166-1 alpha-2) — mandatory
+│ ├── phone (String) — mandatory
+│ ├── email (String) — mandatory
+│ │ ├── address_line_1 (String) - mandatory
 │ │ ├── address_line_2 (String)
-│ │ ├── postal_code (String)
-│ │ ├── city (String)
+│ │ ├── postal_code (String) - mandatory
+│ │ ├── city (String) - mandatory
 │ │ ├── municipality (String)
 │ │ ├── state (String)
-│ │ └── country (Code, ISO 3166-1 alpha-2)
-│ └── social_representative [1:1] — mandatory
-│ ├── last_name (String)
-│ ├── first_name (String)
-│ ├── telephone (String)
-│ ├── email (String)
-│ ├── address_line_1 (String)
-│ ├── address_line_2 (String)
-│ ├── postal_code (String)
-│ ├── city (String)
-│ ├── municipality (String)
-│ ├── state (String)
-│ └── country (Code, ISO 3166-1 alpha-2)
-│
-├── Host Company [1:1] — mandatory
-│ ├── company_name (String) — mandatory
-│ ├── email (String) — mandatory
-│ ├── telephone (String) — mandatory
-│ ├── industry_sector (String) — mandatory
+│ │ └── country (Code, ISO 3166-1 alpha-2) : mandatory
+│ └── Host company [1:1] — mandatory
+      Type - mandatory
+│ ├── ─ company_name (String) — mandatory
+      country of establishment - mandatory
+│ ├── Chamber of Commerce registration number - mandatory
+   _ Location number - mandatory 
 │ ├── vat_id (String) — mandatory
 │ ├── address_line_1 (String) — mandatory
 │ ├── address_line_2 (String) — optional
@@ -239,51 +239,54 @@ PWN Credential
 │ ├── city (String) — mandatory
 │ ├── municipality (String) — optional
 │ ├── state (String) — optional
-│ └── country (Code, ISO 3166-1 alpha-2) — mandatory
-│
-├── Employee [1:1] — mandatory
-│ └── job_duties_abroad (String) — mandatory
-│
+│ ├── country (Code, ISO 3166-1 alpha-2) — mandatory
+ Contact person host company - mandatory
+      last_name (String) : mandatory
+│ ├── first_name (String) : mandatory
+│ ├── telephone (String) : mandatory
+│ ├── email (String) : mandatory
+│ ├── 
+│── │
 ├── Place(s) of Work [1:n] — mandatory
-│ ├── no_fixed_place [0:1] — optional
-│ │ └── country_code (Code, ISO 3166-1 alpha-2)
-│ └── place_of_work [0:n] — optional
-│ ├── company_name (String)
-│ ├── flag_base_home (String)
-│ ├── company_id (String)
-│ ├── id_type (Code)
-│ ├── street_nr (String)
-│ ├── town (String)
-│ ├── postal_code (String)
-│ └── country_code (Code, ISO 3166-1 alpha-2)
-│
-└── Competent Institution [1:1] — mandatory
-├── institution_id (String) — mandatory
-├── institution_name (String) — mandatory
-├── country_code (Code, ISO 3166-1 alpha-2) — mandatory
-├── fax (String) — optional
-├── phone (String) — optional
-├── email (String) — optional
-├── street_nr (String) — optional
-├── town (String) — optional
-├── postal_code (String) — optional
-└── country_code_address (Code, ISO 3166-1 alpha-2) — optional
+│ ├── address_line_1 (String) — mandatory
+│ ├── address_line_2 (String) — optional
+│ ├── postal_code (String) — mandatory
+│ ├── city (String) — mandatory
+│ ├── municipality (String) — optional
+│ ├── state (String) — optional
+│ ├── country (Code, ISO 3166-1 alpha-2) — mandatory
+      telephone (String) : mandatory
+│ ├── email (String) : mandatory
+ │ 
+│Employee : Mandatory
+  Permanent work permit issued by sending member state : mandatory
+  End date of work permit issued by the sending member state : mandatory
+  A1 Certificate of Coverage (Y/N): mandatory
+  Country of issuance of A1 Certificate : mandatory
+  Application for A1 Certificate of coverage (Y/N) : mandatory
+  Country of payment of social contributions : mandatory
+  Evidence of payment of social contributions (Y/N) : mandatory 
+└──PW Notifier : mandatory 
+├── last_name (String) - mandatory
+│ ─ first_name (String) - mandatory
+│ ─ phone (String) — mandatory
+│ ─ email (String) — mandatory
+│ │ ├──
 ```
 
 
 **Explanation:**
 
 - **Section 1 (Subject)** contains personal identity attributes of the posted worker.
-  `job_title_home_country` is a PWN-specific addition not present in PD A1.
+  
 - **Section 2 (Assignment Related Information)** mirrors the PD A1 member state legislation
-  section, providing the home member state, assignment start and end dates.
+  section, providing assignment start and end dates but also project information.
 - **Section 3 (Home Employer Details)** provides comprehensive information about the sending
-  employer, including industry sector, VAT ID, address, and designated administrative and
-  social representatives.
-- **Section 4 (Host Company)** identifies the receiving entity in the host member state.
-- **Section 5 (Employee)** captures the job duties/activities to be performed abroad.
-- **Section 6 (Places of Work)** aligns with the PD A1 structure for place(s) of work.
-- **Section 7 (Competent Institution)** aligns with the PD A1 competent institution section.
+  employer, Chamber of Commerce and VAT ID, address, and designated legal and administrative representatives.
+- **Section 4 (Host Company)** identifies the receiving entity in the host member state, including the contact person of that entity.
+- **Section 5 (Places of Work)** requires information on place(s) of work.
+- **Section 6 (Employee)** contains information on the work and social insurance status in the home country.
+- **Section 7 (PW Notifier)** identifies the PW notifier.
 
 **Attestation Classification:**
 
@@ -298,12 +301,12 @@ This attestation type **MAY** be classified as:
 | **Data Identifier**     | **Semantic Reference** | **Definition**                                                                          | **Data type**       |
 |-------------------------|------------------------|-----------------------------------------------------------------------------------------|---------------------|
 | subject                 | [postedWorker](https://w3id.org/ebwv#postedWorker) | Personal identity attributes of the posted worker                                       | Object              |
-| assignment_info         | [assignment](https://w3id.org/ebwv#assignment) | Assignment-related information including home member state and posting dates             | Object              |
+| assignment_info         | [assignment](https://w3id.org/ebwv#assignment) | Assignment-related information including posting dates and project classification             | Object              |
 | home_employer           | [employer](https://w3id.org/ebwv#employer) | Details of the home employer including company info and representatives                  | Object              |
-| host_company            | [hostEntity](https://w3id.org/ebwv#hostEntity) | Details of the host company in the receiving member state                                | Object              |
-| employee                | [employee](https://w3id.org/ebwv#employee) | Employee-specific information including job duties abroad                                | Object              |
+| host_company            | [hostEntity](https://w3id.org/ebwv#hostEntity) | Details of the host company in the receiving member state including contact person                                | Object              |
+| employee                | [employee](https://w3id.org/ebwv#employee) | Employee-specific information                                | Object              |
 | places_of_work          | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Place(s) where the posted worker performs work in the host country                       | Array [PlaceOfWork] |
-| competent_institution   | ...                    | Details of the competent institution associated with the PWN                             | Object              |
+| Posted Worker Notifier   | ...                    | Details of the person filing the PWN                             | Object              |
 
 ---
 
@@ -324,7 +327,7 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier**                 | **Semantic Reference** | **Definition**                                                                     | **Data type**             | **Occurrence** |
 |-------------------------------------|------------------------|------------------------------------------------------------------------------------|---------------------------|----------------|
-| assignment_info.home_member_state   | [stateOfInsurance](https://w3id.org/ebwv#stateOfInsurance) | Code of the home member state from which the worker is posted (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1            |
+|       |
 | assignment_info.starting_date       | [duration](https://w3id.org/ebwv#duration) | Start date of the posting assignment (ISO 8601)                                    | Date (YYYY-MM-DD)         | 1:1            |
 | assignment_info.ending_date         | [duration](https://w3id.org/ebwv#duration) | End date of the posting assignment (ISO 8601)                                      | Date (YYYY-MM-DD)         | 1:1            |
 
@@ -559,7 +562,7 @@ country-specific validation logic:
 
 | **Code** | **Definition**                                                                                     |
 |----------|----------------------------------------------------------------------------------------------------|
-| ES       | Spain PWN — requires administrative representative, VAT ID, NACE sector                            |
+|                          |
 | NL       | Netherlands PWN — requires A1 certificate status, legal representative, HR representative          |
 | OTHER    | Generic EU PWN for member states without specific national profile defined                          |
 
