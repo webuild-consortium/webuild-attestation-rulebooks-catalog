@@ -4,7 +4,7 @@
   "title": "WE BUILD - Membership Credential - SD-JWT VC payload",
   "description": "Schema for the SD-JWT VC payload of a Membership Credential as defined in the rb-ds-membership Rulebook (Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing, aligned with the catalog baseline of HAIP draft-03 and SD-JWT VC draft -09.",
   "type": "object",
-  "version": "0.5.0",
+  "version": "0.8.0",
   "additionalProperties": false,
   "$defs": {
     "identifier": {
@@ -92,12 +92,19 @@
           "description": "The stable, EU-level identifier. Scheme is Euid or PublicSectorBodyId (range of the legalIdentifier property). Used by member."
         },
         "identifier": {
-          "allOf": [
+          "description": "Further identifiers of the economic operator, in any scheme from code list 2.8. Repeatable: an operator may be known by several schemes at once. Used by onboardedBy.operator, and optionally by member to carry identifiers of the holder additional to legalIdentifier, which remains authoritative (IR-04).",
+          "oneOf": [
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/identifier"
+              }
+            },
             {
               "$ref": "#/$defs/identifier"
             }
-          ],
-          "description": "A further identifier of the economic operator, in any scheme from code list 2.8. Used by onboardedBy.operator."
+          ]
         }
       }
     }
@@ -184,14 +191,6 @@
         "https://djustconnect.be"
       ]
     },
-    "holderIdentifier": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Stable and unique identifier used within the DSI or dataspace to refer to THE HOLDER. Populated only where it differs from member.legalIdentifier. Subject to integrity rules IR-06 and IR-07.",
-      "examples": [
-        "BE0123456789"
-      ]
-    },
     "role": {
       "description": "The roles the holder has within the DSI or dataspace. Each value is an absolute IRI; those registered in Rulebook code list 2.8 are the DataSpaceRole individuals under https://w3id.org/ebwv#. A DSI may mint further role IRIs under a namespace it owns. A single role may appear as a scalar rather than a one-element array; both forms are accepted. See Rulebook Section 3.3.1.",
       "oneOf": [
@@ -264,25 +263,9 @@
     },
     "onboardedBy": {
       "type": "object",
-      "description": "The platform through which the holder was onboarded: the platform itself and the economic operator hosting it. Describes the onboarding party only; how the holder was identified is recorded in evidence. See Rulebook Section 2.2.2.",
+      "description": "The onboarding through which the holder joined the DSI or dataspace: the platform, the economic operator hosting it, and optionally the holder as that platform knows it. See Rulebook Section 2.2.2.",
       "additionalProperties": true,
       "properties": {
-        "platformId": {
-          "type": "string",
-          "minLength": 1,
-          "description": "DID identifying the platform through which the holder was onboarded.",
-          "examples": [
-            "did:web:djustconnect.be"
-          ]
-        },
-        "name": {
-          "type": "string",
-          "minLength": 1,
-          "description": "Commercial name of the platform (DSI or onboarding partner).",
-          "examples": [
-            "DjustConnect"
-          ]
-        },
         "operator": {
           "allOf": [
             {
@@ -294,11 +277,39 @@
             "legalName",
             "identifier"
           ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "format": "uri",
+          "description": "The onboarding platform, identified by an absolute URI, normally a DID. The vocabulary defines no property for it, so it is the identity of this object.",
+          "examples": [
+            "did:web:djustconnect.be"
+          ]
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Commercial name of the platform (DSI or onboarding partner).",
+          "examples": [
+            "DjustConnect"
+          ]
+        },
+        "member": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/economicOperator"
+            }
+          ],
+          "description": "The holder as the onboarding platform knows it: the platform's own name and identifier for the same legal person the credential subject's member identifies. Not authoritative; see IR-06 and IR-07.",
+          "required": [
+            "identifier"
+          ]
         }
       },
       "required": [
-        "platformId",
-        "name",
+        "id",
+        "platform",
         "operator"
       ]
     },

@@ -1,0 +1,552 @@
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix ebwv:   <https://w3id.org/ebwv#> .
+@prefix cred:   <https://www.w3.org/2018/credentials#> .
+@prefix schema: <https://schema.org/> .
+@prefix dsm:    <https://webuildconsortium.eu/shapes/ds-membership#> .
+
+# =============================================================================
+# WE BUILD - Membership Credential - SHACL shapes
+#
+# Validates the RDF form of a Membership Credential as defined in the
+# rb-ds-membership Rulebook. Apply to the dataset obtained by converting the
+# W3C VCDM (JSON-LD) credential to RDF, for example with `jsonld.toRDF`.
+#
+# Scope note. SHACL validates the *expanded* graph. An attribute whose term is
+# undefined in the credential's @context is dropped before SHACL ever sees it,
+# and will therefore be reported as a missing-property violation rather than as
+# a context error. Section 3.3.2 of the Rulebook lists the type declarations
+# that expansion depends on.
+#
+# Usage
+#
+#   ./validate-membership.mjs credential.jsonld
+#
+# or with any other engine, over the credential converted to RDF:
+#
+#   pyshacl -s ds-membership-shacl.ttl -df nt credential.nt
+#
+# Engine requirements. This graph is **SHACL Core only**, so every conforming
+# engine can run it, rdf-validate-shacl included. No SHACL Advanced Feature is
+# used either; the commented sh:SPARQLTarget below is the one exception, and it
+# is not active. One rule, IR-06, cannot be expressed in Core and lives in the
+# companion graph ds-membership-shacl-sparql.ttl.
+#
+# Warnings. The advisory code-list shapes at the end carry sh:Warning. Under
+# the SHACL specification any validation result makes a graph non-conforming,
+# regardless of severity, so treat sh:Warning results as advisory in the caller
+# (validate-membership.mjs does), pass pySHACL's -w flag, or deactivate those
+# shapes.
+#
+# Verified against the European Business Wallet Vocabulary context published
+# 2 September 2026: the Rulebook's illustrative example conforms, and each
+# constraint was confirmed to fire against a deliberately broken instance.
+# =============================================================================
+
+dsm: a owl:Ontology ;
+    rdfs:label "Membership Credential SHACL shapes" ;
+    sh:declare [ sh:prefix "ebwv"   ; sh:namespace "https://w3id.org/ebwv#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "cred"   ; sh:namespace "https://www.w3.org/2018/credentials#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "schema" ; sh:namespace "https://schema.org/"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "rdf"    ; sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ] .
+
+
+# -----------------------------------------------------------------------------
+# The credential envelope
+#
+# Targeted by class, which is plain SHACL Core and works in every engine. In a
+# graph holding several credentials this also fires on Electronic Attestations
+# of Attributes that are not Membership Credentials. Where that matters, and
+# the engine supports SHACL Advanced Features (pySHACL: -a), replace
+# sh:targetClass with the commented sh:target below, which selects only
+# credentials whose credentialSubject is a Membership.
+# -----------------------------------------------------------------------------
+
+dsm:MembershipCredentialShape
+    a sh:NodeShape ;
+    rdfs:label "Membership Credential" ;
+    sh:targetClass ebwv:ElectronicAttestationOfAttributes ;
+
+#   sh:target [
+#       a sh:SPARQLTarget ;
+#       sh:prefixes dsm: ;
+#       sh:select """
+#           SELECT ?this WHERE {
+#               ?this cred:credentialSubject ?subject .
+#               ?subject a ebwv:Membership .
+#           }
+#       """ ;
+#   ] ;
+
+    # Section 2.1: each credential has its own unique identifier.
+    # No sh:message here: a message on a node shape is attached to every result
+    # the shape produces, including those of the property and SPARQL constraints
+    # below, which makes reports harder to read.
+    sh:nodeKind sh:IRI ;
+
+    # Section 3.3.2: ElectronicAttestationOfAttributes is what brings
+    # attestationLegalCategory into scope. Without it the attribute is dropped
+    # on expansion.
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ebwv:ElectronicAttestationOfAttributes ;
+        sh:message "The credential-level type must include ebwv:ElectronicAttestationOfAttributes (Sections 2.1 and 3.3.2). Without it attestationLegalCategory is undefined and is silently dropped on expansion." ;
+    ] ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue cred:VerifiableCredential ;
+        sh:message "The credential-level type must include cred:VerifiableCredential." ;
+    ] ;
+
+    # Section 2.5 - mandatory metadata
+    sh:property [
+        sh:path ebwv:attestationLegalCategory ;
+        sh:name "attestationLegalCategory" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:hasValue ebwv:EAA ;
+        sh:message "attestationLegalCategory is mandatory and SHALL be ebwv:EAA (Section 2.5). The vocabulary types it @vocab, so it expands to a node reference, not a literal." ;
+    ] ;
+
+    sh:property [
+        sh:path cred:credentialSubject ;
+        sh:name "credentialSubject" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:node dsm:MembershipShape ;
+        sh:message "Exactly one credentialSubject is required, and it must be a valid Membership." ;
+    ] ;
+
+    sh:property [
+        sh:path cred:issuer ;
+        sh:name "issuer" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "issuer is mandatory and must be an IRI; the trust anchor is resolved from it (Section 5)." ;
+    ] ;
+
+    sh:property [
+        sh:path cred:validFrom ;
+        sh:name "validFrom" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:message "validFrom is mandatory and must be an xsd:dateTime (Section 3.3)." ;
+    ] ;
+
+    sh:property [
+        sh:path cred:validUntil ;
+        sh:name "validUntil" ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:message "validUntil, where present, must be an xsd:dateTime (Section 3.3)." ;
+    ] ;
+
+    # Chapter 6 - the Membership Credential is revocable
+    sh:property [
+        sh:path cred:credentialStatus ;
+        sh:name "credentialStatus" ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:message "credentialStatus is required: the Membership Credential is revocable (Chapter 6)." ;
+    ] ;
+
+    # Section 2.5.1 - the accepted governance rulebook, at credential level
+    sh:property [
+        sh:path cred:termsOfUse ;
+        sh:name "termsOfUse" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:node dsm:GovernanceRulebookShape ;
+        sh:message "termsOfUse is mandatory and must be a valid GovernanceRulebook (Section 2.5.1). W3C VCDM defines it as a property of the credential, not of the credential subject." ;
+    ] ;
+
+    # Section 2.6 - optional credential-level evidence
+    sh:property [
+        sh:path cred:evidence ;
+        sh:name "evidence" ;
+        sh:node dsm:EvidenceShape ;
+        sh:message "Each evidence entry must be a valid onboarding evidence record (Section 2.6.1)." ;
+    ] ;
+
+    # IR-01, as a SHACL Core comparison over a sequence path
+    sh:property [
+        sh:path ( cred:termsOfUse ebwv:acceptedAt ) ;
+        sh:name "termsOfUse.acceptedAt" ;
+        sh:lessThanOrEquals cred:validFrom ;
+        sh:message "IR-01: termsOfUse.acceptedAt must be less than or equal to the issuance datetime (validFrom). Acceptance of the rulebook cannot occur after the credential was issued." ;
+    ] ;
+
+    sh:property [
+        sh:path cred:validFrom ;
+        sh:lessThan cred:validUntil ;
+        sh:message "validUntil must be later than validFrom." ;
+    ] .
+
+
+# -----------------------------------------------------------------------------
+# The credential subject - Sections 2.2 and 2.3
+# -----------------------------------------------------------------------------
+
+dsm:MembershipShape
+    a sh:NodeShape ;
+    rdfs:label "Membership credential subject" ;
+    sh:targetClass ebwv:Membership ;
+
+    # Section 2.2, attribute id. See the note above on node-level messages.
+    sh:nodeKind sh:IRI ;
+
+    # Checked from here, over the inverse of credentialSubject, because
+    # dsm:MembershipCredentialShape is targeted by the very type it requires:
+    # a credential that omits ElectronicAttestationOfAttributes is not targeted
+    # at all, so the requirement would never fire. The subject is always
+    # targeted, so this closes that hole.
+    sh:property [
+        sh:path [ sh:inversePath cred:credentialSubject ] ;
+        sh:name "enclosing credential" ;
+        sh:minCount 1 ;
+        sh:node dsm:CredentialTypeShape ;
+        sh:message "A Membership must be the credentialSubject of a credential typed both cred:VerifiableCredential and ebwv:ElectronicAttestationOfAttributes (Sections 2.1 and 3.3.2)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:member ;
+        sh:name "member" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:node dsm:MemberShape ;
+        sh:message "member is mandatory and must be a valid EconomicOperator carrying the holder's stable identifier (Sections 2.2 and 2.2.3)." ;
+    ] ;
+
+    # IR-05 - absolute IRIs, never relative
+    sh:property [
+        sh:path ebwv:memberOf ;
+        sh:name "memberOf" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "memberOf is mandatory and must be an absolute IRI (IR-05). The vocabulary types it @id, so a relative value would resolve against the document base and differ per retrieval location." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:role ;
+        sh:name "role" ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "At least one role is required, and every role must be an absolute IRI (IR-05, code list 2.8)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:onboardedBy ;
+        sh:name "onboardedBy" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:node dsm:OnboardingDetailsShape ;
+        sh:message "onboardedBy is mandatory and must be a valid OnboardingDetails object (Section 2.2.2)." ;
+    ] ;
+
+.
+
+# IR-06 cannot be expressed in SHACL Core: it compares the lexical forms of two
+# values that sit on different nodes and carry different datatypes, which
+# neither sh:disjoint nor sh:equals can do. It lives in the companion shapes
+# graph ds-membership-shacl-sparql.ttl, for engines with SHACL-SPARQL support,
+# and is also enforced natively by validate-membership.mjs.
+
+
+# -----------------------------------------------------------------------------
+# Type of the enclosing credential, reached from the subject by inverse path.
+# -----------------------------------------------------------------------------
+
+dsm:CredentialTypeShape
+    a sh:NodeShape ;
+    rdfs:label "enclosing credential type" ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ebwv:ElectronicAttestationOfAttributes ;
+        sh:message "The credential-level type must include ebwv:ElectronicAttestationOfAttributes (Sections 2.1 and 3.3.2). Without it attestationLegalCategory is undefined and is silently dropped on expansion." ;
+    ] ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue cred:VerifiableCredential ;
+        sh:message "The credential-level type must include cred:VerifiableCredential." ;
+    ] .
+
+
+# -----------------------------------------------------------------------------
+# The holder - Section 2.2.3
+#
+# Not targeted by class: ebwv:EconomicOperator is also the type of the platform
+# operator and of each evidence entry, which carry different mandatory
+# properties. The three are reached through sh:node instead.
+# -----------------------------------------------------------------------------
+
+dsm:MemberShape
+    a sh:NodeShape ;
+    rdfs:label "member (the holder)" ;
+
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ebwv:EconomicOperator ;
+        sh:message "member must be typed EconomicOperator; that declaration is what brings legalName and legalIdentifier into scope (Section 3.3.2)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:legalName ;
+        sh:name "member.legalName" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:message "member.legalName is mandatory (Section 2.2.3); see also IR-02." ;
+    ] ;
+
+    # Range of ebwv:legalIdentifier is PublicSectorBodyId or Euid
+    # Section 2.2.3: additional identifiers of the holder, beyond the
+    # authoritative legalIdentifier. Optional and repeatable.
+    sh:property [
+        sh:path ebwv:identifier ;
+        sh:name "member.identifier" ;
+        sh:node dsm:IdentifierValueShape ;
+        sh:message "Each additional identifier of the member must be a non-empty literal, typed with its scheme where the vocabulary publishes one, or an untyped string where it does not (Section 2.2.3, code list 2.8)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:legalIdentifier ;
+        sh:name "member.legalIdentifier" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:or (
+            [ sh:datatype ebwv:Euid ]
+            [ sh:datatype ebwv:PublicSectorBodyId ]
+        ) ;
+        sh:message "member.legalIdentifier is mandatory and must be a typed literal whose datatype is ebwv:Euid or ebwv:PublicSectorBodyId, the range of the property (Section 2.2.3, code list 2.8)." ;
+    ] .
+
+
+# -----------------------------------------------------------------------------
+# The onboarding platform - Section 2.2.2
+# -----------------------------------------------------------------------------
+
+dsm:OnboardingDetailsShape
+    a sh:NodeShape ;
+    rdfs:label "onboardedBy (the onboarding)" ;
+
+    # Section 2.2.2: the platform is identified by this object's own id, since
+    # the vocabulary defines no property for it. See the note on node-level
+    # messages above.
+    sh:nodeKind sh:IRI ;
+
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ebwv:OnboardingDetails ;
+        sh:message "onboardedBy must be typed OnboardingDetails; that declaration is what brings platform, operator and member into scope (Section 3.3.2)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:platform ;
+        sh:name "onboardedBy.platform" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:message "onboardedBy.platform is mandatory: the commercial name of the onboarding platform (Section 2.2.2)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:member ;
+        sh:name "onboardedBy.member" ;
+        sh:maxCount 1 ;
+        sh:node dsm:PlatformMemberShape ;
+        sh:message "onboardedBy.member, where present, must be a valid EconomicOperator describing the holder as the onboarding platform knows it (Section 2.2.2)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:operator ;
+        sh:name "onboardedBy.operator" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:node dsm:OperatorShape ;
+        sh:message "onboardedBy.operator is mandatory: the economic operator hosting the platform (Sections 2.2.2 and 2.2.3)." ;
+    ] .
+
+
+
+
+dsm:PlatformMemberShape
+    a sh:NodeShape ;
+    rdfs:label "onboardedBy.member (the holder, as the platform knows it)" ;
+
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ebwv:EconomicOperator ;
+        sh:message "onboardedBy.member must be typed EconomicOperator (Section 3.3.2)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:identifier ;
+        sh:name "onboardedBy.member.identifier" ;
+        sh:minCount 1 ;
+        sh:node dsm:IdentifierValueShape ;
+        sh:message "onboardedBy.member must carry at least one identifier: the platform's own reference for the holder (Section 2.2.2). It is not authoritative; see IR-06 and IR-07." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:legalName ;
+        sh:name "onboardedBy.member.legalName" ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:message "onboardedBy.member.legalName, where present, must be a non-empty string." ;
+    ] .
+
+
+dsm:OperatorShape
+    a sh:NodeShape ;
+    rdfs:label "onboardedBy.operator (the hosting organisation)" ;
+
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ebwv:EconomicOperator ;
+        sh:message "onboardedBy.operator must be typed EconomicOperator (Section 3.3.2)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:legalName ;
+        sh:name "operator.legalName" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:message "operator.legalName is mandatory: the legal name of the organisation hosting the platform (Section 2.2.3)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:identifier ;
+        sh:name "operator.identifier" ;
+        sh:minCount 1 ;
+        sh:node dsm:IdentifierValueShape ;
+        sh:message "operator.identifier is mandatory: the identifier of the hosting organisation, as a typed literal (Section 2.2.3). It identifies the operator, never the holder (IR-03)." ;
+    ] .
+
+
+# -----------------------------------------------------------------------------
+# The accepted governance rulebook - Section 2.2.1
+# -----------------------------------------------------------------------------
+
+dsm:GovernanceRulebookShape
+    a sh:NodeShape ;
+    rdfs:label "termsOfUse (the accepted governance rulebook)" ;
+
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ebwv:GovernanceRulebook ;
+        sh:message "termsOfUse must be typed GovernanceRulebook; that declaration is what brings url, version, hash and acceptedAt into scope (Section 3.3.2)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:url ;
+        sh:name "termsOfUse.url" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:anyURI ;
+        sh:message "termsOfUse.url is mandatory: a reference to the online governance rulebook (Section 2.5.1)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:version ;
+        sh:name "termsOfUse.version" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:message "termsOfUse.version is mandatory: the rulebook version at the time of acceptance (Section 2.5.1)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:hash ;
+        sh:name "termsOfUse.hash" ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[A-Fa-f0-9]{64}$" ;
+        sh:message "termsOfUse.hash is mandatory and must be a SHA-256 hash of exactly 64 hexadecimal characters (Section 2.5.1)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:acceptedAt ;
+        sh:name "termsOfUse.acceptedAt" ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:message "termsOfUse.acceptedAt, where present, must be an xsd:dateTime (Section 2.2.1). See IR-01 for its relation to the issuance datetime." ;
+    ] .
+
+
+# -----------------------------------------------------------------------------
+# Onboarding evidence - Section 2.6.1
+# -----------------------------------------------------------------------------
+
+dsm:EvidenceShape
+    a sh:NodeShape ;
+    rdfs:label "evidence (identification means used at onboarding)" ;
+
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ebwv:EconomicOperator ;
+        sh:message "Each evidence entry must be typed EconomicOperator; that declaration is what brings identifier into scope, and it satisfies the domain of ebwv:identifier (Section 2.6.1)." ;
+    ] ;
+
+    sh:property [
+        sh:path ebwv:identifier ;
+        sh:name "evidence.identifier" ;
+        sh:minCount 1 ;
+        sh:node dsm:IdentifierValueShape ;
+        sh:message "Each evidence entry must carry at least one identifier: the identification means by which the holder's identity was proven at onboarding (Section 2.6.1, IR-03)." ;
+    ] .
+
+
+# -----------------------------------------------------------------------------
+# Identifier values - Section 2.2.4 / code list 2.8
+#
+# The vocabulary carries an identifier as a typed literal whose datatype is the
+# identifier scheme. Section 2.8 permits an untyped string where the scheme has
+# no published individual, for example the KMG-MID used by the DADS platform.
+# -----------------------------------------------------------------------------
+
+dsm:IdentifierValueShape
+    a sh:NodeShape ;
+    rdfs:label "identifier value" ;
+    sh:nodeKind sh:Literal ;
+    sh:minLength 1 ;
+    sh:message "An identifier must be a non-empty literal, typed with its scheme where the vocabulary publishes one (code list 2.8)." .
+
+
+# =============================================================================
+# Advisory shapes - code list registration
+#
+# Severity sh:Warning, matching IR-05: a Relying Party ignores values it does
+# not recognise rather than rejecting the credential. Deactivate these, or
+# raise them to sh:Violation, according to local policy.
+# =============================================================================
+
+dsm:RegisteredRoleShape
+    a sh:NodeShape ;
+    rdfs:label "role registered in code list 2.8" ;
+    sh:targetClass ebwv:Membership ;
+    sh:property [
+        sh:path ebwv:role ;
+        sh:severity sh:Warning ;
+        sh:in (
+            ebwv:DataRightsHolder
+            ebwv:DataProvider
+            ebwv:DataConsumer
+            ebwv:Operator
+            ebwv:OnboardingServiceProvider
+        ) ;
+        sh:message "Role is not one of the DataSpaceRole individuals registered in code list 2.8. This is permitted - a DSI may mint role IRIs under a namespace it owns - but a Relying Party that does not recognise the value will ignore it (IR-05)." ;
+    ] .
+
+dsm:RegisteredMemberOfShape
+    a sh:NodeShape ;
+    rdfs:label "memberOf registered in code list 2.8" ;
+    sh:targetClass ebwv:Membership ;
+    sh:property [
+        sh:path ebwv:memberOf ;
+        sh:severity sh:Warning ;
+        sh:in (
+            <https://agri-x.eu>
+            <https://dih-agrifood.com/>
+            <https://djustconnect.be>
+            <https://www.dataspace.fi/>
+        ) ;
+        sh:message "memberOf is not registered in code list 2.8. A DSI or dataspace SHALL register its IRI there before issuing (Section 5)." ;
+    ] .
