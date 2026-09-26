@@ -130,16 +130,16 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                             | **Data type** |
 |:--------------------|:-----------------------|:-----------------------------------------------------------|:--------------|
-| `duns_number`       | —                      | Nine-digit unique identifier assigned by Dun & Bradstreet. | tstr          |
-| `legal_entity`      | —                      | An object encapsulating the legal identity of the entity.  | Object        |
+| `duns_number`       | [identifier](http://w3id.org/ebwv#identifier) | Nine-digit unique identifier assigned by Dun & Bradstreet. | tstr          |
+| `legal_entity`      | [businessEntity](http://w3id.org/ebwv#businessEntity).[Company](http://w3id.org/ebwv#Company) | An object encapsulating the legal identity of the entity.  | Object        |
 
 **Nested Mandatory Attributes**
 
 | **Data Identifier**       | **Semantic Reference** | **Definition**                                       | **Data type**  |
 |:--------------------------|:-----------------------|:-----------------------------------------------------|:---------------|
-| `legal_entity.legal_name` | —                      | The registered legal name of the entity.             | tstr           |
-| `legal_entity.legal_form` | —                      | The legal form of the entity (e.g., GmbH, AG, Ltd.). | tstr           |
-| `legal_entity.address`    | —                      | The official registered address of the entity.       | Address Object |
+| `legal_entity.legal_name` | [legalName](http://w3id.org/ebwv#legalName) | The registered legal name of the entity.             | tstr           |
+| `legal_entity.legal_form` | [legalForm](http://w3id.org/ebwv#legalForm)  | The legal form of the entity (e.g., GmbH, AG, Ltd.). | tstr           |
+| `legal_entity.address`    | [registeredAddress](http://w3id.org/ebwv#registeredAddress) | The official registered address of the entity.       | Address Object |
 
 
 ### 2.3 Optional Attributes
@@ -149,30 +149,30 @@ The following sub-fields within the `legal_entity.address` object are optional.
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                          | **Data type** |
 |:--------------------|:-----------------------|:--------------------------------------------------------|:--------------|
-| `street`            | —                      | Street name of the registered address.                  | tstr          |
-| `nr`                | —                      | Street or building number of the registered address.    | tstr          |
-| `postal_code`       | —                      | Postal or ZIP code of the registered address.           | tstr          |
-| `city`              | —                      | City or municipality of the registered address.         | tstr          |
-| `country`           | —                      | Country of the registered address (ISO 3166-1 alpha-2). | tstr          |
+| `street`            | [thoroughfare](http://w3id.org/ebwv#thoroughfare)  | Street name of the registered address.                  | tstr          |
+| `nr`                | [locatorDesignator](http://w3id.org/ebwv#locatorDesignator) | Street or building number of the registered address.    | tstr          |
+| `postal_code`       | [postCode](http://w3id.org/ebwv#postCode)  | Postal or ZIP code of the registered address.           | tstr          |
+| `city`              | [postName](http://w3id.org/ebwv#postName) | City or municipality of the registered address.         | tstr          |
+| `country`           | [adminUnitL1](http://w3id.org/ebwv#adminUnitL1) | Country of the registered address (ISO 3166-1 alpha-2). | tstr          |
 
 ### 2.4 Conditional Attributes
 No conditional attributes are defined for this attestation type.
 
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**          | **Definition**                                           | **Data type** |
-|:-----------------------------|:---------------------------------------------------------|:--------------|
-| `attestation_legal_category` | Indicates the legal category of the Attestation ("EAA"). | String        |
-| `cnf`                        | Cryptographic Key Binding to prove holder possession.    | Object        |
+| **Data Identifier**        | **Semantic Reference**   | **Definition**                                           | **Data type** |
+|:---------------------------|--|:---------------------------------------------------------|:--------------|
+| `attestation_legal_category`| [attestationLegalCategory](http://w3id.org/ebwv#attestationLegalCategory) | Indicates the legal category of the Attestation ("EAA"). | String        |
+| `cnf`                     | N/A | Cryptographic Key Binding to prove holder possession.    | Object        |
 
 *Note: Standard JWT claims (`iss`, `iat`, `exp`) are also mandatory.*
 
 ### 2.6 Optional Metadata
 
-| **Data Identifier** | **Definition**                                                              | **Data type** |
-|:--------------------|:----------------------------------------------------------------------------|:--------------|
-| `trust_anchor_url`  | URL where the trust anchor for verifying this attestation can be retrieved. | URI           |
-| `schema_version`    | Version of the schema used for this attestation.                            | String        |
+| **Data Identifier** | **Semantic Reference**  | **Definition**                                                              | **Data type** |
+|:-----------------|---|:----------------------------------------------------------------------------|:--------------|
+| `trust_anchor_url` | [cred:termsOfUse](https://www.w3.org/2018/credentials#termsOfUse) | URL where the trust anchor for verifying this attestation can be retrieved. | URI           |
+| `schema_version` | N/A | Version of the schema used for this attestation.                            | String        |
 
 ### 2.7 Conditional metadata
 No conditional metadata elements are defined for this attestation type.

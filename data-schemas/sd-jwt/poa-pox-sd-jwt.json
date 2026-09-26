@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.webuild.eu/power-of-x/power_of_x.schema.v1.json",
+  "title": "WE BUILD Power of X Credential",
+  "description": "JSON Schema derived from Canonical Model V7",
+  "type": "object",
+  "required": [
+    "vct",
+    "credential",
+    "represented_economic_operator",
+    "proxy",
+    "authority",
+    "credential_metadata"
+  ],
+  "properties": {
+    "vct": {
+      "type": "string",
+      "format": "uri"
+    },
+    "credential": {
+      "type": "object",
+      "required": [
+        "type",
+        "legal_category"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "power_of_attorney",
+            "power_of_representation",
+            "power_of_employee"
+          ]
+        },
+        "legal_category": {
+          "type": "string",
+          "enum": [
+            "QEAA",
+            "PubEAA",
+            "non-qualified-EAA"
+          ]
+        }
+      }
+    },
+    "represented_economic_operator": {
+      "type": "object",
+      "required": [
+        "identifier",
+        "legal_name"
+      ],
+      "properties": {
+        "identifier": {
+          "type": "object",
+          "required": [
+            "scheme",
+            "value"
+          ],
+          "properties": {
+            "scheme": {
+              "const": "EBWOID"
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        "legal_name": {
+          "type": "string"
+        }
+      }
+    },
+    "proxy": {
+      "type": "object",
+      "required": [
+        "entity_type"
+      ],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": [
+            "natural_entity",
+            "legal_entity"
+          ]
+        },
+        "legal_entity_proxy": {
+          "type": "object"
+        },
+        "natural_entity_proxy": {
+          "type": "object"
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "required": [
+        "authority_source"
+      ],
+      "properties": {
+        "authority_source": {
+          "type": "string",
+          "enum": [
+            "proxy_position",
+            "proxy_power_scope",
+            "proxy_employee_authorisation"
+          ]
+        },
+        "proxy_position": {
+          "type": "object"
+        },
+        "proxy_power_scope": {
+          "type": "object"
+        },
+        "proxy_employee_authorisation": {
+          "type": "object"
+        }
+      }
+    },
+    "credential_metadata": {
+      "type": "object",
+      "properties": {
+        "issuer": {
+          "type": "object"
+        },
+        "validity": {
+          "type": "object"
+        },
+        "status": {
+          "type": "object"
+        },
+        "binding": {
+          "type": "object"
+        },
+        "trust": {
+          "type": "object"
+        },
+        "schema": {
+          "type": "object"
+        },
+        "display": {
+          "type": "object"
+        },
+        "policies": {
+          "type": "array"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "authority": {
+              "properties": {
+                "authority_source": {
+                  "const": "proxy_position"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "authority": {
+              "properties": {
+                "authority_source": {
+                  "const": "proxy_power_scope"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "authority": {
+              "properties": {
+                "authority_source": {
+                  "const": "proxy_employee_authorisation"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

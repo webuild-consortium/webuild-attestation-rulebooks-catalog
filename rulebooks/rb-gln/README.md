@@ -131,7 +131,10 @@ Multiple localized values **MAY** be expressed as an array of such objects.
 
 ### 2.2 Mandatory Attributes
 
-#### 2.2.1 GLN and Name
+| **Data Identifier** | **Semantic Reference** | **Definition**                        | **Data type** |
+|---------------------|------------------------|---------------------------------------|---------------|
+| gs1                 | [gs1](https://w3id.org/ebwv#gs1)  | Information about the gs1 information | Object; the semantic reference points to the class "EconomicOperator"  |
+| address             | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  | Information about the address         | Object        |
 
 The GLN EAA **must** contain a `credentialSubject["gs1:organization"]` which **must** contain the following attributes:
 
@@ -140,13 +143,22 @@ The GLN EAA **must** contain a `credentialSubject["gs1:organization"]` which **m
 | `gs1:organizationName` | The entity name registered with GS1 (localized)      | `rdf:langString` |
 | `gs1:partyGLN`         | The 13 digit main party GLN of the company           | `xsd:string`   |
 
-Notice that the GLN might start with a 0 and hence `xsd:integer` is not an apropriate representation of this id.
+| **Data Identifier**   | **Semantic Reference** | **Definition**                                      | **Data type**  |
+|-----------------------|------------------------|-----------------------------------------------------|----------------|
+| organizationLegalName | [legalName](https://w3id.org/ebwv#legalName) | The legal entity name registered with GS1           | Rdf:langString |
+| licenceKey            | [licenceKey](https://w3id.org/ebwv#licenceKey) (property of a new "Licence" class) OR [GS1CompanyPrefix](https://w3id.org/ebwv#GS1CompanyPrefix)| The GS1 Company Prefix assigned to the organization | xsd:integer    |
+| GlobalLocationNumber  | [identifier](https://w3id.org/ebwv#identifier)  | The GLN (Global Location Number)                    | xsd:String     |
 
 | **Attribute** | **Definition**                                      | **Type**  |
 |------------------------|-----------------------------------------------------|----------------|
 | `credentialSubject.id` | Digital Link URI representation of the GLN           | `xsd:anyURI`   |
 
-The `credentialSubject.id` must be a url with a path ending in `/417/{gs1:partyGLN}`.
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                        | **Data type**       |
+|---------------------|------------------------|---------------------------------------------------------------------------------------|---------------------|
+| postal_code         | [postCode](https://w3id.org/ebwv#postCode)  | The postal code of the city where the legal owner currently is registered or operates | String              |
+| locality            | [postName](https://w3id.org/ebwv#postName) | The city where the legal owner currently is registered or operates                    | String              |
+| region              | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | The region where the legal owner currently is registered or operates                  | String              |
+| country             | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | The country where the legal owner currently is registered or operates                 | ISO 3166-1 alpha-2  |
 
 Additionally, the GLN EAA's `credentialSubject["gs1:organization"]` **MUST** contain
 
@@ -160,7 +172,13 @@ The GLN EAA of type `OrganizationDataCredential` **MUST** contain a `credentialS
 
 For a typical European postal addresses, `gs1:streetAddress` **SHOULD** be used for the primary address line. Additional address detail **MAY** be expressed in `gs1:streetAddressLine2` through `gs1:streetAddressLine4`. For post-office-box addresses, `gs1:postOfficeBoxNumber` **SHOULD** be used instead of street address lines.
 
-The most important attributes of `credentialSubject["gs1:organization"]["gs1:address"]` that **SHOULD** be used depending on address type and country for the GLN EAA are
+| **Data Identifier**     | **Semantic Reference**  | **Definition**                                                                                                                                                     | **Data type** |
+|-------------------------|---|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| issuance_date           | [cred:validFrom](https://www.w3.org/2018/credentials/#validFrom)  | The date and time when the attestation was issued (ISO 8601)                                                                                                       | DateTime      |
+| expiry_date             | [cred:validUntil](https://www.w3.org/2018/credentials/#validUntil)   | The date and time when the attestation expires (ISO 8601)                                                                                                          | DateTime      |
+| issuing_entity          | [cred:issuer](https://www.w3.org/2018/credentials/#issuer)  | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String        |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory)  | Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA")                                                                                       | String        |
+| vct                      |    | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed              | String        |
 
 | **Attribute**             | **Definition**                                                                        | **Type**       |
 |---------------------------|---------------------------------------------------------------------------------------|---------------------|
@@ -176,7 +194,10 @@ The most important attributes of `credentialSubject["gs1:organization"]["gs1:add
 | `gs1:addressSuburb`       | A suburb within a town or city. (localized)                                           | `rdf:langString`    |
 | `gs1:countryCode`         | ISO 3166-1 alpha-2 country code (nested in `gs1:addressCountry` → `gs1:Country`)      | `xsd:string`        |
 
-Other attributes of `gs1:PostalAddress` data model **MAY** also be used if needed.
+| **Data Identifier** | **Semantic Reference**  | **Definition**                                                             | **Data type** |
+|------------------|---|----------------------------------------------------------------------------|---------------|
+| trust_anchor_url | cred:? | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
+| schema_version   | cred:? | Version of the schema used                                                 | String        |
 
 
 #### 2.2.3 GS1 Trust Chain Link

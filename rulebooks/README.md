@@ -30,7 +30,9 @@ Examples:
 
 Each rulebook folder contains a single required file:
 
-- `README.md`, the rulebook itself, following the rulebook template at [`rulebooks/EUDI-template.md`](EUDI-template.md).
+- `README.md`, the rulebook itself, following the rulebook template at [`rulebooks/templates/webuild-rulebook-generic-template.md`](templates/webuild-rulebook-generic-template.md).
+
+How to use the template, including the markers and the pre-submission checklist, is in [`rulebooks/templates/README.md`](templates/README.md).
 
 Authors should not renumber or rename the template's sections. Sections that do not apply to a specific attestation type should be retained with a short note explaining why.
 

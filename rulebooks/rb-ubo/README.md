@@ -22,8 +22,8 @@
 | 1.0     | 23.07.2026 | Input PA3                                                         |
 
 * Contact:
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)*
-  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)*  
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)  
 
 * Feedback:
 

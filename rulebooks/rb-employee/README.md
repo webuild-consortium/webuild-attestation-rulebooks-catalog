@@ -112,17 +112,17 @@ This attestation type is classified as:
 
 | **Data Identifier** | **Semantic Reference**                                                                    | **Definition**                                                                                 | **Optionality** | **Encoding format** |
 |---------------------|-------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------|---------------------|
-| name                | [givenName – Schema.org Property](https://schema.org/givenName)                           | Given name of the employee.                                                                    | M               | tstr                |
-| surname             | [familyName – Schema.org Property](https://schema.org/familyName)                         | Family name of the employee.                                                                   | M               | tstr                |
-| employee_id         | --                                                                                        | An alphanumeric identifier of the employee assigned by the employing organization.             | M               | tstr                |
+| name                | [givenName](https://w3id.org/ebwv#givenName)<br>[givenName – Schema.org Property](https://schema.org/givenName)                           | Given name of the employee.                                                                    | M               | tstr                |
+| surname             | [familyName](https://w3id.org/ebwv#familyName)<br>[familyName – Schema.org Property](https://schema.org/familyName)                         | Family name of the employee.                                                                   | M               | tstr                |
+| employee_id         | [identifier](https://w3id.org/ebwv#identifier) | An alphanumeric identifier of the employee assigned by the employing organization.             | M               | tstr                |
 
 #### 2.2.2 Company Info Attributes
 
 | **Data Identifier**    | **Semantic Reference** | **Definition**                                                                                  | **Optionality** | **Encoding format** |
 |------------------------|------------------------|-------------------------------------------------------------------------------------------------|-----------------|---------------------|
-| company_info           | --                     | Object encapsulating the identity of the employing organization.                                | M               | Object              |
-| company_info.euid      | --                     | European Unique Identifier (EUID) of the employing legal entity.                                | M               | tstr                |
-| company_info.name      | --                     | Registered name of the employing legal entity.                                                  | M               | tstr                |
+| company_info           | [employer](https://w3id.org/ebwv#employer) <br>add Domain:EmployeeAttestation? | Object encapsulating the identity of the employing organization.                                | M               | Object              |
+| company_info.euid      | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier)  | European Unique Identifier (EUID) of the employing legal entity.                                | M               | tstr                |
+| company_info.name      | [legalName](https://w3id.org/ebwv#legalName) | Registered name of the employing legal entity.                                                  | M               | tstr                |
 
 #### 2.2.3 Employment Attributes (when `employment` object is present)
 
@@ -139,7 +139,7 @@ within it:
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                              | **Optionality** | **Encoding format** |
 |---------------------|------------------------|-------------------------------------------------------------|-----------------|---------------------|
-| birth_date          | --                     | Date of birth of the employee (ISO 8601 format, YYYY-MM-DD) | O               | tstr (ISO 8601)     |
+| birth_date          | [employee](https://w3id.org/ebwv#employee).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth)  | Date of birth of the employee (ISO 8601 format, YYYY-MM-DD) | O               | tstr (ISO 8601)     |
 | employment          | --                     | Object providing details about the employee's employment.   | O               | Object              |
 
 ### 2.4 Conditional attributes

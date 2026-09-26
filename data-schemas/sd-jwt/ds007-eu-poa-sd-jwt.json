@@ -1,0 +1,485 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/ds007-eu-poa-sd-jwt.json",
+  "title": "ds007 - EU Power of Attorney (EU PoA) – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of an EU PoA as defined in the EU PoA Rulebook (rb-eu-poa, Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The attestation is a single flat object; selective disclosure per claim is specified in the rulebook, not here.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": false,
+  "properties": {
+    "vct": {
+      "type": "string",
+      "format": "uri",
+      "description": "Verifiable Credential Type. For the EU PoA this is 'uri:eu.eudi.eu-poa.1'.",
+      "examples": [
+        "uri:eu.eudi.eu-poa.1"
+      ]
+    },
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "Legal category of the attestation as defined by eIDAS 2.",
+      "enum": [
+        "EAA",
+        "PUB-EAA",
+        "QEAA"
+      ]
+    },
+    "issuing_authority": {
+      "type": "string",
+      "description": "Name of the administrative authority that issued the EU PoA, or the ISO 3166-1 alpha-2 country code of the Member State if there is no separate authority entitled to issue the EU PoA.",
+      "examples": [
+        "Kamer van Koophandel"
+      ]
+    },
+    "issuing_country": {
+      "type": "string",
+      "description": "Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the attestation.",
+      "pattern": "^[A-Z]{2}$",
+      "examples": [
+        "NL"
+      ]
+    },
+    "date_of_execution": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the PoA was executed (ISO 8601, YYYY-MM-DD). Equal to or earlier than validity_period_valid_from (IR-02).",
+      "examples": [
+        "2026-01-15"
+      ]
+    },
+    "euid_reference": {
+      "type": "string",
+      "description": "EUID reference of the company on whose behalf the PoA is granted.",
+      "examples": [
+        "NLNHR.12345678"
+      ]
+    },
+    "principal_full_name": {
+      "type": "string",
+      "description": "Legal full name of the principal, the natural person who grants the PoA on behalf of the company.",
+      "examples": [
+        "Frouke Janssen"
+      ]
+    },
+    "principal_date_of_birth": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of birth of the principal (ISO 8601, YYYY-MM-DD).",
+      "examples": [
+        "1980-03-22"
+      ]
+    },
+    "principal_identification_document_kind": {
+      "type": "string",
+      "description": "Type of identification document presented by the principal. See code list in rulebook section 2.8.",
+      "enum": [
+        "passport",
+        "national_id_card",
+        "residence_permit",
+        "driving_license"
+      ]
+    },
+    "principal_identification_document_number": {
+      "type": "string",
+      "description": "Identification document number of the principal.",
+      "examples": [
+        "NZ1234567"
+      ]
+    },
+    "principal_place_of_birth": {
+      "type": "string",
+      "description": "Place of birth of the principal.",
+      "examples": [
+        "Utrecht"
+      ]
+    },
+    "principal_full_address": {
+      "type": "string",
+      "description": "Residential address of the principal, as one string.",
+      "examples": [
+        "Herengracht 100, 1015 AA Amsterdam, Netherlands"
+      ]
+    },
+    "company_statutory_full_name": {
+      "type": "string",
+      "description": "Registered legal name of the company.",
+      "examples": [
+        "FictiveCo B.V."
+      ]
+    },
+    "company_business_register_name": {
+      "type": "string",
+      "description": "Name of the business register in which the company is registered.",
+      "examples": [
+        "Kamer van Koophandel"
+      ]
+    },
+    "company_business_register_location": {
+      "type": "string",
+      "description": "Location of the business register.",
+      "examples": [
+        "The Hague"
+      ]
+    },
+    "company_kind_of_legal_entity": {
+      "type": "string",
+      "description": "Legal form of the company (e.g. B.V., GmbH, SARL, SA).",
+      "examples": [
+        "B.V."
+      ]
+    },
+    "company_jurisdiction": {
+      "type": "string",
+      "description": "Country of incorporation, alpha-2 country code as specified in ISO 3166-1.",
+      "pattern": "^[A-Z]{2}$",
+      "examples": [
+        "NL"
+      ]
+    },
+    "company_registered_office": {
+      "type": "string",
+      "description": "Registered office address of the company, as one string.",
+      "examples": [
+        "Keizersgracht 200, 1016 DW Amsterdam, Netherlands"
+      ]
+    },
+    "attorney_full_name": {
+      "type": "string",
+      "description": "Legal full name of the attorney (delegate).",
+      "examples": [
+        "Maria Schmidt"
+      ]
+    },
+    "attorney_date_of_birth": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of birth of the attorney (ISO 8601, YYYY-MM-DD).",
+      "examples": [
+        "1985-07-10"
+      ]
+    },
+    "attorney_identification_document_kind": {
+      "type": "string",
+      "description": "Type of identification document presented by the attorney. See code list in rulebook section 2.8.",
+      "enum": [
+        "passport",
+        "national_id_card",
+        "residence_permit",
+        "driving_license"
+      ]
+    },
+    "attorney_identification_document_number": {
+      "type": "string",
+      "description": "Identification document number of the attorney.",
+      "examples": [
+        "DE9876543"
+      ]
+    },
+    "attorney_place_of_birth": {
+      "type": "string",
+      "description": "Place of birth of the attorney.",
+      "examples": [
+        "Groningen"
+      ]
+    },
+    "attorney_full_address": {
+      "type": "string",
+      "description": "Residential address of the attorney, as one string.",
+      "examples": [
+        "Friesestraatweg 3157, 7772CP Groningen, Netherlands"
+      ]
+    },
+    "scope_of_representation_powers": {
+      "type": "array",
+      "description": "The powers granted to the attorney, taken from the six powers listed in rulebook section 2.8. If scope_of_representation_power_of_substitution is 'limited', the limitation details are added to this array as well (IR-04); otherwise only the six listed powers are allowed.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "examples": [
+        [
+          "The formation of companies",
+          "Registration and closure of branches of the Company"
+        ]
+      ]
+    },
+    "scope_of_representation_power_of_substitution": {
+      "type": "string",
+      "description": "Whether the attorney may delegate the granted powers to a third party. If 'limited', the limitation details are included in scope_of_representation_powers (IR-04).",
+      "enum": [
+        "allowed",
+        "not_allowed",
+        "limited"
+      ]
+    },
+    "validity_period_valid_from": {
+      "type": "string",
+      "format": "date",
+      "description": "Start date of validity of the PoA (ISO 8601, YYYY-MM-DD).",
+      "examples": [
+        "2026-01-15"
+      ]
+    },
+    "validity_period_valid_until": {
+      "type": "string",
+      "format": "date",
+      "description": "End date of validity of the PoA (ISO 8601, YYYY-MM-DD). Later than validity_period_valid_from (IR-01).",
+      "examples": [
+        "2027-01-15"
+      ]
+    },
+    "applicable_law_jurisdiction": {
+      "type": "string",
+      "description": "Governing Member State law, alpha-2 country code as specified in ISO 3166-1.",
+      "pattern": "^[A-Z]{2}$",
+      "examples": [
+        "NL"
+      ]
+    },
+    "signing_place": {
+      "type": "string",
+      "description": "Place where the PoA was signed.",
+      "examples": [
+        "Hardenberg"
+      ]
+    },
+    "signing_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the PoA was signed (ISO 8601, YYYY-MM-DD).",
+      "examples": [
+        "2026-01-15"
+      ]
+    },
+    "trust_anchor": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL at which a machine-readable version of the trust anchor to be used for verifying the EU PoA can be found or looked up.",
+      "examples": [
+        "https://issuer.example.com/trust-anchor"
+      ]
+    },
+    "status": {
+      "type": "object",
+      "description": "Credential status following SD-JWT VC Status List. Required when the validity period of the attestation exceeds 24 hours (rulebook section 2.6, location_status).",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'.",
+          "examples": [
+            "status-list"
+          ]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the Status List Credential that contains the bitstring indicating status.",
+          "examples": [
+            "https://issuer.example.com/status/1"
+          ]
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into the status list bitstring for this credential.",
+          "examples": [
+            42
+          ]
+        },
+        "status_purpose": {
+          "type": "string",
+          "description": "Purpose of the status entry. For the EU PoA this is 'revocation'.",
+          "examples": [
+            "revocation"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+    "cnf": {
+      "type": "object",
+      "description": "Key binding confirmation per SD-JWT VC. The EU PoA is bound to the wallet of the holder.",
+      "additionalProperties": true,
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder wallet.",
+          "additionalProperties": true,
+          "properties": {
+            "kty": {
+              "type": "string",
+              "examples": [
+                "EC",
+                "RSA"
+              ]
+            },
+            "crv": {
+              "type": "string",
+              "examples": [
+                "P-256"
+              ]
+            },
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            },
+            "n": {
+              "type": "string"
+            },
+            "e": {
+              "type": "string"
+            },
+            "kid": {
+              "type": "string"
+            },
+            "alg": {
+              "type": "string",
+              "examples": [
+                "ES256"
+              ]
+            }
+          },
+          "required": [
+            "kty"
+          ]
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    },
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer identifier (URL or DID) of the EU PoA provider, RFC 7519.",
+      "examples": [
+        "https://eu-poa-issuer.example.nl"
+      ]
+    },
+    "sub": {
+      "type": "string",
+      "description": "Subject identifier of the holder (e.g. DID).",
+      "examples": [
+        "did:example:holder:7c2b1d"
+      ]
+    },
+    "iat": {
+      "type": "integer",
+      "description": "Issued-at (epoch seconds), RFC 7519.",
+      "examples": [
+        1768471200
+      ]
+    },
+    "nbf": {
+      "type": "integer",
+      "description": "Not-before (epoch seconds), RFC 7519.",
+      "examples": [
+        1768435200
+      ]
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Expiry (epoch seconds), RFC 7519. Carries the expiry_date metadata of rulebook section 2.5.",
+      "examples": [
+        1799971200
+      ]
+    },
+    "jti": {
+      "type": "string",
+      "description": "JWT ID.",
+      "examples": [
+        "4f0d9a7e-3c2b-4b7e-8b1a-6d5e2c9f1a3b"
+      ]
+    }
+  },
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "cnf",
+    "attestation_legal_category",
+    "issuing_authority",
+    "issuing_country",
+    "date_of_execution",
+    "euid_reference",
+    "principal_full_name",
+    "principal_date_of_birth",
+    "company_statutory_full_name",
+    "company_business_register_name",
+    "company_jurisdiction",
+    "attorney_full_name",
+    "scope_of_representation_powers",
+    "validity_period_valid_from",
+    "validity_period_valid_until",
+    "applicable_law_jurisdiction",
+    "signing_place",
+    "signing_date"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "scope_of_representation_power_of_substitution": {
+            "const": "limited"
+          }
+        },
+        "required": [
+          "scope_of_representation_power_of_substitution"
+        ]
+      },
+      "then": {
+        "properties": {
+          "scope_of_representation_powers": {
+            "allOf": [
+              {
+                "contains": {
+                  "$ref": "#/$defs/representation_power"
+                }
+              },
+              {
+                "contains": {
+                  "not": {
+                    "$ref": "#/$defs/representation_power"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "scope_of_representation_powers": {
+            "items": {
+              "$ref": "#/$defs/representation_power"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "representation_power": {
+      "type": "string",
+      "enum": [
+        "The formation of companies",
+        "Changes to the instrument of constitution of companies and the statutes if contained in a separate instrument",
+        "Registration and closure of branches of the Company",
+        "All legal transactions regarding cross-border conversions involving the Company",
+        "All legal transactions regarding cross border mergers involving the Company",
+        "All legal transactions regarding cross border divisions involving the Company"
+      ]
+    }
+  }
+}

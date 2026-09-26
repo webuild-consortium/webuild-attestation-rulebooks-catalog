@@ -252,6 +252,7 @@
         "name",
         "identifier",
         "jurisdiction",
+        "legal_form",
         "form"
       ],
       "properties": {

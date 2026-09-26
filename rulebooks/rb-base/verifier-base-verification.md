@@ -15,9 +15,9 @@
 | 0.1     | 06.05.2026 | Initial draft based on the WeBuild attestation design meetings  |
 
 * Contact:
-  * [Folkendt Werner](mailto:werner.folkendt@de.bosch.com)*
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)*
-s
+  * [Folkendt Werner](mailto:werner.folkendt@de.bosch.com)
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)
+
 **Feedback:**
 
 ## Intro
