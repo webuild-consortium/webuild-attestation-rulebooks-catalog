@@ -27,7 +27,7 @@ Category: PID
    * [1.2 Document structure](#12-document-structure)
    * [1.3 Key words](#13-key-words)
    * [1.4 Terminology](#14-terminology)
-- [2 Certification](#2-certification)
+- [2 Compliance](#2-compliance)
    * [2.1 Compliance statement](#21-compliance-statement)
    * [2.2 Regulatory basis](#22-regulatory-basis)
    * [2.3 Traceability](#23-traceability)
@@ -53,7 +53,7 @@ Category: PID
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
-   * [9.1 Relying Party policy](#91-relying-party-policy)
+   * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
@@ -113,7 +113,7 @@ capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 
 This document uses the terminology specified in [Annex 1](https://eudi.dev/3.0.0/annexes/annex-1/annex-1-definitions/) of the ARF.
 
-## 2 Certification
+## 2 Compliance
 
 ### 2.1 Compliance statement
 
@@ -683,7 +683,7 @@ Timing:
 
 ## 9 Presentation
 
-### 9.1 Relying Party policy
+### 9.1 Presentation Policy
 
 > A Relying Party receiving an attestation of this type SHALL:
 >
