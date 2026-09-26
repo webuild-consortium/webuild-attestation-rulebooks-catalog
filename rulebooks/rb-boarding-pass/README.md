@@ -94,14 +94,14 @@ The attestation is bound to a single passenger and a single ferry journey. It SH
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |---------------------|------------------------|----------------|---------------|-------------------|
-| `attestation_legal_category` | ARF Topic 12 / Rulebook legal category indication | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
-| `identifier` | N/A | Unique identifier of the boarding pass. | string | `BP-2026-000123456` |
-| `ticketQR` | N/A | Encoded ticket representation used for scanning at boarding control. | string | `M1_FASTFERRIES_20260615_000123456` |
-| `ticketNumber` | N/A | Ferry ticket number. | string | `000123456` |
-| `firstName` | OIDC `given_name` where applicable | Passenger given name. | string | `Nikos` |
-| `lastName` | OIDC `family_name` where applicable | Passenger family name. | string | `Triantafyllou` |
-| `departureDate` | ISO 8601 date | Scheduled departure date. | date | `2026-06-15` |
-| `departureTime` | ISO 8601 / local time | Scheduled departure time, expressed in the local time of the departure port. | string | `07:30` |
+| `attestation_legal_category` | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) <br> ARF Topic 12 / Rulebook legal category indication | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
+| `identifier` | [identifier](https://w3id.org/ebwv#identifier) | Unique identifier of the boarding pass. | string | `BP-2026-000123456` |
+| `ticketQR` | Is this only a reference to a binary file or something else? | Encoded ticket representation used for scanning at boarding control. | string | `M1_FASTFERRIES_20260615_000123456` |
+| `ticketNumber` | [dct:references](http://purl.org/dc/terms/references) | Ferry ticket number. | string | `000123456` |
+| `firstName` | [givenName](https://w3id.org/ebwv#givenName) <br> OIDC `given_name` where applicable | Passenger given name. | string | `Nikos` |
+| `lastName` | [familyName](https://w3id.org/ebwv#familyName) <br> OIDC `family_name` where applicable | Passenger family name. | string | `Triantafyllou` |
+| `departureDate` | [scheduledDeparture](https://w3id.org/ebwv#scheduledDeparture) (xsd:dateTime) <br> ISO 8601 date | Scheduled departure date. | date | `2026-06-15` |
+| `departureTime` | [scheduledDeparture](https://w3id.org/ebwv#scheduledDeparture) (xsd:dateTime) <br> ISO 8601 / local time | Scheduled departure time, expressed in the local time of the departure port. | string | `07:30` |
 | `arrivalDate` | ISO 8601 date | Scheduled arrival date. | date | `2026-06-15` |
 | `arrivalTime` | ISO 8601 / local time | Scheduled arrival time, expressed in the local time of the arrival port. | string | `12:45` |
 | `arrivalPort` | UN/LOCODE recommended | Destination port. | string | `GRMLO` |
