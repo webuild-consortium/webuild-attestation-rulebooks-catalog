@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.org/schemas/eudi/vat-id-attestation.json",
   "title": "EUDI VAT ID Attestation",
+  "description": "The VAT-ID attestation is an official document issued by a recognized authority, such as the Tax Administration, that verifies the validity of a VAT-ID. This attestation serves as proof of the company’s or administrative unit’s VAT-ID and its corresponding validity period. It contains only information directly related to the VAT-ID. The VAT-ID attestation can be utilized by a company to substantiate its identity and ownership of the provided VAT-ID. The recipient of the attestation can trust its authenticity, eliminating the need for external verification through the VAT Information Exchange System (VIES) or the request for a physical VAT-ID Certificate.",
   "type": "object",
   "properties": {
     "vct": {
@@ -321,7 +322,7 @@
                       "type": "string",
                       "description": "Language code of the description.",
                       "examples": [
-                        "en"
+                        "en-GB"
                       ]
                     },
                     "value": {
