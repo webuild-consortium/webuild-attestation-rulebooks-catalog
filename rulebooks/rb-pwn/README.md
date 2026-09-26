@@ -1,19 +1,18 @@
 # Attestation Rulebook for attestations of type Posted Worker Notification (PWN)
 
 * Author(s):
-  * [Philipp Friedl, DRV Bund]
-  * Laurent ?
-* Previous Authors
-  *
-* Reviewer(s):
-  * [Florin Coptil, Robert Bosch GmbH]
+  * Jo Antoons Fragomen Belgium
+ * Reviewer(s):
+  * Philipp Friedl, DRV Bund
+  * Laurent Loup, SICPA
+  * Florin Coptil, Robert Bosch GmbH
 
 | Version | Date       | Description                                                     |
 |---------|------------|-----------------------------------------------------------------|
 | 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
-  * [Philipp Friedl - DRV Bund](mailto:philipp.friedl@drv-bund.de)
+  * Jo Antoons, Fragomen Belgium, jantoons@fragomen.com
 
 * Feedback:
 
@@ -24,9 +23,9 @@
 This attestation addresses the following question:
 
 **Has a company fulfilled its legal obligation to notify the host EU Member State authorities
-prior to sending workers to provide cross-border services within the EU/EFTA area?**
+prior to sending workers to provide cross-border services within the EU?
 
-The Posted Worker Notification (PWN) Attestation provides a standardized, verifiable digital
+The Posted Worker Notification (PWN) Attestation provides a verifiable digital
 representation of the Posted Worker Notification, enabling structured exchange of posting
 information for use in cross-border labour compliance verification, supplier onboarding, and
 regulatory audit processes by host Member State authorities, procurers, and labour inspectorates.
@@ -39,9 +38,9 @@ Member State (usually on a government portal) prior to the start of the delivery
 The PWN was introduced pursuant to
 [EU Directive 2014/67/EU](https://eur-lex.europa.eu/eli/dir/2014/67/oj/eng) to enable EU Member
 States to monitor that Posted Workers are protected by the salary and labour conditions set out
-in host legislation and collective labour agreements, and therefore do not undercut local labour
+in host legislation and generally binding collective labour agreements, and therefore do not undercut local labour
 force. More or less half of the EU Member States have extended the scope of the PWN also to
-employers based outside the EU.
+employers based outside the EU providing services with their personnel into the EU.
 
 The labour law protection of posted workers is set out in the Posting of Workers Directive
 (PWD), which was adopted in 1996 and revised in 2018:
@@ -61,7 +60,7 @@ This scenario requires the issuance of three main credentials:
 
 ### 1.1 Document Scope and Purpose
 
-The PWN Attestation provides a standardized, verifiable digital representation of the Posted
+The PWN Attestation provides a verifiable digital representation of the Posted
 Worker Notification. It enables structured exchange of posting information for use in
 cross-border labour compliance verification, supplier onboarding, and regulatory audit processes
 by host Member State authorities, procurers, and labour inspectorates.
@@ -69,10 +68,10 @@ by host Member State authorities, procurers, and labour inspectorates.
 The PWN Attestation captures all key attributes required by national host country authorities,
 including:
 - Subject (posted worker) identity attributes
-- Assignment-related information (home member state, start/end dates)
+- Assignment-related information (start/end dates, work place(s))
 - Home employer details
 - Host company details
-- Employee job duties abroad
+- Employee job duties abroad representing the services justifying the posting
 
 The attestation schema is designed to be sufficiently generic to cover national PWN requirements
 across EU Member States, verified against the requirements of **Spain** and **Netherlands** as
