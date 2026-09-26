@@ -23,7 +23,7 @@ Category: EBWOID
    * [1.2 Document structure](#12-document-structure)
    * [1.3 Key words](#13-key-words)
    * [1.4 Terminology](#14-terminology)
-- [2 Certification](#2-certification)
+- [2 Compliance](#2-compliance)
    * [2.1 Compliance statement](#21-compliance-statement)
    * [2.2 Regulatory basis](#22-regulatory-basis)
    * [2.3 Traceability](#23-traceability)
@@ -49,7 +49,7 @@ Category: EBWOID
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
-   * [9.1 Relying Party policy](#91-relying-party-policy)
+   * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
@@ -103,7 +103,7 @@ The terminology is extended as follows:
 
 For more terminology, please refer to Article 3 of the legislation draft [COM 2025/838](https://digital-strategy.ec.europa.eu/en/library/proposal-regulation-establishment-european-business-wallets)
 
-## 2 Certification
+## 2 Compliance
 
 ### 2.1 Compliance statement
 
@@ -432,7 +432,7 @@ Relying Party checks:
 
 ## 9 Presentation
 
-### 9.1 Relying Party policy
+### 9.1 Presentation Policy
 
 > A Relying Party receiving an attestation of this type SHALL:
 >
