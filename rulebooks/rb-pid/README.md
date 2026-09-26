@@ -48,8 +48,8 @@ Category: PID
    * [6.2 Presentation](#62-presentation)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
-   * [7.2 Lifecycle management](#72-lifecycle-management)
-   * [7.3 Issuance Policy](#73-issuance-policy)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
@@ -632,7 +632,12 @@ A PID SHALL be bound to the Wallet Unit key material. For SD-JWT VC this is expr
 through the `cnf` claim, as stated in section 5.2. The row for EW-DM-12-031 is not
 applicable because this attestation is itself the PID.
 
-### 7.2 Lifecycle management
+### 7.2 Issuance Policy
+
+PID Providers SHALL provide a revocation capability as specified in chapter 8, or
+issue short-lived PIDs as described there.
+
+### 7.3 Lifecycle management
 
 - PID Providers SHALL issue a PID only after identity verification according to the
   applicable Member State PID issuance framework.
@@ -644,11 +649,6 @@ applicable because this attestation is itself the PID.
 - During the administrative validity period the PID Provider will provide multiple
   successive PIDs to a user, typically without action by the user. Reissuance cadence
   is set by the PID Provider.
-
-### 7.3 Issuance Policy
-
-PID Providers SHALL provide a revocation capability as specified in chapter 8, or
-issue short-lived PIDs as described there.
 
 ### 7.4 Embedded disclosure policy
 
