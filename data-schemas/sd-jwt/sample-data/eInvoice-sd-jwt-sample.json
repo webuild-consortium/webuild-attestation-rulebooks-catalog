@@ -19,40 +19,40 @@
   },
   "cryptographically_bound_to": "uri:eu.ebw.oid.1",
   "attestation_legal_category": "non-qualified-EAA",
-  "invoicePayloadHash": "sha256:9f2c8b1e7d43a0c5f6e9b2d1a4c7e0f3b6d9a2c5e8f1b4d7a0c3e6f9b2d5a8c1",
-  "invoiceFormat": "EN16931",
-  "invoiceNumber": "INV-2026-000123",
-  "issueDate": "2026-07-15",
-  "sellerLegalRegistrationIdentifier": "NL853746281B01",
-  "sellerRegistrationName": "Green Flowers B.V.",
-  "sellerVatIdentifier": "NL853746281B01",
-  "sellerCountry": "NL",
-  "buyerLegalRegistrationIdentifier": "FR59120680088",
-  "buyerVatIdentifier": "FR59120680088",
-  "buyerCountry": "FR",
-  "BuyerElectronicAddress": "0009:FR59120680088",
-  "amountDueForPayment": "1210.00",
-  "invoiceTotalVatAmount": "210.00",
-  "InvoiceCurrencyCode": "EUR",
-  "taxSubtotal": [
+  "invoice_payload_hash": "sha256:9f2c8b1e7d43a0c5f6e9b2d1a4c7e0f3b6d9a2c5e8f1b4d7a0c3e6f9b2d5a8c1",
+  "invoice_format": "EN16931",
+  "invoice_number": "INV-2026-000123",
+  "issue_date": "2026-07-15",
+  "seller_legal_registration_identifier": "NL853746281B01",
+  "seller_registration_name": "Green Flowers B.V.",
+  "seller_vat_identifier": "NL853746281B01",
+  "seller_country": "NL",
+  "buyer_legal_registration_identifier": "FR59120680088",
+  "buyer_vat_identifier": "FR59120680088",
+  "buyer_country": "FR",
+  "buyer_electronic_address": "0009:FR59120680088",
+  "amount_due_for_payment": "1210.00",
+  "invoice_total_vat_amount": "210.00",
+  "invoice_currency_code": "EUR",
+  "tax_subtotal": [
     {
-      "taxCategoryCode": "S",
-      "taxableAmount": "1000.00",
-      "taxPercent": "21",
-      "taxAmount": "210.00"
+      "tax_category_code": "S",
+      "taxable_amount": "1000.00",
+      "tax_percent": "21",
+      "tax_amount": "210.00"
     }
   ],
-  "paymentInstructions": {
-    "paymentMeansCode": "58",
-    "paymentMeansText": "SEPA Credit Transfer",
-    "paymentAccountIdentifier": "NL91ABNA0417164300"
+  "payment_instructions": {
+    "payment_means_code": "58",
+    "payment_means_text": "SEPA Credit Transfer",
+    "payment_account_identifier": "NL91ABNA0417164300"
   },
-  "evidenceReferences": [
+  "evidence_references": [
     {
-      "evidenceReferencesType": "purchase_order",
-      "evidenceUri": "https://erp.greenflowers.example/documents/po-2026-000045",
-      "evidenceHash": "sha256:3a7c9e1b5d8f2a4c6e0b3d7f9a1c5e8b2d4f6a0c3e7b9d1f5a8c2e6b0d4f7a3c"
+      "evidence_references_type": "purchase_order",
+      "evidence_uri": "https://erp.greenflowers.example/documents/po-2026-000045",
+      "evidence_hash": "sha256:3a7c9e1b5d8f2a4c6e0b3d7f9a1c5e8b2d4f6a0c3e7b9d1f5a8c2e6b0d4f7a3c"
     }
   ],
-  "invoiceLifecycleStatus": "active"
+  "invoice_lifecycle_status": "active"
 }
