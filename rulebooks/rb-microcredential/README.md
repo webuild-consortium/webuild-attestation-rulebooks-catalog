@@ -25,7 +25,7 @@ Category: non-qualified EAA
    * [1.2 Document structure](#12-document-structure)
    * [1.3 Key words](#13-key-words)
    * [1.4 Terminology](#14-terminology)
-- [2 Certification](#2-certification)
+- [2 Compliance](#2-compliance)
    * [2.1 Compliance statement](#21-compliance-statement)
    * [2.2 Regulatory basis](#22-regulatory-basis)
    * [2.3 Traceability](#23-traceability)
@@ -51,7 +51,7 @@ Category: non-qualified EAA
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Presentation](#9-presentation)
-   * [9.1 Relying Party policy](#91-relying-party-policy)
+   * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
@@ -109,7 +109,7 @@ In addition, the following domain-specific terms are used:
 | ELM | European Learning Model, a multilingual data model for representing learning opportunities, qualifications, and credentials. |
 | Relying Party | An organisation or system that verifies the Micro-credential Attestation to make an admission, credit-recognition, recruitment, or other eligibility decision. |
 
-## 2 Certification
+## 2 Compliance
 
 ### 2.1 Compliance statement
 
@@ -618,9 +618,10 @@ Where a Micro-credential Attestation is revoked and superseded by a corrected ve
 
 ## 9 Presentation
 
-### 9.1 Relying Party policy
+### 9.1 Presentation Policy
 
-> A Relying Party receiving an attestation of this type SHALL:
+> To verify and validate a received presentation of an attestation of this type,
+> the following steps SHALL be performed:
 >
 > 1. verify the signature over the attestation using a trust anchor obtained as
 >    described in chapter 10;
