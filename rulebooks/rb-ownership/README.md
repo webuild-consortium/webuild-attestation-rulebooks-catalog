@@ -129,11 +129,19 @@ Owner [1..n]                                    // The person or entity that hol
 ├─ person (O, conditional on type="Person")
 │   ├─ first_name (tstr) (M)
 │   ├─ surname (tstr) (M)
-│   └─ birth_date (date) (O)                    // ISO 8601 YYYY-MM-DD
+│   ├─ birth_date (date) (O)                    // ISO 8601 YYYY-MM-DD
+│   └─ domicile (Address) (M)                    // The domicile address of a person
+│       ├─ street (tstr) (M)
+│       ├─ house_number (tstr) (M)
+│       ├─ locality (tstr) (M)
+│       ├─ region (tstr) (M)
+│       ├─ postal_code (tstr) (M)
+│       └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
 ├─ entity (O, conditional on type="Entity")
 │   ├─ category (enum) (M)                      // "legal_entity" | "legal_arrangement"
 │   ├─ name (tstr) (M)
-│   ├─ identifier [1..n] (M)                    // At least one identifier required
+│	├─ legalIdentifier [1..1] (M)               // The legal identifier of an economic operator
+│   ├─ identifier [0..n] (O)                    // At least one identifier required
 │   │   ├─ euid (str) (O)                       // European Unique Identifier
 │   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
 │   │   ├─ tax (str) (O)                        // National tax or registration number
@@ -141,18 +149,18 @@ Owner [1..n]                                    // The person or entity that hol
 │   ├─ jurisdiction (tstr) (M)                  // ISO 3166-1 alpha-2
 │   ├─ legal_form (tstr) (M)                    
 │   ├─ form (tstr) (M)                          // See Section 2.8.6
+│   ├─ registeredAddress (Address) (M)         // The registered address of an economic operator (entity)
+│   │   ├─ street (tstr) (M)
+│   │   ├─ house_number (tstr) (M)
+│   │   ├─ locality (tstr) (M)
+│   │   ├─ region (tstr) (M)
+│   │   ├─ postal_code (tstr) (M)
+│   │   └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
 │   └─ subtype_info (object) (O)                // Mandatory when category = "legal_arrangement"
 │       ├─ settlement (tstr) (M)                // Founding instrument or trust deed
 │       ├─ purpose (tstr) (M)                   // Declared purpose of the arrangement
 │       ├─ assets (tstr) (M)                    // Assets held within the arrangement
 │       └─ reason_for_registration (tstr) (O)   // Optional reason for formal registration
-├─ address (Address) (M)                        // Residential (Person) or registered (Entity)
-│   ├─ street (tstr) (M)
-│   ├─ house_number (tstr) (M)
-│   ├─ locality (tstr) (M)
-│   ├─ region (tstr) (M)
-│   ├─ postal_code (tstr) (M)
-│   └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
 ├─ interests (M)                                // Details of the economic or control interest
 │   ├─ type [enum] [1..n] (M)                   // Array — see Section 2.8.5
 │   ├─ level (tstr) (M)                         // "direct" | "indirect" | "joint" | "unknown" **an enumeration, well done**
@@ -391,6 +399,7 @@ interests in another legal entity.
 | `person.first_name` | [givenName](https://w3id.org/ebwv#givenName) | First name(s) of the natural person, including middle name(s) where applicable  | String        |
 | `person.surname`    | [familyName](https://w3id.org/ebwv#familyName) | Last name(s) or surname(s) of the natural person owner                          | String        |
 | `person.birth_date` | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth — ISO 8601 YYYY-MM-DD                                             | Date          |
+| `person.domicile` | [domicile](https://w3id.org/ebwv#dateOfBirth) | The domicile address of the person                                            | Address         |
 
 **Entity Owner Mandatory Attributes** *(present when `type = "Entity"`)*
 
@@ -398,10 +407,14 @@ interests in another legal entity.
 |-----------------------|------------------------|----------------------------------------------------------------------------------------|-----------------|
 | `entity.category`     | TBD | Classification — SHALL be `"legal_entity"` or `"legal_arrangement"`                    | Enum (String)   |
 | `entity.name`         | [legalName](https://w3id.org/ebwv#legalName) | Complete official registered name of the entity or legal arrangement                   | String          |
+| `entity.legalIdentifier`   | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | The legal identifier of an economic operator (entity) | String          |
 | `entity.identifier`   | [identifier](https://w3id.org/ebwv#identifier) | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present                     | Object          |
 | `entity.jurisdiction` | [jurisdiction](https://w3id.org/ebwv#jurisdiction) | ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled | String          |
-| `entity.form`         | TBD | The form of the entity — SHALL use values from Section 2.8.6                           | String          |
+| `entity.form`         | Should be covered by "legalForm" | The form of the entity — SHALL use values from Section 2.8.6                           | String          |
 | `entity.legal_form`   | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the entity                                                               | String          |
+| `entity.registeredAddress`   | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The registered address of the economic operator (entity)             | Address        |
+| `entity.subtype_info`   | TBD | Definition of "subtype info"                                                               | Object          |
+
 
 **Entity Identifier Fields** *(at least one SHALL be present)*
 
@@ -412,6 +425,7 @@ interests in another legal entity.
 | `entity.identifier.tax`   | [Tin](https://w3id.org/ebwv#Tin) | National tax or registration number — optional   | String        |
 | `entity.identifier.other` | **'Other' is forbidden** | Any other applicable legal identifier — optional | String        |
 
+
 **Legal Arrangement Additional Mandatory Attributes** *(present when `entity.category = "legal_arrangement"` or `entity.form = "trust"`)*
 
 | **Data Identifier**              | **Semantic Reference** | **Definition**                                                                       | **Data Type** |
@@ -420,16 +434,16 @@ interests in another legal entity.
 | `entity.subtype_info.purpose`    | TBD | Declared purpose of the legal arrangement                                            | String        |
 | `entity.subtype_info.assets`     | TBD | Description of assets held within the legal arrangement                              | String        |
 
-**Address Mandatory Attributes** *(applies to all Owner entries)*
+**Address Mandatory Attributes** *(applies to both Person (domicile) and Economic Operator (registeredAddress) type of Owners*
 
 | **Data Identifier**    | **Semantic Reference** | **Definition**                                                        | **Data Type** |
 |------------------------|------------------------|-----------------------------------------------------------------------|---------------|
-| `address.street`       | [domicile](https://w3id.org/ebwv#domicile).[thoroughfare](https://w3id.org/ebwv#thoroughfare) | Street name of the address                                            | String        |
-| `address.house_number` | TBD | House or building number                                              | String        |
-| `address.locality`     | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName) | City or locality                                                      | String        |
-| `address.region`       | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | State, province, or region                                            | String        |
-| `address.postal_code`  | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | Postal or ZIP code                                                    | String        |
-| `address.country`      | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | ISO 3166-1 alpha-2 country code — SHALL use values from Section 2.8.7 | String        |
+| `address.street`       | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | Street name of the address                                            | String        |
+| `address.house_number` | [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | House or building number                                              | String        |
+| `address.locality`     | [postName](https://w3id.org/ebwv#postName) | City or locality                                                      | String        |
+| `address.region`       | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | State, province, or region                                            | String        |
+| `address.postal_code`  | [postCode](https://w3id.org/ebwv#postCode) | Postal or ZIP code                                                    | String        |
+| `address.country`      | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | ISO 3166-1 alpha-2 country code — SHALL use values from Section 2.8.7 | String        |
 
 **Interests Mandatory Attributes** *(at least one record per Owner entry)*
 
