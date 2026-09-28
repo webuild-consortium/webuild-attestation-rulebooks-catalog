@@ -139,7 +139,7 @@ Owner [1..n]                                    // The person or entity that hol
 │       └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
 ├─ entity (O, conditional on type="Entity")
 │   ├─ category (enum) (M)                      // "legal_entity" | "legal_arrangement"
-│   ├─ name (tstr) (M)
+│   ├─ name (tstr) (M)							
 │	├─ legalIdentifier [1..1] (M)               // The legal identifier of an economic operator
 │   ├─ identifier [0..n] (O)                    // At least one identifier required
 │   │   ├─ euid (str) (O)                       // European Unique Identifier
