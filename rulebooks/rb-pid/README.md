@@ -8,13 +8,9 @@ Category: PID
 * Previous authors
   * David Bakker, On behalf of the ARF working group 
 
-| Version | Date        | Description                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|---------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 0.1.3   | 27 Oct 2025 | Transferred main structure and content from [EUDI repository](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md) and modified template to closer align to [EUDI template](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/template/attestation-rulebook-template.md). First specific draft for WE BUILD |
-| 0.9.0   | 2025-12-12  | Feedback of WE BUILD WP 4 Task 2 implemented                                                                                                                                                                                                                                                                                                                                                                                      |
-| 0.9.9   | 2026-05-21  | Alignment to the ARF version 2.8.0 defined [PID version 1.5  ](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/pid/pid-rulebook.md)                                                                                                                                                                                                                                     |
-| 1.0.0   | 2026-05-22  | Minor language and consistency adjustments                                                                                                                                                                                                                                                                                                                                                                                       |
-| 1.1.0   | 2026-09-11  | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. Requirement references renumbered to the ARF v3.0.0 identifiers. |
+| Version | Date | Description |
+| --- | --- | --- |
+| 1.1.0 | 2026-09-11 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. Requirement references renumbered to the ARF v3.0.0 identifiers. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -117,9 +113,9 @@ This document uses the terminology specified in [Annex 1](https://eudi.dev/3.0.0
 
 ### 2.1 Compliance statement
 
-> This Rulebook complies with the applicable requirements of Topic 12, Attestation
-> Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0.
-> It uses the terminology of Annex 1 of the ARF.
+This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0.
+It uses the terminology of Annex 1 of the ARF.
 
 This Rulebook also complies with all applicable requirements in
 [Topic 12 (Attestation Rulebooks)](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a239-topic-12---attestation-rulebooks)
@@ -138,9 +134,9 @@ version 1.5.
 
 ### 2.2 Regulatory basis
 
-> This Rulebook specifies how the mandatory and optional person identification data
-> defined in Tables 1 and 2 of the Annex to CIR (EU) 2024/2977, and the metadata
-> defined in Table 5 of that CIR, are encoded within the EUDI Wallet ecosystem.
+This Rulebook specifies how the mandatory and optional person identification data
+defined in Tables 1 and 2 of the Annex to CIR (EU) 2024/2977, and the metadata
+defined in Table 5 of that CIR, are encoded within the EUDI Wallet ecosystem.
 
 ### 2.3 Traceability
 
@@ -149,10 +145,10 @@ marked not applicable carry a stated reason.
 
 | Requirement | Legacy ID | Applies | Satisfied in section | Note |
 | --- | --- | --- | --- | --- |
-| EW-DM-12-001 | ARB_01a | no | | W3C VCDM is permitted for non-qualified EAA only; PID is not an EAA |
+| EW-DM-12-001 | ARB_01a | no |  | W3C VCDM is permitted for non-qualified EAA only; PID is not an EAA |
 | EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC per the HAIP profile |
 | EW-DM-12-003 | ARB_02 | yes | 5 | mdoc supported; proximity presentation is in scope |
-| EW-DM-12-005 | ARB_04 | no | | W3C VCDM is not a supported format for this attestation |
+| EW-DM-12-005 | ARB_04 | no |  | W3C VCDM is not a supported format for this attestation |
 | EW-DM-12-006 | ARB_05 | yes | 5 | doctype `eu.europa.ec.eudi.pid.1`, vct `urn:eudi:pid:1` |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
 | EW-DM-12-008 | ARB_06a | yes | 5 | mdoc attribute identifiers and namespace |
@@ -160,18 +156,18 @@ marked not applicable carry a stated reason.
 | EW-DM-12-010 | ARB_07 | yes | 3 | Attributes taken from CIR 2024/2977 |
 | EW-DM-12-012 | ARB_09 | yes | 3, 4 | Presence stated per attribute and per metadata item |
 | EW-DM-12-013 | ARB_10 | yes | 5 | Domestic namespace per PID_06 of Topic 3 |
-| EW-DM-12-014 | ARB_11 | no | | Annex V and VII point a apply to QEAA and PuB-EAA; PID is neither |
-| EW-DM-12-015 | ARB_12 | no | | Applies to non-qualified EAA only |
-| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | no | | Point b, by category; PID is not an EAA |
-| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | no | | Point c, by category; PID is not an EAA |
-| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | no | | Point e, by category; PID is not an EAA |
+| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA; PID is neither |
+| EW-DM-12-015 | ARB_12 | no |  | Applies to non-qualified EAA only |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | no |  | Point b, by category; PID is not an EAA |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | no |  | Point c, by category; PID is not an EAA |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | no |  | Point e, by category; PID is not an EAA |
 | EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | `trust_anchor` metadata and the trust framework |
 | EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the deviation recorded in section 4.1 |
-| EW-DM-12-030 | ARB_26 | no | | Trust anchor publication for non-qualified EAA |
-| EW-DM-12-031 | ARB_27 | no | | Whether the Relying Party must also verify a PID; this attestation is the PID |
-| EW-DM-12-032 | ARB_28 | no | | `cryptographically_bound_to` is not used by this attestation |
+| EW-DM-12-030 | ARB_26 | no |  | Trust anchor publication for non-qualified EAA |
+| EW-DM-12-031 | ARB_27 | no |  | Whether the Relying Party must also verify a PID; this attestation is the PID |
+| EW-DM-12-032 | ARB_28 | no |  | `cryptographically_bound_to` is not used by this attestation |
 | EW-DM-12-034 | ARB_30 | yes | 3, 5 | Selective disclosure stated per claim |
-| EW-DM-12-035 | ARB_31 | no | | No Claim Selective Disclosure Metadata document is used |
+| EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
 | EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
 
 ## 3 Attestation attributes
@@ -210,42 +206,42 @@ The machine-readable schema artefacts for this attestation are:
 ### 3.2 Mandatory attributes
 
 
-| Data Identifier | Semantic Reference                                                                   | Definition                                                                                                                                                                                                                             | Example value |
-|-----------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| family_name     | [familyName](https://w3id.org/ebwv#familyName)     | Current last name(s) or surname(s) of the user to whom the person identification data relates.                                                                                                                                         | 't Hart       |
-| given_name      | [givenName](https://w3id.org/ebwv#givenName)       | Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates.                                                                                                          | Jan Wijnand   |
-| birth_date      | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth)   | Day, month, and year on which the user to whom the person identification data relates was born.                                                                                                                                        | 12/02/1978    |
-| birth_place     | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | The country as an alpha-2 country code as specified in ISO 3166-1, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born. | Amsterdam     |
-| nationality     | [citizenship](https://w3id.org/ebwv#citizenship)   | One or more alpha-2 country codes as specified in ISO 3166-1, representing the nationality of the user to whom the person identification data relates.                                                                                 | NL            |
+| Data Identifier | Semantic Reference | Definition | Example value |
+| --- | --- | --- | --- |
+| family_name | [familyName](https://w3id.org/ebwv#familyName) | Current last name(s) or surname(s) of the user to whom the person identification data relates. | 't Hart |
+| given_name | [givenName](https://w3id.org/ebwv#givenName) | Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates. | Jan Wijnand |
+| birth_date | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Day, month, and year on which the user to whom the person identification data relates was born. | 12/02/1978 |
+| birth_place | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | The country as an alpha-2 country code as specified in ISO 3166-1, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born. | Amsterdam |
+| nationality | [citizenship](https://w3id.org/ebwv#citizenship) | One or more alpha-2 country codes as specified in ISO 3166-1, representing the nationality of the user to whom the person identification data relates. | NL |
 
 ### 3.3 Optional attributes
 
-| \*\*Data Identifier\*\*        | \*\*Semantic Reference\*\*                                                                                                                                             | Definition                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Example value                                               |
-|--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| resident_address               | [domicile](https://w3id.org/ebwv#domicile).[fullAddress](https://w3id.org/ebwv#fullAddress)        | The full address of the place where the user to whom the person identification data relates currently resides or can be contacted (street name, house number, city etc.).                                                                                                                                                                                                                                                                                                    | Rietveld 1, 2312 JD, Leiden                                 |
-| resident_country               | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1)        | The country where the user to whom the person identification data relates currently resides, as an alpha-2 country code as specified in ISO 3166-1.                                                                                                                                                                                                                                                                                                                          | NL                                                          |
-| resident_state                 | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2)        | The state, province, district, or local area where the user to whom the person identification data relates currently resides.                                                                                                                                                                                                                                                                                                                                                | Zuid-Holland                                                |
-| resident_city                  | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName)              | The municipality, city, town, or village where the user to whom the person identification data relates currently resides.                                                                                                                                                                                                                                                                                                                                                    | Leiden                                                      |
-| resident_postal_code           | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode)              | The postal code of the place where the user to whom the person identification data relates currently resides.                                                                                                                                                                                                                                                                                                                                                                | 2312 JD                                                     |
-| resident_street                | [domicile](https://w3id.org/ebwv#domicile).[thoroughfare](https://w3id.org/ebwv#thoroughfare)      | The name of the street where the user to whom the person identification data relates currently resides.                                                                                                                                                                                                                                                                                                                                                                      | Rietveld                                                    |
-| resident_house_number          |                                                                                                                                                                        | The house number where the user to whom the person identification data relates currently resides, including any affix or suffix.                                                                                                                                                                                                                                                                                                                                             | 1                                                           |
-| personal_administrative_number | [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber)                                                   | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. Where Member States opt to include this attribute, they shall describe in their electronic identification schemes under which the person identification data is issued, the policy that they apply to the values of this attribute, including, where applicable, specific conditions for the processing of this value. | 123456782                                                   |
-| portrait                       | [portrait](https://w3id.org/ebwv#portrait)                                                                                           | [Facial image of the wallet user compliant with ISO 19794-5 or ISO 39794 specifications. Further clarification added in this PID Rulebook: The detailed format of the portrait is specified in requirement PID_03 in Annex 2, Topic 3.](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a232-topic-3---pid-rulebook)                               | \-                                                          |
-| family_name_birth              | [birthName](https://w3id.org/ebwv#birthName)                                                                                         | Last name(s) or surname(s) of the user to whom the person identification data relates at the time of birth.                                                                                                                                                                                                                                                                                                                                                                  | Poepjes                                                     |
-| given_name_birth               | [birthName](https://w3id.org/ebwv#birthName)                                                                                         | First name(s), including middle name(s), of the user to whom the person identification data relates at the time of birth.                                                                                                                                                                                                                                                                                                                                                    | Björn                                                       |
-| sex                            | [gender](https://w3id.org/ebwv#gender)                                                                                               | Values shall be one of the following: 0 = not known; 1 = male; 2 = female; 3 = other; 4 = inter; 5 = diverse; 6 = open; 9 = not applicable. For values 0, 1, 2 and 9, ISO/IEC 5218 applies.                                                                                                                                                                                                                                                                                  | 1                                                           |
-| email_address                  | [contactPoint](https://w3id.org/ebwv#contactPoint).[hasEmail](https://w3id.org/ebwv#email)         | Electronic mail address of the user to whom the person identification data relates, in conformance with [RFC 5322].                                                                                                                                                                                                                                                                                                                                                          | [wijnandthart@example.com](mailto:wijnandthart@example.com) |
-| mobile_phone_number            | [contactPoint](https://w3id.org/ebwv#contactPoint).[hasTelephone](https://w3id.org/ebwv#telephone) | Mobile telephone number of the user to whom the person identification data relates, starting with the '+' symbol as the international code prefix and the country code, followed by numbers only.                                                                                                                                                                                                                                                                            | 31123456789                                                 |                                                                                                                                                                                                                                                         |
+| \*\*Data Identifier\*\* | \*\*Semantic Reference\*\* | Definition | Example value |  |
+| --- | --- | --- | --- | --- |
+| resident_address | [domicile](https://w3id.org/ebwv#domicile).[fullAddress](https://w3id.org/ebwv#fullAddress) | The full address of the place where the user to whom the person identification data relates currently resides or can be contacted (street name, house number, city etc.). | Rietveld 1, 2312 JD, Leiden |  |
+| resident_country | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | The country where the user to whom the person identification data relates currently resides, as an alpha-2 country code as specified in ISO 3166-1. | NL |  |
+| resident_state | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | The state, province, district, or local area where the user to whom the person identification data relates currently resides. | Zuid-Holland |  |
+| resident_city | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName) | The municipality, city, town, or village where the user to whom the person identification data relates currently resides. | Leiden |  |
+| resident_postal_code | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | The postal code of the place where the user to whom the person identification data relates currently resides. | 2312 JD |  |
+| resident_street | [domicile](https://w3id.org/ebwv#domicile).[thoroughfare](https://w3id.org/ebwv#thoroughfare) | The name of the street where the user to whom the person identification data relates currently resides. | Rietveld |  |
+| resident_house_number |  | The house number where the user to whom the person identification data relates currently resides, including any affix or suffix. | 1 |  |
+| personal_administrative_number | [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber) | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. Where Member States opt to include this attribute, they shall describe in their electronic identification schemes under which the person identification data is issued, the policy that they apply to the values of this attribute, including, where applicable, specific conditions for the processing of this value. | 123456782 |  |
+| portrait | [portrait](https://w3id.org/ebwv#portrait) | [Facial image of the wallet user compliant with ISO 19794-5 or ISO 39794 specifications. Further clarification added in this PID Rulebook: The detailed format of the portrait is specified in requirement PID_03 in Annex 2, Topic 3.](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a232-topic-3---pid-rulebook) | \- |  |
+| family_name_birth | [birthName](https://w3id.org/ebwv#birthName) | Last name(s) or surname(s) of the user to whom the person identification data relates at the time of birth. | Poepjes |  |
+| given_name_birth | [birthName](https://w3id.org/ebwv#birthName) | First name(s), including middle name(s), of the user to whom the person identification data relates at the time of birth. | Björn |  |
+| sex | [gender](https://w3id.org/ebwv#gender) | Values shall be one of the following: 0 = not known; 1 = male; 2 = female; 3 = other; 4 = inter; 5 = diverse; 6 = open; 9 = not applicable. For values 0, 1, 2 and 9, ISO/IEC 5218 applies. | 1 |  |
+| email_address | [contactPoint](https://w3id.org/ebwv#contactPoint).[hasEmail](https://w3id.org/ebwv#email) | Electronic mail address of the user to whom the person identification data relates, in conformance with [RFC 5322]. | [wijnandthart@example.com](mailto:wijnandthart@example.com) |  |
+| mobile_phone_number | [contactPoint](https://w3id.org/ebwv#contactPoint).[hasTelephone](https://w3id.org/ebwv#telephone) | Mobile telephone number of the user to whom the person identification data relates, starting with the '+' symbol as the international code prefix and the country code, followed by numbers only. | 31123456789 |  |
 
 The following optional attributes are specified by this Rulebook rather than by
 CIR 2024/2977.
 
 
-| **Data Identifier**        | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | **Example value**                       |
-|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
-| issuance_date              | Date (and if possible time) when the person identification data was issued and/or the administrative validity period of the person identification data began. See also the clarification for expiry_date in [Section 2.5](#25-mandatory-metadata-specified-in-cir-20242977).                                                                                                                                                                                                                                                        | 19-12-2025                              |
-| trust_anchor               | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the PID can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.* | <https://example.com/trustanchors/pid/> |
-| attestation_legal_category | This attribute indicates that a PID has indeed been issued as a PID. *Note: According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation] an indication, at least in a form suitable for automated processing, that the attestation has been issued as a QEAA or Pub-EAA SHALL be defined. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.*              | PID                                     |
+| **Data Identifier** | **Definition** | **Example value** |
+| --- | --- | --- |
+| issuance_date | Date (and if possible time) when the person identification data was issued and/or the administrative validity period of the person identification data began. See also the clarification for expiry_date in [Section 2.5](#25-mandatory-metadata-specified-in-cir-20242977). | 19-12-2025 |
+| trust_anchor | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the PID can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.* | <https://example.com/trustanchors/pid/> |
+| attestation_legal_category | This attribute indicates that a PID has indeed been issued as a PID. *Note: According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation] an indication, at least in a form suitable for automated processing, that the attestation has been issued as a QEAA or Pub-EAA SHALL be defined. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.* | PID |
 
 ### 3.4 Conditional attributes
 
@@ -258,11 +254,11 @@ Metadata describes the attestation rather than its subject.
 ### 4.1 Mandatory metadata
 
 
-| **Data Identifier** | **Definition**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | **Example value**                    |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| expiry_date         | Date (and if possible time) when the person identification data will expire. **Further clarification added in this PID Rulebook:** This attribute, as well as the optional issuance_date attribute specified in [Section 2.7](#27-additional-optional-attributes-specified-in-this-rulebook), pertains to the administrative validity period of the PID. It is up to the PID Provider to decide whether a PID has an administrative validity period. However, if present, it in general is different from the technical validity period of a PID. The technical validity period is a mandatory element of all PIDs (and also attestations) in the EUDI Wallet ecosystem. It typically is short, a few days or weeks at most, if not shorter, to mitigate challenges regarding tracking of users by malicious Relying Parties based on the repeated presentation of the same PID. On the other hand, the administrative validity period is typically at least a few years long. During the administrative validity period of a PID, the PID Provider will therefore provide multiple successive PIDs to a user, typically without any actions being expected from the user. However, when the administrative validity period of a PID ends, typically the user has to apply for an entirely new PID. | 19-12-2025                           |
-| issuing_authority   | Name of the administrative authority that issued the person identification data, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue person identification data.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Rijksdienst voor Identiteitsgegevens |
-| issuing_country     | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | NL                                   |
+| **Data Identifier** | **Definition** | **Example value** |
+| --- | --- | --- |
+| expiry_date | Date (and if possible time) when the person identification data will expire. **Further clarification added in this PID Rulebook:** This attribute, as well as the optional issuance_date attribute specified in [Section 2.7](#27-additional-optional-attributes-specified-in-this-rulebook), pertains to the administrative validity period of the PID. It is up to the PID Provider to decide whether a PID has an administrative validity period. However, if present, it in general is different from the technical validity period of a PID. The technical validity period is a mandatory element of all PIDs (and also attestations) in the EUDI Wallet ecosystem. It typically is short, a few days or weeks at most, if not shorter, to mitigate challenges regarding tracking of users by malicious Relying Parties based on the repeated presentation of the same PID. On the other hand, the administrative validity period is typically at least a few years long. During the administrative validity period of a PID, the PID Provider will therefore provide multiple successive PIDs to a user, typically without any actions being expected from the user. However, when the administrative validity period of a PID ends, typically the user has to apply for an entirely new PID. | 19-12-2025 |
+| issuing_authority | Name of the administrative authority that issued the person identification data, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue person identification data. | Rijksdienst voor Identiteitsgegevens |
+| issuing_country | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data. | NL |
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute
 with the value `PID`, as specified in section 3.3 above.
@@ -281,11 +277,11 @@ with the value `PID`, as specified in section 3.3 above.
 ### 4.2 Optional metadata
 
 
-| **Data Identifier**  | **Definition**                                                                                                                                                                                                         | **Example value**                      |
-|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| document_number      | A number for the person identification data, assigned by the provider of person identification data.                                                                                                                   | A01234567                              |
-| issuing_jurisdiction | Country subdivision code of the jurisdiction that issued the person identification data, as specified in ISO 3166-2:2020, Clause 8. The first part of the code shall be the same as the value for the issuing country. | NL                                     |
-| location_status      | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data.                                                     | <https://example.com/statuslists/pid/> |
+| **Data Identifier** | **Definition** | **Example value** |
+| --- | --- | --- |
+| document_number | A number for the person identification data, assigned by the provider of person identification data. | A01234567 |
+| issuing_jurisdiction | Country subdivision code of the jurisdiction that issued the person identification data, as specified in ISO 3166-2:2020, Clause 8. The first part of the code shall be the same as the value for the issuing country. | NL |
+| location_status | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. | <https://example.com/statuslists/pid/> |
 
 ### 4.3 Conditional metadata
 
@@ -314,7 +310,7 @@ This attestation defines no conditional metadata.
 | --- | --- | --- | --- | --- |
 | ISO/IEC 18013-5 mdoc | yes | doctype `eu.europa.ec.eudi.pid.1`, namespace `eu.europa.ec.eudi.pid.1` | [ISO/IEC 18013-5] | Required, proximity presentation is in scope |
 | SD-JWT VC | yes | `vct` `urn:eudi:pid:1` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile |
-| W3C VCDM | no | | | Permitted for non-qualified EAA only |
+| W3C VCDM | no |  |  | Permitted for non-qualified EAA only |
 
 A PID SHALL be issued in both the ISO/IEC 18013-5 and SD-JWT VC formats.
 
@@ -366,36 +362,36 @@ all attributes:
 
 Note that the presence of each attribute (mandatory or optional) is already specified in [Chapter 2](#2-pid-attributes-and-metadata) above.
 
-| **Data Identifier**            | **Attribute identifier**       | **Encoding format**                                                                                      |
-|--------------------------------|--------------------------------|----------------------------------------------------------------------------------------------------------|
-| family_name                    | family_name                    | ``tstr``                                                                                                 |
-| given_name                     | given_name                     | ``tstr``                                                                                                 |
-| birth_date                     | birth_date                     | ``full-date``, see [Section 3.1.5](#315-attribute-birth_date).                                           |
-| birth_place                    | place_of_birth                 | ``place_of_birth``, see [Section 3.1.6](#316-attribute-place_of_birth).                                  |
-| nationality                    | nationality                    | ``nationalities``, see [Section 3.1.3](#313-attribute-nationality).                                      |
-| resident_address               | resident_address               | ``tstr``                                                                                                 |
-| resident_country               | resident_country               | ``tstr``                                                                                                 |
-| resident_state                 | resident_state                 | ``tstr``                                                                                                 |
-| resident_city                  | resident_city                  | ``tstr``                                                                                                 |
-| resident_postal_code           | resident_postal_code           | ``tstr``                                                                                                 |
-| resident_street                | resident_street                | ``tstr``                                                                                                 |
-| resident_house_number          | resident_house_number          | ``tstr``                                                                                                 |
-| personal_administrative_number | personal_administrative_number | ``tstr``                                                                                                 |
-| portrait                       | portrait                       | ``bstr``; see additional information in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977) |
-| family_name_birth              | family_name_birth              | ``tstr``                                                                                                 |
-| given_name_birth               | given_name_birth               | ``tstr``                                                                                                 |
-| sex                            | sex                            | ``uint``; see additional information in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977) |
-| email_address                  | email_address                  | ``tstr``                                                                                                 |
-| mobile_phone_number            | mobile_phone_number            | ``tstr``                                                                                                 |
-| expiry_date                    | expiry_date                    | ``tdate`` or ``full-date``                                                                               |
-| issuing_authority              | issuing_authority              | ``tstr``                                                                                                 |
-| issuing_country                | issuing_country                | ``tstr``                                                                                                 |
-| document_number                | document_number                | ``tstr``                                                                                                 |
-| issuing_jurisdiction           | issuing_jurisdiction           | ``tstr``                                                                                                 |
-| location_status                | -                              | See [Section 3.1.4](#314-attribute-location_status).                                                     |
-| issuance_date                  | issuance_date                  | ``tdate`` or ``full-date``                                                                               |
-| trust_anchor                   | trust_anchor                   | ``tstr``                                                                                                 |
-| attestation_legal_category     | attestation_legal_category     | ``tstr``                                                                                                 |
+| **Data Identifier** | **Attribute identifier** | **Encoding format** |
+| --- | --- | --- |
+| family_name | family_name | ``tstr`` |
+| given_name | given_name | ``tstr`` |
+| birth_date | birth_date | ``full-date``, see [Section 3.1.5](#315-attribute-birth_date). |
+| birth_place | place_of_birth | ``place_of_birth``, see [Section 3.1.6](#316-attribute-place_of_birth). |
+| nationality | nationality | ``nationalities``, see [Section 3.1.3](#313-attribute-nationality). |
+| resident_address | resident_address | ``tstr`` |
+| resident_country | resident_country | ``tstr`` |
+| resident_state | resident_state | ``tstr`` |
+| resident_city | resident_city | ``tstr`` |
+| resident_postal_code | resident_postal_code | ``tstr`` |
+| resident_street | resident_street | ``tstr`` |
+| resident_house_number | resident_house_number | ``tstr`` |
+| personal_administrative_number | personal_administrative_number | ``tstr`` |
+| portrait | portrait | ``bstr``; see additional information in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977) |
+| family_name_birth | family_name_birth | ``tstr`` |
+| given_name_birth | given_name_birth | ``tstr`` |
+| sex | sex | ``uint``; see additional information in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977) |
+| email_address | email_address | ``tstr`` |
+| mobile_phone_number | mobile_phone_number | ``tstr`` |
+| expiry_date | expiry_date | ``tdate`` or ``full-date`` |
+| issuing_authority | issuing_authority | ``tstr`` |
+| issuing_country | issuing_country | ``tstr`` |
+| document_number | document_number | ``tstr`` |
+| issuing_jurisdiction | issuing_jurisdiction | ``tstr`` |
+| location_status | - | See [Section 3.1.4](#314-attribute-location_status). |
+| issuance_date | issuance_date | ``tdate`` or ``full-date`` |
+| trust_anchor | trust_anchor | ``tstr`` |
+| attestation_legal_category | attestation_legal_category | ``tstr`` |
 
 ##### 3.1.3 Attribute nationality
 
@@ -467,43 +463,43 @@ notation `parent.child` in the tables below.
 
 The following IANA registered claim names are to be used for PIDs:
 
-| **Data Identifier**   | **Attribute identifier** | **Encoding format** | **Reference/Notes**                                                                                                                                                                                                                                                                                                                                                                                          |
-|-----------------------|--------------------------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| family_name           | family_name              | string              | [OIDC] definition: Surname(s) or last name(s) to whom the person identification data relates. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.                                                                                                                                                   |
-| given_name            | given_name               | string              | [OIDC] definition: Given name(s) or first name(s) to whom the person identification data relates. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.                                                                                                                                                                  |
-| birth_date            | birthdate                | string              | [OIDC] definition: ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format                                                                                                                                                                                                                                                                                                                                                  |
-| birth_place           | place_of_birth           | JSON structure      | [EKYC] definition: At least one of the members (country, region or locality) SHALL be present in the JSON structure                                                                                                                                                                                                                                                                                          |
-| nationality           | nationalities            | array of strings    | Using alpha-2 country codes as defined in [Section 2.2](#22-mandatory-attributes-specified-in-cir-20242977)                                                                                                                                                                                                                                                                                                  |
-| resident_address      | address.formatted        | string              | [OIDC] definition: Full mailing address, formatted for display or use on a mailing label. This field MAY contain multiple lines, separated by newlines. Newlines can be represented either as a carriage return/line feed pair ("\r\n") or as a single line feed character ("\n")                                                                                                                            |
-| resident_country      | address.country          | string              | [OIDC] definition: Country name component                                                                                                                                                                                                                                                                                                                                                                    |
-| resident_state        | address.region           | string              | [OIDC] definition: State, province, prefecture, or region component.                                                                                                                                                                                                                                                                                                                                         |
-| resident_city         | address.locality         | string              | [OIDC] definition: City or locality component.                                                                                                                                                                                                                                                                                                                                                               |
-| resident_postal_code  | address.postal_code      | string              | [OIDC] definition: Zip code or postal code component.                                                                                                                                                                                                                                                                                                                                                        |
-| resident_street       | address.street_address   | string              | [OIDC] definition: Full street address component, which MAY include house number, street name, Post Office Box, and multi-line extended street address information. This field MAY contain multiple lines, separated by newlines. Newlines can be represented either as a carriage return/line feed pair ("\r\n") or as a single line feed character ("\n").                                                 |
-| family_name_birth     | birth_family_name        | string              | [EKYC] definition:  Family name(s) when they were born, or at least from the time they were a child to whom the person identification data relates. This term can be used by a person who changes the family name later in life for any reason. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters. |
-| given_name_birth      | birth_given_name         | string              | [EKYC] definition:  Given name(s) when they were born, or at least from the time they were a child to whom the person identification data relates. This term can be used by a person who changes the given name later in life for any reason. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.                      |
-| email_address         | email                    | string              | [OIDC] definition:  Preferred e-mail address to whom the person identification data relates.. Its value MUST conform to the RFC 5322 [RFC5322] addr-spec syntax. The RP MUST NOT rely upon this value being unique                                                                                                                                                                                           |
-| mobile_phone_number   | phone_number             | string              | [OIDC] definition:  Preferred telephone number to whom the person identification data relates.. E.164 [E.164] is RECOMMENDED as the format of this Claim, for example, +1 (425) 555-1212 or +56 (2) 687 2400. If the phone number contains an extension, it is RECOMMENDED that the extension be represented using the RFC 3966 [RFC3966] extension syntax, for example, +1 (604) 555-1234;ext=5678          |
-| portrait              | picture                  | string              | data URL containing the base64-encoded portrait in JPEG format according to PID_03 in [Annex 2, Topic 3](https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.01-high-level-requirements/)                                                                                                                                                 |
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** |
+| --- | --- | --- | --- |
+| family_name | family_name | string | [OIDC] definition: Surname(s) or last name(s) to whom the person identification data relates. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters. |
+| given_name | given_name | string | [OIDC] definition: Given name(s) or first name(s) to whom the person identification data relates. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters. |
+| birth_date | birthdate | string | [OIDC] definition: ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format |
+| birth_place | place_of_birth | JSON structure | [EKYC] definition: At least one of the members (country, region or locality) SHALL be present in the JSON structure |
+| nationality | nationalities | array of strings | Using alpha-2 country codes as defined in [Section 2.2](#22-mandatory-attributes-specified-in-cir-20242977) |
+| resident_address | address.formatted | string | [OIDC] definition: Full mailing address, formatted for display or use on a mailing label. This field MAY contain multiple lines, separated by newlines. Newlines can be represented either as a carriage return/line feed pair ("\r\n") or as a single line feed character ("\n") |
+| resident_country | address.country | string | [OIDC] definition: Country name component |
+| resident_state | address.region | string | [OIDC] definition: State, province, prefecture, or region component. |
+| resident_city | address.locality | string | [OIDC] definition: City or locality component. |
+| resident_postal_code | address.postal_code | string | [OIDC] definition: Zip code or postal code component. |
+| resident_street | address.street_address | string | [OIDC] definition: Full street address component, which MAY include house number, street name, Post Office Box, and multi-line extended street address information. This field MAY contain multiple lines, separated by newlines. Newlines can be represented either as a carriage return/line feed pair ("\r\n") or as a single line feed character ("\n"). |
+| family_name_birth | birth_family_name | string | [EKYC] definition:  Family name(s) when they were born, or at least from the time they were a child to whom the person identification data relates. This term can be used by a person who changes the family name later in life for any reason. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters. |
+| given_name_birth | birth_given_name | string | [EKYC] definition:  Given name(s) when they were born, or at least from the time they were a child to whom the person identification data relates. This term can be used by a person who changes the given name later in life for any reason. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters. |
+| email_address | email | string | [OIDC] definition:  Preferred e-mail address to whom the person identification data relates.. Its value MUST conform to the RFC 5322 [RFC5322] addr-spec syntax. The RP MUST NOT rely upon this value being unique |
+| mobile_phone_number | phone_number | string | [OIDC] definition:  Preferred telephone number to whom the person identification data relates.. E.164 [E.164] is RECOMMENDED as the format of this Claim, for example, +1 (425) 555-1212 or +56 (2) 687 2400. If the phone number contains an extension, it is RECOMMENDED that the extension be represented using the RFC 3966 [RFC3966] extension syntax, for example, +1 (604) 555-1234;ext=5678 |
+| portrait | picture | string | data URL containing the base64-encoded portrait in JPEG format according to PID_03 in [Annex 2, Topic 3](https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.01-high-level-requirements/) |
 
 Note: The standard JWT claims nbf and exp are used to express the technical validity period of a SD-JWT VC-compliant PID.
 
 The following Private Names specific to the attestation type defined in this document are to be used for PIDs:
 
-| **Data Identifier**            | **Attribute identifier**       | **Encoding format** | **Notes**                                                                                                                                                                    |
-|--------------------------------|--------------------------------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| attestation_legal_category     | attestation_legal_category     | string              | SHALL be `PID`                                                                                                                                                                |
-| expiry_date                    | date_of_expiry                 | string              | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema]                                                                                     |
-| issuance_date                  | date_of_issuance               | string              | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema]                                                                                     |
-| personal_administrative_number | personal_administrative_number | string              |                                                                                                                                                                              |
-| resident_house_number          | address.house_number           | string              | This document extends the specification of ``address`` in [OIDC] with an additional member ``address.house_number``                                                          |
-| sex                            | sex                            | number              | numeric encoding as described in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977); gender from [OIDC] uses a different value range and is therefore not used |
-| issuing_authority              | issuing_authority              | string              |                                                                                                                                                                              |
-| issuing_country                | issuing_country                | string              |                                                                                                                                                                              |
-| document_number                | document_number                | string              |                                                                                                                                                                              |
-| issuing_jurisdiction           | issuing_jurisdiction           | string              |                                                                                                                                                                              |
-| location_status                         | status                         | JSON object         | See [Section 3.2.2](#322-attribute-status)                                                                                                                                   |
-| trust_anchor                   | trust_anchor                   | string              |                                                                                                                                                                              |
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** |
+| --- | --- | --- | --- |
+| attestation_legal_category | attestation_legal_category | string | SHALL be `PID` |
+| expiry_date | date_of_expiry | string | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema] |
+| issuance_date | date_of_issuance | string | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema] |
+| personal_administrative_number | personal_administrative_number | string |  |
+| resident_house_number | address.house_number | string | This document extends the specification of ``address`` in [OIDC] with an additional member ``address.house_number`` |
+| sex | sex | number | numeric encoding as described in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977); gender from [OIDC] uses a different value range and is therefore not used |
+| issuing_authority | issuing_authority | string |  |
+| issuing_country | issuing_country | string |  |
+| document_number | document_number | string |  |
+| issuing_jurisdiction | issuing_jurisdiction | string |  |
+| location_status | status | JSON object | See [Section 3.2.2](#322-attribute-status) |
+| trust_anchor | trust_anchor | string |  |
 
 
 #### 3.2.2 Attribute status
@@ -685,20 +681,20 @@ Timing:
 
 ### 9.1 Presentation Policy
 
-> To verify and validate a received presentation of an attestation of this type,
-> the following steps SHALL be performed:
->
-> 1. verify the signature over the attestation using a trust anchor obtained as
->    described in chapter 10;
-> 2. verify that the attestation is within its validity period;
-> 3. check revocation status as described in chapter 8, unless the attestation is
->    short-lived; or remaining lifetime of the attestation is below revocation time
->    threshold;
-> 4. verify device binding where section 7.1 records the attestation as device-bound;
-> 5. request only those attributes that are necessary for the stated purpose of the
->    transaction, and, where the trust model for this attestation requires Relying
->    Party registration, only those attributes it is registered and authorised to
->    request.
+To verify and validate a received presentation of an attestation of this type,
+the following steps SHALL be performed:
+
+1. verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;
+2. verify that the attestation is within its validity period;
+3. check revocation status as described in chapter 8, unless the attestation is
+   short-lived; or remaining lifetime of the attestation is below revocation time
+   threshold;
+4. verify device binding where section 7.1 records the attestation as device-bound;
+5. request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying
+   Party registration, only those attributes it is registered and authorised to
+   request.
 
 Obligations specific to this attestation type, carried over from the use-case context
 of the previous version of this Rulebook:
@@ -752,15 +748,15 @@ This attestation defines no transactional data.
 
 **PID, QEAA, PuB-EAA and attestations resolved via Trusted Lists**
 
-> The trust anchor is obtained from a Trusted List, as described in section 6.6.3.6
-> of the ARF main document. The Provider may sign the attestation with an
-> intermediate signing certificate, in which case the trust anchor is used to verify
-> that certificate rather than the attestation directly.
+The trust anchor is obtained from a Trusted List, as described in section 6.6.3.6
+of the ARF main document. The Provider may sign the attestation with an
+intermediate signing certificate, in which case the trust anchor is used to verify
+that certificate rather than the attestation directly.
 
 **Trust anchor location**
 
-> The attribute or metadata carrying the trust anchor location contains at least the
-> URL at which a machine-readable version can be found or looked up.
+The attribute or metadata carrying the trust anchor location contains at least the
+URL at which a machine-readable version can be found or looked up.
 
 Coherence check: the attribute named here is `trust_anchor`, declared in section 4.2.
 
@@ -824,16 +820,16 @@ For information regarding the use of the trust list in WE BUILD, please consult 
 ## 11 References
 
 
-| **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                |
-|----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Item Reference** | **Standard name/details** |
+| --- | --- |
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09                                                                                                                    |
-| [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html>                                                                                                                                    | 
-| [EKYC]                                 | OpenID Connect for Identity Assurance Claims Registration <https://openid.net/specs/openid-connect-4-ida-claims-1_0-final.html#ICAO-Doc9303>                                                                                                                             |
-| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>                                                                                                                                               |
-| [Topic 3]                              | ARF Annex 2 - Topic 3 - Attestation revocation and revocation checking Available: <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                 |
-| [Topic 12]                             | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/>                                                                                                                        |
-| [W3C VCDM v2.0]                        | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.                                                                                                                                                                                          |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
+| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |
+| [EKYC] | OpenID Connect for Identity Assurance Claims Registration <https://openid.net/specs/openid-connect-4-ida-claims-1_0-final.html#ICAO-Doc9303> |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/> |
+| [Topic 3] | ARF Annex 2 - Topic 3 - Attestation revocation and revocation checking Available: <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/> |
+| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/> |
+| [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation. |
 
 For further references please see [ARF Chapter 10](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/architecture-and-reference-framework-main.md#10-references) of the ARF main document.
 | [CIR 2024/2977] | [Commission Implementing Regulation (EU) 2024/2977](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202402977) of 28 November 2024 on person identification data and electronic attestations of attributes |
