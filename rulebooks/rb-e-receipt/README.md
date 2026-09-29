@@ -16,17 +16,9 @@ This document is the Rulebook that defines what data goes into an eReceipt, how 
   - Sylvie Calsacy, onepoint, France
   - Ricky Lamberty, Bosch, Germany
 
-| Version | Date       | Description                                                                                                                                                                                                                                                                                                    |
-| ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.0     | 27-02-2026 | Initial baseline consolidating earlier drafts: architecture-first format; reworded to the WE BUILD attestation template; Section 2.5 added on Card-Based B2B Expense Management; review corrections (categorization, Organisational Wallet, journey conditional-M, verifications footnote).                    |
-| 1.1     | 23-04-2026 | Restructured to align with the WE BUILD v1 Attestation Rulebook Template (Sections 1 to 8): encoding-independent attribute tables, Code Lists and Integrity Rules sections, SD-JWT VC and ISO/IEC 18013-5 encoding chapters, and explicit Trust Anchor, Revocation and Compliance sections.                    |
-| 1.2     | 08-05-2026 | Adopted reverse-DNS base `vct` (`eu.we-build.ereceipt.1`); added §3.2.4 ontology binding to the WP4 semantics vocabulary; moved primary use cases to §1.5; restructured Chapter 4 around §4.1 Issuer obligations and §4.2 Relying Party obligations (4.2.1–4.2.5, with TLOL / WUA placeholders).               |
-| 1.3     | 02-06-2026 | Amendment to be agnostic on payment means and on customer journey (POS and eCommerce). |
-| 1.4     | 18-06-2026 | iGrant.io editorial consolidation and comment resolutions on the live document. |
-| 1.5     | 19-06-2026 | RH review pass (tracked changes): instrument-agnostic model completed (`verifications[].type` EMV/OCMF/SCT/SCT-INST; `payments[].type` adds `CREDIT_TRANSFER`); revocation reframed as a technical status mechanism with business handling delegated to the application layer (`originalReceiptNumber` retained, `IR-10` refund signs); Chapter 8 references updated (OpenID4VCI/VP, EWC RFC008/ds008); WE BUILD-specific trust framework and WUA; standards conformance fixes (UN/ECE Rec 20, EN 16931 VAT, GS1); canonical schema realigned to the HeroJSON model (`vct` `eu.we-build.ereceipt.1`), EWC ds011 made informative; CASH and handedAmount removed; SD-JWT VC media type pinned to `dc+sd-jwt` with a worked example added in Section 3.2.5; three SD-JWT VC references corrected to Section 4; journey-agnostic wording (Sections 1.4 and 1.5) and the nested Token Status List status form aligned in final QA. |
-| 2.0     | 22-06-2026 | Published release following management and internal review, consolidating revisions 1.3 to 1.5. |
-| 2.1     | 14-09-2026 | Attribute identifiers changed from camelCase to snake_case, aligning the Rulebook with the eReceipt SD-JWT schema and sample data. No semantic change. |
-| 2.2     | 2026-09-28 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| Version | Date | Description |
+| --- | --- | --- |
+| 2.2 | 2026-09-28 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -141,29 +133,25 @@ The terms _credential_ and _attestation_ are used interchangeably in this docume
 
 ### 2.1 Compliance statement
 
-> This Rulebook complies with the applicable requirements of Topic 12, Attestation
-> Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0.
-> It uses the terminology of Annex 1 of the ARF.
+This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0.
+It uses the terminology of Annex 1 of the ARF.
 
-This Rulebook complies with the EUDI Architecture and Reference Framework (ARF), with the [European Digital Identity Regulation], and with the EUDI Attestation Rulebook Template. In particular:
+The high-level requirements of Topic 12 are met as follows: every attribute is defined in an encoding-independent form first; mandatory, optional and conditional attributes are clearly marked; both ISO/IEC 18013-5 and SD-JWT VC encodings are addressed; selective-disclosure metadata is specified per claim; trust-anchor and revocation mechanisms are defined; and any attribute that is not part of an EU-wide namespace is placed in the WE BUILD eReceipt domestic namespace.
 
-The structure of this document follows the Attestation Rulebook Template, with the attribute and metadata definitions in Chapter 2, encoding rules in Chapter 3, issuer and Relying Party obligations in Chapter 4, trust anchors in Chapter 5, revocation in Chapter 6, and references in Chapter 8.
-
-The high-level requirements for attestation rulebooks (Topic 12 of Annex 2 of the ARF) are met across Chapters 2 to 6: every attribute is defined in an encoding-independent form first; mandatory, optional and conditional attributes are clearly marked; both ISO/IEC 18013-5 and SD-JWT VC encodings are addressed; selective-disclosure metadata is specified per claim; trust-anchor and revocation mechanisms are defined; and any attribute that is not part of an EU-wide namespace is placed in the WE BUILD eReceipt domestic namespace.
-
-The revocation approach in Chapter 6 is aligned with Topic 7 of Annex 2 of the ARF (attestation revocation and revocation checking) and uses a Token Status List approach consistent with the forthcoming Commission Technical Specification on Attestation Status Lists. The issuance approach (Chapter 4 and Chapter 5) is aligned with Topic 10 of Annex 2 of the ARF and with EWC RFC001 (OpenID4VCI) and EWC RFC011 (delivery profile).
+The revocation approach in chapter 8 is aligned with Topic 7 of Annex 2 of the ARF (attestation revocation and revocation checking) and uses a Token Status List approach consistent with the forthcoming Commission Technical Specification on Attestation Status Lists. The issuance approach (chapters 6 and 7) is aligned with Topic 10 of Annex 2 of the ARF and with EWC RFC001 (OpenID4VCI) and EWC RFC011 (delivery profile).
 
 The semantics of receipt-level attributes are aligned with HeroJSON, EN 16931-1 and CEN/TS 16931-8; country, currency, date, unit-of-measure and barcode codes are aligned with ISO 3166-1, ISO 4217, ISO 8601, UN/ECE Recommendation 20 and GS1. The
-_Semantic Reference_ column in the Chapter 2 tables and the code-list table in Section 2.8 record these alignments per attribute.
+_Semantic Reference_ column in the chapter 3 tables and the code lists in section 4.4 record these alignments per attribute.
 
-The canonical data model for this attestation is defined by Chapters 2 and 3 of this Rulebook. A HeroJSON-derived SD-JWT VC schema bearing the `vct` `eu.we-build.ereceipt.1` is published in the WE BUILD attestation catalog as [e-receipt-sd-jwt.json](../../data-schemas/sd-jwt/e-receipt-sd-jwt.json) and is the canonical machine-readable schema. The earlier EWC vReceipt schema [EWC ds011] (Chapter 8) is informative only and is not the schema for this attestation. Any divergence SHALL be resolved in favour of this Rulebook and the WE BUILD eReceipt schema, not [EWC ds011].
+The canonical data model for this attestation is defined by chapters 3, 4 and 5 of this Rulebook. A HeroJSON-derived SD-JWT VC schema bearing the `vct` `eu.we-build.ereceipt.1` is published in the WE BUILD attestation catalog as [e-receipt-sd-jwt.json](../../data-schemas/sd-jwt/e-receipt-sd-jwt.json) and is the canonical machine-readable schema. The earlier EWC vReceipt schema [EWC ds011] (Chapter 8) is informative only and is not the schema for this attestation. Any divergence SHALL be resolved in favour of this Rulebook and the WE BUILD eReceipt schema, not [EWC ds011].
 
 ### 2.2 Regulatory basis
 
-> This attestation is not a qualified electronic attestation of attributes. The data
-> described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
-> required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
-> Where a recommendation is not followed, the reason is stated below.
+This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
+Where a recommendation is not followed, the reason is stated below.
 
 Where an issuer is a public sector body or issues on behalf of one, the legal category
 is `PuB-EAA` and the issuer satisfies the additional requirements of Annex VII of the
@@ -178,16 +166,16 @@ marked not applicable carry a stated reason.
 | --- | --- | --- | --- | --- |
 | EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM permitted for this category; no encoding defined in this version |
 | EW-DM-12-002 | ARB_01b | yes | 5.1 | SD-JWT VC following the HAIP profile |
-| EW-DM-12-003 | ARB_02 | no | | Proximity presentation is not in scope; mdoc is out of scope per section 5.2 |
-| EW-DM-12-005 | ARB_04 | no | | No W3C VCDM encoding is defined in this version |
+| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope; mdoc is out of scope per section 5.2 |
+| EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
 | EW-DM-12-006 | ARB_05 | yes | 5.1 | `vct` `eu.we-build.ereceipt.1` |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
-| EW-DM-12-008 | ARB_06a | no | | No mdoc encoding is defined in this version |
+| EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
 | EW-DM-12-009 | ARB_06b | yes | 5.1 | IANA-registered, public and private claim names |
 | EW-DM-12-010 | ARB_07 | yes | 3 | Attributes aligned to HeroJSON, EN 16931-1 and the WP4 semantics vocabulary |
 | EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
-| EW-DM-12-013 | ARB_10 | no | | No domestic namespace is defined |
-| EW-DM-12-014 | ARB_11 | no | | Annex V and VII point a apply to QEAA and PuB-EAA |
+| EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
+| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA |
 | EW-DM-12-015 | ARB_12 | yes | 4.1 | EAA indication for a non-qualified EAA |
 | EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-018 for the non-qualified case |
 | EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2 | Point c, recommendation for non-qualified EAA |
@@ -195,7 +183,7 @@ marked not applicable carry a stated reason.
 | EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Trust anchor location and the trust framework |
 | EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
 | EW-DM-12-030 | ARB_26 | yes | 10 | Trust anchor publication for non-qualified EAA |
-| EW-DM-12-031 | ARB_27 | no | | This attestation does not require the Relying Party to verify a PID |
+| EW-DM-12-031 | ARB_27 | no |  | This attestation does not require the Relying Party to verify a PID |
 | EW-DM-12-032 | ARB_28 | yes | 4.2 | `cryptographically_bound_to` where an issuer policy requires it |
 | EW-DM-12-034 | ARB_30 | yes | 5.1 | Selective disclosure stated per claim in the Disclosable column |
 | EW-DM-12-035 | ARB_31 | yes | 7.2 | Type Metadata Document with Claim Selective Disclosure Metadata |
@@ -250,90 +238,90 @@ The machine-readable schema artefact for this attestation is:
 
 ### 3.2 Mandatory attributes
 
-| **Data Identifier**                         | **Semantic Reference**         | **Definition**                                                                                                                                                          | **Data type** | **Example value**                                                                             |
-| ------------------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------------------------------------------------------------------------------------- |
-| `attestation_legal_category`                | WE BUILD Rulebook Template     | Indicates the legal category of the attestation. SHALL be `"QEAA"`, `"PuB-EAA"` or `"non-qualified-EAA"`. For this Rulebook the default value is `"non-qualified-EAA"`. | tstr          | `"non-qualified-EAA"`                                                                         |
-| `type`                                      | HeroJSON / CEN/TS 16931-8      | Transaction type. One of: `PURCHASE`, `RETURN`, `PURCHASE_AND_RETURN`.                                                                                                  | tstr          | `"PURCHASE"`                                                                                  |
-| `receipt_number`                             | HeroJSON                       | Merchant-assigned receipt identifier. Unique within the issuing branch.                                                                                                 | tstr          | `"R-2026-04-23-000412"`                                                                       |
-| `receipt_timestamp`                          | ISO 8601 / RFC 3339            | Date and time at which the receipt was issued by the merchant POS.                                                                                                      | tdate         | `"2026-04-23T10:14:32Z"`                                                                      |
-| `currency_iso_code`                           | ISO 4217                       | Currency of the transaction.                                                                                                                                            | tstr          | `"EUR"`                                                                                       |
-| `total_price_exc_vat`                          | HeroJSON                       | Total amount of the transaction excluding VAT, expressed in the currency minor unit.                                                                                    | int           | `4250`                                                                                        |
-| `total_vat_amount`                            | HeroJSON                       | Total VAT amount across all lines, in the currency minor unit.                                                                                                          | int           | `1020`                                                                                        |
-| `total_price_inc_vat`                          | HeroJSON                       | Total amount including VAT, in the currency minor unit. SHALL equal `total_price_exc_vat + total_vat_amount`.                                                                | int           | `5270`                                                                                        |
-| `merchant.name`                             | EN 16931-1 / HeroJSON          | Legal name of the merchant.                                                                                                                                             | tstr          | `"Acme Retail Oy"`                                                                            |
-| `merchant.company_id`                        | EN 16931-1 (Seller identifier) | Merchant company identifier (VAT ID or national register).                                                                                                              | tstr          | `"FI12345678"`                                                                                |
-| `branch.id`                                 | HeroJSON                       | Unique identifier of the branch or store.                                                                                                                               | tstr          | `"BR-HEL-001"`                                                                                |
-| `branch.pos_id`                              | HeroJSON                       | Identifier of the point-of-sale terminal.                                                                                                                               | tstr          | `"POS-12"`                                                                                    |
-| `branch.name`                               | HeroJSON                       | Name of the branch or store.                                                                                                                                            | tstr          | `"Acme Helsinki Centre"`                                                                      |
-| `address.street_address`                     | EN 16931-1                     | Street address of the branch.                                                                                                                                           | tstr          | `"Mannerheimintie 10"`                                                                        |
-| `address.city`                              | EN 16931-1                     | City of the branch.                                                                                                                                                     | tstr          | `"Helsinki"`                                                                                  |
-| `address.zip_code`                           | EN 16931-1                     | Postal/ZIP code of the branch.                                                                                                                                          | tstr          | `"00100"`                                                                                     |
-| `address.country`                           | ISO 3166-1 alpha-2             | Country code of the branch.                                                                                                                                             | tstr          | `"FI"`                                                                                        |
-| `products[].name`                           | HeroJSON                       | Name or description of the product or service.                                                                                                                          | tstr          | `"Espresso"`                                                                                  |
-| `products[].quantity`                       | HeroJSON                       | Quantity purchased. Encoded as a string to preserve precision (e.g. `"1.500"`).                                                                                         | tstr          | `"2"`                                                                                         |
-| `products[].quantity_code`                   | UN/ECE Rec 20                  | Unit of measurement code (e.g. `H87` piece, `KGM` kilogram, `LTR` litre).                                                                                                                     | tstr          | `"H87"`                                                                                       |
-| `products[].unit_price_inc_vat`                | HeroJSON                       | Unit price including VAT, in the currency minor unit.                                                                                                                   | int           | `350`                                                                                         |
-| `products[].total_amount_exc_vat`              | HeroJSON                       | Total line amount excluding VAT, in the currency minor unit.                                                                                                            | int           | `565`                                                                                         |
-| `products[].total_amount_inc_vat`              | HeroJSON                       | Total line amount including VAT, in the currency minor unit.                                                                                                            | int           | `700`                                                                                         |
-| `products[].vats[]`                         | HeroJSON                       | VAT breakdown per line item; see Section 2.2 (Product VAT).                                                                                                             | array         | `[{ "vat_rate": "24", "vat_amount": 135, "total_amount_exc_vat": 565, "total_amount_inc_vat": 700 }]` |
-| `products[].vats[].vat_rate`                 | HeroJSON                       | VAT rate applied to this line item, expressed as a percentage string.                                                                                                   | tstr          | `"24"`                                                                                        |
-| `products[].vats[].vat_amount`               | HeroJSON                       | VAT amount for this line item, in the currency minor unit.                                                                                                              | int           | `135`                                                                                         |
-| `products[].vats[].total_amount_exc_vat`       | HeroJSON                       | Line amount excluding VAT, in the currency minor unit.                                                                                                                  | int           | `565`                                                                                         |
-| `products[].vats[].total_amount_inc_vat`       | HeroJSON                       | Line amount including VAT, in the currency minor unit.                                                                                                                  | int           | `700`                                                                                         |
-| `vats[].vat_rate`                            | HeroJSON                       | VAT rate at receipt level, expressed as a percentage string.                                                                                                            | tstr          | `"24"`                                                                                        |
-| `vats[].total_vat_amount`                     | HeroJSON                       | Total VAT amount at this rate, in the currency minor unit.                                                                                                              | int           | `1020`                                                                                        |
-| `vats[].total_amount_exc_vat`                  | HeroJSON                       | Total amount at this rate excluding VAT, in the currency minor unit.                                                                                                    | int           | `4250`                                                                                        |
-| `vats[].total_amount_inc_vat`                  | HeroJSON                       | Total amount at this rate including VAT, in the currency minor unit.                                                                                                    | int           | `5270`                                                                                        |
-| `payments[].type`                           | HeroJSON                       | Payment method type (e.g. `CARD`, `CREDIT_TRANSFER`, `MOBILEPAY`, `GIFTCARD`).                                                                                                     | tstr          | `"CARD"`                                                                                      |
-| `payments[].amount`                         | HeroJSON                       | Amount paid with this payment method, in the currency minor unit. For `RETURN` and `PURCHASE_AND_RETURN` this amount MAY be non-positive (negative).                                                                                                       | int           | `5270`                                                                                        |
-| `verifications[].type`                      | EMV / OCMF / EPC SCT/SCT-INST                      | Standard of the technical proof carried in `verifications[]`: EMV for card authorisation cryptograms; OCMF for charge-metering proofs; SCT or SCT-INST for SEPA credit transfer (account-to-account). The EMV cryptogram itself (the AC and its cryptogramType ARQC) is carried in `payments[].attributes`, not here. The type-specific fields below apply only for the named type.                                                                                                                                           | tstr          | `"EMV"`                                                                                    |
-| `verifications[].version`                   | Verification profile (per `verifications[].type`)                      | Version of the verification schema used.                                                                                                                                | tstr          | `"1.0"`                                                                                       |
-| `verifications[].public_key`                 | Verification profile (per `verifications[].type`)                      | Public key used for transaction signing, base64url-encoded.                                                                                                             | tstr          | `"MIIBIjANBg…"`                                                                               |
-| `verifications[].transactionId`             | Verification profile (per `verifications[].type`)                      | Unique identifier of the underlying payment transaction, as assigned by the PSP or payment scheme. When `payments[].attributes.transactionId` is also present, both SHALL identify the same payment transaction.                                                                                                                               | tstr          | `"T-20260423-000871"`                                                                         |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+| --- | --- | --- | --- | --- |
+| `attestation_legal_category` | WE BUILD Rulebook Template | Indicates the legal category of the attestation. SHALL be `"QEAA"`, `"PuB-EAA"` or `"non-qualified-EAA"`. For this Rulebook the default value is `"non-qualified-EAA"`. | tstr | `"non-qualified-EAA"` |
+| `type` | HeroJSON / CEN/TS 16931-8 | Transaction type. One of: `PURCHASE`, `RETURN`, `PURCHASE_AND_RETURN`. | tstr | `"PURCHASE"` |
+| `receipt_number` | HeroJSON | Merchant-assigned receipt identifier. Unique within the issuing branch. | tstr | `"R-2026-04-23-000412"` |
+| `receipt_timestamp` | ISO 8601 / RFC 3339 | Date and time at which the receipt was issued by the merchant POS. | tdate | `"2026-04-23T10:14:32Z"` |
+| `currency_iso_code` | ISO 4217 | Currency of the transaction. | tstr | `"EUR"` |
+| `total_price_exc_vat` | HeroJSON | Total amount of the transaction excluding VAT, expressed in the currency minor unit. | int | `4250` |
+| `total_vat_amount` | HeroJSON | Total VAT amount across all lines, in the currency minor unit. | int | `1020` |
+| `total_price_inc_vat` | HeroJSON | Total amount including VAT, in the currency minor unit. SHALL equal `total_price_exc_vat + total_vat_amount`. | int | `5270` |
+| `merchant.name` | EN 16931-1 / HeroJSON | Legal name of the merchant. | tstr | `"Acme Retail Oy"` |
+| `merchant.company_id` | EN 16931-1 (Seller identifier) | Merchant company identifier (VAT ID or national register). | tstr | `"FI12345678"` |
+| `branch.id` | HeroJSON | Unique identifier of the branch or store. | tstr | `"BR-HEL-001"` |
+| `branch.pos_id` | HeroJSON | Identifier of the point-of-sale terminal. | tstr | `"POS-12"` |
+| `branch.name` | HeroJSON | Name of the branch or store. | tstr | `"Acme Helsinki Centre"` |
+| `address.street_address` | EN 16931-1 | Street address of the branch. | tstr | `"Mannerheimintie 10"` |
+| `address.city` | EN 16931-1 | City of the branch. | tstr | `"Helsinki"` |
+| `address.zip_code` | EN 16931-1 | Postal/ZIP code of the branch. | tstr | `"00100"` |
+| `address.country` | ISO 3166-1 alpha-2 | Country code of the branch. | tstr | `"FI"` |
+| `products[].name` | HeroJSON | Name or description of the product or service. | tstr | `"Espresso"` |
+| `products[].quantity` | HeroJSON | Quantity purchased. Encoded as a string to preserve precision (e.g. `"1.500"`). | tstr | `"2"` |
+| `products[].quantity_code` | UN/ECE Rec 20 | Unit of measurement code (e.g. `H87` piece, `KGM` kilogram, `LTR` litre). | tstr | `"H87"` |
+| `products[].unit_price_inc_vat` | HeroJSON | Unit price including VAT, in the currency minor unit. | int | `350` |
+| `products[].total_amount_exc_vat` | HeroJSON | Total line amount excluding VAT, in the currency minor unit. | int | `565` |
+| `products[].total_amount_inc_vat` | HeroJSON | Total line amount including VAT, in the currency minor unit. | int | `700` |
+| `products[].vats[]` | HeroJSON | VAT breakdown per line item; see Section 2.2 (Product VAT). | array | `[{ "vat_rate": "24", "vat_amount": 135, "total_amount_exc_vat": 565, "total_amount_inc_vat": 700 }]` |
+| `products[].vats[].vat_rate` | HeroJSON | VAT rate applied to this line item, expressed as a percentage string. | tstr | `"24"` |
+| `products[].vats[].vat_amount` | HeroJSON | VAT amount for this line item, in the currency minor unit. | int | `135` |
+| `products[].vats[].total_amount_exc_vat` | HeroJSON | Line amount excluding VAT, in the currency minor unit. | int | `565` |
+| `products[].vats[].total_amount_inc_vat` | HeroJSON | Line amount including VAT, in the currency minor unit. | int | `700` |
+| `vats[].vat_rate` | HeroJSON | VAT rate at receipt level, expressed as a percentage string. | tstr | `"24"` |
+| `vats[].total_vat_amount` | HeroJSON | Total VAT amount at this rate, in the currency minor unit. | int | `1020` |
+| `vats[].total_amount_exc_vat` | HeroJSON | Total amount at this rate excluding VAT, in the currency minor unit. | int | `4250` |
+| `vats[].total_amount_inc_vat` | HeroJSON | Total amount at this rate including VAT, in the currency minor unit. | int | `5270` |
+| `payments[].type` | HeroJSON | Payment method type (e.g. `CARD`, `CREDIT_TRANSFER`, `MOBILEPAY`, `GIFTCARD`). | tstr | `"CARD"` |
+| `payments[].amount` | HeroJSON | Amount paid with this payment method, in the currency minor unit. For `RETURN` and `PURCHASE_AND_RETURN` this amount MAY be non-positive (negative). | int | `5270` |
+| `verifications[].type` | EMV / OCMF / EPC SCT/SCT-INST | Standard of the technical proof carried in `verifications[]`: EMV for card authorisation cryptograms; OCMF for charge-metering proofs; SCT or SCT-INST for SEPA credit transfer (account-to-account). The EMV cryptogram itself (the AC and its cryptogramType ARQC) is carried in `payments[].attributes`, not here. The type-specific fields below apply only for the named type. | tstr | `"EMV"` |
+| `verifications[].version` | Verification profile (per `verifications[].type`) | Version of the verification schema used. | tstr | `"1.0"` |
+| `verifications[].public_key` | Verification profile (per `verifications[].type`) | Public key used for transaction signing, base64url-encoded. | tstr | `"MIIBIjANBg…"` |
+| `verifications[].transactionId` | Verification profile (per `verifications[].type`) | Unique identifier of the underlying payment transaction, as assigned by the PSP or payment scheme. When `payments[].attributes.transactionId` is also present, both SHALL identify the same payment transaction. | tstr | `"T-20260423-000871"` |
 
 ### 3.3 Optional attributes
 
-| **Data Identifier**                 | **Semantic Reference** | **Definition**                                                                                                                                                                     | **Data type** | **Example value**                                                                             |
-| ----------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------------------------------------------------------------------------------------- |
-| `free_text`                          | HeroJSON               | Free-text field for merchant notes (e.g. promotional message).                                                                                                                     | tstr          | `"Thank you for your purchase!"`                                                              |
-| `custom_attributes`                  | HeroJSON               | Array of `{key, value}` pairs for merchant-specific receipt-level data.                                                                                                            | array         | `[{ "key": "loyaltyId", "value": "L-9981" }]`                                                 |
-| `branch.sub_name`                    | HeroJSON               | Sub-name or department within the branch.                                                                                                                                          | tstr          | `"Café"`                                                                                      |
-| `branch.email`                      | EN 16931-1             | Contact email of the branch.                                                                                                                                                       | tstr          | `"helsinki@acme.fi"`                                                                          |
-| `branch.phone`                      | EN 16931-1             | Contact phone of the branch.                                                                                                                                                       | tstr          | `"+358 9 1234 5678"`                                                                          |
-| `branch.website_url`                 | EN 16931-1             | Website URL of the merchant.                                                                                                                                                       | tstr          | `"https://www.acme.fi"`                                                                       |
-| `products[].unit_price_inc_vat_decimal` | HeroJSON               | Unit price including VAT in decimal form, for display only.                                                                                                                        | tstr          | `"3.50"`                                                                                      |
-| `products[].discounts[]`            | HeroJSON               | Array of discounts applied to this line item.                                                                                                                                      | array         | `[{ "type": "PROMO", "amount": 50 }]`                                                         |
-| `products[].ean_code`                | GS1                    | EAN/GTIN barcode of the product.                                                                                                                                                   | tstr          | `"6411400000123"`                                                                             |
-| `products[].product_id`              | HeroJSON               | Merchant-internal product identifier.                                                                                                                                              | tstr          | `"SKU-ESP-200"`                                                                               |
-| `products[].free_text`               | HeroJSON               | Free-text note for this line item.                                                                                                                                                 | tstr          | `"Decaf"`                                                                                     |
-| `products[].categorization`         | HeroJSON               | Merchant-defined categorisation object (e.g. category code, department). Structure defined by issuer.                                                                              | map           | `{ "category": "F&B", "department": "Café" }`                                                 |
-| `products[].custom_attributes[]`     | HeroJSON               | Array of `{key, value}` pairs for merchant-specific line-level data.                                                                                                               | array         | `[{ "key": "warranty", "value": "12m" }]`                                                     |
-| `vats[].vat_code`                    | EN 16931-1             | VAT category code (e.g. `S`, `Z`, `E`, `AE`, `K`, `G`, `O`, `L`, `M`, `B`).                                                                                                             | tstr          | `"S"`                                                                                         |
-| `products[].vats[].vat_code`           | EN 16931-1             | VAT category code for the line item (for example `S`, `Z`, `E`, `AE`, `K`, `G`, `O`, `L`, `M`, `B`).                                                                               | tstr          | `"S"`                                                                                         |
-| `original_receipt_number`               | HeroJSON receipt_number; analogous to EN 16931-1 BT-25 (Preceding Invoice Reference) | For a correction eReceipt (type `RETURN` or `PURCHASE_AND_RETURN` that reverses or corrects a prior transaction), the `receipt_number` of the original eReceipt being corrected. Establishes the correction linkage (see the Chapter 6 note). | tstr          | `"R-2026-04-23-000412"`                                                                       |
-| `payments[].attributes`             | EMV / PSP              | EMV/PSP payment attributes. Supported sub-fields: `AID`, `TVR`, `TSI`, `AC`, `cryptogramType`, `CID`, `CVM`, `authorizationCode`, `transactionId`, `terminalId`, `maskedPAN`, `APP`, `ENTRY`, `ARC`. | map           | `{ "AID": "A0000000031010", "maskedPAN": "411111******1111", "authorizationCode": "AB12CD" }` |
-| `journey.id`                        | WE BUILD Journey model | Journey or booking identifier.                                                                                                                                                     | tstr          | `"BK-7781"`                                                                                   |
-| `journey.distance`                  | WE BUILD Journey model | Distance travelled, in metres.                                                                                                                                                     | int           | `184000`                                                                                      |
-| `journey.duration`                  | WE BUILD Journey model | Duration of the journey, in minutes.                                                                                                                                               | int           | `92`                                                                                          |
-| `journey.co2_emissions`              | CSRD Scope 3           | CO₂ emissions for this journey, in grams.                                                                                                                                          | int           | `12500`                                                                                       |
-| `attachments[].description`         | HeroJSON               | Human-readable description of the attachment.                                                                                                                                      | tstr          | `"Boarding pass"`                                                                             |
-| `attachments[].valid_until`          | ISO 8601 / RFC 3339    | Expiry date/time of the attachment.                                                                                                                                                | tdate         | `"2026-04-24T08:00:00Z"`                                                                      |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+| --- | --- | --- | --- | --- |
+| `free_text` | HeroJSON | Free-text field for merchant notes (e.g. promotional message). | tstr | `"Thank you for your purchase!"` |
+| `custom_attributes` | HeroJSON | Array of `{key, value}` pairs for merchant-specific receipt-level data. | array | `[{ "key": "loyaltyId", "value": "L-9981" }]` |
+| `branch.sub_name` | HeroJSON | Sub-name or department within the branch. | tstr | `"Café"` |
+| `branch.email` | EN 16931-1 | Contact email of the branch. | tstr | `"helsinki@acme.fi"` |
+| `branch.phone` | EN 16931-1 | Contact phone of the branch. | tstr | `"+358 9 1234 5678"` |
+| `branch.website_url` | EN 16931-1 | Website URL of the merchant. | tstr | `"https://www.acme.fi"` |
+| `products[].unit_price_inc_vat_decimal` | HeroJSON | Unit price including VAT in decimal form, for display only. | tstr | `"3.50"` |
+| `products[].discounts[]` | HeroJSON | Array of discounts applied to this line item. | array | `[{ "type": "PROMO", "amount": 50 }]` |
+| `products[].ean_code` | GS1 | EAN/GTIN barcode of the product. | tstr | `"6411400000123"` |
+| `products[].product_id` | HeroJSON | Merchant-internal product identifier. | tstr | `"SKU-ESP-200"` |
+| `products[].free_text` | HeroJSON | Free-text note for this line item. | tstr | `"Decaf"` |
+| `products[].categorization` | HeroJSON | Merchant-defined categorisation object (e.g. category code, department). Structure defined by issuer. | map | `{ "category": "F&B", "department": "Café" }` |
+| `products[].custom_attributes[]` | HeroJSON | Array of `{key, value}` pairs for merchant-specific line-level data. | array | `[{ "key": "warranty", "value": "12m" }]` |
+| `vats[].vat_code` | EN 16931-1 | VAT category code (e.g. `S`, `Z`, `E`, `AE`, `K`, `G`, `O`, `L`, `M`, `B`). | tstr | `"S"` |
+| `products[].vats[].vat_code` | EN 16931-1 | VAT category code for the line item (for example `S`, `Z`, `E`, `AE`, `K`, `G`, `O`, `L`, `M`, `B`). | tstr | `"S"` |
+| `original_receipt_number` | HeroJSON receipt_number; analogous to EN 16931-1 BT-25 (Preceding Invoice Reference) | For a correction eReceipt (type `RETURN` or `PURCHASE_AND_RETURN` that reverses or corrects a prior transaction), the `receipt_number` of the original eReceipt being corrected. Establishes the correction linkage (see the Chapter 6 note). | tstr | `"R-2026-04-23-000412"` |
+| `payments[].attributes` | EMV / PSP | EMV/PSP payment attributes. Supported sub-fields: `AID`, `TVR`, `TSI`, `AC`, `cryptogramType`, `CID`, `CVM`, `authorizationCode`, `transactionId`, `terminalId`, `maskedPAN`, `APP`, `ENTRY`, `ARC`. | map | `{ "AID": "A0000000031010", "maskedPAN": "411111******1111", "authorizationCode": "AB12CD" }` |
+| `journey.id` | WE BUILD Journey model | Journey or booking identifier. | tstr | `"BK-7781"` |
+| `journey.distance` | WE BUILD Journey model | Distance travelled, in metres. | int | `184000` |
+| `journey.duration` | WE BUILD Journey model | Duration of the journey, in minutes. | int | `92` |
+| `journey.co2_emissions` | CSRD Scope 3 | CO₂ emissions for this journey, in grams. | int | `12500` |
+| `attachments[].description` | HeroJSON | Human-readable description of the attachment. | tstr | `"Boarding pass"` |
+| `attachments[].valid_until` | ISO 8601 / RFC 3339 | Expiry date/time of the attachment. | tdate | `"2026-04-24T08:00:00Z"` |
 
 ### 3.4 Conditional attributes
 
-| **Data Identifier**                           | **Semantic Reference** | **Definition**                                                                                                                                                                                                                         | **Data type** | **Example value**                                                                                         |
-| --------------------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------- |
-| `verifications[].transaction_begin.signed_data` | OCMF / PSP              | Signed data captured at the beginning of the verification event, as defined by the `verifications[].type` profile (for example OCMF metering data). **REQUIRED when `verifications[].type` is OCMF**; not applicable otherwise.                                                                                                                | bstr          | (binary)                                                                                                  |
-| `journey`                                     | WE BUILD Journey model | Journey object. **Present only for travel and mobility receipts** (where `journey.type` is one of `TRAIN`, `BUS`, `TAXI`, `FLIGHT`, `FERRY`). When the `journey` object is present, the conditional attributes below SHALL be present. | map           | (see below)                                                                                               |
-| `journey.type`                                | WE BUILD Journey model | Mode of transport. **Mandatory if the `journey` object is present.** One of: `TRAIN`, `BUS`, `TAXI`, `FLIGHT`, `FERRY`.                                                                                                                | tstr          | `"TRAIN"`                                                                                                 |
-| `journey.origin`                              | WE BUILD Journey model | Origin of the journey, with sub-fields: `name`, `city`, `country`, `latitude`, `longitude`, `datetime`. **Mandatory if the `journey` object is present.**                                                                              | map           | `{ "name": "Helsinki Central", "city": "Helsinki", "country": "FI", "datetime": "2026-04-23T08:00:00Z" }` |
-| `journey.destination`                         | WE BUILD Journey model | Destination of the journey, with the same sub-fields as `journey.origin`. **Mandatory if the `journey` object is present.**                                                                                                            | map           | `{ "name": "Tampere", "city": "Tampere", "country": "FI", "datetime": "2026-04-23T09:32:00Z" }`           |
-| `attachments[].type`                          | HeroJSON               | Attachment encoding type. **Mandatory if an `attachments[]` entry is present.** One of: `BARCODE`, `QRCODE`.                                                                                                                           | tstr          | `"QRCODE"`                                                                                                |
-| `attachments[].kind`                          | HeroJSON               | Attachment purpose. **Mandatory if an `attachments[]` entry is present.** One of: `TICKET`, `RETURN`, `VOUCHER`.                                                                                                                       | tstr          | `"TICKET"`                                                                                                |
-| `attachments[].title`                         | HeroJSON               | Title or label for the attachment. **Mandatory if an `attachments[]` entry is present.**                                                                                                                                               | tstr          | `"Boarding pass HEL→TPE"`                                                                                 |
-| `attachments[].data`                          | HeroJSON               | Encoded attachment data (string). **Mandatory if an `attachments[]` entry is present.**                                                                                                                                                | tstr          | `"BAR:1234567890ABC…"`                                                                                    |
-| `verifications[].current_type`                 | OCMF                   | For an OCMF (Open Charge Metering Format) metering proof, the electrical-current type: `AC` (alternating current) or `DC` (direct current). This is not an EMV cryptogram type; card (EMV) evidence is carried in `payments[].attributes`. **REQUIRED when `verifications[].type` is OCMF**; not applicable otherwise. | tstr          | `"AC"`                                                                                                    |
-| `verifications[].transaction_end.signed_data`   | OCMF / PSP             | Signed data captured at the end of the verification event, as defined by the `verifications[].type` profile (for example OCMF metering data). **REQUIRED when the profile defines it**; not applicable otherwise. | bstr          | (binary)                                                                                                  |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+| --- | --- | --- | --- | --- |
+| `verifications[].transaction_begin.signed_data` | OCMF / PSP | Signed data captured at the beginning of the verification event, as defined by the `verifications[].type` profile (for example OCMF metering data). **REQUIRED when `verifications[].type` is OCMF**; not applicable otherwise. | bstr | (binary) |
+| `journey` | WE BUILD Journey model | Journey object. **Present only for travel and mobility receipts** (where `journey.type` is one of `TRAIN`, `BUS`, `TAXI`, `FLIGHT`, `FERRY`). When the `journey` object is present, the conditional attributes below SHALL be present. | map | (see below) |
+| `journey.type` | WE BUILD Journey model | Mode of transport. **Mandatory if the `journey` object is present.** One of: `TRAIN`, `BUS`, `TAXI`, `FLIGHT`, `FERRY`. | tstr | `"TRAIN"` |
+| `journey.origin` | WE BUILD Journey model | Origin of the journey, with sub-fields: `name`, `city`, `country`, `latitude`, `longitude`, `datetime`. **Mandatory if the `journey` object is present.** | map | `{ "name": "Helsinki Central", "city": "Helsinki", "country": "FI", "datetime": "2026-04-23T08:00:00Z" }` |
+| `journey.destination` | WE BUILD Journey model | Destination of the journey, with the same sub-fields as `journey.origin`. **Mandatory if the `journey` object is present.** | map | `{ "name": "Tampere", "city": "Tampere", "country": "FI", "datetime": "2026-04-23T09:32:00Z" }` |
+| `attachments[].type` | HeroJSON | Attachment encoding type. **Mandatory if an `attachments[]` entry is present.** One of: `BARCODE`, `QRCODE`. | tstr | `"QRCODE"` |
+| `attachments[].kind` | HeroJSON | Attachment purpose. **Mandatory if an `attachments[]` entry is present.** One of: `TICKET`, `RETURN`, `VOUCHER`. | tstr | `"TICKET"` |
+| `attachments[].title` | HeroJSON | Title or label for the attachment. **Mandatory if an `attachments[]` entry is present.** | tstr | `"Boarding pass HEL→TPE"` |
+| `attachments[].data` | HeroJSON | Encoded attachment data (string). **Mandatory if an `attachments[]` entry is present.** | tstr | `"BAR:1234567890ABC…"` |
+| `verifications[].current_type` | OCMF | For an OCMF (Open Charge Metering Format) metering proof, the electrical-current type: `AC` (alternating current) or `DC` (direct current). This is not an EMV cryptogram type; card (EMV) evidence is carried in `payments[].attributes`. **REQUIRED when `verifications[].type` is OCMF**; not applicable otherwise. | tstr | `"AC"` |
+| `verifications[].transaction_end.signed_data` | OCMF / PSP | Signed data captured at the end of the verification event, as defined by the `verifications[].type` profile (for example OCMF metering data). **REQUIRED when the profile defines it**; not applicable otherwise. | bstr | (binary) |
 
 ## 4 Metadata
 
@@ -341,13 +329,13 @@ Metadata describes the attestation rather than its subject.
 
 ### 4.1 Mandatory metadata
 
-| **Data Identifier** | **Semantic Reference** | **Definition**                                                                                                                         | **Data type**       | **Example value**                                                |
-| ------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ---------------------------------------------------------------- |
-| `iss`               | RFC 7519 / SD-JWT VC  | Issuer identifier; an HTTPS URL resolvable to the issuer's OpenID4VCI metadata (see `IR-09`).                                                         | tstr                | `"https://issuer.merchant.example"`                              |
-| `iat`               | RFC 7519  | Issuance time as a NumericDate.                                                                                     | int | `1776939275`                                                     |
-| `exp`               | RFC 7519  | Expiry time as a NumericDate; SHALL be greater than `iat` and SHALL reflect the long-validity policy of Section 4.1.6.                                                                            | int | `1966328075`                                                     |
-| `vct`               | SD-JWT VC              | Attestation type identifier. SHALL be `eu.we-build.ereceipt.1`.  | tstr                | `"eu.we-build.ereceipt.1"`                                       |
-| `cnf`               | RFC 7800 / SD-JWT VC  | Holder key binding (JWK) establishing proof of possession (see Section 4.1.4). | JSON object         | `{ "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } }` |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+| --- | --- | --- | --- | --- |
+| `iss` | RFC 7519 / SD-JWT VC | Issuer identifier; an HTTPS URL resolvable to the issuer's OpenID4VCI metadata (see `IR-09`). | tstr | `"https://issuer.merchant.example"` |
+| `iat` | RFC 7519 | Issuance time as a NumericDate. | int | `1776939275` |
+| `exp` | RFC 7519 | Expiry time as a NumericDate; SHALL be greater than `iat` and SHALL reflect the long-validity policy of Section 4.1.6. | int | `1966328075` |
+| `vct` | SD-JWT VC | Attestation type identifier. SHALL be `eu.we-build.ereceipt.1`. | tstr | `"eu.we-build.ereceipt.1"` |
+| `cnf` | RFC 7800 / SD-JWT VC | Holder key binding (JWK) establishing proof of possession (see Section 4.1.4). | JSON object | `{ "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } }` |
 
 **Legal category.** This Rulebook retains `attestation_legal_category` with the value
 `non-qualified-EAA` by default, and `PuB-EAA` where the issuer is a public sector body
@@ -364,10 +352,10 @@ or issues on behalf of one.
 
 ### 4.2 Optional metadata
 
-| **Data Identifier**          | **Semantic Reference** | **Definition**                                                                                                                                       | **Data type** | **Example value**                                                   |
-| ---------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------- |
-| `status_list`                | IETF Token Status List | Status list object enabling the Relying Party to check whether the credential has been revoked. See Chapter 6.                                       | JSON object   | `{ "idx": 17, "uri": "https://issuer.merchant.example/status/v1" }` |
-| `cryptographically_bound_to` | ARB_28 ([Topic 12])    | If present, identifies another attestation type (or `vct`) on the same Wallet Unit to which this eReceipt is cryptographically bound. See Chapter 4. | tstr          | `"urn:eudi:pid:1"`                                                  |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
+| --- | --- | --- | --- | --- |
+| `status_list` | IETF Token Status List | Status list object enabling the Relying Party to check whether the credential has been revoked. See Chapter 6. | JSON object | `{ "idx": 17, "uri": "https://issuer.merchant.example/status/v1" }` |
+| `cryptographically_bound_to` | ARB_28 ([Topic 12]) | If present, identifies another attestation type (or `vct`) on the same Wallet Unit to which this eReceipt is cryptographically bound. See Chapter 4. | tstr | `"urn:eudi:pid:1"` |
 
 ### 4.3 Conditional metadata
 
@@ -376,45 +364,45 @@ Rulebook.
 
 ### 4.4 Code lists
 
-| **Field name**                                | **Allowed values**                                                                                                              | **Meaning**                                                                         | **Source / vocabulary**              | **Notes / extensibility**                                                                                                                           |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`                                        | `PURCHASE`, `RETURN`, `PURCHASE_AND_RETURN`                                                                                     | Nature of the transaction recorded by the receipt.                                  | HeroJSON / CEN/TS 16931-8            | Closed list. New values SHALL only be introduced through a major version of this Rulebook.                                                          |
-| `attestation_legal_category`                  | `QEAA`, `PuB-EAA`, `non-qualified-EAA`                                                                                          | Legal category of the attestation under the [European Digital Identity Regulation]. | WE BUILD Rulebook Template           | Closed list.                                                                                                                                        |
-| `currency_iso_code`                             | All ISO 4217 alphabetic codes                                                                                                   | Currency in which monetary amounts are expressed.                                   | ISO 4217                             | Open list (governed by ISO).                                                                                                                        |
-| `address.country`                             | All ISO 3166-1 alpha-2 codes                                                                                                    | Country of the merchant branch.                                                     | ISO 3166-1                           | Open list (governed by ISO).                                                                                                                        |
-| `vats[].vat_code`, `products[].vats[].vat_code` | `S`, `Z`, `E`, `AE`, `K`, `G`, `O`, `L`, `M`, `B`                                                                                    | EN 16931-1 duty/tax/fee category codes.                                             | EN 16931-1                           | Closed list (governed by EN 16931-1).                                                                                                               |
-| `products[].quantity_code`                     | `H87`, `KGM`, `LTR`, `MTR`, …                                                                                                    | Unit of measurement of the line item quantity.                                      | UN/ECE Recommendation 20             | Open list (governed by UN/ECE).                                                                                                                     |
-| `products[].ean_code`                          | Valid EAN-8, EAN-13 or GTIN-14                                                                                                  | Product barcode.                                                                    | GS1                                  | Open list (governed by GS1).                                                                                                                        |
-| `payments[].type`                             | `CARD`, `CREDIT_TRANSFER`, `MOBILEPAY`, `GIFTCARD` (typical values)                                                                        | Payment method used to settle the corresponding `payments[].amount`.                | Issuer-defined; common values listed | Extensible. Issuers SHOULD reuse the listed values where applicable; additional values SHOULD be agreed across issuer and verifier implementations. |
-| `journey.type`                                | `TRAIN`, `BUS`, `TAXI`, `FLIGHT`, `FERRY`                                                                                       | Mode of transport for travel/mobility receipts.                                     | WE BUILD Journey model               | Closed list. New values SHALL only be introduced through a minor version of this Rulebook.                                                          |
-| `verifications[].type`                        | `EMV`, `OCMF`, `SCT`, `SCT-INST`                                                                                                | Standard of the technical proof in `verifications[]`.                               | EMV / OCMF / EPC SCT/SCT-INST        | Extensible through a minor version of this Rulebook.                                                                                                |
-| `verifications[].current_type`                 | `AC`, `DC`                                                                                                                      | OCMF electrical-current type: `AC` = alternating current, `DC` = direct current. Applies only to OCMF verifications.    | OCMF                                  | Closed list.                                                                                                                                        |
-| `attachments[].type`                          | `BARCODE`, `QRCODE`                                                                                                             | Encoding format of the attachment payload.                                          | HeroJSON                             | Closed list.                                                                                                                                        |
-| `attachments[].kind`                          | `TICKET`, `RETURN`, `VOUCHER`                                                                                                   | Purpose of the attachment.                                                          | HeroJSON                             | Closed list. New values SHALL only be introduced through a minor version of this Rulebook.                                                          |
-| `payments[].attributes` keys                  | `AID`, `TVR`, `TSI`, `AC`, `cryptogramType`, `CID`, `CVM`, `authorizationCode`, `transactionId`, `terminalId`, `maskedPAN`, `APP`, `ENTRY`, `ARC` | EMV/PSP terminal data sub-fields.                                                   | EMV / PSP specifications             | Open list; additional EMV-defined keys MAY be added.                                                                                                |
+| **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
+| --- | --- | --- | --- | --- |
+| `type` | `PURCHASE`, `RETURN`, `PURCHASE_AND_RETURN` | Nature of the transaction recorded by the receipt. | HeroJSON / CEN/TS 16931-8 | Closed list. New values SHALL only be introduced through a major version of this Rulebook. |
+| `attestation_legal_category` | `QEAA`, `PuB-EAA`, `non-qualified-EAA` | Legal category of the attestation under the [European Digital Identity Regulation]. | WE BUILD Rulebook Template | Closed list. |
+| `currency_iso_code` | All ISO 4217 alphabetic codes | Currency in which monetary amounts are expressed. | ISO 4217 | Open list (governed by ISO). |
+| `address.country` | All ISO 3166-1 alpha-2 codes | Country of the merchant branch. | ISO 3166-1 | Open list (governed by ISO). |
+| `vats[].vat_code`, `products[].vats[].vat_code` | `S`, `Z`, `E`, `AE`, `K`, `G`, `O`, `L`, `M`, `B` | EN 16931-1 duty/tax/fee category codes. | EN 16931-1 | Closed list (governed by EN 16931-1). |
+| `products[].quantity_code` | `H87`, `KGM`, `LTR`, `MTR`, … | Unit of measurement of the line item quantity. | UN/ECE Recommendation 20 | Open list (governed by UN/ECE). |
+| `products[].ean_code` | Valid EAN-8, EAN-13 or GTIN-14 | Product barcode. | GS1 | Open list (governed by GS1). |
+| `payments[].type` | `CARD`, `CREDIT_TRANSFER`, `MOBILEPAY`, `GIFTCARD` (typical values) | Payment method used to settle the corresponding `payments[].amount`. | Issuer-defined; common values listed | Extensible. Issuers SHOULD reuse the listed values where applicable; additional values SHOULD be agreed across issuer and verifier implementations. |
+| `journey.type` | `TRAIN`, `BUS`, `TAXI`, `FLIGHT`, `FERRY` | Mode of transport for travel/mobility receipts. | WE BUILD Journey model | Closed list. New values SHALL only be introduced through a minor version of this Rulebook. |
+| `verifications[].type` | `EMV`, `OCMF`, `SCT`, `SCT-INST` | Standard of the technical proof in `verifications[]`. | EMV / OCMF / EPC SCT/SCT-INST | Extensible through a minor version of this Rulebook. |
+| `verifications[].current_type` | `AC`, `DC` | OCMF electrical-current type: `AC` = alternating current, `DC` = direct current. Applies only to OCMF verifications. | OCMF | Closed list. |
+| `attachments[].type` | `BARCODE`, `QRCODE` | Encoding format of the attachment payload. | HeroJSON | Closed list. |
+| `attachments[].kind` | `TICKET`, `RETURN`, `VOUCHER` | Purpose of the attachment. | HeroJSON | Closed list. New values SHALL only be introduced through a minor version of this Rulebook. |
+| `payments[].attributes` keys | `AID`, `TVR`, `TSI`, `AC`, `cryptogramType`, `CID`, `CVM`, `authorizationCode`, `transactionId`, `terminalId`, `maskedPAN`, `APP`, `ENTRY`, `ARC` | EMV/PSP terminal data sub-fields. | EMV / PSP specifications | Open list; additional EMV-defined keys MAY be added. |
 
 ### 4.5 Integrity rules
 
-| **Rule ID** | **Rule statement**                                                                                                                                                                                                                 | **Why it exists**                                                                       | **Where enforced**                                   | **Verifier / issuer behaviour on failure**                                       |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `IR-01`     | `total_price_inc_vat` SHALL equal `total_price_exc_vat + total_vat_amount`.                                                                                                                                                                | Guarantees that header totals are internally consistent.                                | Issuer business rules; verifier business validation. | Issuer SHALL reject the receipt; verifier SHALL treat the credential as invalid. |
-| `IR-02`     | The sum of `vats[].total_vat_amount` at receipt level SHALL equal `total_vat_amount`.                                                                                                                                                  | Guarantees that the per-rate VAT breakdown reconciles with the receipt-level VAT total. | Issuer business rules; verifier business validation. | Issuer SHALL reject the receipt; verifier SHALL treat the credential as invalid. |
-| `IR-03`     | The sum of `payments[].amount` SHALL equal `total_price_inc_vat`.                                                                                                                                                                     | Guarantees that the recorded payments reconcile to the receipt total, which may be negative for a refund.      | Issuer business rules; verifier business validation. | Issuer SHALL reject the receipt; verifier SHALL treat the credential as invalid. |
-| `IR-04`     | `receipt_timestamp` SHALL be greater than or equal to the timestamp embedded in `verifications[].transaction_end.signed_data`, where present.                                                                                         | Prevents back-dating of the receipt relative to the underlying payment transaction.         | Issuer business rules; verifier business validation. | Issuer SHALL reject; verifier SHALL flag the credential as untrustworthy.        |
-| `IR-05`     | When `verifications[].type` is OCMF, the OCMF profile fields (`verifications[].current_type` and `verifications[].transaction_begin.signed_data`) SHALL be present. For non-OCMF proof types these fields are not applicable.                                                                                                                     | Ensures a complete OCMF metering proof when that proof type is used, without imposing OCMF fields on card or credit-transfer receipts.                | Schema validation; issuer business rules.            | Issuer SHALL reject; verifier SHALL treat the credential as invalid.             |
-| `IR-06`     | If `attachments[].valid_until` is present, its value SHALL be later than `receipt_timestamp`.                                                                                                                                        | Prevents the issuance of attachments that are already expired at issuance time.         | Issuer business rules; verifier business validation. | Issuer SHALL reject; verifier MAY warn the user that the attachment is expired.  |
-| `IR-07`     | If the `journey` object is present, both `journey.origin` and `journey.destination` SHALL be present, and `journey.type` SHALL be one of the values listed in Section 2.8.                                                         | Ensures that travel/mobility receipts are interpretable.                                | Schema validation; issuer business rules.            | Issuer SHALL reject; verifier SHALL treat the credential as invalid.             |
-| `IR-08`     | When the `push` or `pull` delivery methods (Chapter 4) are used, the endpoint URI SHALL use TLS (HTTPS).                                                                                                                           | Protects credential delivery against on-path attackers.                                 | Issuer/Wallet at delivery time.                      | Wallet SHALL refuse delivery; issuer SHALL surface failure to the user.          |
-| `IR-09`     | The `iss` claim SHALL be a URL resolvable to the merchant or PSP's OpenID4VCI metadata endpoint.                                                                                                                                     | Enables a Relying Party to discover and authenticate the issuer.                        | Issuer at issuance; verifier at verification.        | Verifier SHALL reject the credential.                                            |
-| `IR-10`     | All monetary amount fields with `int` encoding SHALL be expressed in the currency minor unit (e.g., cents for EUR). Amounts SHALL be non-negative for `PURCHASE`. For `RETURN`, amounts MAY be non-positive (negative). For `PURCHASE_AND_RETURN`, purchased lines SHALL be non-negative and returned lines MAY be non-positive (negative); the header totals reflect the net of the purchased and returned lines. For `RETURN` and `PURCHASE_AND_RETURN`, `payments[].amount` MAY likewise be non-positive (negative) so that the recorded payments reconcile with the net (possibly negative) header total. | Avoids ambiguity in currency representation and supports return semantics.              | Issuer business rules.                               | Issuer SHALL reject inconsistent values.                                         |
+| **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behaviour on failure** |
+| --- | --- | --- | --- | --- |
+| `IR-01` | `total_price_inc_vat` SHALL equal `total_price_exc_vat + total_vat_amount`. | Guarantees that header totals are internally consistent. | Issuer business rules; verifier business validation. | Issuer SHALL reject the receipt; verifier SHALL treat the credential as invalid. |
+| `IR-02` | The sum of `vats[].total_vat_amount` at receipt level SHALL equal `total_vat_amount`. | Guarantees that the per-rate VAT breakdown reconciles with the receipt-level VAT total. | Issuer business rules; verifier business validation. | Issuer SHALL reject the receipt; verifier SHALL treat the credential as invalid. |
+| `IR-03` | The sum of `payments[].amount` SHALL equal `total_price_inc_vat`. | Guarantees that the recorded payments reconcile to the receipt total, which may be negative for a refund. | Issuer business rules; verifier business validation. | Issuer SHALL reject the receipt; verifier SHALL treat the credential as invalid. |
+| `IR-04` | `receipt_timestamp` SHALL be greater than or equal to the timestamp embedded in `verifications[].transaction_end.signed_data`, where present. | Prevents back-dating of the receipt relative to the underlying payment transaction. | Issuer business rules; verifier business validation. | Issuer SHALL reject; verifier SHALL flag the credential as untrustworthy. |
+| `IR-05` | When `verifications[].type` is OCMF, the OCMF profile fields (`verifications[].current_type` and `verifications[].transaction_begin.signed_data`) SHALL be present. For non-OCMF proof types these fields are not applicable. | Ensures a complete OCMF metering proof when that proof type is used, without imposing OCMF fields on card or credit-transfer receipts. | Schema validation; issuer business rules. | Issuer SHALL reject; verifier SHALL treat the credential as invalid. |
+| `IR-06` | If `attachments[].valid_until` is present, its value SHALL be later than `receipt_timestamp`. | Prevents the issuance of attachments that are already expired at issuance time. | Issuer business rules; verifier business validation. | Issuer SHALL reject; verifier MAY warn the user that the attachment is expired. |
+| `IR-07` | If the `journey` object is present, both `journey.origin` and `journey.destination` SHALL be present, and `journey.type` SHALL be one of the values listed in Section 2.8. | Ensures that travel/mobility receipts are interpretable. | Schema validation; issuer business rules. | Issuer SHALL reject; verifier SHALL treat the credential as invalid. |
+| `IR-08` | When the `push` or `pull` delivery methods (Chapter 4) are used, the endpoint URI SHALL use TLS (HTTPS). | Protects credential delivery against on-path attackers. | Issuer/Wallet at delivery time. | Wallet SHALL refuse delivery; issuer SHALL surface failure to the user. |
+| `IR-09` | The `iss` claim SHALL be a URL resolvable to the merchant or PSP's OpenID4VCI metadata endpoint. | Enables a Relying Party to discover and authenticate the issuer. | Issuer at issuance; verifier at verification. | Verifier SHALL reject the credential. |
+| `IR-10` | All monetary amount fields with `int` encoding SHALL be expressed in the currency minor unit (e.g., cents for EUR). Amounts SHALL be non-negative for `PURCHASE`. For `RETURN`, amounts MAY be non-positive (negative). For `PURCHASE_AND_RETURN`, purchased lines SHALL be non-negative and returned lines MAY be non-positive (negative); the header totals reflect the net of the purchased and returned lines. For `RETURN` and `PURCHASE_AND_RETURN`, `payments[].amount` MAY likewise be non-positive (negative) so that the recorded payments reconcile with the net (possibly negative) header total. | Avoids ambiguity in currency representation and supports return semantics. | Issuer business rules. | Issuer SHALL reject inconsistent values. |
 
 ## 5 Formats
 
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
-| ISO/IEC 18013-5 mdoc | no | | [ISO/IEC 18013-5] | Out of scope, see section 5.2 |
-| SD-JWT VC | yes | `vct` `eu.we-build.ereceipt.1` | [SD-JWT VC], [HAIP] | |
-| W3C VCDM | no | | [W3C VCDM v2.0] | Not defined in this version, see section 5.3 |
+| ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Out of scope, see section 5.2 |
+| SD-JWT VC | yes | `vct` `eu.we-build.ereceipt.1` | [SD-JWT VC], [HAIP] |  |
+| W3C VCDM | no |  | [W3C VCDM v2.0] | Not defined in this version, see section 5.3 |
 
 ### 5.1 SD-JWT VC-based encoding
 
@@ -437,19 +425,19 @@ For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NO
 
 ##### 3.2.1 IANA-registered claims
 
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference / Notes**                                          | **Disclosable** |
-| ------------------- | ------------------------ | ------------------- | -------------------------------------------------------------- | --------------- |
-| `iss`               | `iss`                    | string              | Standard JWT issuer claim (IANA JWT Claims Registry)           | MUST NOT        |
-| `iat`               | `iat`                    | NumericDate         | Standard JWT "issued at" claim (IANA JWT Claims Registry)      | MUST NOT        |
-| `exp`               | `exp`                    | NumericDate         | Standard JWT expiry claim (IANA JWT Claims Registry)           | MUST NOT        |
-| `cnf`               | `cnf`                    | JSON object         | Holder key binding, used by SD-JWT VC ([SD-JWT VC], Section 4) | MUST NOT        |
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference / Notes** | **Disclosable** |
+| --- | --- | --- | --- | --- |
+| `iss` | `iss` | string | Standard JWT issuer claim (IANA JWT Claims Registry) | MUST NOT |
+| `iat` | `iat` | NumericDate | Standard JWT "issued at" claim (IANA JWT Claims Registry) | MUST NOT |
+| `exp` | `exp` | NumericDate | Standard JWT expiry claim (IANA JWT Claims Registry) | MUST NOT |
+| `cnf` | `cnf` | JSON object | Holder key binding, used by SD-JWT VC ([SD-JWT VC], Section 4) | MUST NOT |
 
 ##### 3.2.2 Public names
 
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference / Notes**      | **Disclosable** |
-| ------------------- | ------------------------ | ------------------- | -------------------------- | --------------- |
-| `vct`               | `vct`                    | string              | [SD-JWT VC], Section 3.2.2 | MUST NOT        |
-| `status_list`       | `status`                 | JSON object         | IETF Token Status List     | MUST NOT        |
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference / Notes** | **Disclosable** |
+| --- | --- | --- | --- | --- |
+| `vct` | `vct` | string | [SD-JWT VC], Section 3.2.2 | MUST NOT |
+| `status_list` | `status` | JSON object | IETF Token Status List | MUST NOT |
 
 ##### 3.2.3 Private names (specific to the eReceipt attestation)
 
@@ -457,88 +445,88 @@ For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NO
 - The `payments[].type` value `CREDIT_TRANSFER` covers IBAN-based (account-to-account) credit transfers.
 - Issuers SHOULD reuse the listed values where applicable; additional payment-method or verification-proof values SHOULD be agreed across issuer and verifier implementations.
 
-| **Data Identifier**                   | **Attribute identifier**     | **Encoding format** | **Notes**                                                           | **Disclosable**                                              |
-| ------------------------------------- | ---------------------------- | ------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------ |
-| `attestation_legal_category`          | `attestation_legal_category` | string              | Defined in WE BUILD Rulebook Template                               | MUST NOT                                                     |
-| `type`                                | `type`                       | string              | Section 2.2                                                         | MUST                                                         |
-| `receipt_number`                       | `receipt_number`              | string              | Section 2.2                                                         | MUST                                                         |
-| `receipt_timestamp`                    | `receipt_timestamp`           | string (ISO 8601)   | Section 2.2                                                         | MUST                                                         |
-| `currency_iso_code`                     | `currency_iso_code`            | string              | Section 2.2                                                         | MUST                                                         |
-| `total_price_exc_vat`                    | `total_price_exc_vat`           | integer             | Section 2.2; minor unit                                             | MUST                                                         |
-| `total_vat_amount`                      | `total_vat_amount`             | integer             | Section 2.2; minor unit                                             | MUST                                                         |
-| `total_price_inc_vat`                    | `total_price_inc_vat`           | integer             | Section 2.2; minor unit                                             | MUST                                                         |
-| `free_text`                            | `free_text`                   | string              | Section 2.3                                                         | MAY                                                          |
-| `custom_attributes`                    | `custom_attributes`           | array               | Section 2.3                                                         | MAY                                                          |
-| `merchant`                            | `merchant`                   | object              | Section 2.2; container for `name`, `company_id`, `branch`, `address` | MAY (per-claim)                                              |
-| `merchant.name`                       | `name`                       | string              | Section 2.2                                                         | MUST                                                         |
-| `merchant.company_id`                  | `company_id`                  | string              | Section 2.2                                                         | MUST                                                         |
-| `branch`                              | `branch`                     | object              | Section 2.2                                                         | MAY (per-claim)                                              |
-| `branch.id`                           | `id`                         | string              | Section 2.2                                                         | MUST                                                         |
-| `branch.pos_id`                        | `pos_id`                      | string              | Section 2.2                                                         | MUST                                                         |
-| `branch.name`                         | `name`                       | string              | Section 2.2                                                         | MUST                                                         |
-| `branch.sub_name`                      | `sub_name`                    | string              | Section 2.3                                                         | MAY                                                          |
-| `branch.email`                        | `email`                      | string              | Section 2.3                                                         | MAY                                                          |
-| `branch.phone`                        | `phone`                      | string              | Section 2.3                                                         | MAY                                                          |
-| `branch.website_url`                   | `website_url`                 | string              | Section 2.3                                                         | MAY                                                          |
-| `address`                             | `address`                    | object              | Section 2.2                                                         | MAY (per-claim)                                              |
-| `address.street_address`               | `street_address`              | string              | Section 2.2                                                         | MUST                                                         |
-| `address.city`                        | `city`                       | string              | Section 2.2                                                         | MUST                                                         |
-| `address.zip_code`                     | `zip_code`                    | string              | Section 2.2                                                         | MUST                                                         |
-| `address.country`                     | `country`                    | string              | Section 2.2                                                         | MUST                                                         |
-| `products`                            | `products`                   | array of objects    | Section 2.2 / 2.3                                                   | MUST (per-element)                                           |
-| `products[].name`                     | `name`                       | string              | Section 2.2                                                         | MUST                                                         |
-| `products[].quantity`                 | `quantity`                   | string              | Section 2.2                                                         | MUST                                                         |
-| `products[].quantity_code`             | `quantity_code`               | string              | Section 2.2                                                         | MUST                                                         |
-| `products[].unit_price_inc_vat`          | `unit_price_inc_vat`            | integer             | Section 2.2                                                         | MUST                                                         |
-| `products[].unit_price_inc_vat_decimal`   | `unit_price_inc_vat_decimal`     | string              | Section 2.3                                                         | MAY                                                          |
-| `products[].total_amount_exc_vat`        | `total_amount_exc_vat`          | integer             | Section 2.2                                                         | MUST                                                         |
-| `products[].total_amount_inc_vat`        | `total_amount_inc_vat`          | integer             | Section 2.2                                                         | MUST                                                         |
-| `products[].vats`                     | `vats`                       | array of objects    | Section 2.2                                                         | MUST                                                         |
-| `products[].vats[].vat_rate`           | `vat_rate`                    | string              | Section 2.2                                                         | MUST                                                         |
-| `products[].vats[].vat_amount`         | `vat_amount`                  | integer             | Section 2.2                                                         | MUST                                                         |
-| `products[].vats[].total_amount_exc_vat` | `total_amount_exc_vat`          | integer             | Section 2.2                                                         | MUST                                                         |
-| `products[].vats[].total_amount_inc_vat` | `total_amount_inc_vat`          | integer             | Section 2.2                                                         | MUST                                                         |
-| `products[].discounts`                | `discounts`                  | array               | Section 2.3                                                         | MAY                                                          |
-| `products[].ean_code`                  | `ean_code`                    | string              | Section 2.3                                                         | MAY                                                          |
-| `products[].product_id`                | `product_id`                  | string              | Section 2.3                                                         | MAY                                                          |
-| `products[].free_text`                 | `free_text`                   | string              | Section 2.3                                                         | MAY                                                          |
-| `products[].categorization`           | `categorization`             | object              | Section 2.3                                                         | MAY                                                          |
-| `products[].custom_attributes`         | `custom_attributes`           | array               | Section 2.3                                                         | MAY                                                          |
-| `vats`                                | `vats`                       | array of objects    | Section 2.2                                                         | MUST (per-element)                                           |
-| `vats[].vat_rate`                      | `vat_rate`                    | string              | Section 2.2                                                         | MUST                                                         |
-| `vats[].total_vat_amount`               | `total_vat_amount`             | integer             | Section 2.2                                                         | MUST                                                         |
-| `vats[].total_amount_exc_vat`            | `total_amount_exc_vat`          | integer             | Section 2.2                                                         | MUST                                                         |
-| `vats[].total_amount_inc_vat`            | `total_amount_inc_vat`          | integer             | Section 2.2                                                         | MUST                                                         |
-| `vats[].vat_code`                      | `vat_code`                    | string              | Section 2.3                                                         | MAY                                                          |
-| `original_receipt_number`               | `original_receipt_number`      | string              | Section 2.3                                                         | MAY                                                          |
-| `payments`                            | `payments`                   | array of objects    | Section 2.2                                                         | MUST (per-element)                                           |
-| `payments[].type`                     | `type`                       | string              | Section 2.2                                                         | MUST                                                         |
-| `payments[].amount`                   | `amount`                     | integer             | Section 2.2                                                         | MUST                                                         |
-| `payments[].attributes`               | `attributes`                 | object              | Section 2.3                                                         | MAY (per-sub-field)                                          |
-| `verifications`                       | `verifications`              | array of objects    | Section 2.2 / 2.4                                                   | MUST NOT (technical proof; required for verifier validation) |
-| `verifications[].type`                | `type`                       | string              | Section 2.2                                                         | MUST NOT                                                     |
-| `verifications[].version`             | `version`                    | string              | Section 2.2                                                         | MUST NOT                                                     |
-| `verifications[].public_key`           | `public_key`                  | string              | Section 2.2                                                         | MUST NOT                                                     |
-| `verifications[].transactionId`       | `transactionId`              | string              | Section 2.2                                                         | MUST NOT                                                     |
-| `verifications[].current_type`         | `current_type`                | string              | Section 2.2                                                         | MUST NOT                                                     |
-| `verifications[].transaction_begin`    | `transaction_begin`           | object              | Section 2.4 (conditional)                                           | MUST NOT                                                     |
-| `verifications[].transaction_end`      | `transaction_end`             | object              | Section 2.2                                                         | MUST NOT                                                     |
-| `journey`                             | `journey`                    | object              | Section 2.4 (conditional)                                           | MAY (per-claim)                                              |
-| `journey.type`                        | `type`                       | string              | Section 2.4                                                         | MAY                                                          |
-| `journey.id`                          | `id`                         | string              | Section 2.3                                                         | MAY                                                          |
-| `journey.distance`                    | `distance`                   | integer             | Section 2.3                                                         | MAY                                                          |
-| `journey.duration`                    | `duration`                   | integer             | Section 2.3                                                         | MAY                                                          |
-| `journey.co2_emissions`                | `co2_emissions`               | integer             | Section 2.3                                                         | MAY                                                          |
-| `journey.origin`                      | `origin`                     | object              | Section 2.4                                                         | MAY                                                          |
-| `journey.destination`                 | `destination`                | object              | Section 2.4                                                         | MAY                                                          |
-| `attachments`                         | `attachments`                | array of objects    | Section 2.4                                                         | MAY (per-element)                                            |
-| `attachments[].type`                  | `type`                       | string              | Section 2.4                                                         | MAY                                                          |
-| `attachments[].kind`                  | `kind`                       | string              | Section 2.4                                                         | MAY                                                          |
-| `attachments[].title`                 | `title`                      | string              | Section 2.4                                                         | MAY                                                          |
-| `attachments[].data`                  | `data`                       | string              | Section 2.4                                                         | MAY                                                          |
-| `attachments[].description`           | `description`                | string              | Section 2.3                                                         | MAY                                                          |
-| `attachments[].valid_until`            | `valid_until`                 | string (ISO 8601)   | Section 2.3                                                         | MAY                                                          |
-| `cryptographically_bound_to`          | `cryptographically_bound_to` | string              | Section 2.6; per ARB_28 in [Topic 12]                               | MUST NOT                                                     |
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
+| --- | --- | --- | --- | --- |
+| `attestation_legal_category` | `attestation_legal_category` | string | Defined in WE BUILD Rulebook Template | MUST NOT |
+| `type` | `type` | string | Section 2.2 | MUST |
+| `receipt_number` | `receipt_number` | string | Section 2.2 | MUST |
+| `receipt_timestamp` | `receipt_timestamp` | string (ISO 8601) | Section 2.2 | MUST |
+| `currency_iso_code` | `currency_iso_code` | string | Section 2.2 | MUST |
+| `total_price_exc_vat` | `total_price_exc_vat` | integer | Section 2.2; minor unit | MUST |
+| `total_vat_amount` | `total_vat_amount` | integer | Section 2.2; minor unit | MUST |
+| `total_price_inc_vat` | `total_price_inc_vat` | integer | Section 2.2; minor unit | MUST |
+| `free_text` | `free_text` | string | Section 2.3 | MAY |
+| `custom_attributes` | `custom_attributes` | array | Section 2.3 | MAY |
+| `merchant` | `merchant` | object | Section 2.2; container for `name`, `company_id`, `branch`, `address` | MAY (per-claim) |
+| `merchant.name` | `name` | string | Section 2.2 | MUST |
+| `merchant.company_id` | `company_id` | string | Section 2.2 | MUST |
+| `branch` | `branch` | object | Section 2.2 | MAY (per-claim) |
+| `branch.id` | `id` | string | Section 2.2 | MUST |
+| `branch.pos_id` | `pos_id` | string | Section 2.2 | MUST |
+| `branch.name` | `name` | string | Section 2.2 | MUST |
+| `branch.sub_name` | `sub_name` | string | Section 2.3 | MAY |
+| `branch.email` | `email` | string | Section 2.3 | MAY |
+| `branch.phone` | `phone` | string | Section 2.3 | MAY |
+| `branch.website_url` | `website_url` | string | Section 2.3 | MAY |
+| `address` | `address` | object | Section 2.2 | MAY (per-claim) |
+| `address.street_address` | `street_address` | string | Section 2.2 | MUST |
+| `address.city` | `city` | string | Section 2.2 | MUST |
+| `address.zip_code` | `zip_code` | string | Section 2.2 | MUST |
+| `address.country` | `country` | string | Section 2.2 | MUST |
+| `products` | `products` | array of objects | Section 2.2 / 2.3 | MUST (per-element) |
+| `products[].name` | `name` | string | Section 2.2 | MUST |
+| `products[].quantity` | `quantity` | string | Section 2.2 | MUST |
+| `products[].quantity_code` | `quantity_code` | string | Section 2.2 | MUST |
+| `products[].unit_price_inc_vat` | `unit_price_inc_vat` | integer | Section 2.2 | MUST |
+| `products[].unit_price_inc_vat_decimal` | `unit_price_inc_vat_decimal` | string | Section 2.3 | MAY |
+| `products[].total_amount_exc_vat` | `total_amount_exc_vat` | integer | Section 2.2 | MUST |
+| `products[].total_amount_inc_vat` | `total_amount_inc_vat` | integer | Section 2.2 | MUST |
+| `products[].vats` | `vats` | array of objects | Section 2.2 | MUST |
+| `products[].vats[].vat_rate` | `vat_rate` | string | Section 2.2 | MUST |
+| `products[].vats[].vat_amount` | `vat_amount` | integer | Section 2.2 | MUST |
+| `products[].vats[].total_amount_exc_vat` | `total_amount_exc_vat` | integer | Section 2.2 | MUST |
+| `products[].vats[].total_amount_inc_vat` | `total_amount_inc_vat` | integer | Section 2.2 | MUST |
+| `products[].discounts` | `discounts` | array | Section 2.3 | MAY |
+| `products[].ean_code` | `ean_code` | string | Section 2.3 | MAY |
+| `products[].product_id` | `product_id` | string | Section 2.3 | MAY |
+| `products[].free_text` | `free_text` | string | Section 2.3 | MAY |
+| `products[].categorization` | `categorization` | object | Section 2.3 | MAY |
+| `products[].custom_attributes` | `custom_attributes` | array | Section 2.3 | MAY |
+| `vats` | `vats` | array of objects | Section 2.2 | MUST (per-element) |
+| `vats[].vat_rate` | `vat_rate` | string | Section 2.2 | MUST |
+| `vats[].total_vat_amount` | `total_vat_amount` | integer | Section 2.2 | MUST |
+| `vats[].total_amount_exc_vat` | `total_amount_exc_vat` | integer | Section 2.2 | MUST |
+| `vats[].total_amount_inc_vat` | `total_amount_inc_vat` | integer | Section 2.2 | MUST |
+| `vats[].vat_code` | `vat_code` | string | Section 2.3 | MAY |
+| `original_receipt_number` | `original_receipt_number` | string | Section 2.3 | MAY |
+| `payments` | `payments` | array of objects | Section 2.2 | MUST (per-element) |
+| `payments[].type` | `type` | string | Section 2.2 | MUST |
+| `payments[].amount` | `amount` | integer | Section 2.2 | MUST |
+| `payments[].attributes` | `attributes` | object | Section 2.3 | MAY (per-sub-field) |
+| `verifications` | `verifications` | array of objects | Section 2.2 / 2.4 | MUST NOT (technical proof; required for verifier validation) |
+| `verifications[].type` | `type` | string | Section 2.2 | MUST NOT |
+| `verifications[].version` | `version` | string | Section 2.2 | MUST NOT |
+| `verifications[].public_key` | `public_key` | string | Section 2.2 | MUST NOT |
+| `verifications[].transactionId` | `transactionId` | string | Section 2.2 | MUST NOT |
+| `verifications[].current_type` | `current_type` | string | Section 2.2 | MUST NOT |
+| `verifications[].transaction_begin` | `transaction_begin` | object | Section 2.4 (conditional) | MUST NOT |
+| `verifications[].transaction_end` | `transaction_end` | object | Section 2.2 | MUST NOT |
+| `journey` | `journey` | object | Section 2.4 (conditional) | MAY (per-claim) |
+| `journey.type` | `type` | string | Section 2.4 | MAY |
+| `journey.id` | `id` | string | Section 2.3 | MAY |
+| `journey.distance` | `distance` | integer | Section 2.3 | MAY |
+| `journey.duration` | `duration` | integer | Section 2.3 | MAY |
+| `journey.co2_emissions` | `co2_emissions` | integer | Section 2.3 | MAY |
+| `journey.origin` | `origin` | object | Section 2.4 | MAY |
+| `journey.destination` | `destination` | object | Section 2.4 | MAY |
+| `attachments` | `attachments` | array of objects | Section 2.4 | MAY (per-element) |
+| `attachments[].type` | `type` | string | Section 2.4 | MAY |
+| `attachments[].kind` | `kind` | string | Section 2.4 | MAY |
+| `attachments[].title` | `title` | string | Section 2.4 | MAY |
+| `attachments[].data` | `data` | string | Section 2.4 | MAY |
+| `attachments[].description` | `description` | string | Section 2.3 | MAY |
+| `attachments[].valid_until` | `valid_until` | string (ISO 8601) | Section 2.3 | MAY |
+| `cryptographically_bound_to` | `cryptographically_bound_to` | string | Section 2.6; per ARB_28 in [Topic 12] | MUST NOT |
 
 ##### 3.2.4 Ontology binding (`extend` attribute)
 
@@ -548,11 +536,11 @@ To support semantic interoperability across WE BUILD attestations, claims define
 
 Where a matching term exists in the current vocabulary, the binding SHOULD be expressed as a fragment URI of the form `…/vocabulary.html#<term>`. The mappings below cover the eReceipt claims for which a direct term is currently published; remaining claims will be bound as the WP4 vocabulary is extended to cover receipt-specific terminology.
 
-| **Data Identifier** | **`extend` URI**                                                                         |
-| ------------------- | ---------------------------------------------------------------------------------------- |
-| `currency_iso_code`   | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#currency` |
-| `payments[].amount` | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#amount`   |
-| `merchant`          | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#supplier` |
+| **Data Identifier** | **`extend` URI** |
+| --- | --- |
+| `currency_iso_code` | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#currency` |
+| `payments[].amount` | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#amount` |
+| `merchant` | `https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html#supplier` |
 
 Until the corresponding terms are published in the WP4 vocabulary, additional bindings are added manually to this section as the vocabulary evolves. Ontology bindings appear in this Rulebook only and are **not** carried in the issued attestation document.
 
@@ -692,20 +680,20 @@ If an mdoc encoding is profiled in a future version of this Rulebook, the follow
 The mapping of the encoding-independent data identifiers in Chapter 2 to mdoc attribute identifiers and namespaces SHALL follow the pattern below. Existing conventions for attribute identifier values and syntaxes SHOULD be considered (see ARB_07 in [Topic 12]). Where this Rulebook defines new attributes that are not part of an EU-wide or sectoral
 namespace, they SHALL be defined within the WE BUILD eReceipt domestic namespace (see ARB_10 in [Topic 12]).
 
-| **Data Identifier**          | **Attribute identifier**     | **Encoding format** | **Namespace**            |
-| ---------------------------- | ---------------------------- | ------------------- | ------------------------ |
-| `attestation_legal_category` | `attestation_legal_category` | tstr                | `eu.we-build.ereceipt.1` |
-| `type`                       | `type`                       | tstr                | `eu.we-build.ereceipt.1` |
-| `receipt_number`              | `receipt_number`             | tstr                | `eu.we-build.ereceipt.1` |
-| `receipt_timestamp`           | `receipt_timestamp`          | tdate               | `eu.we-build.ereceipt.1` |
-| `currency_iso_code`            | `currency`                   | tstr                | `eu.we-build.ereceipt.1` |
-| `total_price_exc_vat`           | `total_price_exc_vat`        | int                 | `eu.we-build.ereceipt.1` |
-| `total_vat_amount`             | `total_vat_amount`           | int                 | `eu.we-build.ereceipt.1` |
-| `total_price_inc_vat`           | `total_price_inc_vat`        | int                 | `eu.we-build.ereceipt.1` |
-| `merchant.name`              | `merchant_name`              | tstr                | `eu.we-build.ereceipt.1` |
-| `merchant.company_id`         | `merchant_company_id`        | tstr                | `eu.we-build.ereceipt.1` |
-| `address.country`            | `address_country`            | tstr                | `eu.we-build.ereceipt.1` |
-| …                            | …                            | …                   | …                        |
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Namespace** |
+| --- | --- | --- | --- |
+| `attestation_legal_category` | `attestation_legal_category` | tstr | `eu.we-build.ereceipt.1` |
+| `type` | `type` | tstr | `eu.we-build.ereceipt.1` |
+| `receipt_number` | `receipt_number` | tstr | `eu.we-build.ereceipt.1` |
+| `receipt_timestamp` | `receipt_timestamp` | tdate | `eu.we-build.ereceipt.1` |
+| `currency_iso_code` | `currency` | tstr | `eu.we-build.ereceipt.1` |
+| `total_price_exc_vat` | `total_price_exc_vat` | int | `eu.we-build.ereceipt.1` |
+| `total_vat_amount` | `total_vat_amount` | int | `eu.we-build.ereceipt.1` |
+| `total_price_inc_vat` | `total_price_inc_vat` | int | `eu.we-build.ereceipt.1` |
+| `merchant.name` | `merchant_name` | tstr | `eu.we-build.ereceipt.1` |
+| `merchant.company_id` | `merchant_company_id` | tstr | `eu.we-build.ereceipt.1` |
+| `address.country` | `address_country` | tstr | `eu.we-build.ereceipt.1` |
+| … | … | … | … |
 
 A complete mdoc mapping table will be included once the offline-presentation profile is formally adopted by the WE BUILD consortium.
 
@@ -782,11 +770,11 @@ When issuing an eReceipt, the issuer (the merchant, or the PSP/acquirer acting o
 
 In line with EWC RFC011, three delivery methods are supported:
 
-| **Method**          | **Description**                                                                                                                                                                                              |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Embedded (deferred) | Merchant sends a dynamic payment authorisation request (OpenID4VP); the eReceipt is issued after PSP confirmation. The Wallet polls with `transaction_id` until the credential is available.                   |
-| Pull                | Merchant generates an eReceipt invitation URI; the Wallet follows the URI to complete OpenID4VCI issuance.                                                                                                     |
-| Push                | Merchant pushes the eReceipt to an endpoint resolved via an eAddress controlled by the Holder. Delivery failures SHALL be surfaced to the user (per `IR-08` in Section 2.9, the endpoint URI SHALL use TLS). |
+| **Method** | **Description** |
+| --- | --- |
+| Embedded (deferred) | Merchant sends a dynamic payment authorisation request (OpenID4VP); the eReceipt is issued after PSP confirmation. The Wallet polls with `transaction_id` until the credential is available. |
+| Pull | Merchant generates an eReceipt invitation URI; the Wallet follows the URI to complete OpenID4VCI issuance. |
+| Push | Merchant pushes the eReceipt to an endpoint resolved via an eAddress controlled by the Holder. Delivery failures SHALL be surfaced to the user (per `IR-08` in Section 2.9, the endpoint URI SHALL use TLS). |
 
 Issuance SHALL use OpenID4VCI (per EWC RFC001) and presentation SHALL use OpenID4VP
 (per EWC RFC002).
@@ -819,20 +807,20 @@ NOTE (informative): A reversal, refund or chargeback of a completed transaction 
 
 ### 9.1 Presentation Policy
 
-> To verify and validate a received presentation of an attestation of this type,
-> the following steps SHALL be performed:
->
-> 1. verify the signature over the attestation using a trust anchor obtained as
->    described in chapter 10;
-> 2. verify that the attestation is within its validity period;
-> 3. check revocation status as described in chapter 8, unless the attestation is
->    short-lived; or remaining lifetime of the attestation is below revocation time
->    threshold;
-> 4. verify device binding where section 7.1 records the attestation as device-bound;
-> 5. request only those attributes that are necessary for the stated purpose of the
->    transaction, and, where the trust model for this attestation requires Relying
->    Party registration, only those attributes it is registered and authorised to
->    request.
+To verify and validate a received presentation of an attestation of this type,
+the following steps SHALL be performed:
+
+1. verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;
+2. verify that the attestation is within its validity period;
+3. check revocation status as described in chapter 8, unless the attestation is
+   short-lived; or remaining lifetime of the attestation is below revocation time
+   threshold;
+4. verify device binding where section 7.1 records the attestation as device-bound;
+5. request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying
+   Party registration, only those attributes it is registered and authorised to
+   request.
 
 Obligations specific to this attestation type, carried over from the Relying Party
 obligations of the previous version of this Rulebook:
@@ -921,18 +909,18 @@ The eReceipt itself records transactional data (the `payments[]` and `verificati
 
 **Non-qualified EAA**
 
-> The trust anchor is not obtained from a Trusted List of qualified trust service
-> providers. It is obtained as described in the deployment profile below, and
-> authorisation of the Provider to issue this attestation type is verified by the same
-> means.
->
-> A Wallet Unit MAY verify Provider authorisation using the mechanism described in
-> ISSU_34 of Topic 10 of Annex 2 of the ARF.
+The trust anchor is not obtained from a Trusted List of qualified trust service
+providers. It is obtained as described in the deployment profile below, and
+authorisation of the Provider to issue this attestation type is verified by the same
+means.
+
+A Wallet Unit MAY verify Provider authorisation using the mechanism described in
+ISSU_34 of Topic 10 of Annex 2 of the ARF.
 
 **Trust anchor location**
 
-> The attribute or metadata carrying the trust anchor location contains at least the
-> URL at which a machine-readable version can be found or looked up.
+The attribute or metadata carrying the trust anchor location contains at least the
+URL at which a machine-readable version can be found or looked up.
 
 **Deployment profile**
 
@@ -950,37 +938,37 @@ If, in a future version of this Rulebook, the eReceipt is profiled as a **PuB-EA
 
 ## 11 References
 
-| **Item Reference**                     | **Standard name / details**                                                                                                                                                                                                                                                                        |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework.                          |
-| [HAIP]                                 | Yasuda, K. _et al,_ OpenID4VC High Assurance Interoperability Profile, OpenID Foundation, Version 1.0 Final, 29.12.2025.                                                                                                                                                                                        |
-| [IANA-JWT-Claims]                      | IANA JSON Web Token Claims Registry. <https://www.iana.org/assignments/jwt/jwt.xhtml>.                                                                                                                                                                                                             |
-| [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence, Part 5: Mobile driving licence (mDL) application, First edition, 2021-09.                                                                                                                                                 |
-| [ISO 3166-1]                           | ISO 3166-1, Codes for the representation of names of countries and their subdivisions, Part 1: Country code.                                                                                                                                                                                       |
-| [ISO 4217]                             | ISO 4217, Codes for the representation of currencies.                                                                                                                                                                                                                                              |
-| [ISO 8601]                             | ISO 8601, Date and time, Representations for information interchange.                                                                                                                                                                                                                              |
-| [EN 16931-1]                           | EN 16931-1, Electronic invoicing, Part 1: Semantic data model of the core elements of an electronic invoice.                                                                                                                                                                                       |
-| [CEN/TS 16931-8]                       | CEN/TS 16931-8:2024, Electronic invoicing, Part 8: Semantic data model of the elements of an e-receipt or a simplified electronic invoice.                                                                                                                                                              |
-| [HeroJSON]                             | HeroJSON receipt data model, <https://docs.receipthero.io/filetypes/receipthero-json/herojson-specification> (informational; field names aligned).                                                                                                                                                                                                         |
-| [EWC RFC001]                           | EWC OpenID4VCI Issuance Profile. <https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/ewc-rfc001-issue-verifiable-credential.md>                                                                                                                                                                                                                                                                     |
-| [EWC RFC002]                           | EWC OpenID4VP Presentation Profile. <https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/ewc-rfc002-present-verifiable-credentials.md>                                                                                                                                                                                                                                                                  |
-| [EWC RFC011]                           | Payments with Verifiable Receipts (eReceipt issuance and delivery profile). <https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/ewc-rfc011-payments-with-verifiable-receipts.md>                                                                                                                                                                                                                                                        |
-| [EWC ds011]                            | Earlier EWC vReceipt SD-JWT schema (UBL / OASIS PurchaseReceipt-derived, vct VerifiablevReceiptSDJWT). Informative; superseded for the eReceipt attestation by the WE BUILD eReceipt schema (vct eu.we-build.ereceipt.1): <https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds011-vReceipts.json>.                                                                                                                       |
-| [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. <https://openid.net/specs/openid-connect-core-1_0.html>.                                                                                                                                                                        |
-| [EWC ds008]                            | Payment Data Confirmation schema. <https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds008-payment-data-confirmation.json> |
-| [EWC RFC008]                           | Payment Data Confirmation, v1.0. <https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/payment-rfcs/ewc-rfc008-payment-data-confirmation.md> |
-| [OpenID4VP]                            | OpenID for Verifiable Presentations 1.0, OpenID Foundation. <https://openid.net/specs/openid-4-verifiable-presentations-1_0.html> |
-| [OpenID4VCI]                           | OpenID for Verifiable Credential Issuance 1.0, OpenID Foundation, Final Specification, 16 September 2025. <https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html> |
-| [RFC 3339]                             | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002.                                                                                                                                                                                                                   |
-| [RFC 8610]                             | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express CBOR and JSON Data Structures, H. Birkholz et al., June 2019.                                                                                                                                                |
-| [RFC 8943]                             | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020.                                                                                                                                                                                               |
-| [RFC 8949]                             | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020.                                                                                                                                                                                                           |
-| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, draft-ietf-oauth-sd-jwt-vc-16 (24 April 2026).                                                                                                                                            |
-| [Token Status List]                    | Token Status List (TSL), IETF OAuth Working Group, draft-ietf-oauth-status-list-20 (work in progress). <https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/>                                                                                                                                                                                                                                     |
-| [Topic 7]                              | ARF Annex 2, Topic 7, Attestation revocation and revocation checking. <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a237-topic-7-attestation-revocation-and-revocation-checking>.            |
-| [Topic 10]                             | ARF Annex 2, Topic 10, Issuing a PID or attestation to a Wallet Unit. <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit>.           |
-| [Topic 12]                             | ARF Annex 2, Topic 12, Attestation Rulebooks. <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2312-topic-12-attestation-rulebooks>.                                                           |
-| [Topic 20]                             | ARF Annex 2, Topic 20, Strong User authentication for electronic payments. <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2320-topic-20-strong-user-authentication-for-electronic-payments>. |
-| [W3C VCDM v2.0]                        | Sporny, M. _et al,_ Verifiable Credentials Data Model v2.0, W3C Recommendation.                                                                                                                                                                                                                    |
-| [UN/ECE Rec 20]                        | UN/ECE Recommendation No. 20, Codes for Units of Measure used in International Trade.                                                                                                                                                                                                              |
-| [GS1]                                  | GS1 General Specifications (EAN/GTIN).                                                                                                                                                                                                                                                             |
+| **Item Reference** | **Standard name / details** |
+| --- | --- |
+| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework. |
+| [HAIP] | Yasuda, K. _et al,_ OpenID4VC High Assurance Interoperability Profile, OpenID Foundation, Version 1.0 Final, 29.12.2025. |
+| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. <https://www.iana.org/assignments/jwt/jwt.xhtml>. |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence, Part 5: Mobile driving licence (mDL) application, First edition, 2021-09. |
+| [ISO 3166-1] | ISO 3166-1, Codes for the representation of names of countries and their subdivisions, Part 1: Country code. |
+| [ISO 4217] | ISO 4217, Codes for the representation of currencies. |
+| [ISO 8601] | ISO 8601, Date and time, Representations for information interchange. |
+| [EN 16931-1] | EN 16931-1, Electronic invoicing, Part 1: Semantic data model of the core elements of an electronic invoice. |
+| [CEN/TS 16931-8] | CEN/TS 16931-8:2024, Electronic invoicing, Part 8: Semantic data model of the elements of an e-receipt or a simplified electronic invoice. |
+| [HeroJSON] | HeroJSON receipt data model, <https://docs.receipthero.io/filetypes/receipthero-json/herojson-specification> (informational; field names aligned). |
+| [EWC RFC001] | EWC OpenID4VCI Issuance Profile. <https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/ewc-rfc001-issue-verifiable-credential.md> |
+| [EWC RFC002] | EWC OpenID4VP Presentation Profile. <https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/ewc-rfc002-present-verifiable-credentials.md> |
+| [EWC RFC011] | Payments with Verifiable Receipts (eReceipt issuance and delivery profile). <https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/ewc-rfc011-payments-with-verifiable-receipts.md> |
+| [EWC ds011] | Earlier EWC vReceipt SD-JWT schema (UBL / OASIS PurchaseReceipt-derived, vct VerifiablevReceiptSDJWT). Informative; superseded for the eReceipt attestation by the WE BUILD eReceipt schema (vct eu.we-build.ereceipt.1): <https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds011-vReceipts.json>. |
+| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. <https://openid.net/specs/openid-connect-core-1_0.html>. |
+| [EWC ds008] | Payment Data Confirmation schema. <https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds008-payment-data-confirmation.json> |
+| [EWC RFC008] | Payment Data Confirmation, v1.0. <https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/payment-rfcs/ewc-rfc008-payment-data-confirmation.md> |
+| [OpenID4VP] | OpenID for Verifiable Presentations 1.0, OpenID Foundation. <https://openid.net/specs/openid-4-verifiable-presentations-1_0.html> |
+| [OpenID4VCI] | OpenID for Verifiable Credential Issuance 1.0, OpenID Foundation, Final Specification, 16 September 2025. <https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html> |
+| [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002. |
+| [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express CBOR and JSON Data Structures, H. Birkholz et al., June 2019. |
+| [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020. |
+| [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020. |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, draft-ietf-oauth-sd-jwt-vc-16 (24 April 2026). |
+| [Token Status List] | Token Status List (TSL), IETF OAuth Working Group, draft-ietf-oauth-status-list-20 (work in progress). <https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/> |
+| [Topic 7] | ARF Annex 2, Topic 7, Attestation revocation and revocation checking. <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a237-topic-7-attestation-revocation-and-revocation-checking>. |
+| [Topic 10] | ARF Annex 2, Topic 10, Issuing a PID or attestation to a Wallet Unit. <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit>. |
+| [Topic 12] | ARF Annex 2, Topic 12, Attestation Rulebooks. <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2312-topic-12-attestation-rulebooks>. |
+| [Topic 20] | ARF Annex 2, Topic 20, Strong User authentication for electronic payments. <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2320-topic-20-strong-user-authentication-for-electronic-payments>. |
+| [W3C VCDM v2.0] | Sporny, M. _et al,_ Verifiable Credentials Data Model v2.0, W3C Recommendation. |
+| [UN/ECE Rec 20] | UN/ECE Recommendation No. 20, Codes for Units of Measure used in International Trade. |
+| [GS1] | GS1 General Specifications (EAN/GTIN). |
