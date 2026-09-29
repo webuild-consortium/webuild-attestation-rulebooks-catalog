@@ -10,8 +10,7 @@ Category: non-qualified EAA
     * N/A
 
 | Version | Date | Description |
-|---------|------|-------------|
-| 0.1 | 2026-07-21 | Initial draft rulebook for the Micro-credential Attestation |
+| --- | --- | --- |
 | 0.2 | 2026-09-11 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
@@ -97,7 +96,7 @@ This document uses the terminology specified in Annex 1 of the ARF.
 In addition, the following domain-specific terms are used:
 
 | Term | Meaning |
-|------|---------|
+| --- | --- |
 | Micro-credential Attestation | A Verifiable Credential representing a person's completion of a small, coherent volume of formally assessed learning and the associated learning outcomes. |
 | Learner | The natural person to whom the completed learning outcomes apply; the Holder of the attestation. |
 | Formal education provider | A higher education institution (HEI), vocational education and training (VET) provider, or other organisation providing formally taught learning under institutional quality assurance. |
@@ -113,9 +112,9 @@ In addition, the following domain-specific terms are used:
 
 ### 2.1 Compliance statement
 
-> This Rulebook complies with the applicable requirements of Topic 12, Attestation
-> Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0.
-> It uses the terminology of Annex 1 of the ARF.
+This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0.
+It uses the terminology of Annex 1 of the ARF.
 
 This Rulebook is designed to align with the EUDI Wallet architectural approach for Electronic Attestations of Attributes and with the Attestation Rulebook structure defined in the ARF.
 
@@ -139,10 +138,10 @@ This Rulebook does not define transactional or payment-related data. Where a Mic
 
 ### 2.2 Regulatory basis
 
-> This attestation is not a qualified electronic attestation of attributes. The data
-> described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
-> required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
-> Where a recommendation is not followed, the reason is stated below.
+This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
+Where a recommendation is not followed, the reason is stated below.
 
 ### 2.3 Traceability
 
@@ -153,16 +152,16 @@ marked not applicable carry a stated reason.
 | --- | --- | --- | --- | --- |
 | EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM is permitted for non-qualified EAA; not defined in this version |
 | EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC following HAIP conventions |
-| EW-DM-12-003 | ARB_02 | no | | Proximity presentation is not in scope, so mdoc is not required |
-| EW-DM-12-005 | ARB_04 | no | | No W3C VCDM encoding is defined in this version |
+| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope, so mdoc is not required |
+| EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
 | EW-DM-12-006 | ARB_05 | yes | 5 | `vct` `VerifiableMicroCredential` |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
-| EW-DM-12-008 | ARB_06a | no | | No mdoc encoding is defined in this version |
+| EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
 | EW-DM-12-009 | ARB_06b | yes | 5 | IANA-registered, public and private claim names |
 | EW-DM-12-010 | ARB_07 | yes | 3 | Attributes aligned to the European Learning Model |
 | EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
-| EW-DM-12-013 | ARB_10 | no | | No domestic namespace is defined |
-| EW-DM-12-014 | ARB_11 | no | | Annex V and VII point a apply to QEAA and PuB-EAA |
+| EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
+| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA |
 | EW-DM-12-015 | ARB_12 | yes | 4.1 | EAA indication for a non-qualified EAA |
 | EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 4.1, 4.2 | Point b; EW-DM-12-018 applies to non-qualified EAA |
 | EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 4.1 | Point c; recommendation for non-qualified EAA |
@@ -173,7 +172,7 @@ marked not applicable carry a stated reason.
 | EW-DM-12-031 | ARB_27 | yes | 4.3 | `cryptographically_bound_to` where presented with PID |
 | EW-DM-12-032 | ARB_28 | yes | 4.2, 4.3 | `cryptographically_bound_to` is defined as optional and conditional |
 | EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosability stated per claim |
-| EW-DM-12-035 | ARB_31 | no | | No Claim Selective Disclosure Metadata document is used |
+| EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
 | EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
 
 ## 3 Attestation attributes
@@ -218,7 +217,7 @@ The attestation is issued as a Verifiable Credential compatible with the EUDI Wa
 ### 3.2 Mandatory attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---------------------|------------------------|----------------|---------------|-------------------|
+| --- | --- | --- | --- | --- |
 | `attestation_legal_category` | ARF Topic 12 / Rulebook legal category indication | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
 | `identifier` | ELM `credential.identifier` | Unique identifier of the micro-credential instance, assigned by the awarding body. | string | `MC-2026-0007421` |
 | `title` | ELM `credential.displayParameter.title` / Council Recommendation standard element 2 | Title of the micro-credential. | string | `Introduction to Applied Data Ethics` |
@@ -236,7 +235,7 @@ The attestation is issued as a Verifiable Credential compatible with the EUDI Wa
 ### 3.3 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---------------------|------------------------|----------------|---------------|-------------------|
+| --- | --- | --- | --- | --- |
 | `dateOfBirth` | ELM `credential.credentialSubject.dateOfBirth` | Learner date of birth. | date | `1998-11-02` |
 | `placeOfBirth` | ELM `credential.credentialSubject.placeOfBirth.address[0].fullAddress.noteLiteral` | Learner place of birth. | string | `Kraków, Poland` |
 | `citizenshipCountry` | ELM `credential.credentialSubject.citizenshipCountry.prefLabel` | Learner country of citizenship. | string (ISO 3166-1 alpha-2) | `PL` |
@@ -266,7 +265,7 @@ The attestation is issued as a Verifiable Credential compatible with the EUDI Wa
 ### 3.4 Conditional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---------------------|------------------------|----------------|---------------|-------------------|
+| --- | --- | --- | --- | --- |
 | `dateOfBirth` | ELM `credential.credentialSubject.dateOfBirth` | SHALL be included only where needed for holder matching, or another justified relying-party purpose. If included, it SHALL represent the subject's birth date and SHALL NOT be in the future. | date | `1998-11-02` |
 | `level` | ELM `eqfLevel` | SHALL be included where the learning experience leading to the micro-credential can be positioned within the EQF or an applicable national or sectoral level framework; MAY be omitted where no such framework applies. | string | `EQF-6` |
 | `grade` | ELM `provenBy[0].grade` | SHALL be included where `typeOfAssessment` produces a grade or result, and SHALL be omitted where the assessment is pass/fail-only without a graded outcome. Where `grade` is present, `gradingScheme` SHOULD also be included. | string | `Pass` |
@@ -281,7 +280,7 @@ Metadata describes the attestation rather than its subject.
 ### 4.1 Mandatory metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---------------------|------------------------|----------------|---------------|-------------------|
+| --- | --- | --- | --- | --- |
 | `vct` | SD-JWT VC | Verifiable Credential Type identifying this attestation type. | string | `VerifiableMicroCredential` |
 | `iss` | SD-JWT VC / JWT | Identifier of the issuer of the credential. | string | `https://issuer.example-university.edu` |
 | `iat` | JWT | Time at which the credential was issued. | integer | `1781740800` |
@@ -304,7 +303,7 @@ Metadata describes the attestation rather than its subject.
 ### 4.2 Optional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---------------------|------------------------|----------------|---------------|-------------------|
+| --- | --- | --- | --- | --- |
 | `exp` | JWT | Expiration time of the credential instance. Where present, this reflects the technical validity of the credential instance rather than the continued truth of the underlying achievement. | integer | `1970361600` |
 | `nbf` | JWT | Time before which the credential MUST NOT be accepted. | integer | `1781740800` |
 | `jti` | JWT | Unique identifier of the credential instance. | string | `urn:uuid:9a3f6b2e-1c44-4b8a-9e21-6f0a2d7c5b31` |
@@ -315,14 +314,14 @@ Metadata describes the attestation rather than its subject.
 ### 4.3 Conditional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---------------------|------------------------|----------------|---------------|-------------------|
+| --- | --- | --- | --- | --- |
 | `status` | SD-JWT VC status mechanism, where used | SHOULD be present where the awarding body needs the ability to revoke or correct a Micro-credential Attestation after issuance, for example due to an issuance error or academic integrity finding. | object | `{ "status_list": { ... } }` |
 | `cryptographically_bound_to` | ARF Topic 12 / ARB_28 | SHOULD be present where the Micro-credential Attestation must be presented together with PID or another identity attestation for strong holder matching. | string | `urn:eudi:pid:1` |
 
 ### 4.4 Code lists
 
 | **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
-|----------------|--------------------|-------------|--------------------------|---------------------------|
+| --- | --- | --- | --- | --- |
 | `level` | `EQF-1` through `EQF-8` | Level of the learning outcomes against the EQF. | European Qualifications Framework (EQF) controlled vocabulary | Where a national or sectoral framework is used instead, use `nationalQualificationsFrameworkLevel` and/or `educationLevelDescriptor`. |
 | `educationLevelDescriptor` | `beginner`, `intermediate`, `advanced`, issuer-defined | Framework-independent level descriptor. | Issuer-defined, informed by ELM | — |
 | `notionalWorkload.unit` | `ECTS`, `hours` | Unit in which the notional workload is expressed. | ECTS (EQF Recommendation Annex V) / issuer-defined | HEIs SHOULD use ECTS where possible; other providers MAY use hours or another documented unit. |
@@ -337,7 +336,7 @@ Metadata describes the attestation rather than its subject.
 ### 4.5 Integrity rules
 
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
-|-------------|--------------------|-------------------|--------------------|-------------------------------------------|
+| --- | --- | --- | --- | --- |
 | `MC-IR-01` | `identifier`, `title`, `givenName`, `familyName`, `issuerCountry`, `awardingBody`, `issuanceDate`, `learningOutcomes`, `notionalWorkload`, `typeOfAssessment`, `formOfParticipation`, and `qualityAssurance` SHALL be present. | Ensures the credential contains all standard elements required by the Council Recommendation on micro-credentials. | Issuer business rules, schema validation, verifier business validation. | Issuer SHALL reject incomplete credential data. Verifier SHALL treat the attestation as invalid or insufficient if mandatory claims are missing. |
 | `MC-IR-02` | If `dateOfBirth` is included, it SHALL represent the subject's birth date and SHALL NOT be in the future. | Prevents invalid identity data and supports correct holder-matching checks. | Issuer business rules and verifier business validation. | Issuer SHALL reject invalid dates. Verifier SHALL reject or ignore an invalid `dateOfBirth` claim depending on the transaction. |
 | `MC-IR-03` | `issuanceDate` SHALL NOT be in the future and SHALL NOT precede the completion of the assessment underlying the micro-credential. | Ensures the awarded date reflects a genuinely completed and assessed learning activity. | Issuer business rules. | Issuer SHALL reject issuance where this cannot be confirmed. |
@@ -352,9 +351,9 @@ Metadata describes the attestation rather than its subject.
 
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
-| ISO/IEC 18013-5 mdoc | no | | [ISO/IEC 18013-5] | Not defined in this version; see section 5.2 |
+| ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Not defined in this version; see section 5.2 |
 | SD-JWT VC | yes | `vct` `VerifiableMicroCredential` | [SD-JWT VC], [HAIP] | Follows SD-JWT VC and HAIP conventions |
-| W3C VCDM | no | | [W3C VCDM v2.0] | Not defined in this version; see section 5.3 |
+| W3C VCDM | no |  | [W3C VCDM v2.0] | Not defined in this version; see section 5.3 |
 
 ### 5.1 SD-JWT VC-based encoding
 
@@ -373,7 +372,7 @@ For all claims, this Rulebook specifies whether an Attestation Provider MUST, MA
 #### 3.2.1 IANA-registered and standard JWT / SD-JWT VC claims
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
-|---------------------|--------------------------|---------------------|---------------------|-----------------|
+| --- | --- | --- | --- | --- |
 | `iss` | `iss` | string | JWT issuer identifier. | MUST NOT |
 | `iat` | `iat` | integer | Issued-at timestamp. | MUST NOT |
 | `nbf` | `nbf` | integer | Not-before timestamp, where used. | MUST NOT |
@@ -386,7 +385,7 @@ For all claims, this Rulebook specifies whether an Attestation Provider MUST, MA
 #### 3.2.2 Public or reusable claims
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
-|---------------------|--------------------------|---------------------|---------------------|-----------------|
+| --- | --- | --- | --- | --- |
 | `givenName` | `givenName` | string | Learner given name. ELM Person class property. | MUST |
 | `familyName` | `familyName` | string | Learner family name. ELM Person class property. | MUST |
 | `dateOfBirth` | `dateOfBirth` | string | Date of birth formatted as ISO 8601 date, where disclosed. | MAY |
@@ -395,7 +394,7 @@ For all claims, this Rulebook specifies whether an Attestation Provider MUST, MA
 #### 3.2.3 Private claims specific to the Micro-credential Attestation
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
-|---------------------|--------------------------|---------------------|-----------|-----------------|
+| --- | --- | --- | --- | --- |
 | `attestation_legal_category` | `attestation_legal_category` | string | SHALL be `non-qualified-EAA`. | MUST NOT |
 | `identifier` | `identifier` | string | Unique identifier of the micro-credential instance. | MUST |
 | `title` | `title` | string | Title of the micro-credential. | MUST |
@@ -620,20 +619,20 @@ Where a Micro-credential Attestation is revoked and superseded by a corrected ve
 
 ### 9.1 Presentation Policy
 
-> To verify and validate a received presentation of an attestation of this type,
-> the following steps SHALL be performed:
->
-> 1. verify the signature over the attestation using a trust anchor obtained as
->    described in chapter 10;
-> 2. verify that the attestation is within its validity period;
-> 3. check revocation status as described in chapter 8, unless the attestation is
->    short-lived; or remaining lifetime of the attestation is below revocation time
->    threshold;
-> 4. verify device binding where section 7.1 records the attestation as device-bound;
-> 5. request only those attributes that are necessary for the stated purpose of the
->    transaction, and, where the trust model for this attestation requires Relying
->    Party registration, only those attributes it is registered and authorised to
->    request.
+To verify and validate a received presentation of an attestation of this type,
+the following steps SHALL be performed:
+
+1. verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;
+2. verify that the attestation is within its validity period;
+3. check revocation status as described in chapter 8, unless the attestation is
+   short-lived; or remaining lifetime of the attestation is below revocation time
+   threshold;
+4. verify device binding where section 7.1 records the attestation as device-bound;
+5. request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying
+   Party registration, only those attributes it is registered and authorised to
+   request.
 
 Obligations specific to this attestation type, carried over from the attestation usage
 chapter of the previous version of this Rulebook:
@@ -701,18 +700,18 @@ requirements are out of scope of this version.
 
 **Non-qualified EAA**
 
-> The trust anchor is not obtained from a Trusted List of qualified trust service
-> providers. A Relying Party obtains it as described in the deployment profile below,
-> and verifies that the Provider is authorised to issue this attestation type by the
-> same means.
->
-> A Wallet Unit MAY verify Provider authorisation using the mechanism described in
-> ISSU_34 of Topic 10 of Annex 2 of the ARF.
+The trust anchor is not obtained from a Trusted List of qualified trust service
+providers. A Relying Party obtains it as described in the deployment profile below,
+and verifies that the Provider is authorised to issue this attestation type by the
+same means.
+
+A Wallet Unit MAY verify Provider authorisation using the mechanism described in
+ISSU_34 of Topic 10 of Annex 2 of the ARF.
 
 **Trust anchor location**
 
-> The attribute or metadata carrying the trust anchor location contains at least the
-> URL at which a machine-readable version can be found or looked up.
+The attribute or metadata carrying the trust anchor location contains at least the
+URL at which a machine-readable version can be found or looked up.
 
 Coherence check: the attribute named here is `trust_anchor`, declared in section 4.2.
 
@@ -745,7 +744,7 @@ Wallet Units MAY also use the same trust framework information during issuance t
 ## 11 References
 
 | **Item Reference** | **Standard name/details** |
-|--------------------|---------------------------|
+| --- | --- |
 | [Council Recommendation on Micro-credentials] | Council Recommendation of 16 June 2022 on a European approach to micro-credentials for lifelong learning and employability (2022/C 243/02). Available: <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:32022H0627(02)> |
 | [DEQAR] | Database of External Quality Assurance Results, used as a source controlled list for accreditation decisions in the European Learning Model. |
 | [ELM] | European Learning Model, a multilingual data model supporting the interoperable representation of learning opportunities, qualifications, accreditation, and credentials. Available: <https://europa.eu/europass/elm-browser/index.html> |
