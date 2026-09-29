@@ -6,11 +6,9 @@ Category: EBWOID
     <!-- Usage help: (Name LastName, Affiliation) -->
   * Jonas Toennis, [Brønnøysund Registry Center](https://www.brreg.no)
 
-| Version | Date       | Description                                                                                                                                                                                           |
-|---------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 0.9.1   | 13.02.2026 | EBWOID created based on the [EBW proposal (Articles 8–9)](https://digital-strategy.ec.europa.eu/en/library/proposal-regulation-establishment-european-business-wallets) plus feedback from semantics. |
-| 1.0.0   | 22.05.2026 | Updated following review feedback.                                                                                                                                                                     |
-| 1.1.0   | 2026-09-11 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| Version | Date | Description |
+| --- | --- | --- |
+| 1.1.0 | 2026-09-11 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -94,11 +92,11 @@ This document uses the terminology specified in [Annex 1](https://eudi.dev/3.0.0
 
 The terminology is extended as follows:
 
-| Term              | Definition in WE BUILD Context                                                                                                                                                                                                |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| EBW               | European Business Wallet                                                                                                                                                                                                      |
-| EBW owner         | An economic operator or public sector body that owns an EBW, including Union entities; corresponds to the bearer of EBWOID.                                                                                                   |
-| EBWOID            | European Business Wallet owner identification data. A set of data that enables the establishment of the identity of a European Business Wallet owner                                                                          |
+| Term | Definition in WE BUILD Context |
+| --- | --- |
+| EBW | European Business Wallet |
+| EBW owner | An economic operator or public sector body that owns an EBW, including Union entities; corresponds to the bearer of EBWOID. |
+| EBWOID | European Business Wallet owner identification data. A set of data that enables the establishment of the identity of a European Business Wallet owner |
 | Economic operator | Any natural or legal person, or a group of such persons, including temporary associations of undertakings, acting in a commercial or professional capacity for purposes related to their trade, business, craft or profession |
 
 For more terminology, please refer to Article 3 of the legislation draft [COM 2025/838](https://digital-strategy.ec.europa.eu/en/library/proposal-regulation-establishment-european-business-wallets)
@@ -107,9 +105,9 @@ For more terminology, please refer to Article 3 of the legislation draft [COM 20
 
 ### 2.1 Compliance statement
 
-> This Rulebook complies with the applicable requirements of Topic 12, Attestation
-> Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0.
-> It uses the terminology of Annex 1 of the ARF.
+This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0.
+It uses the terminology of Annex 1 of the ARF.
 
 This EBWOID rulebook is compliant with the draft for regulation COM(2025) 838, and in line with the ARF version 2.8.0. 
 While the legislative process for the EBW Regulation continues, major updates to this rulebook within the WE BUILD context are not expected unless required by exceptional circumstances or requested by the WE BUILD Management Board. 
@@ -153,27 +151,27 @@ category question recorded in section 2.2.
 | --- | --- | --- | --- | --- |
 | EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM is named as a profiled format; no encoding is defined in this version |
 | EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC |
-| EW-DM-12-003 | ARB_02 | no | | Proximity presentation is not in scope; mdoc is out of scope per section 5.2 |
-| EW-DM-12-005 | ARB_04 | no | | No W3C VCDM encoding is defined in this version |
+| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope; mdoc is out of scope per section 5.2 |
+| EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
 | EW-DM-12-006 | ARB_05 | yes | 5 | `vct` `uri:eu.ebw.oid.1` |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
-| EW-DM-12-008 | ARB_06a | no | | No mdoc encoding is defined in this version |
+| EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
 | EW-DM-12-009 | ARB_06b | yes | 5 | SD-JWT VC claim naming |
 | EW-DM-12-010 | ARB_07 | yes | 3 | Attributes derived from the EBW proposal, Articles 8 and 9 |
 | EW-DM-12-012 | ARB_09 | yes | 3, 4 | Presence stated per attribute and per metadata item |
-| EW-DM-12-013 | ARB_10 | no | | No domestic namespace is defined |
+| EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
 | EW-DM-12-014 | ARB_11 | TO AGREE | 2.2 | Annex V or VII point a, depending on the legal category question |
-| EW-DM-12-015 | ARB_12 | TO AGREE | | Applies only if EBWOID is a non-qualified EAA |
+| EW-DM-12-015 | ARB_12 | TO AGREE |  | Applies only if EBWOID is a non-qualified EAA |
 | EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | TO AGREE | 2.2 | Point b, by category |
 | EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | TO AGREE | 2.2 | Point c, by category |
 | EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | TO AGREE | 2.2 | Point e, by category |
 | EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | `trust_anchor` metadata and the trust framework |
 | EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
-| EW-DM-12-030 | ARB_26 | TO AGREE | | Applies only if EBWOID is a non-qualified EAA |
+| EW-DM-12-030 | ARB_26 | TO AGREE |  | Applies only if EBWOID is a non-qualified EAA |
 | EW-DM-12-031 | ARB_27 | yes | 9.1 | A Relying Party SHOULD also verify a PID for the representative |
-| EW-DM-12-032 | ARB_28 | no | | `cryptographically_bound_to` is not used by this attestation |
+| EW-DM-12-032 | ARB_28 | no |  | `cryptographically_bound_to` is not used by this attestation |
 | EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure is not permitted; stated in section 5.1 |
-| EW-DM-12-035 | ARB_31 | no | | No Claim Selective Disclosure Metadata document is used |
+| EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
 | EW-DM-12-038 | ARB_34 | TO AGREE | 7.1 | Device binding; the template records all EBWOID binding rows as TO AGREE |
 
 ## 3 Attestation attributes
@@ -208,10 +206,10 @@ Sample data is at `data-schemas/sd-jwt/sample-data/ds001-ebwoid-sd-jwt-sample.js
 
 ### 3.2 Mandatory attributes
 
-| **Data Identifier** | **Definition**                                                                                                                                                                                                                                                                                                                 |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| legal_name          | The official name of the EBW owner (economic operator or public sector body), from the relevant register or official record.                                                                                                                                                                                                   |
-| id                  | The relevant unique identifier attributed in accordance with Article 9 of EBW (**WE BUILD specific** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789` |
+| **Data Identifier** | **Definition** |
+| --- | --- |
+| legal_name | The official name of the EBW owner (economic operator or public sector body), from the relevant register or official record. |
+| id | The relevant unique identifier attributed in accordance with Article 9 of EBW (**WE BUILD specific** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789` |
 
 ### 3.3 Optional attributes
 
@@ -228,11 +226,11 @@ Metadata describes the attestation rather than its subject.
 
 ### 4.1 Mandatory metadata
 
-| **Data Identifier**        | **Definition**                                                                                                                                                   |
-|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| issuing_authority          | Name of the administrative authority or qualified trust service provider that issued the EBWOID, or the ISO 3166‑1 alpha‑2 of the Member State where applicable. |
-| issuing_country            | Alpha‑2 country code, as specified in ISO 3166‑1, of the country or territory of the provider of the EBWOID.                                                     |
-| attestation_legal_category | The type of attestation category. (Pub-EAA/QEAA)                                                                                                                 |
+| **Data Identifier** | **Definition** |
+| --- | --- |
+| issuing_authority | Name of the administrative authority or qualified trust service provider that issued the EBWOID, or the ISO 3166‑1 alpha‑2 of the Member State where applicable. |
+| issuing_country | Alpha‑2 country code, as specified in ISO 3166‑1, of the country or territory of the provider of the EBWOID. |
+| attestation_legal_category | The type of attestation category. (Pub-EAA/QEAA) |
 
 > **Legal category, TO AGREE.** The table above carries
 > `attestation_legal_category` with the values Pub-EAA or QEAA. Section 4.1 of the
@@ -247,11 +245,11 @@ Metadata describes the attestation rather than its subject.
 
 ### 4.2 Optional metadata
 
-| **Data Identifier** | **Definition**                                                                                                                                                                                                                                                                                            |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| location_status     | The location of validity status information on the EBWOID used for revocation/suspension checks.                                                                                                                                                                                                          |
-| expiry_date         | Administrative Date when the EBWOID will expire, following ISO 8601 **Clarification** This is in case the administrative validity is different from the technical expiry date of the credential.                                                                                                          |
-| trust_anchor        | This meta-data attribute indicates at least the URL at which a machine‑readable version of the trust anchor to be used for verifying the EBWOID can be found or looked up. This corresponds to Annex V/VII point h) of the [European Digital Identity Regulation] and EBW Article 8 issuance as EAA/QEAA. |
+| **Data Identifier** | **Definition** |
+| --- | --- |
+| location_status | The location of validity status information on the EBWOID used for revocation/suspension checks. |
+| expiry_date | Administrative Date when the EBWOID will expire, following ISO 8601 **Clarification** This is in case the administrative validity is different from the technical expiry date of the credential. |
+| trust_anchor | This meta-data attribute indicates at least the URL at which a machine‑readable version of the trust anchor to be used for verifying the EBWOID can be found or looked up. This corresponds to Annex V/VII point h) of the [European Digital Identity Regulation] and EBW Article 8 issuance as EAA/QEAA. |
 
 ### 4.3 Conditional metadata
 
@@ -278,9 +276,9 @@ This Rulebook defines no conditional metadata.
 
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
-| ISO/IEC 18013-5 mdoc | no | | [ISO/IEC 18013-5] | Out of scope, see section 5.2 |
-| SD-JWT VC | yes | `vct` `uri:eu.ebw.oid.1` | [SD-JWT VC] | |
-| W3C VCDM | named, not specified | | [W3C VCDM v2.0] | See the note below |
+| ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Out of scope, see section 5.2 |
+| SD-JWT VC | yes | `vct` `uri:eu.ebw.oid.1` | [SD-JWT VC] |  |
+| W3C VCDM | named, not specified |  | [W3C VCDM v2.0] | See the note below |
 
 > **Inconsistency carried forward.** Sections 1.1 and 9.1 of this Rulebook state that
 > EBWOID is profiled for both SD-JWT VC and W3C VCDM, but no W3C VCDM encoding is
@@ -294,16 +292,16 @@ Verifiable Credential Type (vct): `uri:eu.ebw.oid.1`
 
 Claim names and disclosure policy (aligned with Chapter 2 attributes):
  
-| Data Identifier             | Attribute Identifier        | Encoding format | Reference/Notes                                                                                                                                                                                                                                                                         |
-|-----------------------------|-----------------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                          | id                          | string          | Cross‑border unique identifier per EBW Article 9. In **WE BUILD** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789`  |
-| name                        | name                        | string          | Official name from relevant register or official record.                                                                                                                                                                                                                                |
-| attestation_legal_category  | attestation_legal_category  | string          | The type of attestation category. Can be one of QEAA or PUB-EAA                                                                                                                                                                                                                         | 
-| expiry_date                 | date_of_expiry              | string          | Administrative expiry date given on ISO 8601-1 date format. YYYY‑MM‑DD                                                                                                                                                                                                                  |
-| issuing_authority           | issuing_authority           | string          | Name of the administrative authority, Commission (for Union entities), or QTSP issuing the EAA/QEAA; or ISO 3166‑1 alpha‑2 where applicable.                                                                                                                                            |
-| issuing_country             | issuing_country             | string          | ISO 3166‑1 alpha‑2 code of the provider’s country/territory.                                                                                                                                                                                                                            |
-| location_status             | status                      | JSON Object     | See [Section 3.2.1](#321-attribute-status).                                                                                                                                                                                                                                             |
-| trust_anchor                | trust_anchor                | string (URI)    | URL of machine‑readable trust anchor as per Annex V/VII point h).                                                                                                                                                                                                                       |
+| Data Identifier | Attribute Identifier | Encoding format | Reference/Notes |
+| --- | --- | --- | --- |
+| id | id | string | Cross‑border unique identifier per EBW Article 9. In **WE BUILD** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789` |
+| name | name | string | Official name from relevant register or official record. |
+| attestation_legal_category | attestation_legal_category | string | The type of attestation category. Can be one of QEAA or PUB-EAA |
+| expiry_date | date_of_expiry | string | Administrative expiry date given on ISO 8601-1 date format. YYYY‑MM‑DD |
+| issuing_authority | issuing_authority | string | Name of the administrative authority, Commission (for Union entities), or QTSP issuing the EAA/QEAA; or ISO 3166‑1 alpha‑2 where applicable. |
+| issuing_country | issuing_country | string | ISO 3166‑1 alpha‑2 code of the provider’s country/territory. |
+| location_status | status | JSON Object | See [Section 3.2.1](#321-attribute-status). |
+| trust_anchor | trust_anchor | string (URI) | URL of machine‑readable trust anchor as per Annex V/VII point h). |
 
 Selective Disclosure: Attributes of the EBWOID SHALL NOT be selectively disclosable.
 
@@ -434,20 +432,20 @@ Relying Party checks:
 
 ### 9.1 Presentation Policy
 
-> To verify and validate a received presentation of an attestation of this type,
-> the following steps SHALL be performed:
->
-> 1. verify the signature over the attestation using a trust anchor obtained as
->    described in chapter 10;
-> 2. verify that the attestation is within its validity period;
-> 3. check revocation status as described in chapter 8, unless the attestation is
->    short-lived; or remaining lifetime of the attestation is below revocation time
->    threshold;
-> 4. verify device binding where section 7.1 records the attestation as device-bound;
-> 5. request only those attributes that are necessary for the stated purpose of the
->    transaction, and, where the trust model for this attestation requires Relying
->    Party registration, only those attributes it is registered and authorised to
->    request.
+To verify and validate a received presentation of an attestation of this type,
+the following steps SHALL be performed:
+
+1. verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;
+2. verify that the attestation is within its validity period;
+3. check revocation status as described in chapter 8, unless the attestation is
+   short-lived; or remaining lifetime of the attestation is below revocation time
+   threshold;
+4. verify device binding where section 7.1 records the attestation as device-bound;
+5. request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying
+   Party registration, only those attributes it is registered and authorised to
+   request.
 
 Obligations specific to this attestation type, carried over from the use-case context
 of the previous version of this Rulebook:
@@ -492,10 +490,10 @@ logging expectations are recorded in section 9.1.
 
 **PID, QEAA, PuB-EAA and attestations resolved via Trusted Lists**
 
-> The trust anchor is obtained from a Trusted List, as described in section 6.6.3.6
-> of the ARF main document. The Provider may sign the attestation with an
-> intermediate signing certificate, in which case the trust anchor is used to verify
-> that certificate rather than the attestation directly.
+The trust anchor is obtained from a Trusted List, as described in section 6.6.3.6
+of the ARF main document. The Provider may sign the attestation with an
+intermediate signing certificate, in which case the trust anchor is used to verify
+that certificate rather than the attestation directly.
 
 Which branch of the template applies here depends on the legal category question
 recorded in section 2.2. The Trusted List branch is reproduced above because it
@@ -503,8 +501,8 @@ matches the trust model the authors describe in the deployment profile below.
 
 **Trust anchor location**
 
-> The attribute or metadata carrying the trust anchor location contains at least the
-> URL at which a machine-readable version can be found or looked up.
+The attribute or metadata carrying the trust anchor location contains at least the
+URL at which a machine-readable version can be found or looked up.
 
 Coherence check: the attribute named here is `trust_anchor`, declared in section 4.2.
 Note that step 4 of the verification sequence below refers to `trust_list_location`,
@@ -531,14 +529,14 @@ For information regarding the use of the trust list in WE BUILD, please consult 
 
 ## 11 References
 
-| **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                           |
-|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework                            |
-| [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09                                                                                                                                               |
-| [OIDC]                                 | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html>                                                                                                                                                               | |
-| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09                                                                                                                                   |
-| [Topic 7]                              | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a237-topic-7-attestation-revocation-and-revocation-checking>  |
-| [Topic 10]                             | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit>           |
-| [Topic 12]                             | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2312-topic-12-attestation-rulebooks>                                                |
-| [Topic 20]                             | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2320-topic-20-strong-user-authentication-for-electronic-payments> |
-| [W3C VCDM v2.0]                        | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.                                                                                                                                                                                                                     |
+| **Item Reference** | **Standard name/details** |  |
+| --- | --- | --- |
+| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |  |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |  |
+| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |  |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09 |  |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a237-topic-7-attestation-revocation-and-revocation-checking> |  |
+| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit> |  |
+| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2312-topic-12-attestation-rulebooks> |  |
+| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/#a2320-topic-20-strong-user-authentication-for-electronic-payments> |  |
+| [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation. |  |
