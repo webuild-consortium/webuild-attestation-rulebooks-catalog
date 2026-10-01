@@ -73,25 +73,45 @@ Employee
 ├─ name (M)
 ├─ surname (M)
 ├─ birth_date (O)
+├─ business_title (O)
+├─ email_address (O)
+├─ educational_title (O)
+├─ visiting_address (O)
 ├─ employee_id (M)
 └─ company_info (M)
-│   └──euid (M)
-│   └──name (M)
+│   ├──euid (M)
+│   ├──name (M)
+│   ├──EBW_URI (O)
+│   └──QERDS_URI (O)
 └─ employment (Optional)
-│   └──start_date (M)
-│   └──type (M)
-│   └──country (M)
+    ├──start_date (M)
+    ├──type (M)
+    └──country (M)
 ````
+Business title
+Telephone number
+Email address
+Business visiting address
+unique identifier in relation to the EO
+EUID of the EO
+URI of the EBW of the EO
+The QERDS endpoint
+
 
 **Explanation:**
 
-- `name` is the given name of the employee and is mandatory for identification purposes.
-- `surname` is the family name of the employee and is mandatory for identification purposes.
-- `birth_date` is an optional attribute providing the date of birth of the employee.
-- `employee_id` is a mandatory alphanumeric identifier assigned to the employee by the employing organization.
+- `name`: is the given name of the employee and is mandatory for identification purposes.
+- `surname`: is the family name of the employee and is mandatory for identification purposes.
+- `birth_date`: is an optional attribute providing the date of birth of the employee.
+- `business_title`: is the title the employee has within the company, ie. CTO, Sales Director, Senior Consultant.
+- `email_address`: is the email address of the employee in the context of the Employer (not his private emailaddress)
+- `educational_title`: are the educational titles like MSc, MBA etc.
+- `employee_id`: is a mandatory alphanumeric identifier assigned to the employee by the employing organisation.
 - `company_info` is a mandatory object that encapsulates the employer's identity, containing:
     - `euid`: the European Unique Identifier of the employing company (mandatory).
     - `name`: the registered name of the employing company (mandatory).
+    - `EBW_URI`: The URI to send to a relying party to start a conversation with the EBW of the employee
+    - `QERDS_URI`: The URI of the QERDS endpoint. 
 - `employment` is an optional object providing details about the employee's current employment, containing:
     - `start_date`: the date on which the employment started (mandatory if `employment` is present).
     - `type`: the type of employment contract (mandatory if `employment` is present).

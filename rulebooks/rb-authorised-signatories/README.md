@@ -22,7 +22,8 @@
 
 * **Contact:**
   * [Florin Coptil](mailto:florin.coptil@bosch.com)
-
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com) 
+   
 * **Feedback:**
 
 ## 1 Introduction
@@ -166,13 +167,13 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                        | **Data type**                         |
 |---------------------|------------------------|-----------------------------------------------------------------------|---------------------------------------|
-| legal_person        | ...                    | Information about the legal person                                    | Object                                |
-| legal_identifier    | ...                    | Information about the legal person identifier                         | Object                                |
-| natural_person      | ...                    | Information about the natural person                                  | Object                                |
-| birth_place         | ...                    | Information about the birth place                                     | Object                                |
-| citizenship         | ...                    | Citizenship(s) held by the person (one or more nationalities)         | Array of Strings (ISO 3166-1 alpha-3) |
-| person_role         | ...                    | Information about the natural person role                             | Object                                |
-| identification      | ...                    | Information about the identification of the person                    | Object                                |
+| legal_person        | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator)  | Information about the legal person                                    | Object                                |
+| legal_identifier    | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier)  | Information about the legal person identifier                         | Object                                |
+| natural_person      | [Person](https://w3id.org/ebwv#Person) | Information about the natural person                                  | Object                                |
+| birth_place         | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth)  | Information about the birth place                                     | Object                                |
+| citizenship         | [citizenship](https://w3id.org/ebwv#citizenship) | Citizenship(s) held by the person (one or more nationalities)         | Array of Strings (ISO 3166-1 alpha-3) |
+| person_role         | [role](https://w3id.org/ebwv#role) <br> property needs additional Domains and Ranges in EBWV | Information about the natural person role                             | Object                                |
+| identification      | [identifier](https://w3id.org/ebwv#identifier) <br> at the moment "identifier" is a property, but it could point to a adms:Identifier type of class; or what does "identification" actually mean in this context? | Information about the identification of the person                    | Object                                |
 
 ### 2.2 Mandatory Attributes
 
@@ -180,8 +181,8 @@ This attestation type **MAY** be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                             | **Data type** |
 |---------------------|------------------------|----------------------------------------------------------------------------|---------------|
-| legal_person_name   | —                      | The complete official legal name of the legal entity                       | String        |
-| legal_form_type     | —                      | The legal form of the legal entity (e.g., SA, GmbH, Ltd, BV)              | String        |
+| legal_person_name   | [legalName](https://w3id.org/ebwv#legalName)  | The complete official legal name of the legal entity                       | String        |
+| legal_form_type     | [legalForm](https://w3id.org/ebwv#legalForm) | The legal form of the legal entity (e.g., SA, GmbH, Ltd, BV)              | String        |
 
 **NaturalPerson Attributes**
 
@@ -189,28 +190,28 @@ This object is defined for each person represented in the AuthorisedSignatories 
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                       | **Data type**     |
 |---------------------|------------------------|----------------------------------------------------------------------|-------------------|
-| first_name          | ...                    | The first names in full (including all given names and middle names) | String            |
-| surname             | ...                    | The surnames in full (all family names/last names)                   | String            |
-| date_of_birth       | ...                    | Day, month, and year of birth of the person per ISO 8601             | Date (YYYY-MM-DD) |
+| first_name          | [firstName](https://w3id.org/ebwv#firstName)  | The first names in full (including all given names and middle names) | String            |
+| surname             | [familyName](https://w3id.org/ebwv#familyName)  | The surnames in full (all family names/last names)                   | String            |
+| date_of_birth       | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth)  | Day, month, and year of birth of the person per ISO 8601             | Date (YYYY-MM-DD) |
 
 **BirthPlace Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                            | **Data type**               |
 |---------------------|------------------------|-----------------------------------------------------------|-----------------------------|
-| locality            | ...                    | Locality (city or town) where the natural person was born | String                      |
-| country             | ...                    | Country where the natural person was born                 | String (ISO 3166-1 alpha-3) |
+| locality            | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth)  | Locality (city or town) where the natural person was born | String                      |
+| country             | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Country where the natural person was born                 | String (ISO 3166-1 alpha-3) |
 
 **Citizenship Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                          | **Data type**                         |
 |---------------------|------------------------|-------------------------------------------------------------------------|---------------------------------------|
-| citizenship         | ...                    | The nationality or nationalities of the authorised person (one or more) | Array of Strings (ISO 3166-1 alpha-3) |
+| citizenship         | [citizenship](https://w3id.org/ebwv#citizenship) | The nationality or nationalities of the authorised person (one or more) | Array of Strings (ISO 3166-1 alpha-3) |
 
 **PersonRole Attributes**
 
 | **Data Identifier**   | **Semantic Reference** | **Definition**                                                                                      | **Data type**                  |
 |-----------------------|------------------------|-----------------------------------------------------------------------------------------------------|--------------------------------|
-| representation_type   | ...                    | The nature of the power of representation. SHALL be one of the values defined in Section 2.8.1      | String ("SOLE" or "JOINT")     |
+| representation_type   | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | The nature of the power of representation. SHALL be one of the values defined in Section 2.8.1      | String ("SOLE" or "JOINT")     |
 
 ### 2.3 Optional Attributes
 
@@ -218,28 +219,28 @@ This object is defined for each person represented in the AuthorisedSignatories 
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                              | **Data type** |
 |-----------|------------------------|-----------------------------------------------------------------------------|---------------|
-| euid     | —                      | European Unique Identifier per Directive (EU) 2017/1132.                    | String        |
-| lei      | —                      | Legal Entity Identifier (LEI) per ISO 17442.                                | String        |
-| tax      | —                      | National tax or company registration number.                                | String        |
-| gln      | —                      | Global Location Number for legal entities (GS1 identifier).                 | String        |
-| duns     | —                      | Data Universal Numbering System (Dun & Bradstreet identifier).              | String        |
-| eori     | —                      | Economic Operators Registration and Identification number (EU customs).     | String        |
-| bpnl      | —                      | Business Partner Number Legal entity (Catena-X identifier).                 | String        |
-| siren     | —                      | Système d'Identification du Répertoire des ENtreprises (French identifier). | String        |
+| euid     | [identifier](https://w3id.org/ebwv#identifier)  | European Unique Identifier per Directive (EU) 2017/1132.                    | String        |
+| lei      | [identifier](https://w3id.org/ebwv#identifier) | Legal Entity Identifier (LEI) per ISO 17442.                                | String        |
+| tax      | [identifier](https://w3id.org/ebwv#identifier) | National tax or company registration number.                                | String        |
+| gln      | [identifier](https://w3id.org/ebwv#identifier)  | Global Location Number for legal entities (GS1 identifier).                 | String        |
+| duns     | [identifier](https://w3id.org/ebwv#identifier) | Data Universal Numbering System (Dun & Bradstreet identifier).              | String        |
+| eori     | [identifier](https://w3id.org/ebwv#identifier) | Economic Operators Registration and Identification number (EU customs).     | String        |
+| bpnl      | [identifier](https://w3id.org/ebwv#identifier) | Business Partner Number Legal entity (Catena-X identifier).                 | String        |
+| siren     | [identifier](https://w3id.org/ebwv#identifier) | Système d'Identification du Répertoire des ENtreprises (French identifier). | String        |
 
 **BirthPlace Optional Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                             | **Data type** |
 |---------------------|------------------------|------------------------------------------------------------|---------------|
-| region              | ...                    | Optional additional detail on the region or state of birth | String        |
+| region              | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth)  | Optional additional detail on the region or state of birth | String        |
 
 **PersonRole Optional Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition**                                                                   | **Data type** |
 |---------------------|------------------------|----------------------------------------------------------------------------------|---------------|
-| role                | ...                    | The role of the authorised person within the company (e.g., CEO, CFO, Director)  | String        |
-| email               | ...                    | The email of the authorised person within the company (e.g., CEO, CFO, Director) | String        |
-| phone               | ...                    | The phone of the authorised person within the company (e.g., CEO, CFO, Director) | String        |
+| role                | [role](https://w3id.org/ebwv#role) <br> property needs additional Domains and Ranges in EBWV | The role of the authorised person within the company (e.g., CEO, CFO, Director)  | String        |
+| email               | [hasEmail](https://w3id.org/ebwv#hasEmail) | The email of the authorised person within the company (e.g., CEO, CFO, Director) | String        |
+| phone               | [hasTelephone](https://w3id.org/ebwv#hasTelephone) | The phone of the authorised person within the company (e.g., CEO, CFO, Director) | String        |
 
 **NaturalPersonIdentifier Optional Attributes**
 
@@ -259,19 +260,19 @@ mandatory or optional as specified above.
 
 ### 2.5 Mandatory Metadata
 
-| **Data Identifier**        | **Definition**                                                                | **Data type** |
-|----------------------------|-------------------------------------------------------------------------------|---------------|
-| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
-| cnf                        | Cryptographic Key Binding                                                     | String        |
+| **Data Identifier**        | **Semantic Reference** | **Definition**                                                                | **Data type** |
+|-------------------------|---|-------------------------------------------------------------------------------|---------------|
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String        |
+| cnf                        | TBD | Cryptographic Key Binding                                                     | String        |
 
 *Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
 
 ### 2.6 Optional Metadata
 
-| **Data Identifier** | **Definition**                                                             | **Data type** |
-|---------------------|----------------------------------------------------------------------------|---------------|
-| trust_anchor_url    | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
-| schema_version      | Version of the schema used for this attestation                            | String        |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                             | **Data type** |
+|------------------|---|----------------------------------------------------------------------------|---------------|
+| trust_anchor_url  | cred: | URL where the trust anchor for verifying this attestation can be retrieved | URI           |
+| schema_version   | cred: | Version of the schema used for this attestation                            | String        |
 
 ### 2.7 Conditional metadata
 

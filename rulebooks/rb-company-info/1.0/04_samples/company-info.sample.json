@@ -1,0 +1,35 @@
+{
+  "vct": "eu.we-build:companyinfo:1",
+  "credentialSubject": {
+    "attestation_legal_category": "EAA",
+    "legal_entity": {
+      "legal_person": {
+        "legal_person_name": "Sample Company",
+        "legal_form_type": "AG"
+      },
+      "identifier": {
+        "euid": "DE121212.HRB1212121",
+        "lei": "111111118E8K4J1N2222",
+        "tax": "221212122212",
+        "duns": "112233440",
+        "gln": "1122112121001"
+      }
+    },
+    "number_of_employees": "34",
+    "trade_alias": ["Sample Company 1", "Sample Company 1"],
+    "previous_legal_name": ["Sample Company 1"],
+    "financial_statements": {
+      "taxonomy": "IFRS",
+      "facts": [
+        {
+          "id": "revenue-2023",
+          "concept": "Operating Revenue",
+          "value": 112212120,
+          "unit": "EUD",
+          "period_start": "2023-01-01",
+          "period_end": "2023-12-31"
+        }
+      ]
+    }
+  }
+}

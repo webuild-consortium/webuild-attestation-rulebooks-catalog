@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.webuild.eu/sd-jwt/company-info-1.0.json",
+  "title": "WeBuild Standalone CompanyInfo SD-JWT VC Schema",
+  "description": "Unified business validation schema for the CompanyInfo attestation encoded as a pure IETF SD-JWT VC (without external references).",
+  "type": "object",
+  "properties": {
+    "vct": {
+      "type": "string",
+      "const": "eu.we-build:companyinfo:1",
+      "description": "Verifiable Credential Type identifier mapping this credential to the WeBuild rulebook."
+    },
+    "attestation_legal_category": {
+      "type": "string",
+      "enum": ["EAA", "QEAA"]
+    },
+    "legal_entity": {
+      "type": "object",
+      "properties": {
+        "legal_person": {
+          "type": "object",
+          "properties": {
+            "legal_person_name": { "type": "string" },
+            "legal_form_type": { "type": "string" }
+          },
+          "required": ["legal_person_name", "legal_form_type"]
+        },
+        "identifier": {
+          "type": "object",
+          "properties": {
+            "euid": { "type": "string" },
+            "lei": { "type": "string" },
+            "tax": { "type": "string" },
+            "gln": { "type": "string" },
+            "duns": { "type": "string" },
+            "eori": { "type": "string" },
+            "bpnl": { "type": "string" },
+            "siren": { "type": "string" }
+          },
+          "minProperties": 1
+        }
+      },
+      "required": ["legal_person", "identifier"]
+    },
+    "number_of_employees": {
+      "type": "string"
+    },
+    "trade_alias": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "previous_legal_name": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "financial_statements": {
+      "type": "object",
+      "properties": {
+        "taxonomy": { "type": "string" },
+        "facts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "concept": { "type": "string" },
+              "value": { "type": "number" },
+              "unit": { "type": "string" },
+              "period_start": { "type": "string", "format": "date" },
+              "period_end": { "type": "string", "format": "date" }
+            },
+            "required": ["id", "concept", "value", "unit", "period_start", "period_end"]
+          }
+        }
+      },
+      "required": ["taxonomy", "facts"]
+    }
+  },
+  "required": [
+    "vct",
+    "attestation_legal_category",
+    "legal_entity",
+    "number_of_employees"
+  ]
+}
