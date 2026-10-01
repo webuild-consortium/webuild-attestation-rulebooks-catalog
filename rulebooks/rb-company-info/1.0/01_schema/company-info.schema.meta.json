@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schema.webuild.eu/meta-schema",
+  "schemaId": "https://schema.webuild.eu/core/company-info-1.0.json",
+  "properties": {
+    "attestation_legal_category": {
+      "translations": {
+        "en": "Attestation Legal Category",
+        "de": "Rechtliche Kategorie der Bescheinigung"
+      }
+    },
+    "legal_entity.legal_person.legal_person_name": {
+      "translations": {
+        "en": "Registered Company Name",
+        "de": "Eingetragener Firmenname"
+      }
+    },
+    "legal_entity.legal_person.legal_form_type": {
+      "translations": {
+        "en": "Legal Form Type",
+        "de": "Rechtsform"
+      }
+    },
+    "legal_entity.identifier.euid": {
+      "translations": {
+        "en": "EUID (European Identifier)",
+        "de": "EUID (Europäische Kennung)"
+      }
+    },
+    "legal_entity.identifier.tax": {
+      "translations": {
+        "en": "VAT/Tax ID",
+        "de": "Umsatzsteuer-Identifikationsnummer"
+      }
+    },
+    "financial_statements.facts.value": {
+      "translations": {
+        "en": "Financial Fact Value",
+        "de": "Finanzieller Kennzahlenwert"
+      }
+    }
+  }
+}
