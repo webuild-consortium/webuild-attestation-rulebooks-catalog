@@ -95,39 +95,39 @@ The encoding format column indicates how the data elements SHALL be encoded, usi
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| attestation_legal_category | TBD | One of EAA, Pub-EAA or QEAA | string | QEAA |
-| date_of_execution | TBD | Date the PoA was executed | string (date) | 2026-01-15 |
-| euid_reference | TBD | EUID reference | string | NLNHR.12345678 |
-| principal_full_name | TBD | Legal full name of the principal | string | Frouke Janssen |
-| principal_date_of_birth | TBD | Date of birth of the principal | string (date) | 1980-03-22 |
-| company_statutory_full_name | TBD | Registered legal name of the company | string | FictiveCo B.V. |
-| company_business_register_name | TBD | Name of the business register | string | Kamer van Koophandel |
-| company_jurisdiction | TBD | Country of incorporation | string | NL |
-| attorney_full_name | TBD | Legal full name of the attorney | string | Maria Schmidt |
-| scope_of_representation_powers | TBD | Granted powers | array\<string\> | ["The formation of companies", "Registration and closure of branches of the Company"] |
-| validity_period_valid_from | TBD | Start date of validity | string (date) | 2026-01-15 |
-| validity_period_valid_until | TBD | End date of validity | string (date) | 2027-01-15 |
-| applicable_law_jurisdiction | TBD | Governing Member State law | string | NL |
-| signing_place | TBD | Place of signing | string | Hardenberg |
-| signing_date | TBD | Date of signing | string (date) | 2026-01-15 |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | string | QEAA |
+| date_of_execution | [sec:DataIntegrityProof](https://w3id.org/security#DataIntegrityProof).[dct:created](http://purl.org/dc/terms/created) | Date the PoA was executed | string (date) | 2026-01-15 |
+| euid_reference | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | EUID reference | string | NLNHR.12345678 |
+| principal_full_name | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[fullName](https://w3id.org/ebwv#fullName) | Legal full name of the principal | string | Frouke Janssen |
+| principal_date_of_birth | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the principal | string (date) | 1980-03-22 |
+| company_statutory_full_name | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalName](https://w3id.org/ebwv#legalName) | Registered legal name of the company | string | FictiveCo B.V. |
+| company_business_register_name | Is already contained in the issuer information as well as in the EUID. | Name of the business register | string | Kamer van Koophandel |
+| company_jurisdiction | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Country of incorporation | string | NL |
+| attorney_full_name | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[fullName](https://w3id.org/ebwv#fullName) | Legal full name of the attorney | string | Maria Schmidt |
+| scope_of_representation_powers | [scopeOfPower](https://w3id.org/ebwv#scopeOfPower) <br> is there a code list prepared for this property (KVK?)| Granted powers | array\<string\> | ["The formation of companies", "Registration and closure of branches of the Company"] |
+| validity_period_valid_from | [cred:validFrom](https://www.w3.org/2018/credentials#validFrom) | Start date of validity | string (date) | 2026-01-15 |
+| validity_period_valid_until | [cred:validUntil](https://www.w3.org/2018/credentials#validUntil) | End date of validity | string (date) | 2027-01-15 |
+| applicable_law_jurisdiction | (this needs clarification by the authors) | Governing Member State law | string | NL |
+| signing_place | Is this relevant information in a digital environment? | Place of signing | string | Hardenberg |
+| signing_date | see date_of_execution | Date of signing | string (date) | 2026-01-15 |
 
 ### 2.3 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| principal_identification_document_kind | TBD | Type of ID document of the principal | string | passport |
-| principal_identification_document_number | TBD | ID document number of the principal | string | NZ1234567 |
-| principal_place_of_birth | TBD | Place of birth of the principal | string | Utrecht |
-| principal_full_address | TBD | Residential address of the principal | string | Herengracht 100, 1015 AA Amsterdam, Netherlands |
-| company_business_register_location | TBD | Location of the business register | string | The Hague |
-| company_kind_of_legal_entity | TBD | Legal form (e.g. GmbH, SARL, SA) | string | B.V. |
-| company_registered_office | TBD | Registered office address | string | Keizersgracht 200, 1016 DW Amsterdam, Netherlands |
-| attorney_date_of_birth | TBD | Date of birth of the attorney | string (date) | 1985-07-10 |
-| attorney_identification_document_kind | TBD | Type of ID document of the attorney | string | national_id_card |
-| attorney_identification_document_number | TBD | ID document number of the attorney | string | DE9876543 |
-| attorney_place_of_birth | TBD | Place of birth of the attorney | string | Groningen |
-| attorney_full_address | TBD | Residential address of the attorney | string | Friesestraatweg 3157, 7772CP Groningen, Netherlands |
-| scope_of_representation_power_of_substitution | TBD | Whether substitution is allowed | string | not_allowed |
+| principal_identification_document_kind | Not relevant in digital environments. | Type of ID document of the principal | string | passport |
+| principal_identification_document_number | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[identifier](https://w3id.org/ebwv#identifier) | ID document number of the principal | string | NZ1234567 |
+| principal_place_of_birth | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Place of birth of the principal | string | Utrecht |
+| principal_full_address | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[domicile](https://w3id.org/ebwv#domicile) | Residential address of the principal | string | Herengracht 100, 1015 AA Amsterdam, Netherlands |
+| company_business_register_location | Why is this needed if the Economic Operator (company) has an EUID that shows the registring authority? | Location of the business register | string | The Hague |
+| company_kind_of_legal_entity | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalForm](https://w3id.org/ebwv#legalForm) | Legal form (e.g. GmbH, SARL, SA) | string | B.V. |
+| company_registered_office | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[registeredAddress](https://w3id.org/ebwv#registeredAddress) | Registered office address | string | Keizersgracht 200, 1016 DW Amsterdam, Netherlands |
+| attorney_date_of_birth | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the attorney | string (date) | 1985-07-10 |
+| attorney_identification_document_kind | Why do you need this information in the digital environment? | Type of ID document of the attorney | string | national_id_card |
+| attorney_identification_document_number | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[identifier](https://w3id.org/ebwv#identifier) | ID document number of the attorney | string | DE9876543 |
+| attorney_place_of_birth | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Place of birth of the attorney | string | Groningen |
+| attorney_full_address | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[domicile](https://w3id.org/ebwv#domicile) | Residential address of the attorney | string | Friesestraatweg 3157, 7772CP Groningen, Netherlands |
+| scope_of_representation_power_of_substitution | [delegable](https://w3id.org/ebwv#delegable) <br> should this be a property under "ScopeOfPower"? | Whether substitution is allowed | string | not_allowed |
 
 ### 2.4 Conditional attributes
 
@@ -137,16 +137,16 @@ No conditional attributes are defined for this attestation.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| expiry_date | TBD | Date (and if possible time) when the attestation will expire. Does not need to be an attribute and can be covered by credential format metadata, such as for example the "exp" field on the SD-JWT format (TBD if we can remove this attribute and use the "exp" field only). | date | 2027-01-15 |
-| issuing_authority | TBD | Name of the administrative authority that issued the EU PoA, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EU PoA. | string | Kamer van Koophandel |
-| issuing_country | TBD | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the attestation. | string | NL |
+| expiry_date | [cred:validUntil](https://www.w3.org/2018/credentials#validUntil) | Date (and if possible time) when the attestation will expire. Does not need to be an attribute and can be covered by credential format metadata, such as for example the "exp" field on the SD-JWT format (TBD if we can remove this attribute and use the "exp" field only). | date | 2027-01-15 |
+| issuing_authority | [cred:issuer](https://www.w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName) | Name of the administrative authority that issued the EU PoA, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EU PoA. | string | Kamer van Koophandel |
+| issuing_country | [cred:issuer](https://www.w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the attestation. | string | NL |
 
 ### 2.6 Optional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |------------------------|--------------------------|--------------|--------------|--------------|
-| location_status | TBD | The location of validity status information where the providers revoke attestations. This attribute is required when the validity time period of the attestation exceeds 24 hours. | string | https://issuer.example.com/status/1 |
-| trust_anchor | TBD | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EU PoA can be found or looked up. | string | https://issuer.example.com/trust-anchor |
+| location_status | [cred:credentialStatus](https://www.w3.org/2018/credentials#credentialStatus) | The location of validity status information where the providers revoke attestations. This attribute is required when the validity time period of the attestation exceeds 24 hours. | string | https://issuer.example.com/status/1 |
+| trust_anchor | [cred:termsOfUse](https://www.w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EU PoA can be found or looked up. | string | https://issuer.example.com/trust-anchor |
 
 ### 2.7 Conditional metadata
 
