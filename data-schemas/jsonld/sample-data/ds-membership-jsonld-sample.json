@@ -1,0 +1,76 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://w3id.org/ebwv/v0.1"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "ElectronicAttestationOfAttributes"
+  ],
+  "id": "urn:uuid:8d6f0e3c-1c2a-4e2b-9f1a-1234567890ab",
+  "issuer": "did:web:djustconnect.be",
+  "validFrom": "2026-06-23T09:00:00Z",
+  "validUntil": "2027-06-23T09:00:00Z",
+  "attestationLegalCategory": "EAA",
+  "credentialStatus": {
+    "id": "https://djustconnect.be/status/membership#42",
+    "type": "BitstringStatusListEntry"
+  },
+  "evidence": [
+    {
+      "type": "EconomicOperator",
+      "identifier": {
+        "@type": "VatId",
+        "@value": "BE0123456789"
+      }
+    }
+  ],
+  "termsOfUse": {
+    "type": "GovernanceRulebook",
+    "url": "https://agri-x.eu/rulebook",
+    "version": "1.2",
+    "hash": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    "acceptedAt": "2026-06-20T14:30:00Z"
+  },
+  "credentialSubject": {
+    "id": "did:web:example:org:holder",
+    "type": "Membership",
+    "member": {
+      "type": "EconomicOperator",
+      "legalName": "Farm Example BV",
+      "legalIdentifier": {
+        "@type": "Euid",
+        "@value": "BEEUID0123456789"
+      },
+      "identifier": [
+        {
+          "@type": "VatId",
+          "@value": "BE0123456789"
+        }
+      ]
+    },
+    "memberOf": "https://agri-x.eu",
+    "role": [
+      "https://w3id.org/ebwv#DataRightsHolder",
+      "https://w3id.org/ebwv#DataProvider"
+    ],
+    "onboardedBy": {
+      "id": "did:web:djustconnect.be",
+      "type": "OnboardingDetails",
+      "platform": "DjustConnect",
+      "operator": {
+        "id": "did:web:example:org:onboarding-operator",
+        "type": "EconomicOperator",
+        "legalName": "Instituut voor Landbouw-, Visserij- en Voedingsonderzoek (ILVO)",
+        "identifier": {
+          "@type": "VatId",
+          "@value": "BE0848278827"
+        }
+      },
+      "member": {
+        "type": "EconomicOperator",
+        "identifier": "DC-2026-004711"
+      }
+    }
+  }
+}

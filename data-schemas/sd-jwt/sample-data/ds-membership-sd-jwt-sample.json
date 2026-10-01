@@ -12,10 +12,15 @@
     "legalIdentifier": {
       "scheme": "Euid",
       "value": "BEEUID0123456789"
-    }
+    },
+    "identifier": [
+      {
+        "scheme": "VatId",
+        "value": "BE0123456789"
+      }
+    ]
   },
   "memberOf": "https://agri-x.eu",
-  "holderIdentifier": "BE0123456789",
   "role": [
     "https://w3id.org/ebwv#DataRightsHolder",
     "https://w3id.org/ebwv#DataProvider"
@@ -27,14 +32,17 @@
     "acceptedAt": "2026-06-20T14:30:00Z"
   },
   "onboardedBy": {
-    "platformId": "did:web:djustconnect.be",
-    "name": "DjustConnect",
+    "id": "did:web:djustconnect.be",
+    "platform": "DjustConnect",
     "operator": {
       "legalName": "Instituut voor Landbouw-, Visserij- en Voedingsonderzoek (ILVO)",
       "identifier": {
         "scheme": "VatId",
         "value": "BE0848278827"
       }
+    },
+    "member": {
+      "identifier": "DC-2026-004711"
     }
   },
   "evidence": [
