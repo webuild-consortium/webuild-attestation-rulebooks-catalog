@@ -74,6 +74,7 @@ This attestation addresses the following question:
 The authority to act on behalf of a legal entity can be derived from two primary sources:
 - **Statutory Power:** Authority based on a direct entry in a national public register (e.g., a Commercial Register).
 - **Delegated Power:** Authority granted via a separate Power of Attorney (PoA) Attestation, which was issued by the company which issued the AuthorisedSignatories Attestation.
+  
 As a digital, verifiable list of natural persons possessing representation powers, this attestation enables a Relying Party (such as banks or fintechs) to confidently confirm that a specific person (the Signatory) has the authority to make binding commitments (e.g., signing a contract) in financial and contractual settings with third parties. This attestation is mandatory, for example, when opening a corporate bank account, though other business use cases may require the same type of verification.
 
 ### 1.1 Document scope and purpose
@@ -254,89 +255,6 @@ This attestation type **MAY** be classified as:
 | citizenship | [citizenship](https://w3id.org/ebwv#citizenship) | Citizenship(s) held by the person (one or more nationalities) | Array of Strings (ISO 3166-1 alpha-3) |
 | person_role | [role](https://w3id.org/ebwv#role) <br> property needs additional Domains and Ranges in EBWV | Information about the natural person role | Object |
 | identification | [identifier](https://w3id.org/ebwv#identifier) <br> at the moment "identifier" is a property, but it could point to a adms:Identifier type of class; or what does "identification" actually mean in this context? | Information about the identification of the person | Object |
-
-#### 3.1.2 Example Payload
-The following is a non-normative example of an AuthorisedSignatories Attestation SD-JWT VC payload:
-
-```
-{
-  "vct": "eu.we-build:authorisedsignatories:1",
-  "attestation_legal_category": "EAA",
-  "iss": "https://example-gmbh.de",
-  "iat": 1746000000,
-  "exp": 1777536000,
-  "jti": "asr-attestation-20260515-001",
-  "legal_entity": {
-    "legal_person": {
-      "legal_person_name": "Example GmbH",
-      "legal_form_type": "GmbH"
-    },
-    "identifier": {
-      "euid": "DE-HRB-123456",
-      "lei": "5493001KJTIIGC8Y1R12",
-      "tax": "DE123456789"
-    }
-  },
-  "authorised_persons": [
-    {
-      "natural_person": {
-        "first_name": "Maria Anna",
-        "surname": "Müller",
-        "date_of_birth": "1982-07-14"
-      },
-      "birth_place": {
-        "locality": "Munich",
-        "country": "DEU",
-        "region": "Bavaria"
-      },
-      "citizenship": ["DEU"],
-      "person_role": {
-        "representation_type": "SOLE",
-        "role": "CEO"
-      },
-      "identifier": {
-        "document_type": "Passport",
-        "document_number": "C01X00T47",
-        "issuing_country": "DEU",
-        "document_expiry_date": "2031-03-20"
-      }
-    },
-    {
-      "natural_person": {
-        "first_name": "Jean",
-        "surname": "Dupont",
-        "date_of_birth": "1975-11-30"
-      },
-      "birth_place": {
-        "locality": "Paris",
-        "country": "FRA"
-      },
-      "citizenship": ["FRA", "BEL"],
-      "person_role": {
-        "representation_type": "JOINT",
-        "role": "CFO"
-      }
-    }
-  ],
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://example.com/status/authorisedsignatories-list-1",
-    "status_list_index": 789,
-    "status_purpose": "revocation"
-  },
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-  "schema_version": "0.1.0",
-  "cnf": {
-    "jwk": {
-      "kty": "EC",
-      "crv": "P-256",
-      "x": "abc-123_def-456_ghi-789_jkl-012",
-      "y": "mno-345_pqr-678_stu-901_vwx-234"
-    }
-  }
-}
-```
-Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/authorised-signatories-sd-jwt-sample.json
 
 ### 3.2 Mandatory attributes
 
@@ -608,6 +526,89 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
+
+#### 5.1.3 Example Payload
+The following is a non-normative example of an AuthorisedSignatories Attestation SD-JWT VC payload:
+
+```
+{
+  "vct": "eu.we-build:authorisedsignatories:1",
+  "attestation_legal_category": "EAA",
+  "iss": "https://example-gmbh.de",
+  "iat": 1746000000,
+  "exp": 1777536000,
+  "jti": "asr-attestation-20260515-001",
+  "legal_entity": {
+    "legal_person": {
+      "legal_person_name": "Example GmbH",
+      "legal_form_type": "GmbH"
+    },
+    "identifier": {
+      "euid": "DE-HRB-123456",
+      "lei": "5493001KJTIIGC8Y1R12",
+      "tax": "DE123456789"
+    }
+  },
+  "authorised_persons": [
+    {
+      "natural_person": {
+        "first_name": "Maria Anna",
+        "surname": "Müller",
+        "date_of_birth": "1982-07-14"
+      },
+      "birth_place": {
+        "locality": "Munich",
+        "country": "DEU",
+        "region": "Bavaria"
+      },
+      "citizenship": ["DEU"],
+      "person_role": {
+        "representation_type": "SOLE",
+        "role": "CEO"
+      },
+      "identifier": {
+        "document_type": "Passport",
+        "document_number": "C01X00T47",
+        "issuing_country": "DEU",
+        "document_expiry_date": "2031-03-20"
+      }
+    },
+    {
+      "natural_person": {
+        "first_name": "Jean",
+        "surname": "Dupont",
+        "date_of_birth": "1975-11-30"
+      },
+      "birth_place": {
+        "locality": "Paris",
+        "country": "FRA"
+      },
+      "citizenship": ["FRA", "BEL"],
+      "person_role": {
+        "representation_type": "JOINT",
+        "role": "CFO"
+      }
+    }
+  ],
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://example.com/status/authorisedsignatories-list-1",
+    "status_list_index": 789,
+    "status_purpose": "revocation"
+  },
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+  "schema_version": "0.1.0",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "abc-123_def-456_ghi-789_jkl-012",
+      "y": "mno-345_pqr-678_stu-901_vwx-234"
+    }
+  }
+}
+```
+Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/authorised-signatories-sd-jwt-sample.json
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
