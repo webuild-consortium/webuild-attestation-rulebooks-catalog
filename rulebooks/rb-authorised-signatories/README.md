@@ -76,6 +76,15 @@ representation powers. This attestation is a critical component of both Know You
 and Know Your Supplier (KYS) processes within the EUDI Wallet ecosystem, supporting effective
 risk management, regulatory compliance, and anti-money laundering (AML) obligations.
 
+This attestation addresses the following question:
+**Who is authorised to act or sign on behalf of this legal entity?**
+
+As a digital, verifiable list of natural persons possessing representation powers, this attestation enables a Relying Party (such as banks or fintechs) to confidently confirm that a specific person (the Signatory) has the authority to make binding commitments (e.g., signing a contract) in financial and contractual settings with third parties. This attestation is mandatory, for example, when opening a corporate bank account, though other business use cases may require the same type of verification.
+
+The authority to act on behalf of a legal entity can be derived from two primary sources:
+- **Statutory Power:** Authority based on a direct entry in a national public register (e.g., a Commercial Register).
+- **Delegated Power:** Authority granted via a separate Power of Attorney (PoA) Attestation, which was issued by the company which issued the AuthorisedSignatories Attestation.
+
 **Important distinctions:**
 - An Authorised Signatory does not need to be a registered Legal Representative.
 - An Authorised Signatory does not need to meet any ownership or control threshold.
@@ -246,25 +255,6 @@ This attestation type **MAY** be classified as:
 | citizenship | [citizenship](https://w3id.org/ebwv#citizenship) | Citizenship(s) held by the person (one or more nationalities) | Array of Strings (ISO 3166-1 alpha-3) |
 | person_role | [role](https://w3id.org/ebwv#role) <br> property needs additional Domains and Ranges in EBWV | Information about the natural person role | Object |
 | identification | [identifier](https://w3id.org/ebwv#identifier) <br> at the moment "identifier" is a property, but it could point to a adms:Identifier type of class; or what does "identification" actually mean in this context? | Information about the identification of the person | Object |
-
-#### 1 Introduction
-
-This attestation addresses the following question:
-
-**Who is authorised to act or sign on behalf of this legal entity?**
-
-An AuthorisedSignatories Attestation is defined as any natural person who is authorised to act
-on behalf of a legal entity in financial and contractual settings with third parties. It serves
-as a digital, verifiable list and consists of natural persons having representation powers.
-
-The authority to act on behalf of a legal entity can be derived from two primary sources:
-- **Statutory Power:** Authority based on a direct entry in a national public register (e.g., a Commercial Register).
-- **Delegated Power:** Authority granted via a separate Power of Attorney (PoA) Attestation, which was issued by the company which issued the AuthorisedSignatories Attestation.
-
-The AuthorisedSignatories Attestation enables a Relying Party (banks or fintechs) to confidently
-confirm that a person (the Signatory) has the authority to make binding commitments
-(i.e. signing a contract). This attestation is mandatory, for example, when opening a bank
-account. Other use cases may require the same type of attestation.
 
 #### 3.2.3 Example Payload
 The following is a non-normative example of an AuthorisedSignatories Attestation SD-JWT VC payload:
