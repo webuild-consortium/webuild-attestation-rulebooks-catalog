@@ -1,12 +1,6 @@
-| Version | Date | Description |
-|---------|------------|------------|
-| 0.1 | 2026-07-01 | Initial draft of the eInvoice attestation rulebook, derived from the WE BUILD Attestation Rulebook Template v1.1 and the eInvoice Attestation description (v0.5 final draft), aligned with the SC5 eInvoicing scenario specification (Scenario 4 — Direct eInvoicing between Business Wallets). |
-| 0.6 | 2026-07-14 | Review draft for SC5 rulebook review meeting. Aligned with the WE BUILD attestation rulebooks catalog conventions: vct pattern `eu.we-build:<slug>:1`, legal category value `EAA`, EBWOID-anchored EAA trust model per rb-base, Chapter 4 issuer/RP obligations referencing the Base Verification rulebook, and Token Status List metadata (`status_list_credential`/`status_list_index`). Attributes, code lists and integrity rules transposed from the eInvoice Attestation description v0.5 into the template structure. |
-| 0.7 | 2026-07-15 | Finalised for SC5. Reconciled attribute naming between the attribute tables and the integrity rules (`buyerLegalRegistrationIdentifier`, `invoiceTotalVatAmount`), completed the SD-JWT VC encoding and selective-disclosure table, and completed Chapters 4–7. Open items (payload canonicalization/hash algorithm, LoTE/trust-registry mechanism) flagged inline pending WP4 confirmation. |
-| 0.71 | 2026-07-23 | Small corrections: renamed the business lifecycle claim to `invoiceLifecycleStatus` to avoid collision with Token Status List metadata; corrected `attestation_legal_category` to `non-qualified-EAA`; added conditional `precedingInvoiceReference` (EN 16931 BT-25) for corrections, cancellations and credit notes; and explicitly retained the broad supporting-document scope of `evidenceReferences`. |
-| 0.8 | 2026-08-11 | Review-feedback update. Replaced the flat seller/buyer identity fields with nested `seller`/`buyer` objects (`name`, `identifier`, `vat`, `country`), and introduced a multi-scheme `identifier` object supporting `euid`, `lei`, `tax`, `gln`, `duns`, `eori`, `bpnl` and `siren`. `identifier.euid` is mandatory — it is the EU-law-recognized legal-entity identifier and the one this Rulebook's trust model verifies against the EBWOID/LoTE chain (IR-EI-06); the other seven are optional, unverified supplementary identifiers. `buyer` remains optional as a whole, but `name`/`identifier`/`vat`/`country` are mandatory once a `buyer` object is present.  |
+# Attestation Rulebook for attestations of type eInvoice
 
-# WE BUILD Attestation Rulebook for attestations of type *eInvoice*
+Category: non-qualified EAA
 
 *This Rulebook is derived from the WE BUILD v1.1 Attestation Rulebook Template (itself derived from
 the EUDI attestation rulebook template) and keeps the template's chapter structure. It specifies the
@@ -17,14 +11,51 @@ Business Wallets).*
     * Andreas Abraham, Validated ID
     * Maarten Boender, Sphereon 
 
+| Version | Date | Description |
+| --- | --- | --- |
+| 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 
-| Version | Date       | Description                     |
-|---------|------------|-------------------------------- |
-| 0.1     | 2026-07-01 | Initial draft                   |
-| 0.6     | 2026-07-14 | Draft aligned with conventions  |
-| 0.7     | 2026-07-15 | Finalised                       |
-| 0.71    | 2026-07-23 | Small corrections               |
-| 0.8     | 2026-08-11 | Addressed review feedback       |
+**Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
+
+**Feedback:** [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues)
+
+## Table of contents
+
+- [1 Introduction](#1-introduction)
+   * [1.1 Document scope and purpose](#11-document-scope-and-purpose)
+   * [1.2 Document structure](#12-document-structure)
+   * [1.3 Key words](#13-key-words)
+   * [1.4 Terminology](#14-terminology)
+- [2 Compliance](#2-compliance)
+   * [2.1 Compliance statement](#21-compliance-statement)
+   * [2.2 Regulatory basis](#22-regulatory-basis)
+   * [2.3 Traceability](#23-traceability)
+- [3 Attestation attributes](#3-attestation-attributes)
+   * [3.1 Introduction](#31-introduction)
+   * [3.2 Mandatory attributes](#32-mandatory-attributes)
+   * [3.3 Optional attributes](#33-optional-attributes)
+   * [3.4 Conditional attributes](#34-conditional-attributes)
+- [4 Metadata](#4-metadata)
+   * [4.1 Mandatory metadata](#41-mandatory-metadata)
+   * [4.2 Optional metadata](#42-optional-metadata)
+   * [4.3 Conditional metadata](#43-conditional-metadata)
+   * [4.4 Code lists](#44-code-lists)
+   * [4.5 Integrity rules](#45-integrity-rules)
+- [5 Formats](#5-formats)
+- [6 Protocols](#6-protocols)
+- [7 Issuance](#7-issuance)
+   * [7.1 Binding](#71-binding)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
+   * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
+- [8 Revocation](#8-revocation)
+- [9 Presentation](#9-presentation)
+   * [9.1 Presentation Policy](#91-presentation-policy)
+   * [9.2 Presentation modes](#92-presentation-modes)
+   * [9.3 Transactional data](#93-transactional-data)
+- [10 Trust Framework](#10-trust-framework)
+- [11 References](#11-references)
+
 
 ## 1 Introduction
 
@@ -35,8 +66,8 @@ within WE BUILD Use Case SC5 (eInvoicing).
 
 In plain language, the eInvoice attestation is a verifiable representation of an invoice exchange
 event. It binds the content of a structured electronic invoice (via a payload hash) to a cryptographic
-signature associated with the **Supplier's** legal-person identity, so that a **Buyer** — receiving the
-attestation directly into its Business Wallet — can verify the integrity of the invoice, the validity
+signature associated with the **Supplier's** legal-person identity, so that a **Buyer**, receiving the
+attestation directly into its Business Wallet, can verify the integrity of the invoice, the validity
 of the Supplier's identity, and, where applicable, the authenticity and validity of any referenced
 supporting evidence. In Scenario 4 this exchange is wallet-to-wallet and machine-to-machine, without an
 intermediary access point: trust is established cryptographically at the point of exchange rather than
@@ -63,25 +94,21 @@ delegated to a network operator.
 
 ### 1.2 Document structure
 
-* Chapter 2 describes the attestation attributes and metadata in an encoding-independent manner.
-* Chapter 3 specifies the encoding. For this attestation type, the SD-JWT VC encoding (Section 3.2) is
-  normative. ISO/IEC 18013-5 (mdoc) and W3C VCDM encodings are not specified, for the reasons given in
-  Sections 3.1 and 3.3.
-* Chapter 4 specifies attestation usage.
-* Chapter 5 defines how trust anchors for verification are obtained.
-* Chapter 6 defines the revocation mechanism.
-* Chapter 7 provides compliance information.
-* Chapter 8 lists references.
+This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.
 
 ### 1.3 Key words
 
-This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified in [RFC 2119],
-i.e., to indicate requirements, recommendations and options specified in this document.
+This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.
 
-In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e., a requirement
-that is not mandated by this document but, for instance, by an external document. The word 'can'
-indicates a capability, whereas other words, such as 'will', and 'is' or 'are' are intended as
-statements of fact.
+In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 
 ### 1.4 Terminology
 
@@ -90,32 +117,73 @@ terminology (Supplier/Seller, Buyer, invoice payload, EN 16931, Peppol BIS Billi
 terminology (EBW, EBWOID, WE BUILD LoTL, WE BUILD Trusted List, List of Trusted Entities (LoTE)) as
 defined in the SC5 specification and the WP4 Blueprint.
 
-## 2 Attestation attributes and metadata
+## 2 Compliance
 
-### Chapter overview and requirements
+### 2.1 Compliance statement
 
-This chapter defines all attributes and metadata that an eInvoice attestation may contain, in an
-encoding-independent manner (ARB_06 in [Topic 12]). Each attribute is marked mandatory, optional, or
-conditional in its section (ARB_09). Attribute names follow the EN 16931 semantic term names in
-`camelCase` style. The `NOTE` from [RFC 8610]-style descriptions applies: an attribute marked mandatory
-means the Issuer SHALL ensure the element is present in the attestation; it does not imply that a
-Relying Party must request it, nor that a User cannot refuse to release it.
+This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.
 
-**Applicable legal category.** Per the SC5 working assumptions, the eInvoice attestation is implemented
-as a **non-qualified EAA** for the WE BUILD pilot; QEAA escalation (which would require QTSP
-involvement) is a post-pilot decision. Where the SC5 specification refers to a "WE BUILD QEAA", this
-denotes a technically interoperable, ITB-tested attestation within the pilot trust framework, not an
-eIDAS-qualified EAA. The requirements for non-qualified EAA in [Topic 12] therefore apply:
+This Rulebook follows the structure mandated by [Topic 12] of the ARF and the WE BUILD Attestation
+Rulebook Template v1.1. The eInvoice attestation is a **non-qualified EAA** in the sense of the
+[European Digital Identity Regulation], implemented within the WE BUILD pilot trust framework rather
+than the eIDAS production ecosystem (WP4 Blueprint D4.1 §1.2.1). It uses the SD-JWT VC format profiled
+by [HAIP], OpenID4VCI for issuance and OpenID4VP/DCQL for presentation per the WE BUILD Conformance
+Specifications (cs-01, cs-02), and the IETF Token Status List for revocation per the WE BUILD ADR on
+Attestation Revocation. The invoice payload is bound to the [EN 16931] semantic model with [Peppol BIS
+Billing 3.0] syntax (country-specific profiles permitted), consistent with ViDA-relevant guidance where
+applicable. Escalation to an eIDAS-qualified EAA (QEAA), and any associated QTSP involvement, is a
+post-pilot decision and out of scope for this version. Open dependencies (payload canonicalization and
+hash strategy; the LPID/signing-key trust anchor mechanism) are tracked with WP4 and noted inline in
+Sections 2.9 and 5.
 
-* An attribute indicating that the attestation is an EAA SHOULD be included (ARB_12). See Section 2.1.
-* One or more attributes or metadata representing identification data of the issuer (the Supplier)
-  SHALL be included (ARB_15).
-* One or more attributes representing the subject SHOULD be included (ARB_17).
-* Attributes or metadata representing the validity period SHOULD be defined (ARB_19).
-* Attributes or metadata representing the location of the trust anchor SHOULD be defined (ARB_21); see
-  Chapter 5.
+### 2.2 Regulatory basis
 
-### 2.1 Introduction
+This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
+recommendation is not followed, the reason is stated below.
+
+### 2.3 Traceability
+
+Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.
+
+| Requirement | Legacy ID | Applies | Satisfied in section | Note |
+| --- | --- | --- | --- | --- |
+| EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM permitted for this category; no encoding defined in this version |
+| EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC following the HAIP profile |
+| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope |
+| EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
+| EW-DM-12-006 | ARB_05 | yes | 5 | Unique vct for this attestation type |
+| EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
+| EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
+| EW-DM-12-009 | ARB_06b | yes | 5 | SD-JWT VC claim naming |
+| EW-DM-12-010 | ARB_07 | yes | 3 | Attributes reused from the catalogued vocabulary where one exists |
+| EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
+| EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
+| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA |
+| EW-DM-12-015 | ARB_12 | yes | 4.1 | EAA indication for a non-qualified EAA |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-018 for the non-qualified case |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2 | Point c, recommendation for non-qualified EAA |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 4.2 | Point e, recommendation for non-qualified EAA |
+| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Trust anchor location and the trust framework |
+| EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
+| EW-DM-12-030 | ARB_26 | yes | 10 | Trust anchor publication for non-qualified EAA |
+| EW-DM-12-031 | ARB_27 | no |  | This attestation does not require the Relying Party to verify a PID |
+| EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
+| EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
+| EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
+| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
+
+## 3 Attestation attributes
+
+Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.
+
+### 3.1 Introduction
+
 
 The eInvoice attestation is modelled as **one object** representing a single invoice exchange event. It
 binds to an external structured invoice payload (EN 16931 / Peppol BIS) via `invoicePayloadHash`, and
@@ -145,20 +213,20 @@ eInvoiceAttestation
 ├── invoiceFormat                      (optional; EN 16931 default, may be country-specific)
 ├── invoiceNumber
 ├── issueDate
-├── seller                             (Supplier — the issuer; mandatory)
+├── seller                             (Supplier, the issuer; mandatory)
 │   ├── name                                (EN 16931 BT-27)
 │   ├── identifier                          (M; at least euid required)
-│   │   ├── euid    (M)                     (European Unique Identifier — verified, IR-EI-06)
-│   │   ├── lei     (O)                     (Legal Entity Identifier, ISO 17442 — unverified)
-│   │   ├── tax     (O)                     (national tax/registration number — unverified)
-│   │   ├── gln     (O)                     (GS1 Global Location Number — unverified)
-│   │   ├── duns    (O)                     (Dun & Bradstreet DUNS — unverified)
-│   │   ├── eori    (O)                     (EU customs identifier — unverified)
-│   │   ├── bpnl    (O)                     (Catena-X Business Partner Number Legal, ICD 0243 — unverified)
-│   │   └── siren   (O)                     (French national company identifier — unverified)
+│   │   ├── euid    (M)                     (European Unique Identifier, verified, IR-EI-06)
+│   │   ├── lei     (O)                     (Legal Entity Identifier, ISO 17442, unverified)
+│   │   ├── tax     (O)                     (national tax/registration number, unverified)
+│   │   ├── gln     (O)                     (GS1 Global Location Number, unverified)
+│   │   ├── duns    (O)                     (Dun & Bradstreet DUNS, unverified)
+│   │   ├── eori    (O)                     (EU customs identifier, unverified)
+│   │   ├── bpnl    (O)                     (Catena-X Business Partner Number Legal, ICD 0243, unverified)
+│   │   └── siren   (O)                     (French national company identifier, unverified)
 │   ├── vat                                 (EN 16931 BT-31)
 │   └── country                             (EN 16931 BT-40)
-├── buyer                              (Buyer — the relying party; optional as a whole)
+├── buyer                              (Buyer, the relying party; optional as a whole)
 │   ├── name                                (required within group, EN 16931 BT-44)
 │   ├── identifier                          (required within group; at least euid required)
 │   │   └── (same sub-schema as seller.identifier)
@@ -196,10 +264,35 @@ identifiers used in the attribute tables below.
 Subsections 2.2–2.7 define the attributes and metadata. Section 2.8 documents the code lists and
 Section 2.9 the integrity rules.
 
-### 2.2 Mandatory attributes
+#### 1 Introduction
+
+#### Chapter overview and requirements
+
+This chapter defines all attributes and metadata that an eInvoice attestation may contain, in an
+encoding-independent manner (ARB_06 in [Topic 12]). Each attribute is marked mandatory, optional, or
+conditional in its section (ARB_09). Attribute names follow the EN 16931 semantic term names in
+`camelCase` style. The `NOTE` from [RFC 8610]-style descriptions applies: an attribute marked mandatory
+means the Issuer SHALL ensure the element is present in the attestation; it does not imply that a
+Relying Party must request it, nor that a User cannot refuse to release it.
+
+**Applicable legal category.** Per the SC5 working assumptions, the eInvoice attestation is implemented
+as a **non-qualified EAA** for the WE BUILD pilot; QEAA escalation (which would require QTSP
+involvement) is a post-pilot decision. Where the SC5 specification refers to a "WE BUILD QEAA", this
+denotes a technically interoperable, ITB-tested attestation within the pilot trust framework, not an
+eIDAS-qualified EAA. The requirements for non-qualified EAA in [Topic 12] therefore apply:
+
+* An attribute indicating that the attestation is an EAA SHOULD be included (ARB_12). See Section 2.1.
+* One or more attributes or metadata representing identification data of the issuer (the Supplier)
+  SHALL be included (ARB_15).
+* One or more attributes representing the subject SHOULD be included (ARB_17).
+* Attributes or metadata representing the validity period SHOULD be defined (ARB_19).
+* Attributes or metadata representing the location of the trust anchor SHOULD be defined (ARB_21); see
+  Chapter 5.
+
+### 3.2 Mandatory attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
+| --- | --- | --- | --- | --- |
 | `invoicePayloadHash` | N/A (WE BUILD SC5 domestic namespace) | Hash of the canonicalized invoice payload as defined by the rulebook (see IR-EI-03). Binds the attestation to the external structured invoice. | tstr | `sha256:9f2c…a1` |
 | `invoiceNumber` | EN 16931 BT-1 (Invoice number) | Invoice identifier, unique for the Supplier within the agreed duplicate-detection window. | tstr | `INV-2026-000123` |
 | `issueDate` | EN 16931 BT-2 (Invoice issue date) | Invoice issue date (ISO 8601 / RFC 3339 full-date). | tstr | `2026-07-15` |
@@ -208,10 +301,10 @@ Section 2.9 the integrity rules.
 | `invoiceTotalVatAmount` | EN 16931 BT-110 (Invoice total VAT amount) | The total VAT amount for this invoice. | tstr | `210.00` |
 | `InvoiceCurrencyCode` | EN 16931 BT-5 (Invoice currency code) | Invoice currency code (ISO 4217). | tstr | `EUR` |
 
-### 2.3 Optional attributes
+### 3.3 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
+| --- | --- | --- | --- | --- |
 | `invoiceFormat` | N/A (see code list 2.8) | Identifier of the invoice representation / profile used for the payload. EN 16931 is the default; may be country-specific. | tstr | `EN16931` |
 | `buyer` | EN 16931 BT-44/BT-47/BT-48/BT-55 (Buyer group) | The Buyer's identification group. Optional as a whole; if present, `name`/`identifier` (at least `euid`)/`vat`/`country` SHALL be present. See Section 2.4 for its members. | container | *(see 2.4)* |
 | `BuyerElectronicAddress` | EN 16931 BT-49 (Buyer electronic address) | Address/endpoint identifier for delivery/receipt handling. | tstr | `0009:FR59120680088` |
@@ -220,7 +313,7 @@ Section 2.9 the integrity rules.
 | `evidenceReferences` | N/A (see code list 2.8) | Optional references to supporting evidence items. See Section 2.4 for member typing and Section 2.8 for supported forms. | array | *(see 2.4 / 2.8)* |
 | `invoiceLifecycleStatus` | N/A (see code list 2.8) | Business lifecycle status for corrections, cancellations and credit notes. If omitted, the lifecycle status SHALL be interpreted as `active`. | tstr | `active` |
 
-### 2.4 Conditional attributes
+### 3.4 Conditional attributes
 
 *This section defines both standalone conditional attributes and members of optional containers/arrays.
 For container members, presence and obligation are conditional on the presence of their parent group: if
@@ -230,74 +323,78 @@ the parent group is present, members marked "M (within group)" SHALL be present 
 **Standalone lifecycle attribute** (conditional on `invoiceLifecycleStatus`):
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
+| --- | --- | --- | --- | --- |
 | `precedingInvoiceReference` | EN 16931 BT-25 (Preceding Invoice reference) | Identifier of the original or preceding invoice to which a correction, cancellation or credit note relates. It SHALL be present when `invoiceLifecycleStatus` is `corrected`, `cancelled` or `credited`, and MAY be omitted when the lifecycle status is `active` or omitted. The reference SHALL allow the verifier to identify the corresponding preceding eInvoice attestation within the Supplier's invoice context. | tstr | `INV-2026-000123` |
 
 **`seller` group members** (`seller` is mandatory; all members below are M within group):
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| `seller.name` | EN 16931 BT-27 (Seller name) — M within group | The registered legal name of the Supplier. | tstr | `Green Flowers B.V.` |
-| `seller.identifier` | EN 16931 BT-30 (Seller legal registration identifier) — M within group | Multi-scheme legal-entity identifier group; see the `identifier` group below. At least `euid` SHALL be present. | container | *(see below)* |
-| `seller.vat` | EN 16931 BT-31 (Seller VAT identifier) — M within group | The VAT / tax registration identifier of the Supplier. | tstr | `NL853746281B01` |
-| `seller.country` | EN 16931 BT-40 (Seller country code) — M within group | The country code of the Supplier (ISO 3166-1 alpha-2). | tstr | `NL` |
+| --- | --- | --- | --- | --- |
+| `seller.name` | EN 16931 BT-27 (Seller name), M within group | The registered legal name of the Supplier. | tstr | `Green Flowers B.V.` |
+| `seller.identifier` | EN 16931 BT-30 (Seller legal registration identifier), M within group | Multi-scheme legal-entity identifier group; see the `identifier` group below. At least `euid` SHALL be present. | container | *(see below)* |
+| `seller.vat` | EN 16931 BT-31 (Seller VAT identifier), M within group | The VAT / tax registration identifier of the Supplier. | tstr | `NL853746281B01` |
+| `seller.country` | EN 16931 BT-40 (Seller country code), M within group | The country code of the Supplier (ISO 3166-1 alpha-2). | tstr | `NL` |
 
 **`buyer` group members** (conditional on `buyer` being present; all members below are M within group
 once `buyer` is present):
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| `buyer.name` | EN 16931 BT-44 (Buyer name) — M within group | The registered legal name of the Buyer. | tstr | `Fleurs de Paris S.A.S.` |
-| `buyer.identifier` | EN 16931 BT-47 (Buyer legal registration identifier) — M within group | Multi-scheme legal-entity identifier group; see the `identifier` group below. At least `euid` SHALL be present. | container | *(see below)* |
-| `buyer.vat` | EN 16931 BT-48 (Buyer VAT identifier) — M within group | The VAT / tax registration identifier of the Buyer. | tstr | `FR59120680088` |
-| `buyer.country` | EN 16931 BT-55 (Buyer country code) — M within group | The country code of the Buyer (ISO 3166-1 alpha-2). | tstr | `FR` |
+| --- | --- | --- | --- | --- |
+| `buyer.name` | EN 16931 BT-44 (Buyer name), M within group | The registered legal name of the Buyer. | tstr | `Fleurs de Paris S.A.S.` |
+| `buyer.identifier` | EN 16931 BT-47 (Buyer legal registration identifier), M within group | Multi-scheme legal-entity identifier group; see the `identifier` group below. At least `euid` SHALL be present. | container | *(see below)* |
+| `buyer.vat` | EN 16931 BT-48 (Buyer VAT identifier), M within group | The VAT / tax registration identifier of the Buyer. | tstr | `FR59120680088` |
+| `buyer.country` | EN 16931 BT-55 (Buyer country code), M within group | The country code of the Buyer (ISO 3166-1 alpha-2). | tstr | `FR` |
 
 **`identifier` group members** (used identically as `seller.identifier` and `buyer.identifier`; conditional
 on the parent `seller`/`buyer` group being present):
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| `identifier.euid` | EN 16931 BT-30/BT-47 (Legal registration identifier) — **M within group** | European Unique Identifier. The identifier standardized under the Company Law Directive ((EU) 2017/1132) and resolvable via BRIS; the identifier this Rulebook's trust model verifies against the EBWOID/LoTE chain (IR-EI-06). | tstr | `NL853746281B01` |
-| `identifier.lei` | N/A — O within group | Legal Entity Identifier per ISO 17442. Not independently verified within the WE BUILD pilot scope. | tstr | `724500XU9CQ0FN6RJ782` |
-| `identifier.tax` | N/A — O within group | National tax or registration number, distinct from `vat`. Not independently verified within the WE BUILD pilot scope. | tstr | `NL853746281B01` |
-| `identifier.gln` | N/A — O within group | Global Location Number for legal entities — GS1 identifier. Not independently verified within the WE BUILD pilot scope. | tstr | `5410000000004` |
-| `identifier.duns` | N/A — O within group | Data Universal Numbering System — Dun & Bradstreet identifier. Not independently verified within the WE BUILD pilot scope. | tstr | `123456789` |
-| `identifier.eori` | N/A — O within group | Economic Operators Registration and Identification number — EU customs identifier. Legally mandated only for entities engaged in customs operations, not universally for invoicing; not independently verified within the WE BUILD pilot scope. | tstr | `NL853746281` |
-| `identifier.bpnl` | N/A — O within group | Business Partner Number Legal entity — Catena-X identifier per ICD 0243. Not independently verified within the WE BUILD pilot scope. | tstr | `BPNL00000003AYRE` |
-| `identifier.siren` | N/A — O within group | Système d'Identification du Répertoire des ENtreprises — French national company identifier. Legally mandated for French-registered entities only, not EU-wide; not independently verified within the WE BUILD pilot scope. | tstr | `512068008` |
+| --- | --- | --- | --- | --- |
+| `identifier.euid` | EN 16931 BT-30/BT-47 (Legal registration identifier), **M within group** | European Unique Identifier. The identifier standardized under the Company Law Directive ((EU) 2017/1132) and resolvable via BRIS; the identifier this Rulebook's trust model verifies against the EBWOID/LoTE chain (IR-EI-06). | tstr | `NL853746281B01` |
+| `identifier.lei` | N/A, O within group | Legal Entity Identifier per ISO 17442. Not independently verified within the WE BUILD pilot scope. | tstr | `724500XU9CQ0FN6RJ782` |
+| `identifier.tax` | N/A, O within group | National tax or registration number, distinct from `vat`. Not independently verified within the WE BUILD pilot scope. | tstr | `NL853746281B01` |
+| `identifier.gln` | N/A, O within group | Global Location Number for legal entities, GS1 identifier. Not independently verified within the WE BUILD pilot scope. | tstr | `5410000000004` |
+| `identifier.duns` | N/A, O within group | Data Universal Numbering System, Dun & Bradstreet identifier. Not independently verified within the WE BUILD pilot scope. | tstr | `123456789` |
+| `identifier.eori` | N/A, O within group | Economic Operators Registration and Identification number, EU customs identifier. Legally mandated only for entities engaged in customs operations, not universally for invoicing; not independently verified within the WE BUILD pilot scope. | tstr | `NL853746281` |
+| `identifier.bpnl` | N/A, O within group | Business Partner Number Legal entity, Catena-X identifier per ICD 0243. Not independently verified within the WE BUILD pilot scope. | tstr | `BPNL00000003AYRE` |
+| `identifier.siren` | N/A, O within group | Système d'Identification du Répertoire des ENtreprises, French national company identifier. Legally mandated for French-registered entities only, not EU-wide; not independently verified within the WE BUILD pilot scope. | tstr | `512068008` |
 
 **`taxSubtotal` container members** (conditional on `taxSubtotal` being present):
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| `taxSubtotal.taxCategoryCode` | EN 16931 BT-118 (VAT category code) — M within group | VAT category code (the Code). | tstr | `S` |
-| `taxSubtotal.taxableAmount` | EN 16931 BT-116 (VAT category taxable amount) — M within group | Sum of net amounts for this VAT category/rate (the Base). | tstr | `1000.00` |
-| `taxSubtotal.taxPercent` | EN 16931 BT-119 (VAT category rate) — M within group | The VAT percentage (the Rate). | tstr | `21` |
-| `taxSubtotal.taxAmount` | EN 16931 BT-117 (VAT category tax amount) — M within group | Total VAT calculated for this specific subtotal (the Tax). | tstr | `210.00` |
-| `taxSubtotal.taxExemptionReasonCode` | EN 16931 BT-121 (VAT exemption reason code) — O within group | A standardized code for the exemption. | tstr | `VATEX-EU-AE` |
+| --- | --- | --- | --- | --- |
+| `taxSubtotal.taxCategoryCode` | EN 16931 BT-118 (VAT category code), M within group | VAT category code (the Code). | tstr | `S` |
+| `taxSubtotal.taxableAmount` | EN 16931 BT-116 (VAT category taxable amount), M within group | Sum of net amounts for this VAT category/rate (the Base). | tstr | `1000.00` |
+| `taxSubtotal.taxPercent` | EN 16931 BT-119 (VAT category rate), M within group | The VAT percentage (the Rate). | tstr | `21` |
+| `taxSubtotal.taxAmount` | EN 16931 BT-117 (VAT category tax amount), M within group | Total VAT calculated for this specific subtotal (the Tax). | tstr | `210.00` |
+| `taxSubtotal.taxExemptionReasonCode` | EN 16931 BT-121 (VAT exemption reason code), O within group | A standardized code for the exemption. | tstr | `VATEX-EU-AE` |
 
 **`paymentInstructions` container members** (conditional on `paymentInstructions` being present):
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| `paymentInstructions.paymentMeansCode` | EN 16931 BT-81 (Payment means type code); see code list 2.8 — M within group | A code representing the payment method (e.g., 30 for Credit transfer). | tstr | `30` |
-| `paymentInstructions.paymentMeansText` | EN 16931 BT-82 (Payment means text) — O within group | A text description of the payment method (e.g., IBAN, VISA, MC). | tstr | `SEPA Credit Transfer` |
-| `paymentInstructions.paymentAccountIdentifier` | EN 16931 BT-84 (Payment account identifier) — M within group | Payment account identifier (IBAN or other bank account number). | tstr | `NL91ABNA0417164300` |
-| `paymentInstructions.paymentCardPAN` | EN 16931 BT-87 (Card PAN) — O within group | Payment card primary account number (masked or full credit/debit card PAN). | tstr | `**** **** **** 1234` |
+| --- | --- | --- | --- | --- |
+| `paymentInstructions.paymentMeansCode` | EN 16931 BT-81 (Payment means type code); see code list 2.8, M within group | A code representing the payment method (e.g., 30 for Credit transfer). | tstr | `30` |
+| `paymentInstructions.paymentMeansText` | EN 16931 BT-82 (Payment means text), O within group | A text description of the payment method (e.g., IBAN, VISA, MC). | tstr | `SEPA Credit Transfer` |
+| `paymentInstructions.paymentAccountIdentifier` | EN 16931 BT-84 (Payment account identifier), M within group | Payment account identifier (IBAN or other bank account number). | tstr | `NL91ABNA0417164300` |
+| `paymentInstructions.paymentCardPAN` | EN 16931 BT-87 (Card PAN), O within group | Payment card primary account number (masked or full credit/debit card PAN). | tstr | `**** **** **** 1234` |
 
 **`evidenceReferences` array members** (conditional on `evidenceReferences` being present):
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| `evidenceReferencesType` | N/A (see code list 2.8) — M within group | The type of the referenced evidence item. | tstr | `purchase_order` |
-| `evidenceUri` | N/A (see code list 2.8) — M within group | Publicly accessible URI of the evidence item. | tstr (URI) | `https://erp.greenflowers.example/documents/po-2026-000045` |
-| `evidenceHash` | N/A — M within group | Hash of the evidence item referenced by `evidenceUri`, for integrity binding (IR-EI-08). | tstr | `sha256:3a7c…a3c` |
+| --- | --- | --- | --- | --- |
+| `evidenceReferencesType` | N/A (see code list 2.8), M within group | The type of the referenced evidence item. | tstr | `purchase_order` |
+| `evidenceUri` | N/A (see code list 2.8), M within group | Publicly accessible URI of the evidence item. | tstr (URI) | `https://erp.greenflowers.example/documents/po-2026-000045` |
+| `evidenceHash` | N/A, M within group | Hash of the evidence item referenced by `evidenceUri`, for integrity binding (IR-EI-08). | tstr | `sha256:3a7c…a3c` |
 *NOTE Each `evidenceReferences` entry carries the supporting business evidence itself in one of the supported forms defined in Section 2.8 such as a publicly accessible URI plus hash.
 
-### 2.5 Mandatory metadata
+## 4 Metadata
+
+Metadata describes the attestation rather than its subject.
+
+### 4.1 Mandatory metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
+| --- | --- | --- | --- | --- |
 | `attestation_legal_category` | Defined in Section 2.1 | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
 | `vct` | [SD-JWT VC] | Verifiable Credential Type identifier (see Section 3.2). | string | `eu.we-build:einvoice:1` |
 | `iss` | [IANA-JWT-Claims] | Issuer identifier (the Supplier's issuing system / EBW). | string (URI) | `https://wallet.greenflowers.example/issuer` |
@@ -306,22 +403,29 @@ on the parent `seller`/`buyer` group being present):
 | `status` (metadata) | [SD-JWT VC] / [Token Status List] | Reference to the Token Status List entry for revocation (see Chapter 6). Distinct from the business `invoiceLifecycleStatus` attribute in Section 2.3. | object | *(see Chapter 6)* |
 | `cnf` | [SD-JWT VC] | Holder key-binding confirmation (proof of possession by the Supplier's EBW at issuance). | object | *(JWK / key reference)* |
 
-### 2.6 Optional metadata
+**Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
+Section 4.1 of the generic template replaces it with the `category` attribute of
+[ETSI TS 119 472-1], whose value for this category is `eaa:eu:non-qualified`.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+`attestation_legal_category`, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.
+
+### 4.2 Optional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
-| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED — see Chapter 4. | string | `uri:eu.ebw.oid.1` |
+| --- | --- | --- | --- | --- |
+| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see Chapter 4. | string | `uri:eu.ebw.oid.1` |
 
-### 2.7 Conditional metadata
+### 4.3 Conditional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|------------------------|--------------------------|--------------|--------------|--------------|
+| --- | --- | --- | --- | --- |
 | N/A | N/A | No conditional metadata is defined in this version. | N/A | N/A |
 
-### 2.8 Code lists
+### 4.4 Code lists
 
 | **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
-|----------------|--------------------|-------------|--------------------------|---------------------------|
+| --- | --- | --- | --- | --- |
 | `invoiceFormat` | `EN16931` (default); country-specific profiles e.g. `ZUGFeRD`, `INSBOUW` | Identifies the invoice representation/profile used for the payload. | EN 16931; national CIUS/profiles | EN 16931 is assumed as the default but can be country-specific. WP4 Semantic WG to confirm the controlled set. |
 | `paymentInstructions.paymentMeansCode` | `30`, `48`, `49`, `58` | Payment method: `30` Credit transfer (bank transfer buyer→seller); `48` Bank card (debit/credit card); `49` Direct debit (debited from customer's bank account); `58` SEPA credit transfer (SEPA-compliant credit transfer). | UNTDED 4461 (UNCL 4461) code list | Provides machine-readable payment method identification for automated processing by banks and tax authorities. Additional UNCL 4461 codes MAY be used if agreed across issuer and verifier implementations. |
 | `evidenceReferences` | `URI identifier + hash` | Supported forms for carrying/referencing a supporting business evidence item. | WE BUILD SC5 domestic vocabulary | Broad scope is intentional: purchase-order, delivery, contractual and acceptance/dispute evidence are supported. This field SHALL NOT be used for correction-chain linking. If a URI form is used, the link MUST be publicly accessible (rationale: no standard authorization mechanism exists for protected URIs). |
@@ -329,7 +433,7 @@ on the parent `seller`/`buyer` group being present):
 | `invoiceLifecycleStatus` | `active`, `corrected`, `cancelled`, `credited` | Business lifecycle status of the invoice for corrections, cancellations and credit notes. | WE BUILD SC5 domestic vocabulary | If omitted, the value is interpreted as `active`. State transitions SHALL follow IR-EI-09. Values other than `active` require `precedingInvoiceReference`. |
 | `taxSubtotal.taxCategoryCode` | e.g. `S` (standard), `Z` (zero rated), `E` (exempt), `AE` (reverse charge), `G`, `O`, `K` | VAT category code. | UNCL 5305 (EN 16931 code list) | Use the EN 16931-aligned subset of UNCL 5305. |
 
-### 2.9 Integrity rules
+### 4.5 Integrity rules
 
 *NOTE Two naming inconsistencies in the source description v0.5 have been reconciled here to match the
 attribute tables in Sections 2.2–2.4: `buyerRegistrationIdentifier` → `buyerLegalRegistrationIdentifier`,
@@ -339,10 +443,10 @@ and `totalTaxAmount` → `invoiceTotalVatAmount` and
 
 
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
-|-------------|--------------------|-------------------|--------------------|-------------------------------------------|
+| --- | --- | --- | --- | --- |
 | `IR-EI-01` | The attestation SHALL be valid only if the Supplier's Wallet Unit is bound to a valid legal-entity attestation (e.g., EUCC or equivalent), and the Buyer identity in the invoice matches the receiving Wallet's legal-entity identity. | Ensures both parties are identified legal persons and that the invoice is addressed to the receiving wallet. | Issuer binding (EBWOID, Chapter 5); verifier identity match. | Verifier SHALL treat the attestation as invalid and reject/quarantine the invoice. |
 | `IR-EI-02` | The attestation SHALL be valid only if the Supplier's signing key is trusted and valid at verification time (not expired/revoked/suspended) and the signature verifies. | Guarantees authenticity and integrity of the attestation. | Verifier (base verification 4.2.2–4.2.6). | Verifier SHALL reject. |
-| `IR-EI-03` | `invoicePayloadHash` SHALL equal the hash of the canonicalized invoice payload, using the rulebook-defined canonicalization method and hash algorithm. | Binds the attestation to the exact invoice content and detects tampering. | Issuer at issuance; verifier recomputes on receipt. | Verifier SHALL reject/quarantine on mismatch. *[OPEN — canonicalization method and hash algorithm to be confirmed by WP4 Architecture WG.]* |
+| `IR-EI-03` | `invoicePayloadHash` SHALL equal the hash of the canonicalized invoice payload, using the rulebook-defined canonicalization method and hash algorithm. | Binds the attestation to the exact invoice content and detects tampering. | Issuer at issuance; verifier recomputes on receipt. | Verifier SHALL reject/quarantine on mismatch. *[OPEN, canonicalization method and hash algorithm to be confirmed by WP4 Architecture WG.]* |
 | `IR-EI-04` | `invoiceNumber` SHALL be present and unique for the Supplier within the Relying Party's duplicate-detection window; duplicates SHALL trigger reject or quarantine per Relying Party policy. | Prevents duplicate/replayed invoices. | Verifier business validation. | Verifier SHALL reject or quarantine per policy. |
 | `IR-EI-05` | `issueDate` SHALL be present and not unreasonably in the future (allow clock-skew tolerance). If `dueDate` is present (in a future profile), it SHALL be ≥ `issueDate`. | Ensures temporal plausibility and consistency of dates. | Verifier business validation. | Verifier SHALL reject/quarantine. |
 | `IR-EI-06` | `seller.identifier.euid` and (when `buyer` is present) `buyer.identifier.euid` SHALL match the corresponding identities in the invoice payload; mismatches invalidate the attestation. The other `identifier` members (`lei`, `tax`, `gln`, `duns`, `eori`, `bpnl`, `siren`) are informational and are not subject to this cross-check within the WE BUILD pilot. | Ensures the attestation parties and the payload parties are the same, using the one identifier scheme this Rulebook's trust model actually verifies. | Verifier cross-check against payload. | Verifier SHALL treat the attestation as invalid. |
@@ -350,17 +454,11 @@ and `totalTaxAmount` → `invoiceTotalVatAmount` and
 | `IR-EI-08` | Any referenced evidence SHALL be integrity-bound (hash match) and, where applicable, valid at verification time (status/expiry/revocation). | Ensures supporting evidence cannot be substituted or tampered with. | Verifier evidence verification (see Section 4.2.9). | Verifier SHALL reject/quarantine the affected evidence and apply policy. |
 | `IR-EI-09` | If `invoiceLifecycleStatus` is `corrected`, `cancelled` or `credited`, `precedingInvoiceReference` SHALL be present and SHALL identify the original or preceding invoice and its corresponding eInvoice attestation. Only rulebook-defined lifecycle values and state transitions (see code list 2.8) SHALL be used. | Maintains an auditable, well-formed correction lifecycle and makes the original invoice reference machine-verifiable. | Issuer business rules; verifier reference and state validation. | Verifier SHALL reject an invalid lifecycle value, invalid transition, missing reference or unresolvable preceding invoice/attestation reference. |
 
-## 3 Attestation encoding
 
-### 3.1 ISO/IEC 18013-5-compliant encoding
+## 5 Formats
 
-The eInvoice attestation is presented in automated, online, system-to-system (wallet-to-wallet) flows
-between European Business Wallets (see Chapter 4 and SC5 Scenario 4). There is no proximity / offline
-presentation use case (ARB_02). An ISO/IEC 18013-5 (mdoc) encoding is therefore **not specified** in
-this version. If a future use case requires proximity presentation, a document type and mdoc encoding
-would be added here.
 
-### 3.2 SD-JWT VC-based encoding
+### 5.1 SD-JWT VC-based encoding
 
 This attestation type SHALL be issued in the [SD-JWT VC]-compliant format and SHALL comply with the
 'SD-JWT VCs' profile specified in [HAIP] (ARB_01b).
@@ -382,7 +480,7 @@ RFC 3339 full-date strings; `taxSubtotal` and `evidenceReferences` are JSON arra
 **Registered / standard claims:**
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
-|---------------------|--------------------------|---------------------|---------------------|-----------------|
+| --- | --- | --- | --- | --- |
 | `iss` | iss | string | [IANA-JWT-Claims] | MUST NOT |
 | `iat` | iat | number | [IANA-JWT-Claims] | MUST NOT |
 | `exp` | exp | number | [IANA-JWT-Claims] | MUST NOT |
@@ -393,7 +491,7 @@ RFC 3339 full-date strings; `taxSubtotal` and `evidenceReferences` are JSON arra
 **Private claims specific to this attestation type:**
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
-|---------------------|--------------------------|---------------------|-----------|-----------------|
+| --- | --- | --- | --- | --- |
 | `attestation_legal_category` | attestation_legal_category | string | Section 2.1 | MUST NOT |
 | `invoicePayloadHash` | invoicePayloadHash | string | Integrity anchor; SHALL always be present for verification | MUST NOT |
 | `invoiceFormat` | invoiceFormat | string | Code list 2.8 | MAY |
@@ -406,7 +504,7 @@ RFC 3339 full-date strings; `taxSubtotal` and `evidenceReferences` are JSON arra
 | `invoiceTotalVatAmount` | invoiceTotalVatAmount | string | Mandatory (2.2) | MAY |
 | `InvoiceCurrencyCode` | InvoiceCurrencyCode | string | Mandatory (2.2) | MAY |
 | `taxSubtotal` | taxSubtotal | array | Members in 2.4 | MAY |
-| `paymentInstructions` | paymentInstructions | object | Members in 2.4; sensitive payment data | MUST — issuer SHALL make selectively disclosable so payment details can be withheld where not required |
+| `paymentInstructions` | paymentInstructions | object | Members in 2.4; sensitive payment data | MUST, issuer SHALL make selectively disclosable so payment details can be withheld where not required |
 | `evidenceReferences` | evidenceReferences | array | Members in 2.4; forms and scope in 2.8 | MAY |
 | `precedingInvoiceReference` | precedingInvoiceReference | string | Conditional lifecycle reference (2.4); required by IR-EI-09 for non-active lifecycle states | MUST NOT |
 | `invoiceLifecycleStatus` | invoiceLifecycleStatus | string | Business lifecycle (2.3); distinct from registered `status` metadata; defaults to `active` when omitted | MUST NOT |
@@ -480,14 +578,39 @@ ISSUER IS AVAILABLE]
 [RULEBOOK AUTHOR TO PROVIDE A HUMAN-READABLE VERSION OF THE SD-JWT PAYLOAD WITH THE DISCLOSURES,
 ONCE THE SELECTIVE-DISCLOSURE STRUCTURE IS FINALISED WITH WP4]
 
-### 3.3 W3C Verifiable Credentials Data Model-based encoding
+### 5.2 ISO/IEC 18013-5-compliant encoding
+
+The eInvoice attestation is presented in automated, online, system-to-system (wallet-to-wallet) flows
+between European Business Wallets (see Chapter 4 and SC5 Scenario 4). There is no proximity / offline
+presentation use case (ARB_02). An ISO/IEC 18013-5 (mdoc) encoding is therefore **not specified** in
+this version. If a future use case requires proximity presentation, a document type and mdoc encoding
+would be added here.
+
+### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
 A W3C VCDM encoding is **not specified** for this attestation type. SD-JWT VC (Section 3.2) is the
 single normative encoding for SC5, consistent with the WE BUILD Conformance Specifications. (Note that
 only a non-qualified EAA may use the VCDM format, ARB_01a; this attestation is a non-qualified EAA, so a
 VCDM encoding could be added in future if an interoperability need arises.)
 
-## 4 Attestation usage
+## 6 Protocols
+
+This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].
+
+## 7 Issuance
+
+### 7.1 Binding
+
+| Field | Value | Source |
+| --- | --- | --- |
+| Device-bound | MAY | EW-DM-12-038 |
+| Cryptographically bound to | none | EW-DM-12-032 |
+| Relying Party must also verify a PID | no | EW-DM-12-031 |
+| Binding subject | legal person |  |
+
+### 7.2 Issuance Policy
 
 **Primary use case.** SC5 Scenario 4 (Direct eInvoicing between Business Wallets). The Supplier's EBW
 issues and signs the eInvoice attestation and presents it directly to the Buyer's EBW endpoint using
@@ -502,7 +625,7 @@ binding (see Chapter 5), not by a natural-person PID.
 **Presentation requirements.** Presentation is online and system-to-system via OpenID4VP, using DCQL
 queries as profiled by the WE BUILD Conformance Specification cs-02, in a machine-to-machine context. In
 the supplier-initiated flow, the Supplier's wallet first fetches a fresh Presentation Request (OID4VP
-Request Object — DCQL constraints, nonce, audience, expiry, correlation identifier, submission endpoint)
+Request Object, DCQL constraints, nonce, audience, expiry, correlation identifier, submission endpoint)
 from the Buyer's endpoint, then submits the eInvoice attestation (and invoice payload / optional
 evidence) as the OID4VP response. No offline / proximity presentation is supported. The upcoming
 Implementing Acts may additionally require a (Q)ERDS-based delivery track for stronger delivery evidence;
@@ -523,8 +646,6 @@ attestation type. Although the invoice carries payment information (`paymentInst
 attestation records an *invoice exchange event*; it does not authorise an individual electronic payment,
 so the strong-user-authentication transactional-data mechanism of [Topic 20] does not apply.
 
-### 4.1 Issuance process
-
 The issuer is the Supplier, a legal person self-issuing this EAA through its EBW for each invoice, on
 the basis of an invoice payload prepared by its ERP (canonicalized, with `invoicePayloadHash` computed
 per the agreed rulebook). Issuance uses OpenID4VCI as profiled by the WE BUILD Conformance Specification
@@ -538,7 +659,73 @@ include its own EBWOID-anchored certificate material in the attestation header (
 populate the `status` metadata (see Chapter 6) in every issued attestation, and SHALL ensure
 `invoicePayloadHash` is computed over the canonicalized payload per IR-EI-03.
 
-### 4.2 Relying Party obligations
+### 7.3 Lifecycle management
+
+The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.
+
+### 7.4 Embedded disclosure policy
+
+This attestation defines no embedded disclosure policy.
+
+## 8 Revocation
+
+An eInvoice attestation records an invoice exchange event, and SHALL support revocation so that an
+issued attestation can be invalidated where necessary (e.g., an invoice issued in error). The
+attestation is **revocable**; it is not a short-lived (≤24h) attestation.
+
+#### 6.1 Revocation mechanism
+
+* **Token Status List:** the issuer SHALL maintain an active IETF Token Status List ([Token Status
+  List]), aligned with the Attestation Status List mechanism specified by the EU Commission and mandated
+  by the WE BUILD ADR on Attestation Revocation.
+* **Credential metadata:** the `status` metadata SHALL be populated in every issued attestation with:
+  * `status_list_credential` (string, URI), the URI of the Status List Credential containing the status
+    bitstring;
+  * `status_list_index` (integer, ≥ 0), the zero-based index into the status list bitstring for this
+    attestation.
+* **Authorized authority:** only the issuing Supplier (the self-issuing legal entity) may modify the
+  status list entry.
+
+#### 6.2 Relationship between revocation and `invoiceLifecycleStatus`
+
+Cryptographic revocation (via the registered Token Status List `status` metadata, Section 6.1) is distinct
+from the business-level `invoiceLifecycleStatus` attribute (`active`/`corrected`/`cancelled`/`credited`,
+Section 2.3). `invoiceLifecycleStatus` and the correction/credit-note lifecycle (IR-EI-09) express the
+accounting state of the invoice, while Token Status List revocation expresses the cryptographic validity
+of the attestation. An issuer correcting or cancelling an invoice SHOULD issue a new attestation with the
+appropriate `invoiceLifecycleStatus` value and a `precedingInvoiceReference` identifying the original or
+preceding invoice. The issuer SHALL revoke the superseded attestation via the Token Status List where it
+should no longer be relied upon.
+
+#### 6.3 Revocation triggers and business rules
+
+* **Issuer trigger (obligation):** the Supplier SHALL revoke the attestation without undue delay when
+  the invoice is cancelled or replaced, or when the attestation was issued in error or contains
+  inaccurate identity data.
+* **Relying Party action:** a revoked or suspended attestation SHALL be treated as invalid; the Buyer
+  SHALL reject or quarantine an invoice relying on it. The business interpretation of a revocation (e.g.
+  handling of invoices already accepted) is determined by the Relying Party's internal policies.
+
+## 9 Presentation
+
+### 9.1 Presentation Policy
+
+To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:
+
+1. verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;
+2. verify that the attestation is within its validity period;
+3. check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;
+4. verify device binding where section 7.1 records the attestation as device-bound;
+5. request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.
+
+Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:
 
 When receiving and processing an eInvoice attestation, the Relying Party (the Buyer, or a delegated
 third-party processor) SHALL perform the following verification obligations.
@@ -550,8 +737,8 @@ Base Verification specification:
 <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations>
 
 This covers verification of attestation authenticity and issuer identity via the EBWOID chain
-(4.2.2–4.2.4), validity periods (4.2.5), revocation status (4.2.6) — including checking the Supplier's
-authorization status against the Status Service — wallet integrity via the WUA (4.2.7), and holder key
+(4.2.2–4.2.4), validity periods (4.2.5), revocation status (4.2.6), including checking the Supplier's
+authorization status against the Status Service, wallet integrity via the WUA (4.2.7), and holder key
 binding (4.2.8).
 
 #### 4.2.9 Validate attestation-specific integrity rules
@@ -560,7 +747,7 @@ In addition to the base verification, the Relying Party SHALL apply the integrit
 IR-EI-09 defined in Section 2.9. In particular, the Relying Party SHALL: recompute `invoicePayloadHash`
 over the received invoice payload and confirm it matches (IR-EI-03); confirm that the invoice's buyer
 field matches the receiving Wallet's own identity (IR-EI-01); confirm `seller.identifier.euid` (and, when
-present, `buyer.identifier.euid`) matches the corresponding payload identities (IR-EI-06) — the other
+present, `buyer.identifier.euid`) matches the corresponding payload identities (IR-EI-06), the other
 `identifier` members are informational only and are not cross-checked; verify VAT arithmetic consistency
 (IR-EI-07); and, where `evidenceReferences` are present, retrieve the referenced artefacts via their URI
 and verify their hash and, where applicable, validity (IR-EI-08); and validate `invoiceLifecycleStatus`
@@ -569,7 +756,16 @@ all checks pass, the Buyer's Wallet accepts the invoice and stores the attestati
 check fails, it rejects or quarantines the invoice with an error code. In both cases an optional status
 message MAY be returned to the Supplier's Wallet.
 
-## 5 Trust anchors
+### 9.2 Presentation modes
+
+Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.
+
+### 9.3 Transactional data
+
+This Rulebook defines no transactional data.
+
+## 10 Trust Framework
 
 This chapter specifies how a Relying Party establishes trust in the issuer of an eInvoice attestation.
 The corresponding verification procedures are steps 4.2.2–4.2.4 of the Base Verification specification.
@@ -593,68 +789,19 @@ trust model:
 
 For endpoint discovery and issuer-metadata resolution, the WE BUILD **List of Trusted Entities (LoTE)**
 per [ETSI TS 119 602] is used (the EC's proposed European Digital Directory (EDD) may serve this role).
-*[OPEN — the trust anchor mechanism for LPID and signing keys (registry vs federation vs QTSP signals)
+*[OPEN, the trust anchor mechanism for LPID and signing keys (registry vs federation vs QTSP signals)
 is not in scope of SC5 but is a dependency; it will be based on [ETSI TS 119 602]. WP4 Trust Registry
 Infrastructure WG to confirm.]*
 
-## 6 Revocation
+**Trust anchor location**
 
-An eInvoice attestation records an invoice exchange event, and SHALL support revocation so that an
-issued attestation can be invalidated where necessary (e.g., an invoice issued in error). The
-attestation is **revocable**; it is not a short-lived (≤24h) attestation.
+The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.
 
-### 6.1 Revocation mechanism
-
-* **Token Status List:** the issuer SHALL maintain an active IETF Token Status List ([Token Status
-  List]), aligned with the Attestation Status List mechanism specified by the EU Commission and mandated
-  by the WE BUILD ADR on Attestation Revocation.
-* **Credential metadata:** the `status` metadata SHALL be populated in every issued attestation with:
-  * `status_list_credential` (string, URI) — the URI of the Status List Credential containing the status
-    bitstring;
-  * `status_list_index` (integer, ≥ 0) — the zero-based index into the status list bitstring for this
-    attestation.
-* **Authorized authority:** only the issuing Supplier (the self-issuing legal entity) may modify the
-  status list entry.
-
-### 6.2 Relationship between revocation and `invoiceLifecycleStatus`
-
-Cryptographic revocation (via the registered Token Status List `status` metadata, Section 6.1) is distinct
-from the business-level `invoiceLifecycleStatus` attribute (`active`/`corrected`/`cancelled`/`credited`,
-Section 2.3). `invoiceLifecycleStatus` and the correction/credit-note lifecycle (IR-EI-09) express the
-accounting state of the invoice, while Token Status List revocation expresses the cryptographic validity
-of the attestation. An issuer correcting or cancelling an invoice SHOULD issue a new attestation with the
-appropriate `invoiceLifecycleStatus` value and a `precedingInvoiceReference` identifying the original or
-preceding invoice. The issuer SHALL revoke the superseded attestation via the Token Status List where it
-should no longer be relied upon.
-
-### 6.3 Revocation triggers and business rules
-
-* **Issuer trigger (obligation):** the Supplier SHALL revoke the attestation without undue delay when
-  the invoice is cancelled or replaced, or when the attestation was issued in error or contains
-  inaccurate identity data.
-* **Relying Party action:** a revoked or suspended attestation SHALL be treated as invalid; the Buyer
-  SHALL reject or quarantine an invoice relying on it. The business interpretation of a revocation (e.g.
-  handling of invoices already accepted) is determined by the Relying Party's internal policies.
-
-## 7 Compliance
-
-This Rulebook follows the structure mandated by [Topic 12] of the ARF and the WE BUILD Attestation
-Rulebook Template v1.1. The eInvoice attestation is a **non-qualified EAA** in the sense of the
-[European Digital Identity Regulation], implemented within the WE BUILD pilot trust framework rather
-than the eIDAS production ecosystem (WP4 Blueprint D4.1 §1.2.1). It uses the SD-JWT VC format profiled
-by [HAIP], OpenID4VCI for issuance and OpenID4VP/DCQL for presentation per the WE BUILD Conformance
-Specifications (cs-01, cs-02), and the IETF Token Status List for revocation per the WE BUILD ADR on
-Attestation Revocation. The invoice payload is bound to the [EN 16931] semantic model with [Peppol BIS
-Billing 3.0] syntax (country-specific profiles permitted), consistent with ViDA-relevant guidance where
-applicable. Escalation to an eIDAS-qualified EAA (QEAA), and any associated QTSP involvement, is a
-post-pilot decision and out of scope for this version. Open dependencies (payload canonicalization and
-hash strategy; the LPID/signing-key trust anchor mechanism) are tracked with WP4 and noted inline in
-Sections 2.9 and 5.
-
-## 8 References
+## 11 References
 
 | **Item Reference** | **Standard name/details** |
-|--------------------|---------------------------|
+| --- | --- |
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
 | [HAIP] | OpenID4VC High Assurance Interoperability Profile, OpenID Foundation, draft-03 |
 | [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. <https://www.iana.org/assignments/jwt/jwt.xhtml> |
@@ -665,23 +812,23 @@ Sections 2.9 and 5.
 | [Token Status List] | Token Status List, IETF OAuth WG. <https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/> |
 | [OpenID4VCI] | OpenID for Verifiable Credential Issuance, OpenID Foundation |
 | [OpenID4VP] | OpenID for Verifiable Presentations, OpenID Foundation |
-| [ETSI TS 119 602] | ETSI TS 119 602 — Trusted Lists / List of Trusted Entities (LoTE). <https://www.etsi.org/deliver/etsi_TS/119600_119699/119602/01.01.01_60/> |
-| [Topic 7] | ARF Annex 2 — Topic 7 — Attestation revocation and revocation checking |
-| [Topic 10] | ARF Annex 2 — Topic 10 — Issuing a PID or attestation to a Wallet Unit |
-| [Topic 12] | ARF Annex 2 — Topic 12 — Attestation Rulebooks |
-| [Topic 20] | ARF Annex 2 — Topic 20 — Strong User authentication for electronic payments |
+| [ETSI TS 119 602] | ETSI TS 119 602, Trusted Lists / List of Trusted Entities (LoTE). <https://www.etsi.org/deliver/etsi_TS/119600_119699/119602/01.01.01_60/> |
+| [Topic 7] | ARF Annex 2, Topic 7, Attestation revocation and revocation checking |
+| [Topic 10] | ARF Annex 2, Topic 10, Issuing a PID or attestation to a Wallet Unit |
+| [Topic 12] | ARF Annex 2, Topic 12, Attestation Rulebooks |
+| [Topic 20] | ARF Annex 2, Topic 20, Strong User authentication for electronic payments |
 | [EN 16931] | European standard on the semantic data model of the core elements of an electronic invoice |
 | [Peppol BIS Billing 3.0] | OpenPeppol Business Interoperability Specification, Billing 3.0 |
 | [UNCL 4461] | UNTDED 4461 (UN/CEFACT) Payment means code list |
 | [UNCL 5305] | UN/CEFACT Duty/tax/fee category code list (VAT category codes) |
 | [ViDA] | Council Directive amending Directive 2006/112/EC as regards VAT rules for the digital age (Digital Reporting Requirements) |
 | [Company Law Directive] | Directive (EU) 2017/1132 relating to certain aspects of company law (basis for the EUID and the Business Registers Interconnection System, BRIS) |
-| [ISO 17442] | ISO 17442 — Legal Entity Identifier (LEI) |
+| [ISO 17442] | ISO 17442, Legal Entity Identifier (LEI) |
 | [EWC RB001] | EWC LPID Rulebook |
 | [EWC RB002] | EWC EUCC Rulebook |
 | [WP4 Blueprint] | WE BUILD Deliverable D4.1 (trust infrastructure blueprint) |
 | [WBCS] | WE BUILD Conformance Specifications, cs-01 (issuance) and cs-02 (presentation) |
-| [WE BUILD ADR — Revocation] | WE BUILD Architecture Decision Record on Attestation Revocation |
-| [rb-base — Base Verification] | WE BUILD Rulebook for common verification steps for all attestations. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md> |
-| [rb-base — Handshake] | WE BUILD Rulebook for Mutual Identification & Consent Handshake. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/holder-authorization-handshake.md> |
+| [WE BUILD ADR, Revocation] | WE BUILD Architecture Decision Record on Attestation Revocation |
+| [rb-base, Base Verification] | WE BUILD Rulebook for common verification steps for all attestations. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md> |
+| [rb-base, Handshake] | WE BUILD Rulebook for Mutual Identification & Consent Handshake. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/holder-authorization-handshake.md> |
 | [rb-ebwoid] | WE BUILD EBWOID Rulebook. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-ebwoid/README.md> |
