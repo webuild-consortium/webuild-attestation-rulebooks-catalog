@@ -446,36 +446,6 @@
       "examples": [
         "https://www.belastingdienst.nl/trust-anchor/vat-id-2024"
       ]
-    },
-    "display": {
-      "type": "array",
-      "description": "Localised display metadata for wallet presentation.",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Display name of the credential.",
-            "examples": [
-              "VAT ID Attestation"
-            ]
-          },
-          "locale": {
-            "type": "string",
-            "description": "Locale identifier for the display entry.",
-            "examples": [
-              "en-GB"
-            ]
-          },
-          "label": {
-            "type": "string",
-            "description": "Localised label shown to the wallet user.",
-            "examples": [
-              "VAT Identification Number"
-            ]
-          }
-        }
-      }
     }
   },
   "required": [
