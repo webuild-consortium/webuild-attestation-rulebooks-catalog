@@ -68,14 +68,6 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
-### 1.1 Document scope and purpose
-
-The AuthorisedSignatories Attestation records all natural persons who are authorised to act on
-behalf of a legal entity, providing comprehensive transparency on signatory rights and
-representation powers. This attestation is a critical component of both Know Your Customer (KYC)
-and Know Your Supplier (KYS) processes within the EUDI Wallet ecosystem, supporting effective
-risk management, regulatory compliance, and anti-money laundering (AML) obligations.
-
 This attestation addresses the following question:
 **Who is authorised to act (sign, transact, etc) on behalf of this legal entity?**
 
@@ -83,6 +75,14 @@ The authority to act on behalf of a legal entity can be derived from two primary
 - **Statutory Power:** Authority based on a direct entry in a national public register (e.g., a Commercial Register).
 - **Delegated Power:** Authority granted via a separate Power of Attorney (PoA) Attestation, which was issued by the company which issued the AuthorisedSignatories Attestation.
 As a digital, verifiable list of natural persons possessing representation powers, this attestation enables a Relying Party (such as banks or fintechs) to confidently confirm that a specific person (the Signatory) has the authority to make binding commitments (e.g., signing a contract) in financial and contractual settings with third parties. This attestation is mandatory, for example, when opening a corporate bank account, though other business use cases may require the same type of verification.
+
+### 1.1 Document scope and purpose
+
+The AuthorisedSignatories Attestation records all natural persons who are authorised to act on
+behalf of a legal entity, providing comprehensive transparency on signatory rights and
+representation powers. This attestation is a critical component of both Know Your Customer (KYC)
+and Know Your Supplier (KYS) processes within the EUDI Wallet ecosystem, supporting effective
+risk management, regulatory compliance, and anti-money laundering (AML) obligations.
 
 **Important distinctions:**
 - An Authorised Signatory does not need to be a registered Legal Representative.
@@ -255,7 +255,7 @@ This attestation type **MAY** be classified as:
 | person_role | [role](https://w3id.org/ebwv#role) <br> property needs additional Domains and Ranges in EBWV | Information about the natural person role | Object |
 | identification | [identifier](https://w3id.org/ebwv#identifier) <br> at the moment "identifier" is a property, but it could point to a adms:Identifier type of class; or what does "identification" actually mean in this context? | Information about the identification of the person | Object |
 
-#### 3.2.3 Example Payload
+#### 3.1.2 Example Payload
 The following is a non-normative example of an AuthorisedSignatories Attestation SD-JWT VC payload:
 
 ```
@@ -337,14 +337,6 @@ The following is a non-normative example of an AuthorisedSignatories Attestation
 }
 ```
 Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/authorised-signatories-sd-jwt-sample.json
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the
-Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ### 3.2 Mandatory attributes
 
@@ -462,7 +454,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Representation Type Codes
+#### 4.4.1 Representation Type Codes
 
 The `representation_type` attribute **SHALL** use one of the following standardized values:
 
@@ -474,7 +466,7 @@ The `representation_type` attribute **SHALL** use one of the following standardi
 > **Note:** The representation type applies in the context of financial relationships
 > (e.g., opening a bank account, currency account, credit line, etc.).
 
-#### 2.8.2 Type of Identity Document Codes
+#### 4.4.2 Type of Identity Document Codes
 
 The `document_type` attribute, when present, **SHALL** use one of the following standardized values:
 
@@ -529,7 +521,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build:authorisedsignatories:1`
 
-#### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -590,7 +582,7 @@ The `.` notation is used to indicate the nesting of attributes.
 - The `NaturalPersonIdentifier` group of attributes is marked as `MAY` disclosable as a unit
  , if any attribute within the group is disclosed, all four **SHALL** be disclosed together.
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if  the technical validity period is greater than 24 hours. This claim enables Relying Parties to
 determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
@@ -643,7 +635,6 @@ as profiled by [HAIP].
 
 ### 7.2 Issuance Policy
 
-
 **For EAA (Self-Issued / Standard Issuance)**: 
 - The issuer (i.e., the legal entity itself) issues the attestation based on the information and supporting documentation available at the time of issuance. 
 - The issuer is responsible for ensuring that the attested information remains accurate and must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
@@ -668,13 +659,13 @@ This attestation defines no embedded disclosure policy.
 
 An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
 
-#### 6.1 Revocation Mechanism
+#### 8.1 Revocation Mechanism
 - Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
 - Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
 
 Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
 
-#### 6.2 Revocation Triggers & Business Rules
+#### 8.2 Revocation Triggers & Business Rules
 - QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
 - EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
 
@@ -682,6 +673,11 @@ Relying Party Action: A revoked or suspended attestation must be treated as inva
 The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 9 Presentation
+
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
 ### 9.1 Presentation Policy
 
@@ -716,7 +712,7 @@ This Rulebook defines no transactional data.
 
 This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
 
-#### 5.1 Qualified Electronic Attestations of Attributes (QEAAs)
+#### 10.1 Qualified Electronic Attestations of Attributes (QEAAs)
 
 For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
 The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.
@@ -728,7 +724,7 @@ Successful certificate chain validation establishes that:
 
 In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.
 
-#### 5.2 Electronic Attestations of Attributes (EAAs)
+#### 10.2 Electronic Attestations of Attributes (EAAs)
 
 For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
 The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
