@@ -77,13 +77,12 @@ and Know Your Supplier (KYS) processes within the EUDI Wallet ecosystem, support
 risk management, regulatory compliance, and anti-money laundering (AML) obligations.
 
 This attestation addresses the following question:
-**Who is authorised to act or sign on behalf of this legal entity?**
-
-As a digital, verifiable list of natural persons possessing representation powers, this attestation enables a Relying Party (such as banks or fintechs) to confidently confirm that a specific person (the Signatory) has the authority to make binding commitments (e.g., signing a contract) in financial and contractual settings with third parties. This attestation is mandatory, for example, when opening a corporate bank account, though other business use cases may require the same type of verification.
+**Who is authorised to act (sign, transact, etc) on behalf of this legal entity?**
 
 The authority to act on behalf of a legal entity can be derived from two primary sources:
 - **Statutory Power:** Authority based on a direct entry in a national public register (e.g., a Commercial Register).
 - **Delegated Power:** Authority granted via a separate Power of Attorney (PoA) Attestation, which was issued by the company which issued the AuthorisedSignatories Attestation.
+As a digital, verifiable list of natural persons possessing representation powers, this attestation enables a Relying Party (such as banks or fintechs) to confidently confirm that a specific person (the Signatory) has the authority to make binding commitments (e.g., signing a contract) in financial and contractual settings with third parties. This attestation is mandatory, for example, when opening a corporate bank account, though other business use cases may require the same type of verification.
 
 **Important distinctions:**
 - An Authorised Signatory does not need to be a registered Legal Representative.
