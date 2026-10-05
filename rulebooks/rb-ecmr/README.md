@@ -195,7 +195,7 @@ All attributes and metadate SHALL be disclosable.
 
 ### 3.2 Mandatory attributes
 
-#### 2.2.1 Consignment identification 
+#### 3.2.1 Consignment identification
 
 | Data Identifier | Definition | Data Type | Example Value |
 | --- | --- | --- | --- |
@@ -209,7 +209,7 @@ All attributes and metadate SHALL be disclosable.
 
 Optional attributes are the eFTI Information and a human readable eCMR (MVP+).
 
-#### 2.3.1 eFTI information (MVP+)
+#### 3.3.1 eFTI information (MVP+)
 
 eFTI Unique Information Link.
 
@@ -225,7 +225,7 @@ Note2: Other fields might be considered whith MVP+ scenario and added later if n
 - QR Code image could be added later if needed.
 - XML MMT file (base64).
 
-#### 2.3.2 Human readable eCMR (MVP+)
+#### 3.3.2 Human readable eCMR (MVP+)
 | Data Identifier | Definition | Data Type | Example Value |
 | --- | --- | --- | --- |
 | embedded_ecmr_pdf | Embedded human-readable eCMR document for offline presentation | actual pdf/a file as base64 string |  |
@@ -236,7 +236,7 @@ These attributes must be present when offline verification or human-readable pre
 
 ### 3.4 Conditional attributes
 
-#### 2.4.1 Parties identification (MVP)
+#### 3.4.1 Parties identification (MVP)
 
 | Data Identifier | Definition | Data Type | Example Value |
 | --- | --- | --- | --- |
