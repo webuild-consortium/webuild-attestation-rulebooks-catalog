@@ -58,6 +58,7 @@ Category: non-qualified EAA
    * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
+   * [9.4 Presentation lifecycle](#94-presentation-lifecycle)
 - [10 Trust Framework](#10-trust-framework)
 - [11 References](#11-references)
 
@@ -181,13 +182,6 @@ Unlike SCA-User, SCA-IBAN does support selective disclosure.
 
 This document defines the attribute `attestation_legal_category` which SHALL have the value `"QEAA"`,
 `"PuB-EAA"`, or `"non-qualified-EAA"`.
-
-#### 1 Introduction
-
-#### 4.2 Presentation lifecycle
-
-SCA-IBAN SHOULD be presented when the presentation request comes from a Verifier acting as a PISP in the PSD2
-scheme with payment transaction data as described in [TS12].
 
 ### 3.2 Mandatory attributes
 
@@ -610,6 +604,11 @@ chapter 5 records an mdoc encoding.
 ### 9.3 Transactional data
 
 This Rulebook defines no transactional data.
+
+### 9.4 Presentation lifecycle
+
+SCA-IBAN SHOULD be presented when the presentation request comes from a Verifier acting as a PISP in the PSD2
+scheme with payment transaction data as described in [TS12].
 
 ## 10 Trust Framework
 
