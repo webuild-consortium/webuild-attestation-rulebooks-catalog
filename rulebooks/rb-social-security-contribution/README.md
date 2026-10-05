@@ -209,8 +209,6 @@ This attestation type MAY be classified as:
   body (e.g. a social security agency).
 - **`Pub-EAA`** when issued by a member state institution (To be verified).
 
-#### 1 Introduction
-
 ### 3.2 Mandatory attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
@@ -491,99 +489,6 @@ Finally, illustrative examples SHALL be included.
 [RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF FULL OR PARTIAL mDOC OF THE ATTESTATION]
 
 [RULEBOOK AUTHOR TO PROVIDE THE ATTRIBUTES AND THEIR VALUES INCLUDED IN THE EXAMPLE]
-
-#### 3.2 SD-JWT VC-based encoding
-
-*If the attestation type supports the format specified in "SD-JWT-based Verifiable
-Credentials (SD-JWT VC)", then in this section the SD-JWT VC-compliant encoding
-of attributes and metadata SHALL be defined. It SHALL be ensured that the attestations
-comply with the 'SD-JWT VCs' profile specified in [HAIP] (see ARB_01b in [Topic 12]).*
-
-*It is noted that a Schema Provider MAY specify in the Attestation
-Rulebook that that type of attestation must be issued in the [SD-JWT VC]-compliant
-format, provided the [SD-JWT VC] specification has been approved by an EU standardisation
-body or by the European Digital Identity Cooperation Group established pursuant to
-Article 46e(1) of the [European Digital Identity Regulation] (see ARB_03 in [Topic 12]).*
-
-*In this section, a Verifiable Credential Type (`vct`) SHALL be defined,
-which SHALL be unique within the scope of the EUDI Wallet ecosystem (see ARB_05 in [Topic 12]).*
-
-[RULEBOOK AUTHOR TO DEFINE THE ATTESTATION TYPE]
-
-*Additionally, when specifying new attributes, existing conventions
-for attribute identifier values and attribute syntaxes SHOULD
-be considered (see ARB_07 in [Topic 12]).*
-
-*Rulebook authors SHALL ensure that each claim name is either
-
-* included in the IANA registry for JWT claims,
-* is a Public Name as defined in [RFC 7519], or
-* or is a Private Name specific to the attestation type. (see ARB_06b in [Topic 12]).*
-
-*For all claims (i.e., all top-level properties, all nested properties, and all array entries),
-the Rulebook SHALL specify whether an Attestation Provider MUST, MAY, or MUST NOT make that
-claim selectively disclosable (see ARB_30 in [Topic 12]).*
-
-*Rulebook authors SHOULD consider defining a Type Metadata Document for the attestation type
-specified in the Rulebook, as defined in Chapter 6 of [SD-JWT VC]. If such a document is defined,
-it SHOULD contain the Claim Selective Disclosure Metadata (defined in Section 9.3 of [SD-JWT VC])
-for each of the claims, in order to specify if that claim is selectively disclosable (see ARB_31
-in [Topic 12]).*
-
-*IANA-registered claims should be presented in table that
-includes their data identifier, attribute identifier,
-encoding format, and reference or note. For example,*
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
-| --- | --- | --- | --- | --- |
-| family_name | family_name | string | Section 5.1 of [OIDC] | MUST |
-
-*A similar table should be used for Public Names and for Private Names specific
-to the attestation type defined in this document. For
-example:*
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
-| --- | --- | --- | --- | --- |
-| trust_anchor | trust_anchor | string | The trust anchor defined in Section 5 | MUST NOT |
-
-*The corresponding entry for the "attestation_legal_category" attribute defined
-in Section 2.1 SHALL be:*
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
-| --- | --- | --- | --- | --- |
-| attestation_legal_category | attestation_legal_category | string | Defined in Attestation Rulebook template | MUST NOT |
-
-Finally, illustrative examples SHALL be included.
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE JWT CLAIM SET USED BY THE PROVIDER]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE ISSUED SD-JWT (IN base64 ENCODING)]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF A HUMAN READABLE VERSION OF THE SD-JWT PAYLOAD
-AND A DESCRIPTION OF THE DISCLOSURES INCLUDED IN THE EXAMPLE]
-
-#### 3.3 W3C Verifiable Credentials Data Model-based encoding
-
-*If the attestation type supports the the format specified in W3C Verifiable Credentials
-Data Model, then in this section the  corresponding encoding  of attributes and
-metadata should be defined.*
-
-*It is noted that only a a non-qualified EAA can use this format (see ARB_01a in [Topic 12])*
-
-*Tables similar to the ones specified in section 4 SHALL be defined.*
-
-*This section SHALL reference one or more documents specifying in detail how a
-Relying Party can request attributes from a such an attestation, and how a User
-can selectively disclose attributes from such an attestation. Moreover, these
-referenced documents SHALL be approved by an EU standardisation body or by the European
-Digital Identity Cooperation Group established pursuant to Article 46e(1) of the
-[European Digital Identity Regulation] (see ARB_04 in [Topic 12]).*
-
-*Finally, illustrative examples SHALL be included.*
-
-[RULEBOOK AUTHOR TO PROVIDE HUMAN READABLE EXAMPLE OF THE ISSUED ATTESTATION]
-
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE PROOF TYPE]
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
