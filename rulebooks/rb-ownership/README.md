@@ -125,12 +125,12 @@ The Owner model follows a hierarchical structure:
 ```
 Owner [1..n]                                    // The person or entity that holds an interest
 ├─ type (enum) (M)                              // "Person" | "Entity"
-├─ jurisdiction (tstr) (M)                      // ISO 3166-1 alpha-2
 ├─ person (O, conditional on type="Person")
 │   ├─ first_name (tstr) (M)
 │   ├─ surname (tstr) (M)
 │   ├─ birth_date (date) (O)                    // ISO 8601 YYYY-MM-DD
-│   └─ domicile (Address) (M)                    // The domicile address of a person
+│   ├─ jurisdiction (tstr) (M)                      // ISO 3166-1 alpha-2
+│   └─ residency (Address) (M)                    // The domicile address of a person
 │       ├─ street (tstr) (M)
 │       ├─ house_number (tstr) (M)
 │       ├─ locality (tstr) (M)
@@ -387,7 +387,7 @@ interests in another legal entity.
 |---------------------|------------------------|-------------------------------------------------------------------------------------------------|----------------|
 | `type`              | can be derived                      | Discriminator field — SHALL be `"Person"` or `"Entity"`. Determines which sub-object is present | Enum (String)  |
 | `jurisdiction`      | [jurisdiction](https://w3id.org/ebwv#jurisdiction) | Country of legal relevance for this owner entry — ISO 3166-1 alpha-2                            | String         |
-| `address`           | [domicile](https://w3id.org/ebwv#domicile).[Address](https://w3id.org/ebwv#Address) | Address of the owner — residential for `Person`, registered for `Entity`                        | Address Object |
+| `address`           | [Address](https://w3id.org/ebwv#Address) | Address of the owner — residential for `Person`, registered for `Entity`                        | Address Object |
 | `interests`         | [interests](https://w3id.org/ebwv#interests) | At least one interests record describing the ownership or control relationship                   | Array [Object] |
 | `effective_date`    | [effectiveDate](https://w3id.org/ebwv#effectiveDate) | Date when this ownership or control relationship became legally effective — ISO 8601 YYYY-MM-DD  | Date           |
 | `evidence`          | [evidence](https://w3id.org/ebwv#evidence) | At least one piece of supporting evidence substantiating the declared ownership or control       | Array [Object] |
@@ -399,7 +399,8 @@ interests in another legal entity.
 | `person.first_name` | [givenName](https://w3id.org/ebwv#givenName) | First name(s) of the natural person, including middle name(s) where applicable  | String        |
 | `person.surname`    | [familyName](https://w3id.org/ebwv#familyName) | Last name(s) or surname(s) of the natural person owner                          | String        |
 | `person.birth_date` | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth — ISO 8601 YYYY-MM-DD                                             | Date          |
-| `person.domicile` | [domicile](https://w3id.org/ebwv#dateOfBirth) | The domicile address of the person                                            | Address         |
+| `person.residency` | [temporaryAddress](https://w3id.org/ebwv#domicile) |                                            | Address         |
+| `person.jurisdiction` | [residency](https://w3id.org/ebwv#residency) |                                            | CountryCode         |
 
 **Entity Owner Mandatory Attributes** *(present when `type = "Entity"`)*
 
