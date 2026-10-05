@@ -67,6 +67,12 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**Is a specific IBAN legally owned by a designated legal entity or natural person, and has this ownership been verified and confirmed by the account-servicing financial institution?**
+
+The IBAN Ownership Verification (IBAN-OV) Attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person (e.g. acting as a sole trader), enabling structured and fraud-resistant exchange of bank account ownership data for use in KYS, KYC, and payment compliance processes.
+
 ### 1.1 Document scope and purpose
 
 The IBAN-OV attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person. This verified proof of ownership can be used across various business processes (e.g. onboarding process, supporting payment-related triggers) to reduce errors and mitigate fraud risks. This attestation will not be used to initiate or execute any kind of payment.
@@ -230,54 +236,6 @@ This attestation type MAY be classified as:
 
 - **"EAA"** when issued by the bank (ASPSP) acting as an authorized issuer within the EUDI  framework according to ETSI 119 478.
 
-#### 1 Introduction
-
-This attestation addresses the following question:
-
-**Is a specific IBAN legally owned by a designated legal entity or natural person, and has this ownership been verified and confirmed by the account-servicing financial institution?**
-
-The IBAN Ownership Verification (IBAN-OV) Attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person (e.g. acting as a sole trader), enabling structured and fraud-resistant exchange of bank account ownership data for use in KYS, KYC, and payment compliance processes.
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
-
-In accordance with sections 4.2.5 and 4.2.6 of the Base Verification Process, relying parties are required to automatically verify the credential's revocation status. This verification confirms the current status of the bank account, thereby rendering an additional 'bank_account_status' attribute obsolete.
-
-#### 4.2.9 Validate Integrity Rules
-
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
-
-- The Relying Party SHALL verify that the attestation is NOT being used to initiate or execute a payment.
-- The Relying Party SHALL verify that the `IBAN conforms` to ISO 13616:2020 format.
-- The Relying Party SHALL verify that the `bic_swift` conforms to ISO 9362 format.
-- The Relying Party SHALL verify that the `expiry_date` is after the issuance_date.
-- The Relying Party SHALL verify that owner_type is present in account_ownership and contains exactly one of the permitted values ('entity', 'person').
-- The Relying Party SHALL verify that the name attributes present in account_ownership are consistent with the declared owner_type: owner_name for legal persons; given_name and surname for natural persons.
-- Additional validation of integrity and policy rules will be specified in a future version of this Rulebook.
-
-#### 8 References
-
-| **Item Reference** | **Standard name/details** |
-| --- | --- |
-| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| [HAIP] | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
-| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml |
-| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
-| [ISO 4217] | ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html |
-| [ISO 8601] | ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html |
-| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html |
-| [RFC 2119] | RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
-| [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
-| [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
-| [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
-| [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
-| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09 |
-| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking |
-| [Token Status List] | OAuth Status List. draft-ietf-oauth-status-list-21. Available: https://www.ietf.org/archive/id/draft-ietf-oauth-status-list-21.html |
-
 ### 3.2 Mandatory attributes
 
 **Bank_Account Mandatory Attributes**
@@ -367,7 +325,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Currency Codes
+#### 4.4.1 Currency Codes
 
 The `account_currency` attribute SHALL follow ISO 4217:2015 currency codes.
 
@@ -379,7 +337,7 @@ The `account_currency` attribute SHALL follow ISO 4217:2015 currency codes.
 | CHF | Swiss Franc |
 | … | … |
 
-#### 2.8.2 Account Type Codes
+#### 4.4.2 Account Type Codes
 
 The `account_type` attribute SHOULD use one of the following standardized values:
 
@@ -391,7 +349,7 @@ The `account_type` attribute SHOULD use one of the following standardized values
 | LOAN | Loan Account |
 | OTHER | Other |
 
-#### 2.8.3 Owner Type Codes
+#### 4.4.3 Owner Type Codes
 
 | **Example Code** | **Definition** |
 | --- | --- |
@@ -430,7 +388,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build:iban-ov.1`
 
-#### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -475,7 +433,7 @@ The `.` notation is used to indicate the nesting of attributes.
   credential verification and trust establishment.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant IBAN-OV attestations, the attestation MUST include a `status` claim if
 the technical validity period is greater than 24 hours. This claim enables Relying Parties to
@@ -499,9 +457,10 @@ Example:
     }
   }
 }
+```
 
 
-#### 3.2.3 Example Payload
+#### 5.1.3 Example Payload
 
 The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a **legal person**:
 ```
@@ -615,10 +574,6 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
 ```
 Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/iban-ov-sd-jwt-sample.json
 
-#### 3.3 W3C Verifiable Credentials Data Model-based encoding
-
-...
-
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
 ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity presentation is not a current requirement for the IBAN-OV attestation.
@@ -675,6 +630,21 @@ This chapter will be completed in a future version of this Rulebook.
 
 ## 9 Presentation
 
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
+
+In accordance with sections 4.2.5 and 4.2.6 of the Base Verification Process, relying parties are required to automatically verify the credential's revocation status. This verification confirms the current status of the bank account, thereby rendering an additional 'bank_account_status' attribute obsolete.
+
+#### Validate Integrity Rules
+- The Relying Party SHALL verify that the attestation is NOT being used to initiate or execute a payment.
+- The Relying Party SHALL verify that the `IBAN conforms` to ISO 13616:2020 format.
+- The Relying Party SHALL verify that the `bic_swift` conforms to ISO 9362 format.
+- The Relying Party SHALL verify that the `expiry_date` is after the issuance_date.
+- The Relying Party SHALL verify that owner_type is present in account_ownership and contains exactly one of the permitted values ('entity', 'person').
+- The Relying Party SHALL verify that the name attributes present in account_ownership are consistent with the declared owner_type: owner_name for legal persons; given_name and surname for natural persons.
+
 ### 9.1 Presentation Policy
 
 To verify and validate a received presentation of an attestation of this type, the
@@ -716,3 +686,21 @@ at which a machine-readable version can be found or looked up.
 ## 11 References
 
 This chapter will be completed in a future version of this Rulebook.
+
+| **Item Reference** | **Standard name/details** |
+| --- | --- |
+| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
+| [HAIP] | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
+| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
+| [ISO 4217] | ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html |
+| [ISO 8601] | ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html |
+| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html |
+| [RFC 2119] | RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
+| [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
+| [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
+| [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09 |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking |
+| [Token Status List] | OAuth Status List. draft-ietf-oauth-status-list-21. Available: https://www.ietf.org/archive/id/draft-ietf-oauth-status-list-21.html |
