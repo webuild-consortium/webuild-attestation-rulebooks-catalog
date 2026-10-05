@@ -60,6 +60,20 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+A DUNS Legal Entity Attestation contains the DUNS number (DUNS – Data Universal
+Numbering System) provided by Dun & Bradstreet to a legal entity and additional legal entity name and adress information.  A DUNS
+number is a unique identifier issued by Dun & Bradstreet  for three types of business entities: a) legal entities b) sites and
+c) locations.
+
+The DUNS number is a nine-digit numeric code that uniquely identifies a business
+entity worldwide, providing a standardized reference for suppliers, customers, and
+regulatory authorities.
+
+In the context of supplier verification and the Know Your Supplier (KYS) process, a
+DUNS number serves several critical functions. In several industry branches it is
+impossible for a legal entity to do business without providing this number to business
+partners.
+
 ### 1.1 Document scope and purpose
 
 The DUNS Legal Entity Attestation complements the EUCC by providing the DUNS number for a legal entity. With this number an EBW owner can acces the Dun & Bradstreet Database to request additional non-core
@@ -198,69 +212,6 @@ This attestation type MAY be classified as:
 
 **VC Type:** `vct: eu.we-build:duns:1`
 
-#### 1 Introduction
-
-A DUNS Legal Entity Attestation contains the DUNS number (DUNS – Data Universal
-Numbering System) provided by Dun & Bradstreet to a legal entity and additional legal entity name and adress information.  A DUNS
-number is a unique identifier issued by Dun & Bradstreet  for three types of business entities: a) legal entities b) sites and
-c) locations.
-
-The DUNS number is a nine-digit numeric code that uniquely identifies a business
-entity worldwide, providing a standardized reference for suppliers, customers, and
-regulatory authorities.
-
-In the context of supplier verification and the Know Your Supplier (KYS) process, a
-DUNS number serves several critical functions. In several industry branches it is
-impossible for a legal entity to do business without providing this number to business
-partners.
-
-#### 3.2.3 Example Payload
-The following is a non-normative example of a DUNS SD-JWT VC payload:
-```
-{
-  "vct": "eu.we-build:duns:1",
-  "iss": "did:example:duns-issuer-001",
-  "iat": 1736935200,
-  "exp": 1768471200,
-  "attestation_legal_category": "EAA",
-  "duns_number": "123456789",
-  "legal_entity": {
-    "legal_name": "Example GmbH",
-    "legal_form": "GmbH",
-    "address": {
-      "street": "Musterstraße",
-      "nr": "42",
-      "postal_code": "70174",
-      "city": "Stuttgart",
-      "country": "DE"
-    }
-  },
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/duns/2025",
-    "status_list_index": 456,
-    "status_purpose": "revocation"
-  },
-  "cnf": {
-    "jwk": {
-      "kty": "EC",
-      "crv": "P-256",
-      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-    }
-  }
-}
-```
-Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/duns-sd-jwt-sample.json
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the
-Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
-
 ### 3.2 Mandatory attributes
 
 **DUNS Attestation Attributes**
@@ -328,7 +279,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Country Codes
+#### 4.4.1 Country Codes
 The `legal_entity.address.country` attribute, if provided, **SHALL** use a country code as defined by **ISO 3166-1 alpha-2** (e.g., `DE` for Germany, `US` for United States).
 
 ### 4.5 Integrity rules
@@ -350,7 +301,7 @@ The DUNS Legal Entity attestation uses the SD-JWT VC format to allow for selecti
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:duns:1`
 
-#### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -375,7 +326,7 @@ The DUNS Legal Entity attestation uses the SD-JWT VC format to allow for selecti
 | trust_anchor_url | `trust_anchor_url` | String (URI) | Optional URL to the trust anchor. | MAY |
 | schema_version | `schema_version` | String | Optional version of the schema. | MAY |
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if the technical validity period is greater than 24 hours.
 
 The `status` claim SHALL be a JSON object with the following members:
@@ -398,6 +349,45 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
+
+#### 5.1.3 Example Payload
+The following is a non-normative example of a DUNS SD-JWT VC payload:
+```
+{
+  "vct": "eu.we-build:duns:1",
+  "iss": "did:example:duns-issuer-001",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "attestation_legal_category": "EAA",
+  "duns_number": "123456789",
+  "legal_entity": {
+    "legal_name": "Example GmbH",
+    "legal_form": "GmbH",
+    "address": {
+      "street": "Musterstraße",
+      "nr": "42",
+      "postal_code": "70174",
+      "city": "Stuttgart",
+      "country": "DE"
+    }
+  },
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/duns/2025",
+    "status_list_index": 456,
+    "status_purpose": "revocation"
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}
+```
+Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/duns-sd-jwt-sample.json
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
@@ -446,19 +436,24 @@ This attestation defines no embedded disclosure policy.
 
 An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
 
-#### 6.1 Revocation Mechanism
+#### 8.1 Revocation Mechanism
 - Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
 - Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
 
 Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
 
-#### 6.2 Revocation Triggers & Business Rules
+#### 8.2 Revocation Triggers & Business Rules
 - EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
 
 Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
 The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 9 Presentation
+
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
 ### 9.1 Presentation Policy
 
@@ -493,10 +488,10 @@ This Rulebook defines no transactional data.
 
 This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) . The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
 
-#### 5.1 Qualified Electronic Attestations of Attributes (QEAAs)
+#### 10.1 Qualified Electronic Attestations of Attributes (QEAAs)
 not available.
 
-#### 5.2 Electronic Attestations of Attributes (EAAs)
+#### 10.2 Electronic Attestations of Attributes (EAAs)
 
 For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
 The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
