@@ -382,7 +382,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Legal Entity Identifier Type Codes
+#### 4.4.1 Legal Entity Identifier Type Codes
 The `identifier` objects within `Legal_Entity` and `scope` **SHOULD** use one or more of the following standardized identifier types as keys:
 
 | **Code** | **Definition** |
@@ -396,7 +396,7 @@ The `identifier` objects within `Legal_Entity` and `scope` **SHOULD** use one or
 | `bpnl` | Business Partner Number Legal entity (Catena-X identifier per ICD 0243). |
 | `siren` | Système d'Identification du Répertoire des ENtreprises (French identifier). |
 
-#### 2.8.2 Certificate Type Codes
+#### 4.4.2 Certificate Type Codes
 The `type` attribute **SHOULD** use one of the following standardized values where applicable. Other certificate types **MAY** be used as free-text strings.
 
 | **Code** | **Definition** |
@@ -408,7 +408,7 @@ The `type` attribute **SHOULD** use one of the following standardized values whe
 | `ISO50001` | Energy Management Systems |
 | `AEO` | Authorised Economic Operator, EU customs certification |
 
-#### 2.8.3 Evidence Type Codes
+#### 4.4.3 Evidence Type Codes
 The `evidence.type` attribute **SHOULD** use one of the following values:
 
 | **Code** | **Definition** |
@@ -442,7 +442,7 @@ The ESG Certificate Attestation uses the SD-JWT VC format to allow for selective
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:esgcertificate:1`
 
-##### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference / Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -505,7 +505,7 @@ The ESG Certificate Attestation uses the SD-JWT VC format to allow for selective
 | trust_anchor_url | `trust_anchor_url` | String (URI) | Optional URL to the trust anchor. | MAY |
 | schema_version | `schema_version` | String | Optional version of the schema. | MAY |
 
-##### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if the technical validity period is greater than 24 hours.
 
@@ -530,7 +530,7 @@ The `status` claim SHALL be a JSON object with the following members:
 }
 ```
 
-##### 3.2.3 Example Payload
+#### 5.1.3 Example Payload
 The following is a non-normative example of an ESG Certificate Attestation SD-JWT VC payload.
 ```json
 {
@@ -677,6 +677,11 @@ The business interpretation is determined by the Relying Party's internal compli
 
 ## 9 Presentation
 
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+
 ### 9.1 Presentation Policy
 
 To verify and validate a received presentation of an attestation of this type, the
@@ -696,14 +701,6 @@ Obligations specific to this attestation type, carried over from the Relying Par
 obligations of the previous version of this Rulebook:
 
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the
-Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ### 9.2 Presentation modes
 
