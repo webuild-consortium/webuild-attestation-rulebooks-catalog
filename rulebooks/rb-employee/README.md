@@ -61,6 +61,12 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This document describes how the European Digital Identity (EUDI) Wallet ecosystem can simplify complex administrative processes for posted workers within the EU. The primary objective is to facilitate the **one-single market vision promoted by the EU-commission**, achieving seamless movement of services and people across Member States.
+
+The Services Directive (Directive 2006/123/EC) strengthens the freedom to provide services within the EU. This directive is crucial for the completion of the internal market, since it has huge potential for delivering benefits to consumers and SMEs. The aim is to create an open single market in services within the EU, while at the same time ensuring the quality of services provided to consumers. According to the Commission communication entitled ‘Europe 2020 – A strategy for smart, sustainable and inclusive growth’, the full implementation of the Services Directive could increase trade in commercial services by 45% and foreign direct investment by 25%, bringing an increase of between 0.5% and 1.5% in GDP. The directive contributes to administrative and regulatory simplification and modernisation.
+
+It is important to note that the European Commission has set ambitious goals for 2024-2029 and beyond. These goals are designed to boost Europe’s competitiveness by creating a faster, simpler, and more united Union. This starts with making business easier and faster across all sectors and tackling the skills and labour gap. Europe’s Single Market should allow services and people to move freely and opening up markets. The focus will be on reducing administrative burdens and simplifying implementation: less red tape and reporting, more trust, better enforcement, faster permitting. They will also address the patchwork of national regulations that makes doing doing business in different EU countries more complicated.
+
 ### 1.1 Document scope and purpose
 
 The Employee Credential is a Verifiable Credential (VC) issued by an employer to all its employees to certify that they are part of the company. The only quality given to the employees by this credential is to certify they work for that company in a given point in time. Additional qualities could be provided such as Power of Attorney (PoA) or Signatory Rights (SR) to sign contracts or transactions. The employee credentials are given by employers to their employees to prove that they belong to their company.
@@ -217,70 +223,9 @@ This attestation type is classified as:
 
 **VC Type:** `vct: eu.europa.ec.eudi.employee.1`
 
-#### 1 Introduction
-
-This document describes how the European Digital Identity (EUDI) Wallet ecosystem can simplify complex administrative processes for posted workers within the EU. The primary objective is to facilitate the **one-single market vision promoted by the EU-commission**, achieving seamless movement of services and people across Member States.
-
-The Services Directive (Directive 2006/123/EC) strengthens the freedom to provide services within the EU. This directive is crucial for the completion of the internal market, since it has huge potential for delivering benefits to consumers and SMEs. The aim is to create an open single market in services within the EU, while at the same time ensuring the quality of services provided to consumers. According to the Commission communication entitled ‘Europe 2020 – A strategy for smart, sustainable and inclusive growth’, the full implementation of the Services Directive could increase trade in commercial services by 45% and foreign direct investment by 25%, bringing an increase of between 0.5% and 1.5% in GDP. The directive contributes to administrative and regulatory simplification and modernisation.
-
-It is important to note that the European Commission has set ambitious goals for 2024-2029 and beyond. These goals are designed to boost Europe’s competitiveness by creating a faster, simpler, and more united Union. This starts with making business easier and faster across all sectors and tackling the skills and labour gap. Europe’s Single Market should allow services and people to move freely and opening up markets. The focus will be on reducing administrative burdens and simplifying implementation: less red tape and reporting, more trust, better enforcement, faster permitting. They will also address the patchwork of national regulations that makes doing doing business in different EU countries more complicated.
-
-#### 3.2.3 Example Payload
-
-The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
-```
-{
-  "vct": "eu.europa.ec.eudi:employee:1",
-  "iss": "https://issuer.example.com",
-  "iat": 1736935200,
-  "exp": 1768471200,
-  "issuing_entity": "did:example:company-de-123456",
-  "issuing_country": "DE",
-  "attestation_legal_category": "EAA",
-  "schema_version": "1.0",
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-  "name": "Anna",
-  "surname": "Schmidt",
-  "birth_date": "1990-05-15",
-  "employee_id": "EMP-DE-00789",
-  "company_info": {
- "euid": "DE-HRB-123456",
- "name": "Example GmbH"
-  },
-  "employment": {
- "start_date": "2020-03-01",
- "type": "full-time",
- "country": "DE"
-  },
-  "status": {
- "type": "status-list",
- "status_list_credential": "https://issuer.example.com/status/employee/2025",
- "status_list_index": 142,
- "status_purpose": "revocation"
-  },
-  "cnf": {
- "jwk": {
-   "kty": "EC",
-   "crv": "P-256",
-   "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-   "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
- }
-  }
-}
-```
-Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/employee-sd-jwt-sample.json
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the
-Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
-
 ### 3.2 Mandatory attributes
 
-#### 2.2.1 Employee Attributes
+#### 3.2.1 Employee Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
 | --- | --- | --- | --- | --- |
@@ -288,7 +233,7 @@ Validation of integrity and policy rules will be specified in a future version o
 | surname | [familyName](https://w3id.org/ebwv#familyName)<br>[familyName – Schema.org Property](https://schema.org/familyName) | Family name of the employee. | M | tstr |
 | employee_id | [identifier](https://w3id.org/ebwv#identifier) | An alphanumeric identifier of the employee assigned by the employing organization. | M | tstr |
 
-#### 2.2.2 Company Info Attributes
+#### 3.2.2 Company Info Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
 | --- | --- | --- | --- | --- |
@@ -296,7 +241,7 @@ Validation of integrity and policy rules will be specified in a future version o
 | company_info.euid | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | European Unique Identifier (EUID) of the employing legal entity. | M | tstr |
 | company_info.name | [legalName](https://w3id.org/ebwv#legalName) | Registered name of the employing legal entity. | M | tstr |
 
-#### 2.2.3 Employment Attributes (when `employment` object is present)
+#### 3.2.3 Employment Attributes (when `employment` object is present)
 
 When the optional `employment` object is included, the following attributes are mandatory
 within it:
@@ -317,7 +262,7 @@ within it:
 ### 3.4 Conditional attributes
 
 No conditional attributes are defined for this attestation type beyond those described in
-section 2.2.3. When the `employment` object is present, `start_date`, `type`, and `country`
+section 3.2.3. When the `employment` object is present, `start_date`, `type`, and `country`
 SHALL all be provided.
 
 ## 4 Metadata
@@ -353,7 +298,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Employment Type Values
+#### 4.4.1 Employment Type Values
 
 The `employment.type` attribute SHOULD use descriptive employment type labels. The following
 non-exhaustive list of example values is provided for guidance:
@@ -370,7 +315,7 @@ non-exhaustive list of example values is provided for guidance:
 Note: Employment type values are free-text strings in this version of the Rulebook.
 Standardized taxonomies MAY be adopted in future versions.
 
-#### 2.8.2 Country Values
+#### 4.4.2 Country Values
 
 The `employment.country` attribute SHALL use country codes as defined by **ISO 3166-1 alpha-2**
 (e.g., `DE` for Germany, `FR` for France, `IT` for Italy).
@@ -416,7 +361,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `vct: eu.europa.ec.eudi:employee:1`
 
-#### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -450,7 +395,7 @@ The `.` notation is used to indicate the nesting of attributes.
   credential verification and trust establishment.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant Control Attestations, the attestation MUST include a `status` claim if
 the technical validity period is greater than 24 hours. This claim enables Relying Parties to
@@ -477,6 +422,51 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
+
+#### 5.1.3 Example Payload
+
+The following is a non-normative example of a CompanyInfo SD-JWT VC payload:
+```
+{
+  "vct": "eu.europa.ec.eudi:employee:1",
+  "iss": "https://issuer.example.com",
+  "iat": 1736935200,
+  "exp": 1768471200,
+  "issuing_entity": "did:example:company-de-123456",
+  "issuing_country": "DE",
+  "attestation_legal_category": "EAA",
+  "schema_version": "1.0",
+  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
+  "name": "Anna",
+  "surname": "Schmidt",
+  "birth_date": "1990-05-15",
+  "employee_id": "EMP-DE-00789",
+  "company_info": {
+ "euid": "DE-HRB-123456",
+ "name": "Example GmbH"
+  },
+  "employment": {
+ "start_date": "2020-03-01",
+ "type": "full-time",
+ "country": "DE"
+  },
+  "status": {
+ "type": "status-list",
+ "status_list_credential": "https://issuer.example.com/status/employee/2025",
+ "status_list_index": 142,
+ "status_purpose": "revocation"
+  },
+  "cnf": {
+ "jwk": {
+   "kty": "EC",
+   "crv": "P-256",
+   "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+   "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+ }
+  }
+}
+```
+Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/employee-sd-jwt-sample.json
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
@@ -526,19 +516,24 @@ This attestation defines no embedded disclosure policy.
 
 An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
 
-#### 6.1 Revocation Mechanism
+#### 8.1 Revocation Mechanism
 - Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
 - Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
 
 Authorized Authority: Only the authorized issuer (the self-issuing legal entity for EAA) may modify the status list entry.
 
-#### 6.2 Revocation Triggers & Business Rules
+#### 8.2 Revocation Triggers & Business Rules
 - EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
 
 Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
 The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 9 Presentation
+
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
 ### 9.1 Presentation Policy
 
@@ -573,7 +568,7 @@ This Rulebook defines no transactional data.
 
 This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
 
-#### 5.2 Electronic Attestations of Attributes (EAAs)
+#### 10.1 Electronic Attestations of Attributes (EAAs)
 
 For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
 The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
