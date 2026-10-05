@@ -66,6 +66,12 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**Who are the designated contact persons within a legal entity and what are their roles and contact details?**
+
+The Contact Person Attestation identifies and verifies natural persons acting as designated contacts of a economic operator, enabling automated and secure exchange of trustworthy contact person data between economic operators in supply chain, procurement, and onboarding processes.
+
 ### 1.1 Document scope and purpose
 
 Cross-company communication and data exchange is daily business in supply management. Knowing the correct and
@@ -257,21 +263,6 @@ This attestation type is classified as:
 | legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | EBW Organization Identifier, Identifier of the employing legal entity according to the European Business Wallet (EBW) framework | M | tstr |
 | contact_person | [org:hasMembership](https://www.w3.org/ns/org#hasMembership).[org:member](https://www.w3.org/ns/org#member) | Object representing details of an individual contact person. This can be repeated for multiple contacts. | M (at least one) | Object |
 
-#### 1 Introduction
-
-This attestation addresses the following question:
-
-**Who are the designated contact persons within a legal entity and what are their roles and contact details?**
-
-The Contact Person Attestation identifies and verifies natural persons acting as designated contacts of a economic operator, enabling automated and secure exchange of trustworthy contact person data between economic operators in supply chain, procurement, and onboarding processes.
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
-
 ### 3.2 Mandatory attributes
 
 **LegalPerson Attributes**
@@ -386,7 +377,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Role Values
+#### 4.4.1 Role Values
 The `role` attribute SHOULD use descriptive role labels aligned with organizational functions. The following non-exhaustive list is provided for guidance:
 
 | **Example Role Value** | **Definition** |
@@ -417,7 +408,7 @@ The Contact Person Attestation uses the SD-JWT VC format to allow for selective 
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:contactperson:1`
 
-#### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -450,7 +441,7 @@ The Contact Person Attestation uses the SD-JWT VC format to allow for selective 
 | trust_anchor_url | `trust_anchor_url` | String (URI) | URL to the trust anchor; optional. | MAY |
 | schema_version | `schema_version` | String | Version of the schema used; optional. | MAY |
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if the technical validity period is greater than 24 hours.
 
 The `status` claim SHALL be a JSON object with the following members:
@@ -474,7 +465,7 @@ The `status` claim SHALL be a JSON object with the following members:
 }
 ```
 
-#### 3.2.3 Example Payload
+#### 5.1.3 Example Payload
 Here is a non-normative example payload reflecting the new model:
 ```json
 {
@@ -579,19 +570,23 @@ This attestation defines no embedded disclosure policy.
 
 An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.
 
-#### 6.1 Revocation Mechanism
+#### 8.1 Revocation Mechanism
 - Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
 - Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
 
 Authorized Authority: Only the authorized issuer (the self-issuing legal entity for EAA) may modify the status list entry.
 
-#### 6.2 Revocation Triggers & Business Rules
+#### 8.2 Revocation Triggers & Business Rules
 - EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
 
 Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
 The business interpretation is determined by the Relying Party's internal compliance policies.
 
 ## 9 Presentation
+
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
 
 ### 9.1 Presentation Policy
 
@@ -626,7 +621,7 @@ This Rulebook defines no transactional data.
 
 This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
 
-#### 5.1 Electronic Attestations of Attributes (EAAs)
+#### 10.1 Electronic Attestations of Attributes (EAAs)
 For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
 The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
 
