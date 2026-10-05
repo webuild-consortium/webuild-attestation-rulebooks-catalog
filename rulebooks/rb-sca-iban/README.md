@@ -2,7 +2,6 @@
 
 Category: non-qualified EAA
 
-(Template version: 1.1)
 
 
 *[Based on the WE BUILD attestation description: https://portal.webuildconsortium.eu/group/wp3-technology-standards/files?mid=6883&fid%5B0%5D=6880&fid%5B1%5D=7094]*
@@ -47,6 +46,9 @@ Category: non-qualified EAA
    * [4.4 Code lists](#44-code-lists)
    * [4.5 Integrity rules](#45-integrity-rules)
 - [5 Formats](#5-formats)
+   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
 - [6 Protocols](#6-protocols)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
@@ -313,8 +315,6 @@ The SCA-IBAN attestation supports the SD-JWT VC format as specified in [SD-JWT V
   "exp": 1751328000,
   "vct": "https://issuer.bank.cz/credentials/sca/iban/1.0",
   "vct#integrity": "sha256-abc123def456...",
-  "extends": "https://webuildconsortium.eu/sca/sca-iban/1.0",
-  "extends#integrity": "sha256-def456abc123...",
   "sub": "urn:uuid:123e4567-e89b-12d3-a456-426614174000",
   "cnf": {
     "jwk": {
@@ -472,6 +472,7 @@ Attribute values in the example:
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
+This Rulebook does not define a W3C Verifiable Credentials Data Model encoding for this attestation type.
 
 ## 6 Protocols
 
