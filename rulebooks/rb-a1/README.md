@@ -51,6 +51,9 @@ Category: non-qualified EAA
    * [4.4 Code lists](#44-code-lists)
    * [4.5 Integrity rules](#45-integrity-rules)
 - [5 Formats](#5-formats)
+   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
 - [6 Protocols](#6-protocols)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
@@ -729,6 +732,7 @@ presentation are not a current requirement for the PD A1 attestation.
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
+This Rulebook does not define a W3C Verifiable Credentials Data Model encoding for this attestation type.
 
 ## 6 Protocols
 
