@@ -164,21 +164,6 @@ The Hello World Attestation is a **Qualified EAA (QEAA)** for testing purposes.
 It defines a single fixed attribute and mandatory Annex V metadata to comply with Regulation (EU) 2024/1183.  
 The attribute `attestation_legal_category` SHALL be `"QEAA"`.
 
-#### 1 Introduction
-
-#### 2.5 Mandatory metadata
-
-| Data Identifier | Definition | Data type | Example value |
-| --- | --- | --- | --- |
-| issuing_authority | Issuer ID (resolvable via TL) | string | `https://issuer.webuildconsortium.eu` |
-| issuer_legal_id | Legal person identifier | string | `LEI:1234567890` |
-| trust_anchor_url | Trusted List URL | string | `https://trustedlist.eu/issuer` |
-| attestation_scheme | Scheme details | string | `QEAA:HelloWorld` |
-| issuance_date | Issue time *(mirrors auth. source)* | tdate | `2025-10-07T12:00:00Z` |
-| expiry_date | Expiry time *(mirrors auth. source)* | tdate | `2025-10-07T23:59:59Z` (≤24h) |
-
-> **Note:** `issuance_date` and `expiry_date` **SHALL** be present and **SHALL** match the authoritative validity source (`validityInfo` in mdoc, `iat`/`exp` in SD-JWT). They **SHALL NOT** be used for validation.
-
 ### 3.2 Mandatory attributes
 
 | Data Identifier | Definition | Data type | Example value |
@@ -207,6 +192,17 @@ Section 4.1 of the generic template replaces it with the `category` attribute of
 EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
 `attestation_legal_category`, so the template and the ARF disagree. The attribute is
 left as written and the deviation is recorded for the rulebook quality assurance group.
+
+| Data Identifier | Definition | Data type | Example value |
+| --- | --- | --- | --- |
+| issuing_authority | Issuer ID (resolvable via TL) | string | `https://issuer.webuildconsortium.eu` |
+| issuer_legal_id | Legal person identifier | string | `LEI:1234567890` |
+| trust_anchor_url | Trusted List URL | string | `https://trustedlist.eu/issuer` |
+| attestation_scheme | Scheme details | string | `QEAA:HelloWorld` |
+| issuance_date | Issue time *(mirrors auth. source)* | tdate | `2025-10-07T12:00:00Z` |
+| expiry_date | Expiry time *(mirrors auth. source)* | tdate | `2025-10-07T23:59:59Z` (≤24h) |
+
+> **Note:** `issuance_date` and `expiry_date` **SHALL** be present and **SHALL** match the authoritative validity source (`validityInfo` in mdoc, `iat`/`exp` in SD-JWT). They **SHALL NOT** be used for validation.
 
 ### 4.2 Optional metadata
 
