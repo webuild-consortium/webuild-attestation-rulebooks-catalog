@@ -216,8 +216,6 @@ receiving AP C3); the model is symmetric.
 Subsections 2.2–2.7 define the attributes and metadata. Section 2.8 documents the scope code list and
 Section 2.9 the integrity rules.
 
-#### 1 Introduction
-
 #### Chapter overview and requirements
 
 This chapter defines all attributes and metadata that an Authorized Service Provider attestation may
@@ -483,7 +481,7 @@ An Authorized Service Provider attestation SHALL remain valid only while the und
 effect. The attestation is **revocable** (it is not a short-lived ≤24h attestation; mandates persist
 for the duration of a service agreement).
 
-#### 6.1 Revocation mechanism
+#### 8.1 Revocation mechanism
 
 * **Token Status List:** the issuer SHALL maintain an active IETF Token Status List ([Token Status
   List]), aligned with the Attestation Status List mechanism specified by the EU Commission and
@@ -497,7 +495,7 @@ for the duration of a service agreement).
 * **Authorized authority:** only the issuing company (the self-issuing legal entity) may modify the
   status list entry.
 
-#### 6.2 Revocation triggers and business rules
+#### 8.2 Revocation triggers and business rules
 
 * **Issuer trigger (obligation):** the authorising company SHALL revoke the attestation without undue
   delay when it changes Service Provider, when the service agreement ends, when the authorised scope
@@ -508,6 +506,21 @@ for the duration of a service agreement).
   already in flight) is determined by the Relying Party's internal policies.
 
 ## 9 Presentation
+
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process for EAAs as defined in the
+Base Verification specification:
+<https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations>
+
+This covers verification of attestation authenticity and issuer identity via the EBWOID chain
+(4.2.2–4.2.4), validity periods (4.2.5), revocation status (4.2.6), wallet integrity via the WUA
+(4.2.7), and holder key binding (4.2.8).
+
+#### Validate attestation-specific integrity rules
+In addition to the base verification, the Relying Party SHALL apply the integrity rules IR-ASP-01 to
+IR-ASP-04 defined in Section 2.9, and SHALL verify that the requested operation is within
+`authorization_scope`. A Tax Administration relying party (Scenario 3) SHALL additionally confirm that
+`vida:tax_report` is present and that `tax_reporting_member_state` matches its jurisdiction.
 
 ### 9.1 Presentation Policy
 
@@ -530,23 +543,6 @@ of this Rulebook:
 When receiving and processing an Authorized Service Provider attestation, the Relying Party (the
 counterpart AP, or a Tax Administration in Scenario 3) SHALL perform the following verification
 obligations.
-
-#### 4.2.1 – 4.2.8 Base verification process
-
-The Relying Party SHALL perform the base attestation verification process for EAAs as defined in the
-Base Verification specification:
-<https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations>
-
-This covers verification of attestation authenticity and issuer identity via the EBWOID chain
-(4.2.2–4.2.4), validity periods (4.2.5), revocation status (4.2.6), wallet integrity via the WUA
-(4.2.7), and holder key binding (4.2.8).
-
-#### 4.2.9 Validate attestation-specific integrity rules
-
-In addition to the base verification, the Relying Party SHALL apply the integrity rules IR-ASP-01 to
-IR-ASP-04 defined in Section 2.9, and SHALL verify that the requested operation is within
-`authorization_scope`. A Tax Administration relying party (Scenario 3) SHALL additionally confirm that
-`vida:tax_report` is present and that `tax_reporting_member_state` matches its jurisdiction.
 
 ### 9.2 Presentation modes
 
