@@ -2,7 +2,7 @@
 
 Category: QEAA, PuB-EAA or non-qualified EAA, as stated in `attestation_legal_category`
 
-*This rulebook is derived from the WE BUILD v1 Attestation Rulebook Template and profiles the Certificate of Residence (CoR) attestation guideline for bank account onboarding of natural persons within the WE BUILD Large-Scale Pilot (LSP).*
+*This rulebook is derived from the generic WE BUILD attestation rulebook template, version 1.0 with 11 chapters and profiles the Certificate of Residence (CoR) attestation guideline for bank account onboarding of natural persons within the WE BUILD Large-Scale Pilot (LSP).*
 
 *This is a working document that holds no legal value and does not reflect any common agreement or position of the co-legislators or of the WE BUILD consortium. It presents a state-of-play of ongoing work and should not be considered final.*
 
