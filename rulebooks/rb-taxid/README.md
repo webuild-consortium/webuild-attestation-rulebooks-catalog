@@ -2,7 +2,7 @@
 
 Category: non-qualified EAA
 
-*This rulebook is derived from the WE BUILD v1 Attestation Rulebook Template and profiles the Tax Identification Number (TaxID) attestation description for natural persons within the WE BUILD Large-Scale Pilot (LSP).*
+*This rulebook is derived from the generic WE BUILD attestation rulebook template, version 1.0 with 11 chapters and profiles the Tax Identification Number (TaxID) attestation description for natural persons within the WE BUILD Large-Scale Pilot (LSP).*
 
 *This is a working document that holds no legal value and does not reflect any common agreement or position of the co-legislators or of the WE BUILD consortium. It presents a state-of-play of ongoing work and should not be considered final.*
 
@@ -68,6 +68,9 @@ Category: non-qualified EAA
    * [4.4 Code lists](#44-code-lists)
    * [4.5 Integrity rules](#45-integrity-rules)
 - [5 Formats](#5-formats)
+   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
 - [6 Protocols](#6-protocols)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
