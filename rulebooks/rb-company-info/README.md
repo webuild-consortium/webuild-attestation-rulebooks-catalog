@@ -230,7 +230,7 @@ This attestation type MAY be classified as:
 
 ### 3.2 Mandatory attributes
 
-#### 2.2.1 CompanyInfo Top-Level Attributes
+#### 3.2.1 CompanyInfo Top-Level Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** |
 | --- | --- | --- | --- |
@@ -341,7 +341,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Currency Codes
+#### 4.4.1 Currency Codes
 
 The `unit` attribute within each `Fact` object, when representing a monetary value, SHALL follow **ISO 4217** currency codes.
 
@@ -354,7 +354,7 @@ The `unit` attribute within each `Fact` object, when representing a monetary val
 
 No standardized EU value lists apply to `employee_number` or `trade_alias`.
 
-#### 2.8.2 Financial Taxonomy Codes
+#### 4.4.2 Financial Taxonomy Codes
 
 The `taxonomy` attribute SHOULD use one of the following standardized values:
 
@@ -365,11 +365,11 @@ The `taxonomy` attribute SHOULD use one of the following standardized values:
 | LOCAL-GAAP | Local Generally Accepted Accounting Principles (country-specific) |
 | OECD | OECD reporting framework |
 
-#### 2.8.3 Concept Codes
+#### 4.4.3 Concept Codes
 
 The `concept` attribute SHOULD use one of the following standardized values:
 
-#### 2.8.4 Financial Fact Concept Codes
+#### 4.4.4 Financial Fact Concept Codes
 
 The `concept` attribute within each `Fact` object SHALL use one of the following standardized values:
 
@@ -414,7 +414,7 @@ The `concept` attribute within each `Fact` object SHALL use one of the following
 | NetMargin | Net income as percentage of revenue |
 | DebtToEquity | Leverage ratio |
 
-#### 2.8.3 Fiscal Year Format
+#### 4.4.5 Fiscal Year Format
 
 Fiscal year, as referenced in the `period_start` and `period_end` attributes, SHALL follow the Gregorian calendar year format (**YYYY**) for year identification, with full ISO 8601 date representation (YYYY-MM-DD) for period boundaries.
 
@@ -454,7 +454,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build:companyinfo:1`
 
-##### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -504,7 +504,7 @@ The `.` notation is used to indicate the nesting of attributes.
   within the array are not independently selectively disclosable in this version.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
 
-##### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if  the technical validity period is greater than 24 hours. This claim enables Relying Parties to
 determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.
@@ -530,7 +530,7 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
-#### 3.2.3 Example Payload
+#### 5.1.3 Example Payload
 The following example shows the payload of the attestation in SD-JWT VC format before the encoding into the SD-JWT format.
 ```
 {
@@ -668,6 +668,11 @@ The business interpretation is determined by the Relying Party's internal compli
 
 ## 9 Presentation
 
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+
 ### 9.1 Presentation Policy
 
 To verify and validate a received presentation of an attestation of this type, the
@@ -687,14 +692,6 @@ Obligations specific to this attestation type, carried over from the Relying Par
 obligations of the previous version of this Rulebook:
 
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the
-Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ### 9.2 Presentation modes
 
