@@ -79,6 +79,9 @@ Category: non-qualified EAA
    * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
+   * [9.4 Primary use cases](#94-primary-use-cases)
+   * [9.5 Presentation requirements](#95-presentation-requirements)
+   * [9.6 Device binding](#96-device-binding)
 - [10 Trust Framework](#10-trust-framework)
 - [11 References](#11-references)
 
@@ -220,8 +223,6 @@ The TaxID attestation may be issued as a **QEAA**, **PuB-EAA**, or **non-qualifi
 
 All `tstr` / `string` attributes SHALL have a maximum length of 150 characters unless otherwise stated.
 
-#### 1 Introduction
-
 #### Chapter overview and requirements
 
 This chapter defines all attributes and metadata that a TaxID attestation MAY contain, in an encoding-independent manner. Each attribute is classified as mandatory, optional, or conditional. Abstract data types are used; format-specific encoding details are provided in Chapter 3.
@@ -237,33 +238,6 @@ This chapter defines all attributes and metadata that a TaxID attestation MAY co
 * Trust anchor location SHALL be indicated (ARB\_20, Annex V point h).
 
 **Requirements applicable to TaxID as a PuB-EAA or non-qualified EAA** follow the corresponding provisions of Annex VII and ARB\_12–ARB\_21 of \[Topic 12] respectively.
-
-#### 4.1 Primary use cases
-
-1. **Financial services onboarding:** Verification of a natural person's tax identification in the context of account opening, investment services, or other regulated financial services where a Tax ID is required.
-2. **Cross-border tax information exchange:** Identification of individuals for tax reporting and information exchange across EU member states, in support of DAC (Directive on Administrative Cooperation) or FATCA-equivalent processes.
-3. **Digital onboarding:** Reuse of a verified TaxID attestation in workflows that require a tax number, avoiding re-verification at each service provider.
-
-#### 4.3 Presentation requirements
-
-* **Selective Disclosure** SHALL be used for the TaxID attestation (ARF section 5.3).
-* The TaxID attestation is designed primarily for **remote (online) presentation**. Proximity presentation (offline) is not required by default but MAY be supported by mdoc-capable issuers where Member State governance frameworks require it.
-* Relying parties SHOULD request only the minimum set of attributes necessary for the transaction (data minimisation principle).
-
-#### 4.4 Device binding
-
-The TaxID attestation SHOULD be **device-bound** to the EUDI Wallet Unit of the holder (ARB\_34 of \[Topic 12]). Where device binding is applied and cryptographic binding to the PID is required, the conditional attribute `cryptographically_bound_to` (defined in § 2.4) SHALL be present and SHALL be set to:
-
-* `"eu.europa.ec.eudi.pid.1"` for ISO/IEC 18013-5 (mdoc) attestations; or
-* `"urn:eudi:pid:1"` for SD-JWT VC attestations.
-
-Where the TaxID attestation is not device-bound, the `cryptographically_bound_to` attribute SHALL be omitted.
-
-#### 4.5 Transactional data
-
-No transactional data requirements are defined for this attestation type at this time. \[See Topic 20 of Annex 2 of the ARF for High-Level Requirements related to strong user authentication for electronic payments.]
-
-***
 
 ### 3.2 Mandatory attributes
 
@@ -542,6 +516,29 @@ chapter 5 records an mdoc encoding.
 ### 9.3 Transactional data
 
 This Rulebook defines no transactional data.
+
+No transactional data requirements are defined for this attestation type at this time. \[See Topic 20 of Annex 2 of the ARF for High-Level Requirements related to strong user authentication for electronic payments.]
+
+### 9.4 Primary use cases
+
+1. **Financial services onboarding:** Verification of a natural person's tax identification in the context of account opening, investment services, or other regulated financial services where a Tax ID is required.
+2. **Cross-border tax information exchange:** Identification of individuals for tax reporting and information exchange across EU member states, in support of DAC (Directive on Administrative Cooperation) or FATCA-equivalent processes.
+3. **Digital onboarding:** Reuse of a verified TaxID attestation in workflows that require a tax number, avoiding re-verification at each service provider.
+
+### 9.5 Presentation requirements
+
+* **Selective Disclosure** SHALL be used for the TaxID attestation (ARF section 5.3).
+* The TaxID attestation is designed primarily for **remote (online) presentation**. Proximity presentation (offline) is not required by default but MAY be supported by mdoc-capable issuers where Member State governance frameworks require it.
+* Relying parties SHOULD request only the minimum set of attributes necessary for the transaction (data minimisation principle).
+
+### 9.6 Device binding
+
+The TaxID attestation SHOULD be **device-bound** to the EUDI Wallet Unit of the holder (ARB\_34 of \[Topic 12]). Where device binding is applied and cryptographic binding to the PID is required, the conditional attribute `cryptographically_bound_to` (defined in § 2.4) SHALL be present and SHALL be set to:
+
+* `"eu.europa.ec.eudi.pid.1"` for ISO/IEC 18013-5 (mdoc) attestations; or
+* `"urn:eudi:pid:1"` for SD-JWT VC attestations.
+
+Where the TaxID attestation is not device-bound, the `cryptographically_bound_to` attribute SHALL be omitted.
 
 ## 10 Trust Framework
 
