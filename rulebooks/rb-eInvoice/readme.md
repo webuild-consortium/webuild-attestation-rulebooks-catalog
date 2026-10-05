@@ -264,8 +264,6 @@ identifiers used in the attribute tables below.
 Subsections 2.2–2.7 define the attributes and metadata. Section 2.8 documents the code lists and
 Section 2.9 the integrity rules.
 
-#### 1 Introduction
-
 #### Chapter overview and requirements
 
 This chapter defines all attributes and metadata that an eInvoice attestation may contain, in an
@@ -674,7 +672,7 @@ An eInvoice attestation records an invoice exchange event, and SHALL support rev
 issued attestation can be invalidated where necessary (e.g., an invoice issued in error). The
 attestation is **revocable**; it is not a short-lived (≤24h) attestation.
 
-#### 6.1 Revocation mechanism
+#### 8.1 Revocation mechanism
 
 * **Token Status List:** the issuer SHALL maintain an active IETF Token Status List ([Token Status
   List]), aligned with the Attestation Status List mechanism specified by the EU Commission and mandated
@@ -687,9 +685,9 @@ attestation is **revocable**; it is not a short-lived (≤24h) attestation.
 * **Authorized authority:** only the issuing Supplier (the self-issuing legal entity) may modify the
   status list entry.
 
-#### 6.2 Relationship between revocation and `invoiceLifecycleStatus`
+#### 8.2 Relationship between revocation and `invoiceLifecycleStatus`
 
-Cryptographic revocation (via the registered Token Status List `status` metadata, Section 6.1) is distinct
+Cryptographic revocation (via the registered Token Status List `status` metadata, Section 8.1) is distinct
 from the business-level `invoiceLifecycleStatus` attribute (`active`/`corrected`/`cancelled`/`credited`,
 Section 2.3). `invoiceLifecycleStatus` and the correction/credit-note lifecycle (IR-EI-09) express the
 accounting state of the invoice, while Token Status List revocation expresses the cryptographic validity
@@ -698,7 +696,7 @@ appropriate `invoiceLifecycleStatus` value and a `precedingInvoiceReference` ide
 preceding invoice. The issuer SHALL revoke the superseded attestation via the Token Status List where it
 should no longer be relied upon.
 
-#### 6.3 Revocation triggers and business rules
+#### 8.3 Revocation triggers and business rules
 
 * **Issuer trigger (obligation):** the Supplier SHALL revoke the attestation without undue delay when
   the invoice is cancelled or replaced, or when the attestation was issued in error or contains
@@ -708,6 +706,30 @@ should no longer be relied upon.
   handling of invoices already accepted) is determined by the Relying Party's internal policies.
 
 ## 9 Presentation
+
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process for EAAs as defined in the
+Base Verification specification:
+<https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations>
+
+This covers verification of attestation authenticity and issuer identity via the EBWOID chain
+(4.2.2–4.2.4), validity periods (4.2.5), revocation status (4.2.6), including checking the Supplier's
+authorization status against the Status Service, wallet integrity via the WUA (4.2.7), and holder key
+binding (4.2.8).
+
+#### Validate attestation-specific integrity rules
+In addition to the base verification, the Relying Party SHALL apply the integrity rules IR-EI-01 to
+IR-EI-09 defined in Section 2.9. In particular, the Relying Party SHALL: recompute `invoicePayloadHash`
+over the received invoice payload and confirm it matches (IR-EI-03); confirm that the invoice's buyer
+field matches the receiving Wallet's own identity (IR-EI-01); confirm `seller.identifier.euid` (and, when
+present, `buyer.identifier.euid`) matches the corresponding payload identities (IR-EI-06), the other
+`identifier` members are informational only and are not cross-checked; verify VAT arithmetic consistency
+(IR-EI-07); and, where `evidenceReferences` are present, retrieve the referenced artefacts via their URI
+and verify their hash and, where applicable, validity (IR-EI-08); and validate `invoiceLifecycleStatus`
+together with `precedingInvoiceReference` for corrections, cancellations and credit notes (IR-EI-09). If
+all checks pass, the Buyer's Wallet accepts the invoice and stores the attestation for audit; if any
+check fails, it rejects or quarantines the invoice with an error code. In both cases an optional status
+message MAY be returned to the Supplier's Wallet.
 
 ### 9.1 Presentation Policy
 
@@ -729,32 +751,6 @@ of this Rulebook:
 
 When receiving and processing an eInvoice attestation, the Relying Party (the Buyer, or a delegated
 third-party processor) SHALL perform the following verification obligations.
-
-#### 4.2.1 – 4.2.8 Base verification process
-
-The Relying Party SHALL perform the base attestation verification process for EAAs as defined in the
-Base Verification specification:
-<https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations>
-
-This covers verification of attestation authenticity and issuer identity via the EBWOID chain
-(4.2.2–4.2.4), validity periods (4.2.5), revocation status (4.2.6), including checking the Supplier's
-authorization status against the Status Service, wallet integrity via the WUA (4.2.7), and holder key
-binding (4.2.8).
-
-#### 4.2.9 Validate attestation-specific integrity rules
-
-In addition to the base verification, the Relying Party SHALL apply the integrity rules IR-EI-01 to
-IR-EI-09 defined in Section 2.9. In particular, the Relying Party SHALL: recompute `invoicePayloadHash`
-over the received invoice payload and confirm it matches (IR-EI-03); confirm that the invoice's buyer
-field matches the receiving Wallet's own identity (IR-EI-01); confirm `seller.identifier.euid` (and, when
-present, `buyer.identifier.euid`) matches the corresponding payload identities (IR-EI-06), the other
-`identifier` members are informational only and are not cross-checked; verify VAT arithmetic consistency
-(IR-EI-07); and, where `evidenceReferences` are present, retrieve the referenced artefacts via their URI
-and verify their hash and, where applicable, validity (IR-EI-08); and validate `invoiceLifecycleStatus`
-together with `precedingInvoiceReference` for corrections, cancellations and credit notes (IR-EI-09). If
-all checks pass, the Buyer's Wallet accepts the invoice and stores the attestation for audit; if any
-check fails, it rejects or quarantines the invoice with an error code. In both cases an optional status
-message MAY be returned to the Supplier's Wallet.
 
 ### 9.2 Presentation modes
 
