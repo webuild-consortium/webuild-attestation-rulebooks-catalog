@@ -284,8 +284,8 @@ Applies to both `site_main_address` and entries within `site_additional_addresse
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Existing Vocabularies** |
 | --- | --- | --- | --- | --- |
-| parent_economic_operator_additional_id | [identifier](https://w3id.org/ebwv#identifier) | Array of additional economic operator identifiers. **MAY** contain zero or more entries. **SHALL** use identifier types from Section 2.8.1 | Array of Strings [0..n] | European Business Wallet Vocabulary v0.1 |
-| site_additional_ids | [identifier](https://w3id.org/ebwv#identifier) | Array of additional site identifiers associated to this site. **MAY** contain zero or more entries. **SHALL** use identifier types from Section 2.8.2 | Array of Strings [0..n] | Core Location Vocabulary |
+| parent_economic_operator_additional_id | [identifier](https://w3id.org/ebwv#identifier) | Array of additional economic operator identifiers. **MAY** contain zero or more entries. **SHALL** use identifier types from Section 4.4.1 | Array of Strings [0..n] | European Business Wallet Vocabulary v0.1 |
+| site_additional_ids | [identifier](https://w3id.org/ebwv#identifier) | Array of additional site identifiers associated to this site. **MAY** contain zero or more entries. **SHALL** use identifier types from Section 4.4.2 | Array of Strings [0..n] | Core Location Vocabulary |
 | site_additional_addresses | [hasAddress](https://w3id.org/ebwv#hasAddress) | Array of additional addresses associated to the site (e.g., additional entrances or addresses of external/rented buildings used by the site). **MAY** contain zero or more entries | Array of Address [0..n] | Core Location Vocabulary |
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** |
@@ -353,7 +353,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Economic Operator Identifier Type Codes
+#### 4.4.1 Economic Operator Identifier Type Codes
 The `economic_operator.identifier` object **SHOULD** use one or more of the following standardized identifier types as keys:
 
 | **Code** | **Definition** |
@@ -367,7 +367,7 @@ The `economic_operator.identifier` object **SHOULD** use one or more of the foll
 | `bpnl` | Business Partner Number Legal entity (Catena-X identifier per ICD 0243). |
 | `siren` | Système d'Identification du Répertoire des ENtreprises (French identifier). |
 
-#### 2.8.2 Site Identifier Type Codes
+#### 4.4.2 Site Identifier Type Codes
 The `additional_identifiers` object **SHOULD** use one or more of the following standardized site-level identifier types as keys:
 
 | **Code** | **Definition** |
@@ -399,7 +399,7 @@ The Site Attestation uses the SD-JWT VC format to allow for selective disclosure
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:site:1`
 
-##### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -434,7 +434,7 @@ The Site Attestation uses the SD-JWT VC format to allow for selective disclosure
 | trust_anchor_url | `trust_anchor_url` | String (URI) | Optional URL to the trust anchor. | MAY |
 | schema_version | `schema_version` | String | Optional version of the schema. | MAY |
 
-##### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 For SD-JWT VC-compliant Attestations, the attestation MUST include a `status` claim if the technical validity period is greater than 24 hours.
 
 The `status` claim SHALL be a JSON object with the following members:
@@ -457,7 +457,7 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
-#### 3.2.3 Example Payload
+#### 5.1.3 Example Payload
 
 The following is a non-normative example of a Site Attestation SD-JWT VC payload:
 
@@ -589,6 +589,11 @@ The business interpretation is determined by the Relying Party's internal compli
 
 ## 9 Presentation
 
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+
 ### 9.1 Presentation Policy
 
 To verify and validate a received presentation of an attestation of this type, the
@@ -608,14 +613,6 @@ Obligations specific to this attestation type, carried over from the Relying Par
 obligations of the previous version of this Rulebook:
 
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the
-Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ### 9.2 Presentation modes
 
