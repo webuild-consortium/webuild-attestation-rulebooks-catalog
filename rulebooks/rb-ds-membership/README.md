@@ -2,7 +2,7 @@
 
 Category: non-qualified EAA
 
-*This WE BUILD v1 Rulebook specifies the Membership Credential used in the WE BUILD Supply Chain 2
+*This WE BUILD Rulebook specifies the Membership Credential used in the WE BUILD Supply Chain 2
 (SC2) MVP scenario "seamless onboarding" piloted by the Data Sharing Initiatives (DSI) DjustConnect
 (ILVO), DADS (ITC) and Tritom (Dataspace Europe), and the common agriculture dataspace "Agri-X".*
 
