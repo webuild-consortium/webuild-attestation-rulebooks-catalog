@@ -243,44 +243,6 @@ The attestation attributes are defined in the tables of Chapter 2 of this docume
     - NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.
 - The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].
 
-#### 1 Introduction
-
-#### 2.1 Overview attributes attestation
-
-The following table combines all attestation attributes for the EUCC (mandatory, optional, and conditional) in a single overview. Attribute identifiers SHALL be used in requests and responses.
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
-| --- | --- | --- | --- | --- |
-| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | M | string |
-| legal_person_name | [legalName](https://w3id.org/ebwv#legalName) | Official current legal person name as registered in the business register. | M | string |
-| legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
-| registration_member_state | The registration member state information can be retrieved from the EUID. | The member state where the company is registered (Alpha-2 country code). | M | string |
-| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
-| registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
-| legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | M | string |
-| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). | M | string |
-| legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
-| share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
-| legal_person_duration | [endDate](https://w3id.org/ebwv#endDate) | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
-| digital_contact_point | [contactPoint](https://w3id.org/ebwv#contactPoint) | Correspondence address of the company, such as electronic mail and/or website | O | object |
-
-#### 2.5 Address
-There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
-| --- | --- | --- | --- | --- |
-| full_address | [fullAddress](https://w3id.org/ebwv#fullAddress) | Complete address of the company, written as a string, separated by semicolons. | M | string |
-| care_of |  | Used when the address is at the address of another person or legal person. | O | string |
-| thorough_fare | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | The name of a passage or way through from one location to another. | O | string |
-| locator_designator | [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | A number or sequence that uniquely identifies the locator. | O | string |
-| post_code | [postCode](https://w3id.org/ebwv#postCode) | The code created and maintained for postal purposes. | O | string |
-| post_name | [postName](https://w3id.org/ebwv#postName) | A name identifying a subdivision of addresses (e.g., city). | O | string |
-| post_office_box | [poBox](https://w3id.org/ebwv#poBox) | A location designator for a postal delivery point at a post office. | O | string |
-| locator_name | [locatorName](https://w3id.org/ebwv#locatorName) | Proper noun(s) applied to the real-world entity. | O | string |
-| admin_unit_level_1 | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | The uppermost administrative unit (typically country). | O | string |
-| admin_unit_level_2 | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | Secondary level/region (typically county or state). | O | string |
-
 #### TODO
 
 (Refer to [Topic 7] of the ARF for a list of High-Level Requirements related to Revocation)
@@ -296,6 +258,42 @@ will never be necessary, or that the attestations are revocable.*
 that will be specified by the Commission.
 * Use an Attestation Revocation List mechanism included in a Technical Specification 
 that will be specified by the Commission.
+
+#### 3.1.1 Overview attributes attestation
+
+The following table combines all attestation attributes for the EUCC (mandatory, optional, and conditional) in a single overview. Attribute identifiers SHALL be used in requests and responses.
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+| --- | --- | --- | --- | --- |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | M | string |
+| legal_person_name | [legalName](https://w3id.org/ebwv#legalName) | Official current legal person name as registered in the business register. | M | string |
+| legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
+| legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
+| registration_member_state | The registration member state information can be retrieved from the EUID. | The member state where the company is registered (Alpha-2 country code). | M | string |
+| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 3.1.2](#25-address) | M | object |
+| registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
+| legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | M | string |
+| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). | M | string |
+| legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
+| share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
+| legal_person_duration | [endDate](https://w3id.org/ebwv#endDate) | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
+| digital_contact_point | [contactPoint](https://w3id.org/ebwv#contactPoint) | Correspondence address of the company, such as electronic mail and/or website | O | object |
+
+#### 3.1.2 Address
+There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+| --- | --- | --- | --- | --- |
+| full_address | [fullAddress](https://w3id.org/ebwv#fullAddress) | Complete address of the company, written as a string, separated by semicolons. | M | string |
+| care_of |  | Used when the address is at the address of another person or legal person. | O | string |
+| thorough_fare | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | The name of a passage or way through from one location to another. | O | string |
+| locator_designator | [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | A number or sequence that uniquely identifies the locator. | O | string |
+| post_code | [postCode](https://w3id.org/ebwv#postCode) | The code created and maintained for postal purposes. | O | string |
+| post_name | [postName](https://w3id.org/ebwv#postName) | A name identifying a subdivision of addresses (e.g., city). | O | string |
+| post_office_box | [poBox](https://w3id.org/ebwv#poBox) | A location designator for a postal delivery point at a post office. | O | string |
+| locator_name | [locatorName](https://w3id.org/ebwv#locatorName) | Proper noun(s) applied to the real-world entity. | O | string |
+| admin_unit_level_1 | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | The uppermost administrative unit (typically country). | O | string |
+| admin_unit_level_2 | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | Secondary level/region (typically county or state). | O | string |
 
 ### 3.2 Mandatory attributes
 
@@ -428,7 +426,7 @@ The . notation is used to indicate the nesting of attributes.
 | legal_person_activity.code | legal_person_activity.code | string |  |
 | legal_person_activity.description | legal_person_activity.description | string |  |
 | legal_person_duration | legal_person_duration | date | Given as date following ISO 8601 |
-| registered_address | registered_address | object | See section 2.5 for structure |
+| registered_address | registered_address | object | See section 3.1.2 for structure |
 | registered_address.full_address | registered_address.full_address | string |  |
 | registered_address.care_of | registered_address.care_of | string |  |
 | registered_address.thorough_fare | registered_address.thorough_fare | string |  |
@@ -460,7 +458,7 @@ The . notation is used to indicate the nesting of attributes.
 | location_status | status | object | See chapter [3.2.3](#321-attribute-status) |
 
 
-#### 3.2.1 Attribute status
+#### 5.1.1 Attribute status
 For SD-JWT VC-compliant EUCCs, the EUCC MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/).
 
 The status claim SHALL be a JSON object with the following members:
@@ -482,205 +480,12 @@ Example:
 }
 ```
 
-#### 3.2.3 Example Payload 
+#### 5.1.2 Example Payload
 Sample payloads provided under `../../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json`
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
 ISO/IEC 18013-5 (also called mdoc) is out of scope for this rulebook, as offline proximity presentation is not a current requirement for EUCC.
-
-#### 3.2 SD-JWT VC-based encoding 
-
-The EUCC attestation uses the SD-JWT VC format to allow for selective disclosure of company attributes.
-Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to preserve the legally mandated content of the EUCC.
-
-
-The . notation is used to indicate the nesting of attributes.
-
-
-**Verifiable Credential Type (`vct`):** `uri:eu.eudi.eucc.1`
-
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** |
-| --- | --- | --- | --- |
-| attestation_legal_category | attestation_legal_category | string | One of EAA, Pub-EAA, QEAA as defined by eIDAS 2 |
-| issuing_authority | iss | string | RFC 7519 / Section 2.6 |
-| expiry_date | exp | number | RFC 7519 / Section 2.6 (Unix timestamp) |
-| issuing_country | issuing_country | string | ISO 3166-1 alpha-2 |
-| legal_person_name | legal_person_name | string | Official current legal person name as registered in the business register. |
-| legal_person_id | legal_person_id | string | EUID |
-| legal_form_type | legal_form_type | string | Legal form of the company. |
-| registration_member_state | registration_member_state | string | The member state where the company is registered (Alpha-2 country code). |
-| registration_date | registration_date | string | ISO 8601 (YYYY-MM-DD) |
-| legal_person_status | legal_person_status | string |  |
-| legal_person_activity | legal_person_activity | object | The NACE code describing the main activity |
-| legal_person_activity.code | legal_person_activity.code | string |  |
-| legal_person_activity.description | legal_person_activity.description | string |  |
-| legal_person_duration | legal_person_duration | date | Given as date following ISO 8601 |
-| registered_address | registered_address | object | See section 2.5 for structure |
-| registered_address.full_address | registered_address.full_address | string |  |
-| registered_address.care_of | registered_address.care_of | string |  |
-| registered_address.thorough_fare | registered_address.thorough_fare | string |  |
-| registered_address.locator_designator | registered_address.locator_designator | string |  |
-| registered_address.post_code | registered_address.post_code | string |  |
-| registered_address.post_name | registered_address.post_name | string |  |
-| registered_address.post_office_box | registered_address.post_office_box | string |  |
-| registered_address.locator_name | registered_address.locator_name | string |  |
-| registered_address.admin_unit_level_1 | registered_address.admin_unit_level_1 | string |  |
-| registered_address.admin_unit_level_2 | registered_address.admin_unit_level_2 | string |  |
-| legal_representative | legal_representative | array | Array of natural/legal persons |
-| legal_representative.legal_person | legal_representative.legal_person | object |  |
-| legal_representative.legal_person.name | legal_representative.legal_person.name | string |  |
-| legal_representative.legal_person.id | legal_representative.legal_person.id | string |  |
-| legal_representative.legal_person.formtype | legal_representative.legal_person.formtype | string |  |
-| legal_representative.legal_person.signatory_rule | legal_representative.legal_person.signatory_rule | string |  |
-| legal_representative.natural_person | legal_representative.natural_person | object |  |
-| legal_representative.natural_person.full_name | legal_representative.natural_person.full_name | string |  |
-| legal_representative.natural_person.identifier | legal_representative.natural_person.identifier | string | Natural person representative identifier |
-| legal_representative.natural_person.date_of_birth | legal_representative.natural_person.date_of_birth | string |  |
-| legal_representative.natural_person.nationality | legal_representative.natural_person.nationality | string |  |
-| legal_representative.natural_person.signatory_rule | legal_representative.natural_person.signatory_rule | string |  |
-| share_capital | share_capital | object |  |
-| share_capital.amount | share_capital.amount | string |  |
-| share_capital.currency | share_capital.currency | string |  |
-| digital_contact_point | digital_contact_point | object |  |
-| digital_contact_point.website | digital_contact_point.website | string |  |
-| digital_contact_point.email | digital_contact_point.email | string |  |
-| location_status | status | object | See chapter [3.2.3](#321-attribute-status) |
-
-
-##### 3.2.1 Attribute status
-For SD-JWT VC-compliant EUCCs, the EUCC MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/).
-
-The status claim SHALL be a JSON object with the following members:
-
-* 'type' (string): SHALL be "status-list".
-* 'status_list_credential' (string, URI): The URI of the Status List Credential document that contains the status bitstring.
-* 'status_list_index' (integer, >= 0): The zero-based index into the status list bitstring that corresponds to this credential.
-* 'status_purpose' (string): SHALL be "revocation" for this PID.
-
-Example:
-```json
-{
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/1",
-    "status_list_index": 42,
-    "status_purpose": "revocation"
-  }
-}
-```
-
-##### 3.2.3 Example Payload 
-Sample payloads provided under `../../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json`
-
-#### 3.3 W3C Verifiable Credentials Data Model-based encoding
-
-W3C Verifiable Credentials are serialized using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) are SHACL (data graph) can be used to validate data - see [Data Schemas](https://www.w3.org/TR/vc-data-model-2.0/#data-schemas).
-
-##### Metadata
-The metadata of an W3C Verifiable Credential are defined in the [Verifiable Credentials Vocabulary v2.0](https://www.w3.org/2018/credentials/). The following extensions are defined in the [European Business Wallet Vocabulary](https://w3id.org/ebwv) in order to support Electronic Attestions of Attributes:
-* [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) in order to specify the category of the EAA (QEAA, Pub-EAA or EAA).
-
-##### Credential Subject
-
-There are two different flavors of European Company Certificates:
-* for limited liability companies and
-* for partnerships.
-
-Both are modeled by their own classes:
-* [LimitedLiabilityCompany](https://w3id.org/ebwv#LimitedLiabilityCompany) - EU Company Certificate for limited liability companies
-* [Partnership](https://w3id.org/ebwv#Partnership) - EU Company Certificate for partnerships 
-
-##### Holder Binding
-
-EUCC credentials are hold by the organization and their legal representatives. Corresponding key binding is provided by using DID's. Please note that every node of JSON-LD tree is addressable by its own locally or globally unique identifier `@id`. Using [Decentralized Identifiers (DIDs) v1.0](https://www.w3.org/TR/did-1.0/) as identifiers allows to cryptographically bind any node to its underlying identity:
-
-example of key binding using DID's:
-
-```json5
-{
-  "@context": [
-    "https://www.w3.org/ns/credentials/v2",
-    "https://w3id.org/ebwv/v0.1"
-  ],
-  "@id": "urn:d5dfeb39-edc7-40b1-a2fc-3968dbd3eac8",
-  "@type": [
-    "VerifiableCredential",
-    "ElectronicAttestationOfAttributes"
-  ],
-  "attestationLegalCategory": "QEAA",
-  "credentialSubject": {
-    "@id": "did:key:$publicKeyOfHolder$", // credential subject is bound to organisation
-    "@type": [
-      "EconomicOperator",
-      "Company",
-      "Partnership"
-    ],
-    "legalIdentifier": {
-      "@type" : "Euid",
-      "@value" : "NOFOR.987654321"
-    },
-    "legalName": "acme Partnership",
-    "legalForm": "Partnership",
-    "registeredAddress": {
-      "@type":"Address",
-      "fullAddress": "Via Appia 123, 00100 Rome, Italy",
-      "thoroughfare": "Via Appia",
-      "locatorDesignator": "123",
-      "postName": "Rome",
-      "adminUnitL2": "Lazio",
-      "postCode": "00100",
-      "adminUnitL1": "IT"
-    },
-    "partner": [
-      {
-        "@type": "GeneralPartner",
-        "partnerId": "did:key:$publicKeyOfPartner1$" // general partner is bound to natural person 1
-      },
-      {
-        "@type": "LimitedPartner",
-        "partnerId": "did:key:$publicKeyOfPartner2$", // limited partner is bound to natural person 2
-        "liabilityOrContribution": {
-          "@type": "Capital",
-          "amount": 100000,
-          "currency": "EUR"
-        }
-      },
-      {
-        "@type": "StatutoryPartner",
-        "partnerId": "did:key:$publicKeyOfPartner3$", // statutory partner is bound to natural person 3
-        "role": "Head of HR",
-        "scopeOfAuthorization": "Jointly"
-      }
-    ]
-  },
-  "validUntil": "2029-12-03T12:19:52Z",
-  "validFrom": "2019-12-03T12:19:52Z",
-  "issuer": "did:key:$publicKeyOfIssuer$"
-}
-```
-
-The Verifiable Credential Data Model (VCDM) doesn't dictate any specific DID-method. Instead, any did method that supports the underlying trust framework and is able to provide the required level of assurance can be used:
-* PKI-Infrastructure (e.g. EU-TLOL based on X.509 certificates): [did:key](https://github.com/digitalbazaar/did-method-key) - the public key is directly encoded in the identifier
-* DTL (e.g.: Ethereum): [did:ethr](https://github.com/uport-project/ethr-did)
-* European Block Chain Infrastructure: [did:ebsi](https://hub.ebsi.eu/vc-framework/did/legal-entities)
-* Domain Name System (DNS): [did:web](https://w3c-ccg.github.io/did-method-web/)
-* Domain Name System verifiable history: [did:webvh](https://identity.foundation/didwebvh/v1.0/)
-
-##### Proof mechanisms
-
-The preferred proof mechanism for the EUCC Attesation is [ecdsa-sd-2023](https://www.w3.org/TR/vc-di-ecdsa/#ecdsa-sd-2023-functions) as specified in [Data Integrity ECDSA Cryptosuites v1.0](https://www.w3.org/TR/vc-di-ecdsa). ecdsa-sd-2023 supports selective disclosure out of the box. The issuer doesn't need the select disclosable claims, create disclosures or manipulate the payload of the credential. The issuer just applies the ecdsa-sd-2023 data integrity proof to the credential. The holder chooses which claims he wants to disclose and derives a proof from the original assertion proof.
-
-For backward compatibility and for trust frameworks whose policies require a particular proof mechanism, [JOSE](https://www.w3.org/TR/vc-jose-cose/#with-jose) and [SD-JWT](https://www.w3.org/TR/vc-jose-cose/#with-sd-jwt) as specified in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) should be supported, too.
-
-The [Security Vocabulary](https://www.w3.org/2025/credentials/vcdi/vocab/v2/vocabulary.html) is used to embed the proofs into the credentials.
-
-A [side-by-side comparision](https://www.w3.org/TR/vc-data-model-2.0/#example-use-of-the-credentialsubject-property) of the proofs is provided in the [Verifiable Credentials Data Model v2.0](https://www.w3.org/TR/vc-data-model-2.0).
-
-##### Credential status
-
-The EUCC SHALL include a status claim `credentialStatus` if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [Bitstring Status List v1.0](https://www.w3.org/TR/vc-bitstring-status-list/).
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
