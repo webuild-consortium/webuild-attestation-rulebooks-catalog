@@ -256,7 +256,7 @@ This attestation type MAY be classified as:
 
 ### 3.2 Mandatory attributes
 
-#### 2.2.1 PaymentTerms Attributes
+#### 3.2.1 PaymentTerms Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
 | --- | --- | --- | --- | --- |
@@ -349,7 +349,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Incoterm Codes
+#### 4.4.1 Incoterm Codes
 
 The `incoterm` attribute SHALL use one of the following standardized values as defined by
 **Incoterms 2020** (International Chamber of Commerce):
@@ -368,7 +368,7 @@ The `incoterm` attribute SHALL use one of the following standardized values as d
 | `CFR` | Cost and Freight | Sea / Inland waterway |
 | `CIF` | Cost, Insurance and Freight | Sea / Inland waterway |
 
-#### 2.8.2 Currency Codes
+#### 4.4.2 Currency Codes
 
 The `currency` attribute SHALL follow **ISO 4217** alphabetic currency codes.
 
@@ -385,7 +385,7 @@ The `currency` attribute SHALL follow **ISO 4217** alphabetic currency codes.
 
 **Note:** Any valid ISO 4217 alphabetic currency code is permitted. The examples above are non-exhaustive.
 
-#### 2.8.3 Payment Reference Event Codes
+#### 4.4.3 Payment Reference Event Codes
 
 The `payment_reference_event` attribute, when present, SHOULD use one of the following
 standardized values:
@@ -398,7 +398,7 @@ standardized values:
 | `acceptance_date` | Payment due period starts from the date of formal acceptance of goods |
 | `shipment_date` | Payment due period starts from the date of shipment |
 
-#### 2.8.4 Identifier Type Reference
+#### 4.4.4 Identifier Type Reference
 
 The following identifier types are supported within `buyer_identifier` and
 `supplier_identifier` objects:
@@ -419,14 +419,14 @@ The following integrity rules SHALL be enforced:
 | IR-01 | `payment_due` SHALL be expressed as a valid ISO 8601 duration (e.g., `P30D` for 30 days) |
 | IR-02 | `payment_due` SHALL represent a non-negative duration |
 | IR-03 | `currency` SHALL be a valid ISO 4217 alphabetic currency code (3 uppercase letters) |
-| IR-04 | `incoterm` SHALL be a valid Incoterms 2020 three-letter code as defined in Section 2.8.1 |
+| IR-04 | `incoterm` SHALL be a valid Incoterms 2020 three-letter code as defined in Section 4.4.1 |
 | IR-05 | `buyer_identifier` SHALL contain at least one non-empty identifier: `euid`, `lei`, `tax`, or `duns` |
 | IR-06 | `supplier_identifier` SHALL contain at least one non-empty identifier: `euid`, `lei`, `tax`, or `duns` |
 | IR-07 | `buyer_identifier` and `supplier_identifier` SHALL NOT be identical within the same attestation |
 | IR-08 | `agreement_date` SHALL be a valid ISO 8601 date in `YYYY-MM-DD` format |
 | IR-09 | `agreement_date` SHALL NOT be a future date at time of attestation issuance |
 | IR-10 | `transaction_amount`, if provided, SHALL be a non-negative decimal value |
-| IR-11 | `payment_reference_event`, if provided, SHALL use one of the enumerated values defined in Section 2.8.3 |
+| IR-11 | `payment_reference_event`, if provided, SHALL use one of the enumerated values defined in Section 4.4.3 |
 | IR-12 | `delivery_location`, if provided, SHALL be a non-empty string representing a valid address or location identifier |
 | IR-13 | Each attribute SHALL appear at most once in the attestation |
 | IR-14 | `lei` identifiers SHALL conform to the 20-character ISO 17442 format |
@@ -456,13 +456,13 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:paymentterms:1`
 
-##### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference / Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
 | `payment_due` | `payment_due` | String (ISO 8601 PnD) | Non-negative duration; SHALL be a valid ISO 8601 duration | MUST |
 | `currency` | `currency` | String (ISO 4217) | Valid 3-letter ISO 4217 alphabetic currency code | MUST |
-| `incoterm` | `incoterm` | String (3-letter ICC code) | Valid Incoterms 2020 code, see Section 2.8.1 | MUST |
+| `incoterm` | `incoterm` | String (3-letter ICC code) | Valid Incoterms 2020 code, see Section 4.4.1 | MUST |
 | `agreement_date` | `agreement_date` | String (ISO 8601 YYYY-MM-DD) | SHALL NOT be a future date at issuance | MUST |
 | **Buyer Identifier** |  |  |  |  |
 | `buyer_identifier` | `buyer_identifier` | Object | At least one of `euid`, `lei`, `tax`, `duns` SHALL be present | MUST |
@@ -485,7 +485,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | `bpnl` | `supplier_identifier.bpnl` | String | Catena-X BPNL identifier per ICD 0243, optional sub-field | MUST |
 | `siren` | `supplier_identifier.siren` | String | French company identifier (SIREN), optional sub-field | MUST |
 | **Optional Attributes** |  |  |  |  |
-| `payment_reference_event` | `payment_reference_event` | String (Enum) | Triggers payment due period; SHALL use values from Section 2.8.3, optional | MUST |
+| `payment_reference_event` | `payment_reference_event` | String (Enum) | Triggers payment due period; SHALL use values from Section 4.4.3, optional | MUST |
 | `contract_reference` | `contract_reference` | String | Reference to underlying contract or purchase order, optional | MUST |
 | `transaction_amount` | `transaction_amount` | Decimal (number) | Non-negative monetary value, optional | MUST |
 | `delivery_location` | `delivery_location` | String (Address) | Full address or standardized location identifier, optional | MUST |
@@ -508,7 +508,7 @@ The `.` notation is used to indicate the nesting of attributes.
   credential verification and trust establishment.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
 
-##### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant Ownership Attestations, the attestation MUST include a `status` claim
 if the technical validity period is greater than 24 hours. This claim enables Relying Parties
@@ -535,7 +535,7 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
-##### 3.2.3 Example Payload
+#### 5.1.3 Example Payload
 The following is a non-normative example of a Payment Terms SD-JWT VC payload:
 ```
 {
@@ -658,6 +658,11 @@ The business interpretation is determined by the Relying Party's internal compli
 
 ## 9 Presentation
 
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+
 ### 9.1 Presentation Policy
 
 To verify and validate a received presentation of an attestation of this type, the
@@ -677,14 +682,6 @@ Obligations specific to this attestation type, carried over from the Relying Par
 obligations of the previous version of this Rulebook:
 
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the
-Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ### 9.2 Presentation modes
 
