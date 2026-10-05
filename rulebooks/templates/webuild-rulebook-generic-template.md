@@ -682,17 +682,29 @@ FIXED
 > intermediate signing certificate, in which case the trust anchor is used to verify
 > that certificate rather than the attestation directly.
 
-**Non-qualified EAA**
+> **Non-qualified EAA with Attestation Chaining**
 
-> The trust anchor is not obtained from a Trusted List of qualified trust service
-> providers. It is obtained as follows: [CONSORTIUM DEFAULT MECHANISM, TO AGREE].
-> Authorisation of the Provider to issue this attestation type is then verified by
-> [PROCEDURE].
->
-> A Wallet Unit MAY verify Provider authorisation using the mechanism described in
-> ISSU_34 of Topic 10 of Annex 2 of the ARF.
+> For this category, the attestation is not issued directly by a Qualified Trust Service Provider (QTSP). Instead, trust is established through a **delegated trust model** that chains back to a qualified credential. The process for a Relying Party to establish the trust anchor is as follows:
 
-**Trust anchor location**
+> 1.  **Locating the Trust Link:** The EAA Provider **MUST** embed their own European Business Wallet Owner Identity (EBWOID) credential within the header of the issued EAA. This embedded EBWOID serves as the crucial link in the trust chain.
+
+> 2.  **Verifying the Trust Link:** The Relying Party **MUST** first extract and fully verify the embedded EBWOID. Since the EBWOID is itself a QEAA, its trust anchor is found on the **EU Trusted List of Lists (TLoL)**. This verification confirms that the EAA Provider is a legitimate legal entity, as certified by a QTSP.
+
+> 3.  **Establishing the EAA's Trust Anchor:** The payload of the verified EBWOID contains the EAA Provider's public signing key (the `signing_key`). This key becomes the **direct trust anchor** for the Non-qualified EAA itself.
+
+> 4.  **Verifying the EAA:** The Relying Party uses this trust anchor (the `signing_key` from the EBWOID) to perform the cryptographic integrity verification of the EAA.
+
+> In this model, trust is not directly established from the TLoL to the EAA, but is delegated from the **TLoL -> QTSP -> EAA Provider's EBWOID -> EAA Provider's Signing Key -> EAA**.
+
+> Following successful cryptographic verification, the authorisation of the Provider to issue this specific type of attestation is a business-level decision for the Relying Party, based on its own internal policies and trust lists.
+
+> **Non-qualified EAA signed with QSEAL**
+> [to be described]
+
+> **Non-qualified EAA based on ADR#336**
+> [to be described]
+
+> **Trust anchor location**
 
 FIXED
 
