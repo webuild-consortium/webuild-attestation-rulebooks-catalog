@@ -47,6 +47,7 @@ Category: non-qualified EAA
    * [4.3 Conditional metadata](#43-conditional-metadata)
    * [4.4 Code lists](#44-code-lists)
    * [4.5 Integrity rules](#45-integrity-rules)
+   * [4.6 Display meta-data](#46-display-meta-data)
 - [5 Formats](#5-formats)
 - [6 Protocols](#6-protocols)
 - [7 Issuance](#7-issuance)
@@ -59,6 +60,7 @@ Category: non-qualified EAA
    * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
+   * [9.4 Presentation lifecycle](#94-presentation-lifecycle)
 - [10 Trust Framework](#10-trust-framework)
 - [11 References](#11-references)
 
@@ -185,7 +187,7 @@ SCA-Card (DPC) is a simple attestation type with only top-level attributes, all 
 disclosable. The attestation payload is intentionally minimal: it identifies the credential instance, the
 payment network, and optionally the digitised card through an opaque token reference. It never contains
 the PAN, the card BIN, or the last four digits; those are display-only data carried in the unsigned
-display meta-data object described in Section 2.9.
+display meta-data object described in Section 4.6.
 
 Unlike the other attestations of the WE BUILD SCA family, SCA-Card (DPC) does not define a `sub` claim.
 The EMVCo source model has no subject identifier; the `credential_id` attribute identifies the credential
@@ -199,103 +201,6 @@ of this Rulebook.
 
 This document defines the attribute `attestation_legal_category` which SHALL have the value
 `"non-qualified-EAA"`.
-
-#### 1 Introduction
-
-#### 2.9 Display meta-data
-
-Each SCA-Card (DPC) attestation is delivered together with an unsigned display meta-data object that
-defines how the Wallet presents the card to the User, both in the card representation in the Wallet and
-on the payment sheet. Providing this data with the attestation enables consistent, issuer-controlled
-rendering without reliance on out-of-band branding repositories. The object carries the following fields
-within its top-level `card` object:
-
-| **Field** | **Meaning** | **Display intent** |
-| --- | --- | --- |
-| `type` | Card product type: code `CREDIT`, `DEBIT`, or `PREPAID`, with an optional human-readable label | Product-type caption; the label MAY be localised |
-| `last_four` | Last four digits of the PAN | User recognition of the card in Wallet and checkout interfaces; display-only, never a verifiable claim |
-| `alias` | User-facing card name (e.g. "Platinum Credit Card") | Primary card title; MAY be localised |
-| `card_art` | Card artwork images with `DEFAULT`, `LIGHT`, and `DARK` theme variants | Card visual in the Wallet and on the payment sheet |
-| `issuer` | Issuer branding (name, logo) with optional country, website, and support contacts | Issuer identity and customer-support entry points |
-| `co_branding` | Optional co-brand partner branding (e.g. airline or retailer) | Secondary brand rendered alongside the card |
-| `network_branding` | Name and logo of this attestation's network; exactly one per attestation | Network logo on the card visual |
-
-Image resources referenced by `image_url` attributes MAY be provided either as externally hosted HTTPS
-URLs or as embedded Data URLs as defined in [RFC 2397]. Image arrays SHALL contain at least one image;
-when only a single image is provided, its `theme` value SHALL be `DEFAULT`, indicating that the image is
-suitable for any UI theme.
-
-The display meta-data object:
-
-* is NOT part of the signed attestation and carries no issuer signature;
-* is transported in the `display` array of the OpenID4VCI credential response, enabling the Wallet to
-  render the issued attestation with full visual fidelity, and MAY additionally be provided in the
-  credential offer, enabling the User to recognise the card and give informed consent before issuance;
-* is never presented to a Verifier. This is guaranteed structurally: the object is not a claim in the
-  signed credential and display meta-data is not part of an OpenID4VP presentation.
-
-Wallet behaviour for rendering this data is specified in Chapter 4 (Wallet display handling).
-
-The table above defines field semantics only; the authoritative definition of the object's structure
-(data types, patterns, enumerations, and required fields) is the machine-readable JSON Schema published
-in this catalogue at
-[`data-schemas/display/sca-card-dpc-display-meta.schema.json`](../../data-schemas/display/sca-card-dpc-display-meta.schema.json),
-with a sample at
-[`data-schemas/display/sample-data/sca-card-dpc-display-meta-sample.json`](../../data-schemas/display/sample-data/sca-card-dpc-display-meta-sample.json).
-
-#### 4.2 Presentation lifecycle
-
-SCA-Card (DPC) SHOULD be presented when the presentation request comes from a verifier participating in
-a payment transaction, with payment transaction data attached as described in [TS12].
-
-The following DCQL examples illustrate the two selection patterns in an OpenID4VP request. A Wallet
-SHALL treat an attestation as matching a requested VCT value when its `vct` claim or any type in its
-`extends` chain equals that value.
-
-**Query by Credential ID** (known-card scenario): requests a specific attestation and disclosure of
-`credential_id` and `network`.
-
-```json
-{
-  "credentials": [
-    {
-      "id": "dpc",
-      "format": "dc+sd-jwt",
-      "meta": {
-        "vct_values": ["https://webuildconsortium.eu/sca/sca-card-dpc/1.0"]
-      },
-      "claims": [
-        { "path": ["credential_id"], "values": ["urn:uuid:9f2b7a2e-3b74-4a0d-9b1a-0e6a91f5d2c8"] },
-        { "path": ["network"] }
-      ]
-    }
-  ]
-}
-```
-
-**Query by supported network** (guest checkout): filters on the `network` claim. Because every
-attestation carries a single-valued `network` claim, this uses standard DCQL `values` semantics. The
-Wallet shows each matching card once; after the User selects a card, the Wallet presents exactly one
-attestation and discloses only the requested attributes.
-
-```json
-{
-  "credentials": [
-    {
-      "id": "dpc",
-      "format": "dc+sd-jwt",
-      "meta": {
-        "vct_values": ["https://webuildconsortium.eu/sca/sca-card-dpc/1.0"]
-      },
-      "claims": [
-        { "path": ["network"], "values": ["mastercard", "visa"] },
-        { "path": ["credential_id"] },
-        { "path": ["card_id"] }
-      ]
-    }
-  ]
-}
-```
 
 ### 3.2 Mandatory attributes
 
@@ -381,6 +286,47 @@ The attribute set and semantics of this attestation type are derived from the EM
 Credential type `com.emvco.dpc.card` defined in [EMV-DPC]. Within the WE BUILD pilot, the WE BUILD VCT
 hierarchy above is used as the type identifier; the EMVCo identifier is referenced for semantic alignment
 only.
+
+### 4.6 Display meta-data
+
+Each SCA-Card (DPC) attestation is delivered together with an unsigned display meta-data object that
+defines how the Wallet presents the card to the User, both in the card representation in the Wallet and
+on the payment sheet. Providing this data with the attestation enables consistent, issuer-controlled
+rendering without reliance on out-of-band branding repositories. The object carries the following fields
+within its top-level `card` object:
+
+| **Field** | **Meaning** | **Display intent** |
+| --- | --- | --- |
+| `type` | Card product type: code `CREDIT`, `DEBIT`, or `PREPAID`, with an optional human-readable label | Product-type caption; the label MAY be localised |
+| `last_four` | Last four digits of the PAN | User recognition of the card in Wallet and checkout interfaces; display-only, never a verifiable claim |
+| `alias` | User-facing card name (e.g. "Platinum Credit Card") | Primary card title; MAY be localised |
+| `card_art` | Card artwork images with `DEFAULT`, `LIGHT`, and `DARK` theme variants | Card visual in the Wallet and on the payment sheet |
+| `issuer` | Issuer branding (name, logo) with optional country, website, and support contacts | Issuer identity and customer-support entry points |
+| `co_branding` | Optional co-brand partner branding (e.g. airline or retailer) | Secondary brand rendered alongside the card |
+| `network_branding` | Name and logo of this attestation's network; exactly one per attestation | Network logo on the card visual |
+
+Image resources referenced by `image_url` attributes MAY be provided either as externally hosted HTTPS
+URLs or as embedded Data URLs as defined in [RFC 2397]. Image arrays SHALL contain at least one image;
+when only a single image is provided, its `theme` value SHALL be `DEFAULT`, indicating that the image is
+suitable for any UI theme.
+
+The display meta-data object:
+
+* is NOT part of the signed attestation and carries no issuer signature;
+* is transported in the `display` array of the OpenID4VCI credential response, enabling the Wallet to
+  render the issued attestation with full visual fidelity, and MAY additionally be provided in the
+  credential offer, enabling the User to recognise the card and give informed consent before issuance;
+* is never presented to a Verifier. This is guaranteed structurally: the object is not a claim in the
+  signed credential and display meta-data is not part of an OpenID4VP presentation.
+
+Wallet behaviour for rendering this data is specified in Chapter 4 (Wallet display handling).
+
+The table above defines field semantics only; the authoritative definition of the object's structure
+(data types, patterns, enumerations, and required fields) is the machine-readable JSON Schema published
+in this catalogue at
+[`data-schemas/display/sca-card-dpc-display-meta.schema.json`](../../data-schemas/display/sca-card-dpc-display-meta.schema.json),
+with a sample at
+[`data-schemas/display/sample-data/sca-card-dpc-display-meta-sample.json`](../../data-schemas/display/sample-data/sca-card-dpc-display-meta-sample.json).
 
 ## 5 Formats
 
@@ -562,7 +508,7 @@ presentation scenarios where transaction data is present in the presentation req
 **Wallet display handling (normative):**
 
 * The Wallet SHOULD render the card in the Wallet UI and on the payment sheet using the display
-  meta-data delivered at issuance (Section 2.9), without relying on out-of-band branding repositories.
+  meta-data delivered at issuance (Section 4.6), without relying on out-of-band branding repositories.
 * For themed images (`card_art` and branding logos), the Wallet SHOULD select the image variant matching
   the active UI theme and SHALL fall back to the `DEFAULT` variant when no theme-specific image is
   provided.
@@ -597,7 +543,7 @@ When issuing the attestation, the Issuer SHALL:
 * Use a sender-constrained token (DPoP) to ensure that only the requesting Wallet may receive the issued
   credential.
 * Ensure that the attestation is device-bound with sufficient secure storage (AVA_VAN.4 or higher).
-* Deliver the display meta-data object (Section 2.9) in the `display` array of the credential response,
+* Deliver the display meta-data object (Section 4.6) in the `display` array of the credential response,
   and MAY additionally include it in the credential offer to support user recognition before issuance.
 
 After receiving the attestation, the Wallet SHOULD notify the Issuer of successful acceptance.
@@ -649,6 +595,60 @@ chapter 5 records an mdoc encoding.
 ### 9.3 Transactional data
 
 This Rulebook defines no transactional data.
+
+### 9.4 Presentation lifecycle
+
+SCA-Card (DPC) SHOULD be presented when the presentation request comes from a verifier participating in
+a payment transaction, with payment transaction data attached as described in [TS12].
+
+The following DCQL examples illustrate the two selection patterns in an OpenID4VP request. A Wallet
+SHALL treat an attestation as matching a requested VCT value when its `vct` claim or any type in its
+`extends` chain equals that value.
+
+**Query by Credential ID** (known-card scenario): requests a specific attestation and disclosure of
+`credential_id` and `network`.
+
+```json
+{
+  "credentials": [
+    {
+      "id": "dpc",
+      "format": "dc+sd-jwt",
+      "meta": {
+        "vct_values": ["https://webuildconsortium.eu/sca/sca-card-dpc/1.0"]
+      },
+      "claims": [
+        { "path": ["credential_id"], "values": ["urn:uuid:9f2b7a2e-3b74-4a0d-9b1a-0e6a91f5d2c8"] },
+        { "path": ["network"] }
+      ]
+    }
+  ]
+}
+```
+
+**Query by supported network** (guest checkout): filters on the `network` claim. Because every
+attestation carries a single-valued `network` claim, this uses standard DCQL `values` semantics. The
+Wallet shows each matching card once; after the User selects a card, the Wallet presents exactly one
+attestation and discloses only the requested attributes.
+
+```json
+{
+  "credentials": [
+    {
+      "id": "dpc",
+      "format": "dc+sd-jwt",
+      "meta": {
+        "vct_values": ["https://webuildconsortium.eu/sca/sca-card-dpc/1.0"]
+      },
+      "claims": [
+        { "path": ["network"], "values": ["mastercard", "visa"] },
+        { "path": ["credential_id"] },
+        { "path": ["card_id"] }
+      ]
+    }
+  ]
+}
+```
 
 ## 10 Trust Framework
 
