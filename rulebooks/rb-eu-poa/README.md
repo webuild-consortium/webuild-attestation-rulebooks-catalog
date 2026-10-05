@@ -336,6 +336,8 @@ ISO/IEC 18013-5 (also called mdoc) is not currently included in this rulebook. S
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
+This Rulebook does not define a W3C Verifiable Credentials Data Model encoding for this attestation type.
+
 ## 6 Protocols
 
 ### 6.1 Issuance
