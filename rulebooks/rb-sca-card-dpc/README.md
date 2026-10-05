@@ -2,7 +2,6 @@
 
 Category: non-qualified EAA
 
-(Template version: 1.1)
 
 
 *[Based on the WE BUILD attestation description: https://portal.webuildconsortium.eu/group/wp3-technology-standards/files?mid=7109&fid%5B0%5D=6880&fid%5B1%5D=7094]*
@@ -49,6 +48,9 @@ Category: non-qualified EAA
    * [4.5 Integrity rules](#45-integrity-rules)
    * [4.6 Display meta-data](#46-display-meta-data)
 - [5 Formats](#5-formats)
+   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
 - [6 Protocols](#6-protocols)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
@@ -371,8 +373,6 @@ with a sample at
 {
   "vct": "https://issuer.bank.example/credentials/sca/card-dpc/1.0",
   "vct#integrity": "sha256-Cp5VgPMqzU7cphGIL0aRy54scWhTiBFB1FJYDLyO94w=",
-  "extends": "https://webuildconsortium.eu/sca/sca-card-dpc/1.0",
-  "extends#integrity": "sha256-gV1X+E7n79QEHEt9AI0VY3ZbNefHhZloJhpaHoYFqKM=",
   "iss": "https://issuer.bank.example",
   "iat": 1772195095,
   "exp": 1835267095,
