@@ -47,6 +47,7 @@ Category: non-qualified EAA
    * [4.4 Code lists](#44-code-lists)
    * [4.5 Integrity rules](#45-integrity-rules)
 - [5 Formats](#5-formats)
+   * [5.4 VCT metadata handling and transaction data display in Wallet](#54-vct-metadata-handling-and-transaction-data-display-in-wallet)
 - [6 Protocols](#6-protocols)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
@@ -58,6 +59,7 @@ Category: non-qualified EAA
    * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
+   * [9.4 Presentation lifecycle](#94-presentation-lifecycle)
 - [10 Trust Framework](#10-trust-framework)
 - [11 References](#11-references)
 
@@ -178,120 +180,6 @@ are the same organisation (the bank). A Relying Party receiving this attestation
 This attestation is categorised as a **non-qualified EAA**.
 
 This document defines the attribute `attestation_legal_category` which SHALL have the value `"non-qualified-EAA"`.
-
-#### 1 Introduction
-
-#### 2.8 VCT metadata handling and transaction data display in Wallet
-
-SD-JWT VC specification (draft 14, chapter 5) allows definition of metadata documents associated with issued
-credentials by the `vct` claim. For all SCA attestations, the following VCT inheritance model is used.
-
-##### 2.8.1 VCT type hierarchy
-
-The SCA hierarchy consists of three layers:
-
-**Layer 1, Base SCA type (abstract, not directly issuable):**
-
-```
-https://webuildconsortium.eu/sca/1.0
-```
-
-This base VCT is not directly usable but defines common behaviour and rules as specified in [TS12]. It defines the
-transaction data structure, processing rules, and display requirements that apply to all SCA attestation variants.
-
-**Layer 2, SCA-User abstract base type:**
-
-```
-https://webuildconsortium.eu/sca/sca-user/1.0
-```
-
-This type has claims `"extends"` and `"extends#integrity"` pointing to the base SCA VCT above. It defines the
-SCA-User-specific attribute set and selective disclosure rules (none for SCA-User).
-
-**Layer 3, Issuer-specific VCT (actual issued credential type):**
-
-```
-https://issuer.bank.cz/credentials/sca/user/1.0
-```
-
-Actual SCA-User attestations issued by a bank carry an issuer-specific VCT URL. The issuer's VCT metadata document
-at that URL SHALL contain claims `"extends"` and `"extends#integrity"` pointing to the Layer 2 base SCA-User type.
-
-##### 2.8.2 VCT metadata document structure
-
-The issuer SHALL publish a VCT metadata document at the issuer-specific VCT URL. The document SHALL conform to
-[SD-JWT VC] chapter 6 and SHALL include at minimum:
-
-```json
-{
-  "vct": "https://issuer.bank.cz/credentials/sca/user/1.0",
-  "name": "SCA-User, Bank CZ",
-  "description": "Strong Customer Authentication user credential issued by Bank CZ for use in 2-party banking flows.",
-  "extends": "https://webuildconsortium.eu/sca/sca-user/1.0",
-  "extends#integrity": "sha256-<hash-of-sca-user-base-vct-document>",
-  "display": [
-    {
-      "lang": "en",
-      "name": "SCA User Credential",
-      "description": "Used for authentication and transaction authorisation in online banking.",
-      "rendering": {
-        "simple": {
-          "logo": {
-            "uri": "https://issuer.bank.cz/assets/sca-logo.png",
-            "uri#integrity": "sha256-<hash>",
-            "alt_text": "Bank CZ SCA credential logo"
-          },
-          "background_color": "#1A3C8F",
-          "text_color": "#FFFFFF"
-        }
-      }
-    }
-  ],
-  "claims": [
-    {
-      "path": ["sub"],
-      "display": [{"lang": "en", "label": "User identifier"}],
-      "sd": "never"
-    },
-    {
-      "path": ["masked_psu_id"],
-      "display": [{"lang": "en", "label": "PSU identifier"}],
-      "sd": "never"
-    }
-  ]
-}
-```
-
-Key points:
-* All claims SHALL have `"sd": "never"`, SCA-User does not support selective disclosure.
-* The `display` array SHOULD include entries for all languages relevant to the deployment.
-* `extends#integrity` SHALL be the SHA-256 hash of the referenced base VCT document to protect the inheritance chain.
-
-##### 2.8.3 Transaction data display
-
-Transaction data processing and display requirements are defined in [TS12] and in the base SCA VCT metadata at
-`https://webuildconsortium.eu/sca/1.0`. The Wallet SHALL follow those rules when rendering transaction data
-for user confirmation.
-
-Issuers SHOULD define issuer-specific display rules in the `display` section of their VCT metadata document,
-including at minimum a logo, background colour, and text colour for Wallet UI rendering.
-
-##### 2.8.4 Versioning
-
-Versioning of VCT types SHALL follow an `x.y` version model where:
-- `x` is the major version, introduces breaking changes (removing claims from metadata, renaming or repurposing
-  claims in transaction data).
-- `y` is the minor version, introduces backward-compatible changes (adding elements, adding display claims,
-  adding languages).
-
-With this mechanism, integrity checks remain in place and the need for re-issuance of credentials across all
-wallets is minimised. Relying Parties and Wallets SHALL reject credentials whose `extends#integrity` check fails.
-
-#### 4.2 Presentation lifecycle
-
-SCA-User SHOULD be used only when the presentation request comes from a Verifier that is allowed to request this
-attestation. If another Verifier requests this attestation type and the Wallet does not have any matching
-attestation for that Verifier, the Wallet SHALL display a warning and MAY fail such a presentation request.
 
 ### 3.2 Mandatory attributes
 
@@ -516,6 +404,112 @@ Attribute values in the example:
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
+### 5.4 VCT metadata handling and transaction data display in Wallet
+
+SD-JWT VC specification (draft 14, chapter 5) allows definition of metadata documents associated with issued
+credentials by the `vct` claim. For all SCA attestations, the following VCT inheritance model is used.
+
+#### 5.4.1 VCT type hierarchy
+
+The SCA hierarchy consists of three layers:
+
+**Layer 1, Base SCA type (abstract, not directly issuable):**
+
+```
+https://webuildconsortium.eu/sca/1.0
+```
+
+This base VCT is not directly usable but defines common behaviour and rules as specified in [TS12]. It defines the
+transaction data structure, processing rules, and display requirements that apply to all SCA attestation variants.
+
+**Layer 2, SCA-User abstract base type:**
+
+```
+https://webuildconsortium.eu/sca/sca-user/1.0
+```
+
+This type has claims `"extends"` and `"extends#integrity"` pointing to the base SCA VCT above. It defines the
+SCA-User-specific attribute set and selective disclosure rules (none for SCA-User).
+
+**Layer 3, Issuer-specific VCT (actual issued credential type):**
+
+```
+https://issuer.bank.cz/credentials/sca/user/1.0
+```
+
+Actual SCA-User attestations issued by a bank carry an issuer-specific VCT URL. The issuer's VCT metadata document
+at that URL SHALL contain claims `"extends"` and `"extends#integrity"` pointing to the Layer 2 base SCA-User type.
+
+#### 5.4.2 VCT metadata document structure
+
+The issuer SHALL publish a VCT metadata document at the issuer-specific VCT URL. The document SHALL conform to
+[SD-JWT VC] chapter 6 and SHALL include at minimum:
+
+```json
+{
+  "vct": "https://issuer.bank.cz/credentials/sca/user/1.0",
+  "name": "SCA-User, Bank CZ",
+  "description": "Strong Customer Authentication user credential issued by Bank CZ for use in 2-party banking flows.",
+  "extends": "https://webuildconsortium.eu/sca/sca-user/1.0",
+  "extends#integrity": "sha256-<hash-of-sca-user-base-vct-document>",
+  "display": [
+    {
+      "lang": "en",
+      "name": "SCA User Credential",
+      "description": "Used for authentication and transaction authorisation in online banking.",
+      "rendering": {
+        "simple": {
+          "logo": {
+            "uri": "https://issuer.bank.cz/assets/sca-logo.png",
+            "uri#integrity": "sha256-<hash>",
+            "alt_text": "Bank CZ SCA credential logo"
+          },
+          "background_color": "#1A3C8F",
+          "text_color": "#FFFFFF"
+        }
+      }
+    }
+  ],
+  "claims": [
+    {
+      "path": ["sub"],
+      "display": [{"lang": "en", "label": "User identifier"}],
+      "sd": "never"
+    },
+    {
+      "path": ["masked_psu_id"],
+      "display": [{"lang": "en", "label": "PSU identifier"}],
+      "sd": "never"
+    }
+  ]
+}
+```
+
+Key points:
+* All claims SHALL have `"sd": "never"`, SCA-User does not support selective disclosure.
+* The `display` array SHOULD include entries for all languages relevant to the deployment.
+* `extends#integrity` SHALL be the SHA-256 hash of the referenced base VCT document to protect the inheritance chain.
+
+#### 5.4.3 Transaction data display
+
+Transaction data processing and display requirements are defined in [TS12] and in the base SCA VCT metadata at
+`https://webuildconsortium.eu/sca/1.0`. The Wallet SHALL follow those rules when rendering transaction data
+for user confirmation.
+
+Issuers SHOULD define issuer-specific display rules in the `display` section of their VCT metadata document,
+including at minimum a logo, background colour, and text colour for Wallet UI rendering.
+
+#### 5.4.4 Versioning
+
+Versioning of VCT types SHALL follow an `x.y` version model where:
+- `x` is the major version, introduces breaking changes (removing claims from metadata, renaming or repurposing
+  claims in transaction data).
+- `y` is the minor version, introduces backward-compatible changes (adding elements, adding display claims,
+  adding languages).
+
+With this mechanism, integrity checks remain in place and the need for re-issuance of credentials across all
+wallets is minimised. Relying Parties and Wallets SHALL reject credentials whose `extends#integrity` check fails.
+
 
 ## 6 Protocols
 
@@ -656,6 +650,12 @@ chapter 5 records an mdoc encoding.
 ### 9.3 Transactional data
 
 This Rulebook defines no transactional data.
+
+### 9.4 Presentation lifecycle
+
+SCA-User SHOULD be used only when the presentation request comes from a Verifier that is allowed to request this
+attestation. If another Verifier requests this attestation type and the Wallet does not have any matching
+attestation for that Verifier, the Wallet SHALL display a warning and MAY fail such a presentation request.
 
 ## 10 Trust Framework
 
