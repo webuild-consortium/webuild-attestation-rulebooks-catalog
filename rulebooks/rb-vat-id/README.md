@@ -536,6 +536,8 @@ Currently there is no usecase defined where proximity use of the VAT-ID attestat
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
+This Rulebook does not define a W3C Verifiable Credentials Data Model encoding; the format is not permitted for a QEAA or PuB-EAA.
+
 ## 6 Protocols
 
 ### 6.1 Issuance
