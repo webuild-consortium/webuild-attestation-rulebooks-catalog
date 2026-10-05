@@ -3,13 +3,30 @@
 Category: non-qualified EAA
 
 
+**Authors of the previous version:**
+* Boris Lingl
+* Sofia Lucas
+* Alexander Manecke
+* Ignacio Ripoll
+* Iris Speiser
+* Marlene Urbschat
+
 | Version | Date | Description |
 | --- | --- | --- |
+| 0.1 | 2026-06-02 | initial Version |
+| 0.2 | 2026-06-30 | added content |
+| 0.3 | 2026-07-06 | Added PoX model |
+| 0.4 | 2026-07-08 | Detailed tables for the attestation elements |
+| 0.5 | 2026-07-09 | Detailed tables for the attestation metadata and dimissal of mDoc encoding for the moment |
+| 0.55 | 2026-07-14 | Enhanced content |
+| 0.6 | 2026-07-14 | Added examples for SD-JWT |
+| 0.7 | 2026-07-14 | Added references to rulebook sections within SD-JWT |
+| 0.8 | 2026-09-04 | Remaining JSON examples and type metadata moved to data-schemas, canonical model and specification bundle removed |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
-**Feedback:** [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues)
+**Feedback:** [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues), <https://github.com/webuild-consortium/BU4/issues/>
 
 ## Table of contents
 
@@ -22,6 +39,22 @@ Category: non-qualified EAA
    * [2.1 Compliance statement](#21-compliance-statement)
    * [2.2 Regulatory basis](#22-regulatory-basis)
    * [2.3 Traceability](#23-traceability)
+   * [2.4 Purpose](#24-purpose)
+   * [2.5 Relationship to the European Digital Identity Framework](#25-relationship-to-the-european-digital-identity-framework)
+   * [2.6 Compliance Objectives](#26-compliance-objectives)
+   * [2.7 Issuer Compliance](#27-issuer-compliance)
+   * [2.8 Wallet Compliance](#28-wallet-compliance)
+   * [2.9 Relying Party Compliance](#29-relying-party-compliance)
+   * [2.10 Holder Compliance](#210-holder-compliance)
+   * [2.11 Semantic Compliance](#211-semantic-compliance)
+   * [2.12 Privacy Compliance](#212-privacy-compliance)
+   * [2.13 Security Compliance](#213-security-compliance)
+   * [2.14 Interoperability Compliance](#214-interoperability-compliance)
+   * [2.15 Conformance Levels](#215-conformance-levels)
+   * [2.16 Future Compatibility](#216-future-compatibility)
+   * [2.17 Governance](#217-governance)
+   * [2.18 Conformance Statement](#218-conformance-statement)
+   * [2.19 Summary](#219-summary)
 - [3 Attestation attributes](#3-attestation-attributes)
    * [3.1 Introduction](#31-introduction)
    * [3.2 Mandatory attributes](#32-mandatory-attributes)
@@ -34,6 +67,10 @@ Category: non-qualified EAA
    * [4.4 Code lists](#44-code-lists)
    * [4.5 Integrity rules](#45-integrity-rules)
 - [5 Formats](#5-formats)
+   * [5.4 Encoding Consistency Rules](#54-encoding-consistency-rules)
+   * [5.5 Selective Disclosure Requirements](#55-selective-disclosure-requirements)
+   * [5.6 Privacy Considerations](#56-privacy-considerations)
+   * [5.7 Encoding Interoperability](#57-encoding-interoperability)
 - [6 Protocols](#6-protocols)
 - [7 Issuance](#7-issuance)
    * [7.1 Binding](#71-binding)
@@ -41,15 +78,75 @@ Category: non-qualified EAA
    * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
+   * [8.1 Purpose](#81-purpose)
+   * [8.2 Atestation Lifecycle](#82-atestation-lifecycle)
+   * [8.3 Expiration](#83-expiration)
+   * [8.4 Revocation](#84-revocation)
+   * [8.5 Suspension](#85-suspension)
+   * [8.6 Revocation Triggers](#86-revocation-triggers)
+   * [8.7 Authorized Revocation Actors](#87-authorized-revocation-actors)
+   * [8.8 Revocation Mechanisms](#88-revocation-mechanisms)
+   * [8.9 Atestation Status Values](#89-atestation-status-values)
+   * [8.10 Status Verification](#810-status-verification)
+   * [8.11 Revocation Service](#811-revocation-service)
+   * [8.12 Short-Lived Attestation](#812-short-lived-attestation)
+   * [8.13 Revocation Processing](#813-revocation-processing)
+   * [8.14 Wallet Behaviour](#814-wallet-behaviour)
+   * [8.15 Relying Party Behaviour](#815-relying-party-behaviour)
+   * [8.16 Audit Requirements](#816-audit-requirements)
+   * [8.17 Revocation Reasons](#817-revocation-reasons)
+   * [8.18 Revocation Notifications](#818-revocation-notifications)
+   * [8.19 Conformance Requirements](#819-conformance-requirements)
+   * [8.20 Operational Recommendations](#820-operational-recommendations)
 - [9 Presentation](#9-presentation)
    * [9.1 Presentation Policy](#91-presentation-policy)
    * [9.2 Presentation modes](#92-presentation-modes)
    * [9.3 Transactional data](#93-transactional-data)
+   * [9.4 Usecase 1a A person action on behalf of an organisation with PoA](#94-usecase-1a-a-person-action-on-behalf-of-an-organisation-with-poa)
+   * [9.5 Usecase 1b A person action on behalf of an organisation with PoR](#95-usecase-1b-a-person-action-on-behalf-of-an-organisation-with-por)
+   * [9.6 Usecase 1c A person action on behalf of an organisation with PoA, PoR accessing a service](#96-usecase-1c-a-person-action-on-behalf-of-an-organisation-with-poa-por-accessing-a-service)
+   * [9.7 Purpose](#97-purpose)
+   * [9.8 Operational Lifecycle](#98-operational-lifecycle)
+   * [9.9 Typical Business Use Cases](#99-typical-business-use-cases)
+   * [9.10 Presentation Requirements](#910-presentation-requirements)
+   * [9.11 Holder Obligations](#911-holder-obligations)
+   * [9.12 Authorization Decision](#912-authorization-decision)
+   * [9.13 PID Binding](#913-pid-binding)
+   * [9.14 Device Binding](#914-device-binding)
+   * [9.15 Transaction Data](#915-transaction-data)
+   * [9.16 Privacy Requirements](#916-privacy-requirements)
+   * [9.17 Error Handling](#917-error-handling)
+   * [9.18 Cross-Border Recognition](#918-cross-border-recognition)
+   * [9.19 Operational Recommendations](#919-operational-recommendations)
+   * [9.20 Conformance](#920-conformance)
 - [10 Trust Framework](#10-trust-framework)
+   * [10.1 Purpose](#101-purpose)
+   * [10.2 Trust Model](#102-trust-model)
+   * [10.3 Trust Anchors](#103-trust-anchors)
+   * [10.4 Qualified Electronic Attestations](#104-qualified-electronic-attestations)
+   * [10.5 Public Electronic Attestations](#105-public-electronic-attestations)
+   * [10.6 Non-qualified Electronic Attestations](#106-non-qualified-electronic-attestations)
+   * [10.7 Trust Anchor Distribution](#107-trust-anchor-distribution)
+   * [10.8 Issuer Authentication](#108-issuer-authentication)
+   * [10.9 Trust Verification by the Relying Party](#109-trust-verification-by-the-relying-party)
+   * [10.10 Trust Validation Process](#1010-trust-validation-process)
+   * [10.11 Authentic Sources](#1011-authentic-sources)
+   * [10.12 Trust in Supporting Evidence](#1012-trust-in-supporting-evidence)
+   * [10.13 Cross-Border Trust](#1013-cross-border-trust)
+   * [10.14 Trust Metadata](#1014-trust-metadata)
+   * [10.15 Trust Failure Handling](#1015-trust-failure-handling)
+   * [10.16 Trust Governance](#1016-trust-governance)
+   * [10.17 Conformance Requirements](#1017-conformance-requirements)
 - [11 References](#11-references)
 
 
 ## 1 Introduction
+
+This rulebook provides a common conceptual and operational foundation for the use of Power of Attorney and Power of Representation within the WeBUILD ecosystem. It explains how legal authority can be expressed, issued, presented, and verified in a digital context, enabling trusted business and public-sector processes across organizational and national boundaries.
+
+Power of Attorney refers to a legally granted authority by which an economic operator authorizes another to act on its behalf within a defined scope. Power of Representation dcertifies a specific position or role held by the representative within an organization to operate with unliminted capacity in a given transaction or process, based on law, internal governance, mandate, or delegated authority. In digital wallet-based ecosystems such as EUBW and EUDI, these concepts need to be represented in a machine-readable, verifiable, and selective-disclosure-friendly form so that relying parties can validate both the existence and the limits of the authority.
+
+The rulebook aims to align legal meaning, technical implementation, and operational trust requirements. It supports interoperable issuance and presentation flows, consistent terminology, and reliable validation of representation claims in cross-border use cases such as business-to-government interactions, tax-related procedures, and other regulated transactions. By establishing shared rules and reference patterns, the rulebook helps create a scalable foundation for trustworthy digital representation in the European business wallet environment.
 
 ### 1.1 Document scope and purpose
 
@@ -366,6 +463,142 @@ marked not applicable carry a stated reason.
 | EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
 | EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
 
+### 2.4 Purpose
+
+This chapter specifies compliance requirements applicable to implementations of the WE BUILD Power of Attorney Rulebook.
+
+Its purpose is to ensure that all participating ecosystem actors implement interoperable, secure and legally reliable Power of Attorney credentials.
+
+Compliance with this Rulebook SHALL be assessed independently from national legislation. Where national law imposes additional requirements, such requirements SHALL take precedence.
+
+### 2.5 Relationship to the European Digital Identity Framework
+
+This Rulebook has been developed in accordance with objectives of the European Digital Identity Framework. In particular, it aligns with:
+
+- Regulation (EU) 2024/1183;
+- Architecture and Reference Framework https://eudi.dev/2.9.0/;
+- Annex 2 – Topic 12, Attestation Rulebooks;
+- Annex 2 – Topic 7, Revocation;
+- Annex 2 – Topic 10, Issuance;
+- applicable ETSI trust service specifications.
+
+This Rulebook SHALL be interpreted consistently with those documents.
+
+### 2.6 Compliance Objectives
+
+Implementations conforming to this Rulebook SHALL support interoperable issuance, presentation, verification, revocation, cross-border recognition and selective disclosure where supported by the chosen encoding.
+
+### 2.7 Issuer Compliance
+
+An Issuer claiming compliance with this Rulebook SHALL:
+
+- issue attestations according to the semantic model defined in Chapter 2;
+- use one of the encoding formats defined in Chapter 3;
+- implement the trust framework defined in Chapter 5;
+- implement revocation mechanisms defined in Chapter 6;
+- issue globally unique attestation identifiers;
+- maintain issuer metadata;
+- publish attestation status information.
+
+Where Qualified Electronic Attestations are issued, the Issuer SHALL comply with applicable eIDAS requirements.
+
+### 2.8 Wallet Compliance
+
+Wallet implementations SHALL support secure attestation storage, secure attestation presentation, user consent, cryptographic verification, selective disclosure where supported and attestation lifecycle management.
+
+Wallets SHOULD additionally support offline presentation where applicable, automatic status synchronization, Holder notifications and attestation backup and recovery according to applicable security policies.
+
+### 2.9 Relying Party Compliance
+
+| Verification | Requirement |
+| --- | --- |
+| Signature verification | SHALL |
+| Trust chain validation | SHALL |
+| Issuer verification | SHALL |
+| Attestation status verification | SHALL |
+| Validity period verification | SHALL |
+| Scope verification | SHALL |
+| Business policy verification | SHALL |
+
+Failure of any mandatory verification SHALL result in rejection of the attestation.
+
+### 2.10 Holder Compliance
+
+The Holder SHALL protect private cryptographic keys, prevent unauthorized attestation disclosure, present attestation only with informed consent and notify the Issuer where compromise is suspected.
+
+The Holder SHOULD regularly synchronize attestation status and remove obsolete attestations where appropriate.
+
+### 2.11 Semantic Compliance
+
+Implementations SHALL preserve the semantic meaning of every attribute defined in Chapter 2. Encoding transformations SHALL NOT alter legal meaning, business interpretation, delegated authority, validity or scope.
+
+Semantic interoperability SHALL take precedence over implementation-specific optimizations.
+
+### 2.12 Privacy Compliance
+
+Implementations SHALL comply with applicable European data protection legislation.
+
+The following principles SHALL apply:
+
+- data minimization;
+- purpose limitation;
+- user consent;
+- confidentiality;
+- integrity;
+- accountability.
+
+Selective disclosure SHOULD be supported whenever technically feasible. Relying Parties SHALL request only attributes necessary for the requested transaction.
+
+### 2.13 Security Compliance
+
+Every implementation SHALL support cryptographic attestation signatures, issuer authentication, secure communication, integrity protection, replay protection and attestation status verification.
+
+Private keys SHALL remain under the exclusive control of their legitimate owner.
+
+### 2.14 Interoperability Compliance
+
+Conformant implementations SHALL support interoperability across Member States, Wallet Providers, Issuers, Relying Parties and Trust Service Providers.
+
+Interoperability SHALL include common semantics, compatible attestation encodings, standardized verification procedures and standardized trust mechanisms.
+
+### 2.15 Conformance Levels
+
+| Level | Description |
+| --- | --- |
+| Level 1 | Semantic Compliance. |
+| Level 2 | Encoding Compliance. |
+| Level 3 | Trust Compliance. |
+| Level 4 | Operational Compliance. |
+| Level 5 | Cross-border Compliance. |
+
+Organizations SHOULD aim to satisfy all five levels.
+
+### 2.16 Future Compatibility
+
+Future revisions of this Rulebook SHALL strive to maintain backward compatibility. Breaking changes SHOULD only be introduced where required by legislation, ARF revisions or security reasons.
+
+Version identifiers SHALL clearly distinguish incompatible releases.
+
+### 2.17 Governance
+
+Maintenance of this Rulebook SHOULD be performed through the WE BUILD governance process. Governance responsibilities include publication of new versions, management of semantic changes, coordination with WP4 Semantics, alignment with ETSI and alignment with future EUDI Architecture and Reference Framework revisions.
+
+### 2.18 Conformance Statement
+
+An implementation claiming compliance with the WE BUILD Power of Attorney Rulebook SHALL demonstrate that it satisfies all mandatory requirements identified by the keyword **SHALL** throughout this document.
+
+Requirements expressed using **SHOULD** are considered recommendations supporting interoperability and operational best practices. Requirements expressed using **MAY** identify optional capabilities.
+
+Conformance SHALL be evaluated over the complete attestation lifecycle, including issuance, storage, presentation, verification, revocation and expiration.
+
+Only implementations satisfying all mandatory requirements may claim compliance with this Rulebook.
+
+### 2.19 Summary
+
+This Rulebook establishes a common semantic, operational and technical foundation for interoperable digital Powers of Attorney within the WE BUILD ecosystem.
+
+By combining common semantics, interoperable attestation formats, trusted issuance, standardized verification, robust revocation mechanisms and cross-border trust, the Rulebook enables legally reliable delegation of authority throughout the European Digital Identity ecosystem and provides a foundation for future European Business Wallet services.
+
 ## 3 Attestation attributes
 
 Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
@@ -391,7 +624,7 @@ Every Power of Attorney SHALL express a legally valid delegation of authority be
 
 The semantic model defined in this chapter SHALL remain independent of the chosen attestation format.
 
-#### 2.1 Overall Semantic Model
+#### 3.1.1 Overall Semantic Model
 
 A Power of X attestation is composed of four common semantic domains.
 
@@ -422,154 +655,6 @@ Depending on the selected authority model, the **Authority** domain is represent
 > 
 > https://github.com/webuild-consortium/BU4/blob/main/rulebooks/pox_rulebook_uml.png
 
-
-#### 2.2 Mandatory attributes
-
-The semantic model is organized into four common domains that are shared by all Power of X attestations.
-
-##### Domain 1 – Represented Economic Operator (Legal Entity)
-
-An economic operator that has legal rights and obligations. An economic operator able to transact business, typically registered with a body able to confer legal status such as a national business register. It is able to trade, is legally liable for its actions, accounts, tax affairs etc. It will contain the minimum mandatory information for legal person identification, ensuring identity matching while delegating full company information to the EBW-OID [CIR 2024/2977]
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| *EconomicOperator.EBWOID* | *TBD* | *A unique identifier constructed by the sending Member State in accordance with the technical specifications for the purposes of cross-border identification and which is as persistent as possible in time.* | *String* | *EU-DE-HRB-123456* |
-| *EconomicOperator.LegalName* | *TBD* | *The name under which the Legal Entity is legally registered* | *String* | *Mustermann GmbH* |
-
-##### Domain 2 – Proxy
-
-Refers to the identity of an economic operator authorised to act on behalf of the Represented Economic Operator. In the context of the PoX, two possible types of proxy are identified that are mutually exclusive, and the attestation will contain only one of the two options shown below.
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| *Proxy.EntityType* | *TBD* | *Enumeration describing whether the proxy is a Economic Operator or a natural person so that the proxy's identifying information can be interpreted correctly. Values shall be one of the following:•0  = LegalEntityProxy • 1 = NaturalEntityProxy* | *Integer* | *0* |
-| *Proxy.Proxy* | *TBD* | *See LegalEntityProxy and NaturalEntityProxy data structuresbelow* | *JSON ENUM* | *See LegalEntityProxy and NaturalEntityProxy data structuresbelow* |
-
-##### Domain 2.1 – Economic Operator Proxy
-
-It will contain the minimum mandatory information for legal person identification, ensuring identity matching while delegating full company information to the EBW-OID [CIR 2024/2977]
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| *LegalEntityProxy.EBWOID* | *TBD* | *A unique identifier constructed by the sending Member State in accordance with the technical specifications for the purposes of cross-border identification and which is as persistent as possible in time.* | *String* | *EU-DE-HRB-123456* |
-| *LegalEntityProxy.LegalName* | *TBD* | *The name under which the Economic Operator is legally registered* | *String* | *Mustermann GmbH* |
-
-##### Domain 2.2 – Natural Entity Proxy
-
-It will contain the minimum mandatory information for natural person identification, ensuring identity matching while delegating full person information to the PID [CIR 2024/2977] with any possible modification approved in the context of WeBuild Consorcium, specifically through WP4 PID-EBWOID group.
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| *NaturalEntityProxy.FamilyName* | *TBD* | *Current last name(s) or surname(s) of the user to whom the person identification data relates* | *String* | *Duck* |
-| *NaturalEntityProxy.GivenName* | *TBD* | *Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates.* | *String* | *Donald* |
-| *NaturalEntityProxy. BirthDate* | *TBD* | *Day, month, and year on which the user to whom the person identification data relates was born.* | *date-time or full-date as specified in RFC 3339* | *1990-07-08T10:30:21.000Z* |
-| *NaturalEntityProxy.BirthPlace* | *TBD* | *The country as an alpha-2 country code as specified in ISO 3166-1, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born.* | *alpha-2 country code as specified in ISO 3166-1* | *BE* |
-| *NaturalEntityProxy.Nationality* | *TBD* | *One or more alpha-2 country codes as specified in ISO 3166-1, representing the nationality of the user to whom the person identification data relates.* | *BE* |  |
-
-##### Domain 3 – Authority Scope
-
-The Authority domain represents the legal basis enabling representation.
-
-Depending on the attestation type, exactly one Authority specialization SHALL be present.
-
-| Authority Type | Used by | Core Attributes |
-| --- | --- | --- |
-| Position | Power of Representation | position, registration date, cardinality |
-| Mandate | Power of Attorney | mandate type, scope, legal basis, validity |
-| Employee Authorization | Power of Employee | employee role, authorization scope, service access |
-
-The Authority domain is specialized according to the legal origin of the authority while preserving a common representation model.
-
-Three authority models are defined:
-
-| Authority Model | Purpose |
-| --- | --- |
-| **ProxyPosition** | Represents authority derived from an organisational position recorded in an authentic source (Power of Representation). |
-| **ProxyPowerScope** | Represents authority explicitly delegated through a legally valid mandate (Power of Attorney). |
-| **ProxyEmployeeAuthorisation** | Represents operational authority granted by an organisation to an employee or contractor (Power of Employee). |
-
-Only **one** Authority specialization SHALL be present in a single Power of X attestation.
-
-For this Rulebook, the applicable Authority specialization is **ProxyPowerScope**.
-
-##### Domain 3.1 Common Authority Components
-
-Regardless of the specialization, the Authority domain may reference a common set of reusable semantic components.
-
-| Component | Purpose |
-| --- | --- |
-| **Mandator** | Identifies the person granting the authority where applicable. |
-| **Constraints** | Defines operational or legal limitations associated with the authority. |
-| **ServiceAccess** | Specifies the relying parties or services for which the authority may be exercised. |
-
-These components are reused across multiple authority models to ensure semantic consistency.
-
-##### Domain 3.2 ProxyPosition (Power of Representation | PoR)
-
-This certifies a specific position or role held by the representative of a legal person, in accordance with the data entered in the official register authorised by each Member State.
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| *ProxyPosition.Position* | *TBD* | *In the event that the type of representation is organic / administrative position within the Economic Operator, indicate the type of position held by the proxy in relation to the faculty indicated in the power.* | *String* | *Sole Administrator* |
-| *ProxyPosition.InscriptionDate* | *TBD* | *Specific date of the inscription of the faculty in the authentic source that enables the attestation.* | *date-time or full-date as specified in RFC 3339* | *2020-07-08T10:30:21.000Z* |
-| *ProxyPosition.IssuingAuthority* | *TBD* | *Name of the authority that is issuing the attestation.* | *String* | *Cleverbase* |
-| *ProxyPosition.IssuingAuthorityType* | *TBD* | *Type of authority in accordance with the Trust Framework defined in the scope of eIDAS Regulation (QTSP, PubEAA, NQTSP)* | *Integer* | *0* |
-| *ProxyPosition.AuthenticSourceId* | *TBD* | *Identification information with regard the authentic source that has the power and faculties registered.* | *String* | *VATES-E81458556* |
-| *ProxyPosition.AuthenticSourceName* | *TBD* | *Name of the authentic source that has the power and faculties registered.* | *String* | *Registro Mercantil de Madrid* |
-| *ProxyPosition.IssuingCountry* | *TBD* | *Country where the attestation is being issued.* | *alpha-2 country code as specified in ISO 3166-1* | *ES* |
-| *ProxyPosition.EvidenceURI* | *TBD* | *Address for accessing the public document certifying the power of representation.* | *String* | *https://sede.registradores.org/sede/sede-csv-web/csv/20815412F93A6D5B* |
-| *ProxyPosition.EvidenceDescription* | *TBD* | *Description of the public document certifying the power of representation.* | *String* | *Business Registry Certification* |
-| *ProxyPosition.AssuranceLevel* | *TBD* | *Level of assurance and confidence that should be given to a statement based on the origin of the information. Since this attestation relies on a Business Registry the assurance level is always High.* | *Integer* | *0* |
-
-##### Domain 3.3 ProxyPowerScope (Power of Attorney | PoA )
-
-Representation powers authorise a person or entity to act on behalf of another in legal, administrative, or business matters. Each power has a specific scope that impose a context and limitations to the operations that may be performed by the Proxy.
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| *ProxyPowerScope.Type* | *TBD* | *Establishes the type of power based on the relationship that the proxy has with the company it claims to represent.* | *Integer* | *1* |
-| *ProxyPowerScope.GrantDate* | *TBD* | *Specific date of the granting of the faculty in the authentic source that enables the attestation.* | *date-time or full-date as specified in RFC 3339* | *1990-07-08T10:30:21.000Z* |
-| *ProxyPowerScope.Limitation* | *TBD* | *Assessment of the existence of limitations on the scope of execution of the power.* | *Boolean* | *FALSE* |
-| *ProxyPowerScope.Faculty* | *TBD* | *Represent the inherent capacities that the power enables on the Proxy.* | *Integer* | *5* |
-| *ProxyPowerScope.IssuingAuthority* | *TBD* | *Name of the authority that is issuing the attestation.* | *String* | *Cleverbase* |
-| *ProxyPowerScope.IssuingAuthorityType* | *TBD* | *Type of authority in accordance with the Trust Framework defined in the scope of eIDAS Regulation (QTSP, PubEAA, NQTSP)* | *Integer* | *0* |
-| *ProxyPowerScope.IssuingCountry* | *TBD* | *Country where the attestation is being issued.* | *alpha-2 country code as specified in ISO 3166-1* | *ES* |
-| *ProxyPowerScope.AssuranceLevel* | *TBD* | *Level of assurance and confidence that should be given to a statement based on the origin of the information. Since this attestation relies on a Business Registry the assurance level is always High.* | *Integer* | *0* |
-
-#### Abstract
-
-This rulebook provides a common conceptual and operational foundation for the use of Power of Attorney and Power of Representation within the WeBUILD ecosystem. It explains how legal authority can be expressed, issued, presented, and verified in a digital context, enabling trusted business and public-sector processes across organizational and national boundaries.
-
-Power of Attorney refers to a legally granted authority by which an economic operator authorizes another to act on its behalf within a defined scope. Power of Representation dcertifies a specific position or role held by the representative within an organization to operate with unliminted capacity in a given transaction or process, based on law, internal governance, mandate, or delegated authority. In digital wallet-based ecosystems such as EUBW and EUDI, these concepts need to be represented in a machine-readable, verifiable, and selective-disclosure-friendly form so that relying parties can validate both the existence and the limits of the authority.
-
-The rulebook aims to align legal meaning, technical implementation, and operational trust requirements. It supports interoperable issuance and presentation flows, consistent terminology, and reliable validation of representation claims in cross-border use cases such as business-to-government interactions, tax-related procedures, and other regulated transactions. By establishing shared rules and reference patterns, the rulebook helps create a scalable foundation for trustworthy digital representation in the European business wallet environment.
-
-* Author(s):
-    * Boris Lingl
-    * Sofia Lucas
-    * Alexander Manecke
-    * Ignacio Ripoll
-    * Iris Speiser
-    * Marlene Urbschat
-
-
-| Version | Date | Description |
-| --- | --- | --- |
-| 0.1 | 2026-06-02 | initial Version |
-| 0.2 | 2026-06-30 | added content |
-| 0.3 | 2026-07-06 | Added PoX model |
-| 0.4 | 2026-07-08 | Detailed tables for the attestation elements |
-| 0.5 | 2026-07-09 | Detailed tables for the attestation metadata and dimissal of mDoc encoding for the moment |
-| 0.55 | 2026-07-14 | Enhanced content |
-| 0.6 | 2026-07-14 | Added examples for SD-JWT |
-| 0.7 | 2026-07-14 | Added references to rulebook sections within SD-JWT |
-| 0.8 | 2026-09-04 | Remaining JSON examples and type metadata moved to data-schemas, canonical model and specification bundle removed |
-
-**Feedback:**
-
-* <https://github.com/webuild-consortium/BU4/issues/>
-
-#### 1 Introduction
 
 #### Chapter overview and requirements
 
@@ -635,742 +720,6 @@ of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [
 of the [European Digital Identity Regulation] SHALL be included. This location SHALL
 indicate at least the URL at which a machine-readable version of the qualified
 certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [Topic 12])
-
-#### 3.4 Encoding Consistency Rules
-
-| Rule | Description |
-| --- | --- |
-| EC-01 | Every credential SHALL contain one unique identifier. |
-| EC-02 | Every credential SHALL identify exactly one Principal. |
-| EC-03 | Every credential SHALL identify exactly one Attorney-in-Fact. |
-| EC-04 | Every credential SHALL identify one represented organization. |
-| EC-05 | Credential semantics SHALL remain identical across encodings. |
-| EC-06 | Every credential SHALL contain validity information. |
-| EC-07 | Every credential SHALL reference credential status information. |
-| EC-08 | Every credential SHALL support cryptographic verification. |
-
-#### 3.5 Selective Disclosure Requirements
-
-Power of Attorney credentials contain legally sensitive information. Issuers SHOULD maximize use of selective disclosure mechanisms. A Holder SHOULD disclose only those attributes required by the transaction.
-
-#### 3.6 Privacy Considerations
-
-Issuers SHALL apply the principle of data minimization. Wallets SHALL support selective disclosure where supported by the credential format. Relying Parties SHALL request only attributes necessary for the requested transaction.
-
-#### 3.7 Encoding Interoperability
-
-A Power of Attorney issued in one supported encoding SHALL be semantically equivalent to the same credential issued in another encoding.
-
-Wallets MAY internally convert between supported encodings provided that no semantic information is lost, cryptographic integrity is preserved, issuer authenticity remains verifiable and selective disclosure policies remain enforceable.
-
-#### Usecase 1a A person action on behalf of an organisation with PoA
-
-#### Usecase 1b A person action on behalf of an organisation with PoR
-
-#### Usecase 1c A person action on behalf of an organisation with PoA, PoR accessing a service
-
-#### 4.1 Purpose
-
-This chapter specifies how a Power of Attorney attestation SHALL be used within the WE BUILD ecosystem throughout its operational lifecycle.
-
-The lifecycle comprises four principal phases:
-
-1. issuance;
-2. storage;
-3. presentation;
-4. verification.
-
-Each phase SHALL preserve the legal meaning, integrity and trustworthiness of the delegated authority.
-
-#### 4.2 Operational Lifecycle
-
-``` 
-Principal
-  |
-  ▼
-Grant of Authority
-  |
-  ▼
-Authentic Source / Supporting Evidence
-  |
-  ▼
-Issuer (QTSP / EAA Provider)
-  |
-  ▼
-Attestation Issuance
-  |
-  ▼
-Wallet Storage
-  |
-  ▼
-Presentation
-  |
-  ▼
-Verification
-  |
-  ▼
-Authorization Decision
-  |
-  ▼
-Revocation / Expiration
-```
-
-The lifecycle SHALL terminate immediately when the attestation expires, is revoked, or the underlying mandate ceases to exist.
-
-#### 4.3 Typical Business Use Cases
-
-A Power of Attorney and Power of Representation MAY be used in cross-border business interactions including:
-
-- tax declaration submission;
-- customs declarations;
-- company registration;
-- public procurement;
-- banking procedures;
-- access to regulated business platforms;
-- contract execution;
-- representation before supervisory authorities;
-- financial reporting;
-- legal representation.
-
-The Relying Party SHALL evaluate whether the presented mandate authorizes the requested business transaction.
-
-#### 4.4 Presentation Requirements
-
-Presentation SHALL occur through a wallet supporting one of the attestation formats specified in Chapter 3.
-
-Presentation MAY be performed online, cross-device, same-device or in proximity where supported by ISO/IEC 18013-5.
-
-Wallets SHALL support user consent prior to disclosure. Wallets SHOULD support selective disclosure whenever technically possible.
-
-#### 4.5 Holder Obligations
-
-Before presenting a Power of Attorney or Power of Representation, the Holder SHALL:
-
-- verify that the attestation is still valid;
-- verify that the requested transaction falls within the mandate scope;
-- consent to disclosure;
-- protect private cryptographic keys.
-
-The Holder SHOULD minimize disclosure of unnecessary attributes. The Holder SHALL NOT modify the attestation.
-
-#### 4.7 Authorization Decision
-
-After successful verification, the Relying Party MAY authorize the requested transaction. Authorization SHALL depend upon attestation validity, issuer trust, business policy, legal requirements and mandate scope.
-
-Possession of a valid attestaion SHALL NOT automatically imply authorization. Business-specific policies MAY impose additional conditions.
-
-#### 4.8 PID Binding
-
-Where national legislation requires personal identification, the PoA SHALL be cryptographically or logically bound to a Personal Identification Data attestation.
-
-The Relying Party SHALL verify that the PID identifies the presenting individual and that the Attorney-in-Fact referenced by the PoA corresponds to the PID Holder.
-
-#### 4.9 Device Binding
-
-A Power of Attorney MAY be device-bound or non-device-bound. Where device binding is implemented, the attestation SHALL contain the metadata attribute `cryptographically_bound_to`.
-
-The recommended value is:
-
-```text
-urn:eudi:pid:1
-```
-
-where the attestation is bound to a Personal Identification Data attestation.
-
-#### 4.10 Transaction Data
-
-Presentation MAY include transaction-specific information such as requested service, relying party identifier, requested authorization scope, requested signature level, requested attributes, transaction identifier and timestamp.
-
-Transaction data SHALL NOT become part of the attestation itself.
-
-#### 4.11 Privacy Requirements
-
-The following privacy principles SHALL apply:
-
-- data minimization;
-- selective disclosure;
-- user consent;
-- purpose limitation;
-- privacy-preserving audit logging.
-
-#### 4.12 Error Handling
-
-| Error | Relying Party Behaviour |
-| --- | --- |
-| Attestation revoked | Reject. |
-| Attestation expired | Reject. |
-| Invalid signature | Reject. |
-| Unknown issuer | Reject. |
-| Missing mandatory attributes | Reject. |
-| PID mismatch | Reject. |
-| Scope mismatch | Reject. |
-| Trust chain failure | Reject. |
-| Attestation malformed | Reject. |
-
-Appropriate error information MAY be presented to the Holder. Detailed trust validation errors SHOULD NOT expose sensitive security information.
-
-#### 4.13 Cross-Border Recognition
-
-Power of Attorney and Power of Representation attestations are intended for cross-border use. Participating Relying Parties SHOULD recognize attestations issued by trusted issuers located in other Member States where the applicable trust anchor is recognized, attestations validation succeeds and no legal restriction prohibits acceptance.
-
-#### 4.14 Operational Recommendations
-
-Issuers MUST automate revocation and synchronize mandate changes with authentic sources.
-
-Issuers MAY issue short-lived attestation whenever needed.
-
-Wallet Providers SHOULD support offline presentation where applicable, selective disclosure and attestation status updates.
-
-Relying Parties SHOULD cache trust anchors, perform online status checks whenever possible, log authorization decisions and apply the principle of least privilege.
-
-#### 4.15 Conformance
-
-An implementation claiming conformance with this Rulebook SHALL implement attestation presentation, issuer trust verification, signature validation, attestation status verification, validity checks, mandate scope evaluation and authorization decision processing.
-
-Selective disclosure support is RECOMMENDED. Offline presentation support is OPTIONAL unless explicitly required by the applicable deployment profile.
-
-#### 5.1 Purpose
-
-This chapter defines the trust framework applicable to Power of Attorney attestations issued and verified within the WE BUILD ecosystem.
-
-Its objective is to ensure that every Relying Party can establish a consistent level of trust in the issuer, the credential and the underlying delegation of authority.
-
-#### 5.2 Trust Model
-
-```text
-European Digital Identity Framework
-  |
-  ▼
-European Trusted Lists (eIDAS)
-  |
-  ▼
-Qualified Trust Service Providers
-  |
-  ▼
-QEAA / PubEAA / EAA Provider
-  |
-  ▼
-Power of X (PoA, PoR) Attestation
-  |
-  ▼
-Holder Wallet
-  |
-  ▼
-Relying Party
-```
-
-Each trust layer SHALL validate the integrity of the previous layer. Failure of any trust layer SHALL invalidate the Attestation.
-
-#### 5.3 Trust Anchors
-
-| Attestation Type | Trust Anchor |
-| --- | --- |
-| QEAA | eIDAS Trusted List. |
-| Pub-EAA | Qualified Certificate issued by a QTSP. |
-| EAA | Organizational trust anchor defined by WE BUILD governance. |
-
-The trust anchor SHALL be machine-readable.
-
-#### 5.4 Qualified Electronic Attestations
-
-For Qualified Electronic Attestations of Attributes, the Relying Party SHALL obtain the issuer certificate, validate the certificate chain, verify the Qualified Trust Service Provider, verify the Qualified Certificate and verify the attestation signature.
-
-Trust SHALL ultimately terminate at a trust anchor contained within the applicable European Trusted List.
-
-#### 5.5 Public Electronic Attestations
-
-Where a Public Electronic Attestation is used, the issuing public authority SHALL possess a qualified certificate, the certificate SHALL be verifiable through a Qualified Trust Service Provider and the QTSP SHALL be discoverable through the European Trusted Lists.
-
-#### 5.6 Non-qualified Electronic Attestations
-
-For non-qualified Electronic Attestations, the trust framework SHALL be explicitly defined by the applicable governance framework. Acceptable trust mechanisms include organizational PKI, sector-specific trust frameworks, national trust registries and WE BUILD trusted issuer registries.
-
-The issuer SHALL publish issuer identifier, public verification key, metadata endpoint and status endpoint.
-
-#### 5.7 Trust Anchor Distribution
-
-Trust anchors SHALL be distributed through secure and authoritative mechanisms such as European Trusted Lists, Trusted List APIs, Organizational Trust Registries, Federation Metadata Services or signed Trust Lists.
-
-Unsigned trust anchor distribution SHALL NOT be used.
-
-#### 5.8 Issuer Authentication
-
-Before issuing a Power of Attorney, an Issuer SHALL authenticate itself towards the applicable trust infrastructure.
-
-The following information SHALL be available:
-
-- issuer identifier;
-- certificate chain;
-- public verification keys;
-- attestation metadata endpoint;
-- revocation endpoint.
-
-#### 5.9 Trust Verification by the Relying Party
-
-| Verification Step | Requirement |
-| --- | --- |
-| Attestation signature | SHALL |
-| Issuer certificate | SHALL |
-| Trust chain | SHALL |
-| Attestation status | SHALL |
-| Validity period | SHALL |
-| Issuer authorization | SHALL |
-| Attestation schema | SHOULD |
-| Metadata integrity | SHOULD |
-
-Failure of any mandatory verification SHALL result in rejection of the attestation.
-
-#### 5.10 Trust Validation Process
-
-```text
-Receive attestation
-  |
-  ▼
-Verify Signature
-  |
-  ▼
-Validate Certificate Chain
-  |
-  ▼
-Resolve Trust Anchor
-  |
-  ▼
-Validate Trust Anchor
-  |
-  ▼
-Check attestation Status
-  |
-  ▼
-Validate Business Rules
-  |
-  ▼
-Authorize Transaction
-```
-
-The order MAY vary provided that equivalent security guarantees are achieved.
-
-#### 5.11 Authentic Sources
-
-Where issuance of a Power of Attorney or Power of Representation depends on information obtained from an Authentic Source, the Issuer SHALL ensure that the Authentic Source is authoritative for the relevant information, the retrieved information is current at the time of issuance, the information has not been altered during transmission and access to the Authentic Source is appropriately authenticated and authorized.
-
-Examples include Business Registers, Population Registers, Tax Registers, Professional Registers, Court Registers and National Mandate Registers.
-
-#### 5.12 Trust in Supporting Evidence
-
-A Power of Attorney MAY be based upon additional supporting evidence such as notarized documents, court decisions, organizational resolutions, shareholder resolutions, employment contracts or professional licenses.
-
-Where such evidence contributes to the issuance decision, the Issuer SHOULD maintain auditable references to that evidence. The evidence itself SHOULD NOT be embedded within the attestation.
-
-#### 5.13 Cross-Border Trust
-
-A Relying Party SHOULD recognize issuers established in other Member States provided that the issuer is trusted, the applicable trust anchor is recognized, attestation validation succeeds and no national legal restrictions prohibit acceptance.
-
-This Rulebook does not override national legislation governing legal recognition of mandates.
-
-#### 5.14 Trust Metadata
-
-| Metadata | Purpose |
-| --- | --- |
-| Issuer Identifier | Unique issuer identification. |
-| Issuer Name | Human-readable issuer. |
-| Attestation Types | Supported attestation types. |
-| Public Keys | Signature verification. |
-| Metadata Endpoint | Attestation metadata. |
-| Status Endpoint | Revocation and suspension. |
-| Terms of Use | Issuer policy. |
-| Contact Information | Operational support. |
-
-Metadata SHOULD be signed by the issuing authority.
-
-#### 5.15 Trust Failure Handling
-
-| Event | Action |
-| --- | --- |
-| Unknown issuer | Reject. |
-| Invalid certificate | Reject. |
-| Invalid signature | Reject. |
-| Revoked certificate | Reject. |
-| Missing trust anchor | Reject. |
-| Trust anchor not recognized | Reject. |
-| Attestation revoked | Reject. |
-| Attestation expired | Reject. |
-
-The Relying Party SHOULD log trust failures for audit purposes.
-
-#### 5.16 Trust Governance
-
-The governance of trusted issuers SHALL be defined by the WE BUILD Trust Framework. The framework SHOULD define issuer onboarding procedures, trust anchor publication, issuer suspension, issuer removal, key rollover procedures, certificate renewal and incident handling.
-
-#### 5.17 Conformance Requirements
-
-An implementation claiming conformance with this Rulebook SHALL support issuer trust verification, certificate path validation, attestation signature verification, trust anchor resolution and attestation status verification.
-
-Implementations SHOULD additionally support automatic trust anchor updates, metadata validation, key rollover handling and federated trust discovery.
-
-Attestation lifespan defined in `validity` attribute SHALL NOT exceed the lifespan of the trust anchor.
-
-#### 6.1 Purpose
-
-This chapter specifies mechanisms governing suspension, revocation and expiration of a Power of Attorney and Power of Representation attestation.
-
-The objective is to ensure that delegated authority cannot be exercised after it has ceased to be legally valid. Within this rulebook both short-lived and long-lived attestation are permited and therefore revocation provitions SHALL be established.
-
-#### 6.2 Atestation Lifecycle
-
-```text
-Draft
-  |
-  ▼
-Issued
-  |
-  ▼
-Active
-|  |
-| --- |
-|  |
-  ▼
-Revoked
-  |
-  ▼
-Expired
-```
-
-A attestation SHALL NOT return to the Active state after it has been revoked.
-
-#### 6.3 Expiration
-
-Expiration occurs automatically when the validity period defined by the attestation ends. No explicit revocation is required after expiration. A Relying Party SHALL reject every expired attestation.
-
-#### 6.4 Revocation
-
-Revocation permanently terminates the legal validity of a Power of Attorney before its scheduled expiration. Revocation SHALL occur whenever the delegated authority no longer exists.
-
-Once revoked, the attestation SHALL NOT be accepted by any conformant Relying Party.
-
-Once revoked, the attestation SHALL NOT regain it's valid status.
-
-#### 6.5 Suspension
-
-Some jurisdictions permit temporary suspension of delegated authority. Where supported, suspension SHALL indicate that the mandate temporarily cannot be exercised. During suspension the attestation SHALL be treated as invalid.
-
-#### 6.6 Revocation Triggers
-
-| Event | Revocation Requirement |
-| --- | --- |
-| Principal withdraws mandate | SHALL |
-| Mandate expires by law | SHALL |
-| Company dissolved | SHALL |
-| Representative leaves organization | SHALL |
-| Representative dies | SHALL |
-| Fraud detected | SHALL |
-| Attestation compromised | SHALL |
-| Issuer error | SHALL |
-| Court decision | SHALL |
-| Administrative decision | SHALL |
-| Authentic Source updated | SHOULD |
-| Organizational restructuring | MAY |
-
-#### 6.7 Authorized Revocation Actors
-
-Only authorized entities SHALL revoke a attestation. Examples include the Issuer, Qualified Trust Service Provider, Principal, Competent Public Authority, Court and Authentic Source Operator.
-
-The revocation authority SHALL be defined by applicable legislation.
-
-#### 6.8 Revocation Mechanisms
-
-| Mechanism | Description |
-| --- | --- |
-| Status List | Attestation status lookup. |
-| Revocation List | Published revocation entries. |
-| Online Status API | Real-time validation. |
-| OCSP-like service | Online status protocol. |
-| Short-lived Attestation | Revocation avoided through short lifetime. |
-
-Implementations SHOULD support real-time status verification whenever technically feasible.
-
-#### 6.9 Atestation Status Values
-
-| Status | Meaning |
-| --- | --- |
-| active | Attestation currently valid. |
-| revoked | Permanently invalid. |
-| expired | Validity period ended. |
-| unknown | Status unavailable. |
-
-Relying Parties SHALL reject every attestation except those having status `active`.
-
-#### 6.10 Status Verification
-
-Before accepting a attestation, the Relying Party SHALL verify attestation identifier, current status, validity period and issuer status.
-
-Status verification SHOULD occur online. Where offline verification is necessary, locally cached status information MAY be used if permitted by deployment policy.
-
-#### 6.11 Revocation Service
-
-Each issuer SHALL publish a status service. The service SHALL support attestation lookup, status retrieval and timestamp of latest update. The endpoint SHALL be identified within the attestation metadata.
-
-#### 6.12 Short-Lived Attestation
-
-Issuers MAY issue short-lived attestation. A attestation is considered short-lived where its validity period does not exceed 24 hours.
-
-For short-lived attestations, explicit revocation MAY be omitted and expiration SHALL replace revocation.
-
-#### 6.13 Revocation Processing
-
-```text
-Revocation Event
-  |
-  ▼
-Issuer validates request
-  |
-  ▼
-Attestation status updated
-  |
-  ▼
-Status service updated
-  |
-  ▼
-Wallet notified (optional)
-  |
-  ▼
-Future presentations rejected
-```
-
-#### 6.14 Wallet Behaviour
-
-Wallets SHOULD periodically synchronize attestation status. Wallets SHOULD notify the Holder whenever a attestation has been revoked, suspended or approaches expiration.
-
-Wallets SHALL prevent accidental presentation of revoked attestation. Wallets MAY retain revoked attestation for historical audit purposes provided they are clearly marked as invalid.
-
-#### 6.15 Relying Party Behaviour
-
-Whenever a revoked attestation is presented, the Relying Party SHALL terminate validation, deny authorization, inform the Holder that the attestation is no longer valid and record the failed authorization event.
-
-Business processes SHALL NOT continue using revoked attestation.
-
-#### 6.16 Audit Requirements
-
-Issuers SHOULD maintain an auditable record of issuance, suspension, revocation and expiration. Audit records SHOULD contain credential identifier, timestamp, responsible authority, reason for revocation and evidence reference.
-
-Audit records SHALL be protected against unauthorized modification.
-
-#### 6.17 Revocation Reasons
-
-| Code | Description |
-| --- | --- |
-| PRIVILEGE_WITHDRAWN | Mandate withdrawn. |
-| ORGANIZATION_DISSOLVED | Company dissolved. |
-| EMPLOYMENT_TERMINATED | Representative left organization. |
-| COURT_ORDER | Judicial decision. |
-| FRAUD | Fraud detected. |
-| ADMINISTRATIVE_DECISION | Administrative action. |
-| ATTESTATION_COMPROMISED | Attestation compromised. |
-| TECHNICAL_ERROR | Issuance error. |
-| SUPERSEDED | Replaced by newer attestation. |
-
-These reason codes SHOULD be machine-readable.
-
-#### 6.18 Revocation Notifications
-
-Issuers MAY notify the Holder, Principal, Wallet Provider, Relying Parties or organizational administrators. Notification SHALL NOT replace status verification.
-
-#### 6.19 Conformance Requirements
-
-An implementation claiming conformance with this Rulebook SHALL support attestation expiration, attestation revocation, status verification, revocation endpoint publication and rejection of revoked attestations.
-
-Implementations SHOULD additionally support suspension, real-time status updates, revocation notifications and audit logging.
-
-#### 6.20 Operational Recommendations
-
-Issuers SHOULD revoke attestations immediately after legal authority ceases, automate synchronization with Authentic Sources and minimize delay between legal revocation and technical revocation.
-
-Wallet Providers SHOULD synchronize status frequently and prevent presentation of invalid attestations.
-
-Relying Parties SHOULD perform status verification for every presentation, avoid long-term caching of attestation status and maintain audit logs for authorization decisions.
-
-#### 7.1 Purpose
-
-This chapter specifies compliance requirements applicable to implementations of the WE BUILD Power of Attorney Rulebook.
-
-Its purpose is to ensure that all participating ecosystem actors implement interoperable, secure and legally reliable Power of Attorney credentials.
-
-Compliance with this Rulebook SHALL be assessed independently from national legislation. Where national law imposes additional requirements, such requirements SHALL take precedence.
-
-#### 7.2 Relationship to the European Digital Identity Framework
-
-This Rulebook has been developed in accordance with objectives of the European Digital Identity Framework. In particular, it aligns with:
-
-- Regulation (EU) 2024/1183;
-- Architecture and Reference Framework https://eudi.dev/2.9.0/;
-- Annex 2 – Topic 12, Attestation Rulebooks;
-- Annex 2 – Topic 7, Revocation;
-- Annex 2 – Topic 10, Issuance;
-- applicable ETSI trust service specifications.
-
-This Rulebook SHALL be interpreted consistently with those documents.
-
-#### 7.3 Compliance Objectives
-
-Implementations conforming to this Rulebook SHALL support interoperable issuance, presentation, verification, revocation, cross-border recognition and selective disclosure where supported by the chosen encoding.
-
-#### 7.4 Issuer Compliance
-
-An Issuer claiming compliance with this Rulebook SHALL:
-
-- issue attestations according to the semantic model defined in Chapter 2;
-- use one of the encoding formats defined in Chapter 3;
-- implement the trust framework defined in Chapter 5;
-- implement revocation mechanisms defined in Chapter 6;
-- issue globally unique attestation identifiers;
-- maintain issuer metadata;
-- publish attestation status information.
-
-Where Qualified Electronic Attestations are issued, the Issuer SHALL comply with applicable eIDAS requirements.
-
-#### 7.5 Wallet Compliance
-
-Wallet implementations SHALL support secure attestation storage, secure attestation presentation, user consent, cryptographic verification, selective disclosure where supported and attestation lifecycle management.
-
-Wallets SHOULD additionally support offline presentation where applicable, automatic status synchronization, Holder notifications and attestation backup and recovery according to applicable security policies.
-
-#### 7.6 Relying Party Compliance
-
-| Verification | Requirement |
-| --- | --- |
-| Signature verification | SHALL |
-| Trust chain validation | SHALL |
-| Issuer verification | SHALL |
-| Attestation status verification | SHALL |
-| Validity period verification | SHALL |
-| Scope verification | SHALL |
-| Business policy verification | SHALL |
-
-Failure of any mandatory verification SHALL result in rejection of the attestation.
-
-#### 7.7 Holder Compliance
-
-The Holder SHALL protect private cryptographic keys, prevent unauthorized attestation disclosure, present attestation only with informed consent and notify the Issuer where compromise is suspected.
-
-The Holder SHOULD regularly synchronize attestation status and remove obsolete attestations where appropriate.
-
-#### 7.8 Semantic Compliance
-
-Implementations SHALL preserve the semantic meaning of every attribute defined in Chapter 2. Encoding transformations SHALL NOT alter legal meaning, business interpretation, delegated authority, validity or scope.
-
-Semantic interoperability SHALL take precedence over implementation-specific optimizations.
-
-#### 7.9 Privacy Compliance
-
-Implementations SHALL comply with applicable European data protection legislation.
-
-The following principles SHALL apply:
-
-- data minimization;
-- purpose limitation;
-- user consent;
-- confidentiality;
-- integrity;
-- accountability.
-
-Selective disclosure SHOULD be supported whenever technically feasible. Relying Parties SHALL request only attributes necessary for the requested transaction.
-
-#### 7.10 Security Compliance
-
-Every implementation SHALL support cryptographic attestation signatures, issuer authentication, secure communication, integrity protection, replay protection and attestation status verification.
-
-Private keys SHALL remain under the exclusive control of their legitimate owner.
-
-#### 7.11 Interoperability Compliance
-
-Conformant implementations SHALL support interoperability across Member States, Wallet Providers, Issuers, Relying Parties and Trust Service Providers.
-
-Interoperability SHALL include common semantics, compatible attestation encodings, standardized verification procedures and standardized trust mechanisms.
-
-#### 7.12 Conformance Levels
-
-| Level | Description |
-| --- | --- |
-| Level 1 | Semantic Compliance. |
-| Level 2 | Encoding Compliance. |
-| Level 3 | Trust Compliance. |
-| Level 4 | Operational Compliance. |
-| Level 5 | Cross-border Compliance. |
-
-Organizations SHOULD aim to satisfy all five levels.
-
-#### 7.13 Future Compatibility
-
-Future revisions of this Rulebook SHALL strive to maintain backward compatibility. Breaking changes SHOULD only be introduced where required by legislation, ARF revisions or security reasons.
-
-Version identifiers SHALL clearly distinguish incompatible releases.
-
-#### 7.14 Governance
-
-Maintenance of this Rulebook SHOULD be performed through the WE BUILD governance process. Governance responsibilities include publication of new versions, management of semantic changes, coordination with WP4 Semantics, alignment with ETSI and alignment with future EUDI Architecture and Reference Framework revisions.
-
-#### 7.15 Conformance Statement
-
-An implementation claiming compliance with the WE BUILD Power of Attorney Rulebook SHALL demonstrate that it satisfies all mandatory requirements identified by the keyword **SHALL** throughout this document.
-
-Requirements expressed using **SHOULD** are considered recommendations supporting interoperability and operational best practices. Requirements expressed using **MAY** identify optional capabilities.
-
-Conformance SHALL be evaluated over the complete attestation lifecycle, including issuance, storage, presentation, verification, revocation and expiration.
-
-Only implementations satisfying all mandatory requirements may claim compliance with this Rulebook.
-
-#### 7.16 Summary
-
-This Rulebook establishes a common semantic, operational and technical foundation for interoperable digital Powers of Attorney within the WE BUILD ecosystem.
-
-By combining common semantics, interoperable attestation formats, trusted issuance, standardized verification, robust revocation mechanisms and cross-border trust, the Rulebook enables legally reliable delegation of authority throughout the European Digital Identity ecosystem and provides a foundation for future European Business Wallet services.
-
-#### 8 References
-
-| **Item Reference** | **Standard name/details** |
-| --- | --- |
-| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| EU ARF | https://eudi.dev/2.9.0/ |
-| [HAIP] | Yasuda, K. *et al,* OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
-| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: <https://www.iana.org/assignments/jwt/jwt.xhtml> |
-| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
-| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |
-| [RFC 3339] | RFC 3339  - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
-| [RFC 8610] | RFC 8610  - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
-| [RFC 8943] | RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
-| [RFC 8949] | RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
-| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09 |
-| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking> |
-| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit> |
-| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks> |
-| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments> |
-| [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation. |
-
-| Item Reference | Standard name / details |
-| --- | --- |
-| [European Digital Identity Regulation] | Regulation (EU) 2024/1183 of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework. |
-| [ARF] | European Digital Identity Wallet Architecture and Reference Framework. |
-| [Topic 7] | ARF Annex 2 – Topic 7 – Attestation revocation and revocation checking. |
-| [Topic 10] | ARF Annex 2 – Topic 10 – Issuing a PID or attestation to a Wallet Unit. |
-| [Topic 12] | ARF Annex 2 – Topic 12 – Attestation Rulebooks. |
-| [Topic 20] | ARF Annex 2 – Topic 20 – Strong User Authentication for electronic payments. |
-| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification – ISO-compliant driving licence – Part 5: Mobile driving licence application. |
-| [SD-JWT VC] | SD-JWT-based Verifiable Credentials. |
-| [W3C VCDM v2.0] | W3C Verifiable Credentials Data Model v2.0. |
-| [HAIP] | OpenID4VC High Assurance Interoperability Profile. |
-| [OpenID4VCI] | OpenID for Verifiable Credential Issuance. |
-| [OpenID4VP] | OpenID for Verifiable Presentations. |
-| [OIDC] | OpenID Connect Core 1.0. |
-| [RFC 2119] | Key words for use in RFCs to Indicate Requirement Levels. |
-| [RFC 3339] | Date and Time on the Internet: Timestamps. |
-| [RFC 7519] | JSON Web Token. |
-| [RFC 8610] | Concise Data Definition Language. |
-| [RFC 8943] | Concise Binary Object Representation Tags for Date. |
-| [RFC 8949] | Concise Binary Object Representation. |
-| [ETSI TS 119 471] | Policy and security requirements for trust service providers issuing electronic attestations of attributes. |
-| [ETSI TR 119 476] | Analysis of selective disclosure and related trust service concepts. |
-| [ETSI TS 119 412-6] | Certificate Profiles; Part 6: Qualified certificate profiles for electronic attestations. |
-| [WE BUILD Scenario 1A] | BU4 Scenario 1A – Issuance of a Power of Attorney Attestation. |
-| [WE BUILD Rulebook Template] | WE BUILD Attestation Rulebook Template for attestations of type Power of Attorney. |
 
 ### 3.2 Mandatory attributes
 
@@ -1649,14 +998,7 @@ left as written and the deviation is recorded for the rulebook quality assurance
 
 ### 5.1 SD-JWT VC-based encoding
 
-
-### 5.2 ISO/IEC 18013-5-compliant encoding
-
-> ISO/IEC 18013-5-compliant Verifiable Credentials are not part of PoX attestations priority within WE BUILD, as we concentrate mainly on SD/JWT, mDoc for proximity use cased will be developed if and when needed
-
-#### 3.2 SD-JWT VC-based encoding
-
-#### 3.2.1 Human-readable Payload Example
+#### 5.1.1 Human-readable Payload Example
 
 > PERSONAS & ROLES used in examples
 > 
@@ -1667,20 +1009,19 @@ left as written and the deviation is recorded for the rulebook quality assurance
 > Hans (Schreiner) is our sole shareholder and managing director of Hans Schreiner GmbH
 
 
-###### 3.2.1.1 JSON Schema
+##### 5.1.1.1 JSON Schema
 The JSON schema is available in [poa-pox-sd-jwt.json](../../data-schemas/sd-jwt/poa-pox-sd-jwt.json). It is still a draft.
 
-###### 3.2.1.2 SD-JWT VC Type Metadata
+##### 5.1.1.2 SD-JWT VC Type Metadata
 The type metadata document is available in [poa-pox-sd-jwt-type-metadata.json](../../data-schemas/sd-jwt/poa-pox-sd-jwt-type-metadata.json).
 
-###### 3.2.1.3 SD-JWT VC Reference Credential PoA
+##### 5.1.1.3 SD-JWT VC Reference Credential PoA
 Draft of the PoA example is available in [poa-pox-sd-jwt-sample.json](../../data-schemas/sd-jwt/sample-data/poa-pox-sd-jwt-sample.json).
 
-###### 3.2.1.4 SD-JWT VC Reference Credential PoR
+##### 5.1.1.4 SD-JWT VC Reference Credential PoR
 Draft of the PoR example is available in [poa-pox-por-sd-jwt-sample.json](../../data-schemas/sd-jwt/sample-data/poa-pox-por-sd-jwt-sample.json).
 
-
-#### 3.3.2 Mandatory JWT Claims
+#### 5.1.2 Mandatory JWT Claims
 
 | Claim | Description | Selectively Disclosable |
 | --- | --- | --- |
@@ -1697,8 +1038,7 @@ Draft of the PoR example is available in [poa-pox-por-sd-jwt-sample.json](../../
 > SD-JWT VC claims, whereas business-related metadata are represented inside
 > credential_metadata.
 
-
-#### 3.3.3 Private Claims
+#### 5.1.3 Private Claims
 
 | Claim | Type | Selectively Disclosable |
 | --- | --- | --- |
@@ -1712,8 +1052,7 @@ Draft of the PoR example is available in [poa-pox-por-sd-jwt-sample.json](../../
 | restrictions | object | YES |
 | jurisdiction | string | YES |
 
-
-#### 3.3.5 Selective Disclosure Policy
+#### 5.1.4 Selective Disclosure Policy
 
 The following claims SHOULD be selectively disclosable:
 
@@ -1733,13 +1072,41 @@ The following claims SHALL NOT be selectively disclosable:
 - issue date;
 - credential status.
 
-#### 3.3 W3C Verifiable Credentials Data Model-based encoding
 
-> W3C Verifiable Credentials are not part of PoX attestations within WE BUILD, as we concentrate mainly on SD/JWT (mdoc for proximity use cased where applicable) 
+### 5.2 ISO/IEC 18013-5-compliant encoding
+
+> ISO/IEC 18013-5-compliant Verifiable Credentials are not part of PoX attestations priority within WE BUILD, as we concentrate mainly on SD/JWT, mDoc for proximity use cased will be developed if and when needed
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
 > W3C Verifiable Credentials are not part of PoX attestations within WE BUILD, as we concentrate mainly on SD/JWT (mdoc for proximity use cased where applicable) 
+
+### 5.4 Encoding Consistency Rules
+
+| Rule | Description |
+| --- | --- |
+| EC-01 | Every credential SHALL contain one unique identifier. |
+| EC-02 | Every credential SHALL identify exactly one Principal. |
+| EC-03 | Every credential SHALL identify exactly one Attorney-in-Fact. |
+| EC-04 | Every credential SHALL identify one represented organization. |
+| EC-05 | Credential semantics SHALL remain identical across encodings. |
+| EC-06 | Every credential SHALL contain validity information. |
+| EC-07 | Every credential SHALL reference credential status information. |
+| EC-08 | Every credential SHALL support cryptographic verification. |
+
+### 5.5 Selective Disclosure Requirements
+
+Power of Attorney credentials contain legally sensitive information. Issuers SHOULD maximize use of selective disclosure mechanisms. A Holder SHOULD disclose only those attributes required by the transaction.
+
+### 5.6 Privacy Considerations
+
+Issuers SHALL apply the principle of data minimization. Wallets SHALL support selective disclosure where supported by the credential format. Relying Parties SHALL request only attributes necessary for the requested transaction.
+
+### 5.7 Encoding Interoperability
+
+A Power of Attorney issued in one supported encoding SHALL be semantically equivalent to the same credential issued in another encoding.
+
+Wallets MAY internally convert between supported encodings provided that no semantic information is lost, cryptographic integrity is preserved, issuer authenticity remains verifiable and selective disclosure policies remain enforceable.
 
 ## 6 Protocols
 
@@ -1779,6 +1146,185 @@ underlying facts change, revoking the superseded attestation as described in cha
 This attestation defines no embedded disclosure policy.
 
 ## 8 Revocation
+
+### 8.1 Purpose
+
+This chapter specifies mechanisms governing suspension, revocation and expiration of a Power of Attorney and Power of Representation attestation.
+
+The objective is to ensure that delegated authority cannot be exercised after it has ceased to be legally valid. Within this rulebook both short-lived and long-lived attestation are permited and therefore revocation provitions SHALL be established.
+
+### 8.2 Atestation Lifecycle
+
+```text
+Draft
+  |
+  ▼
+Issued
+  |
+  ▼
+Active
+|  |
+| --- |
+|  |
+  ▼
+Revoked
+  |
+  ▼
+Expired
+```
+
+A attestation SHALL NOT return to the Active state after it has been revoked.
+
+### 8.3 Expiration
+
+Expiration occurs automatically when the validity period defined by the attestation ends. No explicit revocation is required after expiration. A Relying Party SHALL reject every expired attestation.
+
+### 8.4 Revocation
+
+Revocation permanently terminates the legal validity of a Power of Attorney before its scheduled expiration. Revocation SHALL occur whenever the delegated authority no longer exists.
+
+Once revoked, the attestation SHALL NOT be accepted by any conformant Relying Party.
+
+Once revoked, the attestation SHALL NOT regain it's valid status.
+
+### 8.5 Suspension
+
+Some jurisdictions permit temporary suspension of delegated authority. Where supported, suspension SHALL indicate that the mandate temporarily cannot be exercised. During suspension the attestation SHALL be treated as invalid.
+
+### 8.6 Revocation Triggers
+
+| Event | Revocation Requirement |
+| --- | --- |
+| Principal withdraws mandate | SHALL |
+| Mandate expires by law | SHALL |
+| Company dissolved | SHALL |
+| Representative leaves organization | SHALL |
+| Representative dies | SHALL |
+| Fraud detected | SHALL |
+| Attestation compromised | SHALL |
+| Issuer error | SHALL |
+| Court decision | SHALL |
+| Administrative decision | SHALL |
+| Authentic Source updated | SHOULD |
+| Organizational restructuring | MAY |
+
+### 8.7 Authorized Revocation Actors
+
+Only authorized entities SHALL revoke a attestation. Examples include the Issuer, Qualified Trust Service Provider, Principal, Competent Public Authority, Court and Authentic Source Operator.
+
+The revocation authority SHALL be defined by applicable legislation.
+
+### 8.8 Revocation Mechanisms
+
+| Mechanism | Description |
+| --- | --- |
+| Status List | Attestation status lookup. |
+| Revocation List | Published revocation entries. |
+| Online Status API | Real-time validation. |
+| OCSP-like service | Online status protocol. |
+| Short-lived Attestation | Revocation avoided through short lifetime. |
+
+Implementations SHOULD support real-time status verification whenever technically feasible.
+
+### 8.9 Atestation Status Values
+
+| Status | Meaning |
+| --- | --- |
+| active | Attestation currently valid. |
+| revoked | Permanently invalid. |
+| expired | Validity period ended. |
+| unknown | Status unavailable. |
+
+Relying Parties SHALL reject every attestation except those having status `active`.
+
+### 8.10 Status Verification
+
+Before accepting a attestation, the Relying Party SHALL verify attestation identifier, current status, validity period and issuer status.
+
+Status verification SHOULD occur online. Where offline verification is necessary, locally cached status information MAY be used if permitted by deployment policy.
+
+### 8.11 Revocation Service
+
+Each issuer SHALL publish a status service. The service SHALL support attestation lookup, status retrieval and timestamp of latest update. The endpoint SHALL be identified within the attestation metadata.
+
+### 8.12 Short-Lived Attestation
+
+Issuers MAY issue short-lived attestation. A attestation is considered short-lived where its validity period does not exceed 24 hours.
+
+For short-lived attestations, explicit revocation MAY be omitted and expiration SHALL replace revocation.
+
+### 8.13 Revocation Processing
+
+```text
+Revocation Event
+  |
+  ▼
+Issuer validates request
+  |
+  ▼
+Attestation status updated
+  |
+  ▼
+Status service updated
+  |
+  ▼
+Wallet notified (optional)
+  |
+  ▼
+Future presentations rejected
+```
+
+### 8.14 Wallet Behaviour
+
+Wallets SHOULD periodically synchronize attestation status. Wallets SHOULD notify the Holder whenever a attestation has been revoked, suspended or approaches expiration.
+
+Wallets SHALL prevent accidental presentation of revoked attestation. Wallets MAY retain revoked attestation for historical audit purposes provided they are clearly marked as invalid.
+
+### 8.15 Relying Party Behaviour
+
+Whenever a revoked attestation is presented, the Relying Party SHALL terminate validation, deny authorization, inform the Holder that the attestation is no longer valid and record the failed authorization event.
+
+Business processes SHALL NOT continue using revoked attestation.
+
+### 8.16 Audit Requirements
+
+Issuers SHOULD maintain an auditable record of issuance, suspension, revocation and expiration. Audit records SHOULD contain credential identifier, timestamp, responsible authority, reason for revocation and evidence reference.
+
+Audit records SHALL be protected against unauthorized modification.
+
+### 8.17 Revocation Reasons
+
+| Code | Description |
+| --- | --- |
+| PRIVILEGE_WITHDRAWN | Mandate withdrawn. |
+| ORGANIZATION_DISSOLVED | Company dissolved. |
+| EMPLOYMENT_TERMINATED | Representative left organization. |
+| COURT_ORDER | Judicial decision. |
+| FRAUD | Fraud detected. |
+| ADMINISTRATIVE_DECISION | Administrative action. |
+| ATTESTATION_COMPROMISED | Attestation compromised. |
+| TECHNICAL_ERROR | Issuance error. |
+| SUPERSEDED | Replaced by newer attestation. |
+
+These reason codes SHOULD be machine-readable.
+
+### 8.18 Revocation Notifications
+
+Issuers MAY notify the Holder, Principal, Wallet Provider, Relying Parties or organizational administrators. Notification SHALL NOT replace status verification.
+
+### 8.19 Conformance Requirements
+
+An implementation claiming conformance with this Rulebook SHALL support attestation expiration, attestation revocation, status verification, revocation endpoint publication and rejection of revoked attestations.
+
+Implementations SHOULD additionally support suspension, real-time status updates, revocation notifications and audit logging.
+
+### 8.20 Operational Recommendations
+
+Issuers SHOULD revoke attestations immediately after legal authority ceases, automate synchronization with Authentic Sources and minimize delay between legal revocation and technical revocation.
+
+Wallet Providers SHOULD synchronize status frequently and prevent presentation of invalid attestations.
+
+Relying Parties SHOULD perform status verification for every presentation, avoid long-term caching of attestation status and maintain audit logs for authorization decisions.
 
 
 ## 9 Presentation
@@ -1822,6 +1368,172 @@ chapter 5 records an mdoc encoding.
 
 This Rulebook defines no transactional data.
 
+### 9.4 Usecase 1a A person action on behalf of an organisation with PoA
+
+### 9.5 Usecase 1b A person action on behalf of an organisation with PoR
+
+### 9.6 Usecase 1c A person action on behalf of an organisation with PoA, PoR accessing a service
+
+### 9.7 Purpose
+
+This chapter specifies how a Power of Attorney attestation SHALL be used within the WE BUILD ecosystem throughout its operational lifecycle.
+
+The lifecycle comprises four principal phases:
+
+1. issuance;
+2. storage;
+3. presentation;
+4. verification.
+
+Each phase SHALL preserve the legal meaning, integrity and trustworthiness of the delegated authority.
+
+### 9.8 Operational Lifecycle
+
+``` 
+Principal
+  |
+  ▼
+Grant of Authority
+  |
+  ▼
+Authentic Source / Supporting Evidence
+  |
+  ▼
+Issuer (QTSP / EAA Provider)
+  |
+  ▼
+Attestation Issuance
+  |
+  ▼
+Wallet Storage
+  |
+  ▼
+Presentation
+  |
+  ▼
+Verification
+  |
+  ▼
+Authorization Decision
+  |
+  ▼
+Revocation / Expiration
+```
+
+The lifecycle SHALL terminate immediately when the attestation expires, is revoked, or the underlying mandate ceases to exist.
+
+### 9.9 Typical Business Use Cases
+
+A Power of Attorney and Power of Representation MAY be used in cross-border business interactions including:
+
+- tax declaration submission;
+- customs declarations;
+- company registration;
+- public procurement;
+- banking procedures;
+- access to regulated business platforms;
+- contract execution;
+- representation before supervisory authorities;
+- financial reporting;
+- legal representation.
+
+The Relying Party SHALL evaluate whether the presented mandate authorizes the requested business transaction.
+
+### 9.10 Presentation Requirements
+
+Presentation SHALL occur through a wallet supporting one of the attestation formats specified in Chapter 3.
+
+Presentation MAY be performed online, cross-device, same-device or in proximity where supported by ISO/IEC 18013-5.
+
+Wallets SHALL support user consent prior to disclosure. Wallets SHOULD support selective disclosure whenever technically possible.
+
+### 9.11 Holder Obligations
+
+Before presenting a Power of Attorney or Power of Representation, the Holder SHALL:
+
+- verify that the attestation is still valid;
+- verify that the requested transaction falls within the mandate scope;
+- consent to disclosure;
+- protect private cryptographic keys.
+
+The Holder SHOULD minimize disclosure of unnecessary attributes. The Holder SHALL NOT modify the attestation.
+
+### 9.12 Authorization Decision
+
+After successful verification, the Relying Party MAY authorize the requested transaction. Authorization SHALL depend upon attestation validity, issuer trust, business policy, legal requirements and mandate scope.
+
+Possession of a valid attestaion SHALL NOT automatically imply authorization. Business-specific policies MAY impose additional conditions.
+
+### 9.13 PID Binding
+
+Where national legislation requires personal identification, the PoA SHALL be cryptographically or logically bound to a Personal Identification Data attestation.
+
+The Relying Party SHALL verify that the PID identifies the presenting individual and that the Attorney-in-Fact referenced by the PoA corresponds to the PID Holder.
+
+### 9.14 Device Binding
+
+A Power of Attorney MAY be device-bound or non-device-bound. Where device binding is implemented, the attestation SHALL contain the metadata attribute `cryptographically_bound_to`.
+
+The recommended value is:
+
+```text
+urn:eudi:pid:1
+```
+
+where the attestation is bound to a Personal Identification Data attestation.
+
+### 9.15 Transaction Data
+
+Presentation MAY include transaction-specific information such as requested service, relying party identifier, requested authorization scope, requested signature level, requested attributes, transaction identifier and timestamp.
+
+Transaction data SHALL NOT become part of the attestation itself.
+
+### 9.16 Privacy Requirements
+
+The following privacy principles SHALL apply:
+
+- data minimization;
+- selective disclosure;
+- user consent;
+- purpose limitation;
+- privacy-preserving audit logging.
+
+### 9.17 Error Handling
+
+| Error | Relying Party Behaviour |
+| --- | --- |
+| Attestation revoked | Reject. |
+| Attestation expired | Reject. |
+| Invalid signature | Reject. |
+| Unknown issuer | Reject. |
+| Missing mandatory attributes | Reject. |
+| PID mismatch | Reject. |
+| Scope mismatch | Reject. |
+| Trust chain failure | Reject. |
+| Attestation malformed | Reject. |
+
+Appropriate error information MAY be presented to the Holder. Detailed trust validation errors SHOULD NOT expose sensitive security information.
+
+### 9.18 Cross-Border Recognition
+
+Power of Attorney and Power of Representation attestations are intended for cross-border use. Participating Relying Parties SHOULD recognize attestations issued by trusted issuers located in other Member States where the applicable trust anchor is recognized, attestations validation succeeds and no legal restriction prohibits acceptance.
+
+### 9.19 Operational Recommendations
+
+Issuers MUST automate revocation and synchronize mandate changes with authentic sources.
+
+Issuers MAY issue short-lived attestation whenever needed.
+
+Wallet Providers SHOULD support offline presentation where applicable, selective disclosure and attestation status updates.
+
+Relying Parties SHOULD cache trust anchors, perform online status checks whenever possible, log authorization decisions and apply the principle of least privilege.
+
+### 9.20 Conformance
+
+An implementation claiming conformance with this Rulebook SHALL implement attestation presentation, issuer trust verification, signature validation, attestation status verification, validity checks, mandate scope evaluation and authorization decision processing.
+
+Selective disclosure support is RECOMMENDED. Offline presentation support is OPTIONAL unless explicitly required by the applicable deployment profile.
+
 ## 10 Trust Framework
 
 
@@ -1830,6 +1542,231 @@ This Rulebook defines no transactional data.
 The attribute or metadata carrying the trust anchor location contains at least the URL
 at which a machine-readable version can be found or looked up.
 
+### 10.1 Purpose
+
+This chapter defines the trust framework applicable to Power of Attorney attestations issued and verified within the WE BUILD ecosystem.
+
+Its objective is to ensure that every Relying Party can establish a consistent level of trust in the issuer, the credential and the underlying delegation of authority.
+
+### 10.2 Trust Model
+
+```text
+European Digital Identity Framework
+  |
+  ▼
+European Trusted Lists (eIDAS)
+  |
+  ▼
+Qualified Trust Service Providers
+  |
+  ▼
+QEAA / PubEAA / EAA Provider
+  |
+  ▼
+Power of X (PoA, PoR) Attestation
+  |
+  ▼
+Holder Wallet
+  |
+  ▼
+Relying Party
+```
+
+Each trust layer SHALL validate the integrity of the previous layer. Failure of any trust layer SHALL invalidate the Attestation.
+
+### 10.3 Trust Anchors
+
+| Attestation Type | Trust Anchor |
+| --- | --- |
+| QEAA | eIDAS Trusted List. |
+| Pub-EAA | Qualified Certificate issued by a QTSP. |
+| EAA | Organizational trust anchor defined by WE BUILD governance. |
+
+The trust anchor SHALL be machine-readable.
+
+### 10.4 Qualified Electronic Attestations
+
+For Qualified Electronic Attestations of Attributes, the Relying Party SHALL obtain the issuer certificate, validate the certificate chain, verify the Qualified Trust Service Provider, verify the Qualified Certificate and verify the attestation signature.
+
+Trust SHALL ultimately terminate at a trust anchor contained within the applicable European Trusted List.
+
+### 10.5 Public Electronic Attestations
+
+Where a Public Electronic Attestation is used, the issuing public authority SHALL possess a qualified certificate, the certificate SHALL be verifiable through a Qualified Trust Service Provider and the QTSP SHALL be discoverable through the European Trusted Lists.
+
+### 10.6 Non-qualified Electronic Attestations
+
+For non-qualified Electronic Attestations, the trust framework SHALL be explicitly defined by the applicable governance framework. Acceptable trust mechanisms include organizational PKI, sector-specific trust frameworks, national trust registries and WE BUILD trusted issuer registries.
+
+The issuer SHALL publish issuer identifier, public verification key, metadata endpoint and status endpoint.
+
+### 10.7 Trust Anchor Distribution
+
+Trust anchors SHALL be distributed through secure and authoritative mechanisms such as European Trusted Lists, Trusted List APIs, Organizational Trust Registries, Federation Metadata Services or signed Trust Lists.
+
+Unsigned trust anchor distribution SHALL NOT be used.
+
+### 10.8 Issuer Authentication
+
+Before issuing a Power of Attorney, an Issuer SHALL authenticate itself towards the applicable trust infrastructure.
+
+The following information SHALL be available:
+
+- issuer identifier;
+- certificate chain;
+- public verification keys;
+- attestation metadata endpoint;
+- revocation endpoint.
+
+### 10.9 Trust Verification by the Relying Party
+
+| Verification Step | Requirement |
+| --- | --- |
+| Attestation signature | SHALL |
+| Issuer certificate | SHALL |
+| Trust chain | SHALL |
+| Attestation status | SHALL |
+| Validity period | SHALL |
+| Issuer authorization | SHALL |
+| Attestation schema | SHOULD |
+| Metadata integrity | SHOULD |
+
+Failure of any mandatory verification SHALL result in rejection of the attestation.
+
+### 10.10 Trust Validation Process
+
+```text
+Receive attestation
+  |
+  ▼
+Verify Signature
+  |
+  ▼
+Validate Certificate Chain
+  |
+  ▼
+Resolve Trust Anchor
+  |
+  ▼
+Validate Trust Anchor
+  |
+  ▼
+Check attestation Status
+  |
+  ▼
+Validate Business Rules
+  |
+  ▼
+Authorize Transaction
+```
+
+The order MAY vary provided that equivalent security guarantees are achieved.
+
+### 10.11 Authentic Sources
+
+Where issuance of a Power of Attorney or Power of Representation depends on information obtained from an Authentic Source, the Issuer SHALL ensure that the Authentic Source is authoritative for the relevant information, the retrieved information is current at the time of issuance, the information has not been altered during transmission and access to the Authentic Source is appropriately authenticated and authorized.
+
+Examples include Business Registers, Population Registers, Tax Registers, Professional Registers, Court Registers and National Mandate Registers.
+
+### 10.12 Trust in Supporting Evidence
+
+A Power of Attorney MAY be based upon additional supporting evidence such as notarized documents, court decisions, organizational resolutions, shareholder resolutions, employment contracts or professional licenses.
+
+Where such evidence contributes to the issuance decision, the Issuer SHOULD maintain auditable references to that evidence. The evidence itself SHOULD NOT be embedded within the attestation.
+
+### 10.13 Cross-Border Trust
+
+A Relying Party SHOULD recognize issuers established in other Member States provided that the issuer is trusted, the applicable trust anchor is recognized, attestation validation succeeds and no national legal restrictions prohibit acceptance.
+
+This Rulebook does not override national legislation governing legal recognition of mandates.
+
+### 10.14 Trust Metadata
+
+| Metadata | Purpose |
+| --- | --- |
+| Issuer Identifier | Unique issuer identification. |
+| Issuer Name | Human-readable issuer. |
+| Attestation Types | Supported attestation types. |
+| Public Keys | Signature verification. |
+| Metadata Endpoint | Attestation metadata. |
+| Status Endpoint | Revocation and suspension. |
+| Terms of Use | Issuer policy. |
+| Contact Information | Operational support. |
+
+Metadata SHOULD be signed by the issuing authority.
+
+### 10.15 Trust Failure Handling
+
+| Event | Action |
+| --- | --- |
+| Unknown issuer | Reject. |
+| Invalid certificate | Reject. |
+| Invalid signature | Reject. |
+| Revoked certificate | Reject. |
+| Missing trust anchor | Reject. |
+| Trust anchor not recognized | Reject. |
+| Attestation revoked | Reject. |
+| Attestation expired | Reject. |
+
+The Relying Party SHOULD log trust failures for audit purposes.
+
+### 10.16 Trust Governance
+
+The governance of trusted issuers SHALL be defined by the WE BUILD Trust Framework. The framework SHOULD define issuer onboarding procedures, trust anchor publication, issuer suspension, issuer removal, key rollover procedures, certificate renewal and incident handling.
+
+### 10.17 Conformance Requirements
+
+An implementation claiming conformance with this Rulebook SHALL support issuer trust verification, certificate path validation, attestation signature verification, trust anchor resolution and attestation status verification.
+
+Implementations SHOULD additionally support automatic trust anchor updates, metadata validation, key rollover handling and federated trust discovery.
+
+Attestation lifespan defined in `validity` attribute SHALL NOT exceed the lifespan of the trust anchor.
+
 ## 11 References
 
 Draft of the PoA example is available in [poa-pox-sd-jwt-sample.json](../../data-schemas/sd-jwt/sample-data/poa-pox-sd-jwt-sample.json).
+
+| **Item Reference** | **Standard name/details** |
+| --- | --- |
+| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
+| EU ARF | https://eudi.dev/2.9.0/ |
+| [HAIP] | Yasuda, K. *et al,* OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
+| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: <https://www.iana.org/assignments/jwt/jwt.xhtml> |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
+| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |
+| [RFC 3339] | RFC 3339  - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [RFC 8610] | RFC 8610  - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
+| [RFC 8943] | RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
+| [RFC 8949] | RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09 |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking> |
+| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit> |
+| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks> |
+| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments> |
+| [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation. |
+| Item Reference | Standard name / details |
+| --- | --- |
+| [European Digital Identity Regulation] | Regulation (EU) 2024/1183 of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework. |
+| [ARF] | European Digital Identity Wallet Architecture and Reference Framework. |
+| [Topic 7] | ARF Annex 2 – Topic 7 – Attestation revocation and revocation checking. |
+| [Topic 10] | ARF Annex 2 – Topic 10 – Issuing a PID or attestation to a Wallet Unit. |
+| [Topic 12] | ARF Annex 2 – Topic 12 – Attestation Rulebooks. |
+| [Topic 20] | ARF Annex 2 – Topic 20 – Strong User Authentication for electronic payments. |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification – ISO-compliant driving licence – Part 5: Mobile driving licence application. |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials. |
+| [W3C VCDM v2.0] | W3C Verifiable Credentials Data Model v2.0. |
+| [HAIP] | OpenID4VC High Assurance Interoperability Profile. |
+| [OpenID4VCI] | OpenID for Verifiable Credential Issuance. |
+| [OpenID4VP] | OpenID for Verifiable Presentations. |
+| [OIDC] | OpenID Connect Core 1.0. |
+| [RFC 2119] | Key words for use in RFCs to Indicate Requirement Levels. |
+| [RFC 3339] | Date and Time on the Internet: Timestamps. |
+| [RFC 7519] | JSON Web Token. |
+| [RFC 8610] | Concise Data Definition Language. |
+| [RFC 8943] | Concise Binary Object Representation Tags for Date. |
+| [RFC 8949] | Concise Binary Object Representation. |
+| [ETSI TS 119 471] | Policy and security requirements for trust service providers issuing electronic attestations of attributes. |
+| [ETSI TR 119 476] | Analysis of selective disclosure and related trust service concepts. |
+| [ETSI TS 119 412-6] | Certificate Profiles; Part 6: Qualified certificate profiles for electronic attestations. |
+| [WE BUILD Scenario 1A] | BU4 Scenario 1A – Issuance of a Power of Attorney Attestation. |
+| [WE BUILD Rulebook Template] | WE BUILD Attestation Rulebook Template for attestations of type Power of Attorney. |
