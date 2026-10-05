@@ -68,6 +68,29 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**Which social security legislation applies to a citizen working in a cross-border employment situation within the EU/EFTA area (or UK)?**
+
+The Portable Document A1 (PD A1) is a certificate that documents the applicable legislation
+regarding social security for a citizen in a cross-border employment situation. By determining
+that only one legislation applies, it supports the mobility of working citizens while protecting
+their rights (by ensuring coverage while avoiding dual contributions).
+
+In the most common "posting" situation, where a person works abroad for a maximum of 24 months, the PD A1 is issued by the competent social security institution from the "sending state" upon request by the employer or the self-employed person. It is then used for verification abroad in the "receiving state".
+
+The **Know Your Employee (KYE)** scenario (Scenario 5) is part of BU1 and will lead to MVP
+and MVP+ implementations using both Natural Person Wallets and Legal Person Wallets. The
+high-level scenario is:
+
+> *"A company A in a country A would like to send one of their employees to work and provide
+> a service to company B in country B."*
+
+This scenario requires the issuance of three main credentials:
+- **Portable Document (PD) A1**
+- **Posted Worker Notification (PWN)**
+- **Employee Credential**
+
 ### 1.1 Document scope and purpose
 
 The PD A1 Attestation provides a standardized, verifiable digital representation of the
@@ -273,32 +296,7 @@ PDA1 Credential
 
 ---
 
-#### 1 Introduction
-
-This attestation addresses the following question:
-
-**Which social security legislation applies to a citizen working in a cross-border employment situation within the EU/EFTA area (or UK)?**
-
-The Portable Document A1 (PD A1) is a certificate that documents the applicable legislation
-regarding social security for a citizen in a cross-border employment situation. By determining
-that only one legislation applies, it supports the mobility of working citizens while protecting
-their rights (by ensuring coverage while avoiding dual contributions).
-
-In the most common "posting" situation, where a person works abroad for a maximum of 24 months, the PD A1 is issued by the competent social security institution from the "sending state" upon request by the employer or the self-employed person. It is then used for verification abroad in the "receiving state".
-
-The **Know Your Employee (KYE)** scenario (Scenario 5) is part of BU1 and will lead to MVP
-and MVP+ implementations using both Natural Person Wallets and Legal Person Wallets. The
-high-level scenario is:
-
-> *"A company A in a country A would like to send one of their employees to work and provide
-> a service to company B in country B."*
-
-This scenario requires the issuance of three main credentials:
-- **Portable Document (PD) A1**
-- **Posted Worker Notification (PWN)**
-- **Employee Credential**
-
-#### 2.2 Definitions
+#### 3.1.1 Definitions
 
 The following shared types are defined in `$defs` of the v1.0 schema and referenced throughout Sections 2.3–2.9.
 
@@ -448,9 +446,7 @@ When no fixed place of work exists:
 | --- | --- | --- | --- | --- | --- |
 | status_confirmation.status | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) <br> presently xsd:boolean, needs to be changed to a code list (skos:Concept?) | Status confirmation code identifying the type of cross-border situation (2-digit code per PD A1 codelist; 12 options, tbd) | Code | 1:1 | 13 |
 
----
-
-#### 2.3 Subject
+#### 3.1.2 Subject
 
 Personal details of the PD A1 certificate holder. All seven top-level keys (`pin`, `gender`, `names`, `dateOfBirth`, `nationalities`, `placeOfBirth`, `address`) are required. No additional properties permitted (`additionalProperties: false`).
 
@@ -471,9 +467,7 @@ Personal details of the PD A1 certificate holder. All seven top-level keys (`pin
 
 The `address` object MUST satisfy `anyOf`: either `stateOfResidence` is present with `minItems: 1`, or `stateOfStay` is present with `minItems: 1` (both MAY be present simultaneously). Only `stateOfResidence` and `stateOfStay` are permitted in `address` (`additionalProperties: false`). The `names` and `placeOfBirth` sub-objects also enforce `additionalProperties: false`.
 
----
-
-#### 2.4 Member State Legislation
+#### 3.1.3 Member State Legislation
 
 The member state whose social security legislation applies to the holder. This section is annotated `$comment: "Always disclosed"`, it is **Non-SD** and is fully disclosed to the Relying Party in every presentation. No additional properties permitted (`additionalProperties: false`).
 
@@ -486,9 +480,7 @@ The member state whose social security legislation applies to the holder. This s
 | `determinationIsProvisional` | [provisionalDetermination](https://w3id.org/ebwv#provisionalDetermination) | Indicates whether the determination of applicable legislation is provisional | Boolean | 0:1 | Non-SD |
 | `transitionRulesApplyAccordingEG` | [transitionalRules](https://w3id.org/ebwv#transitionalRules) | Indicates whether transitional rules apply according to EC Regulation No 883/2004 | Boolean | 0:1 | Non-SD |
 
----
-
-#### 2.5 Employer / Self-Employment Details
+#### 3.1.4 Employer / Self-Employment Details
 
 `employmentSituations` is an array of `employmentSituation` objects (see §2.2). At least one item is required (`minItems: 1`). Each item's fields are listed below with their SD group annotations.
 
@@ -503,9 +495,7 @@ The member state whose social security legislation applies to the holder. This s
 | `employmentSituations[].address.postcode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Postal code of the employer's address | String | 0:1 per item | 10 |
 | `employmentSituations[].address.countryCode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Country of the employer's address (world set) | countryCodeWorld | 1:1 per item | 10 |
 
----
-
-#### 2.6 Places of Work
+#### 3.1.5 Places of Work
 
 `placesOfWork` is a JSON **object** (not an array) whose property names are `countryCodePDA1States` values. At least one property must be present (`minProperties: 1`). Each property value is an **array** of `placeOfWork` objects (see §2.2). An **empty array** indicates the holder works in that country **with no fixed address**.
 
@@ -523,9 +513,7 @@ The member state whose social security legislation applies to the holder. This s
 
 † `companyID` and `typeOfID` are co-dependent: if either is present, the other MUST also be present.
 
----
-
-#### 2.7 Status Confirmation
+#### 3.1.6 Status Confirmation
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
 | --- | --- | --- | --- | --- | --- |
@@ -558,9 +546,7 @@ The member state whose social security legislation applies to the holder. This s
 | --- | --- | --- | --- | --- | --- |
 | `documentID` | [identifier](https://w3id.org/ebwv#identifier) | Unique identifier of the issued PD A1 certificate | String | 1:1 | 14 |
 
----
-
-#### 2.9 Competent Institution
+#### 3.1.7 Competent Institution
 
 The social security institution that issued this certificate. The four fields `institutionID`, `institutionName`, `countryCode`, and `address` are required. No additional properties permitted (`additionalProperties: false`).
 
@@ -577,37 +563,6 @@ The social security institution that issued this certificate. The four fields `i
 | `competentInstitution.officePhoneNumber` | [contactPoint](https://w3id.org/ebwv#contactPoint) | Office phone number (E.164 format) | phoneNumber | 0:1 | 16 |
 | `competentInstitution.email` | [contactPoint](https://w3id.org/ebwv#contactPoint) | Email address of the institution | email | 0:1 | 16 |
 
----
-
-#### 2.10 Metadata
-
-> **Note:** The attributes listed below are **not part of the v1.0 PD A1 attestation data schema**. They are defined at the encoding or framework layer (SD-JWT VC, eIDAS 2.0) and are subject to change as the encoding specification evolves.
->
-> The separation is intentional: an application-data schema describes semantic content, field names, types, and constraints, which remains stable across encoding formats. Issuance and transport metadata, by contrast, is format- and infrastructure-specific (SD-JWT VC claim names, eIDAS 2.0 lifecycle attributes). Mixing them would couple a stable data definition to volatile infrastructure choices, and would prevent the schema from being reused across different encoding formats. Metadata attributes are therefore defined at the framework or protocol layer and referenced here for completeness only.
-
----
-
-#### 3.2.3 Example Payload
-A valid PD A1 JSON example is provided in [`pda1-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/pda1-sd-jwt-sample.json).
-
-#### 8 References
-| **Item Reference** | **Standard name/details** |
-| --- | --- |
-| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| [HAIP] | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
-| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml |
-| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
-| [ISO 4217] | ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html |
-| [ISO 8601] | ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html |
-| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html |
-| [RFC 2119] | RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
-| [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
-| [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
-| [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
-| [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
-| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09 |
-| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking |
-
 ### 3.2 Mandatory attributes
 
 
@@ -618,6 +573,10 @@ A valid PD A1 JSON example is provided in [`pda1-sd-jwt-sample.json`](../../data
 
 
 ## 4 Metadata
+
+> **Note:** The attributes listed below are **not part of the v1.0 PD A1 attestation data schema**. They are defined at the encoding or framework layer (SD-JWT VC, eIDAS 2.0) and are subject to change as the encoding specification evolves.
+>
+> The separation is intentional: an application-data schema describes semantic content, field names, types, and constraints, which remains stable across encoding formats. Issuance and transport metadata, by contrast, is format- and infrastructure-specific (SD-JWT VC claim names, eIDAS 2.0 lifecycle attributes). Mixing them would couple a stable data definition to volatile infrastructure choices, and would prevent the schema from being reused across different encoding formats. Metadata attributes are therefore defined at the framework or protocol layer and referenced here for completeness only.
 
 Metadata describes the attestation rather than its subject.
 
@@ -703,7 +662,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build.pda1.1`
 
-#### 3.2.1 Envelope / Metadata Claims
+#### 5.1.1 Envelope / Metadata Claims
 
 The claims below form the SD-JWT VC **envelope** that wraps the Chapter 2 application data. They are
 defined at the SD-JWT VC / eIDAS 2.0 layer and are **not part of the Chapter 2 application data**
@@ -734,7 +693,7 @@ and their codelists are defined in Chapter 2 and are not repeated here.
 - The application-data attributes wrapped by this envelope, and their SD element group membership,
   are defined in Chapter 2 (§2.3–§2.9).
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 PD A1 attestations are based on [SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/). If a PD A1 attestation issued as an SD-JWT VC is meant to be valid for longer than 24 hours, the `status` claim as shown in [SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/) and specified in [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) MUST be used according to this rulebook. This claim enables Relying Parties to determine whether a credential has been revoked via a status list mechanism as specified in [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/).
 
@@ -759,6 +718,9 @@ The status object of a PD A1 attestation SD-JWT VC MUST contain the following me
 For further details see [section 6.2. in Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/).
 
 The [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) defines basic status types like `VALID`, `INVALID` and `SUSPENDED`. This rulebook limits the statuses allowed to be used for PD A1 SD-JWT VC attestations to only `VALID` and `INVALID`. Any status other than `VALID` or `INVALID` for a referenced VC is to be considered "not defined" and therefore MUST be treated as if the credential's status is `INVALID`.
+
+#### 5.1.3 Example Payload
+A valid PD A1 JSON example is provided in [`pda1-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/pda1-sd-jwt-sample.json).
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
@@ -805,7 +767,7 @@ A Relying Party receiving the attestation SHALL verify:
 - the credential validity period;
 - the credential status, where a status mechanism is present;
 - holder binding, where used;
-- the integrity rules defined in Section 2.9;
+- the integrity rules defined in Section 3.1.7;
 
 In EUDI Wallet related usage scenarios, the Relying Party SHOULD request and verify PID or another accepted identity credential - or compare the PD A1 subject data with other identification means - to verify that it matches the affected person. In such cases, the Relying Party SHOULD compare the relevant identity attributes with the PD A1 Attestation. The Relying Party SHALL apply data minimisation and SHALL request only the attributes required for their specific purposes.
 
@@ -872,3 +834,20 @@ at which a machine-readable version can be found or looked up.
 ## 11 References
 
 This chapter will be completed in a future version of this Rulebook.
+
+| **Item Reference** | **Standard name/details** |
+| --- | --- |
+| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
+| [HAIP] | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
+| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
+| [ISO 4217] | ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html |
+| [ISO 8601] | ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html |
+| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html |
+| [RFC 2119] | RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
+| [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
+| [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
+| [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09 |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking |
