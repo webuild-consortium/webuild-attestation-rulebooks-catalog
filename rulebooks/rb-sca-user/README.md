@@ -529,9 +529,9 @@ as profiled by [HAIP].
 
 | Field | Value | Source |
 | --- | --- | --- |
-| Device-bound | MAY | EW-DM-12-038 |
+| Device-bound | SHALL | EW-DM-12-038 |
 | Cryptographically bound to | none | EW-DM-12-032 |
-| Relying Party must also verify a PID | no | EW-DM-12-031 |
+| Relying Party must also verify a PID | should | EW-DM-12-031 |
 | Binding subject | legal person |  |
 
 ### 7.2 Issuance Policy
@@ -675,7 +675,7 @@ that the provider is authorized to issue this attestation type (see ISSU_34 in [
 The trust anchor SHALL be published as a JSON Web Key Set (JWKS) at a URL of the form:
 
 ```
-https://issuer.bank.cz/.well-known/jwt-issuer
+https://issuer.bank.cz/.well-known/jwt-vc-issuer
 ```
 
 conforming to the issuer metadata discovery mechanism defined in [SD-JWT VC] §5.3.
