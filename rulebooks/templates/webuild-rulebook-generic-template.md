@@ -425,7 +425,7 @@ PuB-EAA the defaults are device-bound and bound to the PID unless justified. For
 EBWOID all four rows are TO AGREE.
 
 [this chapter still needs to be descibed]
-### 7.2 Issuance Policy
+### 7.2 Issuance Policy (OLD TEXT)
 
 [AUTHOR] Specify:
 
@@ -452,34 +452,34 @@ additions.
 
 FIXED
 
-An Issuance Policy defines the minimum rules, policies, and procedures that any compliant Attestation Provider **SHALL** follow when issuing attestations of this type. 
+> An Issuance Policy defines the minimum rules, policies, and procedures that any compliant Attestation Provider **SHALL** follow when issuing attestations of this type. 
 
-For transparency and to allow Relying Parties to programmatically assess their trust in the attestation, each Attestation Provider **SHALL** publish their terms and conditions, a generic Trust Services Policy, and an EAA Policy (per attestation type) in accordance with **[ETSI TS 119 471]**. These policies must be accepted by the Holder upon receipt of the attestation.
+> For transparency and to allow Relying Parties to programmatically assess their trust in the attestation, each Attestation Provider **SHALL** publish their terms and conditions, a generic Trust Services Policy, and an EAA Policy (per attestation type) in accordance with **[ETSI TS 119 471]**. These policies must be accepted by the Holder upon receipt of the attestation.
 
-This section references key concepts from **[ETSI TS 119 471]** and **[ETSI TS 119 461]**. The most critical issuance concepts for a rulebook author to understand and specify are explained below:
+> This section references key concepts from **[ETSI TS 119 471]** and **[ETSI TS 119 461]**. The most critical issuance concepts for a rulebook author to understand and specify are explained below:
 
----
+> ---
 
 #### **1. Core Issuer Obligations**
 
-Any entity acting as an authorized Attestation Provider under this rulebook **SHALL** comply with the following general obligations:
+> Any entity acting as an authorized Attestation Provider under this rulebook **SHALL** comply with the following general obligations:
 
-  **Issuance Basis and Timestamping:** The Provider **SHALL** issue the attestation based on information and supporting documentation that is valid and accurate at the exact moment of issuance. A timestamp (`iat`) **MUST** be included in each attestation. This enables a Relying Party to not only verify the attestation's temporal validity but also to correctly validate the Attestation Provider's trust status as it was at the moment of issuance (e.g., by checking against a historical Trust List).
+>   **Issuance Basis and Timestamping:** The Provider **SHALL** issue the attestation based on information and supporting documentation that is valid and accurate at the exact moment of issuance. A timestamp (`iat`) **MUST** be included in each attestation. This enables a Relying Party to not only verify the attestation's temporal validity but also to correctly validate the Attestation Provider's trust status as it was at the moment of issuance (e.g., by checking against a historical Trust List).
 
-*   **Data Currency and Revocation:** The Provider is responsible for the ongoing accuracy of the attested information. The Provider **MUST** immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
+> *   **Data Currency and Revocation:** The Provider is responsible for the ongoing accuracy of the attested information. The Provider **MUST** immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
 
----
+> ---
 
-#### **2. Identity and Attribute Proofing (as per ETSI TS 119 461)**
+> #### **2. Identity and Attribute Proofing (as per ETSI TS 119 461)**
 
-This refers to the rigor with which the Attestation Provider verifies the information before issuing the attestation. The level of trust a Relying Party can place in an attestation depends directly on the quality of this proofing process.
+> This refers to the rigor with which the Attestation Provider verifies the information before issuing the attestation. The level of trust a Relying Party can place in an attestation depends directly on the quality of this proofing process.
 
-*   **Identity Proofing:** This is the process of verifying the legal identity of the subject. For a legal entity (a business), this **MUST** involve verifying its active registration in an official national business register.
-*   **Attribute Proofing:** This is the process of verifying the specific claims (attributes) being attested. The Provider **MUST** verify the attributes against a designated authentic data source (as defined by the author below).
+> *   **Identity Proofing:** This is the process of verifying the legal identity of the subject. For a legal entity (a business), this **MUST** involve verifying its active registration in an official national business register.
+> *   **Attribute Proofing:** This is the process of verifying the specific claims (attributes) being attested. The Provider **MUST** verify the attributes against a designated authentic data source (as defined by the author below).
 
----
+> ---
 > OPEN TOPICS
-To enable a EBW Provider to implement basic verification steps described in Chapter 9.2 the "General obligations of an Attestation Provider" that are out of scope of this rulebook need to be updated. The following requirements need to be considered:
+> To enable a EBW Provider to implement basic verification steps described in Chapter 9.2 the "General obligations of an Attestation Provider" that are out of scope of this rulebook need to be updated. The following requirements need to be considered:
 > 1. The EAA Provider needs an attestation from a QTSP that binds his EUID to a "signing_key". This should be the EBWOID with the additional "signing_key" parameter. Where do we specify the solution? Proposed Answer: EBWOID rulebook
 > 2. The EAA Provider needs a mechanism to transfer his attested public signing key and also the identity attestation of the QTSP to the unknown RP. e.g.: He can include his EBWOID in the Header of each EAA and in the Header of the EBWOID the QTSP has included his EBWOID or the x.509 identity chain. That is a general issuer obligation. Is this mechanism already specified? Where do we specify this mechanism?
 > I personally prepare and have prepared the following text based on ADR#168 or a merged ADR between ADR#168 and ADR#336
@@ -491,16 +491,16 @@ To enable a EBW Provider to implement basic verification steps described in Chap
 > 1.  **Provider Identity Credential:** The EAA Provider **MUST** possess their own European Business Wallet Owner Identity (EBWOID), issued by a Qualified Trust Service Provider (QTSP). To be authorized to sign and issue other EAAs, this EBWOID **MUST** contain a `signing_key` parameter holding the public key the Provider uses to sign the issued EAAs. *(This requirement is formally specified in the `rb-ebwoid` rulebook).*
 > 2.  **Trust Chaining Mechanism:** The EAA Provider **MUST** include their own EBWOID (or a reference/chain to it) in the header of every EAA they issue. This allows a Relying Party to verify the EAA signature using the public key from the embedded EBWOID, and then verify the EBWOID itself against the eIDAS Trusted List. *(This general mechanism is specified in the `rb-base` rulebook).*
 
----
+> ---
 
-#### **4. Batch Issuance (Protocol Optimization)**
+> #### **4. Batch Issuance (Protocol Optimization)**
 
-This is a technical efficiency and privacy feature defined in the underlying OpenID4VCI protocols.
+> This is a technical efficiency and privacy feature defined in the underlying OpenID4VCI protocols.
 
-*   **What it is:** A technical capability allowing a Wallet to request, and an Attestation Provider to issue, multiple credentials simultaneously in a single API interaction, rather than requiring separate network connections for each credential.
-*   **Application to this Rulebook:** For unique, long-lived business attestations, batch issuance is typically **Optional** or **Not Applicable**, as these credentials do not require multi-copy anonymity and are issued on a one-off basis.
+> *   **What it is:** A technical capability allowing a Wallet to request, and an Attestation Provider to issue, multiple credentials simultaneously in a single API interaction, rather than requiring separate network connections for each credential.
+> *   **Application to this Rulebook:** For unique, long-lived business attestations, batch issuance is typically **Optional** or **Not Applicable**, as these credentials do not require multi-copy anonymity and are issued on a one-off basis.
 
----
+> ---
 
 [AUTHOR]
 
