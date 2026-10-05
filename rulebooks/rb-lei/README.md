@@ -229,9 +229,23 @@ The attestation attributes are defined in the tables of Chapter 2 of this docume
 - The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].
 - The fifth column provides the semantic reference for the attribute in the [European Business Wallet Vocabulary](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html).
 
-#### 1 Introduction
+#### TODO
 
-#### 2.1 Overview attributes attestation
+(Refer to [Topic 7] of the ARF for a list of High-Level Requirements related to Revocation)
+
+*In this section information about the revocation mechanism used SHALL be defined.*
+
+*For PID, QEAA, or PuB-EAA it SHALL be defined whether only short-lived attestations
+will be used, having a validity period of 24 hours or less, such that revocation
+will never be necessary, or that the attestations are revocable.*
+
+*For revocable attestations it SHALL be defined which of the following methods must be implemented:*
+* Use an Attestation Status List mechanism included in a Technical Specification
+that will be specified by the Commission.
+* Use an Attestation Revocation List mechanism included in a Technical Specification
+that will be specified by the Commission.
+
+#### 3.1.1 Overview attributes attestation
 
 The LEI attestation is structured as a flat `LegalEntityIdentifier` object containing the `lei` code together with its current status and next renewal date. The model is as follows:
 
@@ -249,22 +263,6 @@ The following table lists the attributes of the LEI attestation. Attribute ident
 | lei | A Legal Entity Identifier (LEI) code, in the format specified by ISO 17442. | M | tstr | [lei](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#lei) |
 | lei_status | The status of the LEI record registration with the managing LOU. One of the values defined in [section 2.2](#22-code-lists). | M | tstr | [leiRegistrationStatus](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#leiRegistrationStatus) |
 | lei_renewal_date | The next renewal date of the LEI record, given as a date and time including the timezone, based on ISO 8601. | M | tstr | [leiNextRenewal](https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#leiNextRenewal) |
-
-#### TODO
-
-(Refer to [Topic 7] of the ARF for a list of High-Level Requirements related to Revocation)
-
-*In this section information about the revocation mechanism used SHALL be defined.*
-
-*For PID, QEAA, or PuB-EAA it SHALL be defined whether only short-lived attestations
-will be used, having a validity period of 24 hours or less, such that revocation
-will never be necessary, or that the attestations are revocable.*
-
-*For revocable attestations it SHALL be defined which of the following methods must be implemented:*
-* Use an Attestation Status List mechanism included in a Technical Specification
-that will be specified by the Commission.
-* Use an Attestation Revocation List mechanism included in a Technical Specification
-that will be specified by the Commission.
 
 ### 3.2 Mandatory attributes
 
@@ -356,7 +354,7 @@ The . notation is used to indicate the nesting of attributes.
 | location_status | status | object | See chapter [3.2.1](#321-attribute-status) |
 
 
-#### 3.2.1 Attribute status
+#### 5.1.1 Attribute status
 For SD-JWT VC-compliant LEI attestations, the attestation MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/).
 
 The status claim SHALL be a JSON object with the following members:
@@ -378,93 +376,12 @@ Example:
 }
 ```
 
-#### 3.2.2 Example Payload
+#### 5.1.2 Example Payload
 Sample payloads to be provided under `../../data-schemas/sd-jwt-vc/sample-data/rb-lei-sd-jwt-sample.json`.
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
 ISO/IEC 18013-5 (also called mdoc) is out of scope for this rulebook, as offline proximity presentation is not a current requirement for the LEI attestation.
-
-#### 3.2 SD-JWT VC-based encoding
-
-The LEI attestation is available in the SD-JWT VC format to be aligned with the WeBuild formats.
-Yet, selective disclosure is not required for any claim because the included data is public.
-
-The . notation is used to indicate the nesting of attributes.
-
-
-**Verifiable Credential Type (`vct`):** `eu.we-build.lei.1`
-
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** |
-| --- | --- | --- | --- |
-| issuing_authority | iss | string | RFC 7519 / Section 2.4 |
-| expiry_date | exp | number | RFC 7519 / Section 2.4 (Unix timestamp) |
-| attestation_legal_category | attestation_legal_category | string | Section 2.4 |
-| issuing_country | issuing_country | string | ISO 3166-1 alpha-2 |
-| lei | lei | string | ISO 17442 (20-character alphanumeric) |
-| lei_status | lei_status | string | See lei_status code list (section 2.2) |
-| lei_renewal_date | lei_renewal_date | string | ISO 8601 (date-time with timezone) |
-| location_status | status | object | See chapter [3.2.1](#321-attribute-status) |
-
-
-##### 3.2.1 Attribute status
-For SD-JWT VC-compliant LEI attestations, the attestation MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/).
-
-The status claim SHALL be a JSON object with the following members:
-
-* 'type' (string): SHALL be "status-list".
-* 'status_list_credential' (string, URI): The URI of the Status List Credential document that contains the status bitstring.
-* 'status_list_index' (integer, >= 0): The zero-based index into the status list bitstring that corresponds to this credential.
-* 'status_purpose' (string): SHALL be "revocation".
-
-Example:
-```json
-{
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/1",
-    "status_list_index": 42,
-    "status_purpose": "revocation"
-  }
-}
-```
-
-##### 3.2.2 Example Payload
-Sample payloads to be provided under `../../data-schemas/sd-jwt-vc/sample-data/rb-lei-sd-jwt-sample.json`.
-
-#### 3.3 W3C Verifiable Credentials Data Model-based encoding
-
-W3C Verifiable Credentials are defined using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) or SHACL (data graph) can be used to validate data.
-
-##### Metadata
-The metadata of a W3C Verifiable Credential are defined in the [Verifiable Credentials Vocabulary v2.0](https://www.w3.org/2018/credentials/). The following extensions are defined in the [European Business Wallet Vocabulary v0.1](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary) in order to support Electronic Attestations of Attributes:
-* [attestationLegalCategory](https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#attestationLegalCategory) in order to specify the category of the EAA (QEAA, Pub-EAA or EAA).
-
-The semantic terms used for the LEI attributes are defined in the [European Business Wallet Vocabulary] (WP4 semantics group): <https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html>.
-
-##### Holder Binding
-
-LEI attestations are held by the organization identified by the LEI. Corresponding key binding is provided by using DIDs. Please note that every node of a JSON-LD tree is addressable by its own locally or globally unique identifier `@id`. Using [Decentralized Identifiers (DIDs) v1.0](https://www.w3.org/TR/did-1.0/) as identifiers allows to cryptographically bind any node to its underlying identity.
-
-The Verifiable Credential Data Model (VCDM) doesn't dictate any specific DID method. Instead, any DID method that supports the underlying trust framework and is able to provide the required level of assurance can be used:
-* PKI-Infrastructure (e.g. EU-TLOL based on X.509 certificates): [did:key](https://github.com/digitalbazaar/did-method-key) - the public key is directly encoded in the identifier
-* DTL (e.g.: Ethereum): [did:ethr](https://github.com/uport-project/ethr-did)
-* European Blockchain Infrastructure: [did:ebsi](https://hub.ebsi.eu/vc-framework/did/legal-entities)
-* Domain Name System (DNS): [did:web](https://w3c-ccg.github.io/did-method-web/)
-* Domain Name System verifiable history: [did:webvh](https://identity.foundation/didwebvh/v1.0/)
-
-##### Proof mechanisms
-
-The preferred proof mechanism for the LEI attestation is [ecdsa-sd-2023](https://www.w3.org/TR/vc-di-ecdsa/#ecdsa-sd-2023-functions) as specified in [Data Integrity ECDSA Cryptosuites v1.0](https://www.w3.org/TR/vc-di-ecdsa). ecdsa-sd-2023 supports selective disclosure out of the box. The holder chooses which claims to disclose and derives a proof from the original assertion proof.
-
-For backward compatibility and for trust frameworks whose policies require a particular proof mechanism, [JOSE](https://www.w3.org/TR/vc-jose-cose/#with-jose) and [SD-JWT](https://www.w3.org/TR/vc-jose-cose/#with-sd-jwt) as specified in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) should be supported, too.
-
-The [Security Vocabulary](https://www.w3.org/2025/credentials/vcdi/vocab/v2/vocabulary.html) is used to embed the proofs into the credentials.
-
-##### Credential status
-
-The LEI attestation SHALL include a status claim `credentialStatus` if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [Bitstring Status List v1.0](https://www.w3.org/TR/vc-bitstring-status-list/).
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
