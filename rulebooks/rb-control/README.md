@@ -279,10 +279,10 @@ Controller [1..n]                               // The person or entity exercisi
   - `first_name` and `surname` SHALL be present.
   - `birth_date` is OPTIONAL but SHOULD be included where available.
   - At least one `controls` record SHALL be present, including:
-    - `type`, SHALL use values from Section 2.8.3
-    - `level`, SHALL use values from Section 2.8.2
-    - `basis`, SHALL use values from Section 2.8.4
-    - `rights`, SHALL use values from Section 2.8.5
+    - `type`, SHALL use values from Section 4.4.3
+    - `level`, SHALL use values from Section 4.4.2
+    - `basis`, SHALL use values from Section 4.4.4
+    - `rights`, SHALL use values from Section 4.4.5
 
 - For each `Controller` of `type = "Entity"`:
   - The `entity` object SHALL be present and the `person` object SHALL be absent.
@@ -290,7 +290,7 @@ Controller [1..n]                               // The person or entity exercisi
   - `name` SHALL be present (complete official registered name).
   - `identifier` SHALL contain at least one of: `euid`, `lei`, `tax`, or `other`.
   - `jurisdiction` SHALL be present (ISO 3166-1 alpha-2).
-  - `form` SHALL be present and SHALL use a value from Section 2.8.6.
+  - `form` SHALL be present and SHALL use a value from Section 4.4.6.
   - At least one `controls` record SHALL be present.
 
 - When `entity.category = "legal_arrangement"` OR `entity.form = "trust"`, the `subtype_info`
@@ -303,15 +303,15 @@ Controller [1..n]                               // The person or entity exercisi
 - Each `Controller` entry SHALL include at least one `evidence` entry. Each evidence entry
   SHALL include:
   - `id`, unique identifier, URI, or URN of the source document
-  - `type`, SHALL use values from Section 2.8.9
+  - `type`, SHALL use values from Section 4.4.9
   - `data`, base64-encoded document, SHALL be provided if `url` is absent or not publicly
     accessible
 
 - `controls.type` SHALL be an array allowing multiple concurrent control mechanism types to be
   declared for a single controller.
 - `controls.level` SHALL use one of: `"direct"`, `"indirect"`, `"joint"`, or `"unknown"` as
-  defined in Section 2.8.2.
-- `controls.rights` SHALL be an array and SHALL use values from Section 2.8.5.
+  defined in Section 4.4.2.
+- `controls.rights` SHALL be an array and SHALL use values from Section 4.4.5.
 - `effective_date` SHALL follow ISO 8601 YYYY-MM-DD format.
 
 **Attestation Classification:**
@@ -379,7 +379,7 @@ This attestation type MAY be classified as:
 | `entity.name` | , | Complete official registered name of the entity or legal arrangement | String |
 | `entity.identifier` | , | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present | Object |
 | `entity.jurisdiction` | , | ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled | String |
-| `entity.form` | , | The form of the entity, SHALL use values from Section 2.8.6 | String |
+| `entity.form` | , | The form of the entity, SHALL use values from Section 4.4.6 | String |
 | `entity.legal_form` | , | Legal form of the entity | String |
 
 **Entity Identifier Fields** *(at least one SHALL be present)*
@@ -408,16 +408,16 @@ This attestation type MAY be classified as:
 | `address.locality` | , | City or locality | String |
 | `address.region` | , | State, province, or region | String |
 | `address.postal_code` | , | Postal or ZIP code | String |
-| `address.country` | , | ISO 3166-1 alpha-2 country code, SHALL use values from Section 2.8.7 | String |
+| `address.country` | , | ISO 3166-1 alpha-2 country code, SHALL use values from Section 4.4.7 | String |
 
 **Controls Mandatory Attributes** *(at least one record per Controller entry)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `controls.type` | Section 2.8.3 | Array of one or more control mechanism types, SHALL use values from Section 2.8.3 | Array [Enum] |
-| `controls.level` | Section 2.8.2 | How control is held, SHALL be one of: `"direct"`, `"indirect"`, `"joint"`, or `"unknown"` | Enum (String) |
-| `controls.basis` | Section 2.8.4 | Legal or structural basis for control, SHALL use values from Section 2.8.4 | Enum (String) |
-| `controls.rights` | Section 2.8.5 | Array of economic rights associated with the control, SHALL use values from Section 2.8.5 | Array [Enum] |
+| `controls.type` | Section 4.4.3 | Array of one or more control mechanism types, SHALL use values from Section 4.4.3 | Array [Enum] |
+| `controls.level` | Section 4.4.2 | How control is held, SHALL be one of: `"direct"`, `"indirect"`, `"joint"`, or `"unknown"` | Enum (String) |
+| `controls.basis` | Section 4.4.4 | Legal or structural basis for control, SHALL use values from Section 4.4.4 | Enum (String) |
+| `controls.rights` | Section 4.4.5 | Array of economic rights associated with the control, SHALL use values from Section 4.4.5 | Array [Enum] |
 | `controls.voting_percentage` | , | Percentage of voting rights held, decimal value in range 0–100 | Decimal |
 
 **Evidence Mandatory Attributes** *(at least one entry per Controller entry)*
@@ -425,7 +425,7 @@ This attestation type MAY be classified as:
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
 | `evidence[n].id` | , | Unique identifier, URI, or URN of the source or evidence document | String |
-| `evidence[n].type` | , | Type of evidence document, SHALL use a value from Section 2.8.9 (e.g., `officialRegister`, `governanceChart`, `trustDeed`, `shareholderAgreement`) | String |
+| `evidence[n].type` | , | Type of evidence document, SHALL use a value from Section 4.4.9 (e.g., `officialRegister`, `governanceChart`, `trustDeed`, `shareholderAgreement`) | String |
 
 ### 3.3 Optional attributes
 
@@ -500,14 +500,14 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 `controller.type` Values
+#### 4.4.1 `controller.type` Values
 
 | **Value** | **Definition** |
 | --- | --- |
 | `Person` | The controller is a natural person (individual) |
 | `Entity` | The controller is a legal entity or legal arrangement, further qualified by `entity.category` |
 
-#### 2.8.2 `controls.level` Values
+#### 4.4.2 `controls.level` Values
 
 | **Code** | **Definition** |
 | --- | --- |
@@ -516,7 +516,7 @@ No conditional metadata elements are defined for this attestation type.
 | `joint` | Control exercised jointly with one or more other persons or entities |
 | `unknown` | Control structure cannot be determined at the time of attestation |
 
-#### 2.8.3 `controls.type` Values
+#### 4.4.3 `controls.type` Values
 
 | **Value** | **Definition** |
 | --- | --- |
@@ -534,7 +534,7 @@ No conditional metadata elements are defined for this attestation type.
 > **Note:** Multiple mechanism types MAY apply to a single controller. In such cases,
 > `controls.type` SHALL be encoded as an array containing all applicable values.
 
-#### 2.8.4 `controls.basis` Values
+#### 4.4.4 `controls.basis` Values
 
 | **Code** | **Definition** |
 | --- | --- |
@@ -545,14 +545,14 @@ No conditional metadata elements are defined for this attestation type.
 | `trust_arrangement` | Control derives from a role within a trust or legal arrangement (e.g., trustee, protector) |
 | `other` | Control derives from a basis not covered by the above categories |
 
-#### 2.8.5 `controls.rights` Values
+#### 4.4.5 `controls.rights` Values
 
 | **Code** | **Definition** |
 | --- | --- |
 | `dividend_rights` | Right to receive a share of profits distributed by the entity |
 | `liquidation_rights` | Right to receive a share of assets upon dissolution of the entity |
 
-#### 2.8.6 `entity.form` Values
+#### 4.4.6 `entity.form` Values
 
 | **Value** | **Definition** |
 | --- | --- |
@@ -566,17 +566,17 @@ No conditional metadata elements are defined for this attestation type.
 | `state_owned_enterprise` | A state-owned or state-controlled commercial entity |
 | `other` | Other legal form not covered above |
 
-#### 2.8.7 Country Codes
+#### 4.4.7 Country Codes
 
 `controller.jurisdiction`, `entity.jurisdiction`, and `address.country` SHALL use
 **ISO 3166-1 alpha-2** two-letter country codes.
 
-#### 2.8.8 Date Formats
+#### 4.4.8 Date Formats
 
 All date attributes (e.g., `effective_date`, `person.birth_date`) SHALL follow the
 **ISO 8601 YYYY-MM-DD** format.
 
-#### 2.8.9 Evidence Type Values
+#### 4.4.9 Evidence Type Values
 
 | **Code** | **Applicable To** | **Definition** |
 | --- | --- | --- |
@@ -600,18 +600,18 @@ The following integrity rules SHALL be enforced during issuance and verification
 | IR-04 | If `controller.type = "Entity"`, the `entity` object SHALL be present and the `person` object SHALL be absent |
 | IR-05 | If `entity.category = "legal_arrangement"` or `entity.form = "trust"`, the `subtype_info` object SHALL be present and `settlement`, `purpose`, and `assets` SHALL all be populated |
 | IR-06 | `entity.identifier` SHALL contain at least one of: `euid`, `lei`, `tax`, or `other` |
-| IR-07 | `controls.type` SHALL be an array containing at least one value from Section 2.8.3 |
-| IR-08 | `controls.level` SHALL use one of the values defined in Section 2.8.2 |
-| IR-09 | `controls.basis` SHALL use one of the values defined in Section 2.8.4 |
-| IR-10 | `controls.rights` SHALL be an array containing at least one value from Section 2.8.5 |
+| IR-07 | `controls.type` SHALL be an array containing at least one value from Section 4.4.3 |
+| IR-08 | `controls.level` SHALL use one of the values defined in Section 4.4.2 |
+| IR-09 | `controls.basis` SHALL use one of the values defined in Section 4.4.4 |
+| IR-10 | `controls.rights` SHALL be an array containing at least one value from Section 4.4.5 |
 | IR-11 | `controls.voting_percentage`, SHALL be a decimal value in the range 0–100 |
 | IR-12 | Each `Controller` entry SHALL contain at least one `evidence` entry |
 | IR-13 | Each `evidence` entry SHALL contain a non-empty `id` and `type` |
 | IR-14 | If `evidence[n].url` is absent or not publicly accessible, `evidence[n].data` (base64-encoded) SHALL be provided |
-| IR-15 | `evidence[n].type` SHALL use a value from Section 2.8.9 |
+| IR-15 | `evidence[n].type` SHALL use a value from Section 4.4.9 |
 | IR-16 | All date fields (e.g., `effective_date`, `person.birth_date`) SHALL conform to ISO 8601 YYYY-MM-DD format |
 | IR-17 | All jurisdiction and country fields (`controller.jurisdiction`, `entity.jurisdiction`, `address.country`) SHALL use ISO 3166-1 alpha-2 codes |
-| IR-18 | `entity.form` SHALL use a value from Section 2.8.6 |
+| IR-18 | `entity.form` SHALL use a value from Section 4.4.6 |
 | IR-19 | Each `Controller` entry SHALL contain a non-empty `effective_date` |
 
 ## 5 Formats
@@ -631,7 +631,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:control:1`
 
-##### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference / Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -650,7 +650,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | `other` | `controller[n].entity.identifier.other` | String | Any other applicable identifier, optional | MAY |
 | `jurisdiction` | `controller[n].entity.jurisdiction` | String (ISO 3166-1 alpha-2) | SHALL be non-empty | MUST |
 | `legal_form` | `controller[n].entity.legal_form` | String | The legal_form | MUST |
-| `form` | `controller[n].entity.form` | String | SHALL use values from Section 2.8.6 | MUST |
+| `form` | `controller[n].entity.form` | String | SHALL use values from Section 4.4.6 | MUST |
 | **subtype_info** | `controller[n].entity.subtype_info` | Object | Mandatory when `entity.category = "legal_arrangement"` or `entity.form = "trust"` | MUST (conditional) |
 | `settlement` | `controller[n].entity.subtype_info.settlement` | String | Mandatory when `subtype_info` is present | MUST (conditional) |
 | `purpose` | `controller[n].entity.subtype_info.purpose` | String | Mandatory when `subtype_info` is present | MUST (conditional) |
@@ -664,17 +664,17 @@ The `.` notation is used to indicate the nesting of attributes.
 | `postal_code` | `controller[n].address.postal_code` | String | SHALL be non-empty | MUST |
 | `country` | `controller[n].address.country` | String (ISO 3166-1 alpha-2) | SHALL be non-empty | MUST |
 | **Controls** |  |  |  |  |
-| `type` | `controller[n].controls.type` | Array of Strings | SHALL use values from Section 2.8.3, at least one required | MUST |
-| `level` | `controller[n].controls.level` | String | SHALL use values from Section 2.8.2 | MUST |
-| `basis` | `controller[n].controls.basis` | String | SHALL use values from Section 2.8.4 | MUST |
+| `type` | `controller[n].controls.type` | Array of Strings | SHALL use values from Section 4.4.3, at least one required | MUST |
+| `level` | `controller[n].controls.level` | String | SHALL use values from Section 4.4.2 | MUST |
+| `basis` | `controller[n].controls.basis` | String | SHALL use values from Section 4.4.4 | MUST |
 | `voting_percentage` | `controller[n].controls.voting_percentage` | Decimal (0–100) | Percentage of voting rights, optional | MAY |
 | `appointment_rights` | `controller[n].controls.appointment_rights` | String | Free text, optional | MAY |
 | `other_details` | `controller[n].controls.other_details` | String | Free text for other control mechanisms, optional | MAY |
-| `rights` | `controller[n].controls.rights` | Array of Strings | SHALL use values from Section 2.8.5 | MUST |
+| `rights` | `controller[n].controls.rights` | Array of Strings | SHALL use values from Section 4.4.5 | MUST |
 | `effective_date` | `controller[n].effective_date` | String (ISO 8601 YYYY-MM-DD) | Date control became effective, SHALL be non-empty | MUST |
 | **Evidence** |  |  |  |  |
 | `id` | `controller[n].evidence[m].id` | String | Unique identifier, URI, or URN, SHALL be non-empty | MUST |
-| `type` | `controller[n].evidence[m].type` | String | SHALL use values from Section 2.8.9, SHALL be non-empty | MUST |
+| `type` | `controller[n].evidence[m].type` | String | SHALL use values from Section 4.4.9, SHALL be non-empty | MUST |
 | `url` | `controller[n].evidence[m].url` | URI | URI reference to source document, optional | MAY |
 | `data` | `controller[n].evidence[m].data` | String (base64) | Base64-encoded source, SHALL be provided if `url` not publicly accessible | MAY |
 | **Metadata** |  |  |  |  |
@@ -702,7 +702,7 @@ The `.` notation is used to indicate the nesting of attributes.
   at least one evidence entry SHALL be present per controller.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
 
-##### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant Control Attestations, the attestation MUST include a `status` claim if
 the technical validity period is greater than 24 hours. This claim enables Relying Parties to
@@ -953,6 +953,11 @@ The business interpretation is determined by the Relying Party's internal compli
 
 ## 9 Presentation
 
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+
 ### 9.1 Presentation Policy
 
 To verify and validate a received presentation of an attestation of this type, the
@@ -972,14 +977,6 @@ Obligations specific to this attestation type, carried over from the Relying Par
 obligations of the previous version of this Rulebook:
 
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the
-Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
 
 ### 9.2 Presentation modes
 
