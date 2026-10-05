@@ -65,6 +65,44 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**Has a company fulfilled its legal obligation to notify the host EU Member State authorities
+prior to sending workers to provide cross-border services within the EU?
+
+The Posted Worker Notification (PWN) Attestation provides a verifiable digital
+representation of the Posted Worker Notification, enabling structured exchange of posting
+information for use in cross-border labour compliance verification, supplier onboarding, and
+regulatory audit processes by host Member State authorities, procurers, and labour inspectorates.
+
+The PWN is an administrative requirement for companies (legal employers) that provide intra-EU
+cross-border services with their employees, both EU and non-EU nationals, either to a customer
+or into another group entity. The notification must be filed with the authorities of the host EU
+Member State (usually on a government portal) prior to the start of the delivery of the service.
+
+The PWN was introduced pursuant to
+[EU Directive 2014/67/EU](https://eur-lex.europa.eu/eli/dir/2014/67/oj/eng) to enable EU Member
+States to monitor that Posted Workers are protected by the salary and labour conditions set out
+in host legislation and generally binding collective labour agreements, and therefore do not undercut local labour
+force. More or less half of the EU Member States have extended the scope of the PWN also to
+employers based outside the EU providing services with their personnel into the EU.
+
+The labour law protection of posted workers is set out in the Posting of Workers Directive
+(PWD), which was adopted in 1996 and revised in 2018:
+[EUR-Lex - 01996L0071-20200730 - EN - EUR-Lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A01996L0071-20200730)
+
+The **Know Your Employee (KYE)** scenario (Scenario 5) is part of BU1 and will lead to MVP
+and MVP+ implementations using both Natural Person Wallets and Legal Person Wallets.
+The high-level scenario is:
+
+> *"A company A in a country A would like to send one of their employees to work and provide a
+> service to company B in country B."*
+
+This scenario requires the issuance of three main credentials:
+- **Employee Credentials**
+- **Portable Document (PD) A1**
+- **Posted Worker Notification (PWN)**
+
 ### 1.1 Document scope and purpose
 
 The PWN Attestation provides a verifiable digital representation of the Posted
@@ -358,71 +396,6 @@ This attestation type **MAY** be classified as:
 
 ---
 
-#### 1 Introduction
-
-This attestation addresses the following question:
-
-**Has a company fulfilled its legal obligation to notify the host EU Member State authorities
-prior to sending workers to provide cross-border services within the EU?
-
-The Posted Worker Notification (PWN) Attestation provides a verifiable digital
-representation of the Posted Worker Notification, enabling structured exchange of posting
-information for use in cross-border labour compliance verification, supplier onboarding, and
-regulatory audit processes by host Member State authorities, procurers, and labour inspectorates.
-
-The PWN is an administrative requirement for companies (legal employers) that provide intra-EU
-cross-border services with their employees, both EU and non-EU nationals, either to a customer
-or into another group entity. The notification must be filed with the authorities of the host EU
-Member State (usually on a government portal) prior to the start of the delivery of the service.
-
-The PWN was introduced pursuant to
-[EU Directive 2014/67/EU](https://eur-lex.europa.eu/eli/dir/2014/67/oj/eng) to enable EU Member
-States to monitor that Posted Workers are protected by the salary and labour conditions set out
-in host legislation and generally binding collective labour agreements, and therefore do not undercut local labour
-force. More or less half of the EU Member States have extended the scope of the PWN also to
-employers based outside the EU providing services with their personnel into the EU.
-
-The labour law protection of posted workers is set out in the Posting of Workers Directive
-(PWD), which was adopted in 1996 and revised in 2018:
-[EUR-Lex - 01996L0071-20200730 - EN - EUR-Lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A01996L0071-20200730)
-
-The **Know Your Employee (KYE)** scenario (Scenario 5) is part of BU1 and will lead to MVP
-and MVP+ implementations using both Natural Person Wallets and Legal Person Wallets.
-The high-level scenario is:
-
-> *"A company A in a country A would like to send one of their employees to work and provide a
-> service to company B in country B."*
-
-This scenario requires the issuance of three main credentials:
-- **Employee Credentials**
-- **Portable Document (PD) A1**
-- **Posted Worker Notification (PWN)**
-
-#### 4.2.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
-
-#### 4.2.9 Validate Integrity Rules
-Validation of integrity and policy rules will be specified in a future version of this Rulebook.
-
-#### 8 References
-| **Item Reference** | **Standard name/details** |
-| --- | --- |
-| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| [HAIP] | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
-| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml |
-| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
-| [ISO 4217] | ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html |
-| [ISO 8601] | ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html |
-| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html |
-| [RFC 2119] | RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
-| [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
-| [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
-| [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
-| [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
-| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09 |
-| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking |
-
 ### 3.2 Mandatory attributes
 
 #### Section 1, Subject Attributes
@@ -640,7 +613,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Country Codes
+#### 4.4.1 Country Codes
 
 All country code attributes **SHALL** use **ISO 3166-1 alpha-2** codes:
 
@@ -660,14 +633,14 @@ All country code attributes **SHALL** use **ISO 3166-1 alpha-2** codes:
 > For the full list of applicable EU/EFTA country codes, refer to the EESSI country code
 > reference list.
 
-#### 2.8.2 Construction Sector Flag
+#### 4.4.2 Construction Sector Flag
 
 | **Value** | **Definition** |
 | --- | --- |
 | true | The home employer operates in the construction sector |
 | false | The home employer does not operate in the construction sector |
 
-#### 2.8.3 Employment Type Codes (for Place of Work section)
+#### 4.4.3 Employment Type Codes (for Place of Work section)
 
 The `id_type` attribute for company identifiers at places of work **SHALL** use one of the
 following standardized values (per EESSI, tbd):
@@ -679,7 +652,7 @@ following standardized values (per EESSI, tbd):
 | 03 | Identifier type 03 (tbd) |
 | 99 | Other / unspecified |
 
-#### 2.8.4 National PWN Context Codes
+#### 4.4.4 National PWN Context Codes
 
 The PWN attestation **SHOULD** include a `host_country_context` indicator to enable
 country-specific validation logic:
@@ -750,7 +723,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `vct: PWNCredential`
 
-#### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference / Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -869,7 +842,7 @@ The `.` notation is used to indicate the nesting of attributes.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
 - Home employer blocks **SHALL** be disclosed as a whole when requested.
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant PWN Attestations, the attestation **MUST** include a `status` claim if
 the technical validity period is greater than 24 hours.
@@ -1050,6 +1023,10 @@ This chapter will be completed in a future version of this Rulebook.
 
 ## 9 Presentation
 
+#### Base Verification Process
+The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md
+
 ### 9.1 Presentation Policy
 
 To verify and validate a received presentation of an attestation of this type, the
@@ -1091,3 +1068,20 @@ at which a machine-readable version can be found or looked up.
 ## 11 References
 
 This chapter will be completed in a future version of this Rulebook.
+
+| **Item Reference** | **Standard name/details** |
+| --- | --- |
+| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
+| [HAIP] | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
+| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
+| [ISO 4217] | ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html |
+| [ISO 8601] | ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html |
+| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html |
+| [RFC 2119] | RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
+| [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
+| [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
+| [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09 |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking |
