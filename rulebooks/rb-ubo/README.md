@@ -500,7 +500,7 @@ No conditional metadata elements are defined for this attestation type.
 
 ### 4.4 Code lists
 
-#### 2.8.1 Document Type Codes
+#### 4.4.1 Document Type Codes
 
 The `person_identifier.document_type` attribute SHALL use one of the following standardised
 values, aligned with ICAO 9303:
@@ -513,7 +513,7 @@ values, aligned with ICAO 9303:
 | `DRIVING_LICENSE` | Driving licence accepted as an identity document |
 | `OTHER` | Any other government-issued identity document |
 
-#### 2.8.2 Threshold Met Codes
+#### 4.4.2 Threshold Met Codes
 
 The `justification.threshold_met` attribute SHALL use one or more of the following
 standardised values, aligned with AMLR Article 3(17):
@@ -563,18 +563,18 @@ standardised values, aligned with AMLR Article 3(17):
 > `"control_voting_25_plus"` (50% voting rights via special shares) AND
 > `"control_management"` (contractual right to appoint the CEO).
 
-#### 2.8.3 Country Codes
+#### 4.4.3 Country Codes
 
 All `country`, `issuing_country`, and `citizenship` attributes SHALL use
 **ISO 3166-1 alpha-2** two-letter country codes.
 
 For a complete list, refer to the [ISO 3166-1 standard](https://www.iso.org/iso-3166-country-codes.html).
 
-#### 2.8.4 Date Formats
+#### 4.4.4 Date Formats
 
 All date attributes SHALL follow the **ISO 8601 YYYY-MM-DD** format.
 
-#### 2.8.5 Source Type Codes
+#### 4.4.5 Source Type Codes
 
 The `source.type` attribute SHOULD use one of the following standardised values:
 
@@ -646,7 +646,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:ubo:1`
 
-#### 3.2.1 Attribute Encoding Table
+#### 5.1.1 Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference / Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -719,7 +719,7 @@ The `.` notation is used to indicate the nesting of attributes.
   source entry SHALL be present per UBO.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 For SD-JWT VC-compliant UBO Attestations, the attestation MUST include a `status` claim if the
 technical validity period is greater than 24 hours. This claim enables Relying Parties to
@@ -746,7 +746,7 @@ The `status` claim SHALL be a JSON object with the following members:
   }
 }
 ```
-#### 3.2.3 Example Payload
+#### 5.1.3 Example Payload
 The following is a non-normative example of a UBO SD-JWT VC payload demonstrating a natural  person qualifying as UBO through direct shareholding and management control:
 ```json
 {
@@ -1015,16 +1015,16 @@ The UBO Attestation serves the core AML/CTF compliance requirement of identifyin
 - Ongoing Monitoring (AMLR Article 25)
 
 When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
-#### 4.2.1 – 4.2.8 Base Verification Process
+#### 9.1.1 – 4.2.8 Base Verification Process
 The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
 https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
 
-#### 4.2.9 Validate Integrity Rule
+#### 9.1.9 Validate Integrity Rule
 - Verify that at least one UBO is present
 - Verify that all AMLR Article 62 mandatory attributes are present for each UBO
 - Verify that each UBO has at least one determination_methodology
 
-##### 4.2.10 UseCaseSpecific: Cross-Reference with Ownership and Control Lists (AMLR Article 60) ###
+##### 9.1.10 UseCaseSpecific: Cross-Reference with Ownership and Control Lists (AMLR Article 60) ###
 
 The AMLR compliance requires independent verification of UBO calculations.
 
@@ -1043,7 +1043,7 @@ The AMLR compliance requires independent verification of UBO calculations.
   - If discrepancies relate to Transparency Register submission → report to register authority per AMLR Article 60
   - If discrepancies cannot be resolved -> risk cases: apply enhanced due diligence or decline relationship
 
-##### 4.2.12 UseCaseSpecific: UBO Identity Verification (AMLR Article 21 Procedure) ####
+##### 9.1.12 UseCaseSpecific: UBO Identity Verification (AMLR Article 21 Procedure) ####
 For each UBO in the UBO  Attestation, the RP SHALL perform identity verification following this hierarchical procedure:
 @TODO Florin Specify the process (relevant in MVP+)
 
