@@ -90,20 +90,20 @@ are intended as statements of fact.
 
 | Term | Definition | Remark |
 |--|--|--|
-| Ownership  | A comprehensive record of all natural and legal persons holding direct or indirect ownership or control in a legal entity, including ownership percentages and supporting evidence | based on what calculation method? Does this cover all legal types? Who is the authentic source? How can we know the information is truthful and recent? |
-| Beneficial Owner / Ultimate Beneficial Owner (UBO) | A natural person who ultimately owns or controls a legal entity, either directly or indirectly (typically defined as holding ≥25% ownership or control, per AMLD requirements)  | Is this ownership info? There are self issued statements and can be very indirect. It is covered in it's own attestation.  |
+| Ownership  | A comprehensive record of all natural and legal persons holding direct or indirect ownership or control in a legal entity, including ownership percentages and supporting evidence | based on what calculation method? (see chapter 4 issuance process). Does this cover all legal types? (all types that want to do business, without identification data) Who is the authentic source? (see chapter 4) How can we know the information is truthful and recent? (see chapter 4) |
+| Beneficial Owner / Ultimate Beneficial Owner (UBO) | A natural person who ultimately owns or controls a legal entity, either directly or indirectly (typically defined as holding ≥25% ownership or control, per AMLD requirements)  | Is this ownership info? There are self issued statements and can be very indirect. It is covered in it's own attestation. (see chapter 4) |
 | Direct Ownership    | Ownership interest held directly by a natural or legal person in the subject entity, without intermediary entities                        |                                                               |
-| Indirect Ownership     | Ownership interest held through one or more intermediary legal entities (e.g., Person A owns 50% of Company B, which owns 60% of Company C → Person A has 30% indirect ownership in Company C) | is this UBO or a trust that issues certificates to employees for instance?         |
+| Indirect Ownership     | Ownership interest held through one or more intermediary legal entities (e.g., Person A owns 50% of Company B, which owns 60% of Company C → Person A has 30% indirect ownership in Company C) | is this UBO or a trust that issues certificates to employees for instance? (exception, handle later)        |
 | Total Ownership      | The sum of direct and indirect ownership percentages across all layers of the ownership structure                                                                 | why do you use percentages? It is derivable if you work with the amount of shares. Or do some memberstates work with a different share system?               |
-| Ownership Category             | Classification of the type of ownership or control relationship (e.g., shareholder, controller via voting rights, trustee, partner, holder of convertible rights, person exercising dominant influence) | do not mention e.g. but state a code list. |
+| Ownership Category             | Classification of the type of ownership or control relationship (e.g., shareholder, controller via voting rights, trustee, partner, holder of convertible rights, person exercising dominant influence) | do not mention e.g. but state a code list. (see 2.8.5) |
 | Legal Entity Identifier Chain                      | The list of all intermediate legal entities through which indirect ownership is held, enabling full traceability of ownership layers                                                                  | this is UBO, It is not ownership, is it?  |
-| KYC                                                | Know Your Customer – due diligence process for verifying customer identity and assessing risk in financial relationships                                                            | how do you catch a process? What specific attributes do you expect?                   |
-| KYS                                                | Know Your Supplier – due diligence process for verifying supplier credentials, integrity, and risk exposure                                                                                  | how do you catch a process?            |
-| PEP                                                | Politically Exposed Person – individual entrusted with prominent public functions, posing higher risk for corruption or bribery                                                                   | Is there a separate attestation for PEP's?     |
-| EUCC                                               | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                                                                |      |
-| Evidence                                           | Supporting documentation substantiating the ownership structure (e.g., shareholder register, organizational chart, trust deed)                                                                    |   using e.g. again. Please define a codelist or an enumeration.   |
-| Legal Arrangement                                  | A non-corporate structure (e.g., trust, foundation, fiduciary arrangement) used to hold assets or exercise control over a legal entity                                                           |  using e.g. again. Please define a codelist or an enumeration.     |
-| Identifier                                         | A formal reference code used to uniquely identify a legal entity (e.g., EUID, LEI, national tax or registry number)                                                                               | using e.g. again. Please define a codelist or an enumeration.     |
+| KYC | Know Your Customer – due diligence process for verifying customer identity and assessing risk in financial relationships                                          | how do you catch a process? What specific attributes do you expect? (explained in a slide from Coptil) |
+| KYS | Know Your Supplier – due diligence process for verifying supplier credentials, integrity, and risk exposure | how do you catch a process? (explained in a slide from Coptil)|
+| PEP | Politically Exposed Person – individual entrusted with prominent public functions, posing higher risk for corruption or bribery                              | Is there a separate attestation for PEP's? (yes, this is a sanction list) |
+| EUCC | EU Company Certificate – attestation establishing the legal existence and identity of a legal entity within the EU                                                                                |      |
+| Evidence | Supporting documentation substantiating the ownership structure (e.g., shareholder register, organizational chart, trust deed) | using e.g. again. Please define a codelist or an enumeration. (see artical 7. There is not a ltype defined. Make a suggestion) |
+| Legal Arrangement | A non-corporate structure (e.g., trust, foundation, fiduciary arrangement) used to hold assets or exercise control over a legal entity                                                           |  using e.g. again. Please define a codelist or an enumeration. (2.8.5) |
+| Identifier | A formal reference code used to uniquely identify a legal entity (e.g., EUID, LEI, national tax or registry number) | using e.g. again. Please define a codelist or an enumeration. (can be any identifier for countries outside EU: so provide EUID, LEI, TAX, registry number) |
 
 ## 2 Attestation Attributes and Metadata
 
@@ -125,18 +125,19 @@ The Owner model follows a hierarchical structure:
 ```
 Owner [1..n]                                    // The person or entity that holds an interest
 ├─ type (enum) (M)                              // "Person" | "Entity"
-├─ jurisdiction (tstr) (M)                      // ISO 3166-1 alpha-2
+
 ├─ person (O, conditional on type="Person")
 │   ├─ first_name (tstr) (M)
 │   ├─ surname (tstr) (M)
 │   ├─ birth_date (date) (O)                    // ISO 8601 YYYY-MM-DD
-│   └─ domicile (Address) (M)                    // The domicile address of a person
+│   └─ domicile (Address) (M)                   // The domicile address of a person ==> point to Address, Florin will point to the person.
 │       ├─ street (tstr) (M)
 │       ├─ house_number (tstr) (M)
 │       ├─ locality (tstr) (M)
 │       ├─ region (tstr) (M)
 │       ├─ postal_code (tstr) (M)
-│       └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
+│       └─ country (tstr) (M)                   // ISO 3166-1 alpha-2
+│    ├─ jurisdiction (tstr) (M)                      // ISO 3166-1 alpha-2
 ├─ entity (O, conditional on type="Entity")
 │   ├─ category (enum) (M)                      // "legal_entity" | "legal_arrangement"
 │   ├─ name (tstr) (M)							
@@ -149,14 +150,14 @@ Owner [1..n]                                    // The person or entity that hol
 │   ├─ jurisdiction (tstr) (M)                  // ISO 3166-1 alpha-2
 │   ├─ legal_form (tstr) (M)                    
 │   ├─ form (tstr) (M)                          // See Section 2.8.6
-│   ├─ registeredAddress (Address) (M)         // The registered address of an economic operator (entity)
+│   ├─ registeredAddress (Address) (M)          // The registered address of an economic operator (entity)
 │   │   ├─ street (tstr) (M)
 │   │   ├─ house_number (tstr) (M)
 │   │   ├─ locality (tstr) (M)
 │   │   ├─ region (tstr) (M)
 │   │   ├─ postal_code (tstr) (M)
-│   │   └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
-│   └─ subtype_info (object) (O)                // Mandatory when category = "legal_arrangement"
+│   │   └─ country (tstr) (M)                   // ISO 3166-1 alpha-2
+│   └─ subtype_info (object) (O)                // Mandatory when category = "legal_arrangement" see 2.8.4 and similar. It is free text!
 │       ├─ settlement (tstr) (M)                // Founding instrument or trust deed
 │       ├─ purpose (tstr) (M)                   // Declared purpose of the arrangement
 │       ├─ assets (tstr) (M)                    // Assets held within the arrangement
@@ -177,8 +178,9 @@ Owner [1..n]                                    // The person or entity that hol
 │  └─ data (base64) (O)                        // Base64-encoded — required if url absent
 ```
 *Note*: M - mandatory / O - optional.
-**strange modelling, owner.type is derivable. jurisdiction is mentioned on two levels, are they different? subtype_info are all strings; how do you consume this information in the wallet or system behined the wallet? Is it a human? Try defining a codelist!**
+**strange modelling, owner.type is derivable. jurisdiction is mentioned on two levels, are they different? Yes, oner is for person, other is the entity. so put it in person, one level lower. subtype_info are all strings; how do you consume this information in the wallet or system behined the wallet? Is it a human? Try defining a codelist!**
 **Explanation:**
+
 - The attestation SHALL contain at least one `Owner` entry of `type = "Person"` to comply with
   AML requirements mandating identification of the natural persons who ultimately own or control
   the entity (Ultimate Beneficial Owners).
@@ -296,6 +298,8 @@ These terms describe natural persons who hold ownership or economic interests in
 ---
 
 #### Terms primarily relevant to an `Entity` Owner (as `LegalEntity` or `LegalArrangement`)
+
+**(to be determined when ther semantic model is done on ownership.)**
 
 These terms describe legal entities and legal arrangements that hold ownership or economic
 interests in another legal entity.
