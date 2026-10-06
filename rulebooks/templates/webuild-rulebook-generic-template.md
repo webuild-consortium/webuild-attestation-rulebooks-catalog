@@ -168,15 +168,18 @@ FIXED
 > required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
 > Where a recommendation is not followed, the reason is stated below.
 
+**Non-qualified self-issued EAA (S-EAA)** 
+
+> This attestation is not a qualified electronic attestation of attributes.
+> It is based on self-asserted information, issued and used exclusively within a defined closed ecosystem,
+> and governed by its specific trust and governance framework.
+> It acts as the asserting party, not providing a trust service to others as described in Article 2 (2) of Regulation (EU) 2024/1183.
+> From a technical perspective, there is no difference between an EAA and a S-EAA
+
 **EBWOID**
 
 > TO AGREE. Do not assert qualified status unless the issuer is a QTSP, and do not
 > cite Annex V or Annex VII by default.
->
-> **Self-issued EAA (S-EAA)**
-
-> A S-EAA is issued to the own EBW by the EBW owner. A business uses its own EBW to digitally sign and present its own information to another party within a closed ecosystem governed by bilateral contracts or ecosystem contracts. It is acting as the asserting party, not providing a trust service to others. The level of liability remains on the transaction itself and is governed by contract law and not by eIDAS trust service liability. eIDAS2.0 Regulation (EU) 2024/1183 Article 2(2) implicitly excudes S-EAAs by stating :„ 2. This Regulation does not apply to the provision of trust services that are used exclusively within closed systems resulting from national law or from agreements". 
-There is no difference from a technical perspective between an EAA and a S-EAA.
 
 ### 2.3 Traceability
 
