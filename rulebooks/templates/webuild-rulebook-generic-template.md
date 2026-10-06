@@ -560,7 +560,7 @@ FIXED
 > 1.  **Cryptographic Integrity Verification (Tamper Proof):**
 >     The Verifier **MUST** verify that the received attestation data has not been altered or tampered with since its issuance. The wallet shall validate the digital signature over the attestation using a trusted public key (trust anchor) obtained according to the framework detailed in Chapter 10.
 > 2.  **Issuer Authentication and Trust Evaluation:**
->      The Verifier **MUST** verify the identity and regulatory standing of the Attestation Provider. The Verifier **MUST** verify that a trust anchor (Qualified Trust Service Provider (QTSP) for EAAs (EBWOID check), or the designated national Supervisory Body for other attestation (EBWOID checks or X.509)), has confirmed that the attestation issuer owned the public key corresponding to the private key used to sign the verified attestation at the time of issuance.
+>      The Verifier **MUST** verify the identity and regulatory standing of the Attestation Provider. The Verifier **MUST** verify that a trust anchor (Qualified Trust Service Provider (QTSP) for EAAs or the designated national Supervisory Body for other attestation), has confirmed that the attestation issuer owned the public key corresponding to the private key used to sign the verified attestation at the time of issuance.
 > 3.  **Temporal Validity Verification:**
 >      The Verifier **MUST** verify that the attestation is within its stated validity window. An attestation that has not yet taken effect or has already expired **SHOULD** be accepted, regardless of any other successful checks.
 > 4.  **Revocation Status Verification:**
@@ -569,7 +569,7 @@ FIXED
 >     *   The remaining lifetime of the attestation is below the designated revocation time threshold.
 > 5.  **Holder Wallet and Device Binding Verification:**
 > Where the attestation is device-bound according to section 7.1, the Verifier **MUST** verify the Holder's presentation signature and the presentation's binding to achieve two critical security checks:
->     *   Ensure that the presenter has not submitted a copied or replayed attestation (e.g., presenting a copied EBWOID belonging to a different legal entity).
+>     *   Ensure that the presenter has not submitted a copied or replayed attestation 
 >     *   Validate that the presented attestation was issued to this exact presenting wallet instance.
 
 [AUTHOR] Add obligations specific to this attestation type below. Do not edit the
