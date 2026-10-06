@@ -66,23 +66,25 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
-his attestation addresses the following question:
+This attestation addresses the following question:
 
-Does this legal entity hold a valid ESG-related certificate (e.g., ISO 9001, ISO 14001, IATF 16949) and what is its certified scope?
+**Does this legal entity hold a valid ESG-related certificate (e.g., ISO 9001, ISO 14001, IATF 16949) and what is its certified scope?**
 
 The ESG Certificate Attestation provides a standardized, verifiable digital representation of Environmental, Social, and Governance certificates held by a legal entity, enabling structured exchange of certification data for use in KYS, supplier onboarding, compliance verification, and regulatory audit processes.
 
 The issuers of the certificate are:
-
-    (a) Accredited issuers — certification bodies authorized to issue ESG-related certificates (e.g., Bureau Veritas, TÜV, DNV).
-    (b) Legal entities — companies that own certificates that are still valid but need to present the data as an EAA during onboarding to their customers.
+- **(a) Accredited issuers** — certification bodies authorized to issue ESG-related certificates
+  (e.g., Bureau Veritas, TÜV, DNV).
+- **(b) Legal entities** — companies that own certificates that are still valid but need to present
+  the data as an EAA during onboarding to their customers.
 
 The relying parties are:
+- **(1) Procurers** checking compliance and conducting supplier audits.
+- **(2) Authorities** (e.g., customs) that verify ESG attestations.
 
-    (1) Procurers checking compliance and conducting supplier audits.
-    (2) Authorities (e.g., customs) that verify ESG attestations.
-
-This schema has been verified for use with the following certificate types, including but not limited to: ISO 9001, IATF 16949, DIN EN ISO 45001, DIN EN ISO 14001, DIN EN ISO 50001, AEO, and others. The ESG Certificate Attestation is based on the schema defined in this document
+This schema has been verified for use with the following certificate types, including but not
+limited to: **ISO 9001, IATF 16949, DIN EN ISO 45001, DIN EN ISO 14001, DIN EN ISO 50001,
+AEO**, and others. The ESG Certificate Attestation is based on the schema defined in this document.
 
 ### 1.1 Document scope and purpose
 
