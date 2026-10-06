@@ -168,13 +168,15 @@ FIXED
 > required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
 > Where a recommendation is not followed, the reason is stated below.
 
-**Non-qualified self-issued EAA (S-EAA)** 
+**Non-qualified self EAA (S-EAA)** 
 
-> This attestation is not a qualified electronic attestation of attributes.
-> It is based on self-asserted information, issued and used exclusively within a defined closed ecosystem,
-> and governed by its specific trust and governance framework.
-> It acts as the asserting party, not providing a trust service to others as described in Article 2 (2) of Regulation (EU) 2024/1183.
-> From a technical perspective, there is no difference between an EAA and a S-EAA
+> This attestation is a subtype of non-qualified electronic attestation of attributes.
+> From a technical perspective, there is no difference between an EAA and a S-EAA.
+> The difference lies in the legal aspect in regard to issuer liability.
+> It is based on self owned information, issued and used exclusively within a defined closed ecosystem
+> and governed by its specific trust and governance framework, which have no effect on third parties.
+> The issuer is not providing a trust service to others as described in Article 2 (2) of Regulation (EU) 2024/1183 
+> therefore, TSP liability defined with-in eIDAS not apply, the liability is covered by contract law or existing contracts.
 
 **EBWOID**
 
