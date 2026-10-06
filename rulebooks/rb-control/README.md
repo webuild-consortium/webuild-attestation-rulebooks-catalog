@@ -70,6 +70,13 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**Who exercises effective control over this legal entity?**
+
+A Controller is any natural person, legal entity, or legal arrangement that directly or  indirectly exercises effective control over a legal entity.
+
+
 ### 1.1 Document scope and purpose
 
 The Control Attestation records all natural persons, legal entities, and legal arrangements
