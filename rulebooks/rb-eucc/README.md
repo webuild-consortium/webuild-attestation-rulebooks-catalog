@@ -1,6 +1,6 @@
-# Attestation Rulebook for attestations of type EUCC Certificate
+# Attestation Rulebook for attestations of type EU Company Certificate (EUCC)
 
-Category: non-qualified EAA
+Category: PuB-EAA
 
 
 
@@ -138,10 +138,11 @@ uses the terminology of Annex 1 of the ARF.
 
 ### 2.2 Regulatory basis
 
-This attestation is not a qualified electronic attestation of attributes. The data
-described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
-required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
-recommendation is not followed, the reason is stated below.
+This attestation includes the data required by Annex VII of Regulation (EU) 2024/1183,
+points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-017, EW-DM-12-019, EW-DM-12-021
+and EW-DM-12-023 respectively. It is issued by or on behalf of a public sector body
+responsible for an authentic source: the business register of the Member State of
+registration.
 
 ### 2.3 Traceability
 
@@ -150,10 +151,10 @@ marked not applicable carry a stated reason.
 
 | Requirement | Legacy ID | Applies | Satisfied in section | Note |
 | --- | --- | --- | --- | --- |
-| EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM permitted for this category; no encoding defined in this version |
+| EW-DM-12-001 | ARB_01a | yes | 5 | SD-JWT VC only; W3C VCDM is not permitted for a PuB-EAA, section 5.3 is retained as an informative working profile |
 | EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC following the HAIP profile |
 | EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope |
-| EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
+| EW-DM-12-005 | ARB_04 | no |  | W3C VCDM is not permitted for a PuB-EAA; see the note in section 5.3 |
 | EW-DM-12-006 | ARB_05 | yes | 5 | Unique vct for this attestation type |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
 | EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
@@ -161,19 +162,19 @@ marked not applicable carry a stated reason.
 | EW-DM-12-010 | ARB_07 | yes | 3 | Attributes reused from the catalogued vocabulary where one exists |
 | EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
 | EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
-| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA |
-| EW-DM-12-015 | ARB_12 | yes | 4.1 | EAA indication for a non-qualified EAA |
-| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-018 for the non-qualified case |
-| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2 | Point c, recommendation for non-qualified EAA |
-| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 4.2 | Point e, recommendation for non-qualified EAA |
-| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Trust anchor location and the trust framework |
+| EW-DM-12-014 | ARB_11 | yes | 3.2 | `attestation_legal_category` carries the Annex VII point a indication |
+| EW-DM-12-015 | ARB_12 | no |  | Applies to non-qualified EAA only |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-017 for a PuB-EAA, through `issuing_authority` and `issuing_country` |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2, 3.2 | Point c, EW-DM-12-019, through the company identification attributes |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 4.1 | Point e, EW-DM-12-021, through `expiry_date` and the issuance metadata |
+| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Point h, EW-DM-12-023: `trust_anchor` locates the qualified certificate that signed the attestation |
 | EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
-| EW-DM-12-030 | ARB_26 | yes | 10 | Trust anchor publication for non-qualified EAA |
-| EW-DM-12-031 | ARB_27 | no |  | This attestation does not require the Relying Party to verify a PID |
+| EW-DM-12-030 | ARB_26 | no |  | Applies to non-qualified EAA only |
+| EW-DM-12-031 | ARB_27 | no |  | The holder is a legal person identified through the EBWOID; see section 7.1 |
 | EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
 | EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
 | EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
-| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
+| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding MAY apply; justification in section 7.1 |
 
 ## 3 Attestation attributes
 
@@ -182,84 +183,12 @@ encoding of each attribute is given in chapter 5.
 
 ### 3.1 Introduction
 
-*This section is used for defining all attributes that an
-attestation of the defined type may contain. In this section
-the attributes SHALL be defined in an encoding-independent manner (see ARB_06 in [Topic 12]). 
-Each attribute can be mandatory, optional, or conditional, 
-and it SHALL be specified in the corresponding section (see ARB_09 in [Topic 12]).*
-
-*When attributes are defined, referring to attributes that
-already exist in a catalogue of attestation attributes 
-SHOULD be considered (see ARB_07 in [Topic 12]).*
-
-*[Topic 12] of Annex 2 of the ARF defines the following High-Level Requirements with
-respect to the Attestation Rulebooks*
-
-**Requirements for QEAA**
-* An attribute as meant in Annex V point a) of the [European Digital Identity Regulation] 
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1. 
-* One or more attributes or metadata representing the set of data meant in Annex 
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_13 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point c)  
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex V point e) 
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* One or more attributes or metadata representing the location meant in Annex V point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL 
-indicate at least the URL at which a machine-readable version of the trust anchor to be
-used for verifying the QEAA can be found or looked up (see ARB_20 in [Topic 12])
-
-**Requirements for PuB-EAA**
-* Αn attribute as meant in Annex VII point a) of the [European Digital Identity Regulation] 
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* Οne or more attributes or metadata representing the set of data meant in Annex
- VII point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_14 in [Topic 12]).
-* Οne or more attributes representing the set of data meant in Annex VII point c) 
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* Οne or more attributes or metadata representing the set of data meant in Annex VII point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* one or more attributes or metadata representing the location meant in Annex VII point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL 
-indicate at least the URL at which a machine-readable version of the qualified 
-certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [Topic 12]) 
-
-**Requirements for non-qualified EAA**
-* An attribute indicating that the attestation is an EAA should be included (see ARB_12 in [Topic 12]).
-See also section 2.1.
-* Οne or more attributes or metadata representing the set of data meant in Annex 
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_15 in [Topic 12]).
-* Οne or more attributes representing the set of data meant in Annex V point c) of the 
-[European Digital Identity Regulation] SHOULD be included (see ARB_17 in [Topic 12])
-* Οne or more attributes representing the set of data meant in Annex V point e) of 
-the [European Digital Identity Regulation] SHOULD be defined (see ARB_19 in [Topic 12]).
- * Οne or more attributes or metadata representing the location at which a machine-readable 
-version of the trust anchor to be used for verifying the EAA can be found or
-looked up SHOULD be defined. What this location indicates precisely is dependent 
-on the nature of the mechanism used for distributing trust anchors, detailed in section 
-5 (see ARB_21 in [Topic 12])
-
-The attestation attributes are defined in the tables of Chapter 2 of this document. These tables contain the following information:
+The attestation attributes are defined in the tables of this chapter. These tables contain the following information:
 - The first column specifies the identifiers of the attestation attributes. The attribute identifiers in this column SHALL be used in requests and responses. There SHALL be at most one attribute with the same attribute identifier in each attestation attribute.
 - The second column describes the meaning of the attribute.
 - The third column specifies whether the presence of the attribute in an attestation is mandatory (M), or optional (O).
     - NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.
 - The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].
-
-#### TODO
-
-(Refer to [Topic 7] of the ARF for a list of High-Level Requirements related to Revocation)
-
-*In this section information about the revocation mechanism used SHALL be defined.* 
-
-*For PID, QEAA, or PuB-EAA it SHALL be defined whether only short-lived attestations 
-will be used, having a validity period of 24 hours or less, such that revocation 
-will never be necessary, or that the attestations are revocable.* 
-
-*For revocable attestations it SHALL be defined which of the following methods must be implemented:*
-* Use an Attestation Status List mechanism included in a Technical Specification 
-that will be specified by the Commission.
-* Use an Attestation Revocation List mechanism included in a Technical Specification 
-that will be specified by the Commission.
 
 #### 3.1.1 Overview attributes attestation
 
@@ -267,7 +196,7 @@ The following table combines all attestation attributes for the EUCC (mandatory,
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
 | --- | --- | --- | --- | --- |
-| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | M | string |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | `Pub-EAA`; the EUCC is issued as a public sector body EAA | M | string |
 | legal_person_name | [legalName](https://w3id.org/ebwv#legalName) | Official current legal person name as registered in the business register. | M | string |
 | legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
 | legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
@@ -341,7 +270,7 @@ Metadata describes the attestation rather than its subject.
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
 Section 4.1 of the generic template replaces it with the `category` attribute of
-[ETSI TS 119 472-1], whose value for this category is `eaa:eu:non-qualified`.
+[ETSI TS 119 472-1], whose value for this category is `urn:etsi:esi:eaa:eu:pub`.
 EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
 `attestation_legal_category`, so the template and the ARF disagree. The attribute is
 left as written and the deviation is recorded for the rulebook quality assurance group.
@@ -399,6 +328,12 @@ Values:
 
 ## 5 Formats
 
+| Format | Supported | Identifier | Specification | Notes |
+| --- | --- | --- | --- | --- |
+| ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Not defined; no proximity presentation requirement, see section 5.2 |
+| SD-JWT VC | yes | `vct` `uri:eu.eudi.eucc.1` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile, see section 5.1 |
+| W3C VCDM | no |  | [W3C VCDM v2.0] | Not permitted for a PuB-EAA (EW-DM-12-001); section 5.3 is an informative working profile |
+
 
 ### 5.1 SD-JWT VC-based encoding
 
@@ -414,7 +349,7 @@ The . notation is used to indicate the nesting of attributes.
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** |
 | --- | --- | --- | --- |
-| attestation_legal_category | attestation_legal_category | string | One of EAA, Pub-EAA, QEAA as defined by eIDAS 2 |
+| attestation_legal_category | attestation_legal_category | string | `Pub-EAA` as defined by eIDAS 2 |
 | issuing_authority | iss | string | RFC 7519 / Section 2.6 |
 | expiry_date | exp | number | RFC 7519 / Section 2.6 (Unix timestamp) |
 | issuing_country | issuing_country | string | ISO 3166-1 alpha-2 |
@@ -465,19 +400,18 @@ For SD-JWT VC-compliant EUCCs, the EUCC MUST include a status claim if the techn
 
 The status claim SHALL be a JSON object with the following members:
 
-* 'type' (string): SHALL be "status-list".
-* 'status_list_credential' (string, URI): The URI of the Status List Credential document that contains the status bitstring.
-* 'status_list_index' (integer, >= 0): The zero-based index into the status list bitstring that corresponds to this credential.
-* 'status_purpose' (string): SHALL be "revocation" for this PID.
+* `status_list` (object): the reference to this EUCC's entry in a Token Status List, as specified in CS-10 of the WE BUILD conformance specifications and in the IETF Token Status List.
+* `status_list.idx` (integer, >= 0): the index of this EUCC in the status list.
+* `status_list.uri` (string, URI): the URI of the Status List Token.
 
 Example:
 ```json
 {
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/1",
-    "status_list_index": 42,
-    "status_purpose": "revocation"
+    "status_list": {
+      "idx": 42,
+      "uri": "https://issuer.example.com/statuslists/1"
+    }
   }
 }
 ```
@@ -491,11 +425,16 @@ ISO/IEC 18013-5 (also called mdoc) is out of scope for this rulebook, as offline
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
+> Note: EW-DM-12-001 (ARB_01a) permits the W3C Verifiable Credentials Data Model format for
+> non-qualified EAA only. As a PuB-EAA the EUCC is not issued in this format. The encoding below
+> is retained as an informative working profile of the EU Business Wallet ecosystem, pending a
+> consortium decision, and the deviation is recorded for the rulebook quality assurance group.
+
 W3C Verifiable Credentials are serialized using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) are SHACL (data graph) can be used to validate data - see [Data Schemas](https://www.w3.org/TR/vc-data-model-2.0/#data-schemas).
 
 #### Metadata
 The metadata of an W3C Verifiable Credential are defined in the [Verifiable Credentials Vocabulary v2.0](https://www.w3.org/2018/credentials/). The following extensions are defined in the [European Business Wallet Vocabulary](https://w3id.org/ebwv) in order to support Electronic Attestions of Attributes:
-* [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) in order to specify the category of the EAA (QEAA, Pub-EAA or EAA).
+* [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) in order to specify the category of the EAA, `Pub-EAA` for the EUCC.
 
 #### Credential Subject
 
@@ -524,7 +463,7 @@ example of key binding using DID's:
     "VerifiableCredential",
     "ElectronicAttestationOfAttributes"
   ],
-  "attestationLegalCategory": "QEAA",
+  "attestationLegalCategory": "Pub-EAA",
   "credentialSubject": {
     "@id": "did:key:$publicKeyOfHolder$", // credential subject is bound to organisation
     "@type": [
@@ -614,6 +553,11 @@ as profiled by [HAIP].
 | Relying Party must also verify a PID | no | EW-DM-12-031 |
 | Binding subject | legal person |  |
 
+The EUCC is a legal-person attestation held in an EU Business Wallet and identified through
+the EBWOID, so the PuB-EAA defaults of binding to a natural person's device and to the PID
+do not apply. Device binding MAY be applied to the key of the business wallet unit, and no
+`cryptographically_bound_to` attribute is used.
+
 ### 7.2 Issuance Policy
 
 The EUCC is intended to be used as a standardised, machine-verifiable proof of a company's incorporation and registered company information, to be presented by a Wallet User to an RP in cross-border and domestic contexts.
@@ -648,6 +592,17 @@ underlying facts change, revoking the superseded attestation as described in cha
 This attestation defines no embedded disclosure policy.
 
 ## 8 Revocation
+
+Attestations of this type are revocable. The facts attested by an EU Company Certificate
+change when the company's registration changes, and the superseded attestation is revoked
+when a new one is issued (section 7.3).
+
+Revocation status is published using a Token Status List, as specified in CS-10 of the
+WE BUILD conformance specifications and in the IETF Token Status List. Every revocable
+EUCC carries a `status` claim with a `status_list` object holding the `idx` of its entry
+and the `uri` of the Status List Token (section 5.1.1). The business register that issued
+the EUCC, or a Status Provider acting on its behalf, publishes the status. The expected
+time from the registration change to the status list update is to be stated by the authors.
 
 
 ## 9 Presentation
@@ -706,44 +661,31 @@ This Rulebook defines no transactional data.
 
 ## 10 Trust Framework
 
-#TODO
+The trust anchor for this attestation is obtained as described below for a PuB-EAA. The trust
+anchor location applies in either case.
 
+**PuB-EAA**
 
-*Mechanisms for the provision of a trust anchor that SHALL
-be used for the verification of an attestation SHALL be defined in this section.*
-
-*It is noted that the ARF specifies the following for QEAAs and Pub-EAAs*
-
-> To do this for [...] QEAAs the Relying Party Instance uses a trust anchor of
-> the Provider obtained from a Trusted List. Note that the PID Provider or QEAA
-> Provider may use an intermediate signing certificate to sign the PID or
-attestation and use the trust anchor to sign the signing certificate, instead
-> of signing the PID or attestation directly with the trust anchor.
-
-> For PuB-EAAs, the Relying Party Instance verifies a PuB-EAA by first
-> verifying the signature of the PuB-EAA Provider over the PuB-EAA, using the
-> PuB-EAA Provider certificate issued by a QTSP. Subsequently, the Relying Party
-> Instance verifies the signature over this certificate, using the corresponding
-> trust anchor from the QTSP Trusted List. Note that both the PuB-EAA Provider
-> and the QTSP may use an intermediate signing certificate. All other things
-> being equal, the verification of a PuB-EAA will therefore involve one or more
-> extra certificates, compared to the verification of a PID or QEAA.
-
-*For non-qualified EAA in this section it SHOULD be defined (see ARB_26 in [Topic 12])
-how the attributes or metadata representing the location at which a machine-readable 
-version of the trust anchor to be used for verifying the attestation can be found,
-specified in section 2, are used. This includes a detailed description about how
-a Relying Party can obtain the trust anchor, as well as a detailed description about
-how this trust anchor can be used for verifying that the provider is authorised
-to issue the attestation. Additionally, for non-qualified EAA Provider this section
-MAY include a description of mechanisms that can be used by a Wallet Unit for
-verifying that the provider is authorised to issue this type of attestation (see 
-ISSU_34 in [Topic 10])*
+The Relying Party verifies a PuB-EAA by first verifying the signature of the PuB-EAA Provider
+over the attestation, using the PuB-EAA Provider certificate issued by a qualified trust
+service provider. It then verifies the signature over that certificate using the corresponding
+trust anchor from the QTSP Trusted List, as described in section 6.6.3.6 of the ARF main
+document. Both the PuB-EAA Provider and the QTSP may use an intermediate signing certificate,
+in which case the trust anchor is used to verify that certificate rather than the attestation
+directly.
 
 **Trust anchor location**
 
 The attribute or metadata carrying the trust anchor location contains at least the URL
-at which a machine-readable version can be found or looked up.
+at which a machine-readable version can be found or looked up. For a PuB-EAA this location
+refers to the qualified certificate that signed the attestation (EW-DM-12-023); in this
+Rulebook it is the `trust_anchor` metadata of section 4.2.
+
+**Deployment profile**
+
+#TODO: the authors are to record how the business registers' certificates are distributed in
+the WE BUILD deployment, how a Relying Party or Wallet Unit looks them up, and the ordered
+verification steps.
 
 ## 11 References
 
