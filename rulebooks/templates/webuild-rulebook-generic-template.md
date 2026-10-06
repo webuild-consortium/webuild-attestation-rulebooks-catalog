@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type [ATTESTATION TYPE]
 
-Category: [PID / EBWOID / QEAA / PuB-EAA / non-qualified EAA]
+Category: [PID / EBWOID / QEAA / PuB-EAA / non-qualified EAA / non-qualified self EAA ]
 
 Generic WE BUILD template, structure agreed at the rulebook quality assurance workshop. Aligned to ARF v3.0.0 (21 July 2026) and EC attestation rulebook template v1.5 (8 July 2026).
 
@@ -51,9 +51,9 @@ leave it alone. Strip all three before submission to the EC catalogue.
    * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
-- [9 Request, Presentation and Verification](#9-presentation)
-   * [9.1 Relying Party Role ( RP Instance - EUDI Wallet)](#91-rp-role)
-   * [9.2 Relying Party Role ( RP Instance - EUDI Wallet)](#91-ebw-rp-role)
+- [9 Request, Presentation and Verification](#9-request-presentation-and-verification)
+   * [9.1 Relying Party Role ( RP Instance - EUDI Wallet)](#91-relying-party-role--rp-instance---eudi-wallet)
+   * [9.2 Relying Party Role ( RP Instance - EUDI Wallet)](#92-ebw-relying-party-role--ebw-wallet---ebw-wallet)
    * [9.3 Presentation modes](#93-presentation-modes)
    * [9.4 Transactional data](#94-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
@@ -171,13 +171,15 @@ FIXED
 
 **Non-qualified self EAA (S-EAA)** 
 
-> This attestation is a subtype of non-qualified electronic attestation of attributes.
-> From a technical perspective, there is no difference between an EAA and a S-EAA.
-> The difference lies in the legal aspect in regard to issuer liability.
-> It is based on self owned information, issued and used exclusively within a defined closed ecosystem
-> and governed by its specific trust and governance framework, which have no effect on third parties.
-> The issuer is not providing a trust service to others as described in Article 2 (2) of Regulation (EU) 2024/1183 
-> therefore, TSP liability defined with-in eIDAS not apply, the liability is covered by contract law or existing contracts.
+> This attestation is a subtype of a non-qualified electronic attestation of attributes.
+> From a technical perspective, there is no difference between an EAA and an self EAA.
+> The distinction lies primarily in the legal framework, particularly with regard to issuer liability.
+> A self EAA is based on information owned or self-asserted by the issuer and
+> is issued and used exclusively within a defined closed ecosystem
+> and is intended to have no effect on third parties.
+> Where Article 2(2) eIDAS applies, the service falls outside the scope of eIDAS;
+> consequently, the eIDAS TSP liability regime does not apply, and
+> liability is governed by applicable contractual and national law.
 
 **EBWOID**
 
@@ -546,7 +548,7 @@ TO AGREE. The consortium default for this chapter is an open decision.
 attestation type, in addition to any grounds already imposed by regulation. State the
 expected time from trigger to status list update.
 
-# Chapter 9: Request, Presentation and Verification
+# 9. Request, Presentation and Verification
 
 ## 9.1. Relying Party Role ( RP Instance - EUDI Wallet)
 
