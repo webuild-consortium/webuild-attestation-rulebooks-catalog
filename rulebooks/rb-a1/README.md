@@ -1,4 +1,6 @@
-# Attestation Rulebook for attestations of type Portable Document A1 (PD A1)
+# Attestation Rulebook for attestations of type Portable Document A1
+
+Category: non-qualified EAA
 
 * Author(s):
   * [Philipp Friedl, DRV Bund]
@@ -10,9 +12,6 @@
   * [Florin Coptil, Robert Bosch GmbH]
   * [Artur Philipp, DRV Bund]
 
-| Version | Date       | Description                                                     |
-|---------|------------|-----------------------------------------------------------------|
-| 0.1     | 01.05.2026 | Initial draft based on the WeBuild design attestations meetings |
 
 * Contact:
   * [Philipp Friedl - DRV Bund](mailto:philipp.friedl@drv-bund.de)
@@ -20,6 +19,55 @@
 * Feedback:
 
 ---
+
+| Version | Date | Description |
+| --- | --- | --- |
+| 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+
+**Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
+
+**Feedback:** [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues)
+
+## Table of contents
+
+- [1 Introduction](#1-introduction)
+   * [1.1 Document scope and purpose](#11-document-scope-and-purpose)
+   * [1.2 Document structure](#12-document-structure)
+   * [1.3 Key words](#13-key-words)
+   * [1.4 Terminology](#14-terminology)
+- [2 Compliance](#2-compliance)
+   * [2.1 Compliance statement](#21-compliance-statement)
+   * [2.2 Regulatory basis](#22-regulatory-basis)
+   * [2.3 Traceability](#23-traceability)
+- [3 Attestation attributes](#3-attestation-attributes)
+   * [3.1 Introduction](#31-introduction)
+   * [3.2 Mandatory attributes](#32-mandatory-attributes)
+   * [3.3 Optional attributes](#33-optional-attributes)
+   * [3.4 Conditional attributes](#34-conditional-attributes)
+- [4 Metadata](#4-metadata)
+   * [4.1 Mandatory metadata](#41-mandatory-metadata)
+   * [4.2 Optional metadata](#42-optional-metadata)
+   * [4.3 Conditional metadata](#43-conditional-metadata)
+   * [4.4 Code lists](#44-code-lists)
+   * [4.5 Integrity rules](#45-integrity-rules)
+- [5 Formats](#5-formats)
+   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
+- [6 Protocols](#6-protocols)
+- [7 Issuance](#7-issuance)
+   * [7.1 Binding](#71-binding)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
+   * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
+- [8 Revocation](#8-revocation)
+- [9 Presentation](#9-presentation)
+   * [9.1 Presentation Policy](#91-presentation-policy)
+   * [9.2 Presentation modes](#92-presentation-modes)
+   * [9.3 Transactional data](#93-transactional-data)
+- [10 Trust Framework](#10-trust-framework)
+- [11 References](#11-references)
+
 
 ## 1 Introduction
 
@@ -46,13 +94,13 @@ This scenario requires the issuance of three main credentials:
 - **Posted Worker Notification (PWN)**
 - **Employee Credential**
 
-### 1.1 Document Scope and Purpose
+### 1.1 Document scope and purpose
 
 The PD A1 Attestation provides a standardized, verifiable digital representation of the
 Portable Document A1. The main legal basis is:
 - **Regulation (EC) No. 883/2004** on the coordination of social security systems
   (especially Articles 11–16)
-- **Regulation (EC) No. 987/2009** — implementing regulation
+- **Regulation (EC) No. 987/2009**, implementing regulation
 - National legislation regarding social security in EU/EFTA member states (and the United Kingdom)
 
 **Design Decisions**
@@ -78,230 +126,272 @@ This PD A1 Attestation Rulebook is based on:
 - Selective Disclosure **SHALL NOT** be possible on single-element level, but based on logical
   blocks as defined by SD element groups. For example, it is only possible to disclose a whole
   address block, not just the street without the town.
-- As specific Relying Parties may — according to GDPR — not have the right to
+- As specific Relying Parties may, according to GDPR, not have the right to
   request/receive all data, there **SHOULD** be accreditation-based presentation policy options
   according to the modular SD-element-group design.
 - A binding mode indicator (e.g., PID binding, Wallet Instance binding, no binding) **SHALL**
   be included as a technical parameter.
 
-### 1.2 Document Structure
+### 1.2 Document structure
 
-This Rulebook is structured as follows:
+This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.
 
-- **Chapter 2** describes the PD A1 attestation attributes and metadata in an
-  encoding-independent manner, including the data model.
-- **Chapter 3** specifies how the attestation attributes and metadata are encoded: Section 3.2
-  covers SD-JWT VC-based encoding.
-- **Chapter 4** specifies attestation usage scenarios, Relying Party obligations, and integration
-  with KYE workflows.
-- **Chapter 5** defines trust anchors and verification mechanisms for issuer authorization.
-- **Chapter 6** defines revocation mechanisms for the attestation.
-- **Chapter 7** provides compliance information regarding the EUDI framework and applicable
-  data protection laws.
-- **Chapter 8** provides references to applicable standards and specifications.
+### 1.3 Key words
 
-### 1.3 Keywords
+This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.
 
-This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as specified in
-[RFC 2119], i.e. to indicate requirements, recommendations and options specified in this
-document.
-
-In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e. a
-requirement that is not mandated by this document, but, for instance, by an external document.
-The word 'can' indicates a capability, whereas other words, such as 'will', and 'is' or 'are'
-are intended as statements of fact.
+In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 
 ### 1.4 Terminology
 
 *Additional terminology specific to this attestation:*
 
-| **Term**               | **Description**                                                                                                                                                                                 |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| PD A1                  | Portable Document A1 — a certificate documenting the applicable social security legislation for a citizen in a cross-border employment situation within the EU/EFTA area (and UK)                         |
-| Posted Worker          | A citizen employed in one EU/EFTA member state ("sending state") who is temporarily sent to work in another member state ("receiving state") for a maximum of 24 months                         |
-| Sending State          | The EU/EFTA member state whose social security legislation remains applicable to the posted worker during the posting period                                                                      |
-| Receiving State        | The EU/EFTA member state where the posted worker temporarily performs work                                                                                                                       |
-| Competent Institution  | The national social security institution of the sending state authorized to issue the PD A1 certificate                                                                                          |
-| PIN                    | Personal Identification Number — currently mostly a Social Security Number of the citizen                                                                                                             |
-| PWN                    | Posted Worker Notification — an administrative requirement for companies providing intra-EU cross-border services with posted workers, filed with the host EU Member State authorities            |
-| Employee Credential    | A credential issued by an employer to its employees to certify that they are part of the company at a given point in time                                                                        |
-| KYE                    | Know Your Employee — a due diligence scenario (Scenario 5 / BU1) enabling companies to verify employee identity and posting status in cross-border work situations                               |
-| EESSI                  | Electronic Exchange of Social Security Information — the EU system for electronic exchange of social security data between member state institutions                                             |
-| SD Element Group       | A logical group of attributes that are disclosed together as a unit under Selective Disclosure (SD-JWT); disclosure is at group level, not at individual field level                              |
-| EAA                    | Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                                               |
-| PuB-EAA                | Electronic Attestation of Attributes issued by or on behalf of a public sector body responsible for an authentic source — as defined under eIDAS 2.0                                            |
-| QEAA                   | Qualified Electronic Attestation of Attributes — as defined under eIDAS 2.0                                                                                                                     |
-| ISO 3166-1 alpha-2     | International standard defining 2-digit country codes (e.g., DE, FR, IT); used for EU/EFTA countries + UK (32 countries total)                                                                  |
-| ISO 8601               | International standard for date and time representations (e.g., YYYY-MM-DD)                                                                                                                    |
-| Regulation EC 883/2004 | EU Regulation on the coordination of social security systems; primary legal basis for the PD A1, especially Articles 11–16                                                                       |
-| Regulation EC 987/2009 | EU Regulation laying down the procedure for implementing Regulation (EC) No 883/2004                                                                                                            |
+| **Term** | **Description** |
+| --- | --- |
+| PD A1 | Portable Document A1, a certificate documenting the applicable social security legislation for a citizen in a cross-border employment situation within the EU/EFTA area (and UK) |
+| Posted Worker | A citizen employed in one EU/EFTA member state ("sending state") who is temporarily sent to work in another member state ("receiving state") for a maximum of 24 months |
+| Sending State | The EU/EFTA member state whose social security legislation remains applicable to the posted worker during the posting period |
+| Receiving State | The EU/EFTA member state where the posted worker temporarily performs work |
+| Competent Institution | The national social security institution of the sending state authorized to issue the PD A1 certificate |
+| PIN | Personal Identification Number, currently mostly a Social Security Number of the citizen |
+| PWN | Posted Worker Notification, an administrative requirement for companies providing intra-EU cross-border services with posted workers, filed with the host EU Member State authorities |
+| Employee Credential | A credential issued by an employer to its employees to certify that they are part of the company at a given point in time |
+| KYE | Know Your Employee, a due diligence scenario (Scenario 5 / BU1) enabling companies to verify employee identity and posting status in cross-border work situations |
+| EESSI | Electronic Exchange of Social Security Information, the EU system for electronic exchange of social security data between member state institutions |
+| SD Element Group | A logical group of attributes that are disclosed together as a unit under Selective Disclosure (SD-JWT); disclosure is at group level, not at individual field level |
+| EAA | Electronic Attestation of Attributes, as defined under eIDAS 2.0 |
+| PuB-EAA | Electronic Attestation of Attributes issued by or on behalf of a public sector body responsible for an authentic source, as defined under eIDAS 2.0 |
+| QEAA | Qualified Electronic Attestation of Attributes, as defined under eIDAS 2.0 |
+| ISO 3166-1 alpha-2 | International standard defining 2-digit country codes (e.g., DE, FR, IT); used for EU/EFTA countries + UK (32 countries total) |
+| ISO 8601 | International standard for date and time representations (e.g., YYYY-MM-DD) |
+| Regulation EC 883/2004 | EU Regulation on the coordination of social security systems; primary legal basis for the PD A1, especially Articles 11–16 |
+| Regulation EC 987/2009 | EU Regulation laying down the procedure for implementing Regulation (EC) No 883/2004 |
 
 ---
 
-## 2 Attestation Attributes and Metadata
+## 2 Compliance
+
+### 2.1 Compliance statement
+
+This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.
+
+
+### 2.2 Regulatory basis
+
+This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
+recommendation is not followed, the reason is stated below.
+
+### 2.3 Traceability
+
+Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.
+
+| Requirement | Legacy ID | Applies | Satisfied in section | Note |
+| --- | --- | --- | --- | --- |
+| EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM permitted for this category; no encoding defined in this version |
+| EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC following the HAIP profile |
+| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope |
+| EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
+| EW-DM-12-006 | ARB_05 | yes | 5 | Unique vct for this attestation type |
+| EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
+| EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
+| EW-DM-12-009 | ARB_06b | yes | 5 | SD-JWT VC claim naming |
+| EW-DM-12-010 | ARB_07 | yes | 3 | Attributes reused from the catalogued vocabulary where one exists |
+| EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
+| EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
+| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA |
+| EW-DM-12-015 | ARB_12 | yes | 4.1 | EAA indication for a non-qualified EAA |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-018 for the non-qualified case |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2 | Point c, recommendation for non-qualified EAA |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 4.2 | Point e, recommendation for non-qualified EAA |
+| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Trust anchor location and the trust framework |
+| EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
+| EW-DM-12-030 | ARB_26 | yes | 10 | Trust anchor publication for non-qualified EAA |
+| EW-DM-12-031 | ARB_27 | no |  | This attestation does not require the Relying Party to verify a PID |
+| EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
+| EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
+| EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
+| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
+
+## 3 Attestation attributes
+
+Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.
+
+### 3.1 Introduction
 
 This chapter describes the PD A1 credential attributes as defined in the v1.0 PD A1 JSON schema. All field names, types, enumerations, and constraints in Sections 2.2–2.9 are derived strictly from that schema. The normative source is the schema file [`pda1-sd-jwt.json`](../../data-schemas/sd-jwt/pda1-sd-jwt.json).
-
-### 2.1 Introduction
 
 **Data Model (v1.0):**
 
 ```
 PDA1 Credential
 ├── subject [1:1]
-│   ├── pin (string) — mandatory | SD Group 1
-│   ├── gender (enum "0"/"1"/"2") — mandatory | SD Group 2
-│   ├── names [1:1] — mandatory | SD Group 3
-│   │   ├── surnames (string) — mandatory | SD Group 3
-│   │   ├── forenames (string) — mandatory | SD Group 3
-│   │   ├── surnameAtBirth (string) — optional | SD Group 3
-│   │   └── forenamesAtBirth (string) — optional | SD Group 3
-│   ├── dateOfBirth (date, YYYY-MM-DD) — mandatory | SD Group 4
-│   ├── nationalities (array ≥ 1, world codes, unique) — mandatory | SD Group 5
-│   ├── placeOfBirth [1:1] — mandatory | SD Group 6
-│   │   ├── town (string) — mandatory | SD Group 6
-│   │   └── countryCode (world code) — mandatory | SD Group 6
-│   └── address [1:1] — mandatory | SD Groups 7–8
-│       ├── stateOfResidence[] (addressWorld) — optional | SD Group 7
-│       └── stateOfStay[] (addressPDA1State) — optional | SD Group 8
+│   ├── pin (string), mandatory | SD Group 1
+│   ├── gender (enum "0"/"1"/"2"), mandatory | SD Group 2
+│   ├── names [1:1], mandatory | SD Group 3
+│   │   ├── surnames (string), mandatory | SD Group 3
+│   │   ├── forenames (string), mandatory | SD Group 3
+│   │   ├── surnameAtBirth (string), optional | SD Group 3
+│   │   └── forenamesAtBirth (string), optional | SD Group 3
+│   ├── dateOfBirth (date, YYYY-MM-DD), mandatory | SD Group 4
+│   ├── nationalities (array ≥ 1, world codes, unique), mandatory | SD Group 5
+│   ├── placeOfBirth [1:1], mandatory | SD Group 6
+│   │   ├── town (string), mandatory | SD Group 6
+│   │   └── countryCode (world code), mandatory | SD Group 6
+│   └── address [1:1], mandatory | SD Groups 7–8
+│       ├── stateOfResidence[] (addressWorld), optional | SD Group 7
+│       └── stateOfStay[] (addressPDA1State), optional | SD Group 8
 │       [anyOf: at least one non-empty list required]
-├── memberstateAppliedLegislation [1:1] — Non-SD (always disclosed)
-│   ├── memberstate (PDA1 code) — mandatory
-│   ├── startDate (date) — mandatory
-│   ├── endDate (date) — mandatory
-│   ├── certificateAppliesForDuranceOfStay (boolean) — optional
-│   ├── determinationIsProvisional (boolean) — optional
-│   └── transitionRulesApplyAccordingEG (boolean) — optional
-├── employmentSituations [1:n] — SD Groups 9–10
+├── memberstateAppliedLegislation [1:1], Non-SD (always disclosed)
+│   ├── memberstate (PDA1 code), mandatory
+│   ├── startDate (date), mandatory
+│   ├── endDate (date), mandatory
+│   ├── certificateAppliesForDuranceOfStay (boolean), optional
+│   ├── determinationIsProvisional (boolean), optional
+│   └── transitionRulesApplyAccordingEG (boolean), optional
+├── employmentSituations [1:n], SD Groups 9–10
 │   └── [each item:]
-│       ├── typeOfEmployment (enum "01"/"02") — mandatory | SD Group 9
-│       ├── name (string) — mandatory | SD Group 9
-│       ├── employerID (string) — mandatory | SD Group 9
-│       ├── typeOfID (enum) — mandatory | SD Group 9
-│       └── address (addressWorld) — mandatory | SD Group 10
-├── placesOfWork {<PDA1 countryCode>: [placeOfWork]} [≥ 1 key] — SD Groups 11–12
+│       ├── typeOfEmployment (enum "01"/"02"), mandatory | SD Group 9
+│       ├── name (string), mandatory | SD Group 9
+│       ├── employerID (string), mandatory | SD Group 9
+│       ├── typeOfID (enum), mandatory | SD Group 9
+│       └── address (addressWorld), mandatory | SD Group 10
+├── placesOfWork {<PDA1 countryCode>: [placeOfWork]} [≥ 1 key], SD Groups 11–12
 │   └── [each array item:]
-│       ├── companyOrVesselName (string) — mandatory | SD Group 11
-│       ├── flagBaseHomeState (string) — optional | SD Group 11
-│       ├── companyID (string) — optional† | SD Group 11
-│       ├── typeOfID (enum) — optional† | SD Group 11
-│       └── address (addressPDA1State) — mandatory | SD Group 12
+│       ├── companyOrVesselName (string), mandatory | SD Group 11
+│       ├── flagBaseHomeState (string), optional | SD Group 11
+│       ├── companyID (string), optional† | SD Group 11
+│       ├── typeOfID (enum), optional† | SD Group 11
+│       └── address (addressPDA1State), mandatory | SD Group 12
 │       [† companyID and typeOfID are mutually required]
 │       [empty array = works in that country with no fixed address]
-├── statusConfirmation [1:1] — SD Group 13
-│   ├── statusConfirmationCode (enum, 12 codes) — mandatory | SD Group 13
-│   └── exceptionDescription (string) — conditional‡ | SD Group 13
+├── statusConfirmation [1:1], SD Group 13
+│   ├── statusConfirmationCode (enum, 12 codes), mandatory | SD Group 13
+│   └── exceptionDescription (string), conditional‡ | SD Group 13
 │       [‡ only permitted when statusConfirmationCode = "11"]
-├── documentID (string) [1:1] — SD Group 14
-└── competentInstitution [1:1] — SD Groups 15–16
-    ├── institutionID (string) — mandatory | SD Group 15
-    ├── institutionName (string) — mandatory | SD Group 15
-    ├── countryCode (PDA1 code) — mandatory | SD Group 15
-    ├── address (addressPDA1State) — mandatory | SD Group 16
-    ├── officeFaxNumber (E.164 string) — optional | SD Group 16
-    ├── officePhoneNumber (E.164 string) — optional | SD Group 16
-    └── email (string) — optional | SD Group 16
+├── documentID (string) [1:1], SD Group 14
+└── competentInstitution [1:1], SD Groups 15–16
+    ├── institutionID (string), mandatory | SD Group 15
+    ├── institutionName (string), mandatory | SD Group 15
+    ├── countryCode (PDA1 code), mandatory | SD Group 15
+    ├── address (addressPDA1State), mandatory | SD Group 16
+    ├── officeFaxNumber (E.164 string), optional | SD Group 16
+    ├── officePhoneNumber (E.164 string), optional | SD Group 16
+    └── email (string), optional | SD Group 16
 ```
 
-**Selective Disclosure:** SD is applied at element-group level — individual fields within a group are not independently selectable. `memberstateAppliedLegislation` is Non-SD and is always fully disclosed to the Relying Party.
+**Selective Disclosure:** SD is applied at element-group level, individual fields within a group are not independently selectable. `memberstateAppliedLegislation` is Non-SD and is always fully disclosed to the Relying Party.
 
-**Attestation Classification** *(contextual — not a schema element):* This attestation MAY be classified as **QEAA**, **PuB-EAA**, or **EAA** depending on the issuing institution's qualification status under eIDAS 2.0.
+**Attestation Classification** *(contextual, not a schema element):* This attestation MAY be classified as **QEAA**, **PuB-EAA**, or **EAA** depending on the issuing institution's qualification status under eIDAS 2.0.
 
 ---
 
-### 2.2 Definitions
+#### 3.1.1 Definitions
 
 The following shared types are defined in `$defs` of the v1.0 schema and referenced throughout Sections 2.3–2.9.
 
-#### `gender`
+##### `gender`
 
 ISO/IEC 5218 gender code (string enum): `"0"` = Not known / Not specified · `"1"` = Male · `"2"` = Female.
 
-#### `addressBase`
+##### `addressBase`
 
 Base postal address object:
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence |
-|----------------|----|-------|-----------|------------|
+| --- | --- | --- | --- | --- |
 | `streetAndNumber` | [thoroughfare](https://w3id.org/ebwv#thoroughfare)<br>[locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street name and house or building number | String | 0:1 |
 | `town` | [postName](https://w3id.org/ebwv#postName) | Name of the city or town | String | 1:1 |
 | `postcode` | [postCode](https://w3id.org/ebwv#postCode) | Postal code (format varies by country) | String | 0:1 |
 
-#### `addressPDA1State`
+##### `addressPDA1State`
 
 Postal address restricted to a PDA1-participating country. Extends `addressBase` with:
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence |
-|----------------|---|--------|-----------|------------|
-| `countryCode` | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1)  | Country of the address (PDA1 set) | countryCodePDA1States | 1:1 |
+| --- | --- | --- | --- | --- |
+| `countryCode` | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the address (PDA1 set) | countryCodePDA1States | 1:1 |
 
 No additional properties permitted (`unevaluatedProperties: false`).
 
-#### `addressWorld`
+##### `addressWorld`
 
 Postal address for any recognized country in the world. Extends `addressBase` with:
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence |
-|----------------|---|--------|-----------|------------|
+| --- | --- | --- | --- | --- |
 | `countryCode` | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country of the address (world set) | countryCodeWorld | 1:1 |
 
 No additional properties permitted (`unevaluatedProperties: false`).
 
-#### `phoneNumber`
+##### `phoneNumber`
 
 Phone number in E.164 international format (e.g., `+4930123456`). Pattern: `^\+[1-9]\d{1,14}$`.
 
-#### `email`
+##### `email`
 
 Email address conforming to RFC 5321/5322. Pattern: `^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$`.
 
-#### `countryCodePDA1States`
+##### `countryCodePDA1States`
 
 ISO 3166-1 alpha-2 code restricted to the **32 PD A1-participating states**: the 27 EU member states (AT, BE, BG, CY, CZ, DE, DK, EE, ES, FI, FR, GR, HR, HU, IE, IT, LT, LU, LV, MT, NL, PL, PT, RO, SE, SI, SK) plus Iceland (IS), Liechtenstein (LI), Norway (NO), Great Britain (GB), and Switzerland (CH).
 
-| **Data Identifier**        | **Semantic Reference** | **Definition**                                                                    | **Data type**          |
-|----------------------------|------------------------|-----------------------------------------------------------------------------------|------------------------|
-| subject                    | [person](https://w3id.org/ebwv#person) | Personal identity attributes of the citizen subject to the PD A1                 | Object                 |
-| member_state_legislation   | [jurisdiction](https://w3id.org/ebwv#jurisdiction) | Details of the applicable member state legislation; always disclosed (Non-SD)     | Object                 |
-| employer_details           | [employer](https://w3id.org/ebwv#employer) | Details of the employer(s) or self-employment situation                           | Array [EmployerObject] |
-| places_of_work             | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Places where the posted worker performs work                                      | Array [PlaceOfWork]    |
-| status_confirmation        | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) | Status confirmation code identifying the type of cross-border situation           | Object                 |
-| document_id                | @id | Unique number of the issued PD A1 document                                        | Object                 |
-| competent_institution      | [cred:issuer](https://w3.org/2018/credentials#issuer) | Details of the competent social security institution that issued the PD A1        | Object                 |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** |
+| --- | --- | --- | --- |
+| subject | [person](https://w3id.org/ebwv#person) | Personal identity attributes of the citizen subject to the PD A1 | Object |
+| member_state_legislation | [jurisdiction](https://w3id.org/ebwv#jurisdiction) | Details of the applicable member state legislation; always disclosed (Non-SD) | Object |
+| employer_details | [employer](https://w3id.org/ebwv#employer) | Details of the employer(s) or self-employment situation | Array [EmployerObject] |
+| places_of_work | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Places where the posted worker performs work | Array [PlaceOfWork] |
+| status_confirmation | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) | Status confirmation code identifying the type of cross-border situation | Object |
+| document_id | @id | Unique number of the issued PD A1 document | Object |
+| competent_institution | [cred:issuer](https://w3.org/2018/credentials#issuer) | Details of the competent social security institution that issued the PD A1 | Object |
 
 ISO 3166-1 alpha-2 code covering **195 world states**: the 193 United Nations member states plus the two UN observer states Holy See (VA) and State of Palestine (PS).
 
-#### `date`
+##### `date`
 
-| **Data Identifier**            | **Semantic Reference** | **Definition**                                                                                          | **Data type**                   | **Occurrence** | **SD Group** |
-|--------------------------------|------------------------|---------------------------------------------------------------------------------------------------------|---------------------------------|----------------|--------------|
-| pin                            | [identifier](https://w3id.org/ebwv#identifier) | Personal Identification Number (currently Social Security Number) of the citizen                        | String                          | 1:1            | 1            |
-| gender                         | [gender](https://w3id.org/ebwv#gender)| Gender of the citizen                                                                                   | String / Codelist (tbd)         | 1:1            | 2            |
-| family_name                    | [familyName](https://w3id.org/ebwv#familyName)| Family name(s) of the citizen in full                                                                   | String                          | 1:1            | 3            |
-| forename                       | [givenName](https://w3id.org/ebwv#givenName)| Forename(s) of the citizen in full                                                                      | String                          | 1:1            | 3            |
-| date_of_birth                  | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth)| Date of birth of the citizen (ISO 8601)                                                                 | Date (YYYY-MM-DD)               | 1:1            | 4            |
-| nationality                    | [citizenship](https://w3id.org/ebwv#citizenship)| Nationality/ies of the citizen; Relying Party always requests all nationalities; user may select which  | Code [1:n] (ISO 3166-1 alpha-2) | 1:n            | 5            |
-| place_of_birth.town            | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth).[geographicName](https://w3id.org/ebwv#geographicName)| Town/locality where the citizen was born                                                                | String                          | 1:1            | 6            |
-| place_of_birth.country_code    | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth).[geographicIdentifier](https://w3id.org/ebwv#geographicIdentifier)| Country where the citizen was born (ISO 3166-1 alpha-2)                                                 | Code (ISO 3166-1 alpha-2)       | 1:1            | 6            |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
+| --- | --- | --- | --- | --- | --- |
+| pin | [identifier](https://w3id.org/ebwv#identifier) | Personal Identification Number (currently Social Security Number) of the citizen | String | 1:1 | 1 |
+| gender | [gender](https://w3id.org/ebwv#gender) | Gender of the citizen | String / Codelist (tbd) | 1:1 | 2 |
+| family_name | [familyName](https://w3id.org/ebwv#familyName) | Family name(s) of the citizen in full | String | 1:1 | 3 |
+| forename | [givenName](https://w3id.org/ebwv#givenName) | Forename(s) of the citizen in full | String | 1:1 | 3 |
+| date_of_birth | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the citizen (ISO 8601) | Date (YYYY-MM-DD) | 1:1 | 4 |
+| nationality | [citizenship](https://w3id.org/ebwv#citizenship) | Nationality/ies of the citizen; Relying Party always requests all nationalities; user may select which | Code [1:n] (ISO 3166-1 alpha-2) | 1:n | 5 |
+| place_of_birth.town | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth).[geographicName](https://w3id.org/ebwv#geographicName) | Town/locality where the citizen was born | String | 1:1 | 6 |
+| place_of_birth.country_code | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth).[geographicIdentifier](https://w3id.org/ebwv#geographicIdentifier) | Country where the citizen was born (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1 | 6 |
 
-#### `typeOfID`
+##### `typeOfID`
 
 Type of identifier used for an employer, self-employed entity, or company at a place of work:
 
-| **Data Identifier**                 | **Semantic Reference** | **Definition**                                              | **Data type**             | **Occurrence** | **SD Group** |
-|-------------------------------------|------------------------|-------------------------------------------------------------|---------------------------|----------------|--------------|
-| address_residence.town              | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName)| Town of the address in the state of residence               | String                    | 1:1            | 7            |
-| address_residence.country_code      | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country code of the state of residence (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1            | 7            |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
+| --- | --- | --- | --- | --- | --- |
+| address_residence.town | [domicile](https://w3id.org/ebwv#domicile).[postName](https://w3id.org/ebwv#postName) | Town of the address in the state of residence | String | 1:1 | 7 |
+| address_residence.country_code | [domicile](https://w3id.org/ebwv#domicile).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country code of the state of residence (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1 | 7 |
 
-#### `statusConfirmationCode`
+##### `statusConfirmationCode`
 
-| **Data Identifier**         | **Semantic Reference** | **Definition**                                          | **Data type**             | **Occurrence** | **SD Group** |
-|-----------------------------|------------------------|---------------------------------------------------------|---------------------------|----------------|--------------|
-| address_stay.town           | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[postName](https://w3id.org/ebwv#postName) | Town of the address in the state of stay                | String                    | 1:1            | 8            |
-| address_stay.country_code   | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country code of the state of stay (ISO 3166-1 alpha-2)  | Code (ISO 3166-1 alpha-2) | 1:1            | 8            |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
+| --- | --- | --- | --- | --- | --- |
+| address_stay.town | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[postName](https://w3id.org/ebwv#postName) | Town of the address in the state of stay | String | 1:1 | 8 |
+| address_stay.country_code | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | Country code of the state of stay (ISO 3166-1 alpha-2) | Code (ISO 3166-1 alpha-2) | 1:1 | 8 |
 
 | Code | Definition |
-|------|-----------|
+| --- | --- |
 | `01` | Posted employed person |
 | `02` | Employed, working in two or more States |
 | `03` | Posted self-employed person |
@@ -315,63 +405,61 @@ Type of identifier used for an employer, self-employed entity, or company at a p
 | `11` | Exception |
 | `12` | Working as an employed / self-employed person in the State which legislation applies |
 
-| **Data Identifier**                           | **Semantic Reference** | **Definition**                                                                                                | **Data type**             | **Occurrence** |
-|-----------------------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------|---------------------------|----------------|
-| member_state_legislation.member_state         | [jurisdiction](https://w3id.org/ebwv#jurisdiction)  | Code of the member state whose legislation applies (ISO 3166-1 alpha-2; EU/EFTA + UK = 32 countries)          | Code (ISO 3166-1 alpha-2) | 1:1            |
-| member_state_legislation.starting_date        | [cred:validFrom](https://w3.org/2018/credentials#validFrom) | Starting date from which the member state legislation applies (ISO 8601)                                       | Date (YYYY-MM-DD)         | 1:1            |
-| member_state_legislation.ending_date          | [cred:validUntil](https://w3.org/2018/credentials#validUntil) | Ending date until which the member state legislation applies (ISO 8601)                                        | Date (YYYY-MM-DD)         | 1:1            |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** |
+| --- | --- | --- | --- | --- |
+| member_state_legislation.member_state | [jurisdiction](https://w3id.org/ebwv#jurisdiction) | Code of the member state whose legislation applies (ISO 3166-1 alpha-2; EU/EFTA + UK = 32 countries) | Code (ISO 3166-1 alpha-2) | 1:1 |
+| member_state_legislation.starting_date | [cred:validFrom](https://w3.org/2018/credentials#validFrom) | Starting date from which the member state legislation applies (ISO 8601) | Date (YYYY-MM-DD) | 1:1 |
+| member_state_legislation.ending_date | [cred:validUntil](https://w3.org/2018/credentials#validUntil) | Ending date until which the member state legislation applies (ISO 8601) | Date (YYYY-MM-DD) | 1:1 |
 
 Details of a single employer or self-employment activity. All five fields are required. No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Semantic Reference| Definition | Data type | Occurrence | SD Group |
-|----------------|---|--------|-----------|------------|----------|
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+| --- | --- | --- | --- | --- | --- |
 | `typeOfEmployment` | [typeOfEmployment](https://w3id.org/ebwv#typeOfEmployment)<br>code list for the property needs to be checked | Type of employment: `01` = Employee, `02` = Self-employed | enum | 1:1 | 9 |
 | `name` | [legalName](https://w3id.org/ebwv#legalName) | Name of the employer or self-employed entity | String | 1:1 | 9 |
 | `employerID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the employer or self-employed entity | String | 1:1 | 9 |
 | `typeOfID` | [identifier](https://w3id.org/ebwv#identifier).[Identifier](https://w3id.org/ebwv#Identifier) | Type of the employer identifier (see `typeOfID` above) | typeOfID | 1:1 | 9 |
-| `address` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  | Address of the employer or self-employed entity (any world country) | addressWorld | 1:1 | 10 |
+| `address` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Address of the employer or self-employed entity (any world country) | addressWorld | 1:1 | 10 |
 
-#### `placeOfWork`
+##### `placeOfWork`
 
 When a specific place of work is declared:
 
-| **Data Identifier**             | **Semantic Reference** | **Definition**                                                                            | **Data type**             | **Occurrence** | **SD Group** |
-|---------------------------------|------------------------|-------------------------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| place_of_work.company_name      | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[legalName](https://w3id.org/ebwv#legalName);[name](https://w3id.org/ebwv#name)  | Name of the company or vessel at the place of work                                        | String                    | 1:1            | 11           |
-| place_of_work.town              | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[postName](https://w3id.org/ebwv#postName) | Town of the place of work                                                                 | String                    | 1:1            | 12           |
-| place_of_work.country_code      | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[countryCode](https://w3id.org/ebwv#countryCode) | Country of the place of work (ISO 3166-1 alpha-2; EU/EFTA + UK)                           | Code (ISO 3166-1 alpha-2) | 1:1            | 12           |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
+| --- | --- | --- | --- | --- | --- |
+| place_of_work.company_name | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[legalName](https://w3id.org/ebwv#legalName);[name](https://w3id.org/ebwv#name) | Name of the company or vessel at the place of work | String | 1:1 | 11 |
+| place_of_work.town | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[postName](https://w3id.org/ebwv#postName) | Town of the place of work | String | 1:1 | 12 |
+| place_of_work.country_code | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[countryCode](https://w3id.org/ebwv#countryCode) | Country of the place of work (ISO 3166-1 alpha-2; EU/EFTA + UK) | Code (ISO 3166-1 alpha-2) | 1:1 | 12 |
 
 When no fixed place of work exists:
 
-| **Data Identifier**                   | **Semantic Reference** | **Definition**                                                                    | **Data type**             | **Occurrence** | **SD Group** |
-|---------------------------------------|------------------------|-----------------------------------------------------------------------------------|---------------------------|----------------|--------------|
-| no_fixed_place_of_work.country_code   | [noFixedPlaceOfWork](https://w3id.org/ebwv#noFixedPlaceOfWork) AND [placeOfWork](https://w3id.org/ebwv#placeOfWork).[countryCode](https://w3id.org/ebwv#countryCode)                      | Country code indicating the country where no fixed place of work exists           | Code (ISO 3166-1 alpha-2) | 1:1            | 11           |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
+| --- | --- | --- | --- | --- | --- |
+| no_fixed_place_of_work.country_code | [noFixedPlaceOfWork](https://w3id.org/ebwv#noFixedPlaceOfWork) AND [placeOfWork](https://w3id.org/ebwv#placeOfWork).[countryCode](https://w3id.org/ebwv#countryCode) | Country code indicating the country where no fixed place of work exists | Code (ISO 3166-1 alpha-2) | 1:1 | 11 |
 
-| Data Identifier  | Semantic Reference| Definition | Data type | Occurrence | SD Group |
-|----------------|---|--------|-----------|------------|----------|
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+| --- | --- | --- | --- | --- | --- |
 | `companyOrVesselName` | [Vessel](https://w3id.org/ebwv#Vessel).[schema:name](https://schema.org/name)<br>"name" needs to be added to class Vessel<br> [legalName](https://w3id.org/ebwv#legalName) | Name of the company or vessel where work is performed | String | 1:1 | 11 |
 | `flagBaseHomeState` | [flagState](https://w3id.org/ebwv#flagState) | Flag state, base state, or home state for maritime or aviation workers | String | 0:1 | 11 |
 | `companyID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the company at the place of work | String | 0:1† | 11 |
 | `typeOfID` | TBD; this needs an Identifier class with ID scheme information (like adms:Identifier) | Type of the company identifier (see `typeOfID` above) | typeOfID | 0:1† | 11 |
 | `address` | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Address of the place of work (PDA1 country) | addressPDA1State | 1:1 | 12 |
 
-| **Data Identifier**          | **Semantic Reference** | **Definition**                                                                                                                              | **Data type** | **Occurrence** | **SD Group** |
-|------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|---------------|----------------|--------------|
-| status_confirmation.status   | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) <br> presently xsd:boolean, needs to be changed to a code list (skos:Concept?)| Status confirmation code identifying the type of cross-border situation (2-digit code per PD A1 codelist; 12 options — tbd)                 | Code          | 1:1            | 13           |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
+| --- | --- | --- | --- | --- | --- |
+| status_confirmation.status | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) <br> presently xsd:boolean, needs to be changed to a code list (skos:Concept?) | Status confirmation code identifying the type of cross-border situation (2-digit code per PD A1 codelist; 12 options, tbd) | Code | 1:1 | 13 |
 
----
-
-### 2.3 Subject
+#### 3.1.2 Subject
 
 Personal details of the PD A1 certificate holder. All seven top-level keys (`pin`, `gender`, `names`, `dateOfBirth`, `nationalities`, `placeOfBirth`, `address`) are required. No additional properties permitted (`additionalProperties: false`).
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
-|----------------|---|--------|-----------|------------|----------|
-| `pin` | [identifier](https://w3id.org/ebwv#identifier) OR<br> [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber)| Personal Identification Number (social security number) of the holder | String | 1:1 | 1 |
+| --- | --- | --- | --- | --- | --- |
+| `pin` | [identifier](https://w3id.org/ebwv#identifier) OR<br> [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber) | Personal Identification Number (social security number) of the holder | String | 1:1 | 1 |
 | `gender` | [gender](https://w3id.org/ebwv#gender) | Gender of the holder | gender | 1:1 | 2 |
 | `names.surnames` | [familyName](https://w3id.org/ebwv#familyName) | Current family name(s) of the holder | String | 1:1 | 3 |
 | `names.forenames` | [givenName](https://w3id.org/ebwv#givenName) | Current given name(s) of the holder | String | 1:1 | 3 |
-| `names.surnameAtBirth` | [birthName](https://w3id.org/ebwv#birthName) |  Family name at birth, if different from current surname | String | 0:1 | 3 |
+| `names.surnameAtBirth` | [birthName](https://w3id.org/ebwv#birthName) | Family name at birth, if different from current surname | String | 0:1 | 3 |
 | `names.forenamesAtBirth` | [birthName](https://w3id.org/ebwv#birthName) | Given name(s) at birth, if different from current forename(s) | String | 0:1 | 3 |
 | `dateOfBirth` | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the holder | date | 1:1 | 4 |
 | `nationalities` | [citizenship](https://w3id.org/ebwv#citizenship) | Nationality/ies of the holder as world-set country codes; at least one required, no duplicates | Array of countryCodeWorld (`minItems: 1`, `uniqueItems`) | 1:n | 5 |
@@ -382,137 +470,153 @@ Personal details of the PD A1 certificate holder. All seven top-level keys (`pin
 
 The `address` object MUST satisfy `anyOf`: either `stateOfResidence` is present with `minItems: 1`, or `stateOfStay` is present with `minItems: 1` (both MAY be present simultaneously). Only `stateOfResidence` and `stateOfStay` are permitted in `address` (`additionalProperties: false`). The `names` and `placeOfBirth` sub-objects also enforce `additionalProperties: false`.
 
----
+#### 3.1.3 Member State Legislation
 
-### 2.4 Member State Legislation
-
-The member state whose social security legislation applies to the holder. This section is annotated `$comment: "Always disclosed"` — it is **Non-SD** and is fully disclosed to the Relying Party in every presentation. No additional properties permitted (`additionalProperties: false`).
+The member state whose social security legislation applies to the holder. This section is annotated `$comment: "Always disclosed"`, it is **Non-SD** and is fully disclosed to the Relying Party in every presentation. No additional properties permitted (`additionalProperties: false`).
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
-|----------------|---|--------|-----------|------------|----------|
-| `memberstate` |  [jurisdiction](https://w3id.org/ebwv#jurisdiction) | Country code of the member state whose legislation applies | countryCodePDA1States | 1:1 | Non-SD |
-| `startDate` | could be [cred:validFrom](https://www.w3.org/2018/credentials#validFrom)<br>or then needs a "PeriodOfTime" reference, but from which class? |  Start date from which the member state legislation applies | date | 1:1 | Non-SD |
-| `endDate` | could be [cred:validUntil](https://www.w3.org/2018/credentials#validUntil)<br>or then needs a "PeriodOfTime" reference, but from which class?  | End date until which the member state legislation applies | date | 1:1 | Non-SD |
+| --- | --- | --- | --- | --- | --- |
+| `memberstate` | [jurisdiction](https://w3id.org/ebwv#jurisdiction) | Country code of the member state whose legislation applies | countryCodePDA1States | 1:1 | Non-SD |
+| `startDate` | could be [cred:validFrom](https://www.w3.org/2018/credentials#validFrom)<br>or then needs a "PeriodOfTime" reference, but from which class? | Start date from which the member state legislation applies | date | 1:1 | Non-SD |
+| `endDate` | could be [cred:validUntil](https://www.w3.org/2018/credentials#validUntil)<br>or then needs a "PeriodOfTime" reference, but from which class? | End date until which the member state legislation applies | date | 1:1 | Non-SD |
 | `certificateAppliesForDuranceOfStay` | [activityDurationCovered](https://w3id.org/ebwv#activityDurationCovered) | Indicates whether the certificate applies for the entire duration of the stay | Boolean | 0:1 | Non-SD |
 | `determinationIsProvisional` | [provisionalDetermination](https://w3id.org/ebwv#provisionalDetermination) | Indicates whether the determination of applicable legislation is provisional | Boolean | 0:1 | Non-SD |
-| `transitionRulesApplyAccordingEG` | [transitionalRules](https://w3id.org/ebwv#transitionalRules)   | Indicates whether transitional rules apply according to EC Regulation No 883/2004 | Boolean | 0:1 | Non-SD |
+| `transitionRulesApplyAccordingEG` | [transitionalRules](https://w3id.org/ebwv#transitionalRules) | Indicates whether transitional rules apply according to EC Regulation No 883/2004 | Boolean | 0:1 | Non-SD |
 
----
-
-### 2.5 Employer / Self-Employment Details
+#### 3.1.4 Employer / Self-Employment Details
 
 `employmentSituations` is an array of `employmentSituation` objects (see §2.2). At least one item is required (`minItems: 1`). Each item's fields are listed below with their SD group annotations.
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
-|----------------|---|--------|-----------|------------|----------|
-| `employmentSituations[].typeOfEmployment` | [typeOfEmployment](https://w3id.org/ebwv#typeOfEmployment) <br> property needs another code list than the present (Permanent, Temporary)  | Type of employment: `01` = Employee, `02` = Self-employed | enum | 1:1 per item | 9 |
-| `employmentSituations[].name` | [employer](https://w3id.org/ebwv#employer).[legalName](https://w3id.org/ebwv#legalName) <br> covers employers that are Economic Operators |  Name of the employer or self-employed entity | String | 1:1 per item | 9 |
-| `employmentSituations[].employerID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) <br> [identifier](https://w3id.org/ebwv#identifier) |  Identifier of the employer or self-employed entity | String | 1:1 per item | 9 |
-| `employmentSituations[].typeOfID` | TBD; needs the construct identifier.Identifier |  Type of employer identifier (see §2.2) | typeOfID | 1:1 per item | 9 |
-| `employmentSituations[].address.streetAndNumber` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) |  Street name and house number of the employer | String | 0:1 per item | 10 |
-| `employmentSituations[].address.town` |  [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Town of the employer's address  | String | 1:1 per item | 10 |
-| `employmentSituations[].address.postcode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) |  Postal code of the employer's address | String | 0:1 per item | 10 |
-| `employmentSituations[].address.countryCode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  |  Country of the employer's address (world set) | countryCodeWorld | 1:1 per item | 10 |
+| --- | --- | --- | --- | --- | --- |
+| `employmentSituations[].typeOfEmployment` | [typeOfEmployment](https://w3id.org/ebwv#typeOfEmployment) <br> property needs another code list than the present (Permanent, Temporary) | Type of employment: `01` = Employee, `02` = Self-employed | enum | 1:1 per item | 9 |
+| `employmentSituations[].name` | [employer](https://w3id.org/ebwv#employer).[legalName](https://w3id.org/ebwv#legalName) <br> covers employers that are Economic Operators | Name of the employer or self-employed entity | String | 1:1 per item | 9 |
+| `employmentSituations[].employerID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) <br> [identifier](https://w3id.org/ebwv#identifier) | Identifier of the employer or self-employed entity | String | 1:1 per item | 9 |
+| `employmentSituations[].typeOfID` | TBD; needs the construct identifier.Identifier | Type of employer identifier (see §2.2) | typeOfID | 1:1 per item | 9 |
+| `employmentSituations[].address.streetAndNumber` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Street name and house number of the employer | String | 0:1 per item | 10 |
+| `employmentSituations[].address.town` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Town of the employer's address | String | 1:1 per item | 10 |
+| `employmentSituations[].address.postcode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Postal code of the employer's address | String | 0:1 per item | 10 |
+| `employmentSituations[].address.countryCode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | Country of the employer's address (world set) | countryCodeWorld | 1:1 per item | 10 |
 
----
-
-### 2.6 Places of Work
+#### 3.1.5 Places of Work
 
 `placesOfWork` is a JSON **object** (not an array) whose property names are `countryCodePDA1States` values. At least one property must be present (`minProperties: 1`). Each property value is an **array** of `placeOfWork` objects (see §2.2). An **empty array** indicates the holder works in that country **with no fixed address**.
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
-|----------------|---|-----------|-----------|------------|----------|
+| --- | --- | --- | --- | --- | --- |
 | `placesOfWork.<CC>` | [placeOfWork](https://w3id.org/ebwv#placeOfWork) | Work-location entries for country `<CC>`; empty array = no fixed address in that country | Array of placeOfWork | 1:n countries | 11 |
-| `placesOfWork.<CC>[].companyOrVesselName`  | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Vessel](https://w3id.org/ebwv#Vessel).[schema:name](https://schema.org/name) <br> OR [legalName](https://w3id.org/ebwv#legalName) of the Economic Operator acting as host   | Name of the company or vessel where work is performed | String | 1:1 per item | 11 |
-| `placesOfWork.<CC>[].flagBaseHomeState`  | [flagState](https://w3id.org/ebwv#flagState)  | Flag state, base state, or home state (maritime or aviation workers) | String | 0:1 per item | 11 |
-| `placesOfWork.<CC>[].companyID`  | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the company at the place of work | String | 0:1† per item | 11 |
-| `placesOfWork.<CC>[].typeOfID`  | TBD; needs the construct identifier.Identifier  | Type of the company identifier (see §2.2) | typeOfID | 0:1† per item | 11 |
-| `placesOfWork.<CC>[].address.streetAndNumber` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address)  | Street name and house number of the place of work | String | 0:1 per item | 12 |
-| `placesOfWork.<CC>[].address.town` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address)  | Town of the place of work | String | 1:1 per item | 12 |
-| `placesOfWork.<CC>[].address.postcode` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address)  | Postal code of the place of work | String | 0:1 per item | 12 |
-| `placesOfWork.<CC>[].address.countryCode` |  [placeOfWork](https://w3id.org/ebwv#placeOfWork).[CountryCode](https://w3id.org/ebwv#CountryCode) | Country of the place of work (PDA1 set) | countryCodePDA1States | 1:1 per item | 12 |
+| `placesOfWork.<CC>[].companyOrVesselName` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Vessel](https://w3id.org/ebwv#Vessel).[schema:name](https://schema.org/name) <br> OR [legalName](https://w3id.org/ebwv#legalName) of the Economic Operator acting as host | Name of the company or vessel where work is performed | String | 1:1 per item | 11 |
+| `placesOfWork.<CC>[].flagBaseHomeState` | [flagState](https://w3id.org/ebwv#flagState) | Flag state, base state, or home state (maritime or aviation workers) | String | 0:1 per item | 11 |
+| `placesOfWork.<CC>[].companyID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the company at the place of work | String | 0:1† per item | 11 |
+| `placesOfWork.<CC>[].typeOfID` | TBD; needs the construct identifier.Identifier | Type of the company identifier (see §2.2) | typeOfID | 0:1† per item | 11 |
+| `placesOfWork.<CC>[].address.streetAndNumber` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address) | Street name and house number of the place of work | String | 0:1 per item | 12 |
+| `placesOfWork.<CC>[].address.town` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address) | Town of the place of work | String | 1:1 per item | 12 |
+| `placesOfWork.<CC>[].address.postcode` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[Address](https://w3id.org/ebwv#Address) | Postal code of the place of work | String | 0:1 per item | 12 |
+| `placesOfWork.<CC>[].address.countryCode` | [placeOfWork](https://w3id.org/ebwv#placeOfWork).[CountryCode](https://w3id.org/ebwv#CountryCode) | Country of the place of work (PDA1 set) | countryCodePDA1States | 1:1 per item | 12 |
 
 † `companyID` and `typeOfID` are co-dependent: if either is present, the other MUST also be present.
 
----
+#### 3.1.6 Status Confirmation
 
-### 2.7 Status Confirmation
-
-| **Data Identifier**             | **Semantic Reference** | **Definition**                                     | **Data type** | **Occurrence** | **SD Group** |
-|---------------------------------|------------------------|----------------------------------------------------|---------------|----------------|--------------|
-| address_residence.street_nr     | [domicile](https://w3id.org/ebwv#domicile).[thoroughfare](https://w3id.org/ebwv#thoroughfare) <br>and [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street and number of the residence address         | String        | 0:1            | 7            |
-| address_residence.post_code     | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the residence address               | String        | 0:1            | 7            |
-| address_stay.street_nr          | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[thoroughfare](https://w3id.org/ebwv#thoroughfare) <br>and [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street and number of the stay address              | String        | 0:1            | 8            |
-| address_stay.post_code          | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the stay address                    | String        | 0:1            | 8            |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
+| --- | --- | --- | --- | --- | --- |
+| address_residence.street_nr | [domicile](https://w3id.org/ebwv#domicile).[thoroughfare](https://w3id.org/ebwv#thoroughfare) <br>and [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street and number of the residence address | String | 0:1 | 7 |
+| address_residence.post_code | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the residence address | String | 0:1 | 7 |
+| address_stay.street_nr | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[thoroughfare](https://w3id.org/ebwv#thoroughfare) <br>and [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street and number of the stay address | String | 0:1 | 8 |
+| address_stay.post_code | [temporaryAddress](https://w3id.org/ebwv#temporaryAddress).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the stay address | String | 0:1 | 8 |
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
-|----------------|---|--------|-----------|------------|----------|
+| --- | --- | --- | --- | --- | --- |
 | `statusConfirmation.statusConfirmationCode` | [statusConfirmation](https://w3id.org/ebwv#statusConfirmation) | Status confirmation code (see §2.2) | statusConfirmationCode | 1:1 | 13 |
-| `statusConfirmation.exceptionDescription` | not covered by EBWV since "status confirmation" is a property; the proposed property to be used here is [schema:description](https://schema.org/description)  | Free-text description of the exception situation | String | 0:1‡ | 13 |
+| `statusConfirmation.exceptionDescription` | not covered by EBWV since "status confirmation" is a property; the proposed property to be used here is [schema:description](https://schema.org/description) | Free-text description of the exception situation | String | 0:1‡ | 13 |
 
-| **Data Identifier**                             | **Semantic Reference** | **Definition**                                                                         | **Data type** | **Occurrence** |
-|-------------------------------------------------|------------------------|----------------------------------------------------------------------------------------|---------------|----------------|
-| member_state_legislation.applies_for_duration   | [fullPeriodCovered](https://w3id.org/ebwv#fullPeriodCovered) <br> needs to be changed to "activityDurationCovered" | Indicates whether the certificate applies for the full duration of the activity        | Boolean       | 0:1            |
-| member_state_legislation.provisional            | [provisionalDetermination](https://w3id.org/ebwv#provisionalDetermination) | Indicates whether the determination is provisional                                     | Boolean       | 0:1            |
-| member_state_legislation.transitional_rules     | [transitionalRules](https://w3id.org/ebwv#transitionalRules) | Indicates whether transitional rules apply                                              | Boolean       | 0:1            |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** |
+| --- | --- | --- | --- | --- |
+| member_state_legislation.applies_for_duration | [fullPeriodCovered](https://w3id.org/ebwv#fullPeriodCovered) <br> needs to be changed to "activityDurationCovered" | Indicates whether the certificate applies for the full duration of the activity | Boolean | 0:1 |
+| member_state_legislation.provisional | [provisionalDetermination](https://w3id.org/ebwv#provisionalDetermination) | Indicates whether the determination is provisional | Boolean | 0:1 |
+| member_state_legislation.transitional_rules | [transitionalRules](https://w3id.org/ebwv#transitionalRules) | Indicates whether transitional rules apply | Boolean | 0:1 |
 
 ---
 
-| **Data Identifier**          | **Semantic Reference** | **Definition**                              | **Data type** | **Occurrence** | **SD Group** |
-|------------------------------|------------------------|---------------------------------------------|---------------|----------------|--------------|
-| employer.address.street_nr   | [employer](https://w3id.org/ebwv#employer).[registeredAddress](https://w3id.org/ebwv#registeredAddress).[thoroughfare](https://w3id.org/ebwv#thoroughfare) and [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street and number of the employer's address | String        | 0:1            | 10           |
-| employer.address.post_code   | [employer](https://w3id.org/ebwv#employer).[registeredAddress](https://w3id.org/ebwv#registeredAddress).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the employer's address       | String        | 0:1            | 10           |
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Occurrence** | **SD Group** |
+| --- | --- | --- | --- | --- | --- |
+| employer.address.street_nr | [employer](https://w3id.org/ebwv#employer).[registeredAddress](https://w3id.org/ebwv#registeredAddress).[thoroughfare](https://w3id.org/ebwv#thoroughfare) and [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | Street and number of the employer's address | String | 0:1 | 10 |
+| employer.address.post_code | [employer](https://w3id.org/ebwv#employer).[registeredAddress](https://w3id.org/ebwv#registeredAddress).[postCode](https://w3id.org/ebwv#postCode) | Postal code of the employer's address | String | 0:1 | 10 |
 
-`documentID` is a **top-level string** — the unique identifier of the issued PD A1 certificate.
+`documentID` is a **top-level string**, the unique identifier of the issued PD A1 certificate.
 
-| Data Identifier  | Semantic Reference | Definition | Data type | Occurrence | SD Group |
-|----------------|---|--------|-----------|------------|----------|
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+| --- | --- | --- | --- | --- | --- |
 | `documentID` | [identifier](https://w3id.org/ebwv#identifier) | Unique identifier of the issued PD A1 certificate | String | 1:1 | 14 |
 
----
-
-### 2.9 Competent Institution
+#### 3.1.7 Competent Institution
 
 The social security institution that issued this certificate. The four fields `institutionID`, `institutionName`, `countryCode`, and `address` are required. No additional properties permitted (`additionalProperties: false`).
 
-| Data Identifier | Semantic Reference  | Definition | Data type | Occurrence | SD Group |
-|----------------|---|--------|-----------|------------|----------|
+| Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
+| --- | --- | --- | --- | --- | --- |
 | `competentInstitution.institutionID` | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) <br> OR <br> [identifier](https://w3id.org/ebwv#identifier) latter one used if the competent institution is not registered nationally as a legal entity | Unique identifier of the competent institution | String | 1:1 | 15 |
 | `competentInstitution.institutionName` | [legalName](https://w3id.org/ebwv#legalName) <br> OR <br> [schema:name](https://schema.org/name) latter one used if the competent institution is not registered nationally as a legal entity | Name of the competent institution | String | 1:1 | 15 |
 | `competentInstitution.countryCode` | TBD | Country code of the competent institution (PDA1 set) | countryCodePDA1States | 1:1 | 15 |
-| `competentInstitution.address.streetAndNumber` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity  |  Street name and house number of the institution | String | 0:1 | 16 |
-| `competentInstitution.address.town` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity| Town of the institution's address | String | 1:1 | 16 |
-| `competentInstitution.address.postcode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity| Postal code of the institution's address | String | 0:1 | 16 |
-| `competentInstitution.address.countryCode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity| Country of the institution's address (PDA1 set) | countryCodePDA1States | 1:1 | 16 |
+| `competentInstitution.address.streetAndNumber` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity | Street name and house number of the institution | String | 0:1 | 16 |
+| `competentInstitution.address.town` | [registeredAddress](https://w3id.org/ebwv#registeredAddress) <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity | Town of the institution's address | String | 1:1 | 16 |
+| `competentInstitution.address.postcode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity | Postal code of the institution's address | String | 0:1 | 16 |
+| `competentInstitution.address.countryCode` | [registeredAddress](https://w3id.org/ebwv#registeredAddress)  <br> OR <br>  [hasAddress](https://w3id.org/ebwv#hasAddress) latter one used if the competent institution is not registered nationally as a legal entity | Country of the institution's address (PDA1 set) | countryCodePDA1States | 1:1 | 16 |
 | `competentInstitution.officeFaxNumber` | [contactPoint](https://w3id.org/ebwv#contactPoint) <br> note that "fax number" is not included as a property of the "Contact Point" class in EBWV | Office fax number (E.164 format) | phoneNumber | 0:1 | 16 |
-| `competentInstitution.officePhoneNumber` | [contactPoint](https://w3id.org/ebwv#contactPoint)  | Office phone number (E.164 format) | phoneNumber | 0:1 | 16 |
+| `competentInstitution.officePhoneNumber` | [contactPoint](https://w3id.org/ebwv#contactPoint) | Office phone number (E.164 format) | phoneNumber | 0:1 | 16 |
 | `competentInstitution.email` | [contactPoint](https://w3id.org/ebwv#contactPoint) | Email address of the institution | email | 0:1 | 16 |
 
----
+### 3.2 Mandatory attributes
 
-### 2.10 Metadata
+
+### 3.3 Optional attributes
+
+
+### 3.4 Conditional attributes
+
+
+## 4 Metadata
 
 > **Note:** The attributes listed below are **not part of the v1.0 PD A1 attestation data schema**. They are defined at the encoding or framework layer (SD-JWT VC, eIDAS 2.0) and are subject to change as the encoding specification evolves.
 >
-> The separation is intentional: an application-data schema describes semantic content — field names, types, and constraints — which remains stable across encoding formats. Issuance and transport metadata, by contrast, is format- and infrastructure-specific (SD-JWT VC claim names, eIDAS 2.0 lifecycle attributes). Mixing them would couple a stable data definition to volatile infrastructure choices, and would prevent the schema from being reused across different encoding formats. Metadata attributes are therefore defined at the framework or protocol layer and referenced here for completeness only.
+> The separation is intentional: an application-data schema describes semantic content, field names, types, and constraints, which remains stable across encoding formats. Issuance and transport metadata, by contrast, is format- and infrastructure-specific (SD-JWT VC claim names, eIDAS 2.0 lifecycle attributes). Mixing them would couple a stable data definition to volatile infrastructure choices, and would prevent the schema from being reused across different encoding formats. Metadata attributes are therefore defined at the framework or protocol layer and referenced here for completeness only.
 
----
+Metadata describes the attestation rather than its subject.
 
-### 2.11 Integrity Rules
+### 4.1 Mandatory metadata
+
+
+**Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
+Section 4.1 of the generic template replaces it with the `category` attribute of
+[ETSI TS 119 472-1], whose value for this category is `eaa:eu:non-qualified`.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+`attestation_legal_category`, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.
+
+### 4.2 Optional metadata
+
+
+### 4.3 Conditional metadata
+
+
+### 4.4 Code lists
+
+
+### 4.5 Integrity rules
 
 The following rules are derived strictly from constraints in the v1.0 PD A1 attestation data schema. Rules concerning metadata (§2.10) are marked as framework-layer.
 
-**Top-level required properties:** All seven properties — `subject`, `memberstateAppliedLegislation`, `employmentSituations`, `placesOfWork`, `statusConfirmation`, `documentID`, `competentInstitution` — MUST be present. No additional top-level properties are permitted (`additionalProperties: false`).
+**Top-level required properties:** All seven properties, `subject`, `memberstateAppliedLegislation`, `employmentSituations`, `placesOfWork`, `statusConfirmation`, `documentID`, `competentInstitution`, MUST be present. No additional top-level properties are permitted (`additionalProperties: false`).
 
 **Date format:** All `date` values MUST conform to the format `YYYY-MM-DD` and match the pattern `^\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|02-(?:0[1-9]|1\d|2[0-9]))$`.
 
-**Country-code set — world (`countryCodeWorld`, 195 codes):** MUST be used for `subject.nationalities[]`, `subject.placeOfBirth.countryCode`, `subject.address.stateOfResidence[].countryCode`, and `employmentSituations[].address.countryCode`.
+**Country-code set, world (`countryCodeWorld`, 195 codes):** MUST be used for `subject.nationalities[]`, `subject.placeOfBirth.countryCode`, `subject.address.stateOfResidence[].countryCode`, and `employmentSituations[].address.countryCode`.
 
-**Country-code set — PDA1 (`countryCodePDA1States`, 32 codes):** MUST be used for `memberstateAppliedLegislation.memberstate`, `subject.address.stateOfStay[].countryCode`, all property names (keys) of `placesOfWork`, `placesOfWork.<CC>[].address.countryCode`, `competentInstitution.countryCode`, and `competentInstitution.address.countryCode`.
+**Country-code set, PDA1 (`countryCodePDA1States`, 32 codes):** MUST be used for `memberstateAppliedLegislation.memberstate`, `subject.address.stateOfStay[].countryCode`, all property names (keys) of `placesOfWork`, `placesOfWork.<CC>[].address.countryCode`, `competentInstitution.countryCode`, and `competentInstitution.address.countryCode`.
 
 **Nationalities:** `subject.nationalities` MUST contain at least one entry (`minItems: 1`) and MUST NOT contain duplicate codes (`uniqueItems: true`).
 
-**Subject address:** `subject.address` MUST satisfy `anyOf` — either `stateOfResidence` is present with at least one item (`minItems: 1`), or `stateOfStay` is present with at least one item (`minItems: 1`); both MAY be present simultaneously. No properties other than `stateOfResidence` and `stateOfStay` are permitted in `subject.address` (`additionalProperties: false`).
+**Subject address:** `subject.address` MUST satisfy `anyOf`, either `stateOfResidence` is present with at least one item (`minItems: 1`), or `stateOfStay` is present with at least one item (`minItems: 1`); both MAY be present simultaneously. No properties other than `stateOfResidence` and `stateOfStay` are permitted in `subject.address` (`additionalProperties: false`).
 
 **Employment situations:** `employmentSituations` MUST contain at least one item (`minItems: 1`). Each item MUST include all five required fields: `typeOfEmployment`, `name`, `employerID`, `typeOfID`, `address`. No additional properties are permitted per item (`additionalProperties: false`).
 
@@ -522,11 +626,12 @@ The following rules are derived strictly from constraints in the v1.0 PD A1 atte
 
 **Status exception:** `statusConfirmation.statusConfirmationCode` is required. `statusConfirmation.exceptionDescription` MUST NOT be present when `statusConfirmationCode` is any value other than `"11"`. It is optional even when the code is `"11"`.
 
-**No extra properties:** The following objects enforce `additionalProperties: false` or `unevaluatedProperties: false` — no properties beyond those defined in the schema may appear in: `subject`, `subject.names`, `subject.placeOfBirth`, `subject.address`, `memberstateAppliedLegislation`, each `employmentSituation`, `addressPDA1State`, `addressWorld`, each `placeOfWork`, `statusConfirmation`, `competentInstitution`.
+**No extra properties:** The following objects enforce `additionalProperties: false` or `unevaluatedProperties: false`, no properties beyond those defined in the schema may appear in: `subject`, `subject.names`, `subject.placeOfBirth`, `subject.address`, `memberstateAppliedLegislation`, each `employmentSituation`, `addressPDA1State`, `addressWorld`, each `placeOfWork`, `statusConfirmation`, `competentInstitution`.
 
-**Metadata integrity rules** *(framework-layer — not v1.0 schema):* `issuance_date` and `expiry_date` MUST be valid ISO 8601 DateTimes; `expiry_date` MUST be later than `issuance_date`; `attestation_legal_category` MUST be one of `"QEAA"`, `"PuB-EAA"`, or `"EAA"`; `vct` MUST be `eu.we-build.pda1.1`.
+**Metadata integrity rules** *(framework-layer, not v1.0 schema):* `issuance_date` and `expiry_date` MUST be valid ISO 8601 DateTimes; `expiry_date` MUST be later than `issuance_date`; `attestation_legal_category` MUST be one of `"QEAA"`, `"PuB-EAA"`, or `"EAA"`; `vct` MUST be `eu.we-build.pda1.1`.
 
-## 3 Attestation Encoding
+
+## 5 Formats
 
 This chapter defines how the PD A1 attestation is serialized into a concrete verifiable-attestation
 format. It is important to keep two distinct layers apart:
@@ -540,15 +645,10 @@ format. It is important to keep two distinct layers apart:
   credential type, holder binding, revocation status). These claims live at the SD-JWT VC / eIDAS 2.0
   layer (see §2.10).
 
-**This chapter does not repeat field meanings, data types, or value codelists — see Chapter 2 for
+**This chapter does not repeat field meanings, data types, or value codelists, see Chapter 2 for
 the data model.**
 
-### 3.1 ISO/IEC 18013-5-Compliant Encoding
-
-ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as specific aspects of offline proximity
-presentation are not a current requirement for the PD A1 attestation.
-
-### 3.2 SD-JWT VC-Based Encoding
+### 5.1 SD-JWT VC-based encoding
 
 The PD A1 attestation uses the SD-JWT VC format to allow for selective disclosure of citizen
 and employment attributes based on SD element groups.
@@ -565,25 +665,25 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `vct: eu.we-build.pda1.1`
 
-#### 3.2.1 Envelope / Metadata Claims
+#### 5.1.1 Envelope / Metadata Claims
 
 The claims below form the SD-JWT VC **envelope** that wraps the Chapter 2 application data. They are
 defined at the SD-JWT VC / eIDAS 2.0 layer and are **not part of the Chapter 2 application data**
-(see §2.10). This table lists only envelope claims — application-data attributes, their data types,
+(see §2.10). This table lists only envelope claims, application-data attributes, their data types,
 and their codelists are defined in Chapter 2 and are not repeated here.
 
-| **Claim**                    | **Encoding Format**       | **Reference / Notes**                                                                     | **Disclosable** |
-|------------------------------|---------------------------|-------------------------------------------------------------------------------------------|-----------------|
-| `vct`                        | String                    | Verifiable Credential Type; **SHALL** be `eu.we-build.pda1.1`                             | Non-SD          |
-| `iss`                        | String (URI)              | Issuer identifier (the competent institution issuing the attestation); RFC 7519          | Non-SD          |
-| `iat`                        | Number (Unix timestamp)   | Issuance time; RFC 7519                                                                   | Non-SD          |
-| `exp`                        | Number (Unix timestamp)   | Expiry time; **MUST** be later than `iat`; RFC 7519                                       | Non-SD          |
-| `jti`                        | String (URI)              | Unique JWT identifier for this attestation instance; RFC 7519                            | Non-SD          |
-| `cnf`                        | JSON object (JWK / kid)   | Holder key-binding confirmation claim; RFC 7519                                           | Non-SD          |
-| `attestation_legal_category` | String                    | eIDAS 2.0 legal category; one of `QEAA` / `PuB-EAA` / `EAA` (see §2.11)                   | Non-SD          |
-| `binding`                    | String                    | Holder binding type (e.g., PID binding, Wallet Instance binding, no binding)             | Non-SD          |
-| `status`                     | JSON object               | Revocation status via status list; see §3.2.2                                             | Non-SD          |
-| `trust_anchor_url`           | String (URI)              | Optional. URL from which the trust anchor for verifying this attestation can be retrieved | MAY             |
+| **Claim** | **Encoding Format** | **Reference / Notes** | **Disclosable** |
+| --- | --- | --- | --- |
+| `vct` | String | Verifiable Credential Type; **SHALL** be `eu.we-build.pda1.1` | Non-SD |
+| `iss` | String (URI) | Issuer identifier (the competent institution issuing the attestation); RFC 7519 | Non-SD |
+| `iat` | Number (Unix timestamp) | Issuance time; RFC 7519 | Non-SD |
+| `exp` | Number (Unix timestamp) | Expiry time; **MUST** be later than `iat`; RFC 7519 | Non-SD |
+| `jti` | String (URI) | Unique JWT identifier for this attestation instance; RFC 7519 | Non-SD |
+| `cnf` | JSON object (JWK / kid) | Holder key-binding confirmation claim; RFC 7519 | Non-SD |
+| `attestation_legal_category` | String | eIDAS 2.0 legal category; one of `QEAA` / `PuB-EAA` / `EAA` (see §2.11) | Non-SD |
+| `binding` | String | Holder binding type (e.g., PID binding, Wallet Instance binding, no binding) | Non-SD |
+| `status` | JSON object | Revocation status via status list; see §3.2.2 | Non-SD |
+| `trust_anchor_url` | String (URI) | Optional. URL from which the trust anchor for verifying this attestation can be retrieved | MAY |
 
 **Notes:**
 
@@ -596,7 +696,7 @@ and their codelists are defined in Chapter 2 and are not repeated here.
 - The application-data attributes wrapped by this envelope, and their SD element group membership,
   are defined in Chapter 2 (§2.3–§2.9).
 
-#### 3.2.2 Status Claim
+#### 5.1.2 Status Claim
 
 PD A1 attestations are based on [SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/). If a PD A1 attestation issued as an SD-JWT VC is meant to be valid for longer than 24 hours, the `status` claim as shown in [SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/16/) and specified in [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) MUST be used according to this rulebook. This claim enables Relying Parties to determine whether a credential has been revoked via a status list mechanism as specified in [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/).
 
@@ -622,10 +722,36 @@ For further details see [section 6.2. in Token Status List (TSL)](https://datatr
 
 The [Token Status List (TSL)](https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/) defines basic status types like `VALID`, `INVALID` and `SUSPENDED`. This rulebook limits the statuses allowed to be used for PD A1 SD-JWT VC attestations to only `VALID` and `INVALID`. Any status other than `VALID` or `INVALID` for a referenced VC is to be considered "not defined" and therefore MUST be treated as if the credential's status is `INVALID`.
 
-### 3.2.3 Example Payload
+#### 5.1.3 Example Payload
 A valid PD A1 JSON example is provided in [`pda1-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/pda1-sd-jwt-sample.json).
 
-## 4 Attestation usage
+### 5.2 ISO/IEC 18013-5-compliant encoding
+
+ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as specific aspects of offline proximity
+presentation are not a current requirement for the PD A1 attestation.
+
+### 5.3 W3C Verifiable Credentials Data Model-based encoding
+
+This Rulebook does not define a W3C Verifiable Credentials Data Model encoding for this attestation type.
+
+## 6 Protocols
+
+This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].
+
+## 7 Issuance
+
+### 7.1 Binding
+
+| Field | Value | Source |
+| --- | --- | --- |
+| Device-bound | MAY | EW-DM-12-038 |
+| Cryptographically bound to | none | EW-DM-12-032 |
+| Relying Party must also verify a PID | no | EW-DM-12-031 |
+| Binding subject | legal person |  |
+
+### 7.2 Issuance Policy
 
 The PD A1 Attestation is a certificate that documents the applicable legislation regarding social security in a cross-border employment situation. It is mainly intended for verifying that a "posted worker" abroad is covered by the social security system of his "sending state"(home country) while temporarily working in a "receiving state". Based on an application by the "sending" employer, the PD A1 Attestation is issued by a competent social security institution of the "sending state".
 
@@ -645,7 +771,7 @@ A Relying Party receiving the attestation SHALL verify:
 - the credential validity period;
 - the credential status, where a status mechanism is present;
 - holder binding, where used;
-- the integrity rules defined in Section 2.9;
+- the integrity rules defined in Section 3.1.7;
 
 In EUDI Wallet related usage scenarios, the Relying Party SHOULD request and verify PID or another accepted identity credential - or compare the PD A1 subject data with other identification means - to verify that it matches the affected person. In such cases, the Relying Party SHOULD compare the relevant identity attributes with the PD A1 Attestation. The Relying Party SHALL apply data minimisation and SHALL request only the attributes required for their specific purposes.
 
@@ -656,29 +782,76 @@ As the PD A1 Attestation is not only relevant for usage by the citizen but also 
 - The Attestation MAY be device-bound through holder binding where supported by the EUDI Wallet and the applicable SD-JWT VC profile;
 - The attestation MAY be cryptographically bound to a PID or another accepted identity attestation where the usage requires stronger identity matching. Where this binding is used, the metadata attribute cryptographically_bound_to SHOULD contain: urn:eudi:pid:1
 
-## 5 Trust anchors
+
+### 7.3 Lifecycle management
+
+The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.
+
+### 7.4 Embedded disclosure policy
+
+This attestation defines no embedded disclosure policy.
+
+## 8 Revocation
+
 This chapter will be completed in a future version of this Rulebook.
 
-## 6 Revocation
+## 9 Presentation
+
+### 9.1 Presentation Policy
+
+To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:
+
+1. verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;
+2. verify that the attestation is within its validity period;
+3. check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;
+4. verify device binding where section 7.1 records the attestation as device-bound;
+5. request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.
+
+Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:
+
+
+### 9.2 Presentation modes
+
+Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.
+
+### 9.3 Transactional data
+
+This Rulebook defines no transactional data.
+
+## 10 Trust Framework
+
 This chapter will be completed in a future version of this Rulebook.
 
-## 7 References
+**Trust anchor location**
+
+The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.
+
+## 11 References
+
 This chapter will be completed in a future version of this Rulebook.
 
-## 8 References
-| **Item Reference**                     | **Standard name/details**                                                                                                                                                                                                                                                                           |
-|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework                            |
-| [HAIP]                                 |Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03|
-| [IANA-JWT-Claims]                      | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml|
-| [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification — ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09|
-| [ISO 4217]                             | ISO 4217 — Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html|
-| [ISO 8601]                             | ISO 8601 — Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html|
-| [OIDC]                                 |Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html|
-| [RFC 2119]                             | RFC 2119 — Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997|
-| [RFC 3339]                             |RFC 3339 — Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002|
-| [RFC 8610]                             |RFC 8610 — Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019|
-| [RFC 8943]                             |RFC 8943 — Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020|
-| [RFC 8949]                             |RFC 8949 — Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020|
-| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09|
-| [Topic 7]                              |ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking|
+| **Item Reference** | **Standard name/details** |
+| --- | --- |
+| [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
+| [HAIP] | Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
+| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
+| [ISO 4217] | ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html |
+| [ISO 8601] | ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html |
+| [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html |
+| [RFC 2119] | RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
+| [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
+| [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
+| [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09 |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking |
