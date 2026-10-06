@@ -66,6 +66,55 @@ Category: non-qualified EAA
 
 
 ## 1 Introduction
+This attestation addresses the following question:
+
+**Where does the responsible economic operator operate his business, and what unique
+identifiers are associated to a site?**
+
+The Site Attestation provides a standardized, verifiable digital representation of a specific
+physical location (site) operated by an economic operator. It enables structured exchange of
+site-level data for use in KYS (Know Your Supplier), KYC (Know Your Customer), supply chain
+mapping, compliance verification, and regulatory audit processes.
+
+A site is defined as an operational business element conducted by a specific economic operator
+entity at a specific physical location. An economic operator is a role of a European Business
+Wallet Owner (EBW owner).
+
+The Site Attestation is **NOT** designed to provide Economic Operator specific data such as
+NACE code, tax information, nor attestations regarding the operating Economic Operator. These
+data are provided by EBW owner attestations like EUCC, EBWOID, and others. The site
+attestation **MUST** be linked to the economic operator by providing at least one unique
+identifier associated to the Economic Operator.
+
+Transparency in supply chain requires clarity about location and operation of an economic
+operator's sites, for example to define incoterms, track products, or calculate CO2eq emissions.
+
+Examples:
+- A legal entity delivers goods to 10 other companies and operates from a hired site.
+- A legal entity operates in 100 manufacturing sites and has to declare from which site the
+  product is delivered.
+
+The added value for a company to have "site" as an attestation is to automate contracting
+processes in offering, delivering, creating digital product passports and reporting, customs and
+other authorities.
+
+Economic Operator attestations (like EUCC, LEI, DUNS legal entity, ...) help to answer
+KYC/KYS questions like:
+- Who signs the contract?
+- Who bears liability?
+- Corporate hierarchy?
+
+The Site Attestation helps to answer questions like:
+- Where does the work get performed?
+- Which facility is in scope?
+- What operational risk do we have?
+- For which establishments do we need which compliance attestations? (e.g., ISO 9000, ...)
+
+Together, they support key KYC/KYS topics:
+- Multi-site suppliers
+- Site-specific approvals
+- Regulatory audits
+- Supply-chain mapping
 
 ### 1.1 Document scope and purpose
 
