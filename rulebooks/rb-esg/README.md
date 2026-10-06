@@ -66,6 +66,21 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**Does this legal entity hold a valid ESG-related certificate (e.g., ISO 9001, ISO 14001, IATF 16949) and what is its certified scope?**
+
+The ESG Certificate Attestation provides a standardized, verifiable digital representation of Environmental, Social, and Governance certificates held by a legal entity, enabling structured exchange of certification data for use in KYS, supplier onboarding, compliance verification, and regulatory audit processes.
+
+The issuers of the certificate are:
+- **(a) Accredited issuers** — certification bodies authorized to issue ESG-related certificates
+  (e.g., Bureau Veritas, TÜV, DNV).
+- **(b) Legal entities** — companies that own certificates that are still valid but need to present
+  the data as an EAA during onboarding to their customers.
+
+
+## 1 Introduction
+
 ### 1.1 Document scope and purpose
 
 The ESG Certificate Attestation provides a standardized, verifiable digital representation of
