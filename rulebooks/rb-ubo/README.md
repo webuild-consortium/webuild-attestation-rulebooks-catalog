@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Ultimate Beneficial Owner (UBO)
 
-Category: EAA or QEAA, selected at issuance per integrity rule IR-24 in section 4.5
+Category: S-EAA or QEAA, selected at issuance per integrity rule IR-24 in section 4.5
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
