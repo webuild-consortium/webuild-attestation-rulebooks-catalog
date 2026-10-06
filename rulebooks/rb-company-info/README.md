@@ -67,6 +67,12 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+**What additional company information is available that is not publicly accessible can be atteested by the company or by a QTSP provider?**
+
+The Company Information (CompanyInfo) Attestation describes additional company-level information which is not part of the EUCC core identity dataset. The attestation enables structured exchange of business profile attributes for use in KYS (Know Your Supplier), KYC (Know Your Customer), supplier onboarding, and risk assessment processes.
+
 ### 1.1 Document scope and purpose
 
 The Company Information (CompanyInfo) Attestation describes additional company-level information which is not part of the EUCC core identity dataset. The attestation enables structured exchange of business profile attributes for use in KYS (Know Your Supplier), KYC (Know Your Customer), supplier onboarding, and risk assessment processes.
