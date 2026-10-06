@@ -66,6 +66,12 @@ Category: non-qualified EAA
 
 ## 1 Introduction
 
+This attestation addresses the following question:
+
+What are the agreed financial conditions — including payment due date, currency, and delivery terms — between a buyer and a supplier?
+
+The Payment Terms Attestation provides a standardized, verifiable representation of the financial conditions agreed between a buyer and a supplier, enabling structured exchange of payment term attributes for use in KYS, KYC, supplier onboarding, financial risk assessment, and regulatory compliance processes
+
 ### 1.1 Document scope and purpose
 
 Payment terms define the financial conditions under which a buyer settles a transaction with a
