@@ -462,11 +462,6 @@ FIXED
 > *   **Attribute Proofing:** This is the process of verifying the specific claims (attributes) being attested. The Provider **MUST** verify the attributes against a designated authentic data source (as defined by the author below).
 
 > ---
-> OPEN TOPICS
-> To enable a EBW Provider to implement basic verification steps described in Chapter 9.2 the "General obligations of an Attestation Provider" that are out of scope of this rulebook need to be updated. The following requirements need to be considered:
-> 1. The EAA Provider needs an attestation from a QTSP that binds his EUID to a "signing_key". This should be the EBWOID with the additional "signing_key" parameter. Where do we specify the solution? Proposed Answer: EBWOID rulebook
-> 2. The EAA Provider needs a mechanism to transfer his attested public signing key and also the identity attestation of the QTSP to the unknown RP. e.g.: He can include his EBWOID in the Header of each EAA and in the Header of the EBWOID the QTSP has included his EBWOID or the x.509 identity chain. That is a general issuer obligation. Is this mechanism already specified? Where do we specify this mechanism?
-> I personally prepare and have prepared the following text based on ADR#168 or a merged ADR between ADR#168 and ADR#336
 
 > #### **3. Architectural Pattern for EAA Provider Trust**
 
