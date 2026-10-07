@@ -53,7 +53,7 @@ leave it alone. Strip all three before submission to the EC catalogue.
 - [8 Revocation](#8-revocation)
 - [9 Request, Presentation and Verification](#9-request-presentation-and-verification)
    * [9.1 Relying Party Role ( RP Instance - EUDI Wallet)](#91-relying-party-role--rp-instance---eudi-wallet)
-   * [9.2 Relying Party Role ( EBW Wallet - EBW Wallet)](#92-ebw-relying-party-role--ebw-wallet---ebw-wallet)
+   * [9.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)](#92-ebw-relying-party-role--ebw-wallet---ebw-wallet)
    * [9.3 Presentation modes](#93-presentation-modes)
    * [9.4 Transactional data](#94-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
