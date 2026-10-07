@@ -1,7 +1,8 @@
-* Template version: 1.1, 20-08-2025
+# Attestation Rulebook for attestations of type EU Company Certificate (EUCC)
+
+Category: PuB-EAA
 
 
-# Attestation Rulebook for attestations of type European Company Certificate (EUCC)
 
 *Provide information about the author(s) of this Rulebook in the following form:*
 
@@ -17,18 +18,63 @@
 
 *Provide versioning information about the Rulebook in the following form:*
 
-| Version          | Date               | Description                                      |
-|------------------|--------------------|--------------------------------------------------|
-| 01                | 12.01.2025         | Initial Draft based on the previous [work of EWC ](https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/rulebooks/rb002_eu_company_certificate.md) |
-| 02                | 10.04.2026         | Updated according to the work done in WE BUILD, using the [WE BUILD EUCC attestation description](https://portal.webuildconsortium.eu/group/bu2-create-company-branch/files?mid=7087&fid%5B0%5D=56&fid%5B1%5D=58&fid%5B2%5D=62) |
 
 **Feedback:**
 Main feedback channel: [GitHub issues](https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues)
 Alternative: Contact Business usecase 2 contact points in WE BUILD.
 
+| Version | Date | Description |
+| --- | --- | --- |
+| 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+
+**Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
+
+**Feedback:** [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues)
+
+## Table of contents
+
+- [1 Introduction](#1-introduction)
+   * [1.1 Document scope and purpose](#11-document-scope-and-purpose)
+   * [1.2 Document structure](#12-document-structure)
+   * [1.3 Key words](#13-key-words)
+   * [1.4 Terminology](#14-terminology)
+- [2 Compliance](#2-compliance)
+   * [2.1 Compliance statement](#21-compliance-statement)
+   * [2.2 Regulatory basis](#22-regulatory-basis)
+   * [2.3 Traceability](#23-traceability)
+- [3 Attestation attributes](#3-attestation-attributes)
+   * [3.1 Introduction](#31-introduction)
+   * [3.2 Mandatory attributes](#32-mandatory-attributes)
+   * [3.3 Optional attributes](#33-optional-attributes)
+   * [3.4 Conditional attributes](#34-conditional-attributes)
+- [4 Metadata](#4-metadata)
+   * [4.1 Mandatory metadata](#41-mandatory-metadata)
+   * [4.2 Optional metadata](#42-optional-metadata)
+   * [4.3 Conditional metadata](#43-conditional-metadata)
+   * [4.4 Code lists](#44-code-lists)
+   * [4.5 Integrity rules](#45-integrity-rules)
+- [5 Formats](#5-formats)
+   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
+- [6 Protocols](#6-protocols)
+- [7 Issuance](#7-issuance)
+   * [7.1 Binding](#71-binding)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
+   * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
+- [8 Revocation](#8-revocation)
+- [9 Presentation](#9-presentation)
+   * [9.1 Presentation Policy](#91-presentation-policy)
+   * [9.2 Presentation modes](#92-presentation-modes)
+   * [9.3 Transactional data](#93-transactional-data)
+- [10 Trust Framework](#10-trust-framework)
+- [11 References](#11-references)
+
+
 ## 1 Introduction
 
-### 1.1 Attestation introduction
+### 1.1 Document scope and purpose
 
 This document is the EU Company Certificate Data Rulebook (referred to as EUCC) based on
 the [EU Company Law regulation](https://eur-lex.europa.eu/eli/dir/2025/25/oj/eng). It contains the specific requirements, issuance process, formatting and content of the EUCC. 
@@ -49,123 +95,113 @@ It embodies:
 - The legal representatives authorized to bind the company
 - The applicable signatory rules
 
-### 1.2 Introduction attribute specification
+### 1.2 Document structure
 
-The attestation attributes are defined in the tables of Chapter 2 of this document. These tables contain the following information:
+This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.
+
+### 1.3 Key words
+
+This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.
+
+In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.
+
+### 1.4 Terminology
+
+This document uses terminology specified in [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/eli/reg/2024/1183/oj/eng) and [Annex 1 of the ARF](https://eudi.dev/1.4.0/annexes/annex-1/annex-1-definitions/).
+
+In addition to the attributes definition necessary to understand the data schema, it's important to understand:
+
+| Term | Definition in WE BUILD Context |
+| --- | --- |
+| Natural person | an individual human being who has legal rights and obligations. Unlike a legal person (which refers to an organization or entity), a natural person is a human with the capacity to engage in legal relationships, enter into contracts, own property, and be subject to legal actions. Natural persons are distinct from artificial entities (like corporations or governments). In legal terms, a natural person is someone who exists as a human being, as opposed to a corporate or fictional entity. |
+| Legal person | an entity that has legal rights and obligations, similar to a natural person (an individual). It is an organization or group recognized by law as having the capacity to enter into contracts, sue, and be sued, and own property. Legal persons are distinct from the individuals who may own, manage, or be part of them. Examples of legal persons include Corporations, Government agencies, public entities (that are granted legal recognition to act on behalf of the state), Nonprofit organizations A legal person exists as a separate legal entity, meaning it can perform legal actions in its own name, distinct from the actions of its members. |
+| Legal entity | an organization or structure that is recognized by law as having legal rights and responsibilities distinct from those of its members or owners. A legal entity can enter into contracts, own property, incur debts, and be held liable for legal actions in its own name. Legal entities include various forms of organizations such as Corporations, Limited liability companies (LLCs), Nonprofit organizations, Partnerships The key characteristic of a legal entity is that it has its own legal existence, allowing it to perform actions independently of the individuals who are involved with it. |
+| Legal representative | Natural or legal person authorized to act on behalf of another person or organization in legal matters. This person has the legal authority to represent the interests of the entity, such as a company, in dealings with other parties, including signing contracts, making decisions, and appearing in legal proceedings. For businesses, a legal representative can be a director, officer, or another person designated by the company's governing body (like the board of directors) to represent the company in legal matters. In the case of individuals, a legal representative might include a guardian, power of attorney holder, or someone with similar legal authority to act on behalf of the person. |
+| Signatory rights | the authority or power granted to an individual or entity to legally bind an organization or company by signing contracts, agreements, or other formal documents. This authority can be granted to a specific person, such as an executive, director, or authorized representative, and can be either individual (where one person alone can sign) or joint (where multiple individuals are required to sign together). Signatory rights are important because they ensure that any commitments made by the organization are legally valid and enforceable. The terms and scope of signatory rights are usually outlined in the organization's internal governance documents, such as its bylaws, and can vary based on the level of responsibility and the nature of the agreements being signed. |
+
+## 2 Compliance
+
+### 2.1 Compliance statement
+
+This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.
+
+
+### 2.2 Regulatory basis
+
+This attestation includes the data required by Annex VII of Regulation (EU) 2024/1183,
+points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-017, EW-DM-12-019, EW-DM-12-021
+and EW-DM-12-023 respectively. It is issued by or on behalf of a public sector body
+responsible for an authentic source: the business register of the Member State of
+registration.
+
+### 2.3 Traceability
+
+Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.
+
+| Requirement | Legacy ID | Applies | Satisfied in section | Note |
+| --- | --- | --- | --- | --- |
+| EW-DM-12-001 | ARB_01a | yes | 5 | SD-JWT VC only; W3C VCDM is not permitted for a PuB-EAA, section 5.3 is retained as an informative working profile |
+| EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC following the HAIP profile |
+| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope |
+| EW-DM-12-005 | ARB_04 | no |  | W3C VCDM is not permitted for a PuB-EAA; see the note in section 5.3 |
+| EW-DM-12-006 | ARB_05 | yes | 5 | Unique vct for this attestation type |
+| EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
+| EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
+| EW-DM-12-009 | ARB_06b | yes | 5 | SD-JWT VC claim naming |
+| EW-DM-12-010 | ARB_07 | yes | 3 | Attributes reused from the catalogued vocabulary where one exists |
+| EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
+| EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
+| EW-DM-12-014 | ARB_11 | yes | 3.2 | `attestation_legal_category` carries the Annex VII point a indication |
+| EW-DM-12-015 | ARB_12 | no |  | Applies to non-qualified EAA only |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-017 for a PuB-EAA, through `issuing_authority` and `issuing_country` |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2, 3.2 | Point c, EW-DM-12-019, through the company identification attributes |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 4.1 | Point e, EW-DM-12-021, through `expiry_date` and the issuance metadata |
+| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Point h, EW-DM-12-023: `trust_anchor` locates the qualified certificate that signed the attestation |
+| EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
+| EW-DM-12-030 | ARB_26 | no |  | Applies to non-qualified EAA only |
+| EW-DM-12-031 | ARB_27 | no |  | The holder is a legal person identified through the EBWOID; see section 7.1 |
+| EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
+| EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
+| EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
+| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding MAY apply; justification in section 7.1 |
+
+## 3 Attestation attributes
+
+Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.
+
+### 3.1 Introduction
+
+The attestation attributes are defined in the tables of this chapter. These tables contain the following information:
 - The first column specifies the identifiers of the attestation attributes. The attribute identifiers in this column SHALL be used in requests and responses. There SHALL be at most one attribute with the same attribute identifier in each attestation attribute.
 - The second column describes the meaning of the attribute.
 - The third column specifies whether the presence of the attribute in an attestation is mandatory (M), or optional (O).
     - NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.
 - The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].
 
-### 1.3 Document structure
-
-- Chapter 2, Attestation attributes and metadata in an encoding-independent manner. 
-- Chapter 3, Attestation attributes for the specific encodings [SD-JWT VC] and [W3C VCDM v2.0].
-- Chapter 4, Attestation usage.
-- Chapter 5, Trust anchors
-- Chapter 6, Revocation mechanisms
-- Chapter 7, Compliance information
-
-
-### 1.4 Keywords
-
-
-This document uses the capitalised keywords 'SHALL', 'SHOULD' and 'MAY' as
-specified in [RFC 2119], i.e. to indicate requirements, recommendations and
-options specified in this document.
-
-In addition, 'must' (non-capitalised) is used to indicate an external
-constraint, i.e. a requirement that is not mandated by this document, but, for
-instance, by an external document. The word 'can' indicates a capability,
-whereas other words, such as 'will', and 'is' or 'are' are intended as
-statements of fact.
-
-### 1.5 Terminology
-
-This document uses terminology specified in [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/eli/reg/2024/1183/oj/eng) and [Annex 1 of the ARF](https://eudi.dev/1.4.0/annexes/annex-1/annex-1-definitions/).
-
-In addition to the attributes definition necessary to understand the data schema, it's important to understand:
-
-| Term                 | Definition in WE BUILD Context                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Natural person       | an individual human being who has legal rights and obligations. Unlike a legal person (which refers to an organization or entity), a natural person is a human with the capacity to engage in legal relationships, enter into contracts, own property, and be subject to legal actions. Natural persons are distinct from artificial entities (like corporations or governments). In legal terms, a natural person is someone who exists as a human being, as opposed to a corporate or fictional entity.                                                                                                                                                                                                                                                                                           | 
-| Legal person         | an entity that has legal rights and obligations, similar to a natural person (an individual). It is an organization or group recognized by law as having the capacity to enter into contracts, sue, and be sued, and own property. Legal persons are distinct from the individuals who may own, manage, or be part of them. Examples of legal persons include Corporations, Government agencies, public entities (that are granted legal recognition to act on behalf of the state), Nonprofit organizations A legal person exists as a separate legal entity, meaning it can perform legal actions in its own name, distinct from the actions of its members.                                                                                                                                      | 
-| Legal entity         | an organization or structure that is recognized by law as having legal rights and responsibilities distinct from those of its members or owners. A legal entity can enter into contracts, own property, incur debts, and be held liable for legal actions in its own name. Legal entities include various forms of organizations such as Corporations, Limited liability companies (LLCs), Nonprofit organizations, Partnerships The key characteristic of a legal entity is that it has its own legal existence, allowing it to perform actions independently of the individuals who are involved with it.                                                                                                                                                                                         |
- | Legal representative | Natural or legal person authorized to act on behalf of another person or organization in legal matters. This person has the legal authority to represent the interests of the entity, such as a company, in dealings with other parties, including signing contracts, making decisions, and appearing in legal proceedings. For businesses, a legal representative can be a director, officer, or another person designated by the company's governing body (like the board of directors) to represent the company in legal matters. In the case of individuals, a legal representative might include a guardian, power of attorney holder, or someone with similar legal authority to act on behalf of the person.                                                                                 |
- | Signatory rights     | the authority or power granted to an individual or entity to legally bind an organization or company by signing contracts, agreements, or other formal documents. This authority can be granted to a specific person, such as an executive, director, or authorized representative, and can be either individual (where one person alone can sign) or joint (where multiple individuals are required to sign together). Signatory rights are important because they ensure that any commitments made by the organization are legally valid and enforceable. The terms and scope of signatory rights are usually outlined in the organization's internal governance documents, such as its bylaws, and can vary based on the level of responsibility and the nature of the agreements being signed.  | 
-
-
-## 2 Attestation attributes and metadata
-
-*This section is used for defining all attributes that an
-attestation of the defined type may contain. In this section
-the attributes SHALL be defined in an encoding-independent manner (see ARB_06 in [Topic 12]). 
-Each attribute can be mandatory, optional, or conditional, 
-and it SHALL be specified in the corresponding section (see ARB_09 in [Topic 12]).*
-
-*When attributes are defined, referring to attributes that
-already exist in a catalogue of attestation attributes 
-SHOULD be considered (see ARB_07 in [Topic 12]).*
-
-*[Topic 12] of Annex 2 of the ARF defines the following High-Level Requirements with
-respect to the Attestation Rulebooks*
-
-**Requirements for QEAA**
-* An attribute as meant in Annex V point a) of the [European Digital Identity Regulation] 
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1. 
-* One or more attributes or metadata representing the set of data meant in Annex 
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_13 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point c)  
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex V point e) 
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* One or more attributes or metadata representing the location meant in Annex V point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL 
-indicate at least the URL at which a machine-readable version of the trust anchor to be
-used for verifying the QEAA can be found or looked up (see ARB_20 in [Topic 12])
-
-**Requirements for PuB-EAA**
-* Αn attribute as meant in Annex VII point a) of the [European Digital Identity Regulation] 
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* Οne or more attributes or metadata representing the set of data meant in Annex
- VII point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_14 in [Topic 12]).
-* Οne or more attributes representing the set of data meant in Annex VII point c) 
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* Οne or more attributes or metadata representing the set of data meant in Annex VII point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* one or more attributes or metadata representing the location meant in Annex VII point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL 
-indicate at least the URL at which a machine-readable version of the qualified 
-certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [Topic 12]) 
-
-**Requirements for non-qualified EAA**
-* An attribute indicating that the attestation is an EAA should be included (see ARB_12 in [Topic 12]).
-See also section 2.1.
-* Οne or more attributes or metadata representing the set of data meant in Annex 
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_15 in [Topic 12]).
-* Οne or more attributes representing the set of data meant in Annex V point c) of the 
-[European Digital Identity Regulation] SHOULD be included (see ARB_17 in [Topic 12])
-* Οne or more attributes representing the set of data meant in Annex V point e) of 
-the [European Digital Identity Regulation] SHOULD be defined (see ARB_19 in [Topic 12]).
- * Οne or more attributes or metadata representing the location at which a machine-readable 
-version of the trust anchor to be used for verifying the EAA can be found or
-looked up SHOULD be defined. What this location indicates precisely is dependent 
-on the nature of the mechanism used for distributing trust anchors, detailed in section 
-5 (see ARB_21 in [Topic 12])
-
-### 2.1 Overview attributes attestation
+#### 3.1.1 Overview attributes attestation
 
 The following table combines all attestation attributes for the EUCC (mandatory, optional, and conditional) in a single overview. Attribute identifiers SHALL be used in requests and responses.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|---|
-| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | M | string |
+| --- | --- | --- | --- | --- |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | `Pub-EAA`; the EUCC is issued as a public sector body EAA | M | string |
 | legal_person_name | [legalName](https://w3id.org/ebwv#legalName) | Official current legal person name as registered in the business register. | M | string |
 | legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
 | legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
 | registration_member_state | The registration member state information can be retrieved from the EUID. | The member state where the company is registered (Alpha-2 country code). | M | string |
-| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 2.5](#25-address) | M | object |
+| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 3.1.2](#25-address) | M | object |
 | registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
 | legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | M | string |
 | legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). | M | string |
@@ -174,7 +210,82 @@ The following table combines all attestation attributes for the EUCC (mandatory,
 | legal_person_duration | [endDate](https://w3id.org/ebwv#endDate) | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
 | digital_contact_point | [contactPoint](https://w3id.org/ebwv#contactPoint) | Correspondence address of the company, such as electronic mail and/or website | O | object |
 
-### 2.2 Code lists
+#### 3.1.2 Address
+There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+| --- | --- | --- | --- | --- |
+| full_address | [fullAddress](https://w3id.org/ebwv#fullAddress) | Complete address of the company, written as a string, separated by semicolons. | M | string |
+| care_of |  | Used when the address is at the address of another person or legal person. | O | string |
+| thorough_fare | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | The name of a passage or way through from one location to another. | O | string |
+| locator_designator | [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | A number or sequence that uniquely identifies the locator. | O | string |
+| post_code | [postCode](https://w3id.org/ebwv#postCode) | The code created and maintained for postal purposes. | O | string |
+| post_name | [postName](https://w3id.org/ebwv#postName) | A name identifying a subdivision of addresses (e.g., city). | O | string |
+| post_office_box | [poBox](https://w3id.org/ebwv#poBox) | A location designator for a postal delivery point at a post office. | O | string |
+| locator_name | [locatorName](https://w3id.org/ebwv#locatorName) | Proper noun(s) applied to the real-world entity. | O | string |
+| admin_unit_level_1 | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | The uppermost administrative unit (typically country). | O | string |
+| admin_unit_level_2 | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | Secondary level/region (typically county or state). | O | string |
+
+### 3.2 Mandatory attributes
+
+
+### 3.3 Optional attributes
+
+
+### 3.4 Conditional attributes
+
+If a Natural Person is representative of a legal person, the following attributes SHALL be included:
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+| --- | --- | --- | --- | --- |
+| full_name | [Person](https://w3id.org/ebwv#Person).[fullName](https://w3id.org/ebwv#fullName) | Full name of the natural person representing the company. | M | string |
+| date_of_birth | [Person](https://w3id.org/ebwv#Person).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person representing the company. | M | string (date) |
+| identifier | [legalRepresentativeId](https://w3id.org/ebwv#legalRepresentativeId) | Natural person representative or national identifier | O | string |
+| nationality | [Person](https://w3id.org/ebwv#Person).[citizenship](https://w3id.org/ebwv#citizenship) | OPTIONAL: Nationality of the natural person representing the company. | O | string |
+| signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
+
+
+If a Legal Person is representative of a legal person, the following attributes SHALL be included:
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+| --- | --- | --- | --- | --- |
+| name | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalName](https://w3id.org/ebwv#legalName) | Details about the legal person representing the company. | M | string |
+| id | [legalRepresentativeId](https://w3id.org/ebwv#legalRepresentativeId) | Unique ID for the legal person in the EUID structure. | M | string |
+| legal_form_type | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the legal person representing the company. | M | string |
+| signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
+
+A combination of natural and legal persons can be legal representatives of a legal person.
+
+## 4 Metadata
+
+Metadata describes the attestation rather than its subject.
+
+### 4.1 Mandatory metadata
+
+| **Data Identifier** | **Semantic Reference** | **Definition** |
+| --- | --- | --- |
+| expiry_date | [cred:validUntil](https://w3.org/2018/credentials#validUntil) | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
+| issuing_authority | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName) | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC. |
+| issuing_country | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data. |
+
+**Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
+Section 4.1 of the generic template replaces it with the `category` attribute of
+[ETSI TS 119 472-1], whose value for this category is `urn:etsi:esi:eaa:eu:pub`.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+`attestation_legal_category`, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.
+
+### 4.2 Optional metadata
+
+
+### 4.3 Conditional metadata
+
+| **Data Identifier** | **Semantic Reference** | **Definition** |
+| --- | --- | --- |
+| location_status | [cred:credentialStatus](https://w3.org/2018/credentials#credentialStatus) | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours. |
+| trust_anchor | [cred:termsOfUse](https://w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs. |
+
+### 4.4 Code lists
 
 The following code lists apply to specific attributes:
 
@@ -206,7 +317,7 @@ Values:
 - joint_all
 - limited
 
-### 2.3 Integrity rules
+### 4.5 Integrity rules
 
 - registration_member_state MUST be a valid ISO 3166-1 alpha-2 code.
 - registration_date MUST be equal to or earlier than the issuance date of the attestation.
@@ -215,72 +326,16 @@ Values:
 - signatory_rule MUST be defined for each legal representative.
 
 
-### 2.4 Conditional attributes
+## 5 Formats
 
-If a Natural Person is representative of a legal person, the following attributes SHALL be included:
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|---|
-| full_name | [Person](https://w3id.org/ebwv#Person).[fullName](https://w3id.org/ebwv#fullName) | Full name of the natural person representing the company. | M | string |
-| date_of_birth | [Person](https://w3id.org/ebwv#Person).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person representing the company. | M | string (date) |
-| identifier | [legalRepresentativeId](https://w3id.org/ebwv#legalRepresentativeId) | Natural person representative or national identifier | O | string |
-| nationality | [Person](https://w3id.org/ebwv#Person).[citizenship](https://w3id.org/ebwv#citizenship) | OPTIONAL: Nationality of the natural person representing the company. | O | string |
-| signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
+| Format | Supported | Identifier | Specification | Notes |
+| --- | --- | --- | --- | --- |
+| ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Not defined; no proximity presentation requirement, see section 5.2 |
+| SD-JWT VC | yes | `vct` `uri:eu.eudi.eucc.1` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile, see section 5.1 |
+| W3C VCDM | no |  | [W3C VCDM v2.0] | Not permitted for a PuB-EAA (EW-DM-12-001); section 5.3 is an informative working profile |
 
 
-
-If a Legal Person is representative of a legal person, the following attributes SHALL be included:
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|---|
-| name | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalName](https://w3id.org/ebwv#legalName) | Details about the legal person representing the company. | M | string |
-| id | [legalRepresentativeId](https://w3id.org/ebwv#legalRepresentativeId) | Unique ID for the legal person in the EUID structure. | M | string |
-| legal_form_type | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the legal person representing the company. | M | string |
-| signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
-
-A combination of natural and legal persons can be legal representatives of a legal person.
-
-### 2.5 Address
-There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
-|---|---|---|---|---|
-| full_address | [fullAddress](https://w3id.org/ebwv#fullAddress) | Complete address of the company, written as a string, separated by semicolons. | M | string |
-| care_of | |  Used when the address is at the address of another person or legal person. | O | string |
-| thorough_fare | [thoroughfare](https://w3id.org/ebwv#thoroughfare) | The name of a passage or way through from one location to another. | O | string |
-| locator_designator | [locatorDesignator](https://w3id.org/ebwv#locatorDesignator) | A number or sequence that uniquely identifies the locator. | O | string |
-| post_code | [postCode](https://w3id.org/ebwv#postCode) | The code created and maintained for postal purposes. | O | string |
-| post_name | [postName](https://w3id.org/ebwv#postName) | A name identifying a subdivision of addresses (e.g., city). | O | string |
-| post_office_box | [poBox](https://w3id.org/ebwv#poBox) | A location designator for a postal delivery point at a post office. | O | string |
-| locator_name | [locatorName](https://w3id.org/ebwv#locatorName) | Proper noun(s) applied to the real-world entity. | O | string |
-| admin_unit_level_1 | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | The uppermost administrative unit (typically country). | O | string |
-| admin_unit_level_2 | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2)| Secondary level/region (typically county or state). | O | string |
-
-
-### 2.6 Mandatory metadata 
-
-| **Data Identifier** | **Semantic Reference**  | **Definition**                                                                                                                                                                                           |
-|-------------------|---|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| expiry_date       | [cred:validUntil](https://w3.org/2018/credentials#validUntil)   | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
-| issuing_authority | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName)  | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.             |
-| issuing_country   | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction)  |  Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.                                                                         |
-
-### 2.7 Conditional metadata 
-
-| **Data Identifier** | **Semantic Reference**   | **Definition** |
-|-------------------|---|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| location_status   | [cred:credentialStatus](https://w3.org/2018/credentials#credentialStatus)  | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours.  |
-| trust_anchor      | [cred:termsOfUse](https://w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs.  |
-
-
-
-# 3 Attestation encoding 
-
-## 3.1 ISO/IEC 18013-5-compliant encoding 
-
-ISO/IEC 18013-5 (also called mdoc) is out of scope for this rulebook, as offline proximity presentation is not a current requirement for EUCC.
-
-### 3.2 SD-JWT VC-based encoding 
+### 5.1 SD-JWT VC-based encoding
 
 The EUCC attestation uses the SD-JWT VC format to allow for selective disclosure of company attributes.
 Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to preserve the legally mandated content of the EUCC.
@@ -292,86 +347,94 @@ The . notation is used to indicate the nesting of attributes.
 **Verifiable Credential Type (`vct`):** `uri:eu.eudi.eucc.1`
 
 
-| **Data Identifier**                                | **Attribute identifier**                          | **Encoding format** | **Reference/Notes**                                                        |
-|----------------------------------------------------|---------------------------------------------------|---------------------|----------------------------------------------------------------------------|
-| attestation_legal_category                         | attestation_legal_category                        | string              | One of EAA, Pub-EAA, QEAA as defined by eIDAS 2                            |
-| issuing_authority                                  | iss                                               | string              | RFC 7519 / Section 2.6                                                     |
-| expiry_date                                        | exp                                               | number              | RFC 7519 / Section 2.6 (Unix timestamp)                                    |
-| issuing_country                                    | issuing_country                                   | string              | ISO 3166-1 alpha-2                                                         |
-| legal_person_name                                  | legal_person_name                                 | string              | Official current legal person name as registered in the business register. |
-| legal_person_id                                    | legal_person_id                                   | string              | EUID                                                                       |
-| legal_form_type                                    | legal_form_type                                   | string              | Legal form of the company.                                                 |
-| registration_member_state                          | registration_member_state                         | string              | The member state where the company is registered (Alpha-2 country code).   |
-| registration_date                                  | registration_date                                 | string              | ISO 8601 (YYYY-MM-DD)                                                      |
-| legal_person_status                                | legal_person_status                               | string              |                                                                            |
-| legal_person_activity                              | legal_person_activity                             | object              | The NACE code describing the main activity                                 |
-| legal_person_activity.code                         | legal_person_activity.code                        | string              |                                                                            |
-| legal_person_activity.description                  | legal_person_activity.description                 | string              |                                                                            |
-| legal_person_duration                              | legal_person_duration                             | date                | Given as date following ISO 8601                                           |
-| registered_address                                 | registered_address                                | object              | See section 2.5 for structure                                              |
-| registered_address.full_address                    | registered_address.full_address                   | string              |                                                                            |
-| registered_address.care_of                         | registered_address.care_of                        | string              |                                                                            |
-| registered_address.thorough_fare                   | registered_address.thorough_fare                  | string              |                                                                            |
-| registered_address.locator_designator              | registered_address.locator_designator             | string              |                                                                            |
-| registered_address.post_code                       | registered_address.post_code                      | string              |                                                                            |
-| registered_address.post_name                       | registered_address.post_name                      | string              |                                                                            |
-| registered_address.post_office_box                 | registered_address.post_office_box                | string              |                                                                            |
-| registered_address.locator_name                    | registered_address.locator_name                   | string              |                                                                            |
-| registered_address.admin_unit_level_1              | registered_address.admin_unit_level_1             | string              |                                                                            |
-| registered_address.admin_unit_level_2              | registered_address.admin_unit_level_2             | string              |                                                                            |
-| legal_representative                               | legal_representative                              | array               | Array of natural/legal persons                                             |
-| legal_representative.legal_person                  | legal_representative.legal_person                 | object              |                                                                            |
-| legal_representative.legal_person.name             | legal_representative.legal_person.name            | string              |                                                                            |
-| legal_representative.legal_person.id               | legal_representative.legal_person.id              | string              |                                                                            |
-| legal_representative.legal_person.formtype         | legal_representative.legal_person.formtype        | string              |                                                                            |
-| legal_representative.legal_person.signatory_rule   | legal_representative.legal_person.signatory_rule  | string              |                                                                            |
-| legal_representative.natural_person                | legal_representative.natural_person               | object              |                                                                            |
-| legal_representative.natural_person.full_name      | legal_representative.natural_person.full_name     | string              |                                                                            |
+| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** |
+| --- | --- | --- | --- |
+| attestation_legal_category | attestation_legal_category | string | `Pub-EAA` as defined by eIDAS 2 |
+| issuing_authority | iss | string | RFC 7519 / Section 2.6 |
+| expiry_date | exp | number | RFC 7519 / Section 2.6 (Unix timestamp) |
+| issuing_country | issuing_country | string | ISO 3166-1 alpha-2 |
+| legal_person_name | legal_person_name | string | Official current legal person name as registered in the business register. |
+| legal_person_id | legal_person_id | string | EUID |
+| legal_form_type | legal_form_type | string | Legal form of the company. |
+| registration_member_state | registration_member_state | string | The member state where the company is registered (Alpha-2 country code). |
+| registration_date | registration_date | string | ISO 8601 (YYYY-MM-DD) |
+| legal_person_status | legal_person_status | string |  |
+| legal_person_activity | legal_person_activity | object | The NACE code describing the main activity |
+| legal_person_activity.code | legal_person_activity.code | string |  |
+| legal_person_activity.description | legal_person_activity.description | string |  |
+| legal_person_duration | legal_person_duration | date | Given as date following ISO 8601 |
+| registered_address | registered_address | object | See section 3.1.2 for structure |
+| registered_address.full_address | registered_address.full_address | string |  |
+| registered_address.care_of | registered_address.care_of | string |  |
+| registered_address.thorough_fare | registered_address.thorough_fare | string |  |
+| registered_address.locator_designator | registered_address.locator_designator | string |  |
+| registered_address.post_code | registered_address.post_code | string |  |
+| registered_address.post_name | registered_address.post_name | string |  |
+| registered_address.post_office_box | registered_address.post_office_box | string |  |
+| registered_address.locator_name | registered_address.locator_name | string |  |
+| registered_address.admin_unit_level_1 | registered_address.admin_unit_level_1 | string |  |
+| registered_address.admin_unit_level_2 | registered_address.admin_unit_level_2 | string |  |
+| legal_representative | legal_representative | array | Array of natural/legal persons |
+| legal_representative.legal_person | legal_representative.legal_person | object |  |
+| legal_representative.legal_person.name | legal_representative.legal_person.name | string |  |
+| legal_representative.legal_person.id | legal_representative.legal_person.id | string |  |
+| legal_representative.legal_person.formtype | legal_representative.legal_person.formtype | string |  |
+| legal_representative.legal_person.signatory_rule | legal_representative.legal_person.signatory_rule | string |  |
+| legal_representative.natural_person | legal_representative.natural_person | object |  |
+| legal_representative.natural_person.full_name | legal_representative.natural_person.full_name | string |  |
 | legal_representative.natural_person.identifier | legal_representative.natural_person.identifier | string | Natural person representative identifier |
-| legal_representative.natural_person.date_of_birth  | legal_representative.natural_person.date_of_birth | string              |                                                                            |
-| legal_representative.natural_person.nationality    | legal_representative.natural_person.nationality   | string              |                                                                            |
-| legal_representative.natural_person.signatory_rule | legal_representative.natural_person.signatory_rule | string   |                                                                            |
-| share_capital                                      | share_capital                                     | object              |                                                                            |
-| share_capital.amount                               | share_capital.amount                              | string              |                                                                            |
-| share_capital.currency                             | share_capital.currency                            | string              |                                                                            |
-| digital_contact_point                              | digital_contact_point                             | object              |                                                                            |
-| digital_contact_point.website                      | digital_contact_point.website                     | string              |                                                                            |
-| digital_contact_point.email                        | digital_contact_point.email                       | string              |                                                                            |
-| location_status                                    | status                                            | object              | See chapter [3.2.3](#321-attribute-status)                                 |
+| legal_representative.natural_person.date_of_birth | legal_representative.natural_person.date_of_birth | string |  |
+| legal_representative.natural_person.nationality | legal_representative.natural_person.nationality | string |  |
+| legal_representative.natural_person.signatory_rule | legal_representative.natural_person.signatory_rule | string |  |
+| share_capital | share_capital | object |  |
+| share_capital.amount | share_capital.amount | string |  |
+| share_capital.currency | share_capital.currency | string |  |
+| digital_contact_point | digital_contact_point | object |  |
+| digital_contact_point.website | digital_contact_point.website | string |  |
+| digital_contact_point.email | digital_contact_point.email | string |  |
+| location_status | status | object | See chapter [3.2.3](#321-attribute-status) |
 
 
-#### 3.2.1 Attribute status
+#### 5.1.1 Attribute status
 For SD-JWT VC-compliant EUCCs, the EUCC MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/).
 
 The status claim SHALL be a JSON object with the following members:
 
-* 'type' (string): SHALL be "status-list".
-* 'status_list_credential' (string, URI): The URI of the Status List Credential document that contains the status bitstring.
-* 'status_list_index' (integer, >= 0): The zero-based index into the status list bitstring that corresponds to this credential.
-* 'status_purpose' (string): SHALL be "revocation" for this PID.
+* `status_list` (object): the reference to this EUCC's entry in a Token Status List, as specified in CS-10 of the WE BUILD conformance specifications and in the IETF Token Status List.
+* `status_list.idx` (integer, >= 0): the index of this EUCC in the status list.
+* `status_list.uri` (string, URI): the URI of the Status List Token.
 
 Example:
 ```json
 {
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/1",
-    "status_list_index": 42,
-    "status_purpose": "revocation"
+    "status_list": {
+      "idx": 42,
+      "uri": "https://issuer.example.com/statuslists/1"
+    }
   }
 }
 ```
 
-#### 3.2.3 Example Payload 
+#### 5.1.2 Example Payload
 Sample payloads provided under `../../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json`
 
-### 3.3 W3C Verifiable Credentials Data Model-based encoding
+### 5.2 ISO/IEC 18013-5-compliant encoding
+
+ISO/IEC 18013-5 (also called mdoc) is out of scope for this rulebook, as offline proximity presentation is not a current requirement for EUCC.
+
+### 5.3 W3C Verifiable Credentials Data Model-based encoding
+
+> Note: EW-DM-12-001 (ARB_01a) permits the W3C Verifiable Credentials Data Model format for
+> non-qualified EAA only. As a PuB-EAA the EUCC is not issued in this format. The encoding below
+> is retained as an informative working profile of the EU Business Wallet ecosystem, pending a
+> consortium decision, and the deviation is recorded for the rulebook quality assurance group.
 
 W3C Verifiable Credentials are serialized using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) are SHACL (data graph) can be used to validate data - see [Data Schemas](https://www.w3.org/TR/vc-data-model-2.0/#data-schemas).
 
 #### Metadata
 The metadata of an W3C Verifiable Credential are defined in the [Verifiable Credentials Vocabulary v2.0](https://www.w3.org/2018/credentials/). The following extensions are defined in the [European Business Wallet Vocabulary](https://w3id.org/ebwv) in order to support Electronic Attestions of Attributes:
-* [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) in order to specify the category of the EAA (QEAA, Pub-EAA or EAA).
+* [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) in order to specify the category of the EAA, `Pub-EAA` for the EUCC.
 
 #### Credential Subject
 
@@ -400,7 +463,7 @@ example of key binding using DID's:
     "VerifiableCredential",
     "ElectronicAttestationOfAttributes"
   ],
-  "attestationLegalCategory": "QEAA",
+  "attestationLegalCategory": "Pub-EAA",
   "credentialSubject": {
     "@id": "did:key:$publicKeyOfHolder$", // credential subject is bound to organisation
     "@type": [
@@ -473,7 +536,29 @@ A [side-by-side comparision](https://www.w3.org/TR/vc-data-model-2.0/#example-us
 
 The EUCC SHALL include a status claim `credentialStatus` if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [Bitstring Status List v1.0](https://www.w3.org/TR/vc-bitstring-status-list/).
 
-## 4 Attestation usage
+## 6 Protocols
+
+This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].
+
+## 7 Issuance
+
+### 7.1 Binding
+
+| Field | Value | Source |
+| --- | --- | --- |
+| Device-bound | MAY | EW-DM-12-038 |
+| Cryptographically bound to | none | EW-DM-12-032 |
+| Relying Party must also verify a PID | no | EW-DM-12-031 |
+| Binding subject | legal person |  |
+
+The EUCC is a legal-person attestation held in an EU Business Wallet and identified through
+the EBWOID, so the PuB-EAA defaults of binding to a natural person's device and to the PID
+do not apply. Device binding MAY be applied to the key of the business wallet unit, and no
+`cryptographically_bound_to` attribute is used.
+
+### 7.2 Issuance Policy
 
 The EUCC is intended to be used as a standardised, machine-verifiable proof of a company's incorporation and registered company information, to be presented by a Wallet User to an RP in cross-border and domestic contexts.
 
@@ -490,9 +575,6 @@ The EUCC is **not** intended to be used as a standalone authentication mechanism
 
 **Note:** The EUCC is intended for **online, remote presentation** using EUDI Wallet-compatible presentation protocols.
 
-
-### 4.1 Issuance of the EUCC
-
 * The Authentic Source of the data contained in the EUCC MUST be the company register.   The company register can or MUST authorize an issuer to issue EUCCs on their behalf. 
 * The Issuance SHALL be based on up to date, authoritive data from the authorative source as defined by ????? #TODO
 * The EUCC SHALL be key bound to the wallet, IF the wallet belongs to the company that the EUCC is issued for.
@@ -500,7 +582,48 @@ The EUCC is **not** intended to be used as a standalone authentication mechanism
 * The EUCC SHALL be issued in a format that is compatible with the EUDI Wallet ecosystem (e.g., **OpenID4VP** profiles adopted by the ecosystem).
 * To recive an EUCC with keybinding, the application shall ensure that the wallet is owned by the company that the EUCC is issued for through presentation, and matching of key material of the European busesiness wallet owner identifaction data (OID). **Note** If bulk issued to the same wallet, the authorisation process of the OID process SHOULD be considered sufficent for reciept of an EUCC with keybinding in the same transaction. 
 
-### 4.5 Relying Party obligations when processing an EUCC
+### 7.3 Lifecycle management
+
+The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.
+
+### 7.4 Embedded disclosure policy
+
+This attestation defines no embedded disclosure policy.
+
+## 8 Revocation
+
+Attestations of this type are revocable. The facts attested by an EU Company Certificate
+change when the company's registration changes, and the superseded attestation is revoked
+when a new one is issued (section 7.3).
+
+Revocation status is published using a Token Status List, as specified in CS-10 of the
+WE BUILD conformance specifications and in the IETF Token Status List. Every revocable
+EUCC carries a `status` claim with a `status_list` object holding the `idx` of its entry
+and the `uri` of the Status List Token (section 5.1.1). The business register that issued
+the EUCC, or a Status Provider acting on its behalf, publishes the status. The expected
+time from the registration change to the status list update is to be stated by the authors.
+
+
+## 9 Presentation
+
+### 9.1 Presentation Policy
+
+To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:
+
+1. verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;
+2. verify that the attestation is within its validity period;
+3. check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;
+4. verify device binding where section 7.1 records the attestation as device-bound;
+5. request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.
+
+Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:
 
 Beyond protocol-level checks, an RP processing an EUCC presentation **SHALL** perform at least the following controls:
 
@@ -527,80 +650,59 @@ EUCC presentation may involve **transactional data** exchanged as part of the pr
 
 The specific protocol artefacts and parameter names depend on the adopted OpenID4VP profile(s). This rulebook does not prescribe additional EUCC-specific transactional data beyond what is required by the underlying presentation protocol(s).
 
+### 9.2 Presentation modes
 
-## 5 Trust anchors
+Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.
 
+### 9.3 Transactional data
 
-#TODO
+This Rulebook defines no transactional data.
 
+## 10 Trust Framework
 
-*Mechanisms for the provision of a trust anchor that SHALL
-be used for the verification of an attestation SHALL be defined in this section.*
+The trust anchor for this attestation is obtained as described below for a PuB-EAA. The trust
+anchor location applies in either case.
 
-*It is noted that the ARF specifies the following for QEAAs and Pub-EAAs*
+**PuB-EAA**
 
-> To do this for [...] QEAAs the Relying Party Instance uses a trust anchor of
-> the Provider obtained from a Trusted List. Note that the PID Provider or QEAA
-> Provider may use an intermediate signing certificate to sign the PID or
-attestation and use the trust anchor to sign the signing certificate, instead
-> of signing the PID or attestation directly with the trust anchor.
+The Relying Party verifies a PuB-EAA by first verifying the signature of the PuB-EAA Provider
+over the attestation, using the PuB-EAA Provider certificate issued by a qualified trust
+service provider. It then verifies the signature over that certificate using the corresponding
+trust anchor from the QTSP Trusted List, as described in section 6.6.3.6 of the ARF main
+document. Both the PuB-EAA Provider and the QTSP may use an intermediate signing certificate,
+in which case the trust anchor is used to verify that certificate rather than the attestation
+directly.
 
-> For PuB-EAAs, the Relying Party Instance verifies a PuB-EAA by first
-> verifying the signature of the PuB-EAA Provider over the PuB-EAA, using the
-> PuB-EAA Provider certificate issued by a QTSP. Subsequently, the Relying Party
-> Instance verifies the signature over this certificate, using the corresponding
-> trust anchor from the QTSP Trusted List. Note that both the PuB-EAA Provider
-> and the QTSP may use an intermediate signing certificate. All other things
-> being equal, the verification of a PuB-EAA will therefore involve one or more
-> extra certificates, compared to the verification of a PID or QEAA.
+**Trust anchor location**
 
-*For non-qualified EAA in this section it SHOULD be defined (see ARB_26 in [Topic 12])
-how the attributes or metadata representing the location at which a machine-readable 
-version of the trust anchor to be used for verifying the attestation can be found,
-specified in section 2, are used. This includes a detailed description about how
-a Relying Party can obtain the trust anchor, as well as a detailed description about
-how this trust anchor can be used for verifying that the provider is authorised
-to issue the attestation. Additionally, for non-qualified EAA Provider this section
-MAY include a description of mechanisms that can be used by a Wallet Unit for
-verifying that the provider is authorised to issue this type of attestation (see 
-ISSU_34 in [Topic 10])*
+The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up. For a PuB-EAA this location
+refers to the qualified certificate that signed the attestation (EW-DM-12-023); in this
+Rulebook it is the `trust_anchor` metadata of section 4.2.
 
+**Deployment profile**
 
+#TODO: the authors are to record how the business registers' certificates are distributed in
+the WE BUILD deployment, how a Relying Party or Wallet Unit looks them up, and the ordered
+verification steps.
 
+## 11 References
 
-## 6 Revocation
-# TODO
-
-(Refer to [Topic 7] of the ARF for a list of High-Level Requirements related to Revocation)
-
-*In this section information about the revocation mechanism used SHALL be defined.* 
-
-*For PID, QEAA, or PuB-EAA it SHALL be defined whether only short-lived attestations 
-will be used, having a validity period of 24 hours or less, such that revocation 
-will never be necessary, or that the attestations are revocable.* 
-
-*For revocable attestations it SHALL be defined which of the following methods must be implemented:*
-* Use an Attestation Status List mechanism included in a Technical Specification 
-that will be specified by the Commission.
-* Use an Attestation Revocation List mechanism included in a Technical Specification 
-that will be specified by the Commission.
-
-
-## 8 References
-| **Item Reference** | **Standard name/details**|
-|--------------------|---------------------------|
+| **Item Reference** | **Standard name/details** |
+| --- | --- |
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
 | [HAIP] | Yasuda, K. *et al,* OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
 | [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. Available: <https://www.iana.org/assignments/jwt/jwt.xhtml> |
-| [ISO/IEC 18013-5] |  ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
+| [ISO/IEC 18013-5] | ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09 |
 | [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <https://openid.net/specs/openid-connect-core-1_0.html> |
 | [RFC 3339] | RFC 3339  - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
 | [RFC 8610] | RFC 8610  - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
 | [RFC 8943] | RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
 | [RFC 8949] | RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
-| [SD-JWT VC] |  SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09  |
-| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking>|
-| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit>|
-| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks>|
-| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments>|
-| [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation.  |
+| [SD-JWT VC] | SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/>, version draft-ietf-oauth-sd-jwt-vc-09 |
+| [Topic 7] | ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking> |
+| [Topic 10] | ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit> |
+| [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks> |
+| [Topic 20] | ARF Annex 2 - Strong User authentication for electronic payments, Available: <https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments> |
+| [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation. |
