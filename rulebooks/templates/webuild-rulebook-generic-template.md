@@ -690,6 +690,8 @@ FIXED
 
 ## 10.1. Relying Party Role ( RP Instance - EUDI Wallet)
 
+FIXED
+
 > The trust anchor is not obtained from a Trusted List of qualified trust service
 > providers. It is obtained as follows: [CONSORTIUM DEFAULT MECHANISM, TO AGREE].
 > Authorisation of the Provider to issue this attestation type is then verified by
@@ -701,7 +703,9 @@ FIXED
 
 ## 10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)
 
-### 10.2.1 *Non-qualified EAA with Attestation Chaining**
+FIXED
+
+### 10.2.1 Non-qualified EAA with Attestation Chaining
 
 > For this category, the attestation is not issued directly by a Qualified Trust Service Provider (QTSP). Instead, trust is established through a **delegated trust model** that chains back to a qualified credential. The process for a Relying Party to establish the trust anchor is as follows:
 
@@ -717,10 +721,10 @@ FIXED
 
 > Following successful cryptographic verification, the authorisation of the Provider to issue this specific type of attestation is a business-level decision for the Relying Party, based on its own internal policies and trust lists.
 
-### 10.2.2 **Non-qualified EAA signed with QSEAL**
+### 10.2.2 Non-qualified EAA signed with QSEAL
 > [to be described]
 
-### 10.2.3. **Non-qualified EAA based on ADR#336**
+### 10.2.3. Non-qualified EAA based on ADR#336
 > [to be described]
 
 > **Trust anchor location**
