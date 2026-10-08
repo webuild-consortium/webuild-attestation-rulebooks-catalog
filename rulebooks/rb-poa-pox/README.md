@@ -272,10 +272,6 @@ The WE BUILD PoX model currently distinguishes three authority models:
 
 - **Power of Attorney (PoA)** – authority explicitly delegated by a principal through a legally valid mandate defining the scope, duration and limitations of the delegated powers.
 - **Power of Representation (PoR)** – authority derived directly from law, company statutes or an official register. The representative acts by virtue of holding an organizational position recorded by an authentic source.
-- **Power of Employee (PoE)** – authority granted by an organization to an employee or contractor to perform defined operational activities or access specific services on behalf of the organization. Support for PoE may be specified in future versions of this Rulebook.
-
-> REMARK: As a BU4 Onsite Berlin decission, PoE will **NOT** be covered in MVP Pilot scenarios. 
-> It might be covered in MVP+ scenarios.
 
 #### Common Representation Model
 
