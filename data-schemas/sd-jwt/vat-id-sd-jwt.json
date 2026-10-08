@@ -29,7 +29,7 @@
       "format": "uri",
       "description": "Authority issuing the attestation.",
       "examples": [
-        "www.belastingdienst.nl"
+        "https://www.belastingdienst.nl"
       ]
     },
     "iat": {
@@ -186,8 +186,14 @@
             }
           },
           "oneOf": [
-            {"required": ["legal_person"]},
-            {"required": ["natural_person"]}
+            {
+              "required": ["legal_person"],
+              "not": { "required": ["natural_person"] }
+            },
+            {
+              "required": ["natural_person"],
+              "not": { "required": ["legal_person"] }
+            }
           ],
           "additionalProperties": false
 
@@ -389,56 +395,45 @@
         "vat_id_authentic_source"
       ],
       "additionalProperties": false
-    },
+    }, 
     "status": {
       "type": "object",
       "description": "Credential status information used for revocation checks.",
       "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "status-list"
-          ],
+        "status_list": {
+          "type": "object",
           "description": "Status mechanism used by the credential.",
-          "examples": [
-            "status-list"
-          ]
+          "properties": {
+             "uri": {
+                "type": "string",
+                "format": "uri",
+                "description": "URI of the status list credential.",
+                "examples": [
+                  "https://www.belastingdienst.nl/status-list/vat-id/2024"
+                ]
+             },
+             "idx": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Entry index of the credential in the status list.",
+                "examples": [
+                  12547
+                ]
+           }
+          },
+          "required": [
+              "uri",
+              "idx"
+            ],
+          "additionalProperties": false
+          }
         },
-        "status_list_credential": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the status list credential.",
-          "examples": [
-            "https://www.belastingdienst.nl/status-list/vat-id/2024"
-          ]
-        },
-        "status_list_index": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Entry index of the credential in the status list.",
-          "examples": [
-            12547
-          ]
-        },
-        "status_purpose": {
-          "type": "string",
-          "enum": [
-            "revocation"
-          ],
-          "description": "Purpose of the status information.",
-          "examples": [
-            "revocation"
-          ]
-        }
-      },
-      "required": [
-        "type",
-        "status_list_credential",
-        "status_list_index",
-        "status_purpose"
-      ],
-      "additionalProperties": false
+        "required": [
+          "status_list"
+        ],
+        "additionalProperties": false  
     },
+    
     "trust_anchor": {
       "type": "string",
       "format": "uri",
@@ -446,7 +441,8 @@
       "examples": [
         "https://www.belastingdienst.nl/trust-anchor/vat-id-2024"
       ]
-    }
+    },
+    
   },
   "required": [
     "vct",
@@ -454,6 +450,9 @@
     "attestation_legal_category",
     "iss",
     "iat",
-    "issuer"
+    "issuer",
+    "exp",
+    "status",
+    "trust_anchor"
   ]
 }
