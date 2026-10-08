@@ -1,4 +1,4 @@
-# Attestation Rulebook for attestations of type Power of Attorney and Proof of Existence
+e# Attestation Rulebook for attestations of type Power of Attorney and Proof of Existence
 
 Category: non-qualified EAA
 
@@ -268,7 +268,7 @@ This Rulebook is intended for:
 Within the WE BUILD ecosystem, **Power of X (PoX)** is the common semantic model used to describe the authority of a natural or legal person to act on behalf of a Economic Operator in a legally meaningful and verifiable manner.
 Rather than defining a separate attestation type, PoX provides a common representation framework for different forms of delegated or inherent authority. It establishes a shared conceptual model that can be specialized according to the legal origin of the authority.
 
-The WE BUILD PoX model currently distinguishes three authority models:
+The WE BUILD PoX model currently distinguishes two authority models:
 
 - **Power of Attorney (PoA)** – authority explicitly delegated by a principal through a legally valid mandate defining the scope, duration and limitations of the delegated powers.
 - **Power of Representation (PoR)** – authority derived directly from law, company statutes or an official register. The representative acts by virtue of holding an organizational position recorded by an authentic source.
