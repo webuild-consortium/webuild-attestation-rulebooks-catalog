@@ -57,6 +57,8 @@ leave it alone. Strip all three before submission to the EC catalogue.
    * [9.3 Presentation modes](#93-presentation-modes)
    * [9.4 Transactional data](#94-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
+   * [10.1 Relying Party Role ( RP Instance - EUDI Wallet)](#101-relying-party-role--rp-instance---eudi-wallet)
+   * [10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)](#102-ebw-relying-party-role--ebw-wallet---ebw-wallet)
 - [11 References](#11-references)
 
 
@@ -684,7 +686,22 @@ FIXED
 > intermediate signing certificate, in which case the trust anchor is used to verify
 > that certificate rather than the attestation directly.
 
-> **Non-qualified EAA with Attestation Chaining**
+**Non-qualified EAA**
+
+## 10.1. Relying Party Role ( RP Instance - EUDI Wallet)
+
+> The trust anchor is not obtained from a Trusted List of qualified trust service
+> providers. It is obtained as follows: [CONSORTIUM DEFAULT MECHANISM, TO AGREE].
+> Authorisation of the Provider to issue this attestation type is then verified by
+> [PROCEDURE].
+>
+> A Wallet Unit MAY verify Provider authorisation using the mechanism described in
+> ISSU_34 of Topic 10 of Annex 2 of the ARF.
+.
+
+## 10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+
+### 10.2.1 *Non-qualified EAA with Attestation Chaining**
 
 > For this category, the attestation is not issued directly by a Qualified Trust Service Provider (QTSP). Instead, trust is established through a **delegated trust model** that chains back to a qualified credential. The process for a Relying Party to establish the trust anchor is as follows:
 
@@ -700,10 +717,10 @@ FIXED
 
 > Following successful cryptographic verification, the authorisation of the Provider to issue this specific type of attestation is a business-level decision for the Relying Party, based on its own internal policies and trust lists.
 
-> **Non-qualified EAA signed with QSEAL**
+### 10.2.2 **Non-qualified EAA signed with QSEAL**
 > [to be described]
 
-> **Non-qualified EAA based on ADR#336**
+### 10.2.3. **Non-qualified EAA based on ADR#336**
 > [to be described]
 
 > **Trust anchor location**
