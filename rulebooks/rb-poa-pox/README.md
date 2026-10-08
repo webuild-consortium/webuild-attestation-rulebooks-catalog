@@ -210,7 +210,7 @@ Role	Expected Actors
 
 Primary Use Cases:
 
-B2B: Authorizing employees or partners to sign contracts, conduct financial transactions, or represent the company in negotiations or get access to services
+B2B: Providing employees or partners with a digital proof of an existing authorization to sign contracts, conduct financial transactions, or represent the company in negotiations or get access to services
 
 B2G: Representation before public authorities (e.g., submitting tax reporting, social security matters, ...)
 
