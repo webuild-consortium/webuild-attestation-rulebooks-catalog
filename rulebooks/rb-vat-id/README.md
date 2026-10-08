@@ -241,7 +241,6 @@ Mandatory attributes are stated per object of the data model in section 3.1.
 | --- | --- | --- | --- | --- |
 | administrative_unit | administrative unit | administrative unit within an economic operator that holds a separate administration to which the VAT-ID is issued | Administrative_unit  Object | .. |
 | issuer | [cred:issuer](https://www.w3.org/2018/credentials#issuer) | Authority that issues the VAT ID | Issuer Object | .. |
-| display | display |  | Display Object | .. |
 
 #### 3.2.2 administrative_unit
 
