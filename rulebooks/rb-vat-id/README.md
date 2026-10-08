@@ -6,8 +6,16 @@ Category: QEAA or PuB-EAA, as stated in `attestation_legal_category`
     * [Sierd Westerfield](mailto:s.westerfield@belastingdienst.nl), Tax Administration Netherlands
 
 | Version | Date | Description |
+|---------|------------|------------|
+| 1.0 |08-10-2026 | Removed Display |
+| 0.99 | 05-10-2026 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 0.98 |08-09-2026 | Split Legal & natural person |
+| 0.97 |03-09-2026 | Further enhancements |
+| 0.95 |28-08-2026 | Updates by semantics |
+| 0.9 |29-06-2026 | Multiple enhancements |
+| 0.8 |05-06-2026 | Changed registration for xborder VAT and description of economic activity|
+| 0.7 | 30-04-2026 | Copy from Open Social Rulebook specification |
 | --- | --- | --- |
-| 0.99 | 2026-10-05 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -37,7 +45,6 @@ Category: QEAA or PuB-EAA, as stated in `attestation_legal_category`
    * [4.3 Conditional metadata](#43-conditional-metadata)
    * [4.4 Code lists](#44-code-lists)
    * [4.5 Integrity rules](#45-integrity-rules)
-   * [4.6 Display](#46-display)
 - [5 Formats](#5-formats)
    * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
    * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
@@ -217,19 +224,11 @@ vat_id_attestation
 │       ├─ economic_activity_nomenclature_version [0]     (version of the nomenclature)
 │       ├─ economic_activity_id                   [1]       (id used in the nomenclature)
 │       └─ economic_activity_description.         [1..n]    (object using language:, value)
-├─ issuer                                         [1]
-│   ├─ issuing_country                            [1]
-│   ├─ issuing_authority                          [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
-│   ├─ attestation_issuing_date                   [1]        (date on which the attestation is issued)
-│   └─ attestation_issuing_organisation           [1]
-└─ display                                        [1]       Items to be displayd on the card in the wallet
-    ├─ title                                      [1]       Name of the card displayed in wallet (VAT-ID)
-    ├─ organisation_name                          [1]       legal_name of the organisation that owns the VAT-ID
-    ├─ subtitle                                   [0]
-    ├─ issuer_logo                                [0]
-    ├─ issuer_name                                [1]       issuing_organisation
-    ├─ background_color                           [0]
-    └─ text_color                                 [0]
+└─ issuer                                         [1]   
+    ├─ issuing_country                            [1]
+    ├─ issuing_authority                          [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
+    ├─ attestation_issuing_date                   [1]        (date on which the attestation is issued)
+    └─ attestation_issuing_organisation           [1]
 ````
 
 ### 3.2 Mandatory attributes
@@ -401,39 +400,7 @@ No conditional metadata are defined for this attestation type.
 | EA1 | If ('administrative_unit. Economic_Activity_Type.ID' AND 'administrative_unit. Economic_Activity_Type.Nomenclature <>"NACE")  is equal ('administrative_unit. Economic_Activity_Type.ID' AND 'administrative_unit. Economic_Activity_Type.Nomenclature == "NACE") Then 'administrative_unit.Economic_Activity_Type.Nomenclature SHOULD be "NACE" | The default Nomenclature is NACE, if the ID in the local Nomenclature directly relates to the NACE ID, the NACE ID and TYPE SHOULD be used. | Issuers SHOULD implement a tranlation table to create mostly NACE codes |
 | XB1 | If ('issuing_country' is not in EU Then  'registered_eu_ cross_border_transactions' SHOULD be false | Only countries in the EU can take part in the registered_eu_ cross_border_transactions |
 
-### 4.6 Display
 
-#### 4.6.1 Mandatory Display items
-
-| **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| display.title | title | VAT-ID of the card as shown in the wallet with the label in a specific language using  BCP 47 | String | en-GB: VAT-ID: DE123456789 |
-| display.organisation_name | [legalName](https://w3id.org/ebwv#legalname) | Name of the administrative organisation,SHOULD be the same as economic_operator.organisation_name | string |  |
-| display.issuing_authority | issuingAuthority | The name of the issuing party in a specific language using  BCP 47, should be the same as issuer.issuing_authority | string | nl-NL: Belastingdienst |
-
-#### 4.6.2 Optional display items
-
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| display.subtitle | subtitle | Additional reference to a part of the organisation if the organisation has multiple administrative units | string |  |
-| display.issuer_logo | issuer_logo | Logo of the issuer base64 encoded SVG, PNG or JPG | string |  |
-| background_color | background_color | Hex-colour voor de background. **formally not part of the Display object** | string |  |
-| text_color | text_color | Hex-colour voor de text **formally not part of the Display object** | string |  |
-
-```
-  "display": [
-    {
-      "name": "title",
-      "locale": "en-GB",
-      "label": "VAT-ID: "
-    },
-    {
-      "name": "title",
-      "locale": "nl_NL",
-      "label": "BTW-Nummer: "
-    }
-  ]
-```
 
 ## 5 Formats
 
@@ -503,32 +470,22 @@ The VAT-ID attestation uses the SD-JWT VC format to allow for selective disclosu
 
 #### 5.1.2 Status Claim
 
-For SD-JWT VC-compliant Ownership attestations, the attestation MUST include a `status`
-claim if the technical validity period is greater than 24 hours. This claim enables Relying
-Parties to determine if a credential has been revoked via a status list mechanism, as specified
-in SD-JWT VC.
-
-The `status` claim SHALL be a JSON object with the following members:
-
-- `type` (string): SHALL be `"status-list"`.
-- `status_list_credential` (string, URI): The URI of the Status List Credential document that
-  contains the status bitstring.
-- `status_list_index` (integer, >= 0): The zero-based index into the status list bitstring that
-  corresponds to this credential.
-- `status_purpose` (string): SHALL be `"revocation"` for this attestation.
-
-Example:
+The revocable attestation (SD-JWT VC per HAIP [7]) carries the status reference in its signed payload. The claim is not selectively disclosable.
 
 ```json
 {
   "status": {
- "type": "status-list",
- "status_list_credential": "https://issuer.example.com/status/ownership/2025",
- "status_list_index": 456,
- "status_purpose": "revocation"
+    "status_list": {
+      "idx": 422,
+      "uri": "https://status-provider.example.com/statuslists/1"
+    }
   }
 }
 ```
+
+- `uri` — the Status Provider's URI from which the Status List Token can be retrieved
+- `idx` — the index of this attestation's entry within the status list, assigned per ISS-RV-03
+
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
