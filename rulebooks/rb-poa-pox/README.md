@@ -944,7 +944,7 @@ left as written and the deviation is recorded for the rulebook quality assurance
 | --- | --- | --- | --- | --- |
 | *Attestation Policies* | *TBD* | *The attestation policies field contains a sequence of one or more policy information terms, each of which consists of an object identifier (OID) and optional qualifiers.  Optional qualifiers, which MAY be present, are not expected to change the definition of the policy. A certificate policy OID MUST NOT appear more than once in a certificate policies extension.* | *String Sequence* | *1.3.6.1.5.5.7.2.1: https://eaa.provider.org/eaa_policy, 1.3.6.1.5.5.7.2.2: https://eaa.provider.org/privacy_policy, 1.3.6.1.5.5.7.2.3: http://eaa.provider.org/eaa_terms_of_use* |
 | *Issuer Information Access* | *TBD* | *The issuer information access field indicates how to access information and services for the issuer of the attestation.  Information and services may include on-line validation services and EAA policy data.* | *String* | *https://eaa.provider.org* |
-| *Language* | *TBD* | *Language of display metadata* | *alpha-2 country code as specified in ISO 3166-1* | *DE* |
+| *Language* | *TBD* | *Language of display metadata* | *reference to the language using IETF BCP 47* | *en-GB* |
 | *Display Name* | *TBD* | *Human-readable attestation name* | *String* | *Power of Representation* |
 | *Logo* | *TBD* | *Issuer or attestation logo* | *Bit String* | *-* |
 
