@@ -212,7 +212,7 @@ FIXED
 | EW-DM-12-015 | ARB_12 | | | EAA indication, non-qualified only |
 | EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | | | Point b, by category |
 | EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | | | Point c, by category |
-| EW-DM-12-021 / EW-DM-12 | ARB_18 / ARB_19 | | | Point e, by category |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | | | Point e, by category |
 | EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | | | Trust anchor or certificate location, by category |
 | EW-DM-12-030 | ARB_26 | | | Trust anchor publication, non-qualified EAA |
 | EW-DM-12-031 | ARB_27 | | | Whether the Relying Party must also verify a PID |
