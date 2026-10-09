@@ -32,14 +32,14 @@
     ],
 
     "economic_operator": {
-      "legal_person":{
+      "legal_person": {
         "legal_identifier": "NL801234567B01",
         "legal_name": "KLM Royal Dutch Airlines N.V."
       }
     },
 
     "address": {
-      "thoroughfare": "Amsterdamse Ring 2",
+      "thoroughfare": "Amsterdamse Ring",
       "location_designator": "Building A",
       "post_code": "1101 DA",
       "post_name": "Amsterdam",
@@ -47,17 +47,18 @@
       "admin_unit_l2": "Amsterdam"
     },
 
-    "economic_activity_type": [
+    "economic_activity": [
       {
         "nomenclature": "NACE",
-        "id": "51.1",
+        "nomenclature_version": "Rev 2.1",
+        "id": "51.10",
         "description": [
           {
-            "language": "en",
+            "language": "en-GB",
             "value": "Passenger air transport"
           },
           {
-            "language": "nl",
+            "language": "nl-NL",
             "value": "Luchtvervoer van passagiers"
           }
         ]
@@ -72,34 +73,35 @@
   },
 
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://www.belastingdienst.nl/status-list/vat-id/2024",
-    "status_list_index": 12547,
-    "status_purpose": "revocation"
+    "status_list": {
+      "uri": "https://www.belastingdienst.nl/status-list/vat-id/2024",
+      "idx": 12547
+    }
   },
 
   "trust_anchor": "https://www.belastingdienst.nl/trust-anchor/vat-id-2024",
 
   "_sd": [
-    "hash_admin_type",
-    "hash_admin_address",
+    "hash_org_type",
+    "hash_address",
     "hash_activity",
     "hash_validity"
   ],
+
   "sd_hash": "sha-256",
 
   "selectively_disclosable_claims": {
-    "type": {
+    "organisation_type": {
       "salt": "salt1",
       "value": "N.V.",
-      "claim_name": "type",
-      "sha256_digest": "hash_admin_type"
+      "claim_name": "organisation_type",
+      "sha256_digest": "hash_org_type"
     },
 
     "address": {
       "salt": "salt2",
       "value": {
-        "thoroughfare": "Amsterdamse Ring 2",
+        "thoroughfare": "Amsterdamse Ring",
         "location_designator": "Building A",
         "post_code": "1101 DA",
         "post_name": "Amsterdam",
@@ -107,28 +109,29 @@
         "admin_unit_l2": "Amsterdam"
       },
       "claim_name": "address",
-      "sha256_digest": "hash_admin_address"
+      "sha256_digest": "hash_address"
     },
 
-    "economic_activity_type": {
+    "economic_activity": {
       "salt": "salt3",
       "value": [
         {
           "nomenclature": "NACE",
-          "id": "51.1",
+          "nomenclature_version": "Rev 2.1",
+          "id": "51.10",
           "description": [
             {
-              "language": "en",
+              "language": "en-GB",
               "value": "Passenger air transport"
             },
             {
-              "language": "nl",
+              "language": "nl-NL",
               "value": "Luchtvervoer van passagiers"
             }
           ]
         }
       ],
-      "claim_name": "economic_activity_type",
+      "claim_name": "economic_activity",
       "sha256_digest": "hash_activity"
     },
 
@@ -158,13 +161,15 @@
     },
 
     "issuer": {
-      "issuing_authority": "Dutch Tax Administration",
-      "authentic_source_country": "NL"
+      "authentic_source_country": "NL",
+      "vat_id_authentic_source": "Ministerie van Financiën - Belastingdienst"
     },
 
     "status": {
-      "status_list_credential": "https://www.belastingdienst.nl/status-list/vat-id/2024",
-      "status_list_index": 12547
+      "status_list": {
+        "uri": "https://www.belastingdienst.nl/status-list/vat-id/2024",
+        "idx": 12547
+      }
     }
   }
 }
