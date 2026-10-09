@@ -1,6 +1,8 @@
-(Template version: 1.1)
+# Attestation Rulebook for attestations of type SCA Card DPC
 
-# WE BUILD Attestation Rulebook for attestations of type *SCA-Card (DPC)*
+Category: non-qualified EAA
+
+
 
 *[Based on the WE BUILD attestation description: https://portal.webuildconsortium.eu/group/wp3-technology-standards/files?mid=7109&fid%5B0%5D=6880&fid%5B1%5D=7094]*
 
@@ -9,13 +11,61 @@
 * Author(s):
     * Tomasz Błachowicz, Mastercard
 
-| Version | Date | Description |
-|---------|------------|------------|
-| 0.1 | 2026-07-13 | Initial version derived from EMV DPC Card Credential & Display Meta-Data |
 
 **Feedback:**
 
 * Github, portal, email, Slack
+
+| Version | Date | Description |
+| --- | --- | --- |
+| 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+
+**Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
+
+**Feedback:** [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues)
+
+## Table of contents
+
+- [1 Introduction](#1-introduction)
+   * [1.1 Document scope and purpose](#11-document-scope-and-purpose)
+   * [1.2 Document structure](#12-document-structure)
+   * [1.3 Key words](#13-key-words)
+   * [1.4 Terminology](#14-terminology)
+- [2 Compliance](#2-compliance)
+   * [2.1 Compliance statement](#21-compliance-statement)
+   * [2.2 Regulatory basis](#22-regulatory-basis)
+   * [2.3 Traceability](#23-traceability)
+- [3 Attestation attributes](#3-attestation-attributes)
+   * [3.1 Introduction](#31-introduction)
+   * [3.2 Mandatory attributes](#32-mandatory-attributes)
+   * [3.3 Optional attributes](#33-optional-attributes)
+   * [3.4 Conditional attributes](#34-conditional-attributes)
+- [4 Metadata](#4-metadata)
+   * [4.1 Mandatory metadata](#41-mandatory-metadata)
+   * [4.2 Optional metadata](#42-optional-metadata)
+   * [4.3 Conditional metadata](#43-conditional-metadata)
+   * [4.4 Code lists](#44-code-lists)
+   * [4.5 Integrity rules](#45-integrity-rules)
+   * [4.6 Display meta-data](#46-display-meta-data)
+- [5 Formats](#5-formats)
+   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
+- [6 Protocols](#6-protocols)
+- [7 Issuance](#7-issuance)
+   * [7.1 Binding](#71-binding)
+   * [7.2 Issuance Policy](#72-issuance-policy)
+   * [7.3 Lifecycle management](#73-lifecycle-management)
+   * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
+- [8 Revocation](#8-revocation)
+- [9 Presentation](#9-presentation)
+   * [9.1 Presentation Policy](#91-presentation-policy)
+   * [9.2 Presentation modes](#92-presentation-modes)
+   * [9.3 Transactional data](#93-transactional-data)
+   * [9.4 Presentation lifecycle](#94-presentation-lifecycle)
+- [10 Trust Framework](#10-trust-framework)
+- [11 References](#11-references)
+
 
 ## 1 Introduction
 
@@ -40,22 +90,21 @@ credential model, are out of scope for WE BUILD; see Section 2.1.
 
 ### 1.2 Document structure
 
-* Chapter 2, which describes the attestation attributes and metadata in an encoding-independent manner.
-* Chapter 3, which specifies how the attestation attributes and metadata are encoded in case the attestation
-  complies with [SD-JWT VC].
-* Chapter 4, which specifies attestation usage.
-* Chapter 5, which defines how trust anchors for attestation verification can be obtained.
-* Chapter 6, which defines attestation revocation mechanisms.
-* Chapter 7, which provides compliance information.
+This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.
 
 ### 1.3 Key words
 
-This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified in [RFC 2119], i.e.,
-to indicate requirements, recommendations, and options specified in this document.
+This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.
 
-In addition, 'must' (non-capitalised) is used to indicate an external constraint, i.e., a requirement that
-is not mandated by this document, but, for instance, by an external document. The word 'can' indicates a
-capability, whereas other words, such as 'will', and 'is' or 'are' are intended as statements of fact.
+In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 
 ### 1.4 Terminology
 
@@ -63,15 +112,84 @@ This document uses the terminology specified in Annex 1 of the ARF.
 
 Please note that terms credential and attestation are interchangeable for the purpose of this document.
 
-## 2 Attestation attributes and metadata
+## 2 Compliance
 
-### 2.1 Introduction
+### 2.1 Compliance statement
+
+This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.
+
+This Rulebook is aligned with the following specifications:
+
+* **[European Digital Identity Regulation]** (Regulation (EU) 2024/1183) - This is a non-qualified EAA.
+  Attributes and metadata satisfy the requirements of Annex V points b), c), and e) as applicable
+  (ARB_15, ARB_17, ARB_19).
+* **ARF [Topic 12]** - All ARB_ requirements applicable to non-qualified EAA have been addressed:
+  ARB_01b, ARB_02, ARB_05, ARB_06, ARB_06a, ARB_06b, ARB_07, ARB_09, ARB_10, ARB_12, ARB_15, ARB_17,
+  ARB_19, ARB_21, ARB_26, ARB_27, ARB_30, ARB_31, ARB_34.
+* **ETSI TS 119 472-1** - The Rulebook structure and attestation lifecycle follow this standard.
+* **[TS12]** - Attribute definitions and transaction data processing align with TS12 published by the
+  European Commission.
+* **[EMV-DPC]** - The logical credential model, disclosable attribute set, and display meta-data model
+  are derived from the EMVCo Digital Payment Credential specification, adapted to WE BUILD
+  type identifiers and metadata claims as described in Section 2.8. The source specification's co-badged
+  card handling is out of scope for WE BUILD (see Section 2.1).
+* **[HAIP]** - The SD-JWT VC encoding complies with the OpenID4VC High Assurance Interoperability
+  Profile.
+
+### 2.2 Regulatory basis
+
+This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
+recommendation is not followed, the reason is stated below.
+
+### 2.3 Traceability
+
+Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.
+
+| Requirement | Legacy ID | Applies | Satisfied in section | Note |
+| --- | --- | --- | --- | --- |
+| EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM permitted for this category; no encoding defined in this version |
+| EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC following the HAIP profile |
+| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope |
+| EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
+| EW-DM-12-006 | ARB_05 | yes | 5 | Unique vct for this attestation type |
+| EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
+| EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
+| EW-DM-12-009 | ARB_06b | yes | 5 | SD-JWT VC claim naming |
+| EW-DM-12-010 | ARB_07 | yes | 3 | Attributes reused from the catalogued vocabulary where one exists |
+| EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
+| EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
+| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA |
+| EW-DM-12-015 | ARB_12 | yes | 4.1 | EAA indication for a non-qualified EAA |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-018 for the non-qualified case |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2 | Point c, recommendation for non-qualified EAA |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 4.2 | Point e, recommendation for non-qualified EAA |
+| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Trust anchor location and the trust framework |
+| EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
+| EW-DM-12-030 | ARB_26 | yes | 10 | Trust anchor publication for non-qualified EAA |
+| EW-DM-12-031 | ARB_27 | no |  | This attestation does not require the Relying Party to verify a PID |
+| EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
+| EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
+| EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
+| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
+
+## 3 Attestation attributes
+
+Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.
+
+### 3.1 Introduction
+
 
 SCA-Card (DPC) is a simple attestation type with only top-level attributes, all of which are selectively
 disclosable. The attestation payload is intentionally minimal: it identifies the credential instance, the
 payment network, and optionally the digitised card through an opaque token reference. It never contains
 the PAN, the card BIN, or the last four digits; those are display-only data carried in the unsigned
-display meta-data object described in Section 2.9.
+display meta-data object described in Section 4.6.
 
 Unlike the other attestations of the WE BUILD SCA family, SCA-Card (DPC) does not define a `sub` claim.
 The EMVCo source model has no subject identifier; the `credential_id` attribute identifies the credential
@@ -86,51 +204,66 @@ of this Rulebook.
 This document defines the attribute `attestation_legal_category` which SHALL have the value
 `"non-qualified-EAA"`.
 
-### 2.2 Mandatory attributes
+### 3.2 Mandatory attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | credential_id | N/A | Unique identifier of this specific credential instance. The value is issuer-specific and must uniquely identify the credential within the issuer's namespace. It SHOULD be generated using a collision-resistant mechanism (e.g., UUID). The `credential_id` identifies the credential artefact itself rather than the underlying payment card. | string | urn:uuid:9f2b7a2e-3b74-4a0d-9b1a-0e6a91f5d2c8 |
 | network | N/A | Payment network or scheme associated with the credential, as a single string value. Each attestation is issued for exactly one network. Co-badged cards are out of scope; see Section 2.1. | string | mastercard |
 
-### 2.3 Optional attributes
+### 3.3 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | card_id | N/A | Opaque identifier of the digitised payment instrument for which this attestation is issued, specific to this attestation's network, typically the token or card reference provisioned by that network's token service provider. The value is issuer-specific and MUST NOT reveal sensitive card data such as the full PAN. | string | mc-8c3f2d1a |
 
-### 2.4 Mandatory metadata
+### 3.4 Conditional attributes
+
+
+## 4 Metadata
+
+Metadata describes the attestation rather than its subject.
+
+### 4.1 Mandatory metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | iss | https://www.rfc-editor.org/info/rfc7519/#section-4.1.1 | Issuer URL identifying the attestation provider | string (URI) | https://issuer.bank.example |
 | iat | https://www.rfc-editor.org/info/rfc7519/#section-4.1.6 | Unix timestamp designating the time when the attestation was issued | integer (Long) | 1772195095 |
 | exp | https://www.rfc-editor.org/info/rfc7519/#section-4.1.4 | Unix timestamp denoting the technical validity expiration of the attestation | integer (Long) | 1835267095 |
 | vct | Section 3.2.1 of [SD-JWT VC] | Denotes type of attestation; SHALL be an issuer-specific URL extending the WE BUILD base VCT | string (URI) | https://issuer.bank.example/credentials/sca/card-dpc/1.0 |
 | cnf | https://www.rfc-editor.org/info/rfc7800 | Object containing the JWK of the holder's public key (device binding). Each credential instance SHALL have its own unique holder binding key pair; see Section 2.7. | JSON Object | `{"jwk": {"kty":"EC","crv":"P-256",...}}` |
 
-### 2.5 Conditional metadata
+**Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
+Section 4.1 of the generic template replaces it with the `category` attribute of
+[ETSI TS 119 472-1], whose value for this category is `eaa:eu:non-qualified`.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+`attestation_legal_category`, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.
+
+### 4.2 Optional metadata
+
+
+### 4.3 Conditional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | nbf | https://www.rfc-editor.org/info/rfc7519/#section-4.1.5 | Unix timestamp denoting the first time the attestation may be used. Conditionally mandatory when `nbf` and `iat` differ. | integer (Long) | 1772195095 |
 
-### 2.6 Code lists
+### 4.4 Code lists
 
 | **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
-|----------------|--------------------|-------------|--------------------------|---------------------------|
+| --- | --- | --- | --- | --- |
 | `network` | Open list of lower-case payment network identifiers, e.g. `mastercard`, `maestro`, `visa` | Identifies the payment network that can route a transaction for this attestation | [EMV-DPC] logical credential model | New values MAY be introduced when they are used consistently across issuer, Wallet, and verifier implementations. The value SHALL equal the `network_branding.network` value in the accompanying display meta-data (see Section 2.7, IR-04). |
 
-### 2.7 Integrity rules
+### 4.5 Integrity rules
 
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | IR-01 | `card_id` MUST NOT reveal sensitive card data such as the full PAN or fragments of it | Data minimisation; prevents exposure of card data to verifiers and intermediaries | Issuer | Issuer SHALL NOT issue the attestation; a Verifier detecting PAN data SHOULD reject the presentation and report the issuer |
 | IR-02 | `network` SHALL be single-valued; the attestation SHALL identify exactly one payment network | Gives DCQL native value matching and makes the network-to-token association unambiguous | Issuer, schema validation | Issuer fails to issue the attestation |
 | IR-03 | Each credential instance SHALL have its own unique holder binding key pair; keys SHALL NOT be shared across credential instances | Prevents a verifier from correlating attestations of the same holder or card through a shared public key | Issuer, Wallet | Wallet SHALL reject a credential whose binding key it has seen in another credential |
 | IR-04 | `network_branding.network` in the display meta-data SHALL equal the `network` claim of the attestation it accompanies | Keeps the rendered network branding consistent with the signed claim | Issuer, Wallet | Wallet SHALL treat the display meta-data as invalid and fall back to the `network` claim value |
-
-### 2.8 VCT rules
 
 For SCA-Card (DPC) the proposed base VCT is: `https://webuildconsortium.eu/sca/sca-card-dpc/1.0`
 
@@ -156,7 +289,7 @@ Credential type `com.emvco.dpc.card` defined in [EMV-DPC]. Within the WE BUILD p
 hierarchy above is used as the type identifier; the EMVCo identifier is referenced for semantic alignment
 only.
 
-### 2.9 Display meta-data
+### 4.6 Display meta-data
 
 Each SCA-Card (DPC) attestation is delivered together with an unsigned display meta-data object that
 defines how the Wallet presents the card to the User, both in the card representation in the Wallet and
@@ -165,7 +298,7 @@ rendering without reliance on out-of-band branding repositories. The object carr
 within its top-level `card` object:
 
 | **Field** | **Meaning** | **Display intent** |
-|---|---|---|
+| --- | --- | --- |
 | `type` | Card product type: code `CREDIT`, `DEBIT`, or `PREPAID`, with an optional human-readable label | Product-type caption; the label MAY be localised |
 | `last_four` | Last four digits of the PAN | User recognition of the card in Wallet and checkout interfaces; display-only, never a verifiable claim |
 | `alias` | User-facing card name (e.g. "Platinum Credit Card") | Primary card title; MAY be localised |
@@ -197,16 +330,10 @@ in this catalogue at
 with a sample at
 [`data-schemas/display/sample-data/sca-card-dpc-display-meta-sample.json`](../../data-schemas/display/sample-data/sca-card-dpc-display-meta-sample.json).
 
-# 3 Attestation encoding
+## 5 Formats
 
-## 3.1 ISO/IEC 18013-5-compliant encoding
 
-This encoding is not supported for this attestation type. SCA-Card (DPC) SHALL be issued exclusively in
-the SD-JWT VC format specified in Section 3.2. Presentation when the Wallet Unit and the Relying Party
-are in proximity without using the internet is not required for this attestation type (see ARB_02 in
-[Topic 12]): all supported use cases are online remote-commerce flows.
-
-## 3.2 SD-JWT VC-based encoding
+### 5.1 SD-JWT VC-based encoding
 
 The SCA-Card (DPC) attestation supports the SD-JWT VC format as specified in [SD-JWT VC], compliant with
 the [HAIP] profile.
@@ -223,7 +350,7 @@ with a sample at
 **IANA-registered JWT claims (not selectively disclosable):**
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | iss | iss | string (URI) | [RFC 7519] §4.1.1 | MUST NOT |
 | iat | iat | integer (NumericDate) | [RFC 7519] §4.1.6 | MUST NOT |
 | exp | exp | integer (NumericDate) | [RFC 7519] §4.1.4 | MUST NOT |
@@ -232,7 +359,7 @@ with a sample at
 **Private claim names and SD-JWT-specific claims:**
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | vct | vct | string (URI) | Denotes attestation type; SHALL be an issuer-specific URL extending the WE BUILD base VCT | MUST NOT |
 | cnf | cnf | JSON Object | JWK of holder's public key (device binding); see [RFC 7800]. Unique per credential instance (IR-03). | MUST NOT |
 | attestation_legal_category | attestation_legal_category | string | SHALL be `"non-qualified-EAA"` | MUST NOT |
@@ -246,8 +373,6 @@ with a sample at
 {
   "vct": "https://issuer.bank.example/credentials/sca/card-dpc/1.0",
   "vct#integrity": "sha256-Cp5VgPMqzU7cphGIL0aRy54scWhTiBFB1FJYDLyO94w=",
-  "extends": "https://webuildconsortium.eu/sca/sca-card-dpc/1.0",
-  "extends#integrity": "sha256-gV1X+E7n79QEHEt9AI0VY3ZbNefHhZloJhpaHoYFqKM=",
   "iss": "https://issuer.bank.example",
   "iat": 1772195095,
   "exp": 1835267095,
@@ -291,7 +416,7 @@ X2FsZyI6InNoYS0yNTYiLCJfc2QiOlsiLi4uIl19
 Non-selectively-disclosable claims (always present in the JWT body):
 
 | Claim | Value |
-|---|---|
+| --- | --- |
 | `iss` | `https://issuer.bank.example` |
 | `iat` | `1772195095` (2026-02-27T12:24:55Z) |
 | `exp` | `1835267095` (2028-02-27T12:24:55Z) |
@@ -303,17 +428,41 @@ Selectively-disclosable claims (each disclosure encoded as `[<salt>, <claim_name
 base64url per [SD-JWT VC]):
 
 | Disclosure # | Claim | Value |
-|---|---|---|
+| --- | --- | --- |
 | ~0 | `credential_id` | `urn:uuid:9f2b7a2e-3b74-4a0d-9b1a-0e6a91f5d2c8` |
 | ~1 | `network` | `mastercard` |
 | ~2 | `card_id` | `mc-8c3f2d1a` |
 
-## 3.3 W3C Verifiable Credentials Data Model-based encoding
+### 5.2 ISO/IEC 18013-5-compliant encoding
+
+This encoding is not supported for this attestation type. SCA-Card (DPC) SHALL be issued exclusively in
+the SD-JWT VC format specified in Section 3.2. Presentation when the Wallet Unit and the Relying Party
+are in proximity without using the internet is not required for this attestation type (see ARB_02 in
+[Topic 12]): all supported use cases are online remote-commerce flows.
+
+### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
 This encoding is not supported for this attestation type. The attestation SHALL be issued exclusively
 in the SD-JWT VC format.
 
-## 4 Attestation usage
+## 6 Protocols
+
+This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].
+
+## 7 Issuance
+
+### 7.1 Binding
+
+| Field | Value | Source |
+| --- | --- | --- |
+| Device-bound | MAY | EW-DM-12-038 |
+| Cryptographically bound to | none | EW-DM-12-032 |
+| Relying Party must also verify a PID | no | EW-DM-12-031 |
+| Binding subject | legal person |  |
+
+### 7.2 Issuance Policy
 
 SCA-Card (DPC) is designed for the 3-party model in remote commerce: the credential issuer and the
 verifier are in different organisations. The verifying side is typically a merchant, PSP, or a payment
@@ -359,7 +508,7 @@ presentation scenarios where transaction data is present in the presentation req
 **Wallet display handling (normative):**
 
 * The Wallet SHOULD render the card in the Wallet UI and on the payment sheet using the display
-  meta-data delivered at issuance (Section 2.9), without relying on out-of-band branding repositories.
+  meta-data delivered at issuance (Section 4.6), without relying on out-of-band branding repositories.
 * For themed images (`card_art` and branding logos), the Wallet SHOULD select the image variant matching
   the active UI theme and SHALL fall back to the `DEFAULT` variant when no theme-specific image is
   provided.
@@ -379,8 +528,6 @@ presentation scenarios where transaction data is present in the presentation req
   Note that such binding weakens the unlinkability property provided by per-instance keys and SHOULD be
   avoided unless required by the deployment.
 
-### 4.1 Issuance lifecycle
-
 Issuer of SCA-Card (DPC) is - for the purpose of WE BUILD - the card issuer or an entity issuing
 credentials on its behalf (the Credential Issuer in [EMV-DPC] terms).
 
@@ -396,12 +543,60 @@ When issuing the attestation, the Issuer SHALL:
 * Use a sender-constrained token (DPoP) to ensure that only the requesting Wallet may receive the issued
   credential.
 * Ensure that the attestation is device-bound with sufficient secure storage (AVA_VAN.4 or higher).
-* Deliver the display meta-data object (Section 2.9) in the `display` array of the credential response,
+* Deliver the display meta-data object (Section 4.6) in the `display` array of the credential response,
   and MAY additionally include it in the credential offer to support user recognition before issuance.
 
 After receiving the attestation, the Wallet SHOULD notify the Issuer of successful acceptance.
 
-### 4.2 Presentation lifecycle
+### 7.3 Lifecycle management
+
+The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.
+
+### 7.4 Embedded disclosure policy
+
+This attestation defines no embedded disclosure policy.
+
+## 8 Revocation
+
+SCA-Card (DPC) attestations are **long-lived** by definition: the attestation is provisioned once and
+remains valid for an extended period, typically aligned with the lifecycle of the underlying digitised
+card. The validity period is expressed through the `exp` metadata.
+
+The revocation mechanism for this attestation type is **TBD** and will be defined in a future version
+of this Rulebook.
+
+## 9 Presentation
+
+### 9.1 Presentation Policy
+
+To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:
+
+1. verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;
+2. verify that the attestation is within its validity period;
+3. check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;
+4. verify device binding where section 7.1 records the attestation as device-bound;
+5. request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.
+
+Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:
+
+
+### 9.2 Presentation modes
+
+Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.
+
+### 9.3 Transactional data
+
+This Rulebook defines no transactional data.
+
+### 9.4 Presentation lifecycle
 
 SCA-Card (DPC) SHOULD be presented when the presentation request comes from a verifier participating in
 a payment transaction, with payment transaction data attached as described in [TS12].
@@ -455,7 +650,7 @@ attestation and discloses only the requested attributes.
 }
 ```
 
-## 5 Trust anchors
+## 10 Trust Framework
 
 SCA-Card (DPC) is a non-qualified EAA. The trust anchor mechanism for this attestation type is **TBD**
 and will be defined in a future version of this Rulebook. This includes the mechanism through which
@@ -464,39 +659,15 @@ they establish that an Issuer is authorized to issue this attestation type, for 
 sector-specific issuer accreditation scheme such as an EMVCo-operated issuer root programme discussed
 in [EMV-DPC]-related work.
 
-## 6 Revocation
+**Trust anchor location**
 
-SCA-Card (DPC) attestations are **long-lived** by definition: the attestation is provisioned once and
-remains valid for an extended period, typically aligned with the lifecycle of the underlying digitised
-card. The validity period is expressed through the `exp` metadata.
+The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.
 
-The revocation mechanism for this attestation type is **TBD** and will be defined in a future version
-of this Rulebook.
-
-## 7 Compliance
-
-This Rulebook is aligned with the following specifications:
-
-* **[European Digital Identity Regulation]** (Regulation (EU) 2024/1183) - This is a non-qualified EAA.
-  Attributes and metadata satisfy the requirements of Annex V points b), c), and e) as applicable
-  (ARB_15, ARB_17, ARB_19).
-* **ARF [Topic 12]** - All ARB_ requirements applicable to non-qualified EAA have been addressed:
-  ARB_01b, ARB_02, ARB_05, ARB_06, ARB_06a, ARB_06b, ARB_07, ARB_09, ARB_10, ARB_12, ARB_15, ARB_17,
-  ARB_19, ARB_21, ARB_26, ARB_27, ARB_30, ARB_31, ARB_34.
-* **ETSI TS 119 472-1** - The Rulebook structure and attestation lifecycle follow this standard.
-* **[TS12]** - Attribute definitions and transaction data processing align with TS12 published by the
-  European Commission.
-* **[EMV-DPC]** - The logical credential model, disclosable attribute set, and display meta-data model
-  are derived from the EMVCo Digital Payment Credential specification, adapted to WE BUILD
-  type identifiers and metadata claims as described in Section 2.8. The source specification's co-badged
-  card handling is out of scope for WE BUILD (see Section 2.1).
-* **[HAIP]** - The SD-JWT VC encoding complies with the OpenID4VC High Assurance Interoperability
-  Profile.
-
-## 8 References
+## 11 References
 
 | **Item Reference** | **Standard name/details** |
-|---|---|
+| --- | --- |
 | [EMV-DPC] | EMV Digital Payment Credential Specification - Schema Framework, EMVCo, and its DPC Card Credential & Display Meta-Data schema. Draft under review; no public URL at the time of writing. |
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
 | [HAIP] | Yasuda, K. *et al,* OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03 |
