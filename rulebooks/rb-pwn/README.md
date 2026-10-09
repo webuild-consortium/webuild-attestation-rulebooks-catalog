@@ -244,6 +244,27 @@ employer information, host company details, and employee job duties.
 
 ```
 PWN Credential
+├── administrative_representative [1:1], mandatory
+│ ├── last_name (String) - mandatory
+│ ├── first_name (String) - mandatory
+│ ├── date_of_birth (date), mandatory
+│ ├── nationality (Code [1:n], ISO 3166-1 alpha-2), mandatory
+│ ├── phone (String), mandatory
+│ ├── email (String), mandatory
+│ ├── address (String), mandatory
+│ │ ├── address_line_1 (String) - mandatory
+│ │ ├── address_line_2 (String)
+│ │ ├── postal_code (String) - mandatory
+│ │ ├── city (String) - mandatory
+│ │ ├── municipality (String)
+│ │ ├── state (String)
+│ │ └── country (Code, ISO 3166-1 alpha-2) : mandatory
+├── contact_person (nominated by the host company) - mandatory
+│ ├── last_name (String) : mandatory
+│ ├── first_name (String) : mandatory
+│ ├── telephone (String) : mandatory
+│ └── email (String) : mandatory
+ │
 ├── Subject [1:1], mandatory
 │ ├── pin (String), mandatory
 │ ├── family_name (String), mandatory
@@ -257,95 +278,75 @@ PWN Credential
 │ ├── place_of_birth [1:1], optional
 │ │ ├── town (String)
 │ │ └── country_code (Code, ISO 3166-1 alpha-2)
-│ └── address [1:n], optional
 │ ├── address_residence [0:1], optional
 │ │ ├── street_nr (String)
 │ │ ├── town (String)
 │ │ ├── post_code (String)
 │ │ └── country_code (Code, ISO 3166-1 alpha-2)
 │ └── address_stay [0:n], optional
-│ ├── street_nr (String)
-│ ├── town (String)
-│ ├── post_code (String)
-│ └── country_code (Code, ISO 3166-1 alpha-2)
+│ │ ├── street_nr (String)
+│ │ ├── town (String)
+│ │ ├── post_code (String)
+│ │ └── country_code (Code, ISO 3166-1 alpha-2)
  │
-├── Assignment Related Information [1:1], mandatory
-│ ├── home_member_state (Code, ISO 3166-1 alpha-2), optional 
+├── (Work)Assignment [1:1], mandatory
+│ ├── home_member_state (?) (Code, ISO 3166-1 alpha-2), optional 
 │ ├── starting_date (date), mandatory
 │ ├── ending_date (date), mandatory
 │ ├── applies_for_duration (boolean), optional
 │ ├── determination_provisional (boolean), optional
-│ └── transitional_rules (boolean), optional
-    
-    Project Sector : mandatory
-    Project Subsector : mandatory
-    Project SBI Code : mandatory
-│
-├── Details of Home Employer(s)/Self-employment [1:1], mandatory
+│ ├── transitional_rules (boolean), optional
+│ └── activity (Nace21 or national code list), mandatory
+ │
+├── Home Employer(s)/(Self-employment) [1:1], mandatory
 │ ├── company_name (String), mandatory
 │ ├── industry_sector_nace (String), optional
 │ ├── construction_sector (boolean), optional
-      Chamber of Commerce registration number - mandatory
+│ ├── Chamber of Commerce registration number (identifier) - mandatory
 │ ├── vat_id (String), mandatory
-│ ├── address_line_1 (String), mandatory
-│ ├── address_line_2 (String), optional
-│ ├── postal_code (String), mandatory
-│ ├── city (String), mandatory
-│ ├── municipality (String), optional
-│ ├── state (String), optional
-│ ├── country (Code, ISO 3166-1 alpha-2), mandatory
-  _ Legal representative - mandatory
-    last_name (string), mandatory
-│ ├── first_name (String), mandatory
-│ ├── date_of_birth (date), mandatory
-│ ├── nationality (Code [1:n], ISO 3166-1 alpha-2), mandatory
-│ ├── phone (String), mandatory
-│ ├── email (String), mandatory
-│ ├── administrative_representative [1:1], mandatory
-│ │ ├── last_name (String) - mandatory
-│ │ ├── first_name (String) - mandatory
+│ ├── address (String), mandatory
+│ │ ├── address_line_1 (String), mandatory
+│ │ ├── address_line_2 (String), optional
+│ │ ├── postal_code (String), mandatory
+│ │ ├── city (String), mandatory
+│ │ ├── municipality (String), optional
+│ │ ├── state (String), optional
+│ │ ├── country (Code, ISO 3166-1 alpha-2), mandatory
+│ ├── legal representative (why is this needed?) - mandatory
+│ │ ├── last_name (string), mandatory
+│ │ ├── first_name (String), mandatory
 │ │ ├── date_of_birth (date), mandatory
-│ ├── nationality (Code [1:n], ISO 3166-1 alpha-2), mandatory
-│ ├── phone (String), mandatory
-│ ├── email (String), mandatory
-│ │ ├── address_line_1 (String) - mandatory
-│ │ ├── address_line_2 (String)
-│ │ ├── postal_code (String) - mandatory
-│ │ ├── city (String) - mandatory
-│ │ ├── municipality (String)
-│ │ ├── state (String)
-│ │ └── country (Code, ISO 3166-1 alpha-2) : mandatory
-│ └── Host company [1:1], mandatory
-      Type - mandatory
-│ ├── ─ company_name (String), mandatory
-      country of establishment - mandatory
-│ ├── Chamber of Commerce registration number - mandatory
-   _ Location number - mandatory 
-│ ├── vat_id (String), mandatory
-│ ├── address_line_1 (String), mandatory
-│ ├── address_line_2 (String), optional
-│ ├── postal_code (String), mandatory
-│ ├── city (String), mandatory
-│ ├── municipality (String), optional
-│ ├── state (String), optional
-│ ├── country (Code, ISO 3166-1 alpha-2), mandatory
- Contact person host company - mandatory
-      last_name (String) : mandatory
-│ ├── first_name (String) : mandatory
-│ ├── telephone (String) : mandatory
-│ ├── email (String) : mandatory
-│ ├── 
-│── │
+│ │ ├── nationality (Code [1:n], ISO 3166-1 alpha-2), mandatory
+│ │ ├── phone (String), mandatory
+│ │ └── email (String), mandatory
+ │
+├── Host company [1:1], mandatory
+│ ├── type (String), mandatory
+│ ├── company_name (String), mandatory
+│ ├── country of establishment (?), mandatory
+│ ├── Chamber of Commerce registration number (legalIdentifier) - mandatory
+│ ├── location number (site? or something else?) - mandatory 
+│ ├── vat_id (identifier) (String), mandatory
+│ ├── address (String), mandatory
+│ │ ├── address_line_1 (String), mandatory
+│ │ ├── address_line_2 (String), optional
+│ │ ├── postal_code (String), mandatory
+│ │ ├── city (String), mandatory
+│ │ ├── municipality (String), optional
+│ │ ├── state (String), optional
+│ │ └── country (Code, ISO 3166-1 alpha-2), mandatory
+ │
 ├── Place(s) of Work [1:n], mandatory
-│ ├── address_line_1 (String), mandatory
-│ ├── address_line_2 (String), optional
-│ ├── postal_code (String), mandatory
-│ ├── city (String), mandatory
-│ ├── municipality (String), optional
-│ ├── state (String), optional
-│ ├── country (Code, ISO 3166-1 alpha-2), mandatory
-      telephone (String) : mandatory
-│ ├── email (String) : mandatory
+│ ├── address (String), mandatory
+│ │ ├── address_line_1 (String), mandatory
+│ │ ├── address_line_2 (String), optional
+│ │ ├── postal_code (String), mandatory
+│ │ ├── city (String), mandatory
+│ │ ├── municipality (String), optional
+│ │ ├── state (String), optional
+│ │ ├── country (Code, ISO 3166-1 alpha-2), mandatory
+│ │ ├── telephone (String) : mandatory
+│ │ └── email (String) : mandatory
  │ 
 │Employee : Mandatory
   Permanent work permit issued by sending member state : mandatory
