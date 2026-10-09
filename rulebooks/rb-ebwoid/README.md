@@ -46,13 +46,15 @@ Category: EBWOID
    * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
-- [9 Presentation](#9-presentation)
-   * [9.1 Presentation Policy](#91-presentation-policy)
-   * [9.2 Presentation modes](#92-presentation-modes)
-   * [9.3 Transactional data](#93-transactional-data)
+- [9 Request, Presentation and Verification](#9-request-presentation-and-verification)
+  * [9.1 Relying Party Role ( RP Instance - EUDI Wallet)](#91-relying-party-role--rp-instance---eudi-wallet)
+  * [9.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)](#92-ebw-relying-party-role--ebw-wallet---ebw-wallet)
+  * [9.3 Presentation modes](#93-presentation-modes)
+  * [9.4 Transactional data](#94-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
+  * [10.1 Relying Party Role ( RP Instance - EUDI Wallet)](#101-relying-party-role--rp-instance---eudi-wallet)
+  * [10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)](#102-ebw-relying-party-role--ebw-wallet---ebw-wallet)
 - [11 References](#11-references)
-
 
 ## 1 Introduction
 
@@ -382,7 +384,11 @@ scope.
 
 ## 7 Issuance
 
-### 7.1 Binding
+### 7.1 Holder Key Binding at Issuance (Wallet Binding)
+
+This is a fundamental security requirement that prevents credential theft and ensures an attestation is bound to a specific wallet.
+*   **What it is:** Where the attestation is device-bound (see table below), the Holder's wallet **MUST** perform a "proof-of-possession" challenge to prove it controls a specific private key. The Attestation Provider then embeds the corresponding public key into the attestation payload before signing it.
+*   **Why it matters:** This process creates a permanent, cryptographic link between the attestation and the Holder's wallet. During presentation (as described in Chapter 9), a Relying Party can then challenge the presenting wallet to prove it still controls that same private key. This verification step makes stolen or copied attestation files useless to a thief, as they will not have the required private key.
 
 > **TO AGREE.** Section 7.1 of the generic template records all four binding rows for
 > EBWOID as open consortium decisions. The values below are the reading that follows
@@ -399,6 +405,37 @@ scope.
 The `cnf` claim shown in the example in section 5.3 expresses key binding.
 
 ### 7.2 Issuance Policy
+
+An Issuance Policy defines the minimum rules, policies, and procedures that any compliant Attestation Provider **SHALL** follow when issuing attestations of this type.
+
+For transparency and to allow Relying Parties to programmatically assess their trust in the attestation, each Attestation Provider **SHALL** publish their terms and conditions, a generic Trust Services Policy, and an EAA Policy (per attestation type) in accordance with **[ETSI TS 119 471]**. These policies must be accepted by the Holder upon receipt of the attestation.
+
+This section references key concepts from **[ETSI TS 119 471]** and **[ETSI TS 119 461]**. The most critical issuance concepts for a rulebook author to understand and specify are explained below:
+
+#### **1. Core Issuer Obligations**
+
+Any entity acting as an authorized Attestation Provider under this rulebook **SHALL** comply with the following general obligations:
+
+**Issuance Basis and Timestamping:** The Provider **SHALL** issue the attestation based on information and supporting documentation that is valid and accurate at the exact moment of issuance. A timestamp of issuance (iat in SD-JWT VC) **MUST** be included in each attestation. This enables a Relying Party to not only verify the attestation's temporal validity but also to correctly validate the Attestation Provider's trust status as it was at the moment of issuance (e.g., by checking against a historical Trust List).
+
+*   **Data Currency and Revocation:** The Provider is responsible for the ongoing accuracy of the attested information. The Provider **MUST** immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
+
+#### **2. Identity and Attribute Proofing (as per ETSI TS 119 461)**
+
+This refers to the rigor with which the Attestation Provider verifies the information before issuing the attestation. The level of trust a Relying Party can place in an attestation depends directly on the quality of this proofing process.
+
+*   **Identity Proofing:** This is the process of verifying the identity of the subject. For example, for registered legal entities in a national register, this **MUST** involve verifying its active registration in the respective register.
+*   **Attribute Proofing:** This is the process of verifying the specific claims (attributes) being attested. The Provider **MUST** verify the attributes against a designated authentic data source (as defined by the author below).
+
+#### **3. Architectural Pattern for EAA Provider Trust**
+**not required**
+
+#### **4. Batch Issuance (Protocol Optimization)**
+
+This is a technical efficiency and privacy feature defined in the underlying OpenID4VCI protocols.
+
+*   **What it is:** A technical capability allowing a Wallet to request, and an Attestation Provider to issue, multiple credentials simultaneously in a single API interaction, rather than requiring separate network connections for each credential.
+*   **Application to this Rulebook:** For unique, long-lived business attestations, batch issuance is typically **Optional** or **Not Applicable**, as these credentials do not require multi-copy anonymity and are issued on a one-off basis.
 
 EBWOID Providers SHALL support revocation as described in chapter 8.
 
@@ -428,27 +465,102 @@ Relying Party checks:
 - Query the designated ASL/ARL (or interim status endpoints) to determine the current status.
 - Treat any indeterminate status as non‑valid per risk policy.
 
-## 9 Presentation
 
-### 9.1 Presentation Policy
+# 9. Request, Presentation and Verification
 
 To verify and validate a received presentation of an attestation of this type,
 the following steps SHALL be performed:
 
-1. verify the signature over the attestation using a trust anchor obtained as
-   described in chapter 10;
-2. verify that the attestation is within its validity period;
-3. check revocation status as described in chapter 8, unless the attestation is
-   short-lived; or remaining lifetime of the attestation is below revocation time
-   threshold;
-4. verify device binding where section 7.1 records the attestation as device-bound;
-5. request only those attributes that are necessary for the stated purpose of the
-   transaction, and, where the trust model for this attestation requires Relying
-   Party registration, only those attributes it is registered and authorised to
-   request.
+1.  **Cryptographic Integrity Verification (Tamper Proof):**
+    The Verifier **MUST** verify that the received attestation data has not been altered or tampered with since its issuance. The wallet shall validate the digital signature over the attestation using a trusted public key (trust anchor) obtained according to the framework detailed in Chapter 10.
+2.  **Issuer Authentication and Trust Evaluation:**
+    The Verifier **MUST** verify the identity and regulatory standing of the Attestation Provider. The Verifier **MUST** verify that a trust anchor (Qualified Trust Service Provider (QTSP) for EAAs or the designated national Supervisory Body for other attestation), has confirmed that the attestation issuer owned the public key corresponding to the private key used to sign the verified attestation at the time of issuance.
+3.  **Temporal Validity Verification:**
+    The Verifier **MUST** verify that the attestation is within its stated validity window. An attestation that has not yet taken effect or has already expired **SHOULD** be accepted, regardless of any other successful checks.
+4.  **Revocation Status Verification:**
+    The Verifier **MUST** verify the real-time revocation status of the received attestation as described in Chapter 8, unless:
+  *   The attestation is explicitly defined as short-lived; or
+  *   The remaining lifetime of the attestation is below the designated revocation time threshold.
+5.  **Holder Wallet and Device Binding Verification:**
+    Where the attestation is device-bound according to section 7.1, the Verifier **MUST** verify the Holder's presentation signature and the presentation's binding to achieve two critical security checks:
+  *   Ensure that the presenter has not submitted a copied or replayed attestation
+  *   Validate that the presented attestation was issued to this exact presenting wallet instance.
 
-Obligations specific to this attestation type, carried over from the use-case context
-of the previous version of this Rulebook:
+## 9.1. Relying Party Role ( RP Instance - EUDI Wallet)
+
+> **TO AGREE.**  Add obligations specific to this attestation type below. Do not edit the
+list above.
+
+## 9.2. EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+
+Following the principle of mutual identification the verification in the **European Business Wallet (EBW)** ecosystem is designed as a mutual cryptographic process. Unlike traditional consumer wallet flows, EBW transactions must satisfy high-assurance, machine-to-machine (M2M) environments. Verification of EAAs is executed under two distinct conditions:
+
+1.  **Relying Party Role:** When an EBW Owner receives a presented attestation from a Holder and must verify its cryptographic claims before providing a service or executing a transaction.
+2.  **Holder Role:** When an EBW Holder receives an incoming Presentation Request and must verify the identity and system integrity of the requesting Relying Party before releasing confidential, non-public attestation data.
+
+The system performs these verification steps to achieve three core business and regulatory objectives:
+**Trust Augmentation:** Establishing the absolute cryptographic authenticity of exchanged data and validating the identity of the participating legal entities.
+**Liability Allocation:** Fulfilling statutory due diligence to minimize operational risk and programmatically shift liability to the responsible party (Issuer or Holder).
+**Data Protection:** Safeguarding highly confidential corporate data (e.g., ultimate beneficial ownership, control structures) stored in the EBW against unauthorized harvest or access.
+
+## 9.2.1 Relying Party obligation during request
+1.  **Include own identification and authorization data in presentation requests:**
+
+    When requesting non-public and therefore confidential data, the Relying Party **SHALL** include its own **EBWOID** and **BWUA** (using the `ebwoid` and `ebw_wallet_unit` format blocks in the `verifier_info` array of the Request Object) to allow the receiving Holder to:
+*   Enforce automated consent and exchange policies based on the Verifier’s legal identity and verified platform integrity.
+*   Ensure the request originates from a valid wallet instance rather than uncertified or spoofed software.
+*   *Operational Constraint:* Requesters that do not present a valid EBWOID and BWUA **SHOULD NOT** receive confidential attestations.
+2.  **Request Wallet Unit Attestations (BWUA):**
+    The Relying Party **SHOULD** include a request for the Holder’s Business Wallet Unit Attestation (BWUA)  to mitigate the risk of interacting with a revoked, compromised, or modified wallet instance.
+3.  **Adhere to Data Minimization (Purpose Limitation):**
+    The Relying Party **SHALL** only request attributes that are strictly necessary to fulfill the stated business purpose of the transaction.
+4.  **Respect Trust Model Registration:**
+    Where the trust model for a requested attestation requires Relying Party registration, the RP **SHALL** only request attributes it is explicitly registered and authorized to request.
+
+## 9.2.2. Holder and Relying Party obligation during verification
+
+To protect the Holder and Relying Party from processing fraudulent, tampered, or stolen attestations, they  **MUST** programmatically execute the following five verification steps on all received attestations. Holder and Relying Party performing the verification steps are called Verifier within the rest of this chapter. The Verifier can perform the steps only if the EBW supports the verification steps, therefore the EBW Wallet Provider **MUST** support the following verification steps with their EBW:
+
+### 9.2.2.1 Impact of Cryptographic Verification on Holder Liability
+The mandatory validation of incoming requests protects the Holder when operating in high-security, backend-to-backend environments:
+
+*   **Establishes Non-Repudiation (Defense Against Dispute):** By validating the signature of the Request Object against the public key attested inside the Relying Party's EBWOID, the Relying Party cannot later deny having initiated the transaction or requested the data. This protects the Holder from legal claims that they disclosed confidential business secrets without a valid, authorized request.
+*   **Protects Against Impersonation (Defense Against Data Breaches):** It cryptographically proves the request did not originate from a malicious actor who simply spoofed the Relying Party's public `client_id` or metadata. Because the transaction requires a signature generated by the private key securely held within the Relying Party's hardware wallet, the Holder is guaranteed they are communicating with the actual legal entity identified in the EBWOID.
+*   **Fulfills Statutory Due Diligence (Safe Harbor under GDPR):** Under data protection regulations, a corporate Holder has a legal duty to protect its confidential operational data. Executing these mandatory checks before releasing any data payload safe-harbors the Holder from charges of negligence or unauthorized data disclosure.
+
+### 9.2.2.2 Impact of Cryptographic Verification on Relying Party Liability
+
+The execution of the mandatory cryptographic checks defined in this chapter directly determines the legal and liability posture of the Relying Party (RP). Under the European Business Wallet framework and eIDAS, performing these verifications shifts liability and protects the RP from negligence claims:
+
+| Verification Check | Cryptographic Fact | Impact on Relying Party Liability |
+ | :--- | :--- | :--- |
+| **Integrity & Issuer Auth (Steps 1 & 2)** | Proves data has not been modified; validates the cryptographic identity of the issuer. | **Transfers Data-Accuracy Liability to Issuer.** The RP is legally protected against errors or falsehoods in the received data. Liability shifts to the Attestation Provider under eIDAS2 or their published terms. |
+| **Temporal & Revocation (Steps 3 & 4)** | Proves the credential was actively valid and unrevoked at the exact moment of the transaction. | **Protects Against Fraud Claims.** Safe-harbors the RP from claims arising from the use of credentials that were valid in the past but have since expired or been revoked. |
+| **Device Binding & Presentation Signature (Step 5)** | Proves the holder has possession of the private key associated with the credential and actively authorized this specific session. | **Protects Against Identity Theft & Establishes Safe Harbor.** Explained in detail below. |
+
+#### **Defense Against Identity Theft (Shifts Burden of Proof)**
+By verifying the device binding (e.g., via the Key Binding JWT, matching `nonce` and `aud`), the RP proves that the presenter has real-time, hardware-backed control over the private key associated with the credential.
+
+If a malicious actor steals a copy of another company's EBWOID file, they **cannot** generate a valid binding signature without access to that specific wallet's private key. By verifying this binding, the RP completely protects itself from claims of *"failing to prevent obvious credential-sharing or identity theft,"* shifting the burden of proof entirely to the claimant.
+
+#### **Safe Harbor for Data Access and Key Compromise**
+Under GDPR and eIDAS, if an RP discloses confidential data or executes a transaction based on a credential where device binding was fully and correctly verified, it is legally deemed to have fulfilled its due diligence. If it is later discovered that the Holder's private key was compromised at the time of the transaction, the liability shifts away from the RP to:
+*   The **Holder**, for failing to adequately secure and protect their private key/hardware device.
+*   The **Issuer**, if they were notified of the key compromise but failed to add the credential to their revocation list in a timely manner.
+
+#### **Eliminates Sole Negligence under eIDAS (Art 12a / 12b)**
+Under eIDAS Article 12a and 12b, a Relying Party has a duty of care to validate credentials. If an RP fails to verify the presentation signature and the corresponding trust chains, they are considered to have accepted an unauthenticated payload. In the event of a security breach or fraudulent transaction, the RP can be held **solely liable** due to technical negligence.
+
+### 9.2 Presentation modes
+
+Selective disclosure is NOT permitted for the core EBWOID attributes; the holder presents EBWOID atomically.
+
+### 9.3 Transactional data
+
+The RP MAY keep minimal logs necessary to demonstrate lawful processing and verification events; no additional transaction‑specific attributes are introduced by EBWOID.
+
+* Obligations specific to this attestation type, carried over from the use-case context
+  of the previous version of this Rulebook:
 
 The EBWOID attestation serves diverse types of EBW owners across European digital services:
 
@@ -464,29 +576,11 @@ Primary use cases:
 - Activating and enabling the ownership binding of the EBW.
 - Establishing a trust context for additional legal‑person attestations that reference the EBWOID `id`.
 
-Relying Party obligations:
-- Verify the SD‑JWT VC signature and ensure the issuer is an authorised public body by validating the qualified certificate chain against the appropriate QTSP Trusted List (see Chapter 5).
-- Check freshness: validate `exp` and consider `iat`.
-- Apply revocation/status checks as defined in Chapter 6.
-- Where the transaction requires binding to a natural person representative, the RP SHOULD request and verify a PID for the representative in addition to the EBWOID.
-
-Presentation requirements:
-- Selective disclosure is NOT permitted for the core EBWOID attributes; the holder presents EBWOID atomically.
-
-Transactional data:
-- The RP MAY keep minimal logs necessary to demonstrate lawful processing and verification events; no additional transaction‑specific attributes are introduced by EBWOID.
-
-### 9.2 Presentation modes
-
-Remote presentation is in scope. Proximity presentation is not in scope, consistent
-with chapter 5, which records the mdoc encoding as out of scope.
-
-### 9.3 Transactional data
-
-No additional transaction-specific attributes are introduced by EBWOID. Relying Party
-logging expectations are recorded in section 9.1.
-
 ## 10 Trust Framework
+
+The trust anchor for this attestation is obtained as described in the branch below
+that corresponds to its legal category. The trust anchor location applies in either
+case.
 
 **PID, QEAA, PuB-EAA and attestations resolved via Trusted Lists**
 
