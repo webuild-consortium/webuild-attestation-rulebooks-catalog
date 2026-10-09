@@ -9,6 +9,31 @@ Copy the template into your rulebook folder as `README.md` and fill it in. Do no
 renumber or rename its sections. Sections that do not apply to your attestation type
 are retained with a short note explaining why.
 
+## Base rulebooks by legal category
+
+Three base rulebooks state what a legal category determines, so an attestation rulebook
+of that category does not repeat it:
+
+| Category | Base rulebook |
+| --- | --- |
+| QEAA | [`webuild-base-rulebook-qeaa.md`](webuild-base-rulebook-qeaa.md) |
+| PuB-EAA | [`webuild-base-rulebook-pub-eaa.md`](webuild-base-rulebook-pub-eaa.md) |
+| Non-qualified EAA | [`webuild-base-rulebook-eaa.md`](webuild-base-rulebook-eaa.md) |
+
+These are rulebooks, not templates. They carry no markers and nothing in them is meant
+to be filled in or stripped. An attestation rulebook cites the base for its category
+and states only what is specific to the attestation, which in most cases is the
+attribute set, the metadata and the schema artefacts.
+
+Each base settles the regulatory basis, the `category` value, the formats available to
+the category, the binding values, the trust framework and ten of the twenty-four
+traceability rows.
+
+PID and EBWOID are categories with a single member each, and that member is already
+written: [`rb-pid`](../rb-pid/README.md) and [`rb-ebwoid`](../rb-ebwoid/README.md).
+Each serves as its own reference, so no separate base is published for them. Whether
+EBWOID is a category in its own right or a QEAA or PuB-EAA is still open.
+
 ## Markers
 
 The template carries three markers. None of them belong in a finished rulebook.
@@ -45,5 +70,3 @@ use the legacy form. Keep both columns.
 11. Every integrity rule in 4.5 states enforcement point and failure behaviour.
 12. The ARF version and template version are in the header, version-pinned rather
     than `/latest/`.
-
-Maintained by the WE BUILD rulebook quality assurance group.
