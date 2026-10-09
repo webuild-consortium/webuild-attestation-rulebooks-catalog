@@ -212,7 +212,7 @@ FIXED
 | EW-DM-12-015 | ARB_12 | | | EAA indication, non-qualified only |
 | EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | | | Point b, by category |
 | EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | | | Point c, by category |
-| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | | | Point e, by category |
+| EW-DM-12-021 / EW-DM-12 | ARB_18 / ARB_19 | | | Point e, by category |
 | EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | | | Trust anchor or certificate location, by category |
 | EW-DM-12-030 | ARB_26 | | | Trust anchor publication, non-qualified EAA |
 | EW-DM-12-031 | ARB_27 | | | Whether the Relying Party must also verify a PID |
@@ -220,6 +220,8 @@ FIXED
 | EW-DM-12-034 | ARB_30 | | | Selective disclosure per claim |
 | EW-DM-12-035 | ARB_31 | | | Claim Selective Disclosure Metadata |
 | EW-DM-12-038 | ARB_34 | | | Device binding |
+
+*A non-qualified self EAA answers these rows as a non-qualified EAA (EW-DM-12-015, -018, -020, , -024 and -030).
 
 ## 3 Attestation attributes
 
@@ -309,6 +311,7 @@ FIXED
 | Non-qualified EAA | `eaa:eu:non-qualified` |
 | EBWOID | TO AGREE |
 | PID | not applicable, omit |
+| Non-qualified self EAA | `eaa:eu:non-qualified`, ETSI TS 119 472-1 has no separate value; the self-issued nature follows from the issuer being the subject or verifier |
 
 FIXED
 
@@ -418,7 +421,7 @@ FIXED
 ### 7.1 Holder Key Binding at Issuance (Wallet Binding)
 FIXED
 > This is a fundamental security requirement that prevents credential theft and ensures an attestation is bound to a specific wallet. 
-> *   **What it is:** Before the attestation is created, the Holder's wallet **MUST** perform a "proof-of-possession" challenge to prove it controls a specific private key. The Attestation Provider then embeds the corresponding public key into the attestation payload before signing it.
+> *   **What it is:** Where the attestation is device-bound (see table below), the Holder's wallet **MUST** perform a "proof-of-possession" challenge to prove it controls a specific private key. The Attestation Provider then embeds the corresponding public key into the attestation payload before signing it.
 > *   **Why it matters:** This process creates a permanent, cryptographic link between the attestation and the Holder's wallet. During presentation (as described in Chapter 9), a Relying Party can then challenge the presenting wallet to prove it still controls that same private key. This verification step makes stolen or copied attestation files useless to a thief, as they will not have the required private key.
 > ---
 FIXED table shape. Complete every row, none may be left blank.
@@ -450,7 +453,7 @@ FIXED
 
 > Any entity acting as an authorized Attestation Provider under this rulebook **SHALL** comply with the following general obligations:
 
->   **Issuance Basis and Timestamping:** The Provider **SHALL** issue the attestation based on information and supporting documentation that is valid and accurate at the exact moment of issuance. A timestamp (`iat`) **MUST** be included in each attestation. This enables a Relying Party to not only verify the attestation's temporal validity but also to correctly validate the Attestation Provider's trust status as it was at the moment of issuance (e.g., by checking against a historical Trust List).
+>   **Issuance Basis and Timestamping:** The Provider **SHALL** issue the attestation based on information and supporting documentation that is valid and accurate at the exact moment of issuance. A timestamp of issuance (iat in SD-JWT VC) **MUST** be included in each attestation. This enables a Relying Party to not only verify the attestation's temporal validity but also to correctly validate the Attestation Provider's trust status as it was at the moment of issuance (e.g., by checking against a historical Trust List).
 
 > *   **Data Currency and Revocation:** The Provider is responsible for the ongoing accuracy of the attested information. The Provider **MUST** immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
 
@@ -460,17 +463,30 @@ FIXED
 
 > This refers to the rigor with which the Attestation Provider verifies the information before issuing the attestation. The level of trust a Relying Party can place in an attestation depends directly on the quality of this proofing process.
 
-> *   **Identity Proofing:** This is the process of verifying the legal identity of the subject. For a legal entity (a business), this **MUST** involve verifying its active registration in an official national business register.
+> *   **Identity Proofing:** This is the process of verifying the identity of the subject. For example, for registered legal entities in a national register, this **MUST** involve verifying its active registration in the respective register.
 > *   **Attribute Proofing:** This is the process of verifying the specific claims (attributes) being attested. The Provider **MUST** verify the attributes against a designated authentic data source (as defined by the author below).
 
 > ---
 
 > #### **3. Architectural Pattern for EAA Provider Trust**
 
-> To enable the EBW Provider to implement the basic verification steps described in Chapter 9, the following general issuer obligations apply to all EAA Providers:
+> To enable the EAA Provider to implement the basic verification steps described in Chapter 9, the following general issuer obligations apply to all EAA Providers:
+> * EAA Provider SHALL make the key it signs with verifiable through the trust framework of chapter 10.
+> * Issuer obligation differ for the different trust mechanisms
 
-> 1.  **Provider Identity Credential:** The EAA Provider **MUST** possess their own European Business Wallet Owner Identity (EBWOID), issued by a Qualified Trust Service Provider (QTSP). To be authorized to sign and issue other EAAs, this EBWOID **MUST** contain a `signing_key` parameter holding the public key the Provider uses to sign the issued EAAs. *(This requirement is formally specified in the `rb-ebwoid` rulebook).*
-> 2.  **Trust Chaining Mechanism:** The EAA Provider **MUST** include their own EBWOID (or a reference/chain to it) in the header of every EAA they issue. This allows a Relying Party to verify the EAA signature using the public key from the embedded EBWOID, and then verify the EBWOID itself against the eIDAS Trusted List. *(This general mechanism is specified in the `rb-base` rulebook).*
+> ##### Attestation Chaining (Issuer Component with Access Certificate)
+> 1.  **Provider Identity Credential:** The EAA Provider **MUST** possess an **Access Certificate** issued by a Qualified Trust Service Provider (QTSP). This certicate already contain a `signing_key` parameter holding the public key the Provider uses to sign the issued EAAs. 
+> 2.  **Trust Chaining Mechanism:** The EAA Provider **MUST** include their access certificate in the header of every EAA they issue. This allows a Relying Party to verify the EAA signature using the public key from the embedded access certificate and then verify the access certificate itself against the eIDAS Trusted List.
+
+> ###### Attestation Chaining (EBW with EBWOID) 
+> 1.  **Provider Identity Credential:** The EAA Provider **MUST** possess their own European Business Wallet Owner Identity (EBWOID), issued by a Qualified Trust Service Provider (QTSP). To be authorized to sign and issue other EAAs, this EBWOID **MUST** contain a `signing_key` parameter holding the public key the Provider uses to sign the issued EAAs. 
+> 2.  **Trust Chaining Mechanism:** The EAA Provider **MUST** include their own EBWOID (or a reference/chain to it) in the header of every EAA they issue. This allows a Relying Party to verify the EAA signature using the public key from the embedded EBWOID, and then verify the EBWOID itself against the eIDAS Trusted List.
+
+> ##### QSEAL
+> [to be described]
+
+> ##### to be defined according to ADR#336
+> [to be described]
 
 > ---
 
@@ -673,7 +689,7 @@ FIXED
 > intermediate signing certificate, in which case the trust anchor is used to verify
 > that certificate rather than the attestation directly.
 
-**Non-qualified EAA**
+**Non-qualified EAA (including S-EAA)**
 
 ## 10.1. Relying Party Role ( RP Instance - EUDI Wallet)
 
@@ -692,7 +708,7 @@ FIXED
 
 FIXED
 
-### 10.2.1 Non-qualified EAA with Attestation Chaining
+### 10.2.1 Attestation Chaining
 
 > For this category, the attestation is not issued directly by a Qualified Trust Service Provider (QTSP). Instead, trust is established through a **delegated trust model** that chains back to a qualified credential. The process for a Relying Party to establish the trust anchor is as follows:
 
@@ -708,10 +724,10 @@ FIXED
 
 > Following successful cryptographic verification, the authorisation of the Provider to issue this specific type of attestation is a business-level decision for the Relying Party, based on its own internal policies and trust lists.
 
-### 10.2.2 Non-qualified EAA signed with QSEAL
+### 10.2.2 QSEAL
 > [to be described]
 
-### 10.2.3. Non-qualified EAA based on ADR#336
+### 10.2.3 to be defined according to ADR#336
 > [to be described]
 
 > **Trust anchor location**
