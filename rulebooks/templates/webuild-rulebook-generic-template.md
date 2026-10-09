@@ -547,8 +547,6 @@ expected time from trigger to status list update.
 
 # 9. Request, Presentation and Verification
 
-## 9.1. Relying Party Role ( RP Instance - EUDI Wallet)
-
 FIXED
 
 > To verify and validate a received presentation of an attestation of this type,
@@ -569,11 +567,15 @@ FIXED
 >     *   Ensure that the presenter has not submitted a copied or replayed attestation 
 >     *   Validate that the presented attestation was issued to this exact presenting wallet instance.
 
+## 9.1. Relying Party Role ( RP Instance - EUDI Wallet)
+
 [AUTHOR] Add obligations specific to this attestation type below. Do not edit the
 list above.
 
-
 ## 9.2. EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+
+FIXED
+
 >Following the principle of mutual identification the verification in the **European Business Wallet (EBW)** ecosystem is designed as a mutual cryptographic process. Unlike traditional consumer wallet flows, EBW transactions must satisfy high-assurance, machine-to-machine (M2M) environments. Verification of EAAs is executed under two distinct conditions:
 
 > 1.  **Relying Party Role:** When an EBW Owner receives a presented attestation from a Holder and must verify its cryptographic claims before providing a service or executing a transaction.
@@ -597,25 +599,10 @@ list above.
 > 4.  **Respect Trust Model Registration:**
 > Where the trust model for a requested attestation requires Relying Party registration, the RP **SHALL** only request attributes it is explicitly registered and authorized to request.
 
-FIXED
 > ## 9.2.2. Holder and Relying Party obligation during verification
 
+FIXED
 > To protect the Holder and Relying Party from processing fraudulent, tampered, or stolen attestations, they  **MUST** programmatically execute the following five verification steps on all received attestations. Holder and Relying Party performing the verification steps are called Verifier within the rest of this chapter. The Verifier can perform the steps only if the EBW supports the verification steps, therefore the EBW Wallet Provider **MUST** support the following verification steps with their EBW:
-
-> 1.  **Cryptographic Integrity Verification (Tamper Proof):**
->     The Verifier **MUST** verify that the received attestation data has not been altered or tampered with since its issuance. The wallet shall validate the digital signature over the attestation using a trusted public key (trust anchor) obtained according to the framework detailed in Chapter 10.
-> 2.  **Issuer Authentication and Trust Evaluation:**
->      The Verifier **MUST** verify the identity and regulatory standing of the Attestation Provider. The Verifier **MUST** verify that a trust anchor (Qualified Trust Service Provider (QTSP) for EAAs (EBWOID check), or the designated national Supervisory Body for other attestation (EBWOID checks or X.509)), has confirmed that the attestation issuer owned the public key corresponding to the private key used to sign the verified attestation at the time of issuance.
-> 3.  **Temporal Validity Verification:**
->      The Verifier **MUST** verify that the attestation is within its stated validity window. An attestation that has not yet taken effect or has already expired **SHOULD** be accepted, regardless of any other successful checks.
-> 4.  **Revocation Status Verification:**
->    The Verifier **MUST** verify the real-time revocation status of the received attestation as described in Chapter 8, unless:
->     *   The attestation is explicitly defined as short-lived; or
->     *   The remaining lifetime of the attestation is below the designated revocation time threshold.
-> 5.  **Holder Wallet and Device Binding Verification:**
-> Where the attestation is device-bound according to section 7.1, the Verifier **MUST** verify the Holder's presentation signature and the presentation's binding to achieve two critical security checks:
->     *   Ensure that the presenter has not submitted a copied or replayed attestation (e.g., presenting a copied EBWOID belonging to a different legal entity).
->     *   Validate that the presented attestation was issued to this exact presenting wallet instance.
 
 > ### 9.2.2.1 Impact of Cryptographic Verification on Holder Liability
 > The mandatory validation of incoming requests protects the Holder when operating in high-security, backend-to-backend environments:
