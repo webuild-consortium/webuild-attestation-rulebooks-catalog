@@ -2,12 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.org/schemas/eudi/vat-id-attestation.json",
   "title": "EUDI VAT ID Attestation",
-  "description": "The VAT-ID attestation is an official document issued by a recognized authority, such as the Tax Administration, that verifies the validity of a VAT-ID. This attestation serves as proof of the company’s or administrative unit’s VAT-ID and its corresponding validity period. It contains only information directly related to the VAT-ID. The VAT-ID attestation can be utilized by a company to substantiate its identity and ownership of the provided VAT-ID. The recipient of the attestation can trust its authenticity, eliminating the need for external verification through the VAT Information Exchange System (VIES) or the request for a physical VAT-ID Certificate.",
+  "description": "The VAT-ID attestation is an official document issued by a recognised authority, such as the Tax Administration, that verifies the validity of a VAT-ID. This attestation serves as proof of the company’s or administrative unit’s VAT-ID and its corresponding validity period. It contains only information directly related to the VAT-ID. The VAT-ID attestation can be utilised by a company to substantiate its identity and ownership of the provided VAT-ID. The recipient of the attestation can trust its authenticity, eliminating the need for external verification through the VAT Information Exchange System (VIES) or the request for a physical VAT-ID Certificate.",
   "type": "object",
   "properties": {
     "vct": {
       "type": "string",
-      "const": "uri:eu.eudi.vat.1",
+      "const": "uri:eu.eudi.vat.2",
       "description": "Credential type identifier for an EUDI VAT ID Attestation.",
       "examples": [
         "uri:eu.eudi.vat.1"
@@ -111,14 +111,14 @@
               "properties": {
                 "legal_identifier": {
                   "type": "string",
-                  "description": "Official legal identifier of the organization.",
+                  "description": "Official legal identifier of the organisation.",
                   "examples": [
                     "NL801234567B01"
                   ]
                 },
                 "legal_name": {
                   "type": "string",
-                  "description": "Registered legal name of the organization.",
+                  "description": "Registered legal name of the organisation.",
                   "examples": [
                     "KLM Royal Dutch Airlines N.V."
                   ]
@@ -207,7 +207,7 @@
         },
         "organisation_type": {
           "type": "string",
-          "description": "Legal form of the organization.",
+          "description": "Legal form of the organisation.",
           "examples": [
             "N.V."
           ]
@@ -452,7 +452,6 @@
     "iat",
     "issuer",
     "exp",
-    "status",
     "trust_anchor"
   ]
 }
