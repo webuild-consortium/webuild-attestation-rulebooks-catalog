@@ -10,6 +10,7 @@ Category: PID
 
 | Version | Date | Description |
 | --- | --- | --- |
+| 1.1.1 | 2026-10-15 | Aligned the threshold for requiring a `status` claim with ARF v3.0.0 VCR_01b (24 hours, previously 25 hours). |
 | 1.1.0 | 2026-09-11 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. Requirement references renumbered to the ARF v3.0.0 identifiers. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
@@ -301,7 +302,7 @@ This attestation defines no conditional metadata.
 | --- | --- | --- |
 | The first part of `issuing_jurisdiction` SHALL equal `issuing_country` | PID Provider, at issuance | The PID is not issued |
 | `place_of_birth` SHALL contain at least one of `country`, `region` or `locality` | PID Provider, at issuance | The PID is not issued |
-| A `status` claim SHALL be present when the technical validity period exceeds 25 hours | PID Provider, at issuance | The PID is not issued |
+| A `status` claim SHALL be present when the technical validity period exceeds 24 hours | PID Provider, at issuance | The PID is not issued |
 | `trust_anchor`, where present, SHALL be the attribute referenced by chapter 10 | Relying Party, at verification | The Relying Party applies its risk analysis under chapter 10 |
 
 ## 5 Formats
@@ -504,7 +505,7 @@ The following Private Names specific to the attestation type defined in this doc
 
 #### 3.2.2 Attribute status
 
-For SD-JWT VC-compliant PIDs, the PID MUST include a `status` claim if the technical validity period is greater than 25 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC].
+For SD-JWT VC-compliant PIDs, the PID MUST include a `status` claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in [SD-JWT VC].
 
 The `status` claim SHALL be a JSON object with the following members:
 - `type` (string): SHALL be `"status-list"`.
@@ -711,7 +712,7 @@ Issuance requirements and expectations:
 - PID Providers SHALL issue PID only after identity verification according to the applicable Member State PID issuance framework.
 - PID Providers SHALL bind PID to the Wallet Unit key material as defined in Chapter 3 (e.g., `cnf` for SD-JWT VC).
 - PID Providers SHALL set technical validity (`exp`, and `nbf` if present) and SHALL provide status/revocation capability as defined in Chapter 6.
-- For SD-JWT VC PIDs, the PID SHALL include a `status` claim when required by Section 3.2.2 (technical validity period > 25 hours).
+- For SD-JWT VC PIDs, the PID SHALL include a `status` claim when required by Section 3.2.2 (technical validity period > 24 hours).
 
 Expected user behaviours:
 - The user SHOULD approve PID presentation only when the Wallet Unit shows the RP identity, intended use, and a privacy policy reference.
