@@ -12,7 +12,7 @@
     "kid": "https://www.belastingdienst.nl/keys/vat-issuer-2024-01"
   },
 
-  "vct": "uri:eu.eudi.vat.1",
+  "vct": "uri:eu.eudi.vat.2",
   "iss": "https://www.belastingdienst.nl",
   "iat": 1704067200,
   "exp": 1830902400,
