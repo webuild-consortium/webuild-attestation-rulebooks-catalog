@@ -10,7 +10,7 @@
       "const": "uri:eu.eudi.vat.2",
       "description": "Credential type identifier for an EUDI VAT ID Attestation.",
       "examples": [
-        "uri:eu.eudi.vat.1"
+        "uri:eu.eudi.vat.2"
       ]
     },
     "attestation_legal_category": {
