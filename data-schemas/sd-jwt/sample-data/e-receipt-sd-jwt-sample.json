@@ -88,10 +88,10 @@
       "amount": 5270,
       "attributes": {
         "AID": "A0000000031010",
-        "masked_pan": "411111******1111",
-        "authorization_code": "AB12CD",
-        "terminal_id": "POS-12",
-        "transaction_id": "T-20260423-000871"
+        "maskedPAN": "411111******1111",
+        "authorizationCode": "AB12CD",
+        "terminalId": "POS-12",
+        "transactionId": "T-20260423-000871"
       }
     }
   ],
