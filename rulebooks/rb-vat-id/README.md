@@ -516,7 +516,7 @@ mdoc encoding as out of scope.
 | --- | --- | --- |
 | Device-bound | non device-bound | EW-DM-12-038 |
 | Cryptographically bound to | none | EW-DM-12-032 |
-| Relying Party must also verify a PID | no | EW-DM-12-031 |
+| Relying Party must also verify a PID/EBWOID | yes | EW-DM-12-031 |
 | Binding subject | legal person or natural person, the economic operator |  |
 
 The attestation SHALL be non-device-bound. The relying party SHOULD check the ownership of the VAT-ID using the method described above. Device binding might create a false sence of trustworthyness. Because the VAT-ID can be issued to an intermediary organisation, using a mandate, presenting the VAT-ID is no proof of ownership. The VAT-ID attestation will not be revoked by the issuer, when the mandate is revoked.
