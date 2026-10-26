@@ -573,7 +573,7 @@ FIXED
 > 2.  **Issuer Authentication and Trust Evaluation:**
 >      The Verifier **MUST** verify the identity and regulatory standing of the Attestation Provider. The Verifier **MUST** verify that a trust anchor (Qualified Trust Service Provider (QTSP) for EAAs or the designated national Supervisory Body for other attestation), has confirmed that the attestation issuer owned the public key corresponding to the private key used to sign the verified attestation at the time of issuance.
 > 3.  **Temporal Validity Verification:**
->      The Verifier **MUST** verify that the attestation is within its stated validity window. An attestation that has not yet taken effect or has already expired **SHOULD** be accepted, regardless of any other successful checks.
+>      The Verifier **MUST** verify that the attestation is within its stated validity window. An attestation that has not yet taken effect or has already expired **SHALL NOT** be accepted, regardless of any other successful checks.
 > 4.  **Revocation Status Verification:**
 >    The Verifier **MUST** verify the real-time revocation status of the received attestation as described in Chapter 8, unless:
 >     *   The attestation is explicitly defined as short-lived; or

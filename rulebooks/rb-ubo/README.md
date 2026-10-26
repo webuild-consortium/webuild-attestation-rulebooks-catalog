@@ -510,7 +510,7 @@ Metadata describes the attestation rather than its subject.
 
 | **Data Identifier** | **Semantic reference**|**Definition** |**Data type**| **Example value** |                   
 | --- |-----------------------------------------------------------| --- | -- |-------------------|
-| attestation_legal_category | |Indicates the legal category of the Attestation | String | S-EAA , QEAA      |
+| attestation_legal_category | | Indicates the legal category of the Attestation; self-issued attestations use EAA per IR-24 | String | EAA, QEAA |
 | cnf | | cryptographic Key Binding                                  | String |                   |
 
 ### 4.2 Optional metadata

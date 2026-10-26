@@ -452,7 +452,6 @@
     "iat",
     "issuer",
     "exp",
-    "status",
-    "trust_anchor"
+    "status"
   ]
 }
