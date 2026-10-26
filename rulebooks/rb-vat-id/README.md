@@ -306,7 +306,7 @@ Optional attributes are stated per object of the data model in section 3.1.
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| legal_person | [legalPerson](https://w3id.org/ebwv#LegalPerson) | individual, company, or organization recognized by law. It possesses distinct rights and responsibilities, meaning it can own property, enter into contracts, incur debts, pay taxes, and sue or be sued in | oBeject |  |
+| legal_person | [legalPerson](https://w3id.org/ebwv#LegalPerson) | individual, company, or organisation recognized by law. It possesses distinct rights and responsibilities, meaning it can own property, enter into contracts, incur debts, pay taxes, and sue or be sued in | Object |  |
 | natural_person | [naturalPerson](https://w3id.org/ebwv#NaturalPerson) | The natural person the VAT-ID is issued to | Object |  |
 
 #### 3.3.3 Legal person
@@ -360,7 +360,7 @@ Metadata describes the attestation rather than its subject.
 | issuer.authentic_source_country | issuingCountry | Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | string | NL |
 | issuer.vat_id_authenticsource | authenticSource | Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation | string | Belastingdienst |
 | issuer.country | issuingCountry | Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID. | string | NL |
-| issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | string | en-GB |
+| issuer.issuing_authority | issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47 | string | en-GB: Dutch Tax Administration |
 | issuer.attestation_issuing_date | iat | The date the attestation was issued | Integer (Unix timestamp) |  |
 | issuer.attestation_expiry_date | exp | The date the attestation was issued | Integer (Unix timestamp) |  |
 
@@ -516,7 +516,7 @@ mdoc encoding as out of scope.
 | --- | --- | --- |
 | Device-bound | non device-bound | EW-DM-12-038 |
 | Cryptographically bound to | none | EW-DM-12-032 |
-| Relying Party must also verify a PID | no | EW-DM-12-031 |
+| Relying Party must also verify a PID/EBWOID | yes | EW-DM-12-031 |
 | Binding subject | legal person or natural person, the economic operator |  |
 
 The attestation SHALL be non-device-bound. The relying party SHOULD check the ownership of the VAT-ID using the method described above. Device binding might create a false sence of trustworthyness. Because the VAT-ID can be issued to an intermediary organisation, using a mandate, presenting the VAT-ID is no proof of ownership. The VAT-ID attestation will not be revoked by the issuer, when the mandate is revoked.
