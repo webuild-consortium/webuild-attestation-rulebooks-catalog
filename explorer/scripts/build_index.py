@@ -389,13 +389,14 @@ def build():
         d = os.path.join(RULEBOOKS, slug)
         if not os.path.isdir(d) or slug in NOT_ATTESTATIONS:
             continue
-        path = os.path.join(d, "README.md")
-        if not os.path.exists(path):
-            cand = [f for f in os.listdir(d) if f.lower() == "readme.md"]
-            if not cand:
-                problems.append(f"{slug}: no README.md")
-                continue
-            path = os.path.join(d, cand[0])
+        # take the name from the directory listing. A case insensitive file
+        # system would otherwise report README.md for a file named readme.md,
+        # and the link to it on GitHub would not resolve.
+        cand = sorted(f for f in os.listdir(d) if f.lower() == "readme.md")
+        if not cand:
+            problems.append(f"{slug}: no README.md")
+            continue
+        path = os.path.join(d, cand[0])
 
         text = read(path)
         title = ""

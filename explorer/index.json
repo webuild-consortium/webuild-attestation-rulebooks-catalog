@@ -4768,7 +4768,7 @@
   {
    "slug": "rb-eInvoice",
    "title": "eInvoice",
-   "path": "rulebooks/rb-eInvoice/README.md",
+   "path": "rulebooks/rb-eInvoice/readme.md",
    "categories": [
     "non-qualified EAA"
    ],
