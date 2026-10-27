@@ -31,23 +31,34 @@
       brand: "--brand", brandDark: "--brand-dark", brandLight: "--brand-light",
       accent: "--accent", accentDark: "--accent-dark", ink: "--ink",
       muted: "--muted", line: "--line", surface: "--surface",
-      canvas: "--canvas", radius: "--radius", font: "--font"
+      canvas: "--canvas", radius: "--radius", font: "--font",
+      headingFont: "--heading-font", headerGradient: "--header-gradient"
     };
     Object.keys(map).forEach(function (k) {
       if (t[k]) r.setProperty(map[k], t[k]);
     });
 
+    if (t.webFonts) {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = t.webFonts;
+      document.head.appendChild(link);
+    }
+
     document.title = b.productName + " – " + b.name;
-    $("brandName").textContent = b.name;
     $("brandProduct").textContent = b.productName;
-    $("pageTitle").textContent = b.productName;
     $("pageTagline").textContent = b.tagline || "";
     $("footNote").textContent = b.footerNote || "";
+    if (b.copyright) {
+      var c = document.getElementById("copyright");
+      if (c) c.textContent = "\u00a9 " + new Date().getFullYear() + " " + b.copyright;
+    }
     if (b.siteUrl) $("brandLink").href = b.siteUrl;
     if (b.repositoryUrl) $("repoLink").href = b.repositoryUrl;
     if (b.logo) {
       $("brandLogo").src = b.logo;
       $("brandLogo").alt = b.logoAlt || b.name;
+      if (b.logoHeight) $("brandLogo").height = b.logoHeight;
     } else {
       $("brandLogo").remove();
     }
@@ -251,15 +262,9 @@
 
   function buildStats() {
     var c = data.counts;
-    var items = [
-      ["Rulebooks", c.rulebooks],
-      ["On template", c.onTemplate],
-      ["With schema", c.withSchema],
-      ["Attributes", c.attributes]
-    ];
-    $("stats").innerHTML = items.map(function (i) {
-      return "<div><dt>" + esc(i[0]) + "</dt><dd>" + i[1] + "</dd></div>";
-    }).join("");
+    $("summary").textContent =
+      "\u00b7 " + c.attributes + " attributes across " + c.rulebooks +
+      " rulebooks, " + c.withSchema + " with a schema";
     $("generated").textContent = data.generated;
   }
 
@@ -290,6 +295,14 @@
         el.classList.add("is-on");
         state.mode = el.dataset.mode;
         render();
+      });
+    });
+    document.querySelectorAll(".eg").forEach(function (el) {
+      el.addEventListener("click", function () {
+        q.value = el.dataset.q;
+        state.q = el.dataset.q;
+        render();
+        q.focus();
       });
     });
     $("closeDetail").addEventListener("click", function () { $("detail").close(); });
