@@ -29,6 +29,7 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {},
    "attributes": [
     {
      "name": "streetAndNumber",
@@ -612,6 +613,7 @@
    "onTemplate": false,
    "vct": "eu.we-build:approvedsupplier:1",
    "formats": [],
+   "encodings": {},
    "attributes": [
     {
      "name": "iss",
@@ -708,6 +710,220 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "Legal Entity",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "legal_person_name",
+      "identifier": "legal_entity.legal_person.legal_person_name",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_form_type",
+      "identifier": "legal_entity.legal_person.legal_form_type",
+      "encoding": "string"
+     },
+     {
+      "data": "Legal Entity Identifier",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "euid",
+      "identifier": "legal_person.identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei",
+      "identifier": "legal_person.identifier.lei",
+      "encoding": "String"
+     },
+     {
+      "data": "tax",
+      "identifier": "legal_person.identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "gln",
+      "identifier": "legal_person.identifier.gln",
+      "encoding": "String"
+     },
+     {
+      "data": "duns",
+      "identifier": "legal_person.identifier.duns",
+      "encoding": "String"
+     },
+     {
+      "data": "eori",
+      "identifier": "legal_person.identifier.eori",
+      "encoding": "String"
+     },
+     {
+      "data": "bpnl",
+      "identifier": "legal_person.identifier.bpnl",
+      "encoding": "String"
+     },
+     {
+      "data": "siren",
+      "identifier": "legal_person.identifier.siren",
+      "encoding": "String"
+     },
+     {
+      "data": "Authorised Person",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "authorised_persons",
+      "identifier": "authorised_persons",
+      "encoding": "array"
+     },
+     {
+      "data": "NaturalPerson",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "first_name",
+      "identifier": "authorised_persons[n].natural_person.first_name",
+      "encoding": "string"
+     },
+     {
+      "data": "surname",
+      "identifier": "authorised_persons[n].natural_person.surname",
+      "encoding": "string"
+     },
+     {
+      "data": "date_of_birth",
+      "identifier": "authorised_persons[n].natural_person.date_of_birth",
+      "encoding": "string"
+     },
+     {
+      "data": "BirthPlace",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "birth_place.locality",
+      "identifier": "authorised_persons[n].birth_place.locality",
+      "encoding": "string"
+     },
+     {
+      "data": "birth_place.country",
+      "identifier": "authorised_persons[n].birth_place.country",
+      "encoding": "string"
+     },
+     {
+      "data": "birth_place.region",
+      "identifier": "authorised_persons[n].birth_place.region",
+      "encoding": "string"
+     },
+     {
+      "data": "Citizenship",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "PersonRole",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "person_role.representation_type",
+      "identifier": "authorised_persons[n].person_role.representation_type",
+      "encoding": "string"
+     },
+     {
+      "data": "person_role.role",
+      "identifier": "authorised_persons[n].person_role.role",
+      "encoding": "string"
+     },
+     {
+      "data": "person_role.email",
+      "identifier": "authorised_persons[n].person_role.email",
+      "encoding": "string"
+     },
+     {
+      "data": "person_role.phone",
+      "identifier": "authorised_persons[n].person_role.phone",
+      "encoding": "string"
+     },
+     {
+      "data": "NaturalPersonIdentifier",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "identifier.document_type",
+      "identifier": "authorised_persons[n].identifier.document_type",
+      "encoding": "string"
+     },
+     {
+      "data": "identifier.document_number",
+      "identifier": "authorised_persons[n].identifier.document_number",
+      "encoding": "string"
+     },
+     {
+      "data": "identifier.issuing_country",
+      "identifier": "authorised_persons[n].identifier.issuing_country",
+      "encoding": "string"
+     },
+     {
+      "data": "identifier.document_expiry_date",
+      "identifier": "authorised_persons[n].identifier.document_expiry_date",
+      "encoding": "string"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "String"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "legal_person_name",
@@ -957,6 +1173,85 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "number"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "number"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "status",
+      "identifier": "status",
+      "encoding": "object"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "object"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "authorizing_company",
+      "identifier": "authorizing_company",
+      "encoding": "object"
+     },
+     {
+      "data": "authorized_service_provider",
+      "identifier": "authorized_service_provider",
+      "encoding": "object"
+     },
+     {
+      "data": "authorization_scope",
+      "identifier": "authorization_scope",
+      "encoding": "array"
+     },
+     {
+      "data": "authorization_valid_from",
+      "identifier": "authorization_valid_from",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "authorization_valid_until",
+      "identifier": "authorization_valid_until",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "tax_reporting_member_state",
+      "identifier": "tax_reporting_member_state",
+      "encoding": "string"
+     },
+     {
+      "data": "authorization_reference",
+      "identifier": "authorization_reference",
+      "encoding": "string"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "authorizing_company.legal_name",
@@ -1129,6 +1424,155 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "integer"
+     },
+     {
+      "data": "nbf",
+      "identifier": "nbf",
+      "encoding": "integer"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "integer"
+     },
+     {
+      "data": "jti",
+      "identifier": "jti",
+      "encoding": "string"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "object"
+     },
+     {
+      "data": "status",
+      "identifier": "status",
+      "encoding": "object"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "firstName",
+      "identifier": "firstName",
+      "encoding": "string"
+     },
+     {
+      "data": "lastName",
+      "identifier": "lastName",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "identifier",
+      "identifier": "identifier",
+      "encoding": "string"
+     },
+     {
+      "data": "ticketQR",
+      "identifier": "ticketQR",
+      "encoding": "string"
+     },
+     {
+      "data": "ticketNumber",
+      "identifier": "ticketNumber",
+      "encoding": "string"
+     },
+     {
+      "data": "ticketLet",
+      "identifier": "ticketLet",
+      "encoding": "string"
+     },
+     {
+      "data": "seatType",
+      "identifier": "seatType",
+      "encoding": "string"
+     },
+     {
+      "data": "seatNumber",
+      "identifier": "seatNumber",
+      "encoding": "string"
+     },
+     {
+      "data": "departureDate",
+      "identifier": "departureDate",
+      "encoding": "string"
+     },
+     {
+      "data": "departureTime",
+      "identifier": "departureTime",
+      "encoding": "string"
+     },
+     {
+      "data": "arrivalDate",
+      "identifier": "arrivalDate",
+      "encoding": "string"
+     },
+     {
+      "data": "arrivalTime",
+      "identifier": "arrivalTime",
+      "encoding": "string"
+     },
+     {
+      "data": "arrivalPort",
+      "identifier": "arrivalPort",
+      "encoding": "string"
+     },
+     {
+      "data": "vesselDescription",
+      "identifier": "vesselDescription",
+      "encoding": "string"
+     },
+     {
+      "data": "issuer",
+      "identifier": "issuer",
+      "encoding": "object"
+     },
+     {
+      "data": "issuer.issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "string"
+     },
+     {
+      "data": "issuer.issuing_organisation",
+      "identifier": "issuing_organisation",
+      "encoding": "string"
+     },
+     {
+      "data": "issuer.issuing_date",
+      "identifier": "issuing_date",
+      "encoding": "string"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trust_anchor",
+      "encoding": "string"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "attestation_legal_category",
@@ -1336,6 +1780,180 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "Legal Entity",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "legal_person_name",
+      "identifier": "legal_entity.legal_person.legal_person_name",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_form_type",
+      "identifier": "legal_entity.legal_person.legal_form_type",
+      "encoding": "string"
+     },
+     {
+      "data": "Legal Entity Identifier",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "euid",
+      "identifier": "legal_person.identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei",
+      "identifier": "legal_person.identifier.lei",
+      "encoding": "String"
+     },
+     {
+      "data": "tax",
+      "identifier": "legal_person.identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "gln",
+      "identifier": "legal_person.identifier.gln",
+      "encoding": "String"
+     },
+     {
+      "data": "duns",
+      "identifier": "legal_person.identifier.duns",
+      "encoding": "String"
+     },
+     {
+      "data": "eori",
+      "identifier": "legal_person.identifier.eori",
+      "encoding": "String"
+     },
+     {
+      "data": "bpnl",
+      "identifier": "legal_person.identifier.bpnl",
+      "encoding": "String"
+     },
+     {
+      "data": "siren",
+      "identifier": "legal_person.identifier.siren",
+      "encoding": "String"
+     },
+     {
+      "data": "number_of_employees",
+      "identifier": "number_of_employees",
+      "encoding": "Integer (uint)"
+     },
+     {
+      "data": "trade_alias",
+      "identifier": "trade_alias",
+      "encoding": "Array of Strings"
+     },
+     {
+      "data": "previous_legal_name",
+      "identifier": "previous_legal_name",
+      "encoding": "Array of Strings"
+     },
+     {
+      "data": "financial_statements",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "financial_statements.taxonomy",
+      "identifier": "financial_statements.taxonomy",
+      "encoding": "String"
+     },
+     {
+      "data": "financial_statements.facts",
+      "identifier": "financial_statements.facts",
+      "encoding": "Array [Fact]"
+     },
+     {
+      "data": "facts",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "financial_statements.facts.id",
+      "identifier": "financial_statements.facts[n].id",
+      "encoding": "String"
+     },
+     {
+      "data": "financial_statements.facts.concept",
+      "identifier": "financial_statements.facts[n].concept",
+      "encoding": "String"
+     },
+     {
+      "data": "financial_statements.facts.value",
+      "identifier": "financial_statements.facts[n].value",
+      "encoding": "Decimal (number)"
+     },
+     {
+      "data": "financial_statements.facts.unit",
+      "identifier": "financial_statements.facts[n].unit",
+      "encoding": "String (ISO 4217 for currencies)"
+     },
+     {
+      "data": "financial_statements.facts.period_start",
+      "identifier": "financial_statements.facts[n].period_start",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "financial_statements.facts.period_end",
+      "identifier": "financial_statements.facts[n].period_end",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "employee_number",
@@ -1614,6 +2232,150 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "Legal Entity",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "legal_person_name",
+      "identifier": "legal_entity.legal_person.legal_person_name",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_form_type",
+      "identifier": "legal_entity.legal_person.legal_form_type",
+      "encoding": "string"
+     },
+     {
+      "data": "Legal Entity Identifier",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "euid",
+      "identifier": "legal_person.identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei",
+      "identifier": "legal_person.identifier.lei",
+      "encoding": "String"
+     },
+     {
+      "data": "tax",
+      "identifier": "legal_person.identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "gln",
+      "identifier": "legal_person.identifier.gln",
+      "encoding": "String"
+     },
+     {
+      "data": "duns",
+      "identifier": "legal_person.identifier.duns",
+      "encoding": "String"
+     },
+     {
+      "data": "eori",
+      "identifier": "legal_person.identifier.eori",
+      "encoding": "String"
+     },
+     {
+      "data": "bpnl",
+      "identifier": "legal_person.identifier.bpnl",
+      "encoding": "String"
+     },
+     {
+      "data": "siren",
+      "identifier": "legal_person.identifier.siren",
+      "encoding": "String"
+     },
+     {
+      "data": "Contact Persons",
+      "identifier": "contact_persons",
+      "encoding": "Array"
+     },
+     {
+      "data": "ContactPerson Attributes",
+      "identifier": "contact_person",
+      "encoding": "Object"
+     },
+     {
+      "data": "given_name",
+      "identifier": "given_name",
+      "encoding": "String"
+     },
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "String"
+     },
+     {
+      "data": "role",
+      "identifier": "role",
+      "encoding": "String"
+     },
+     {
+      "data": "email",
+      "identifier": "email",
+      "encoding": "String"
+     },
+     {
+      "data": "telephone",
+      "identifier": "telephone",
+      "encoding": "String"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "Object"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "given_name",
@@ -1857,6 +2619,255 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "controller",
+      "identifier": "controller",
+      "encoding": "Array [Controller]"
+     },
+     {
+      "data": "type",
+      "identifier": "controller[n].type",
+      "encoding": "String"
+     },
+     {
+      "data": "Person",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "first_name",
+      "identifier": "controller[n].person.first_name",
+      "encoding": "String"
+     },
+     {
+      "data": "surname",
+      "identifier": "controller[n].person.surname",
+      "encoding": "String"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "controller[n].person.birth_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "Entity",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "category",
+      "identifier": "controller[n].entity.category",
+      "encoding": "String"
+     },
+     {
+      "data": "name",
+      "identifier": "controller[n].entity.name",
+      "encoding": "String"
+     },
+     {
+      "data": "euid",
+      "identifier": "controller[n].entity.identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei",
+      "identifier": "controller[n].entity.identifier.lei",
+      "encoding": "String (20 chars)"
+     },
+     {
+      "data": "tax",
+      "identifier": "controller[n].entity.identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "other",
+      "identifier": "controller[n].entity.identifier.other",
+      "encoding": "String"
+     },
+     {
+      "data": "jurisdiction",
+      "identifier": "controller[n].entity.jurisdiction",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "legal_form",
+      "identifier": "controller[n].entity.legal_form",
+      "encoding": "String"
+     },
+     {
+      "data": "form",
+      "identifier": "controller[n].entity.form",
+      "encoding": "String"
+     },
+     {
+      "data": "subtype_info",
+      "identifier": "controller[n].entity.subtype_info",
+      "encoding": "Object"
+     },
+     {
+      "data": "settlement",
+      "identifier": "controller[n].entity.subtype_info.settlement",
+      "encoding": "String"
+     },
+     {
+      "data": "purpose",
+      "identifier": "controller[n].entity.subtype_info.purpose",
+      "encoding": "String"
+     },
+     {
+      "data": "assets",
+      "identifier": "controller[n].entity.subtype_info.assets",
+      "encoding": "String"
+     },
+     {
+      "data": "reason_for_registration",
+      "identifier": "controller[n].entity.subtype_info.reason_for_registration",
+      "encoding": "String"
+     },
+     {
+      "data": "Address",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "street",
+      "identifier": "controller[n].address.street",
+      "encoding": "String"
+     },
+     {
+      "data": "house_number",
+      "identifier": "controller[n].address.house_number",
+      "encoding": "String"
+     },
+     {
+      "data": "locality",
+      "identifier": "controller[n].address.locality",
+      "encoding": "String"
+     },
+     {
+      "data": "region",
+      "identifier": "controller[n].address.region",
+      "encoding": "String"
+     },
+     {
+      "data": "postal_code",
+      "identifier": "controller[n].address.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "country",
+      "identifier": "controller[n].address.country",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "Controls",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "level",
+      "identifier": "controller[n].controls.level",
+      "encoding": "String"
+     },
+     {
+      "data": "basis",
+      "identifier": "controller[n].controls.basis",
+      "encoding": "String"
+     },
+     {
+      "data": "voting_percentage",
+      "identifier": "controller[n].controls.voting_percentage",
+      "encoding": "Decimal (0-100)"
+     },
+     {
+      "data": "appointment_rights",
+      "identifier": "controller[n].controls.appointment_rights",
+      "encoding": "String"
+     },
+     {
+      "data": "other_details",
+      "identifier": "controller[n].controls.other_details",
+      "encoding": "String"
+     },
+     {
+      "data": "rights",
+      "identifier": "controller[n].controls.rights",
+      "encoding": "Array of Strings"
+     },
+     {
+      "data": "effective_date",
+      "identifier": "controller[n].effective_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "Evidence",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "id",
+      "identifier": "controller[n].evidence[m].id",
+      "encoding": "String"
+     },
+     {
+      "data": "url",
+      "identifier": "controller[n].evidence[m].url",
+      "encoding": "URI"
+     },
+     {
+      "data": "data",
+      "identifier": "controller[n].evidence[m].data",
+      "encoding": "String (base64)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "String"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "type",
@@ -2206,6 +3217,165 @@
     "SD-JWT VC",
     "W3C VCDM"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string (HTTPS URL)"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "NumericDate"
+     },
+     {
+      "data": "nbf",
+      "identifier": "nbf",
+      "encoding": "NumericDate"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "NumericDate"
+     },
+     {
+      "data": "jti",
+      "identifier": "jti",
+      "encoding": "string"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "status",
+      "identifier": "status",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "attestationLegalCategory",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "id",
+      "identifier": "id",
+      "encoding": "string (DID)"
+     },
+     {
+      "data": "member",
+      "identifier": "member",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "member.legalName",
+      "identifier": "member.legalName",
+      "encoding": "string"
+     },
+     {
+      "data": "member.legalIdentifier",
+      "identifier": "member.legalIdentifier",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "member.legalIdentifier.scheme",
+      "identifier": "member.legalIdentifier.scheme",
+      "encoding": "string"
+     },
+     {
+      "data": "member.legalIdentifier.value",
+      "identifier": "member.legalIdentifier.value",
+      "encoding": "string"
+     },
+     {
+      "data": "memberOf",
+      "identifier": "memberOf",
+      "encoding": "string (absolute IRI"
+     },
+     {
+      "data": "holderIdentifier",
+      "identifier": "holderIdentifier",
+      "encoding": "string"
+     },
+     {
+      "data": "role",
+      "identifier": "role",
+      "encoding": "array of strings (absolute IRIs"
+     },
+     {
+      "data": "termsOfUse",
+      "identifier": "termsOfUse",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "termsOfUse.url",
+      "identifier": "termsOfUse.url",
+      "encoding": "string (URI)"
+     },
+     {
+      "data": "termsOfUse.version",
+      "identifier": "termsOfUse.version",
+      "encoding": "string"
+     },
+     {
+      "data": "termsOfUse.hash",
+      "identifier": "termsOfUse.hash",
+      "encoding": "string (SHA-256 hash)"
+     },
+     {
+      "data": "termsOfUse.acceptedAt",
+      "identifier": "termsOfUse.acceptedAt",
+      "encoding": "string (date-time)"
+     },
+     {
+      "data": "onboardedBy",
+      "identifier": "onboardedBy",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "onboardedBy.platformId",
+      "identifier": "onboardedBy.platformId",
+      "encoding": "string (DID)"
+     },
+     {
+      "data": "onboardedBy.name",
+      "identifier": "onboardedBy.name",
+      "encoding": "string"
+     },
+     {
+      "data": "onboardedBy.operator",
+      "identifier": "onboardedBy.operator",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "onboardedBy.operator.legalName",
+      "identifier": "onboardedBy.operator.legalName",
+      "encoding": "string"
+     },
+     {
+      "data": "onboardedBy.operator.identifier",
+      "identifier": "onboardedBy.operator.identifier",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "evidence",
+      "identifier": "evidence",
+      "encoding": "array of JSON objects"
+     },
+     {
+      "data": "evidence[].identifier",
+      "identifier": "evidence[].identifier",
+      "encoding": "JSON object"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "id ()",
@@ -2414,6 +3584,110 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "DUNS Details",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "duns_number",
+      "identifier": "duns_number",
+      "encoding": "String"
+     },
+     {
+      "data": "Legal Entity",
+      "identifier": "legal_entity",
+      "encoding": "Object"
+     },
+     {
+      "data": "legal_name",
+      "identifier": "legal_entity.legal_name",
+      "encoding": "String"
+     },
+     {
+      "data": "legal_form",
+      "identifier": "legal_entity.legal_form",
+      "encoding": "String"
+     },
+     {
+      "data": "Address",
+      "identifier": "legal_entity.address",
+      "encoding": "Object"
+     },
+     {
+      "data": "street",
+      "identifier": "legal_entity.address.street",
+      "encoding": "String"
+     },
+     {
+      "data": "nr",
+      "identifier": "legal_entity.address.nr",
+      "encoding": "String"
+     },
+     {
+      "data": "postal_code",
+      "identifier": "legal_entity.address.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "city",
+      "identifier": "legal_entity.address.city",
+      "encoding": "String"
+     },
+     {
+      "data": "country",
+      "identifier": "legal_entity.address.country",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "Object"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "duns_number",
@@ -2587,6 +3861,440 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "NumericDate"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "NumericDate"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "status_list",
+      "identifier": "status",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "type",
+      "identifier": "type",
+      "encoding": "string"
+     },
+     {
+      "data": "receipt_number",
+      "identifier": "receipt_number",
+      "encoding": "string"
+     },
+     {
+      "data": "receipt_timestamp",
+      "identifier": "receipt_timestamp",
+      "encoding": "string (ISO 8601)"
+     },
+     {
+      "data": "currency_iso_code",
+      "identifier": "currency_iso_code",
+      "encoding": "string"
+     },
+     {
+      "data": "total_price_exc_vat",
+      "identifier": "total_price_exc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "total_vat_amount",
+      "identifier": "total_vat_amount",
+      "encoding": "integer"
+     },
+     {
+      "data": "total_price_inc_vat",
+      "identifier": "total_price_inc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "free_text",
+      "identifier": "free_text",
+      "encoding": "string"
+     },
+     {
+      "data": "custom_attributes",
+      "identifier": "custom_attributes",
+      "encoding": "array"
+     },
+     {
+      "data": "merchant",
+      "identifier": "merchant",
+      "encoding": "object"
+     },
+     {
+      "data": "merchant.name",
+      "identifier": "name",
+      "encoding": "string"
+     },
+     {
+      "data": "merchant.company_id",
+      "identifier": "company_id",
+      "encoding": "string"
+     },
+     {
+      "data": "branch",
+      "identifier": "branch",
+      "encoding": "object"
+     },
+     {
+      "data": "branch.id",
+      "identifier": "id",
+      "encoding": "string"
+     },
+     {
+      "data": "branch.pos_id",
+      "identifier": "pos_id",
+      "encoding": "string"
+     },
+     {
+      "data": "branch.name",
+      "identifier": "name",
+      "encoding": "string"
+     },
+     {
+      "data": "branch.sub_name",
+      "identifier": "sub_name",
+      "encoding": "string"
+     },
+     {
+      "data": "branch.email",
+      "identifier": "email",
+      "encoding": "string"
+     },
+     {
+      "data": "branch.phone",
+      "identifier": "phone",
+      "encoding": "string"
+     },
+     {
+      "data": "branch.website_url",
+      "identifier": "website_url",
+      "encoding": "string"
+     },
+     {
+      "data": "address",
+      "identifier": "address",
+      "encoding": "object"
+     },
+     {
+      "data": "address.street_address",
+      "identifier": "street_address",
+      "encoding": "string"
+     },
+     {
+      "data": "address.city",
+      "identifier": "city",
+      "encoding": "string"
+     },
+     {
+      "data": "address.zip_code",
+      "identifier": "zip_code",
+      "encoding": "string"
+     },
+     {
+      "data": "address.country",
+      "identifier": "country",
+      "encoding": "string"
+     },
+     {
+      "data": "products",
+      "identifier": "products",
+      "encoding": "array of objects"
+     },
+     {
+      "data": "products[].name",
+      "identifier": "name",
+      "encoding": "string"
+     },
+     {
+      "data": "products[].quantity",
+      "identifier": "quantity",
+      "encoding": "string"
+     },
+     {
+      "data": "products[].quantity_code",
+      "identifier": "quantity_code",
+      "encoding": "string"
+     },
+     {
+      "data": "products[].unit_price_inc_vat",
+      "identifier": "unit_price_inc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "products[].unit_price_inc_vat_decimal",
+      "identifier": "unit_price_inc_vat_decimal",
+      "encoding": "string"
+     },
+     {
+      "data": "products[].total_amount_exc_vat",
+      "identifier": "total_amount_exc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "products[].total_amount_inc_vat",
+      "identifier": "total_amount_inc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "products[].vats",
+      "identifier": "vats",
+      "encoding": "array of objects"
+     },
+     {
+      "data": "products[].vats[].vat_rate",
+      "identifier": "vat_rate",
+      "encoding": "string"
+     },
+     {
+      "data": "products[].vats[].vat_amount",
+      "identifier": "vat_amount",
+      "encoding": "integer"
+     },
+     {
+      "data": "products[].vats[].total_amount_exc_vat",
+      "identifier": "total_amount_exc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "products[].vats[].total_amount_inc_vat",
+      "identifier": "total_amount_inc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "products[].discounts",
+      "identifier": "discounts",
+      "encoding": "array"
+     },
+     {
+      "data": "products[].ean_code",
+      "identifier": "ean_code",
+      "encoding": "string"
+     },
+     {
+      "data": "products[].product_id",
+      "identifier": "product_id",
+      "encoding": "string"
+     },
+     {
+      "data": "products[].free_text",
+      "identifier": "free_text",
+      "encoding": "string"
+     },
+     {
+      "data": "products[].categorization",
+      "identifier": "categorization",
+      "encoding": "object"
+     },
+     {
+      "data": "products[].custom_attributes",
+      "identifier": "custom_attributes",
+      "encoding": "array"
+     },
+     {
+      "data": "vats",
+      "identifier": "vats",
+      "encoding": "array of objects"
+     },
+     {
+      "data": "vats[].vat_rate",
+      "identifier": "vat_rate",
+      "encoding": "string"
+     },
+     {
+      "data": "vats[].total_vat_amount",
+      "identifier": "total_vat_amount",
+      "encoding": "integer"
+     },
+     {
+      "data": "vats[].total_amount_exc_vat",
+      "identifier": "total_amount_exc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "vats[].total_amount_inc_vat",
+      "identifier": "total_amount_inc_vat",
+      "encoding": "integer"
+     },
+     {
+      "data": "vats[].vat_code",
+      "identifier": "vat_code",
+      "encoding": "string"
+     },
+     {
+      "data": "original_receipt_number",
+      "identifier": "original_receipt_number",
+      "encoding": "string"
+     },
+     {
+      "data": "payments",
+      "identifier": "payments",
+      "encoding": "array of objects"
+     },
+     {
+      "data": "payments[].type",
+      "identifier": "type",
+      "encoding": "string"
+     },
+     {
+      "data": "payments[].amount",
+      "identifier": "amount",
+      "encoding": "integer"
+     },
+     {
+      "data": "payments[].attributes",
+      "identifier": "attributes",
+      "encoding": "object"
+     },
+     {
+      "data": "verifications",
+      "identifier": "verifications",
+      "encoding": "array of objects"
+     },
+     {
+      "data": "verifications[].type",
+      "identifier": "type",
+      "encoding": "string"
+     },
+     {
+      "data": "verifications[].version",
+      "identifier": "version",
+      "encoding": "string"
+     },
+     {
+      "data": "verifications[].public_key",
+      "identifier": "public_key",
+      "encoding": "string"
+     },
+     {
+      "data": "verifications[].transactionId",
+      "identifier": "transactionId",
+      "encoding": "string"
+     },
+     {
+      "data": "verifications[].current_type",
+      "identifier": "current_type",
+      "encoding": "string"
+     },
+     {
+      "data": "verifications[].transaction_begin",
+      "identifier": "transaction_begin",
+      "encoding": "object"
+     },
+     {
+      "data": "verifications[].transaction_end",
+      "identifier": "transaction_end",
+      "encoding": "object"
+     },
+     {
+      "data": "journey",
+      "identifier": "journey",
+      "encoding": "object"
+     },
+     {
+      "data": "journey.type",
+      "identifier": "type",
+      "encoding": "string"
+     },
+     {
+      "data": "journey.id",
+      "identifier": "id",
+      "encoding": "string"
+     },
+     {
+      "data": "journey.distance",
+      "identifier": "distance",
+      "encoding": "integer"
+     },
+     {
+      "data": "journey.duration",
+      "identifier": "duration",
+      "encoding": "integer"
+     },
+     {
+      "data": "journey.co2_emissions",
+      "identifier": "co2_emissions",
+      "encoding": "integer"
+     },
+     {
+      "data": "journey.origin",
+      "identifier": "origin",
+      "encoding": "object"
+     },
+     {
+      "data": "journey.destination",
+      "identifier": "destination",
+      "encoding": "object"
+     },
+     {
+      "data": "attachments",
+      "identifier": "attachments",
+      "encoding": "array of objects"
+     },
+     {
+      "data": "attachments[].type",
+      "identifier": "type",
+      "encoding": "string"
+     },
+     {
+      "data": "attachments[].kind",
+      "identifier": "kind",
+      "encoding": "string"
+     },
+     {
+      "data": "attachments[].title",
+      "identifier": "title",
+      "encoding": "string"
+     },
+     {
+      "data": "attachments[].data",
+      "identifier": "data",
+      "encoding": "string"
+     },
+     {
+      "data": "attachments[].description",
+      "identifier": "description",
+      "encoding": "string"
+     },
+     {
+      "data": "attachments[].valid_until",
+      "identifier": "valid_until",
+      "encoding": "string (ISO 8601)"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "attestation_legal_category",
@@ -3071,6 +4779,125 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "number"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "number"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "status",
+      "identifier": "status",
+      "encoding": "object"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "object"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "invoicePayloadHash",
+      "identifier": "invoicePayloadHash",
+      "encoding": "string"
+     },
+     {
+      "data": "invoiceFormat",
+      "identifier": "invoiceFormat",
+      "encoding": "string"
+     },
+     {
+      "data": "invoiceNumber",
+      "identifier": "invoiceNumber",
+      "encoding": "string"
+     },
+     {
+      "data": "issueDate",
+      "identifier": "issueDate",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "seller",
+      "identifier": "seller",
+      "encoding": "object"
+     },
+     {
+      "data": "buyer",
+      "identifier": "buyer",
+      "encoding": "object"
+     },
+     {
+      "data": "BuyerElectronicAddress",
+      "identifier": "BuyerElectronicAddress",
+      "encoding": "string"
+     },
+     {
+      "data": "amountDueForPayment",
+      "identifier": "amountDueForPayment",
+      "encoding": "string"
+     },
+     {
+      "data": "invoiceTotalVatAmount",
+      "identifier": "invoiceTotalVatAmount",
+      "encoding": "string"
+     },
+     {
+      "data": "InvoiceCurrencyCode",
+      "identifier": "InvoiceCurrencyCode",
+      "encoding": "string"
+     },
+     {
+      "data": "taxSubtotal",
+      "identifier": "taxSubtotal",
+      "encoding": "array"
+     },
+     {
+      "data": "paymentInstructions",
+      "identifier": "paymentInstructions",
+      "encoding": "object"
+     },
+     {
+      "data": "evidenceReferences",
+      "identifier": "evidenceReferences",
+      "encoding": "array"
+     },
+     {
+      "data": "precedingInvoiceReference",
+      "identifier": "precedingInvoiceReference",
+      "encoding": "string"
+     },
+     {
+      "data": "invoiceLifecycleStatus",
+      "identifier": "invoiceLifecycleStatus",
+      "encoding": "string"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "invoicePayloadHash",
@@ -3409,6 +5236,50 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "id",
+      "identifier": "id",
+      "encoding": "string"
+     },
+     {
+      "data": "name",
+      "identifier": "name",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "date_of_expiry",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "issuing_authority",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "string"
+     },
+     {
+      "data": "location_status",
+      "identifier": "status",
+      "encoding": "JSON Object"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trust_anchor",
+      "encoding": "string (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "legal_name",
@@ -3542,6 +5413,7 @@
    "formats": [
     "mdoc"
    ],
+   "encodings": {},
    "attributes": [
     {
      "name": "consignment_identifier",
@@ -3710,6 +5582,110 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "name",
+      "identifier": "name",
+      "encoding": "String"
+     },
+     {
+      "data": "surname",
+      "identifier": "surname",
+      "encoding": "String"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "birth_date",
+      "encoding": "String (ISO 8601)"
+     },
+     {
+      "data": "employee_id",
+      "identifier": "employee_id",
+      "encoding": "String"
+     },
+     {
+      "data": "CompanyInfo",
+      "identifier": "company_info",
+      "encoding": "Object"
+     },
+     {
+      "data": "company_info.euid",
+      "identifier": "company_info.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "company_info.name",
+      "identifier": "company_info.name",
+      "encoding": "String"
+     },
+     {
+      "data": "Employment",
+      "identifier": "employment",
+      "encoding": "Object"
+     },
+     {
+      "data": "employment.start_date",
+      "identifier": "employment.start_date",
+      "encoding": "String (ISO 8601)"
+     },
+     {
+      "data": "employment.type",
+      "identifier": "employment.type",
+      "encoding": "String"
+     },
+     {
+      "data": "employment.country",
+      "identifier": "employment.country",
+      "encoding": "String (ISO 3166-1 a-2)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "String"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "name",
@@ -3882,6 +5858,290 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "type",
+      "identifier": "type",
+      "encoding": "String"
+     },
+     {
+      "data": "version",
+      "identifier": "version",
+      "encoding": "String"
+     },
+     {
+      "data": "registration_number",
+      "identifier": "registration_number",
+      "encoding": "String"
+     },
+     {
+      "data": "registration_initial_date",
+      "identifier": "registration_initial_date",
+      "encoding": "String (ISO 8601)"
+     },
+     {
+      "data": "registration_expiration_date",
+      "identifier": "registration_expiration_date",
+      "encoding": "String (ISO 8601)"
+     },
+     {
+      "data": "Legal Entity",
+      "identifier": "legal_entity",
+      "encoding": "Object"
+     },
+     {
+      "data": "legal_person_name",
+      "identifier": "legal_entity.legal_person.legal_person_name",
+      "encoding": "String"
+     },
+     {
+      "data": "legal_form_type",
+      "identifier": "legal_entity.legal_person.legal_form_type",
+      "encoding": "String"
+     },
+     {
+      "data": "euid",
+      "identifier": "legal_entity.identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei",
+      "identifier": "legal_entity.identifier.lei",
+      "encoding": "String"
+     },
+     {
+      "data": "tax",
+      "identifier": "legal_entity.identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "gln",
+      "identifier": "legal_entity.identifier.gln",
+      "encoding": "String"
+     },
+     {
+      "data": "duns",
+      "identifier": "legal_entity.identifier.duns",
+      "encoding": "String"
+     },
+     {
+      "data": "eori",
+      "identifier": "legal_entity.identifier.eori",
+      "encoding": "String"
+     },
+     {
+      "data": "bpnl",
+      "identifier": "legal_entity.identifier.bpnl",
+      "encoding": "String"
+     },
+     {
+      "data": "siren",
+      "identifier": "legal_entity.identifier.siren",
+      "encoding": "String"
+     },
+     {
+      "data": "Address",
+      "identifier": "legal_entity.address",
+      "encoding": "Object"
+     },
+     {
+      "data": "street",
+      "identifier": "legal_entity.address.street",
+      "encoding": "String"
+     },
+     {
+      "data": "house_number",
+      "identifier": "legal_entity.address.house_number",
+      "encoding": "String"
+     },
+     {
+      "data": "locality",
+      "identifier": "legal_entity.address.locality",
+      "encoding": "String"
+     },
+     {
+      "data": "region",
+      "identifier": "legal_entity.address.region",
+      "encoding": "String"
+     },
+     {
+      "data": "postal_code",
+      "identifier": "legal_entity.address.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "country",
+      "identifier": "legal_entity.address.country",
+      "encoding": "String"
+     },
+     {
+      "data": "Scope",
+      "identifier": "scope",
+      "encoding": "Array [ScopeObject]"
+     },
+     {
+      "data": "legal_entity_name (scope)",
+      "identifier": "scope[n].legal_entity_name",
+      "encoding": "String"
+     },
+     {
+      "data": "legal_entity_identifier",
+      "identifier": "legal_entity_identifier",
+      "encoding": "Object"
+     },
+     {
+      "data": "euid (scope)",
+      "identifier": "scope[n].legal_entity_identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei (scope)",
+      "identifier": "scope[n].legal_entity_identifier.lei",
+      "encoding": "String"
+     },
+     {
+      "data": "tax (scope)",
+      "identifier": "scope[n].legal_entity_identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "gln (scope)",
+      "identifier": "scope[n].legal_entity_identifier.gln",
+      "encoding": "String"
+     },
+     {
+      "data": "duns (scope)",
+      "identifier": "scope[n].legal_entity_identifier.duns",
+      "encoding": "String"
+     },
+     {
+      "data": "eori (scope)",
+      "identifier": "scope[n].legal_entity_identifier.eori",
+      "encoding": "String"
+     },
+     {
+      "data": "bpnl (scope)",
+      "identifier": "scope[n].legal_entity_identifier.bpnl",
+      "encoding": "String"
+     },
+     {
+      "data": "siren (scope)",
+      "identifier": "scope[n].legal_entity_identifier.siren",
+      "encoding": "String"
+     },
+     {
+      "data": "site_identifier",
+      "identifier": "scope[n].site_identifier",
+      "encoding": "String (UUID)"
+     },
+     {
+      "data": "street (scope)",
+      "identifier": "scope[n].site_address.street",
+      "encoding": "String"
+     },
+     {
+      "data": "house_number (scope)",
+      "identifier": "scope[n].site_address.house_number",
+      "encoding": "String"
+     },
+     {
+      "data": "locality (scope)",
+      "identifier": "scope[n].site_address.locality",
+      "encoding": "String"
+     },
+     {
+      "data": "region (scope)",
+      "identifier": "scope[n].site_address.region",
+      "encoding": "String"
+     },
+     {
+      "data": "postal_code (scope)",
+      "identifier": "scope[n].site_address.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "country (scope)",
+      "identifier": "scope[n].site_address.country",
+      "encoding": "String"
+     },
+     {
+      "data": "scope_description",
+      "identifier": "scope[n].scope_description",
+      "encoding": "String"
+     },
+     {
+      "data": "certified_site",
+      "identifier": "scope[n].certified_site",
+      "encoding": "Boolean"
+     },
+     {
+      "data": "Evidence",
+      "identifier": "evidence",
+      "encoding": "Object"
+     },
+     {
+      "data": "id",
+      "identifier": "evidence.id",
+      "encoding": "String"
+     },
+     {
+      "data": "url",
+      "identifier": "evidence.url",
+      "encoding": "String (URI)"
+     },
+     {
+      "data": "data",
+      "identifier": "evidence.data",
+      "encoding": "String (base64)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiration_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "Object"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "type",
@@ -4141,6 +6401,165 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "number"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "string"
+     },
+     {
+      "data": "date_of_execution",
+      "identifier": "date_of_execution",
+      "encoding": "string"
+     },
+     {
+      "data": "euid_reference",
+      "identifier": "euid_reference",
+      "encoding": "string"
+     },
+     {
+      "data": "principal_full_name",
+      "identifier": "principal_full_name",
+      "encoding": "string"
+     },
+     {
+      "data": "principal_date_of_birth",
+      "identifier": "principal_date_of_birth",
+      "encoding": "string"
+     },
+     {
+      "data": "principal_identification_document_kind",
+      "identifier": "principal_identification_document_kind",
+      "encoding": "string"
+     },
+     {
+      "data": "principal_identification_document_number",
+      "identifier": "principal_identification_document_number",
+      "encoding": "string"
+     },
+     {
+      "data": "principal_place_of_birth",
+      "identifier": "principal_place_of_birth",
+      "encoding": "string"
+     },
+     {
+      "data": "principal_full_address",
+      "identifier": "principal_full_address",
+      "encoding": "string"
+     },
+     {
+      "data": "company_statutory_full_name",
+      "identifier": "company_statutory_full_name",
+      "encoding": "string"
+     },
+     {
+      "data": "company_business_register_name",
+      "identifier": "company_business_register_name",
+      "encoding": "string"
+     },
+     {
+      "data": "company_business_register_location",
+      "identifier": "company_business_register_location",
+      "encoding": "string"
+     },
+     {
+      "data": "company_kind_of_legal_entity",
+      "identifier": "company_kind_of_legal_entity",
+      "encoding": "string"
+     },
+     {
+      "data": "company_jurisdiction",
+      "identifier": "company_jurisdiction",
+      "encoding": "string"
+     },
+     {
+      "data": "company_registered_office",
+      "identifier": "company_registered_office",
+      "encoding": "string"
+     },
+     {
+      "data": "attorney_full_name",
+      "identifier": "attorney_full_name",
+      "encoding": "string"
+     },
+     {
+      "data": "attorney_date_of_birth",
+      "identifier": "attorney_date_of_birth",
+      "encoding": "string"
+     },
+     {
+      "data": "attorney_identification_document_kind",
+      "identifier": "attorney_identification_document_kind",
+      "encoding": "string"
+     },
+     {
+      "data": "attorney_identification_document_number",
+      "identifier": "attorney_identification_document_number",
+      "encoding": "string"
+     },
+     {
+      "data": "attorney_place_of_birth",
+      "identifier": "attorney_place_of_birth",
+      "encoding": "string"
+     },
+     {
+      "data": "attorney_full_address",
+      "identifier": "attorney_full_address",
+      "encoding": "string"
+     },
+     {
+      "data": "scope_of_representation_powers",
+      "identifier": "scope_of_representation_powers",
+      "encoding": "array\\<string\\>"
+     },
+     {
+      "data": "scope_of_representation_power_of_substitution",
+      "identifier": "scope_of_representation_power_of_substitution",
+      "encoding": "string"
+     },
+     {
+      "data": "validity_period_valid_from",
+      "identifier": "validity_period_valid_from",
+      "encoding": "string"
+     },
+     {
+      "data": "validity_period_valid_until",
+      "identifier": "validity_period_valid_until",
+      "encoding": "string"
+     },
+     {
+      "data": "applicable_law_jurisdiction",
+      "identifier": "applicable_law_jurisdiction",
+      "encoding": "string"
+     },
+     {
+      "data": "signing_place",
+      "identifier": "signing_place",
+      "encoding": "string"
+     },
+     {
+      "data": "signing_date",
+      "identifier": "signing_date",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "attestation_legal_category",
@@ -4404,6 +6823,230 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "number"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_person_name",
+      "identifier": "legal_person_name",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_person_id",
+      "identifier": "legal_person_id",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_form_type",
+      "identifier": "legal_form_type",
+      "encoding": "string"
+     },
+     {
+      "data": "registration_member_state",
+      "identifier": "registration_member_state",
+      "encoding": "string"
+     },
+     {
+      "data": "registration_date",
+      "identifier": "registration_date",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_person_status",
+      "identifier": "legal_person_status",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_person_activity",
+      "identifier": "legal_person_activity",
+      "encoding": "object"
+     },
+     {
+      "data": "legal_person_activity.code",
+      "identifier": "legal_person_activity.code",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_person_activity.description",
+      "identifier": "legal_person_activity.description",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_person_duration",
+      "identifier": "legal_person_duration",
+      "encoding": "date"
+     },
+     {
+      "data": "registered_address",
+      "identifier": "registered_address",
+      "encoding": "object"
+     },
+     {
+      "data": "registered_address.full_address",
+      "identifier": "registered_address.full_address",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.care_of",
+      "identifier": "registered_address.care_of",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.thorough_fare",
+      "identifier": "registered_address.thorough_fare",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.locator_designator",
+      "identifier": "registered_address.locator_designator",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.post_code",
+      "identifier": "registered_address.post_code",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.post_name",
+      "identifier": "registered_address.post_name",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.post_office_box",
+      "identifier": "registered_address.post_office_box",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.locator_name",
+      "identifier": "registered_address.locator_name",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.admin_unit_level_1",
+      "identifier": "registered_address.admin_unit_level_1",
+      "encoding": "string"
+     },
+     {
+      "data": "registered_address.admin_unit_level_2",
+      "identifier": "registered_address.admin_unit_level_2",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative",
+      "identifier": "legal_representative",
+      "encoding": "array"
+     },
+     {
+      "data": "legal_representative.legal_person",
+      "identifier": "legal_representative.legal_person",
+      "encoding": "object"
+     },
+     {
+      "data": "legal_representative.legal_person.name",
+      "identifier": "legal_representative.legal_person.name",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative.legal_person.id",
+      "identifier": "legal_representative.legal_person.id",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative.legal_person.formtype",
+      "identifier": "legal_representative.legal_person.formtype",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative.legal_person.signatory_rule",
+      "identifier": "legal_representative.legal_person.signatory_rule",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative.natural_person",
+      "identifier": "legal_representative.natural_person",
+      "encoding": "object"
+     },
+     {
+      "data": "legal_representative.natural_person.full_name",
+      "identifier": "legal_representative.natural_person.full_name",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative.natural_person.identifier",
+      "identifier": "legal_representative.natural_person.identifier",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative.natural_person.date_of_birth",
+      "identifier": "legal_representative.natural_person.date_of_birth",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative.natural_person.nationality",
+      "identifier": "legal_representative.natural_person.nationality",
+      "encoding": "string"
+     },
+     {
+      "data": "legal_representative.natural_person.signatory_rule",
+      "identifier": "legal_representative.natural_person.signatory_rule",
+      "encoding": "string"
+     },
+     {
+      "data": "share_capital",
+      "identifier": "share_capital",
+      "encoding": "object"
+     },
+     {
+      "data": "share_capital.amount",
+      "identifier": "share_capital.amount",
+      "encoding": "string"
+     },
+     {
+      "data": "share_capital.currency",
+      "identifier": "share_capital.currency",
+      "encoding": "string"
+     },
+     {
+      "data": "digital_contact_point",
+      "identifier": "digital_contact_point",
+      "encoding": "object"
+     },
+     {
+      "data": "digital_contact_point.website",
+      "identifier": "digital_contact_point.website",
+      "encoding": "string"
+     },
+     {
+      "data": "digital_contact_point.email",
+      "identifier": "digital_contact_point.email",
+      "encoding": "string"
+     },
+     {
+      "data": "location_status",
+      "identifier": "status",
+      "encoding": "object"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "full_name",
@@ -4567,6 +7210,7 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {},
    "attributes": [
     {
      "name": "gs1",
@@ -4846,6 +7490,50 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "message",
+      "identifier": "message",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "issuer_legal_id",
+      "identifier": "issuer_legal_id",
+      "encoding": "string"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_scheme",
+      "identifier": "attestation_scheme",
+      "encoding": "string"
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "number (epoch)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "number (epoch)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "message",
@@ -4984,6 +7672,150 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "Bank_Account",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "account_name",
+      "identifier": "bank_account.account_name",
+      "encoding": "String"
+     },
+     {
+      "data": "iban",
+      "identifier": "bank_account.iban",
+      "encoding": "String"
+     },
+     {
+      "data": "account_type",
+      "identifier": "bank_account.account_type",
+      "encoding": "String"
+     },
+     {
+      "data": "account_currency",
+      "identifier": "bank_account.account_currency",
+      "encoding": "Array of Strings"
+     },
+     {
+      "data": "Account_Ownership",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "owner_type",
+      "identifier": "account_ownership.owner_type",
+      "encoding": "String"
+     },
+     {
+      "data": "owner_name",
+      "identifier": "account_ownership.owner_name",
+      "encoding": "String"
+     },
+     {
+      "data": "legal_person_identifiers",
+      "identifier": "account_ownership.legal_person_identifiers",
+      "encoding": "Array [Object]"
+     },
+     {
+      "data": "legal_person_identifiers.type",
+      "identifier": "account_ownership.legal_person_identifiers[n].type",
+      "encoding": "String"
+     },
+     {
+      "data": "legal_person_identifiers.value",
+      "identifier": "account_ownership.legal_person_identifiers[n].value",
+      "encoding": "String"
+     },
+     {
+      "data": "given_name",
+      "identifier": "account_ownership.given_name",
+      "encoding": "String"
+     },
+     {
+      "data": "surname",
+      "identifier": "account_ownership.surname",
+      "encoding": "String"
+     },
+     {
+      "data": "Account_Provider",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "provider_name",
+      "identifier": "account_provider.provider_name",
+      "encoding": "String"
+     },
+     {
+      "data": "provider_country",
+      "identifier": "account_provider.provider_country",
+      "encoding": "String"
+     },
+     {
+      "data": "bic_swift",
+      "identifier": "account_provider.bic_swift",
+      "encoding": "String"
+     },
+     {
+      "data": "national_bank_code",
+      "identifier": "account_provider.national_bank_code",
+      "encoding": "String"
+     },
+     {
+      "data": "nace_code",
+      "identifier": "account_provider.nace_code",
+      "encoding": "String"
+     },
+     {
+      "data": "clearing_number",
+      "identifier": "account_provider.clearing_number",
+      "encoding": "String"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "account_name",
@@ -5192,6 +8024,50 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "issuing_authority",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "number"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "string"
+     },
+     {
+      "data": "lei",
+      "identifier": "lei",
+      "encoding": "string"
+     },
+     {
+      "data": "lei_status",
+      "identifier": "lei_status",
+      "encoding": "string"
+     },
+     {
+      "data": "lei_renewal_date",
+      "identifier": "lei_renewal_date",
+      "encoding": "string"
+     },
+     {
+      "data": "location_status",
+      "identifier": "status",
+      "encoding": "object"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "lei",
@@ -5324,6 +8200,180 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "integer"
+     },
+     {
+      "data": "nbf",
+      "identifier": "nbf",
+      "encoding": "integer"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "integer"
+     },
+     {
+      "data": "jti",
+      "identifier": "jti",
+      "encoding": "string"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "object"
+     },
+     {
+      "data": "status",
+      "identifier": "status",
+      "encoding": "object"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.first_name",
+      "identifier": "customer.first_name",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.last_name",
+      "identifier": "customer.last_name",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "customer",
+      "identifier": "customer",
+      "encoding": "object"
+     },
+     {
+      "data": "customer.nationality",
+      "identifier": "nationality",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.birth_date",
+      "identifier": "birth_date",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.address",
+      "identifier": "address",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.city",
+      "identifier": "city",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.zip_code",
+      "identifier": "zip_code",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.phone",
+      "identifier": "phone",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.mobile",
+      "identifier": "mobile",
+      "encoding": "string"
+     },
+     {
+      "data": "customer.email",
+      "identifier": "email",
+      "encoding": "string"
+     },
+     {
+      "data": "loyalty_card",
+      "identifier": "loyalty_card",
+      "encoding": "object"
+     },
+     {
+      "data": "loyalty_card.id",
+      "identifier": "id",
+      "encoding": "string"
+     },
+     {
+      "data": "loyalty_card.issue_date",
+      "identifier": "issue_date",
+      "encoding": "string"
+     },
+     {
+      "data": "organization",
+      "identifier": "organization",
+      "encoding": "object"
+     },
+     {
+      "data": "organization.name",
+      "identifier": "name",
+      "encoding": "string"
+     },
+     {
+      "data": "organization.id",
+      "identifier": "id",
+      "encoding": "string"
+     },
+     {
+      "data": "organization.country",
+      "identifier": "country",
+      "encoding": "string"
+     },
+     {
+      "data": "credential",
+      "identifier": "credential",
+      "encoding": "object"
+     },
+     {
+      "data": "credential.type",
+      "identifier": "type",
+      "encoding": "string"
+     },
+     {
+      "data": "credential.issuer",
+      "identifier": "issuer",
+      "encoding": "string"
+     },
+     {
+      "data": "credential.issuance_date",
+      "identifier": "issuance_date",
+      "encoding": "string"
+     },
+     {
+      "data": "credential.expiry_date",
+      "identifier": "expiry_date",
+      "encoding": "string"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trust_anchor",
+      "encoding": "string"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "attestation_legal_category",
@@ -5551,6 +8601,145 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "integer"
+     },
+     {
+      "data": "nbf",
+      "identifier": "nbf",
+      "encoding": "integer"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "integer"
+     },
+     {
+      "data": "jti",
+      "identifier": "jti",
+      "encoding": "string"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "object"
+     },
+     {
+      "data": "status",
+      "identifier": "status",
+      "encoding": "object"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "givenName",
+      "identifier": "givenName",
+      "encoding": "string"
+     },
+     {
+      "data": "familyName",
+      "identifier": "familyName",
+      "encoding": "string"
+     },
+     {
+      "data": "dateOfBirth",
+      "identifier": "dateOfBirth",
+      "encoding": "string"
+     },
+     {
+      "data": "mail",
+      "identifier": "mail",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "identifier",
+      "identifier": "identifier",
+      "encoding": "string"
+     },
+     {
+      "data": "title",
+      "identifier": "title",
+      "encoding": "string"
+     },
+     {
+      "data": "issuerCountry",
+      "identifier": "issuerCountry",
+      "encoding": "string"
+     },
+     {
+      "data": "awardingBody",
+      "identifier": "awardingBody",
+      "encoding": "object"
+     },
+     {
+      "data": "issuanceDate",
+      "identifier": "issuanceDate",
+      "encoding": "string"
+     },
+     {
+      "data": "learningOutcomes",
+      "identifier": "learningOutcomes",
+      "encoding": "array of objects"
+     },
+     {
+      "data": "ECTS",
+      "identifier": "ECTS",
+      "encoding": "number"
+     },
+     {
+      "data": "volumeOfLearning",
+      "identifier": "volumeOfLearning",
+      "encoding": "string"
+     },
+     {
+      "data": "typeOfAssessment",
+      "identifier": "typeOfAssessment",
+      "encoding": "array of strings"
+     },
+     {
+      "data": "formOfParticipation",
+      "identifier": "formOfParticipation",
+      "encoding": "string"
+     },
+     {
+      "data": "learningActivityType",
+      "identifier": "learningActivityType",
+      "encoding": "string"
+     },
+     {
+      "data": "qualityAssurance",
+      "identifier": "qualityAssurance",
+      "encoding": "string"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trust_anchor",
+      "encoding": "string"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "attestation_legal_category",
@@ -5863,6 +9052,255 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "owner",
+      "identifier": "owner",
+      "encoding": "Array [Owner]"
+     },
+     {
+      "data": "type",
+      "identifier": "owner[n].type",
+      "encoding": "String"
+     },
+     {
+      "data": "Person",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "first_name",
+      "identifier": "owner[n].person.first_name",
+      "encoding": "String"
+     },
+     {
+      "data": "surname",
+      "identifier": "owner[n].person.surname",
+      "encoding": "String"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "owner[n].person.birth_date",
+      "encoding": "String (ISO 8601)"
+     },
+     {
+      "data": "Entity / LegalArrangement",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "category",
+      "identifier": "owner[n].entity.category",
+      "encoding": "String"
+     },
+     {
+      "data": "name",
+      "identifier": "owner[n].entity.name",
+      "encoding": "String"
+     },
+     {
+      "data": "euid",
+      "identifier": "owner[n].entity.identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei",
+      "identifier": "owner[n].entity.identifier.lei",
+      "encoding": "String (20 chars)"
+     },
+     {
+      "data": "tax",
+      "identifier": "owner[n].entity.identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "other",
+      "identifier": "owner[n].entity.identifier.other",
+      "encoding": "String"
+     },
+     {
+      "data": "jurisdiction",
+      "identifier": "owner[n].entity.jurisdiction",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "legal_form",
+      "identifier": "owner[n].entity.legal_form",
+      "encoding": "String"
+     },
+     {
+      "data": "form",
+      "identifier": "owner[n].entity.form",
+      "encoding": "String"
+     },
+     {
+      "data": "subtype_info",
+      "identifier": "owner[n].entity.subtype_info",
+      "encoding": "Object"
+     },
+     {
+      "data": "settlement",
+      "identifier": "owner[n].entity.subtype_info.settlement",
+      "encoding": "String"
+     },
+     {
+      "data": "purpose",
+      "identifier": "owner[n].entity.subtype_info.purpose",
+      "encoding": "String"
+     },
+     {
+      "data": "assets",
+      "identifier": "owner[n].entity.subtype_info.assets",
+      "encoding": "String"
+     },
+     {
+      "data": "reason_for_registration",
+      "identifier": "owner[n].entity.subtype_info.reason_for_registration",
+      "encoding": "String"
+     },
+     {
+      "data": "Address",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "street",
+      "identifier": "owner[n].address.street",
+      "encoding": "String"
+     },
+     {
+      "data": "house_number",
+      "identifier": "owner[n].address.house_number",
+      "encoding": "String"
+     },
+     {
+      "data": "locality",
+      "identifier": "owner[n].address.locality",
+      "encoding": "String"
+     },
+     {
+      "data": "region",
+      "identifier": "owner[n].address.region",
+      "encoding": "String"
+     },
+     {
+      "data": "postal_code",
+      "identifier": "owner[n].address.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "country",
+      "identifier": "owner[n].address.country",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "Interests",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "level",
+      "identifier": "owner[n].interests.level",
+      "encoding": "String"
+     },
+     {
+      "data": "percentage",
+      "identifier": "owner[n].interests.percentage",
+      "encoding": "Decimal (0-100)"
+     },
+     {
+      "data": "quantity",
+      "identifier": "owner[n].interests.quantity",
+      "encoding": "uint"
+     },
+     {
+      "data": "description",
+      "identifier": "owner[n].interests.description",
+      "encoding": "String"
+     },
+     {
+      "data": "class",
+      "identifier": "owner[n].interests.class",
+      "encoding": "String"
+     },
+     {
+      "data": "rights",
+      "identifier": "owner[n].interests.rights",
+      "encoding": "Array of Strings"
+     },
+     {
+      "data": "effective_date",
+      "identifier": "owner[n].effective_date",
+      "encoding": "String (ISO 8601)"
+     },
+     {
+      "data": "Evidence",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "id",
+      "identifier": "owner[n].evidence[m].id",
+      "encoding": "String"
+     },
+     {
+      "data": "url",
+      "identifier": "owner[n].evidence[m].url",
+      "encoding": "URI"
+     },
+     {
+      "data": "data",
+      "identifier": "owner[n].evidence[m].data",
+      "encoding": "String (base64)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "String"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "type",
@@ -6211,6 +9649,160 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "payment_due",
+      "identifier": "payment_due",
+      "encoding": "String (ISO 8601 PnD)"
+     },
+     {
+      "data": "currency",
+      "identifier": "currency",
+      "encoding": "String (ISO 4217)"
+     },
+     {
+      "data": "incoterm",
+      "identifier": "incoterm",
+      "encoding": "String (3-letter ICC code)"
+     },
+     {
+      "data": "agreement_date",
+      "identifier": "agreement_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "Buyer Identifier",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "buyer_identifier",
+      "identifier": "buyer_identifier",
+      "encoding": "Object"
+     },
+     {
+      "data": "euid",
+      "identifier": "buyer_identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei",
+      "identifier": "buyer_identifier.lei",
+      "encoding": "String"
+     },
+     {
+      "data": "tax",
+      "identifier": "buyer_identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "gln",
+      "identifier": "buyer_identifier.gln",
+      "encoding": "String"
+     },
+     {
+      "data": "duns",
+      "identifier": "buyer_identifier.duns",
+      "encoding": "String"
+     },
+     {
+      "data": "eori",
+      "identifier": "buyer_identifier.eori",
+      "encoding": "String"
+     },
+     {
+      "data": "bpnl",
+      "identifier": "buyer_identifier.bpnl",
+      "encoding": "String"
+     },
+     {
+      "data": "siren",
+      "identifier": "buyer_identifier.siren",
+      "encoding": "String"
+     },
+     {
+      "data": "Supplier Identifier",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "supplier_identifier",
+      "identifier": "supplier_identifier",
+      "encoding": "Object"
+     },
+     {
+      "data": "Optional Attributes",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "payment_reference_event",
+      "identifier": "payment_reference_event",
+      "encoding": "String (Enum)"
+     },
+     {
+      "data": "contract_reference",
+      "identifier": "contract_reference",
+      "encoding": "String"
+     },
+     {
+      "data": "transaction_amount",
+      "identifier": "transaction_amount",
+      "encoding": "Decimal (number)"
+     },
+     {
+      "data": "delivery_location",
+      "identifier": "delivery_location",
+      "encoding": "String (Address)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "String"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "payment_due",
@@ -6440,6 +10032,292 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "mdoc": [
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "tstr"
+     },
+     {
+      "data": "given_name",
+      "identifier": "given_name",
+      "encoding": "tstr"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "birth_date",
+      "encoding": "full-date"
+     },
+     {
+      "data": "birth_place",
+      "identifier": "place_of_birth",
+      "encoding": "place_of_birth"
+     },
+     {
+      "data": "nationality",
+      "identifier": "nationality",
+      "encoding": "nationalities"
+     },
+     {
+      "data": "resident_address",
+      "identifier": "resident_address",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_country",
+      "identifier": "resident_country",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_state",
+      "identifier": "resident_state",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_city",
+      "identifier": "resident_city",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_postal_code",
+      "identifier": "resident_postal_code",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_street",
+      "identifier": "resident_street",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_house_number",
+      "identifier": "resident_house_number",
+      "encoding": "tstr"
+     },
+     {
+      "data": "personal_administrative_number",
+      "identifier": "personal_administrative_number",
+      "encoding": "tstr"
+     },
+     {
+      "data": "portrait",
+      "identifier": "portrait",
+      "encoding": "bstr;"
+     },
+     {
+      "data": "family_name_birth",
+      "identifier": "family_name_birth",
+      "encoding": "tstr"
+     },
+     {
+      "data": "given_name_birth",
+      "identifier": "given_name_birth",
+      "encoding": "tstr"
+     },
+     {
+      "data": "sex",
+      "identifier": "sex",
+      "encoding": "uint;"
+     },
+     {
+      "data": "email_address",
+      "identifier": "email_address",
+      "encoding": "tstr"
+     },
+     {
+      "data": "mobile_phone_number",
+      "identifier": "mobile_phone_number",
+      "encoding": "tstr"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "expiry_date",
+      "encoding": "tdate or full-date"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "issuing_authority",
+      "encoding": "tstr"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "tstr"
+     },
+     {
+      "data": "document_number",
+      "identifier": "document_number",
+      "encoding": "tstr"
+     },
+     {
+      "data": "issuing_jurisdiction",
+      "identifier": "issuing_jurisdiction",
+      "encoding": "tstr"
+     },
+     {
+      "data": "location_status",
+      "identifier": "",
+      "encoding": "See Section 3.1.4"
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "issuance_date",
+      "encoding": "tdate or full-date"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trust_anchor",
+      "encoding": "tstr"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "tstr"
+     }
+    ],
+    "SD-JWT VC": [
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "string"
+     },
+     {
+      "data": "given_name",
+      "identifier": "given_name",
+      "encoding": "string"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "birthdate",
+      "encoding": "string"
+     },
+     {
+      "data": "birth_place",
+      "identifier": "place_of_birth",
+      "encoding": "JSON structure"
+     },
+     {
+      "data": "nationality",
+      "identifier": "nationalities",
+      "encoding": "array of strings"
+     },
+     {
+      "data": "resident_address",
+      "identifier": "address.formatted",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_country",
+      "identifier": "address.country",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_state",
+      "identifier": "address.region",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_city",
+      "identifier": "address.locality",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_postal_code",
+      "identifier": "address.postal_code",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_street",
+      "identifier": "address.street_address",
+      "encoding": "string"
+     },
+     {
+      "data": "family_name_birth",
+      "identifier": "birth_family_name",
+      "encoding": "string"
+     },
+     {
+      "data": "given_name_birth",
+      "identifier": "birth_given_name",
+      "encoding": "string"
+     },
+     {
+      "data": "email_address",
+      "identifier": "email",
+      "encoding": "string"
+     },
+     {
+      "data": "mobile_phone_number",
+      "identifier": "phone_number",
+      "encoding": "string"
+     },
+     {
+      "data": "portrait",
+      "identifier": "picture",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "date_of_expiry",
+      "encoding": "string"
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "date_of_issuance",
+      "encoding": "string"
+     },
+     {
+      "data": "personal_administrative_number",
+      "identifier": "personal_administrative_number",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_house_number",
+      "identifier": "address.house_number",
+      "encoding": "string"
+     },
+     {
+      "data": "sex",
+      "identifier": "sex",
+      "encoding": "number"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "issuing_authority",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "string"
+     },
+     {
+      "data": "document_number",
+      "identifier": "document_number",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_jurisdiction",
+      "identifier": "issuing_jurisdiction",
+      "encoding": "string"
+     },
+     {
+      "data": "location_status",
+      "identifier": "status",
+      "encoding": "JSON object"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trust_anchor",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "family_name",
@@ -6678,6 +10556,7 @@
    "formats": [
     "mdoc"
    ],
+   "encodings": {},
    "attributes": [
     {
      "name": "EconomicOperator.EBWOID",
@@ -7096,6 +10975,530 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "Subject",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "pin",
+      "identifier": "subject.pin",
+      "encoding": "String"
+     },
+     {
+      "data": "family_name",
+      "identifier": "subject.family_name",
+      "encoding": "String"
+     },
+     {
+      "data": "forename",
+      "identifier": "subject.forename",
+      "encoding": "String"
+     },
+     {
+      "data": "gender",
+      "identifier": "subject.gender",
+      "encoding": "String / Code"
+     },
+     {
+      "data": "surname_at_birth",
+      "identifier": "subject.surname_at_birth",
+      "encoding": "String"
+     },
+     {
+      "data": "forename_at_birth",
+      "identifier": "subject.forename_at_birth",
+      "encoding": "String"
+     },
+     {
+      "data": "date_of_birth",
+      "identifier": "subject.date_of_birth",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "nationality",
+      "identifier": "subject.nationality",
+      "encoding": "Array of Codes (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "job_title_home_country",
+      "identifier": "subject.job_title_home_country",
+      "encoding": "String"
+     },
+     {
+      "data": "place_of_birth.town",
+      "identifier": "subject.place_of_birth.town",
+      "encoding": "String"
+     },
+     {
+      "data": "place_of_birth.country_code",
+      "identifier": "subject.place_of_birth.country_code",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "address_residence.street_nr",
+      "identifier": "subject.address_residence.street_nr",
+      "encoding": "String"
+     },
+     {
+      "data": "address_residence.town",
+      "identifier": "subject.address_residence.town",
+      "encoding": "String"
+     },
+     {
+      "data": "address_residence.post_code",
+      "identifier": "subject.address_residence.post_code",
+      "encoding": "String"
+     },
+     {
+      "data": "address_residence.country_code",
+      "identifier": "subject.address_residence.country_code",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "address_stay.street_nr",
+      "identifier": "subject.address_stay[n].street_nr",
+      "encoding": "String"
+     },
+     {
+      "data": "address_stay.town",
+      "identifier": "subject.address_stay[n].town",
+      "encoding": "String"
+     },
+     {
+      "data": "address_stay.post_code",
+      "identifier": "subject.address_stay[n].post_code",
+      "encoding": "String"
+     },
+     {
+      "data": "address_stay.country_code",
+      "identifier": "subject.address_stay[n].country_code",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "Assignment Related Information",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "home_member_state",
+      "identifier": "assignment_info.home_member_state",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "starting_date",
+      "identifier": "assignment_info.starting_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "ending_date",
+      "identifier": "assignment_info.ending_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "applies_for_duration",
+      "identifier": "assignment_info.applies_for_duration",
+      "encoding": "Boolean"
+     },
+     {
+      "data": "determination_provisional",
+      "identifier": "assignment_info.determination_provisional",
+      "encoding": "Boolean"
+     },
+     {
+      "data": "transitional_rules",
+      "identifier": "assignment_info.transitional_rules",
+      "encoding": "Boolean"
+     },
+     {
+      "data": "Home Employer",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "home_employer.company_name",
+      "identifier": "home_employer.company_name",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.industry_sector_nace",
+      "identifier": "home_employer.industry_sector_nace",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.construction_sector",
+      "identifier": "home_employer.construction_sector",
+      "encoding": "Boolean"
+     },
+     {
+      "data": "home_employer.vat_id",
+      "identifier": "home_employer.vat_id",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.address_line_1",
+      "identifier": "home_employer.address_line_1",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.address_line_2",
+      "identifier": "home_employer.address_line_2",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.postal_code",
+      "identifier": "home_employer.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.city",
+      "identifier": "home_employer.city",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.municipality",
+      "identifier": "home_employer.municipality",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.state",
+      "identifier": "home_employer.state",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.country",
+      "identifier": "home_employer.country",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "home_employer.phone",
+      "identifier": "home_employer.phone",
+      "encoding": "String"
+     },
+     {
+      "data": "home_employer.email",
+      "identifier": "home_employer.email",
+      "encoding": "String"
+     },
+     {
+      "data": "admin_rep.last_name",
+      "identifier": "home_employer.administrative_representative.last_name",
+      "encoding": "String"
+     },
+     {
+      "data": "admin_rep.first_name",
+      "identifier": "home_employer.administrative_representative.first_name",
+      "encoding": "String"
+     },
+     {
+      "data": "admin_rep.telephone",
+      "identifier": "home_employer.administrative_representative.telephone",
+      "encoding": "String"
+     },
+     {
+      "data": "admin_rep.email",
+      "identifier": "home_employer.administrative_representative.email",
+      "encoding": "String"
+     },
+     {
+      "data": "admin_rep.city",
+      "identifier": "home_employer.administrative_representative.city",
+      "encoding": "String"
+     },
+     {
+      "data": "admin_rep.country",
+      "identifier": "home_employer.administrative_representative.country",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "social_rep.last_name",
+      "identifier": "home_employer.social_representative.last_name",
+      "encoding": "String"
+     },
+     {
+      "data": "social_rep.first_name",
+      "identifier": "home_employer.social_representative.first_name",
+      "encoding": "String"
+     },
+     {
+      "data": "social_rep.telephone",
+      "identifier": "home_employer.social_representative.telephone",
+      "encoding": "String"
+     },
+     {
+      "data": "social_rep.email",
+      "identifier": "home_employer.social_representative.email",
+      "encoding": "String"
+     },
+     {
+      "data": "social_rep.city",
+      "identifier": "home_employer.social_representative.city",
+      "encoding": "String"
+     },
+     {
+      "data": "social_rep.country",
+      "identifier": "home_employer.social_representative.country",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "Host Company",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "host_company.company_name",
+      "identifier": "host_company.company_name",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.email",
+      "identifier": "host_company.email",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.telephone",
+      "identifier": "host_company.telephone",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.industry_sector",
+      "identifier": "host_company.industry_sector",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.vat_id",
+      "identifier": "host_company.vat_id",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.address_line_1",
+      "identifier": "host_company.address_line_1",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.address_line_2",
+      "identifier": "host_company.address_line_2",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.postal_code",
+      "identifier": "host_company.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.city",
+      "identifier": "host_company.city",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.municipality",
+      "identifier": "host_company.municipality",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.state",
+      "identifier": "host_company.state",
+      "encoding": "String"
+     },
+     {
+      "data": "host_company.country",
+      "identifier": "host_company.country",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "host_company.business_reg_nr",
+      "identifier": "host_company.business_reg_nr",
+      "encoding": "String"
+     },
+     {
+      "data": "Employee",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "employee.job_duties_abroad",
+      "identifier": "employee.job_duties_abroad",
+      "encoding": "String"
+     },
+     {
+      "data": "employee.a1_certificate_applied",
+      "identifier": "employee.a1_certificate_applied",
+      "encoding": "Boolean"
+     },
+     {
+      "data": "employee.a1_country_of_issuance",
+      "identifier": "employee.a1_country_of_issuance",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "employee.a1_country_where_applied",
+      "identifier": "employee.a1_country_where_applied",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "employee.third_country_national",
+      "identifier": "employee.third_country_national",
+      "encoding": "Boolean"
+     },
+     {
+      "data": "employee.work_permit_end_date",
+      "identifier": "employee.work_permit_end_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "Places of Work",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "no_fixed_place.country_code",
+      "identifier": "places_of_work[n].no_fixed_place.country_code",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "place_of_work.company_name",
+      "identifier": "places_of_work[n].place_of_work.company_name",
+      "encoding": "String"
+     },
+     {
+      "data": "place_of_work.flag_base_home",
+      "identifier": "places_of_work[n].place_of_work.flag_base_home",
+      "encoding": "String"
+     },
+     {
+      "data": "place_of_work.company_id",
+      "identifier": "places_of_work[n].place_of_work.company_id",
+      "encoding": "String"
+     },
+     {
+      "data": "place_of_work.id_type",
+      "identifier": "places_of_work[n].place_of_work.id_type",
+      "encoding": "Code"
+     },
+     {
+      "data": "place_of_work.street_nr",
+      "identifier": "places_of_work[n].place_of_work.street_nr",
+      "encoding": "String"
+     },
+     {
+      "data": "place_of_work.town",
+      "identifier": "places_of_work[n].place_of_work.town",
+      "encoding": "String"
+     },
+     {
+      "data": "place_of_work.postal_code",
+      "identifier": "places_of_work[n].place_of_work.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "place_of_work.country_code",
+      "identifier": "places_of_work[n].place_of_work.country_code",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "Competent Institution",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "institution_id",
+      "identifier": "institution.institution_id",
+      "encoding": "String"
+     },
+     {
+      "data": "institution_name",
+      "identifier": "institution.institution_name",
+      "encoding": "String"
+     },
+     {
+      "data": "institution.country_code",
+      "identifier": "institution.country_code",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "institution.fax",
+      "identifier": "institution.fax",
+      "encoding": "String"
+     },
+     {
+      "data": "institution.phone",
+      "identifier": "institution.phone",
+      "encoding": "String"
+     },
+     {
+      "data": "institution.email",
+      "identifier": "institution.email",
+      "encoding": "String"
+     },
+     {
+      "data": "institution.street_nr",
+      "identifier": "institution.street_nr",
+      "encoding": "String"
+     },
+     {
+      "data": "institution.town",
+      "identifier": "institution.town",
+      "encoding": "String"
+     },
+     {
+      "data": "institution.postal_code",
+      "identifier": "institution.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "institution.country_code_address",
+      "identifier": "institution.country_code_address",
+      "encoding": "Code (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "binding",
+      "identifier": "binding",
+      "encoding": "String / tbd"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "pin",
@@ -7706,6 +12109,192 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "string"
+     },
+     {
+      "data": "given_name",
+      "identifier": "given_name",
+      "encoding": "string"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "birth_date",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "birth_place",
+      "identifier": "place_of_birth",
+      "encoding": "object"
+     },
+     {
+      "data": "nationality",
+      "identifier": "nationalities",
+      "encoding": "array of string"
+     },
+     {
+      "data": "resident_country",
+      "identifier": "resident_country",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_state",
+      "identifier": "resident_state",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_city",
+      "identifier": "resident_city",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_postal_code",
+      "identifier": "resident_postal_code",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_street",
+      "identifier": "resident_street",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_house_number",
+      "identifier": "resident_house_number",
+      "encoding": "string"
+     },
+     {
+      "data": "resident_address",
+      "identifier": "resident_address",
+      "encoding": "object"
+     },
+     {
+      "data": "arrival_date",
+      "identifier": "arrival_date",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "issuance_date",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "expiry_date",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "issuing_authority",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "string"
+     }
+    ],
+    "mdoc": [
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "tstr"
+     },
+     {
+      "data": "given_name",
+      "identifier": "given_name",
+      "encoding": "tstr"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "birth_date",
+      "encoding": "full-date"
+     },
+     {
+      "data": "birth_place",
+      "identifier": "birth_place",
+      "encoding": "full-date is not applicable, encoded as "
+     },
+     {
+      "data": "nationality",
+      "identifier": "nationality",
+      "encoding": "array of tstr (CBOR array of ISO 3166-1 "
+     },
+     {
+      "data": "resident_country",
+      "identifier": "resident_country",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_state",
+      "identifier": "resident_state",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_city",
+      "identifier": "resident_city",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_postal_code",
+      "identifier": "resident_postal_code",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_street",
+      "identifier": "resident_street",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_house_number",
+      "identifier": "resident_house_number",
+      "encoding": "tstr"
+     },
+     {
+      "data": "resident_address",
+      "identifier": "resident_address",
+      "encoding": "tstr (flat human-readable string;"
+     },
+     {
+      "data": "arrival_date",
+      "identifier": "arrival_date",
+      "encoding": "full-date"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "tstr"
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "issuance_date",
+      "encoding": "full-date"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "expiry_date",
+      "encoding": "full-date"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "issuing_authority",
+      "encoding": "tstr"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "tstr"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "family_name",
@@ -7894,6 +12483,60 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string (URI)"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "nbf",
+      "identifier": "nbf",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string (URI)"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "JSON Object"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "credential_id",
+      "identifier": "credential_id",
+      "encoding": "string"
+     },
+     {
+      "data": "network",
+      "identifier": "network",
+      "encoding": "string"
+     },
+     {
+      "data": "card_id",
+      "identifier": "card_id",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "credential_id",
@@ -8033,6 +12676,142 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string (URI)"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "nbf",
+      "identifier": "nbf",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "aud",
+      "identifier": "aud",
+      "encoding": "string or array"
+     },
+     {
+      "data": "sub",
+      "identifier": "sub",
+      "encoding": "string"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string (URI)"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "JSON Object"
+     },
+     {
+      "data": "status_list",
+      "identifier": "status_list",
+      "encoding": "JSON Object"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "masked_iban",
+      "identifier": "masked_iban",
+      "encoding": "string"
+     },
+     {
+      "data": "iban",
+      "identifier": "iban",
+      "encoding": "string"
+     },
+     {
+      "data": "national_bank_code",
+      "identifier": "national_bank_code",
+      "encoding": "string"
+     },
+     {
+      "data": "bic",
+      "identifier": "bic",
+      "encoding": "string"
+     },
+     {
+      "data": "scheme_identifier",
+      "identifier": "scheme_identifier",
+      "encoding": "string or array"
+     },
+     {
+      "data": "display_name",
+      "identifier": "display_name",
+      "encoding": "string"
+     },
+     {
+      "data": "currency",
+      "identifier": "currency",
+      "encoding": "string or array"
+     }
+    ],
+    "mdoc": [
+     {
+      "data": "sub",
+      "identifier": "sub",
+      "encoding": "tstr"
+     },
+     {
+      "data": "masked_iban",
+      "identifier": "masked_iban",
+      "encoding": "tstr"
+     },
+     {
+      "data": "iban",
+      "identifier": "iban",
+      "encoding": "tstr"
+     },
+     {
+      "data": "national_bank_code",
+      "identifier": "national_bank_code",
+      "encoding": "tstr"
+     },
+     {
+      "data": "bic",
+      "identifier": "bic",
+      "encoding": "tstr"
+     },
+     {
+      "data": "scheme_identifier",
+      "identifier": "scheme_identifier",
+      "encoding": "tstr / array of tstr"
+     },
+     {
+      "data": "display_name",
+      "identifier": "display_name",
+      "encoding": "tstr"
+     },
+     {
+      "data": "currency",
+      "identifier": "currency",
+      "encoding": "tstr / array of tstr"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "tstr"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "sub",
@@ -8191,6 +12970,82 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string (URI)"
+     },
+     {
+      "data": "aud",
+      "identifier": "aud",
+      "encoding": "string or array of string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "nbf",
+      "identifier": "nbf",
+      "encoding": "integer (NumericDate)"
+     },
+     {
+      "data": "sub",
+      "identifier": "sub",
+      "encoding": "string"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string (URI)"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "JSON Object"
+     },
+     {
+      "data": "status_list",
+      "identifier": "status_list",
+      "encoding": "JSON Object"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "masked_psu_id",
+      "identifier": "masked_psu_id",
+      "encoding": "string"
+     }
+    ],
+    "mdoc": [
+     {
+      "data": "sub",
+      "identifier": "sub",
+      "encoding": "tstr"
+     },
+     {
+      "data": "masked_psu_id",
+      "identifier": "masked_psu_id",
+      "encoding": "tstr"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "tstr"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "sub",
@@ -8318,6 +13173,160 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "Site Details",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "name",
+      "identifier": "name",
+      "encoding": "String"
+     },
+     {
+      "data": "identifier",
+      "identifier": "identifier",
+      "encoding": "String (UUID)"
+     },
+     {
+      "data": "Additional Site Identifiers",
+      "identifier": "additional_identifiers",
+      "encoding": "Object"
+     },
+     {
+      "data": "gln",
+      "identifier": "additional_identifiers.gln",
+      "encoding": "String"
+     },
+     {
+      "data": "duns",
+      "identifier": "additional_identifiers.duns",
+      "encoding": "String"
+     },
+     {
+      "data": "bpns",
+      "identifier": "additional_identifiers.bpns",
+      "encoding": "String"
+     },
+     {
+      "data": "siret",
+      "identifier": "additional_identifiers.siret",
+      "encoding": "String"
+     },
+     {
+      "data": "Main Address",
+      "identifier": "address",
+      "encoding": "Object"
+     },
+     {
+      "data": "street",
+      "identifier": "address.street",
+      "encoding": "String"
+     },
+     {
+      "data": "house\\_number",
+      "identifier": "address.house_number",
+      "encoding": "String"
+     },
+     {
+      "data": "locality",
+      "identifier": "address.locality",
+      "encoding": "String"
+     },
+     {
+      "data": "region",
+      "identifier": "address.region",
+      "encoding": "String"
+     },
+     {
+      "data": "postal\\_code",
+      "identifier": "address.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "country",
+      "identifier": "address.country",
+      "encoding": "String"
+     },
+     {
+      "data": "Additional Addresses",
+      "identifier": "additional_addresses",
+      "encoding": "Array"
+     },
+     {
+      "data": "Economic Operator",
+      "identifier": "economic_operator",
+      "encoding": "Object"
+     },
+     {
+      "data": "euid",
+      "identifier": "economic_operator.identifier.euid",
+      "encoding": "String"
+     },
+     {
+      "data": "lei",
+      "identifier": "economic_operator.identifier.lei",
+      "encoding": "String"
+     },
+     {
+      "data": "tax",
+      "identifier": "economic_operator.identifier.tax",
+      "encoding": "String"
+     },
+     {
+      "data": "bpnl",
+      "identifier": "economic_operator.identifier.bpnl",
+      "encoding": "String"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "exp",
+      "encoding": "Number"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String"
+     },
+     {
+      "data": "attestation\\_legal\\_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "Object"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "parent_economic_operator_main_id",
@@ -8547,6 +13556,37 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "string"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trust_anchor",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     }
+    ],
+    "mdoc": [
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "tstr"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "tstr"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "liableEmployer",
@@ -8819,6 +13859,140 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "integer"
+     },
+     {
+      "data": "nbf",
+      "identifier": "nbf",
+      "encoding": "integer"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "integer"
+     },
+     {
+      "data": "jti",
+      "identifier": "jti",
+      "encoding": "string"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "object"
+     },
+     {
+      "data": "status",
+      "identifier": "status",
+      "encoding": "object"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "firstName",
+      "identifier": "firstName",
+      "encoding": "string"
+     },
+     {
+      "data": "familyName",
+      "identifier": "familyName",
+      "encoding": "string"
+     },
+     {
+      "data": "displayName",
+      "identifier": "displayName",
+      "encoding": "string"
+     },
+     {
+      "data": "commonName",
+      "identifier": "commonName",
+      "encoding": "string"
+     },
+     {
+      "data": "dateOfBirth",
+      "identifier": "dateOfBirth",
+      "encoding": "string"
+     },
+     {
+      "data": "mail",
+      "identifier": "mail",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "identifier",
+      "identifier": "identifier",
+      "encoding": "string"
+     },
+     {
+      "data": "schacPersonalUniqueCode",
+      "identifier": "schacPersonalUniqueCode",
+      "encoding": "string"
+     },
+     {
+      "data": "schacPersonalUniqueID",
+      "identifier": "schacPersonalUniqueID",
+      "encoding": "array of strings"
+     },
+     {
+      "data": "schacHomeOrganization",
+      "identifier": "schacHomeOrganization",
+      "encoding": "string"
+     },
+     {
+      "data": "eduPersonPrincipalName",
+      "identifier": "eduPersonPrincipalName",
+      "encoding": "string"
+     },
+     {
+      "data": "eduPersonPrimaryAffiliation",
+      "identifier": "eduPersonPrimaryAffiliation",
+      "encoding": "string"
+     },
+     {
+      "data": "eduPersonAffiliation",
+      "identifier": "eduPersonAffiliation",
+      "encoding": "array of strings"
+     },
+     {
+      "data": "eduPersonScopedAffiliation",
+      "identifier": "eduPersonScopedAffiliation",
+      "encoding": "array of strings"
+     },
+     {
+      "data": "eduPersonAssurance",
+      "identifier": "eduPersonAssurance",
+      "encoding": "array of strings"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trust_anchor",
+      "encoding": "string"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "attestation_legal_category",
@@ -9017,6 +14191,162 @@
     "SD-JWT VC",
     "mdoc"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "string"
+     },
+     {
+      "data": "given_name",
+      "identifier": "given_name",
+      "encoding": "string"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "birth_date",
+      "encoding": "string (full-date, \\[RFC 3339])"
+     },
+     {
+      "data": "tax_number",
+      "identifier": "tax_number",
+      "encoding": "string"
+     },
+     {
+      "data": "affiliation_country",
+      "identifier": "affiliation_country",
+      "encoding": "string"
+     },
+     {
+      "data": "church_tax_ID",
+      "identifier": "church_tax_ID",
+      "encoding": "string"
+     },
+     {
+      "data": "iban",
+      "identifier": "iban",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_jurisdiction",
+      "identifier": "issuing_jurisdiction",
+      "encoding": "string"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "issuance_date",
+      "encoding": "string (datetime, \\[RFC 3339])"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "expiry_date",
+      "encoding": "string (datetime, \\[RFC 3339])"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "issuing_authority",
+      "encoding": "string"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "string"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     },
+     {
+      "data": "trust_anchor_location",
+      "identifier": "trust_anchor_location",
+      "encoding": "string"
+     }
+    ],
+    "mdoc": [
+     {
+      "data": "tax_number",
+      "identifier": "tax_number",
+      "encoding": "tstr"
+     },
+     {
+      "data": "affiliation_country",
+      "identifier": "affiliation_country",
+      "encoding": "tstr"
+     },
+     {
+      "data": "family_name",
+      "identifier": "family_name",
+      "encoding": "tstr"
+     },
+     {
+      "data": "given_name",
+      "identifier": "given_name",
+      "encoding": "tstr"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "birth_date",
+      "encoding": "full-date (see OI-02)"
+     },
+     {
+      "data": "church_tax_ID",
+      "identifier": "church_tax_ID",
+      "encoding": "tstr"
+     },
+     {
+      "data": "iban",
+      "identifier": "iban",
+      "encoding": "tstr"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "tstr"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "tstr"
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "issuance_date",
+      "encoding": "tdate"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "expiry_date",
+      "encoding": "tdate"
+     },
+     {
+      "data": "issuing_authority",
+      "identifier": "issuing_authority",
+      "encoding": "tstr"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "issuing_country",
+      "encoding": "tstr"
+     },
+     {
+      "data": "issuing_jurisdiction",
+      "identifier": "issuing_jurisdiction",
+      "encoding": "tstr"
+     },
+     {
+      "data": "trust_anchor_location",
+      "identifier": "trust_anchor_location",
+      "encoding": "tstr"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "tax_number",
@@ -9175,6 +14505,230 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "ubo",
+      "identifier": "ubo",
+      "encoding": "Array [UBO]"
+     },
+     {
+      "data": "jurisdiction",
+      "identifier": "ubo[n].jurisdiction",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "Person",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "first_name",
+      "identifier": "ubo[n].person.first_name",
+      "encoding": "String"
+     },
+     {
+      "data": "surname",
+      "identifier": "ubo[n].person.surname",
+      "encoding": "String"
+     },
+     {
+      "data": "birth_date",
+      "identifier": "ubo[n].person.birth_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "BirthPlace",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "locality",
+      "identifier": "ubo[n].birth_place.locality",
+      "encoding": "String"
+     },
+     {
+      "data": "country",
+      "identifier": "ubo[n].birth_place.country",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "region",
+      "identifier": "ubo[n].birth_place.region",
+      "encoding": "String"
+     },
+     {
+      "data": "Citizenship",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "ResidentialAddress",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "street",
+      "identifier": "ubo[n].residential_address.street",
+      "encoding": "String"
+     },
+     {
+      "data": "house_number",
+      "identifier": "ubo[n].residential_address.house_number",
+      "encoding": "String"
+     },
+     {
+      "data": "postal_code",
+      "identifier": "ubo[n].residential_address.postal_code",
+      "encoding": "String"
+     },
+     {
+      "data": "ContactAddress (optional object)",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "PersonIdentifier",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "document_type",
+      "identifier": "ubo[n].person_identifier.document_type",
+      "encoding": "String (Enum)"
+     },
+     {
+      "data": "document_number",
+      "identifier": "ubo[n].person_identifier.document_number",
+      "encoding": "String"
+     },
+     {
+      "data": "issuing_country",
+      "identifier": "ubo[n].person_identifier.issuing_country",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "expiry_date",
+      "identifier": "ubo[n].person_identifier.expiry_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "PersonUniqueIdentifier (optional object)",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "identifier_unique",
+      "identifier": "ubo[n].person_unique_identifier.identifier_unique",
+      "encoding": "String"
+     },
+     {
+      "data": "identifier_issuing_authority",
+      "identifier": "ubo[n].person_unique_identifier.identifier_issuing_authority",
+      "encoding": "String"
+     },
+     {
+      "data": "Justification",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "threshold_met",
+      "identifier": "ubo[n].justification.threshold_met",
+      "encoding": "Array of Strings (Enum)"
+     },
+     {
+      "data": "ownership_percentage",
+      "identifier": "ubo[n].justification.ownership_percentage",
+      "encoding": "Decimal (0-100)"
+     },
+     {
+      "data": "voting_rights_percentage",
+      "identifier": "ubo[n].justification.voting_rights_percentage",
+      "encoding": "Decimal (0-100)"
+     },
+     {
+      "data": "control_details",
+      "identifier": "ubo[n].justification.control_details",
+      "encoding": "String"
+     },
+     {
+      "data": "Effective Date",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "effective_date",
+      "identifier": "ubo[n].effective_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "Source",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "id",
+      "identifier": "ubo[n].source[m].id",
+      "encoding": "String"
+     },
+     {
+      "data": "type",
+      "identifier": "ubo[n].source[m].type",
+      "encoding": "String"
+     },
+     {
+      "data": "url",
+      "identifier": "ubo[n].source[m].url",
+      "encoding": "URI"
+     },
+     {
+      "data": "data",
+      "identifier": "ubo[n].source[m].data",
+      "encoding": "String (base64)"
+     },
+     {
+      "data": "Metadata",
+      "identifier": "",
+      "encoding": ""
+     },
+     {
+      "data": "issuance_date",
+      "identifier": "iat",
+      "encoding": "Number (Unix timestamp)"
+     },
+     {
+      "data": "issuing_entity",
+      "identifier": "iss",
+      "encoding": "String (URI or DID)"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "String"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "String"
+     },
+     {
+      "data": "schema_version",
+      "identifier": "schema_version",
+      "encoding": "String"
+     },
+     {
+      "data": "trust_anchor_url",
+      "identifier": "trust_anchor_url",
+      "encoding": "String (URI)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "first_name",
@@ -9449,6 +15003,195 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "administrative_unit.vat_id",
+      "identifier": "vat_id",
+      "encoding": "VAT Identification Number"
+     },
+     {
+      "data": "administrative_unit.name",
+      "identifier": "administrative_unit_name",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit.validity_period",
+      "identifier": "validity_period",
+      "encoding": "Array [validity period]"
+     },
+     {
+      "data": "administrative_unit.economic_operator",
+      "identifier": "economic_operator",
+      "encoding": "object"
+     },
+     {
+      "data": "issuer",
+      "identifier": "issuer",
+      "encoding": "Object"
+     },
+     {
+      "data": "administrative_unit.organisation_type",
+      "identifier": "organisation_type",
+      "encoding": "Object"
+     },
+     {
+      "data": "administrative_unit.address",
+      "identifier": "administrative_unit_address",
+      "encoding": "Object"
+     },
+     {
+      "data": "administrative_unit. registered_eu_cross_border_transactions",
+      "identifier": "registered_eu_cross_ border_transactions",
+      "encoding": "Boolean"
+     },
+     {
+      "data": "administrative_unit. economic_operator.legal_person. legal_identifier",
+      "identifier": "legal_identifier",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. economic_operator.legal_person. legal_name",
+      "identifier": "legal_name",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. economic_operator.natural_person. family_name",
+      "identifier": "family_name",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. economic_operator.natural_person. given_name",
+      "identifier": "given_name",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. economic_operator.natural_person. birth_date",
+      "identifier": "birth_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "administrative_unit. economic_operator.natural_person. birth_place",
+      "identifier": "birth_place",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. economic_operator.natural_person. tin",
+      "identifier": "tin",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. validity_period.start_date",
+      "identifier": "validity_period.start_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "administrative_unit. validity_period.end_date",
+      "identifier": "validity_period.end_date",
+      "encoding": "String (ISO 8601 YYYY-MM-DD)"
+     },
+     {
+      "data": "administrative_unit. address.po_box",
+      "identifier": "address.po_box",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. address.thoroughfare",
+      "identifier": "address.thoroughfare",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. address.location_designator",
+      "identifier": "address.location_designator",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. address.post_code",
+      "identifier": "address.post_code",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. address.post_name",
+      "identifier": "address.post_name",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. address.admin_unit_L1",
+      "identifier": "address.admin_unit_L1",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. address.admin_unit_L2",
+      "identifier": "address.admin_unit_L2",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. economic_activity_type",
+      "identifier": "economic_activity_type",
+      "encoding": "Array"
+     },
+     {
+      "data": "administrative_unit. economic_activity_type. nomenclature",
+      "identifier": "economic_activity_type. nomenclature",
+      "encoding": "String one of(NACE, NACE-BEL, CZ‑NACE, D"
+     },
+     {
+      "data": "administrative_unit. economic_activity_type. id",
+      "identifier": "economic_activity_type.id",
+      "encoding": "String"
+     },
+     {
+      "data": "administrative_unit. economic_activity_type. description",
+      "identifier": "economic_activity_type. description",
+      "encoding": "object (\"langue code iso 639-1\": \"descri"
+     },
+     {
+      "data": "issuer.authentic_source_country",
+      "identifier": "issuer.authentic_source_country",
+      "encoding": "String (ISO 3166-1 alpha-2)"
+     },
+     {
+      "data": "issuer.vat_id_authenticsource",
+      "identifier": "issuer.vat_id_authenticsource",
+      "encoding": "String"
+     },
+     {
+      "data": "issuer.country",
+      "identifier": "issuer.country",
+      "encoding": "String"
+     },
+     {
+      "data": "issuer.issuing_authority",
+      "identifier": "issuer.issuing_authority",
+      "encoding": "String"
+     },
+     {
+      "data": "issuer.attestation_legal_category",
+      "identifier": "issuer.attestation_legal_category",
+      "encoding": "String"
+     },
+     {
+      "data": "issuer.location_status",
+      "identifier": "issuer.location_status",
+      "encoding": "String (URI)"
+     },
+     {
+      "data": "trust_anchor",
+      "identifier": "trustAnchor",
+      "encoding": "String (URI)"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "Integer (Unix timestamp)"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "Integer (Unix timestamp)"
+     }
+    ]
+   },
    "attributes": [
     {
      "name": "administrative_unit",
@@ -9742,6 +15485,7 @@
    "formats": [
     "SD-JWT VC"
    ],
+   "encodings": {},
    "attributes": [
     {
      "name": "attestation_legal_category",

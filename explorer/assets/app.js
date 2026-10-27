@@ -10,6 +10,45 @@
 
   var $ = function (id) { return document.getElementById(id); };
 
+  var ICON_COPY = '<svg class="ico ico-copy" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<rect x="9" y="9" width="11" height="11" rx="2"></rect>' +
+    '<path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>';
+  var ICON_DONE = '<svg class="ico ico-done" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path d="M5 13l4 4L19 7"></path></svg>';
+
+  /* every identifier is something a reader will want to paste somewhere */
+  function copyable(value, inner) {
+    return '<button type="button" class="copy" data-copy="' + esc(value) +
+           '" aria-label="Copy" title="Copy">' + inner + ICON_COPY + ICON_DONE + "</button>";
+  }
+
+  function copyText(value) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(value).catch(function () { copyFallback(value); });
+      return;
+    }
+    copyFallback(value);
+  }
+
+  function copyFallback(value) {
+    var ta = document.createElement("textarea");
+    ta.value = value;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch (err) { /* nothing else to try */ }
+    document.body.removeChild(ta);
+  }
+
+  /* a short explanation of a label, shown on hover and on keyboard focus */
+  function help(tip) {
+    if (!tip) return "";
+    return '<button type="button" class="help" aria-label="What this means" data-tip="' +
+           esc(tip) + '">?</button>';
+  }
+
   function setText(id, value) {
     var el = $(id);
     if (el) el.textContent = value;
@@ -58,8 +97,27 @@
       setText("copyright", "\u00a9 Copyright " + new Date().getFullYear() + " " +
                             b.copyright + ". All Rights Reserved.");
     }
-    if (b.siteUrl && $("brandLink")) $("brandLink").href = b.siteUrl;
+    // The masthead logo returns to the top of the explorer rather than leaving
+    // for the organisation site, which the footer logo already covers.
+    var bl = $("brandLink");
+    if (bl) {
+      bl.href = "./";
+      bl.addEventListener("click", function (e) {
+        e.preventDefault();
+        state.q = "";
+        state.cats.clear();
+        state.fmts.clear();
+        state.page = 1;
+        $("q").value = "";
+        document.querySelectorAll(".chip.is-on").forEach(function (el) {
+          el.classList.remove("is-on");
+        });
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
     if (b.repositoryUrl && $("repoLink")) $("repoLink").href = b.repositoryUrl;
+    if (b.repositoryUrl && $("genRepo")) $("genRepo").href = b.repositoryUrl;
     if (b.logo && $("brandLogo")) {
       $("brandLogo").src = b.logo;
       $("brandLogo").alt = b.logoAlt || b.name;
@@ -69,6 +127,7 @@
     }
     if (b.favicon && $("favicon")) $("favicon").href = b.favicon;
 
+    if ($("footSite") && b.siteUrl) $("footSite").href = b.siteUrl;
     var fl = $("footLogo");
     if (fl) {
       if (b.footerLogo || b.logo) {
@@ -109,8 +168,7 @@
     if (!q) return { attrs: [] };
 
     var attrHits = rb.attributes.filter(function (a) {
-      return a.name.toLowerCase().indexOf(q) !== -1 ||
-             (a.definition || "").toLowerCase().indexOf(q) !== -1;
+      return a.name.toLowerCase().indexOf(q) !== -1;
     });
 
     var inDoc =
@@ -165,45 +223,135 @@
     return el;
   }
 
-  function openDetail(rb) {
-    var body = $("detailBody");
+  /* the page behind the drawer must not scroll or bounce while it is open */
+  function lockPage(on) {
+    var root = document.documentElement;
+    if (on) {
+      var bar = window.innerWidth - root.clientWidth;
+      root.style.overflow = "hidden";
+      if (bar > 0) { document.body.style.paddingRight = bar + "px"; }
+      return;
+    }
+    root.style.overflow = "";
+    document.body.style.paddingRight = "";
+  }
+
+  /* the identifier an attribute carries depends on the encoding, so the table
+     follows the chapter 5 mapping for whichever format is selected */
+  var detailFmt = "";
+
+  function encodingRows(rb, fmt) {
+    var map = {};
+    ((rb.encodings || {})[fmt] || []).forEach(function (e) {
+      map[e.data.toLowerCase()] = e;
+    });
+    return map;
+  }
+
+  function attrTable(rb, fmt) {
+    if (!rb.attributes.length) {
+      return "<p>No attributes were extracted from chapter 3.</p>";
+    }
+    var map = fmt ? encodingRows(rb, fmt) : null;
     var rows = rb.attributes.map(function (a) {
-      return "<tr><td><code>" + esc(a.name) + "</code></td><td>" +
-             esc(a.presence) + "</td><td>" + esc(a.definition || "") + "</td></tr>";
+      if (!map) {
+        return "<tr><td>" + copyable(a.name, "<code>" + esc(a.name) + "</code>") +
+               "</td><td>" + esc(a.presence) + "</td><td>" +
+               esc(a.definition || "") + "</td></tr>";
+      }
+      var e = map[a.name.toLowerCase()];
+      var ident = copyable(a.name, "<code>" + esc(a.name) + "</code>");
+      var note = "";
+      if (e && e.identifier) {
+        ident = copyable(e.identifier, "<code>" + esc(e.identifier) + "</code>");
+        if (e.identifier.toLowerCase() !== a.name.toLowerCase()) {
+          note = '<span class="sub">' + esc(a.name) + "</span>";
+        }
+      } else if (e) {
+        ident = '<span class="sub">not encoded in this format</span>';
+      }
+      return "<tr><td>" + ident + note + "</td><td>" + esc(a.presence) + "</td><td>" +
+             (e && e.encoding ? "<code>" + esc(e.encoding) + "</code>" : "") +
+             "</td><td>" + esc(a.definition || "") + "</td></tr>";
     }).join("");
 
-    var trace = rb.traceability.filter(function (t) {
-      return t.applies && t.applies.toLowerCase().indexOf("no") !== 0;
-    }).length;
+    var head = fmt
+      ? "<tr><th>Identifier</th><th>Presence</th><th>Encoding</th><th>Definition</th></tr>"
+      : "<tr><th>Identifier</th><th>Presence</th><th>Definition</th></tr>";
+    return '<table class="' + (fmt ? "byformat" : "plain") + '"><thead>' + head +
+           "</thead><tbody>" + rows + "</tbody></table>";
+  }
+
+  function openDetail(rb) {
+    var body = $("detailBody");
+    var fmts = (rb.formats || []).filter(function (f) {
+      return rb.encodings && rb.encodings[f];
+    });
+    var fmt = fmts.length ? (fmts.indexOf(detailFmt) !== -1 ? detailFmt : fmts[0]) : "";
+
+    function block(title, inner, tip) {
+      return '<section class="detail-block"><h3>' + esc(title) + help(tip) + "</h3>" +
+             inner + "</section>";
+    }
+
+    var picker = "";
+    if (fmts.length > 1) {
+      picker = '<div class="seg" id="fmtSeg">' + fmts.map(function (f) {
+        return '<button type="button" class="segbtn' + (f === fmt ? " on" : "") +
+               '" data-fmt="' + esc(f) + '">' + esc(f) + "</button>";
+      }).join("") + "</div>";
+    } else if (fmts.length === 1) {
+      picker = '<span class="fmtnote">' + esc(fmts[0]) + "</span>";
+    }
 
     body.innerHTML =
-      "<h2>" + esc(rb.title) + "</h2>" +
-      '<div class="slug">' + esc(rb.slug) + "</div>" +
-      '<div class="tags" style="margin-top:10px">' +
-        rb.categories.map(function (c) {
-          return '<span class="tag cat" style="background:' + catColour(c) + '">' + esc(c) + "</span>";
-        }).join("") +
-        rb.formats.map(function (f) { return '<span class="tag fmt">' + esc(f) + "</span>"; }).join("") +
-      "</div>" +
-      (rb.categoryDeclared ? "<h3>Category as declared</h3><p>" + esc(rb.categoryDeclared) + "</p>" : "") +
-      (rb.vct ? "<h3>Credential type</h3><p><code>" + esc(rb.vct) + "</code></p>" : "") +
-      (rb.schemas.length
-        ? "<h3>Schema artefacts</h3><ul>" + rb.schemas.map(function (s) {
-            return '<li><a href="' + fileUrl(s.path) + '" target="_blank" rel="noopener"><code>' +
-                   esc(s.path) + "</code></a> (" + s.propertyCount + " properties)</li>";
-          }).join("") + "</ul>"
-        : "") +
-      "<h3>Traceability</h3><p>" + trace + " of " + rb.traceability.length +
-        " Topic 12 requirements marked as applying.</p>" +
-      "<h3>Attributes (" + rb.attributeCount + ")</h3>" +
-      (rows
-        ? "<table><thead><tr><th>Identifier</th><th>Presence</th><th>Definition</th></tr></thead><tbody>" +
-          rows + "</tbody></table>"
-        : "<p>No attributes were extracted from chapter 3.</p>") +
-      '<div class="actions">' +
-        '<a class="btn primary" href="' + fileUrl(rb.path) + '" target="_blank" rel="noopener">Open the rulebook</a>' +
+      '<header class="detail-head">' +
+        "<h2>" + esc(rb.title) + "</h2>" +
+        '<div class="slug">' + esc(rb.slug) + "</div>" +
+      "</header>" +
+      '<div class="detail-body">' +
+        (rb.categoryDeclared
+          ? block("Category as declared", "<p>" + esc(rb.categoryDeclared) + "</p>",
+                  "The Category line as written at the top of the rulebook, before it " +
+                  "is matched to the six known categories.") : "") +
+        (rb.vct
+          ? block("Credential type",
+                  "<p>" + copyable(rb.vct, "<code>" + esc(rb.vct) + "</code>") + "</p>",
+                  "The vct value that identifies this attestation type to a wallet " +
+                  "or a relying party.") : "") +
+        (rb.schemas.length
+          ? block("Schema artefacts", "<ul>" + rb.schemas.map(function (s) {
+              return '<li><a href="' + fileUrl(s.path) + '" target="_blank" rel="noopener"><code>' +
+                     esc(s.path) + "</code></a> (" + s.propertyCount + " properties)</li>";
+            }).join("") + "</ul>",
+            "The machine readable schema files for this attestation, kept under " +
+            "data-schemas in this repository.") : "") +
+        '<section class="detail-block">' +
+          '<div class="blockhead"><h3>Attributes (' + rb.attributeCount + ")" +
+          help("The attributes defined in chapter 3 of the rulebook. The identifier " +
+               "and the encoding are the ones chapter 5 gives for the selected format.") +
+          "</h3>" + picker + "</div>" +
+          '<div id="attrTable">' + attrTable(rb, fmt) + "</div>" +
+        "</section>" +
       "</div>";
 
+    var seg = $("fmtSeg");
+    if (seg) {
+      seg.addEventListener("click", function (e) {
+        var b = e.target.closest(".segbtn");
+        if (!b) return;
+        detailFmt = b.getAttribute("data-fmt");
+        seg.querySelectorAll(".segbtn").forEach(function (x) {
+          x.classList.toggle("on", x === b);
+        });
+        $("attrTable").innerHTML = attrTable(rb, detailFmt);
+      });
+    }
+
+    var open = $("openRulebook");
+    if (open) { open.href = fileUrl(rb.path); }
+
+    lockPage(true);
     $("detail").showModal();
   }
 
@@ -273,10 +421,40 @@
   }
 
   function goto(page) {
+    var grid = $("results");
+
+    // A short last page collapses the document, so the browser clamps the
+    // scroll position before the smooth scroll runs and the page appears to
+    // jump twice. Hold the grid at its current height until the scroll has
+    // settled, then release it.
+    var held = grid.offsetHeight;
+    grid.style.minHeight = held + "px";
+
     state.page = page;
     render();
-    var top = $("results").getBoundingClientRect().top + window.scrollY - 90;
-    window.scrollTo({ top: top, behavior: "smooth" });
+
+    var target = grid.getBoundingClientRect().top + window.scrollY - 84;
+    target = Math.max(0, target);
+
+    if (Math.abs(target - window.scrollY) < 2) {
+      grid.style.minHeight = "";
+      return;
+    }
+
+    window.scrollTo({ top: target, behavior: "smooth" });
+
+    // Release once the scroll stops, or after a ceiling if it is interrupted.
+    var last = -1, idle = 0;
+    var tick = window.setInterval(function () {
+      if (Math.round(window.scrollY) === last) {
+        if (++idle > 2) { window.clearInterval(tick); grid.style.minHeight = ""; }
+      } else { idle = 0; }
+      last = Math.round(window.scrollY);
+    }, 60);
+    window.setTimeout(function () {
+      window.clearInterval(tick);
+      grid.style.minHeight = "";
+    }, 900);
   }
 
   function render() {
@@ -417,6 +595,16 @@
     $("detail").addEventListener("click", function (e) {
       if (e.target === $("detail")) $("detail").close();
     });
+    $("detailBody").addEventListener("click", function (e) {
+      var b = e.target.closest(".copy");
+      if (!b) return;
+      copyText(b.getAttribute("data-copy"));
+      b.classList.add("done");
+      window.setTimeout(function () { b.classList.remove("done"); }, 1200);
+    });
+    new MutationObserver(function () {
+      if (!$("detail").open) lockPage(false);
+    }).observe($("detail"), { attributes: true, attributeFilter: ["open"] });
   }
 
   /* ----------------------------------------------------------------- boot */

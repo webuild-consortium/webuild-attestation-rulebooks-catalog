@@ -266,6 +266,55 @@ def formats_of(text):
     return sorted(set(supported))
 
 
+def encodings_of(text, formats):
+    """Per format attribute identifiers, read from the chapter 5 tables.
+
+    Chapter 3 names each attribute in an encoding independent way. Chapter 5
+    maps those data identifiers onto the identifier the format actually uses,
+    so a rulebook carrying two formats has two different attribute lists.
+    """
+    whole = section(text, r"^## 5 Formats", r"^## 6 ")
+    lines = whole.split("\n")
+    marks = [i for i, l in enumerate(lines) if re.match(r"^### ", l)]
+    out = {}
+
+    for n, start in enumerate(marks):
+        stop = marks[n + 1] if n + 1 < len(marks) else len(lines)
+        heading = lines[start][4:]
+        fmt = next((name for name, pat in FORMAT_ROWS.items()
+                    if re.search(pat, heading, re.I)), None)
+        if fmt is None or fmt not in formats:
+            continue
+
+        rows = out.setdefault(fmt, [])
+        seen = {r["data"].lower() for r in rows}
+        for t in tables("\n".join(lines[start + 1:stop])):
+            head = [clean(h).lower() for h in t["header"]]
+            if not head or "data identifier" not in head[0]:
+                continue
+            ident = next((i for i, h in enumerate(head)
+                          if "attribute identifier" in h or "claim name" in h), None)
+            if ident is None:
+                continue
+            enc = next((i for i, h in enumerate(head) if "encoding" in h), None)
+            for row in t["rows"]:
+                data = clean(row[0]) if row else ""
+                if not data or re.fullmatch(r"[:\-\s]+", data):
+                    continue
+                if data.lower() in seen or len(data) > 80:
+                    continue
+                name = clean(row[ident]) if ident < len(row) else ""
+                if re.fullmatch(r"[:\-\s]*", name):
+                    name = ""
+                value = clean(row[enc]) if enc is not None and enc < len(row) else ""
+                value = re.split(r",? see ", value, 1)[0].strip(" .,")
+                rows.append({"data": data, "identifier": name,
+                             "encoding": value[:40]})
+                seen.add(data.lower())
+
+    return {k: v for k, v in out.items() if v}
+
+
 def traceability_of(text):
     block = section(text, r"^### 2\.3 Traceability", r"^## 3 ")
     rows = []
@@ -372,6 +421,7 @@ def build():
         attrs = attributes_of(text)
         trace = traceability_of(text)
         fmts = formats_of(text)
+        encodings = encodings_of(text, fmts)
 
         if not on_template:
             problems.append(f"{slug}: not on the 11-chapter template")
@@ -389,6 +439,7 @@ def build():
             "onTemplate": on_template,
             "vct": vct,
             "formats": fmts,
+            "encodings": encodings,
             "attributes": attrs,
             "attributeCount": len(attrs),
             "traceability": trace,

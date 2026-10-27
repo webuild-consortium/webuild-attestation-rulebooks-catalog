@@ -38,8 +38,14 @@ request changes a rulebook, rebuild the index and commit it in the same change.
 
 For each rulebook: slug, title, declared category, the categories recognised from it,
 whether it is on the 11-chapter template, credential type, supported formats, the
-attributes from chapter 3 with their presence and definition, the chapter 2.3
-traceability rows, and any schema artefacts under `data-schemas/`.
+attributes from chapter 3 with their presence and definition, the chapter 5 encoding
+tables keyed by format, the chapter 2.3 traceability rows, and any schema artefacts
+under `data-schemas/`.
+
+Chapter 3 names each attribute independently of any encoding. Chapter 5 maps those
+names onto the identifier a format actually uses, so a rulebook that supports both
+SD-JWT VC and mdoc has two attribute lists. The page shows one format at a time and
+falls back to the chapter 3 name where chapter 5 does not restate an attribute.
 
 Fields that cannot be read are left empty and reported in the build output rather
 than guessed at. The build currently reports `rb-approved-supplier` as not yet on the
