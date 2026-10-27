@@ -9,6 +9,11 @@ on:
 permissions:
   contents: read
 
+# one deploy at a time, and never cancel a half finished publish
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   check-index:
     name: Check the index is current
