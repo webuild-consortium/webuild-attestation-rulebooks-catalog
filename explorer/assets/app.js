@@ -6,7 +6,7 @@
 
   var brand = null;
   var data = null;
-  var state = { q: "", cats: new Set(), fmts: new Set(), mode: "all", sort: "name", page: 1, perPage: 24 };
+  var state = { q: "", cats: new Set(), fmts: new Set(), sort: "name", page: 1, perPage: 12 };
 
   var $ = function (id) { return document.getElementById(id); };
 
@@ -51,7 +51,7 @@
       document.head.appendChild(link);
     }
 
-    document.title = b.productName + " – " + b.name;
+    document.title = b.productName + " | " + b.name;
     setText("brandProduct", b.productName);
     setText("pageTagline", b.tagline || "");
     if (b.copyright) {
@@ -112,10 +112,6 @@
       return a.name.toLowerCase().indexOf(q) !== -1 ||
              (a.definition || "").toLowerCase().indexOf(q) !== -1;
     });
-
-    if (state.mode === "attributes") {
-      return attrHits.length ? { attrs: attrHits } : null;
-    }
 
     var inDoc =
       rb.title.toLowerCase().indexOf(q) !== -1 ||
@@ -313,7 +309,7 @@
 
     renderPager(pages);
 
-    var filtered = state.q || state.cats.size || state.fmts.size || state.mode !== "all";
+    var filtered = state.q || state.cats.size || state.fmts.size;
     $("reset").hidden = !filtered;
     $("clear").hidden = !state.q;
   }
@@ -385,24 +381,13 @@
     });
     $("reset").addEventListener("click", function () {
       q.value = "";
-      state = { q: "", cats: new Set(), fmts: new Set(), mode: "all", sort: "name", page: 1, perPage: 24 };
+      state = { q: "", cats: new Set(), fmts: new Set(), sort: "name",
+                page: 1, perPage: state.perPage };
       $("sort").value = "name";
       document.querySelectorAll(".chip.is-on").forEach(function (el) {
-        if (!el.classList.contains("mode")) el.classList.remove("is-on");
-      });
-      document.querySelectorAll(".chip.mode").forEach(function (el) {
-        el.classList.toggle("is-on", el.dataset.mode === "all");
+        el.classList.remove("is-on");
       });
       render();
-    });
-    document.querySelectorAll(".chip.mode").forEach(function (el) {
-      el.addEventListener("click", function () {
-        document.querySelectorAll(".chip.mode").forEach(function (o) { o.classList.remove("is-on"); });
-        el.classList.add("is-on");
-        state.mode = el.dataset.mode;
-        state.page = 1;
-        render();
-      });
     });
     document.querySelectorAll(".eg").forEach(function (el) {
       el.addEventListener("click", function () {

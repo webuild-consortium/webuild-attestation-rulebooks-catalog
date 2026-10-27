@@ -13,7 +13,7 @@
   "rulebooks": 40,
   "onTemplate": 39,
   "withSchema": 24,
-  "attributes": 1075
+  "attributes": 1052
  },
  "rulebooks": [
   {
@@ -682,124 +682,9 @@
      "name": "cryptographically_bound_to",
      "presence": "mandatory",
      "definition": ""
-    },
-    {
-     "name": "[European Digital Identity Regulation]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[HAIP]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[IANA-JWT-Claims]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[RFC 2119]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[RFC 3339]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[SD-JWT VC]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[Token Status List]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[OpenID4VCI]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[OpenID4VP]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[Topic 7]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[Topic 10]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[Topic 12]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[Topic 20]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[Peppol BIS Billing 3.0]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[EN 16931]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[EWC RB001]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[EWC RB002]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[WP4 Blueprint]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[WBCS]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[WE BUILD ADR — Revocation]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[rb-base — Base Verification]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[rb-base — Handshake]",
-     "presence": "optional",
-     "definition": ""
-    },
-    {
-     "name": "[rb-ebwoid]",
-     "presence": "optional",
-     "definition": ""
     }
    ],
-   "attributeCount": 37,
+   "attributeCount": 14,
    "traceability": [],
    "schemas": [
     {
@@ -2131,7 +2016,7 @@
     {
      "name": "controls.voting_percentage",
      "presence": "mandatory",
-     "definition": "Percentage of voting rights held, decimal value in range 0–100"
+     "definition": "Percentage of voting rights held, decimal value in range 0-100"
     },
     {
      "name": "evidence[n].id",
@@ -3513,7 +3398,7 @@
   },
   {
    "slug": "rb-ebwoid",
-   "title": "EBWOID (European Business Wallet – Owner Identification Data)",
+   "title": "EBWOID (European Business Wallet, Owner Identification Data)",
    "path": "rulebooks/rb-ebwoid/README.md",
    "categories": [
     "EBWOID"
@@ -6132,7 +6017,7 @@
     {
      "name": "interests.percentage",
      "presence": "mandatory",
-     "definition": "Percentage of ownership interest held, decimal value in range 0–100"
+     "definition": "Percentage of ownership interest held, decimal value in range 0-100"
     },
     {
      "name": "interests.quantity",
@@ -9344,7 +9229,7 @@
     {
      "name": "document_type",
      "presence": "mandatory",
-     "definition": "Type of identity document — SHALL use values from Section 2.8.1"
+     "definition": "Type of identity document, SHALL use values from Section 2.8.1"
     },
     {
      "name": "document_number",
@@ -9364,17 +9249,17 @@
     {
      "name": "threshold_met",
      "presence": "mandatory",
-     "definition": "Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required"
+     "definition": "Array of applicable AML thresholds or control criteria met, SHALL use values from Section 2.8.2, at least one value required"
     },
     {
      "name": "ownership_percentage",
      "presence": "mandatory",
-     "definition": "Total direct and indirect ownership percentage held (0–100)"
+     "definition": "Total direct and indirect ownership percentage held (0-100)"
     },
     {
      "name": "voting_rights_percentage",
      "presence": "mandatory",
-     "definition": "Total direct and indirect voting rights percentage held (0–100)"
+     "definition": "Total direct and indirect voting rights percentage held (0-100)"
     },
     {
      "name": "id",
@@ -9389,7 +9274,7 @@
     {
      "name": "effective_date",
      "presence": "mandatory",
-     "definition": "Date when this ownership or control relationship became legally effective — ISO 8601 YYYY-MM-DD"
+     "definition": "Date when this ownership or control relationship became legally effective, ISO 8601 YYYY-MM-DD"
     },
     {
      "name": "evidence",
@@ -9419,7 +9304,7 @@
     {
      "name": "data",
      "presence": "optional",
-     "definition": "Base64-encoded source document — SHALL be provided if url is not a publicly accessible URI"
+     "definition": "Base64-encoded source document, SHALL be provided if url is not a publicly accessible URI"
     },
     {
      "name": "source.data",

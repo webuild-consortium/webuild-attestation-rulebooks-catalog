@@ -82,13 +82,28 @@ def is_separator(cells):
 
 
 def section(text, start_pat, stop_pat):
-    """Lines between two headings, the start heading excluded."""
+    """Lines between two headings, the start heading excluded.
+
+    If the stop heading is absent, the section still ends at the next heading
+    of the same or a higher level. Without that bound a missing stop heading
+    swallows the rest of the document, which pulled the references chapter in
+    as though it were a table of attributes.
+    """
     lines = text.split("\n")
     a = b = None
+    level = None
     for i, l in enumerate(lines):
-        if a is None and re.match(start_pat, l):
-            a = i + 1
-        elif a is not None and re.match(stop_pat, l):
+        if a is None:
+            if re.match(start_pat, l):
+                a = i + 1
+                m = re.match(r"^(#+) ", l)
+                level = len(m.group(1)) if m else 6
+            continue
+        if re.match(stop_pat, l):
+            b = i
+            break
+        m = re.match(r"^(#+) ", l)
+        if m and len(m.group(1)) <= level:
             b = i
             break
     if a is None:
@@ -113,11 +128,18 @@ def tables(block):
     return out
 
 
+def dedash(s):
+    """Replace em and en dashes. House style allows neither."""
+    s = s.replace("\u2014", "\u2013")          # treat them alike
+    s = re.sub(r"\s+\u2013\s+", ", ", s)       # spaced, reads as a clause break
+    return s.replace("\u2013", "-")             # unspaced, reads as a hyphen
+
+
 def clean(cell):
     """Strip markdown emphasis, code ticks and links from a cell."""
     s = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", cell)
     s = s.replace("`", "").replace("**", "").replace("*", "")
-    return re.sub(r"\s+", " ", s).strip()
+    return dedash(re.sub(r"\s+", " ", s).strip())
 
 
 def category_of(text):
@@ -375,6 +397,18 @@ def build():
             "lines": len(text.split("\n")),
         })
 
+    # nothing reaches the index with a dash of either kind
+    def scrub(node):
+        if isinstance(node, str):
+            return dedash(node)
+        if isinstance(node, list):
+            return [scrub(x) for x in node]
+        if isinstance(node, dict):
+            return {k: scrub(v) for k, v in node.items()}
+        return node
+
+    entries = scrub(entries)
+
     index = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "repository": "webuild-consortium/webuild-attestation-rulebooks-catalog",
@@ -390,6 +424,24 @@ def build():
     return index, problems
 
 
+SOURCES = ["index.html", "branding.json", "README.md",
+           "assets/app.js", "assets/style.css", "scripts/build_index.py"]
+
+
+def dash_report():
+    """Em or en dashes in the explorer's own source files."""
+    bad = []
+    base = os.path.join(ROOT, "explorer")
+    for rel in SOURCES:
+        path = os.path.join(base, rel)
+        if not os.path.exists(path):
+            continue
+        for n, line in enumerate(read(path).split("\n"), 1):
+            if "\u2014" in line or "\u2013" in line:
+                bad.append(f"explorer/{rel}:{n}: {line.strip()[:80]}")
+    return bad
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true",
@@ -399,6 +451,13 @@ def main():
 
     index, problems = build()
     payload = json.dumps(index, indent=1, ensure_ascii=False) + "\n"
+
+    dashes = dash_report()
+    if dashes:
+        print(f"em or en dashes found in {len(dashes)} place(s):")
+        for d in dashes:
+            print(f"  {d}")
+        return 1
 
     if args.check:
         if not os.path.exists(OUT):
