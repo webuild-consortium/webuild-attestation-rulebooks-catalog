@@ -37,6 +37,5 @@
     "S-EAA": "#7a3f8a"
   },
   "footerLogo": "assets/logo.svg",
-  "footerEmblem": "assets/logo-eu.svg",
-  "footerLinkText": "Repository"
+  "footerEmblem": "assets/logo-eu.svg"
 }

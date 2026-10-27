@@ -301,19 +301,14 @@ mark { background: var(--accent); color: var(--ink); padding: 0 2px; border-radi
 .foot-band { background: var(--brand); padding: 30px 0; }
 .foot-band .foot-inner { min-height: 56px; }
 .foot-logo { display: block; }
-.foot-link {
-  margin-left: auto; color: #fff; font-weight: 600; font-size: 1rem;
-  text-decoration: none;
-}
-.foot-link:hover { text-decoration: underline; }
-.foot-eu { display: block; }
+.foot-eu { display: block; margin-left: auto; }
 .foot-base { background: var(--canvas); padding: 16px 0 22px; }
 .foot-base .foot-inner { font-size: .88rem; color: var(--ink); }
 .copyright { font-style: italic; }
 .foot .gen { margin-left: auto; color: var(--muted); font-size: .8rem; }
 
 @media (max-width: 760px) {
-  .foot-link { margin-left: 0; }
+  .foot-eu { margin-left: 0; }
   .foot .gen { margin-left: 0; }
 }
 

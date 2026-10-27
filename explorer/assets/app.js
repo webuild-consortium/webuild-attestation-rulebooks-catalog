@@ -81,11 +81,6 @@
       if (b.footerEmblem) { eu.src = b.footerEmblem; }
       else { eu.remove(); }
     }
-    var fr = $("footRepo");
-    if (fr && b.repositoryUrl) {
-      fr.href = b.repositoryUrl;
-      fr.textContent = b.footerLinkText || "Repository";
-    }
   }
 
   function catColour(cat) {
