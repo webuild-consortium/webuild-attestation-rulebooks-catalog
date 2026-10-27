@@ -239,7 +239,7 @@ mark { background: var(--accent); color: var(--ink); padding: 0 2px; border-radi
 /* detail drawer, slides in from the right */
 .detail {
   border: none; padding: 0; margin: 0 0 0 auto; max-width: none;
-  width: 30vw; min-width: 380px; height: 100vh; max-height: 100vh;
+  width: 44vw; min-width: 440px; max-width: 760px; height: 100vh; max-height: 100vh;
   background: var(--surface); color: var(--ink);
   box-shadow: -8px 0 32px rgba(0,29,88,.22);
   transform: translateX(100%); transition: transform .22s ease-out;
@@ -247,7 +247,7 @@ mark { background: var(--accent); color: var(--ink); padding: 0 2px; border-radi
 .detail[open] { transform: translateX(0); }
 .detail::backdrop { background: rgba(0,29,88,.35); }
 
-#detailBody { padding: 22px 26px 40px; overflow-y: auto; height: 100vh; }
+#detailBody { padding: 24px 32px 44px; overflow-y: auto; height: 100vh; }
 .detail .close {
   position: absolute; top: 14px; right: 18px; z-index: 2;
   font: inherit; font-size: .8rem; padding: 6px 12px; cursor: pointer;
