@@ -22,10 +22,11 @@
     "surface": "#ffffff",
     "canvas": "#f7f8ff",
     "radius": "6px",
-    "font": "Roboto, 'Helvetica Neue', Arial, sans-serif",
-    "headingFont": "'Noto Serif', Georgia, serif",
+    "font": "Inter, 'Helvetica Neue', Arial, sans-serif",
+    "headingFont": "Inter, 'Helvetica Neue', Arial, sans-serif",
     "headerGradient": "linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)",
-    "webFonts": "https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700&family=Roboto:wght@400;500;700&display=swap"
+    "webFonts": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+    "monoFont": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace"
   },
   "categoryColours": {
     "PID": "#003399",
@@ -34,5 +35,8 @@
     "PuB-EAA": "#9a6b12",
     "non-qualified EAA": "#514f59",
     "S-EAA": "#7a3f8a"
-  }
+  },
+  "footerLogo": "assets/logo.svg",
+  "footerEmblem": "assets/logo-eu.svg",
+  "footerLinkText": "Repository"
 }
