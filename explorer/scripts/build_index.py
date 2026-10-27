@@ -14,6 +14,7 @@ follow it, the field is left empty and counted in the coverage report rather
 than guessed at.
 """
 import argparse
+import difflib
 import json
 import os
 import re
@@ -520,6 +521,13 @@ def main():
         b = re.sub(r'"generated": "[^"]*"', "", payload)
         if a != b:
             print("explorer/index.json is out of date. Run build_index.py and commit.")
+            diff = difflib.unified_diff(a.split("\n"), b.split("\n"),
+                                        "committed", "rebuilt", n=1, lineterm="")
+            for n, line in enumerate(diff):
+                if n > 40:
+                    print("  ...")
+                    break
+                print("  " + line[:200])
             return 1
         print(f"index is current: {index['counts']['rulebooks']} rulebooks")
         return 0
