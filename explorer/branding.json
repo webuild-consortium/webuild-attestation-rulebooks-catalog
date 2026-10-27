@@ -1,0 +1,33 @@
+{
+  "name": "WE BUILD",
+  "productName": "Attestation Rulebook Explorer",
+  "tagline": "Search the attestation rulebooks, their categories and their attributes",
+  "siteUrl": "https://www.webuildconsortium.eu/",
+  "repositoryUrl": "https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog",
+  "logo": "assets/logo.svg",
+  "logoAlt": "WE BUILD",
+  "favicon": "assets/favicon.svg",
+  "footerNote": "Co-funded by the European Union",
+  "theme": {
+    "brand": "#1b2f6e",
+    "brandDark": "#13224f",
+    "brandLight": "#e8ecf7",
+    "accent": "#ffcc00",
+    "accentDark": "#d9a900",
+    "ink": "#1a1d26",
+    "muted": "#5b6478",
+    "line": "#d7dceb",
+    "surface": "#ffffff",
+    "canvas": "#f6f7fb",
+    "radius": "10px",
+    "font": "'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif"
+  },
+  "categoryColours": {
+    "PID": "#1b2f6e",
+    "EBWOID": "#2f6ea8",
+    "QEAA": "#1f7a5a",
+    "PuB-EAA": "#8a5a1f",
+    "non-qualified EAA": "#5b6478",
+    "S-EAA": "#7a3f8a"
+  }
+}

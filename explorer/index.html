@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attestation Rulebook Explorer</title>
+<link rel="icon" href="assets/favicon.svg" id="favicon">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" id="brandLink" href="#">
+      <img id="brandLogo" alt="" height="34">
+      <span class="brand-text">
+        <strong id="brandName">Rulebook</strong>
+        <span id="brandProduct">Explorer</span>
+      </span>
+    </a>
+    <nav class="masthead-links">
+      <a id="repoLink" href="#" target="_blank" rel="noopener">Repository</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <h1 id="pageTitle">Attestation Rulebook Explorer</h1>
+    <p id="pageTagline" class="tagline"></p>
+    <dl class="stats" id="stats"></dl>
+  </section>
+
+  <section class="controls" aria-label="Search and filters">
+    <div class="searchwrap">
+      <input id="q" type="search" autocomplete="off" spellcheck="false"
+             placeholder="Search rulebooks, attributes, vct values">
+      <button id="clear" type="button" class="clear" hidden aria-label="Clear search">Clear</button>
+    </div>
+
+    <div class="filters">
+      <div class="filtergroup">
+        <span class="filterlabel">Category</span>
+        <div id="catFilters" class="chips"></div>
+      </div>
+      <div class="filtergroup">
+        <span class="filterlabel">Format</span>
+        <div id="fmtFilters" class="chips"></div>
+      </div>
+      <div class="filtergroup">
+        <span class="filterlabel">Search in</span>
+        <div class="chips">
+          <button class="chip mode is-on" data-mode="all">Everything</button>
+          <button class="chip mode" data-mode="attributes">Attributes only</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="resultline"><span id="resultCount"></span><button id="reset" type="button" class="linkbtn" hidden>Reset filters</button></p>
+  </section>
+
+  <section id="results" class="results" aria-live="polite"></section>
+  <p id="empty" class="empty" hidden>No rulebook matches those filters.</p>
+</main>
+
+<footer class="foot">
+  <p><span id="footNote"></span></p>
+  <p class="gen">Index generated <span id="generated"></span> from the rulebooks in this repository.</p>
+</footer>
+
+<dialog id="detail" class="detail">
+  <button class="close" id="closeDetail" aria-label="Close">Close</button>
+  <div id="detailBody"></div>
+</dialog>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
