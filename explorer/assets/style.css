@@ -149,7 +149,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 20px 56px; }
 .summary { opacity: .85; }
 
 .sortwrap {
-  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  margin-left: auto; position: relative; display: inline-flex; align-items: center; gap: 6px;
   border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--surface); padding: 2px 8px 2px 10px;
 }
@@ -159,10 +159,12 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 20px 56px; }
 }
 #sort {
   font: inherit; font-size: .85rem; color: var(--ink);
-  border: none; background: none; padding: 5px 2px; cursor: pointer;
+  border: none; background: none; padding: 5px 20px 5px 2px; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
 }
 #sort:focus { outline: none; }
 .sortwrap:focus-within { border-color: var(--brand); }
+.sortwrap .selarrow { right: 8px; }
 .linkbtn {
   font: inherit; font-size: .85rem; background: none; border: none; padding: 0;
   color: var(--brand); text-decoration: underline; cursor: pointer;
@@ -211,30 +213,60 @@ mark { background: var(--accent); color: var(--ink); padding: 0 2px; border-radi
 
 /* pagination */
 .pager {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  margin: 26px 0 8px; flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; margin: 30px 0 10px; flex-wrap: wrap;
 }
-.pagebtn, .pagenum {
-  font: inherit; font-size: .88rem; min-width: 34px; height: 34px; padding: 0 10px;
-  cursor: pointer; border: 1px solid var(--line); border-radius: var(--radius);
-  background: var(--surface); color: var(--ink);
-  display: inline-flex; align-items: center; justify-content: center;
-}
-.pagebtn { font-size: 1.1rem; line-height: 1; color: var(--muted); }
-.pagebtn:hover:not(:disabled), .pagenum:hover { border-color: var(--brand); color: var(--brand); }
-.pagebtn:disabled { opacity: .35; cursor: default; }
-.pagenum.is-on {
-  background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600;
-}
-.pagegap { color: var(--muted); padding: 0 2px; }
-.pagelist { display: inline-flex; align-items: center; gap: 6px; }
-.pagesize { margin-left: 10px; }
-#perPage {
-  font: inherit; font-size: .85rem; color: var(--ink); cursor: pointer;
+
+/* the page controls read as one segmented group */
+.pagegroup {
+  display: inline-flex; align-items: center;
   border: 1px solid var(--line); border-radius: var(--radius);
-  background: var(--surface); padding: 7px 8px;
+  background: var(--surface); overflow: hidden;
 }
-#perPage:focus { outline: none; border-color: var(--brand); }
+.pagelist { display: inline-flex; align-items: center; }
+
+.pagebtn, .pagenum {
+  font: inherit; font-size: .86rem; height: 36px; min-width: 38px;
+  padding: 0 6px; cursor: pointer; border: none; background: none;
+  color: var(--ink); display: inline-flex; align-items: center;
+  justify-content: center; border-right: 1px solid var(--line);
+}
+.pagegroup > :last-child, .pagelist > :last-child { border-right: none; }
+.pagelist + .pagebtn { border-left: 1px solid var(--line); }
+
+.pagebtn svg {
+  width: 17px; height: 17px; fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.pagebtn { color: var(--muted); }
+.pagebtn:hover:not(:disabled), .pagenum:hover { background: var(--brand-light); color: var(--brand); }
+.pagebtn:disabled { opacity: .3; cursor: default; }
+
+.pagenum.is-on { background: var(--brand); color: #fff; font-weight: 600; }
+.pagenum.is-on:hover { background: var(--brand); color: #fff; }
+
+.pagegap {
+  height: 36px; min-width: 30px; display: inline-flex; align-items: center;
+  justify-content: center; color: var(--muted); font-size: .86rem;
+  border-right: 1px solid var(--line); user-select: none;
+}
+
+/* results per page, with its own arrow so it matches the rest */
+.pagesize { position: relative; display: inline-flex; align-items: center; }
+#perPage {
+  font: inherit; font-size: .86rem; color: var(--ink); cursor: pointer;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); height: 36px; padding: 0 32px 0 12px;
+  -webkit-appearance: none; appearance: none;
+}
+#perPage:hover { border-color: var(--brand); }
+#perPage:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.selarrow {
+  position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; fill: none; stroke: var(--muted);
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  pointer-events: none;
+}
 
 /* detail drawer, slides in from the right */
 .detail {
