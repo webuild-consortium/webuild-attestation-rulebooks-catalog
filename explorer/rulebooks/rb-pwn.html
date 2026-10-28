@@ -1,0 +1,2879 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proof of Work Notification rulebook | WE BUILD</title>
+<meta name="description" content="Proof of Work Notification. An attestation rulebook, EAA, issued as SD-JWT VC, 98 attributes.">
+<link rel="canonical" href="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-pwn.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="WE BUILD Attestation Rulebook Explorer">
+<meta property="og:title" content="Proof of Work Notification rulebook">
+<meta property="og:description" content="Proof of Work Notification. An attestation rulebook, EAA, issued as SD-JWT VC, 98 attributes.">
+<meta property="og:url" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-pwn.html">
+<meta property="og:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WE BUILD Attestation Rulebook Explorer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta name="theme-color" content="#003399">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+<style>:root{--brand:#003399;--brand-dark:#001d58;--brand-light:#eef2fb;--accent:#ffcc00;--accent-dark:#f1b40d;--ink:#1d1d1f;--muted:#6e6e73;--line:rgba(0,0,0,.08);--surface:#ffffff;--canvas:#f2f2f5;--radius:12px;--font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--heading-font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--mono-font:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;--header-gradient:linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)}</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="WE BUILD Consortium" height="44"></a>
+    <span class="brand-sep" aria-hidden="true"></span>
+    <span class="brand-product">Attestation Rulebook Explorer</span>
+    <nav class="masthead-links">
+      <a class="ghlink" href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-pwn/README.md" target="_blank" rel="noopener" title="View this rulebook on GitHub">
+        <svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="doc-nav">
+    <a class="doc-back" href="../index.html">All rulebooks</a>
+    <details class="doc-chapters" open>
+      <summary>Chapters</summary>
+      <nav class="doc-toc" aria-label="Chapters"><a class="lvl2" href="#1-introduction">1 Introduction</a><a class="lvl3" href="#11-document-scope-and-purpose">1.1 Document scope and purpose</a><a class="lvl3" href="#12-document-structure">1.2 Document structure</a><a class="lvl3" href="#13-key-words">1.3 Key words</a><a class="lvl3" href="#14-terminology">1.4 Terminology</a><a class="lvl2" href="#2-compliance">2 Compliance</a><a class="lvl3" href="#21-compliance-statement">2.1 Compliance statement</a><a class="lvl3" href="#22-regulatory-basis">2.2 Regulatory basis</a><a class="lvl3" href="#23-traceability">2.3 Traceability</a><a class="lvl2" href="#3-attestation-attributes">3 Attestation attributes</a><a class="lvl3" href="#31-introduction">3.1 Introduction</a><a class="lvl3" href="#32-mandatory-attributes">3.2 Mandatory attributes</a><a class="lvl3" href="#33-optional-attributes">3.3 Optional attributes</a><a class="lvl3" href="#34-conditional-attributes">3.4 Conditional attributes</a><a class="lvl2" href="#4-metadata">4 Metadata</a><a class="lvl3" href="#41-mandatory-metadata">4.1 Mandatory metadata</a><a class="lvl3" href="#42-optional-metadata">4.2 Optional metadata</a><a class="lvl3" href="#43-conditional-metadata">4.3 Conditional metadata</a><a class="lvl3" href="#44-code-lists">4.4 Code lists</a><a class="lvl3" href="#45-integrity-rules">4.5 Integrity rules</a><a class="lvl2" href="#5-formats">5 Formats</a><a class="lvl3" href="#51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</a><a class="lvl3" href="#52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</a><a class="lvl3" href="#53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</a><a class="lvl2" href="#6-protocols">6 Protocols</a><a class="lvl2" href="#7-issuance">7 Issuance</a><a class="lvl3" href="#71-binding">7.1 Binding</a><a class="lvl3" href="#72-issuance-policy">7.2 Issuance Policy</a><a class="lvl3" href="#73-lifecycle-management">7.3 Lifecycle management</a><a class="lvl3" href="#74-embedded-disclosure-policy">7.4 Embedded disclosure policy</a><a class="lvl2" href="#8-revocation">8 Revocation</a><a class="lvl2" href="#9-presentation">9 Presentation</a><a class="lvl3" href="#91-presentation-policy">9.1 Presentation Policy</a><a class="lvl3" href="#92-presentation-modes">9.2 Presentation modes</a><a class="lvl3" href="#93-transactional-data">9.3 Transactional data</a><a class="lvl2" href="#10-trust-framework">10 Trust Framework</a><a class="lvl2" href="#11-references">11 References</a></nav>
+    </details>
+  </aside>
+  <article class="doc-body">
+    <p class="doc-tags"><span class="tag cat" style="background:#514f59">EAA</span><span class="tag fmt">SD-JWT VC</span></p>
+    <h1 id="attestation-rulebook-for-attestations-of-type-proof-of-work-notification">Attestation Rulebook for attestations of type Proof of Work Notification</h1>
+<p>Category: non-qualified EAA</p>
+<ul>
+<li>Author(s):</li>
+<li>Jo Antoons Fragomen Belgium</li>
+<li>Reviewer(s):</li>
+<li>Philipp Friedl, DRV Bund</li>
+<li>Laurent Loup, SICPA</li>
+<li>
+<p>Florin Coptil, Robert Bosch GmbH</p>
+</li>
+<li>
+<p>Contact:</p>
+</li>
+<li>
+<p>Jo Antoons, Fragomen Belgium, jantoons@fragomen.com</p>
+</li>
+<li>
+<p>Feedback:</p>
+</li>
+</ul>
+<hr />
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>2026-10-02</td>
+<td>Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Written against:</strong> ARF version 3.0.0, WE BUILD template version 1.0 (generic)</p>
+<p><strong>Feedback:</strong> <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues">GitHub issues</a></p>
+<h2 id="1-introduction">1 Introduction</h2>
+<p>This attestation addresses the following question:</p>
+<p>**Has a company fulfilled its legal obligation to notify the host EU Member State authorities
+prior to sending workers to provide cross-border services within the EU?</p>
+<p>The Posted Worker Notification (PWN) Attestation provides a verifiable digital
+representation of the Posted Worker Notification, enabling structured exchange of posting
+information for use in cross-border labour compliance verification, supplier onboarding, and
+regulatory audit processes by host Member State authorities, procurers, and labour inspectorates.</p>
+<p>The PWN is an administrative requirement for companies (legal employers) that provide intra-EU
+cross-border services with their employees, both EU and non-EU nationals, either to a customer
+or into another group entity. The notification must be filed with the authorities of the host EU
+Member State (usually on a government portal) prior to the start of the delivery of the service.</p>
+<p>The PWN was introduced pursuant to
+<a href="https://eur-lex.europa.eu/eli/dir/2014/67/oj/eng">EU Directive 2014/67/EU</a> to enable EU Member
+States to monitor that Posted Workers are protected by the salary and labour conditions set out
+in host legislation and generally binding collective labour agreements, and therefore do not undercut local labour
+force. More or less half of the EU Member States have extended the scope of the PWN also to
+employers based outside the EU providing services with their personnel into the EU.</p>
+<p>The labour law protection of posted workers is set out in the Posting of Workers Directive
+(PWD), which was adopted in 1996 and revised in 2018:
+<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A01996L0071-20200730">EUR-Lex - 01996L0071-20200730 - EN - EUR-Lex</a></p>
+<p>The <strong>Know Your Employee (KYE)</strong> scenario (Scenario 5) is part of BU1 and will lead to MVP
+and MVP+ implementations using both Natural Person Wallets and Legal Person Wallets.
+The high-level scenario is:</p>
+<blockquote>
+<p><em>"A company A in a country A would like to send one of their employees to work and provide a
+service to company B in country B."</em></p>
+</blockquote>
+<p>This scenario requires the issuance of three main credentials:
+- <strong>Employee Credentials</strong>
+- <strong>Portable Document (PD) A1</strong>
+- <strong>Posted Worker Notification (PWN)</strong></p>
+<h3 id="11-document-scope-and-purpose">1.1 Document scope and purpose</h3>
+<p>The PWN Attestation provides a verifiable digital representation of the Posted
+Worker Notification. It enables structured exchange of posting information for use in
+cross-border labour compliance verification, supplier onboarding, and regulatory audit processes
+by host Member State authorities, procurers, and labour inspectorates.</p>
+<p>The PWN Attestation captures all key attributes required by national host country authorities,
+including:
+- Subject (posted worker) identity attributes
+- Assignment-related information (start/end dates, work place(s))
+- Home employer details
+- Host company details
+- Employee job duties abroad representing the services justifying the posting</p>
+<p>The attestation schema is designed to be sufficiently generic to cover national PWN requirements
+across EU Member States, verified against the requirements of <strong>Spain</strong> and <strong>Netherlands</strong> as
+representative examples.</p>
+<p><strong>Design Decisions</strong></p>
+<p>This PWN Attestation Rulebook is based on:
+- EU Directive 2014/67/EU, Posted Workers Enforcement Directive
+- Posting of Workers Directive (PWD) 96/71/EC as revised in 2018
+- National PWN portal requirements (Spain, Netherlands as reference implementations)
+- EUDI Wallet / eIDAS 2.0 framework for digital identity and verifiable attestations
+- ISO 3166-1 alpha-2 for country codes
+- ISO 8601 for date formatting
+- SD-JWT VC format for selective disclosure</p>
+<h3 id="12-document-structure">1.2 Document structure</h3>
+<p>This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.</p>
+<h3 id="13-key-words">1.3 Key words</h3>
+<p>This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.</p>
+<p>In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.</p>
+<h3 id="14-terminology">1.4 Terminology</h3>
+<p><em>Additional terminology specific to this attestation:</em></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Term</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PWN</td>
+<td>Posted Worker Notification, an administrative requirement for companies providing intra-EU cross-border services with posted workers, filed with the host EU Member State authorities prior to service start</td>
+</tr>
+<tr>
+<td>Posted Worker</td>
+<td>A citizen employed in one EU/EFTA member state ("sending state") who is temporarily sent to work in another member state ("receiving state") for a defined period</td>
+</tr>
+<tr>
+<td>Home Employer</td>
+<td>The legal employer in the sending state that employs the posted worker and is responsible for filing the PWN</td>
+</tr>
+<tr>
+<td>Host Company</td>
+<td>The legal entity in the receiving/host member state that receives the posted worker's services</td>
+</tr>
+<tr>
+<td>Sending State</td>
+<td>The EU/EFTA member state where the home employer is established and from which the worker is posted</td>
+</tr>
+<tr>
+<td>Receiving State</td>
+<td>The EU/EFTA member state where the posted worker temporarily performs work (host country)</td>
+</tr>
+<tr>
+<td>Administrative Representative</td>
+<td>A designated person responsible for administrative PWN filings on behalf of the employer</td>
+</tr>
+<tr>
+<td>Social Representative</td>
+<td>A designated person responsible for social/labour matters related to the posting</td>
+</tr>
+<tr>
+<td>KYE</td>
+<td>Know Your Employee, a due diligence scenario (Scenario 5 / BU1) enabling companies to verify employee identity and posting status in cross-border work situations</td>
+</tr>
+<tr>
+<td>Employee Credential</td>
+<td>A credential issued by an employer to its employees certifying employment at a given point in time</td>
+</tr>
+<tr>
+<td>PWD</td>
+<td>Posting of Workers Directive, EU Directive 96/71/EC as revised in 2018, setting out labour law protection for posted workers</td>
+</tr>
+<tr>
+<td>NACE</td>
+<td>Nomenclature of Economic Activities, EU standard for classifying economic/industry sectors</td>
+</tr>
+<tr>
+<td>VAT ID</td>
+<td>Value Added Tax identification number, national tax identifier for legal entities</td>
+</tr>
+<tr>
+<td>EAA</td>
+<td>Electronic Attestation of Attributes, as defined under eIDAS 2.0</td>
+</tr>
+<tr>
+<td>QEAA</td>
+<td>Qualified Electronic Attestation of Attributes, as defined under eIDAS 2.0</td>
+</tr>
+<tr>
+<td>ISO 3166-1 alpha-2</td>
+<td>International standard defining 2-digit country codes (e.g., DE, FR, ES, NL)</td>
+</tr>
+<tr>
+<td>ISO 8601</td>
+<td>International standard for date and time representations (e.g., YYYY-MM-DD)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="2-compliance">2 Compliance</h2>
+<h3 id="21-compliance-statement">2.1 Compliance statement</h3>
+<p>This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.</p>
+<h3 id="22-regulatory-basis">2.2 Regulatory basis</h3>
+<p>This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
+recommendation is not followed, the reason is stated below.</p>
+<h3 id="23-traceability">2.3 Traceability</h3>
+<p>Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Legacy ID</th>
+<th>Applies</th>
+<th>Satisfied in section</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EW-DM-12-001</td>
+<td>ARB_01a</td>
+<td>yes</td>
+<td>5</td>
+<td>W3C VCDM permitted for this category; no encoding defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-002</td>
+<td>ARB_01b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC following the HAIP profile</td>
+</tr>
+<tr>
+<td>EW-DM-12-003</td>
+<td>ARB_02</td>
+<td>no</td>
+<td></td>
+<td>Proximity presentation is not in scope</td>
+</tr>
+<tr>
+<td>EW-DM-12-005</td>
+<td>ARB_04</td>
+<td>no</td>
+<td></td>
+<td>No W3C VCDM encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-006</td>
+<td>ARB_05</td>
+<td>yes</td>
+<td>5</td>
+<td>Unique vct for this attestation type</td>
+</tr>
+<tr>
+<td>EW-DM-12-007</td>
+<td>ARB_06</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes defined independently of encoding</td>
+</tr>
+<tr>
+<td>EW-DM-12-008</td>
+<td>ARB_06a</td>
+<td>no</td>
+<td></td>
+<td>No mdoc encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-009</td>
+<td>ARB_06b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC claim naming</td>
+</tr>
+<tr>
+<td>EW-DM-12-010</td>
+<td>ARB_07</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes reused from the catalogued vocabulary where one exists</td>
+</tr>
+<tr>
+<td>EW-DM-12-012</td>
+<td>ARB_09</td>
+<td>yes</td>
+<td>3, 4</td>
+<td>Mandatory, optional and conditional stated per attribute</td>
+</tr>
+<tr>
+<td>EW-DM-12-013</td>
+<td>ARB_10</td>
+<td>no</td>
+<td></td>
+<td>No domestic namespace is defined</td>
+</tr>
+<tr>
+<td>EW-DM-12-014</td>
+<td>ARB_11</td>
+<td>no</td>
+<td></td>
+<td>Annex V and VII point a apply to QEAA and PuB-EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-015</td>
+<td>ARB_12</td>
+<td>yes</td>
+<td>4.1</td>
+<td>EAA indication for a non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018</td>
+<td>ARB_13 / ARB_14 / ARB_15</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point b, EW-DM-12-018 for the non-qualified case</td>
+</tr>
+<tr>
+<td>EW-DM-12-019 / EW-DM-12-020</td>
+<td>ARB_16 / ARB_17</td>
+<td>yes</td>
+<td>2.2</td>
+<td>Point c, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-021 / EW-DM-12-022</td>
+<td>ARB_18 / ARB_19</td>
+<td>yes</td>
+<td>2.2, 4.2</td>
+<td>Point e, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-023 / EW-DM-12-024</td>
+<td>ARB_20 / ARB_21</td>
+<td>yes</td>
+<td>4.2, 10</td>
+<td>Trust anchor location and the trust framework</td>
+</tr>
+<tr>
+<td>EW-DM-12-029</td>
+<td>ARB_25</td>
+<td>yes</td>
+<td>4.1</td>
+<td>Legal category attribute; see the note in section 4.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-030</td>
+<td>ARB_26</td>
+<td>yes</td>
+<td>10</td>
+<td>Trust anchor publication for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-031</td>
+<td>ARB_27</td>
+<td>no</td>
+<td></td>
+<td>This attestation does not require the Relying Party to verify a PID</td>
+</tr>
+<tr>
+<td>EW-DM-12-032</td>
+<td>ARB_28</td>
+<td>no</td>
+<td></td>
+<td>cryptographically_bound_to is not used by this attestation</td>
+</tr>
+<tr>
+<td>EW-DM-12-034</td>
+<td>ARB_30</td>
+<td>yes</td>
+<td>5</td>
+<td>Selective disclosure stated per claim</td>
+</tr>
+<tr>
+<td>EW-DM-12-035</td>
+<td>ARB_31</td>
+<td>no</td>
+<td></td>
+<td>No Claim Selective Disclosure Metadata document is used</td>
+</tr>
+<tr>
+<td>EW-DM-12-038</td>
+<td>ARB_34</td>
+<td>yes</td>
+<td>7.1</td>
+<td>Device binding</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-attestation-attributes">3 Attestation attributes</h2>
+<p>Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.</p>
+<h3 id="31-introduction">3.1 Introduction</h3>
+<p>The PWN Attestation is designed to provide a verifiable digital representation of
+the Posted Worker Notification. It captures all key attributes required by host Member State
+authorities for compliance verification, including subject identity, assignment details, home
+employer information, host company details, and employee job duties.</p>
+<p><strong>Data Model of the PWN in The Netherlands:</strong></p>
+<pre><code>PWN Credential
+├── Subject [1:1], mandatory
+│ ├── pin (String), mandatory
+│ ├── family_name (String), mandatory
+│ ├── forename (String), mandatory
+│ ├── date_of_birth (date), mandatory
+│ ├── nationality (Code [1:n], ISO 3166-1 alpha-2), mandatory
+│ ├── job_title_home_country (String), optional
+│ ├── gender (String/Code), optional
+│ ├── surname_at_birth (String), optional
+│ ├── forename_at_birth (String), optional
+│ ├── place_of_birth [1:1], optional
+│ │ ├── town (String)
+│ │ └── country_code (Code, ISO 3166-1 alpha-2)
+│ └── address [1:n], optional
+│ ├── address_residence [0:1], optional
+│ │ ├── street_nr (String)
+│ │ ├── town (String)
+│ │ ├── post_code (String)
+│ │ └── country_code (Code, ISO 3166-1 alpha-2)
+│ └── address_stay [0:n], optional
+│ ├── street_nr (String)
+│ ├── town (String)
+│ ├── post_code (String)
+│ └── country_code (Code, ISO 3166-1 alpha-2)
+ │
+├── Assignment Related Information [1:1], mandatory
+│ ├── home_member_state (Code, ISO 3166-1 alpha-2), optional 
+│ ├── starting_date (date), mandatory
+│ ├── ending_date (date), mandatory
+│ ├── applies_for_duration (boolean), optional
+│ ├── determination_provisional (boolean), optional
+│ └── transitional_rules (boolean), optional
+
+    Project Sector : mandatory
+    Project Subsector : mandatory
+    Project SBI Code : mandatory
+│
+├── Details of Home Employer(s)/Self-employment [1:1], mandatory
+│ ├── company_name (String), mandatory
+│ ├── industry_sector_nace (String), optional
+│ ├── construction_sector (boolean), optional
+      Chamber of Commerce registration number - mandatory
+│ ├── vat_id (String), mandatory
+│ ├── address_line_1 (String), mandatory
+│ ├── address_line_2 (String), optional
+│ ├── postal_code (String), mandatory
+│ ├── city (String), mandatory
+│ ├── municipality (String), optional
+│ ├── state (String), optional
+│ ├── country (Code, ISO 3166-1 alpha-2), mandatory
+  _ Legal representative - mandatory
+    last_name (string), mandatory
+│ ├── first_name (String), mandatory
+│ ├── date_of_birth (date), mandatory
+│ ├── nationality (Code [1:n], ISO 3166-1 alpha-2), mandatory
+│ ├── phone (String), mandatory
+│ ├── email (String), mandatory
+│ ├── administrative_representative [1:1], mandatory
+│ │ ├── last_name (String) - mandatory
+│ │ ├── first_name (String) - mandatory
+│ │ ├── date_of_birth (date), mandatory
+│ ├── nationality (Code [1:n], ISO 3166-1 alpha-2), mandatory
+│ ├── phone (String), mandatory
+│ ├── email (String), mandatory
+│ │ ├── address_line_1 (String) - mandatory
+│ │ ├── address_line_2 (String)
+│ │ ├── postal_code (String) - mandatory
+│ │ ├── city (String) - mandatory
+│ │ ├── municipality (String)
+│ │ ├── state (String)
+│ │ └── country (Code, ISO 3166-1 alpha-2) : mandatory
+│ └── Host company [1:1], mandatory
+      Type - mandatory
+│ ├── ─ company_name (String), mandatory
+      country of establishment - mandatory
+│ ├── Chamber of Commerce registration number - mandatory
+   _ Location number - mandatory 
+│ ├── vat_id (String), mandatory
+│ ├── address_line_1 (String), mandatory
+│ ├── address_line_2 (String), optional
+│ ├── postal_code (String), mandatory
+│ ├── city (String), mandatory
+│ ├── municipality (String), optional
+│ ├── state (String), optional
+│ ├── country (Code, ISO 3166-1 alpha-2), mandatory
+ Contact person host company - mandatory
+      last_name (String) : mandatory
+│ ├── first_name (String) : mandatory
+│ ├── telephone (String) : mandatory
+│ ├── email (String) : mandatory
+│ ├── 
+│── │
+├── Place(s) of Work [1:n], mandatory
+│ ├── address_line_1 (String), mandatory
+│ ├── address_line_2 (String), optional
+│ ├── postal_code (String), mandatory
+│ ├── city (String), mandatory
+│ ├── municipality (String), optional
+│ ├── state (String), optional
+│ ├── country (Code, ISO 3166-1 alpha-2), mandatory
+      telephone (String) : mandatory
+│ ├── email (String) : mandatory
+ │ 
+│Employee : Mandatory
+  Permanent work permit issued by sending member state : mandatory
+  End date of work permit issued by the sending member state : mandatory
+  A1 Certificate of Coverage (Y/N): mandatory
+  Country of issuance of A1 Certificate : mandatory
+  Application for A1 Certificate of coverage (Y/N) : mandatory
+  Country of payment of social contributions : mandatory
+  Evidence of payment of social contributions (Y/N) : mandatory 
+└──PW Notifier : mandatory 
+├── last_name (String) - mandatory
+│ ─ first_name (String) - mandatory
+│ ─ phone (String), mandatory
+│ ─ email (String), mandatory
+│ │ ├──
+</code></pre>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>
+<p><strong>Section 1 (Subject)</strong> contains personal identity attributes of the posted worker.</p>
+</li>
+<li>
+<p><strong>Section 2 (Assignment Related Information)</strong> mirrors the PD A1 member state legislation
+  section, providing assignment start and end dates but also project information.</p>
+</li>
+<li><strong>Section 3 (Home Employer Details)</strong> provides comprehensive information about the sending
+  employer, Chamber of Commerce and VAT ID, address, and designated legal and administrative representatives.</li>
+<li><strong>Section 4 (Host Company)</strong> identifies the receiving entity in the host member state, including the contact person of that entity.</li>
+<li><strong>Section 5 (Places of Work)</strong> requires information on place(s) of work.</li>
+<li><strong>Section 6 (Employee)</strong> contains information on the work and social insurance status in the home country.</li>
+<li><strong>Section 7 (PW Notifier)</strong> identifies the PW notifier.</li>
+</ul>
+<p><strong>Attestation Classification:</strong></p>
+<p>This attestation type <strong>MAY</strong> be classified as:
+- <strong>"EAA"</strong> when self-issued by the home employer filing the PWN on behalf of their posted
+  worker(s).
+- <strong>"QEAA"</strong> when issued by a competent national authority (e.g., labour inspectorate)
+  confirming receipt and acceptance of the PWN.</p>
+<p><strong>Top-Level Data Identifiers:</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>subject</td>
+<td><a href="https://w3id.org/ebwv#postedWorker">postedWorker</a></td>
+<td>Personal identity attributes of the posted worker</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>assignment_info</td>
+<td><a href="https://w3id.org/ebwv#assignment">assignment</a></td>
+<td>Assignment-related information including posting dates and project classification</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>home_employer</td>
+<td><a href="https://w3id.org/ebwv#employer">employer</a></td>
+<td>Details of the home employer including company info and representatives</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>host_company</td>
+<td><a href="https://w3id.org/ebwv#hostEntity">hostEntity</a></td>
+<td>Details of the host company in the receiving member state including contact person</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>employee</td>
+<td><a href="https://w3id.org/ebwv#employee">employee</a></td>
+<td>Employee-specific information</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>places_of_work</td>
+<td><a href="https://w3id.org/ebwv#placeOfWork">placeOfWork</a></td>
+<td>Place(s) where the posted worker performs work in the host country</td>
+<td>Array [PlaceOfWork]</td>
+</tr>
+<tr>
+<td>Posted Worker Notifier</td>
+<td>...</td>
+<td>Details of the person filing the PWN</td>
+<td>Object</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="32-mandatory-attributes">3.2 Mandatory attributes</h3>
+<h4 id="section-1-subject-attributes">Section 1, Subject Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pin</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>Personal Identification Number / ID number of the posted worker</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>family_name</td>
+<td><a href="https://w3id.org/ebwv#familyName">familyName</a></td>
+<td>Family name(s) of the posted worker in full</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>forename</td>
+<td><a href="https://w3id.org/ebwv#givenName">givenName</a></td>
+<td>Forename(s) of the posted worker in full</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>date_of_birth</td>
+<td><a href="https://w3id.org/ebwv#dateOfBirth">dateOfBirth</a></td>
+<td>Date of birth of the posted worker (ISO 8601)</td>
+<td>Date (YYYY-MM-DD)</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>nationality</td>
+<td><a href="https://w3id.org/ebwv#citizenship">citizenship</a></td>
+<td>Nationality/ies of the posted worker</td>
+<td>Code [1:n] (ISO 3166-1 alpha-2)</td>
+<td>1:n</td>
+</tr>
+<tr>
+<td>job_title_home_country</td>
+<td><a href="https://w3id.org/ebwv#jobTitle">jobTitle</a></td>
+<td>Job title of the posted worker in the home country (PWN-specific)</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-2-assignment-related-information-attributes">Section 2, Assignment Related Information Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>assignment_info.starting_date</td>
+<td><a href="https://w3id.org/ebwv#duration">duration</a></td>
+<td>Start date of the posting assignment (ISO 8601)</td>
+<td>Date (YYYY-MM-DD)</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>assignment_info.ending_date</td>
+<td><a href="https://w3id.org/ebwv#duration">duration</a></td>
+<td>End date of the posting assignment (ISO 8601)</td>
+<td>Date (YYYY-MM-DD)</td>
+<td>1:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-3-home-employer-attributes">Section 3, Home Employer Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>home_employer.company_name</td>
+<td><a href="https://w3id.org/ebwv#legalName">legalName</a></td>
+<td>Full commercial name of the home employer</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.industry_sector_nace</td>
+<td><a href="https://w3id.org/ebwv#activity">activity</a></td>
+<td>Industry sector of the home employer (NACE classification)</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.construction_sector</td>
+<td><a href="https://w3id.org/ebwv#constructionSector">constructionSector</a></td>
+<td>Indicates whether the employer operates in the construction sector (true / false)</td>
+<td>Boolean</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.vat_id</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>VAT identification number of the home employer</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.address_line_1</td>
+<td><a href="https://w3id.org/ebwv#registeredAddress">registeredAddress</a></td>
+<td>Primary address line of the home employer's headquarters</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.postal_code</td>
+<td><a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>Postal code of the home employer's headquarters</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.city</td>
+<td><a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>City of the home employer's headquarters</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.country</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>Country of the home employer's headquarters (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.phone</td>
+<td><a href="https://w3id.org/ebwv#hasTelephone">hasTelephone</a></td>
+<td>Phone number of the home employer</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.email</td>
+<td><a href="https://w3id.org/ebwv#hasEmail">hasEmail</a></td>
+<td>Email address of the home employer</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.last_name</td>
+<td><a href="https://w3id.org/ebwv#familyName">familyName</a></td>
+<td>Last name of the administrative representative</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.first_name</td>
+<td><a href="https://w3id.org/ebwv#givenName">givenName</a></td>
+<td>First name of the administrative representative</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.telephone</td>
+<td><a href="https://w3id.org/ebwv#hasTelephone">hasTelephone</a></td>
+<td>Telephone number of the administrative representative</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.email</td>
+<td><a href="https://w3id.org/ebwv#hasEmail">hasEmail</a></td>
+<td>Email address of the administrative representative</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.city</td>
+<td><a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>City of the administrative representative's address</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.country</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>Country of the administrative representative's address (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.last_name</td>
+<td><a href="https://w3id.org/ebwv#familyName">familyName</a></td>
+<td>Last name of the social representative</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.first_name</td>
+<td><a href="https://w3id.org/ebwv#givenName">givenName</a></td>
+<td>First name of the social representative</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.telephone</td>
+<td><a href="https://w3id.org/ebwv#hasTelephone">hasTelephone</a></td>
+<td>Telephone number of the social representative</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.email</td>
+<td><a href="https://w3id.org/ebwv#hasEmail">hasEmail</a></td>
+<td>Email address of the social representative</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.city</td>
+<td><a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>City of the social representative's address</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.country</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>Country of the social representative's address (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>1:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-4-host-company-attributes">Section 4, Host Company Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host_company.company_name</td>
+<td><a href="https://w3id.org/ebwv#legalName">legalName</a></td>
+<td>Full commercial name of the host company</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>host_company.email</td>
+<td><a href="https://w3id.org/ebwv#hasEmail">hasEmail</a></td>
+<td>Email address of the host company</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>host_company.telephone</td>
+<td><a href="https://w3id.org/ebwv#hasTelephone">hasTelephone</a></td>
+<td>Telephone number of the host company</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>host_company.industry_sector</td>
+<td><a href="https://w3id.org/ebwv#activity">activity</a></td>
+<td>Industry sector of the host company</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>host_company.vat_id</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>VAT identification number of the host company</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>host_company.address_line_1</td>
+<td><a href="https://w3id.org/ebwv#registeredAddress">registeredAddress</a></td>
+<td>Primary address line of the host company's headquarters</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>host_company.postal_code</td>
+<td><a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>Postal code of the host company's headquarters</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>host_company.city</td>
+<td><a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>City of the host company's headquarters</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>host_company.country</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>Country of the host company's headquarters (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>1:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-5-employee-attributes">Section 5, Employee Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>employee.job_duties_abroad</td>
+<td><a href="https://w3id.org/ebwv#bd67ab3de4befa12ddca1ae5092c89be951e565f05919d9bcb1e77eecb6d76ba">description</a></td>
+<td>Description of the job duties and activities to be performed abroad by the posted worker</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-6-places-of-work-mandatory-fields">Section 6, Place(s) of Work Mandatory Fields</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>place_of_work.company_name</td>
+<td><a href="https://w3id.org/ebwv#legalName">legalName</a></td>
+<td>Name of the company or vessel at the place of work</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>place_of_work.town</td>
+<td><a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>Town of the place of work</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>place_of_work.country_code</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>Country of the place of work (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>no_fixed_place_of_work.country_code</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>Country code when no fixed place of work exists</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>1:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-7-competent-institution-mandatory-attributes">Section 7, Competent Institution Mandatory Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>institution.institution_id</td>
+<td>,</td>
+<td>Identifier of the competent institution associated with the PWN</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>institution.institution_name</td>
+<td>,</td>
+<td>Name of the competent institution</td>
+<td>String</td>
+<td>1:1</td>
+</tr>
+<tr>
+<td>institution.country_code</td>
+<td>,</td>
+<td>Country code of the competent institution (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>1:1</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="33-optional-attributes">3.3 Optional attributes</h3>
+<h4 id="subject-optional-attributes">Subject Optional Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gender</td>
+<td><a href="https://w3id.org/ebwv#gender">gender</a></td>
+<td>Gender of the posted worker (codelist tbd)</td>
+<td>String / Code</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>surname_at_birth</td>
+<td><a href="https://w3id.org/ebwv#birthName">birthName</a></td>
+<td>Surname(s) of the posted worker at birth (if different from current)</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>forename_at_birth</td>
+<td><a href="https://w3id.org/ebwv#birthName">birthName</a></td>
+<td>Forename(s) of the posted worker at birth (if different from current)</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>place_of_birth.town</td>
+<td><a href="https://w3id.org/ebwv#geographicName">geographicName</a></td>
+<td>Town/locality where the posted worker was born</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>place_of_birth.country_code</td>
+<td><a href="https://w3id.org/ebwv#geographicIdentifier">geographicIdentifier</a></td>
+<td>Country where the posted worker was born (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>address_residence.street_nr</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#thoroughfare">thoroughfare</a></td>
+<td>Street and number of the posted worker's residence address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>address_residence.town</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>Town of the posted worker's residence address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>address_residence.post_code</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>Postal code of the posted worker's residence address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>address_residence.country_code</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>Country code of the posted worker's residence address (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>address_stay.street_nr</td>
+<td><a href="https://w3id.org/ebwv#temporaryAddress">temporaryAddress</a>.<a href="https://w3id.org/ebwv#thoroughfare">thoroughfare</a></td>
+<td>Street and number of the posted worker's stay address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>address_stay.town</td>
+<td><a href="https://w3id.org/ebwv#temporaryAddress">temporaryAddress</a>.<a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>Town of the posted worker's stay address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>address_stay.post_code</td>
+<td><a href="https://w3id.org/ebwv#temporaryAddress">temporaryAddress</a>.<a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>Postal code of the posted worker's stay address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>address_stay.country_code</td>
+<td><a href="https://w3id.org/ebwv#temporaryAddress">temporaryAddress</a>.<a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>Country code of the posted worker's stay address (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>0:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="assignment-related-information-optional-attributes">Assignment Related Information Optional Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>assignment_info.applies_for_duration</td>
+<td><a href="https://w3id.org/ebwv#a1">a1</a></td>
+<td>Indicates whether the certificate applies for the full duration of the activity</td>
+<td>Boolean</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>assignment_info.determination_provisional</td>
+<td>,</td>
+<td>Indicates whether the determination is provisional</td>
+<td>Boolean</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>assignment_info.transitional_rules</td>
+<td>,</td>
+<td>Indicates whether transitional rules apply</td>
+<td>Boolean</td>
+<td>0:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="home-employer-optional-attributes">Home Employer Optional Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>home_employer.address_line_2</td>
+<td>,</td>
+<td>Secondary address line of the home employer's headquarters</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.municipality</td>
+<td><a href="https://w3id.org/ebwv#registeredAddress">registeredAddress</a>.<a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>Municipality of the home employer's headquarters</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.state</td>
+<td><a href="https://w3id.org/ebwv#registeredAddress">registeredAddress</a>.<a href="https://w3id.org/ebwv#adminUnitL2">adminUnitL2</a></td>
+<td>State or region of the home employer's headquarters</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.address_line_1</td>
+<td>,</td>
+<td>Primary address line of the administrative representative</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.address_line_2</td>
+<td>,</td>
+<td>Secondary address line of the administrative representative</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.postal_code</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>Postal code of the administrative representative's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.municipality</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>Municipality of the administrative representative's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.administrative_representative.state</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#adminUnitL2">adminUnitL2</a></td>
+<td>State or region of the administrative representative's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.address_line_1</td>
+<td>,</td>
+<td>Primary address line of the social representative</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.address_line_2</td>
+<td>,</td>
+<td>Secondary address line of the social representative</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.postal_code</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>Postal code of the social representative's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.municipality</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>Municipality of the social representative's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>home_employer.social_representative.state</td>
+<td><a href="https://w3id.org/ebwv#domicile">domicile</a>.<a href="https://w3id.org/ebwv#adminUnitL2">adminUnitL2</a></td>
+<td>State or region of the social representative's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="host-company-optional-attributes">Host Company Optional Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host_company.address_line_2</td>
+<td>,</td>
+<td>Secondary address line of the host company's headquarters</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>host_company.address_line_3</td>
+<td>,</td>
+<td>Tertiary address line of the host company's headquarters</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>host_company.municipality</td>
+<td><a href="https://w3id.org/ebwv#registeredAddress">registeredAddress</a>.<a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>Municipality of the host company's headquarters</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>host_company.state</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL2">registeredAddress</a>.<a href="https://w3id.org/ebwv#adminUnitL2">postName</a></td>
+<td>State or region of the host company's headquarters</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>host_company.business_reg_nr</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>Business registration number of the host company</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="place-of-work-optional-attributes">Place of Work Optional Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>place_of_work.flag_base_home</td>
+<td><a href="https://w3id.org/ebwv#flagState">flagState</a></td>
+<td>Flag, base or home state of the vessel (maritime use case)</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>place_of_work.company_id</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>Identifier of the company at the place of work</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>place_of_work.id_type</td>
+<td>,</td>
+<td>Type of company identifier (per EESSI codelist, tbd)</td>
+<td>Code</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>place_of_work.street_nr</td>
+<td><a href="https://w3id.org/ebwv#thoroughfare">thoroughfare</a></td>
+<td>Street and number of the place of work</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>place_of_work.postal_code</td>
+<td><a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>Postal code of the place of work</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="competent-institution-optional-attributes">Competent Institution Optional Attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>institution.fax</td>
+<td>,</td>
+<td>Office fax number of the competent institution</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>institution.phone</td>
+<td>,</td>
+<td>Office phone number of the competent institution</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>institution.email</td>
+<td>,</td>
+<td>Email address of the competent institution</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>institution.street_nr</td>
+<td>,</td>
+<td>Street and number of the competent institution's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>institution.town</td>
+<td>,</td>
+<td>Town of the competent institution's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>institution.postal_code</td>
+<td>,</td>
+<td>Postal code of the competent institution's address</td>
+<td>String</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>institution.country_code_address</td>
+<td>,</td>
+<td>Country code of the competent institution's address (ISO 3166-1 alpha-2)</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>0:1</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="national-specific-optional-attributes-netherlands-pwn">National-Specific Optional Attributes (Netherlands PWN)</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Occurrence</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>employee.a1_certificate_applied</td>
+<td>,</td>
+<td>Indicates whether an A1 certificate of coverage has been applied for (yes/no)</td>
+<td>Boolean</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>employee.a1_country_of_issuance</td>
+<td>,</td>
+<td>Country of issuance of the A1 certificate</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>employee.a1_country_where_applied</td>
+<td>,</td>
+<td>Country where the A1 certificate was applied for</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>employee.third_country_national</td>
+<td>,</td>
+<td>Indicates whether the posted worker is a third-country national</td>
+<td>Boolean</td>
+<td>0:1</td>
+</tr>
+<tr>
+<td>employee.work_permit_end_date</td>
+<td>,</td>
+<td>End date of work permit issued by the sending country (for third-country nationals)</td>
+<td>Date (YYYY-MM-DD)</td>
+<td>0:1</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="34-conditional-attributes">3.4 Conditional attributes</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Condition</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>home_employer.administrative_representative.country</td>
+<td>Country <strong>SHALL</strong> be <code>NL</code> when filing for the Netherlands PWN</td>
+<td>Country of the administrative representative's address; must be Netherlands for NL PWN</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+</tr>
+<tr>
+<td>employee.a1_certificate_applied</td>
+<td><strong>SHALL</strong> be present when filing for the Netherlands PWN portal</td>
+<td>Indicates whether A1 has been applied for</td>
+<td>Boolean</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-metadata">4 Metadata</h2>
+<p>Metadata describes the attestation rather than its subject.</p>
+<h3 id="41-mandatory-metadata">4.1 Mandatory metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>issuance_date</td>
+<td>The date and time when the PWN Attestation was issued (ISO 8601)</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>expiry_date</td>
+<td>The date and time when the PWN Attestation expires (ISO 8601)</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>issuing_entity</td>
+<td>The identifier of the entity that issued the attestation (home employer for EAA, or competent authority for QEAA)</td>
+<td>String</td>
+</tr>
+<tr>
+<td>attestation_legal_category</td>
+<td>Indicates the legal category of this attestation ("EAA" or "QEAA")</td>
+<td>String</td>
+</tr>
+<tr>
+<td>vct</td>
+<td>A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed</td>
+<td>String</td>
+</tr>
+<tr>
+<td>binding</td>
+<td>Information on the holder binding type (e.g., PID binding, Wallet Instance binding, no binding)</td>
+<td>String / tbd</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Legal category.</strong> This Rulebook retains the <code>attestation_legal_category</code> attribute.
+Section 4.1 of the generic template replaces it with the <code>category</code> attribute of
+[ETSI TS 119 472-1], whose value for this category is <code>eaa:eu:non-qualified</code>.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+<code>attestation_legal_category</code>, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.</p>
+<h3 id="42-optional-metadata">4.2 Optional metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trust_anchor_url</td>
+<td>URL where the trust anchor for verifying this attestation can be retrieved</td>
+<td>URI</td>
+</tr>
+<tr>
+<td>schema_version</td>
+<td>Version of the schema used for this attestation</td>
+<td>String</td>
+</tr>
+<tr>
+<td>schema_id</td>
+<td>Schema identifier for the PWN credential schema (tbd)</td>
+<td>String</td>
+</tr>
+<tr>
+<td>revocation</td>
+<td>Reference to revocation information for this attestation (tbd)</td>
+<td>String / tbd</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="43-conditional-metadata">4.3 Conditional metadata</h3>
+<p>No conditional metadata elements are defined for this attestation type.</p>
+<h3 id="44-code-lists">4.4 Code lists</h3>
+<h4 id="441-country-codes">4.4.1 Country Codes</h4>
+<p>All country code attributes <strong>SHALL</strong> use <strong>ISO 3166-1 alpha-2</strong> codes:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Example Code</strong></th>
+<th><strong>Country</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td>Germany</td>
+</tr>
+<tr>
+<td>FR</td>
+<td>France</td>
+</tr>
+<tr>
+<td>ES</td>
+<td>Spain</td>
+</tr>
+<tr>
+<td>NL</td>
+<td>Netherlands</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>Italy</td>
+</tr>
+<tr>
+<td>PL</td>
+<td>Poland</td>
+</tr>
+<tr>
+<td>BE</td>
+<td>Belgium</td>
+</tr>
+<tr>
+<td>PT</td>
+<td>Portugal</td>
+</tr>
+<tr>
+<td>CH</td>
+<td>Switzerland</td>
+</tr>
+<tr>
+<td>NO</td>
+<td>Norway</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>For the full list of applicable EU/EFTA country codes, refer to the EESSI country code
+reference list.</p>
+</blockquote>
+<h4 id="442-construction-sector-flag">4.4.2 Construction Sector Flag</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Value</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>true</td>
+<td>The home employer operates in the construction sector</td>
+</tr>
+<tr>
+<td>false</td>
+<td>The home employer does not operate in the construction sector</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="443-employment-type-codes-for-place-of-work-section">4.4.3 Employment Type Codes (for Place of Work section)</h4>
+<p>The <code>id_type</code> attribute for company identifiers at places of work <strong>SHALL</strong> use one of the
+following standardized values (per EESSI, tbd):</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Code</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Identifier type 01 (tbd)</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Identifier type 02 (tbd)</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Identifier type 03 (tbd)</td>
+</tr>
+<tr>
+<td>99</td>
+<td>Other / unspecified</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="444-national-pwn-context-codes">4.4.4 National PWN Context Codes</h4>
+<p>The PWN attestation <strong>SHOULD</strong> include a <code>host_country_context</code> indicator to enable
+country-specific validation logic:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Code</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NL</td>
+<td>Netherlands PWN, requires A1 certificate status, legal representative, HR representative</td>
+</tr>
+<tr>
+<td>OTHER</td>
+<td>Generic EU PWN for member states without specific national profile defined</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="45-integrity-rules">4.5 Integrity rules</h3>
+<p>The following integrity rules <strong>SHALL</strong> be enforced:</p>
+<ul>
+<li>The <code>subject</code> section <strong>SHALL</strong> be present and <strong>SHALL</strong> contain at minimum <code>pin</code>,
+  <code>family_name</code>, <code>forename</code>, <code>date_of_birth</code>, <code>nationality</code>, and <code>job_title_home_country</code>.</li>
+<li><code>nationality</code> <strong>SHALL</strong> be an array of one or more valid ISO 3166-1 alpha-2 country codes.</li>
+<li>The <code>assignment_info</code> section <strong>SHALL</strong> be present and <strong>SHALL</strong> contain
+  <code>home_member_state</code>, <code>starting_date</code>, and <code>ending_date</code>.</li>
+<li><code>assignment_info.home_member_state</code> <strong>SHALL</strong> be a valid ISO 3166-1 alpha-2 country code.</li>
+<li><code>starting_date</code> and <code>ending_date</code> <strong>SHALL</strong> be valid ISO 8601 dates (YYYY-MM-DD).</li>
+<li><code>ending_date</code> <strong>SHALL</strong> be equal to or later than <code>starting_date</code>.</li>
+<li>The <code>home_employer</code> section <strong>SHALL</strong> be present and <strong>SHALL</strong> contain <code>company_name</code>,
+  <code>industry_sector_nace</code>, <code>construction_sector</code>, <code>vat_id</code>, <code>address_line_1</code>, <code>postal_code</code>,
+  <code>city</code>, <code>country</code>, <code>phone</code>, <code>email</code>, <code>administrative_representative</code>, and
+  <code>social_representative</code>.</li>
+<li><code>home_employer.country</code> <strong>SHALL</strong> be a valid ISO 3166-1 alpha-2 country code.</li>
+<li><code>home_employer.construction_sector</code> <strong>SHALL</strong> be a boolean value (<code>true</code> or <code>false</code>).</li>
+<li><code>administrative_representative</code> <strong>SHALL</strong> contain at minimum <code>last_name</code>, <code>first_name</code>,
+  <code>telephone</code>, <code>email</code>, <code>city</code>, and <code>country</code>.</li>
+<li><code>social_representative</code> <strong>SHALL</strong> contain at minimum <code>last_name</code>, <code>first_name</code>,
+  <code>telephone</code>, <code>email</code>, <code>city</code>, and <code>country</code>.</li>
+<li>The <code>host_company</code> section <strong>SHALL</strong> be present and <strong>SHALL</strong> contain <code>company_name</code>,
+  <code>email</code>, <code>telephone</code>, <code>industry_sector</code>, <code>vat_id</code>, <code>address_line_1</code>, <code>postal_code</code>,
+  <code>city</code>, and <code>country</code>.</li>
+<li><code>host_company.country</code> <strong>SHALL</strong> be a valid ISO 3166-1 alpha-2 country code.</li>
+<li>The <code>employee</code> section <strong>SHALL</strong> be present and <strong>SHALL</strong> contain <code>job_duties_abroad</code>.</li>
+<li><code>places_of_work</code> <strong>SHALL</strong> contain at least one entry (either <code>no_fixed_place_of_work</code>
+  or one or more <code>place_of_work</code> entries).</li>
+<li>Each <code>place_of_work</code> entry <strong>SHALL</strong> contain <code>company_name</code>, <code>town</code>, and <code>country_code</code>.</li>
+<li>All country codes <strong>SHALL</strong> be valid ISO 3166-1 alpha-2 codes.</li>
+<li><code>issuance_date</code> and <code>expiry_date</code> <strong>SHALL</strong> be valid ISO 8601 DateTimes.</li>
+<li><code>expiry_date</code> <strong>SHALL</strong> be later than <code>issuance_date</code>.</li>
+<li><code>issuance_date</code> <strong>SHALL</strong> be in the past.</li>
+<li><code>attestation_legal_category</code> <strong>SHALL</strong> be one of <code>"EAA"</code> or <code>"QEAA"</code>.</li>
+<li><code>vct</code> <strong>SHALL</strong> be <code>"PWNCredential"</code>.</li>
+<li>Each attribute <strong>SHALL</strong> appear at most once within its respective object scope.</li>
+<li>For Netherlands PWN: <code>administrative_representative.country</code> <strong>SHALL</strong> be <code>NL</code>.</li>
+<li>For Netherlands PWN: <code>employee.a1_certificate_applied</code> <strong>SHALL</strong> be present.</li>
+</ul>
+<hr />
+<h2 id="5-formats">5 Formats</h2>
+<h3 id="51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</h3>
+<p>The PWN Attestation uses the SD-JWT VC format to allow for selective disclosure of posting and
+employer attributes.</p>
+<p><strong>Selective Disclosure:</strong> Top-level claims (e.g., <code>subject</code>, <code>home_employer</code>, <code>host_company</code>,
+<code>places_of_work</code>) <strong>SHALL</strong> be individually selectively disclosable, enabling disclosure of only
+the attributes requested by a Relying Party. Attributes nested within sub-objects <strong>MAY</strong> be
+individually selectively disclosable.</p>
+<p>The <code>.</code> notation is used to indicate the nesting of attributes.</p>
+<p><strong>Verifiable Credential Type (<code>vct</code>):</strong> <code>vct: PWNCredential</code></p>
+<h4 id="511-attribute-encoding-table">5.1.1 Attribute Encoding Table</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute Identifier</strong></th>
+<th><strong>Encoding Format</strong></th>
+<th><strong>Reference / Notes</strong></th>
+<th><strong>Disclosable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Subject</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pin</td>
+<td>subject.pin</td>
+<td>String</td>
+<td>Personal Identification Number / ID number; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>family_name</td>
+<td>subject.family_name</td>
+<td>String</td>
+<td>Family name(s) of the posted worker in full; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>forename</td>
+<td>subject.forename</td>
+<td>String</td>
+<td>Forename(s) of the posted worker in full; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>subject.gender</td>
+<td>String / Code</td>
+<td>Gender of the posted worker; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>surname_at_birth</td>
+<td>subject.surname_at_birth</td>
+<td>String</td>
+<td>Surname(s) at birth; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>forename_at_birth</td>
+<td>subject.forename_at_birth</td>
+<td>String</td>
+<td>Forename(s) at birth; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>date_of_birth</td>
+<td>subject.date_of_birth</td>
+<td>String (ISO 8601 YYYY-MM-DD)</td>
+<td>Date of birth of the posted worker; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>nationality</td>
+<td>subject.nationality</td>
+<td>Array of Codes (ISO 3166-1 alpha-2)</td>
+<td>Nationality/ies of the posted worker; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>job_title_home_country</td>
+<td>subject.job_title_home_country</td>
+<td>String</td>
+<td>Job title in the home country; PWN-specific; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_birth.town</td>
+<td>subject.place_of_birth.town</td>
+<td>String</td>
+<td>Town where the posted worker was born; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_birth.country_code</td>
+<td>subject.place_of_birth.country_code</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country where the posted worker was born; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>address_residence.street_nr</td>
+<td>subject.address_residence.street_nr</td>
+<td>String</td>
+<td>Street and number of residence address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>address_residence.town</td>
+<td>subject.address_residence.town</td>
+<td>String</td>
+<td>Town of residence address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>address_residence.post_code</td>
+<td>subject.address_residence.post_code</td>
+<td>String</td>
+<td>Postal code of residence address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>address_residence.country_code</td>
+<td>subject.address_residence.country_code</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of residence address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>address_stay.street_nr</td>
+<td>subject.address_stay[n].street_nr</td>
+<td>String</td>
+<td>Street and number of stay address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>address_stay.town</td>
+<td>subject.address_stay[n].town</td>
+<td>String</td>
+<td>Town of stay address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>address_stay.post_code</td>
+<td>subject.address_stay[n].post_code</td>
+<td>String</td>
+<td>Postal code of stay address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>address_stay.country_code</td>
+<td>subject.address_stay[n].country_code</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of stay address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Assignment Related Information</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>home_member_state</td>
+<td>assignment_info.home_member_state</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Home member state from which the worker is posted; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>starting_date</td>
+<td>assignment_info.starting_date</td>
+<td>String (ISO 8601 YYYY-MM-DD)</td>
+<td>Start date of the posting assignment; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>ending_date</td>
+<td>assignment_info.ending_date</td>
+<td>String (ISO 8601 YYYY-MM-DD)</td>
+<td>End date of the posting assignment; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>applies_for_duration</td>
+<td>assignment_info.applies_for_duration</td>
+<td>Boolean</td>
+<td>True if applies for full duration; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>determination_provisional</td>
+<td>assignment_info.determination_provisional</td>
+<td>Boolean</td>
+<td>True if determination is provisional; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>transitional_rules</td>
+<td>assignment_info.transitional_rules</td>
+<td>Boolean</td>
+<td>True if transitional rules apply; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Home Employer</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>home_employer.company_name</td>
+<td>home_employer.company_name</td>
+<td>String</td>
+<td>Full commercial name of the home employer; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.industry_sector_nace</td>
+<td>home_employer.industry_sector_nace</td>
+<td>String</td>
+<td>Industry sector (NACE); mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.construction_sector</td>
+<td>home_employer.construction_sector</td>
+<td>Boolean</td>
+<td>True if construction sector; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.vat_id</td>
+<td>home_employer.vat_id</td>
+<td>String</td>
+<td>VAT identification number; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.address_line_1</td>
+<td>home_employer.address_line_1</td>
+<td>String</td>
+<td>Primary address line; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.address_line_2</td>
+<td>home_employer.address_line_2</td>
+<td>String</td>
+<td>Secondary address line; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.postal_code</td>
+<td>home_employer.postal_code</td>
+<td>String</td>
+<td>Postal code; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.city</td>
+<td>home_employer.city</td>
+<td>String</td>
+<td>City; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.municipality</td>
+<td>home_employer.municipality</td>
+<td>String</td>
+<td>Municipality; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.state</td>
+<td>home_employer.state</td>
+<td>String</td>
+<td>State or region; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.country</td>
+<td>home_employer.country</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of headquarters; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.phone</td>
+<td>home_employer.phone</td>
+<td>String</td>
+<td>Phone number; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>home_employer.email</td>
+<td>home_employer.email</td>
+<td>String</td>
+<td>Email address; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>admin_rep.last_name</td>
+<td>home_employer.administrative_representative.last_name</td>
+<td>String</td>
+<td>Last name of administrative representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>admin_rep.first_name</td>
+<td>home_employer.administrative_representative.first_name</td>
+<td>String</td>
+<td>First name of administrative representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>admin_rep.telephone</td>
+<td>home_employer.administrative_representative.telephone</td>
+<td>String</td>
+<td>Telephone of administrative representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>admin_rep.email</td>
+<td>home_employer.administrative_representative.email</td>
+<td>String</td>
+<td>Email of administrative representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>admin_rep.city</td>
+<td>home_employer.administrative_representative.city</td>
+<td>String</td>
+<td>City of administrative representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>admin_rep.country</td>
+<td>home_employer.administrative_representative.country</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of administrative representative; mandatory (NL for NL PWN)</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>social_rep.last_name</td>
+<td>home_employer.social_representative.last_name</td>
+<td>String</td>
+<td>Last name of social representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>social_rep.first_name</td>
+<td>home_employer.social_representative.first_name</td>
+<td>String</td>
+<td>First name of social representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>social_rep.telephone</td>
+<td>home_employer.social_representative.telephone</td>
+<td>String</td>
+<td>Telephone of social representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>social_rep.email</td>
+<td>home_employer.social_representative.email</td>
+<td>String</td>
+<td>Email of social representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>social_rep.city</td>
+<td>home_employer.social_representative.city</td>
+<td>String</td>
+<td>City of social representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>social_rep.country</td>
+<td>home_employer.social_representative.country</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of social representative; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Host Company</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>host_company.company_name</td>
+<td>host_company.company_name</td>
+<td>String</td>
+<td>Full commercial name of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.email</td>
+<td>host_company.email</td>
+<td>String</td>
+<td>Email address of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.telephone</td>
+<td>host_company.telephone</td>
+<td>String</td>
+<td>Telephone number of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.industry_sector</td>
+<td>host_company.industry_sector</td>
+<td>String</td>
+<td>Industry sector of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.vat_id</td>
+<td>host_company.vat_id</td>
+<td>String</td>
+<td>VAT identification number of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.address_line_1</td>
+<td>host_company.address_line_1</td>
+<td>String</td>
+<td>Primary address line of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.address_line_2</td>
+<td>host_company.address_line_2</td>
+<td>String</td>
+<td>Secondary address line; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.postal_code</td>
+<td>host_company.postal_code</td>
+<td>String</td>
+<td>Postal code of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.city</td>
+<td>host_company.city</td>
+<td>String</td>
+<td>City of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.municipality</td>
+<td>host_company.municipality</td>
+<td>String</td>
+<td>Municipality of host company; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.state</td>
+<td>host_company.state</td>
+<td>String</td>
+<td>State or region of host company; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.country</td>
+<td>host_company.country</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of host company; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>host_company.business_reg_nr</td>
+<td>host_company.business_reg_nr</td>
+<td>String</td>
+<td>Business registration number; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Employee</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>employee.job_duties_abroad</td>
+<td>employee.job_duties_abroad</td>
+<td>String</td>
+<td>Job duties and activities to be performed abroad; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>employee.a1_certificate_applied</td>
+<td>employee.a1_certificate_applied</td>
+<td>Boolean</td>
+<td>Whether A1 has been applied for; mandatory for NL PWN</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>employee.a1_country_of_issuance</td>
+<td>employee.a1_country_of_issuance</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of A1 issuance; optional</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td>employee.a1_country_where_applied</td>
+<td>employee.a1_country_where_applied</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country where A1 was applied for; optional</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td>employee.third_country_national</td>
+<td>employee.third_country_national</td>
+<td>Boolean</td>
+<td>Whether employee is a third-country national; optional</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td>employee.work_permit_end_date</td>
+<td>employee.work_permit_end_date</td>
+<td>String (ISO 8601 YYYY-MM-DD)</td>
+<td>End date of work permit issued by sending country; optional</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><strong>Places of Work</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>no_fixed_place.country_code</td>
+<td>places_of_work[n].no_fixed_place.country_code</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country for no fixed place of work; mandatory if no_fixed_place present</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_work.company_name</td>
+<td>places_of_work[n].place_of_work.company_name</td>
+<td>String</td>
+<td>Name of company at place of work; mandatory if place_of_work present</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_work.flag_base_home</td>
+<td>places_of_work[n].place_of_work.flag_base_home</td>
+<td>String</td>
+<td>Flag, base or home state of vessel; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_work.company_id</td>
+<td>places_of_work[n].place_of_work.company_id</td>
+<td>String</td>
+<td>Company identifier at place of work; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_work.id_type</td>
+<td>places_of_work[n].place_of_work.id_type</td>
+<td>Code</td>
+<td>Type of company identifier; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_work.street_nr</td>
+<td>places_of_work[n].place_of_work.street_nr</td>
+<td>String</td>
+<td>Street and number of place of work; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_work.town</td>
+<td>places_of_work[n].place_of_work.town</td>
+<td>String</td>
+<td>Town of place of work; mandatory if place_of_work present</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_work.postal_code</td>
+<td>places_of_work[n].place_of_work.postal_code</td>
+<td>String</td>
+<td>Postal code of place of work; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>place_of_work.country_code</td>
+<td>places_of_work[n].place_of_work.country_code</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of place of work; mandatory if place_of_work present</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Competent Institution</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>institution_id</td>
+<td>institution.institution_id</td>
+<td>String</td>
+<td>Identifier of the competent institution; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution_name</td>
+<td>institution.institution_name</td>
+<td>String</td>
+<td>Name of the competent institution; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution.country_code</td>
+<td>institution.country_code</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of the competent institution; mandatory</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution.fax</td>
+<td>institution.fax</td>
+<td>String</td>
+<td>Office fax number; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution.phone</td>
+<td>institution.phone</td>
+<td>String</td>
+<td>Office phone number; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution.email</td>
+<td>institution.email</td>
+<td>String</td>
+<td>Email address of institution; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution.street_nr</td>
+<td>institution.street_nr</td>
+<td>String</td>
+<td>Street and number of institution address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution.town</td>
+<td>institution.town</td>
+<td>String</td>
+<td>Town of institution address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution.postal_code</td>
+<td>institution.postal_code</td>
+<td>String</td>
+<td>Postal code of institution address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>institution.country_code_address</td>
+<td>institution.country_code_address</td>
+<td>Code (ISO 3166-1 alpha-2)</td>
+<td>Country of institution address; optional</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Metadata</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>issuance_date</td>
+<td>iat</td>
+<td>Number (Unix timestamp)</td>
+<td>Date and time when the attestation was issued (ISO 8601); RFC 7519</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>expiry_date</td>
+<td>exp</td>
+<td>Number (Unix timestamp)</td>
+<td>Date and time when the attestation expires (ISO 8601); RFC 7519</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuing_entity</td>
+<td>iss</td>
+<td>String (URI or DID)</td>
+<td>Identifier of the entity that issued the attestation; RFC 7519</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>attestation_legal_category</td>
+<td>attestation_legal_category</td>
+<td>String</td>
+<td>One of "EAA" or "QEAA" as defined by eIDAS 2</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>vct</td>
+<td>vct</td>
+<td>String</td>
+<td>"PWNCredential"</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>binding</td>
+<td>binding</td>
+<td>String / tbd</td>
+<td>Holder binding type (e.g., PID binding, Wallet Instance binding, no binding)</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>schema_version</td>
+<td>schema_version</td>
+<td>String</td>
+<td>Version of the schema used; optional</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td>trust_anchor_url</td>
+<td>trust_anchor_url</td>
+<td>String (URI)</td>
+<td>URL where the trust anchor can be retrieved; optional</td>
+<td>MAY</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><strong>MUST</strong>: The claim <strong>SHALL</strong> be selectively disclosable, the holder <strong>MAY</strong> choose to
+  disclose or withhold this claim when presenting the credential to a Relying Party.</li>
+<li><strong>MAY</strong>: The claim <strong>MAY</strong> be selectively disclosable if the issuer supports it.</li>
+<li><strong>MUST NOT</strong>: The claim <strong>SHALL NOT</strong> be selectively disclosable, it is always present in
+  plain text in the JWT header/payload.</li>
+<li><code>iat</code>, <code>exp</code>, and <code>iss</code> follow RFC 7519 standard JWT claim naming conventions.</li>
+<li>Home employer blocks <strong>SHALL</strong> be disclosed as a whole when requested.</li>
+</ul>
+<h4 id="512-status-claim">5.1.2 Status Claim</h4>
+<p>For SD-JWT VC-compliant PWN Attestations, the attestation <strong>MUST</strong> include a <code>status</code> claim if
+the technical validity period is greater than 24 hours.</p>
+<p>The <code>status</code> claim <strong>SHALL</strong> be a JSON object with the following members:</p>
+<ul>
+<li><code>type</code> (string): <strong>SHALL</strong> be <code>"status-list"</code>.</li>
+<li><code>status_list_credential</code> (string, URI): The URI of the Status List Credential document.</li>
+<li><code>status_list_index</code> (integer, &gt;= 0): The zero-based index into the status list bitstring.</li>
+<li><code>status_purpose</code> (string): <strong>SHALL</strong> be <code>"revocation"</code> for this attestation.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">{
+  &quot;status&quot;: {
+ &quot;type&quot;: &quot;status-list&quot;,
+ &quot;status_list_credential&quot;: &quot;https://issuer.example.com/status/pwn/2025&quot;,
+ &quot;status_list_index&quot;: 321,
+ &quot;status_purpose&quot;: &quot;revocation&quot;
+  }
+}
+</code></pre>
+<p>3.2.3 Example Payload</p>
+<p>The following is a non-normative example of a PWN SD-JWT VC payload (Spain PWN):</p>
+<pre><code>{
+  &quot;vct&quot;: &quot;PWNCredential&quot;,
+  &quot;attestation_legal_category&quot;: &quot;EAA&quot;,
+  &quot;iss&quot;: &quot;did:example:example-gmbh-de&quot;,
+  &quot;iat&quot;: 1746000000,
+  &quot;exp&quot;: 1777536000,
+  &quot;jti&quot;: &quot;pwn-attestation-20260501-001&quot;,
+  &quot;binding&quot;: &quot;PID binding&quot;,
+  &quot;subject&quot;: {
+    &quot;pin&quot;: &quot;12345678A&quot;,
+    &quot;family_name&quot;: &quot;Müller&quot;,
+    &quot;forename&quot;: &quot;Hans&quot;,
+    &quot;date_of_birth&quot;: &quot;1985-06-15&quot;,
+    &quot;nationality&quot;: [&quot;DE&quot;],
+    &quot;job_title_home_country&quot;: &quot;Software Engineer&quot;,
+    &quot;address_residence&quot;: {
+      &quot;street_nr&quot;: &quot;Hauptstrasse 5&quot;,
+      &quot;town&quot;: &quot;Berlin&quot;,
+      &quot;post_code&quot;: &quot;10115&quot;,
+      &quot;country_code&quot;: &quot;DE&quot;
+    }
+  },
+  &quot;assignment_info&quot;: {
+    &quot;home_member_state&quot;: &quot;DE&quot;,
+    &quot;starting_date&quot;: &quot;2026-06-01&quot;,
+    &quot;ending_date&quot;: &quot;2026-12-31&quot;,
+    &quot;applies_for_duration&quot;: false,
+    &quot;determination_provisional&quot;: false,
+    &quot;transitional_rules&quot;: false
+  },
+  &quot;home_employer&quot;: {
+    &quot;company_name&quot;: &quot;Example GmbH&quot;,
+    &quot;industry_sector_nace&quot;: &quot;J62.01&quot;,
+    &quot;construction_sector&quot;: false,
+    &quot;vat_id&quot;: &quot;DE123456789&quot;,
+    &quot;address_line_1&quot;: &quot;Industriestrasse 20&quot;,
+    &quot;postal_code&quot;: &quot;60311&quot;,
+    &quot;city&quot;: &quot;Frankfurt&quot;,
+    &quot;country&quot;: &quot;DE&quot;,
+    &quot;phone&quot;: &quot;+49 69 123456&quot;,
+    &quot;email&quot;: &quot;hr@example-gmbh.de&quot;,
+    &quot;administrative_representative&quot;: {
+      &quot;last_name&quot;: &quot;Schmidt&quot;,
+      &quot;first_name&quot;: &quot;Anna&quot;,
+      &quot;telephone&quot;: &quot;+49 69 123457&quot;,
+      &quot;email&quot;: &quot;anna.schmidt@example-gmbh.de&quot;,
+      &quot;city&quot;: &quot;Frankfurt&quot;,
+      &quot;country&quot;: &quot;DE&quot;
+    },
+    &quot;social_representative&quot;: {
+      &quot;last_name&quot;: &quot;Weber&quot;,
+      &quot;first_name&quot;: &quot;Klaus&quot;,
+      &quot;telephone&quot;: &quot;+49 69 123458&quot;,
+      &quot;email&quot;: &quot;klaus.weber@example-gmbh.de&quot;,
+      &quot;city&quot;: &quot;Frankfurt&quot;,
+      &quot;country&quot;: &quot;DE&quot;
+    }
+  },
+  &quot;host_company&quot;: {
+    &quot;company_name&quot;: &quot;Client SA&quot;,
+    &quot;email&quot;: &quot;contact@client-sa.es&quot;,
+    &quot;telephone&quot;: &quot;+34 91 123456&quot;,
+    &quot;industry_sector&quot;: &quot;IT Services&quot;,
+    &quot;vat_id&quot;: &quot;ES-B12345678&quot;,
+    &quot;address_line_1&quot;: &quot;Calle Mayor 10&quot;,
+    &quot;postal_code&quot;: &quot;28001&quot;,
+    &quot;city&quot;: &quot;Madrid&quot;,
+    &quot;country&quot;: &quot;ES&quot;
+  },
+  &quot;employee&quot;: {
+    &quot;job_duties_abroad&quot;: &quot;Software development and technical consulting for client project&quot;
+  },
+  &quot;places_of_work&quot;: [
+    {
+      &quot;place_of_work&quot;: {
+        &quot;company_name&quot;: &quot;Client SA&quot;,
+        &quot;street_nr&quot;: &quot;Calle Mayor 10&quot;,
+        &quot;town&quot;: &quot;Madrid&quot;,
+        &quot;postal_code&quot;: &quot;28001&quot;,
+        &quot;country_code&quot;: &quot;ES&quot;
+      }
+    }
+  ],
+  &quot;institution&quot;: {
+    &quot;institution_id&quot;: &quot;DE-DRV-001&quot;,
+    &quot;institution_name&quot;: &quot;Deutsche Rentenversicherung Bund&quot;,
+    &quot;country_code&quot;: &quot;DE&quot;
+  },
+  &quot;status&quot;: {
+    &quot;type&quot;: &quot;status-list&quot;,
+    &quot;status_list_credential&quot;: &quot;https://example.com/status/pwn-list-1&quot;,
+    &quot;status_list_index&quot;: 321,
+    &quot;status_purpose&quot;: &quot;revocation&quot;
+  },
+  &quot;trust_anchor_url&quot;: &quot;https://trust.webuildconsortium.eu/anchors/eidas-tl&quot;,
+  &quot;schema_version&quot;: &quot;0.1.0&quot;,
+  &quot;cnf&quot;: {
+    &quot;jwk&quot;: {
+      &quot;kty&quot;: &quot;EC&quot;,
+      &quot;crv&quot;: &quot;P-256&quot;,
+      &quot;x&quot;: &quot;abc-123_def-456_ghi-789_jkl-012&quot;,
+      &quot;y&quot;: &quot;mno-345_pqr-678_stu-901_vwx-234&quot;
+    }
+  }
+}
+</code></pre>
+<p>Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/pwn-sd-jwt-sample.json</p>
+<h3 id="52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</h3>
+<p>ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity
+presentation is not a current requirement for the PWN attestation.</p>
+<h3 id="53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</h3>
+<p>@TODO, To be discussed: which stakeholders will support this format and which use cases require it.</p>
+<h2 id="6-protocols">6 Protocols</h2>
+<p>This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].</p>
+<h2 id="7-issuance">7 Issuance</h2>
+<h3 id="71-binding">7.1 Binding</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device-bound</td>
+<td>MAY</td>
+<td>EW-DM-12-038</td>
+</tr>
+<tr>
+<td>Cryptographically bound to</td>
+<td>none</td>
+<td>EW-DM-12-032</td>
+</tr>
+<tr>
+<td>Relying Party must also verify a PID</td>
+<td>no</td>
+<td>EW-DM-12-031</td>
+</tr>
+<tr>
+<td>Binding subject</td>
+<td>legal person</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="72-issuance-policy">7.2 Issuance Policy</h3>
+<h3 id="73-lifecycle-management">7.3 Lifecycle management</h3>
+<p>The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.</p>
+<h3 id="74-embedded-disclosure-policy">7.4 Embedded disclosure policy</h3>
+<p>This attestation defines no embedded disclosure policy.</p>
+<h2 id="8-revocation">8 Revocation</h2>
+<p>This chapter will be completed in a future version of this Rulebook.</p>
+<h2 id="9-presentation">9 Presentation</h2>
+<h4 id="base-verification-process">Base Verification Process</h4>
+<p>The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md</p>
+<h3 id="91-presentation-policy">9.1 Presentation Policy</h3>
+<p>To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:</p>
+<ol>
+<li>verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;</li>
+<li>verify that the attestation is within its validity period;</li>
+<li>check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;</li>
+<li>verify device binding where section 7.1 records the attestation as device-bound;</li>
+<li>request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.</li>
+</ol>
+<p>Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:</p>
+<p>When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.</p>
+<h3 id="92-presentation-modes">9.2 Presentation modes</h3>
+<p>Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.</p>
+<h3 id="93-transactional-data">9.3 Transactional data</h3>
+<p>This Rulebook defines no transactional data.</p>
+<h2 id="10-trust-framework">10 Trust Framework</h2>
+<p>This chapter will be completed in a future version of this Rulebook.</p>
+<p><strong>Trust anchor location</strong></p>
+<p>The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.</p>
+<h2 id="11-references">11 References</h2>
+<p>This chapter will be completed in a future version of this Rulebook.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Item Reference</strong></th>
+<th><strong>Standard name/details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[European Digital Identity Regulation]</td>
+<td><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183">Regulation (EU) 2024/1183</a> of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework</td>
+</tr>
+<tr>
+<td>[HAIP]</td>
+<td>Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03</td>
+</tr>
+<tr>
+<td>[IANA-JWT-Claims]</td>
+<td>IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml</td>
+</tr>
+<tr>
+<td>[ISO/IEC 18013-5]</td>
+<td>ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09</td>
+</tr>
+<tr>
+<td>[ISO 4217]</td>
+<td>ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html</td>
+</tr>
+<tr>
+<td>[ISO 8601]</td>
+<td>ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html</td>
+</tr>
+<tr>
+<td>[OIDC]</td>
+<td>Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html</td>
+</tr>
+<tr>
+<td>[RFC 2119]</td>
+<td>RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997</td>
+</tr>
+<tr>
+<td>[RFC 3339]</td>
+<td>RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002</td>
+</tr>
+<tr>
+<td>[RFC 8610]</td>
+<td>RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019</td>
+</tr>
+<tr>
+<td>[RFC 8943]</td>
+<td>RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020</td>
+</tr>
+<tr>
+<td>[RFC 8949]</td>
+<td>RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020</td>
+</tr>
+<tr>
+<td>[SD-JWT VC]</td>
+<td>SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09</td>
+</tr>
+<tr>
+<td>[Topic 7]</td>
+<td>ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking</td>
+</tr>
+</tbody>
+</table></div>
+  </article>
+</div>
+
+<footer class="foot">
+  <div class="foot-band">
+    <div class="foot-inner">
+      <a class="foot-logolink" href="https://www.webuildconsortium.eu/" target="_blank" rel="noopener"><img class="foot-logo" src="../assets/logo.svg" alt="WE BUILD Consortium" height="56"></a>
+      <img class="foot-eu" src="../assets/logo-eu.svg" alt="Co-funded by the European Union" height="46">
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="foot-inner">
+      <span class="copyright">&copy; Copyright 2026 WE BUILD Consortium. All Rights Reserved.</span>
+      <span class="gen">Rendered from <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-pwn/README.md" target="_blank" rel="noopener">the rulebook</a> in this repository.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* the chapter list is open beside the text, and out of the way on a phone */
+(function () {
+  var box = document.querySelector(".doc-chapters");
+  if (box && window.matchMedia("(max-width: 860px)").matches) box.open = false;
+}());
+</script>
+
+</body>
+</html>

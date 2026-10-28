@@ -1,0 +1,1508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site rulebook | WE BUILD</title>
+<meta name="description" content="Site. An attestation rulebook, EAA, issued as SD-JWT VC, 21 attributes.">
+<link rel="canonical" href="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-site.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="WE BUILD Attestation Rulebook Explorer">
+<meta property="og:title" content="Site rulebook">
+<meta property="og:description" content="Site. An attestation rulebook, EAA, issued as SD-JWT VC, 21 attributes.">
+<meta property="og:url" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-site.html">
+<meta property="og:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WE BUILD Attestation Rulebook Explorer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta name="theme-color" content="#003399">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+<style>:root{--brand:#003399;--brand-dark:#001d58;--brand-light:#eef2fb;--accent:#ffcc00;--accent-dark:#f1b40d;--ink:#1d1d1f;--muted:#6e6e73;--line:rgba(0,0,0,.08);--surface:#ffffff;--canvas:#f2f2f5;--radius:12px;--font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--heading-font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--mono-font:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;--header-gradient:linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)}</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="WE BUILD Consortium" height="44"></a>
+    <span class="brand-sep" aria-hidden="true"></span>
+    <span class="brand-product">Attestation Rulebook Explorer</span>
+    <nav class="masthead-links">
+      <a class="ghlink" href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-site/README.md" target="_blank" rel="noopener" title="View this rulebook on GitHub">
+        <svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="doc-nav">
+    <a class="doc-back" href="../index.html">All rulebooks</a>
+    <details class="doc-chapters" open>
+      <summary>Chapters</summary>
+      <nav class="doc-toc" aria-label="Chapters"><a class="lvl2" href="#1-introduction">1 Introduction</a><a class="lvl3" href="#11-document-scope-and-purpose">1.1 Document scope and purpose</a><a class="lvl3" href="#12-document-structure">1.2 Document structure</a><a class="lvl3" href="#13-key-words">1.3 Key words</a><a class="lvl3" href="#14-terminology">1.4 Terminology</a><a class="lvl2" href="#2-compliance">2 Compliance</a><a class="lvl3" href="#21-compliance-statement">2.1 Compliance statement</a><a class="lvl3" href="#22-regulatory-basis">2.2 Regulatory basis</a><a class="lvl3" href="#23-traceability">2.3 Traceability</a><a class="lvl2" href="#3-attestation-attributes">3 Attestation attributes</a><a class="lvl3" href="#31-introduction">3.1 Introduction</a><a class="lvl3" href="#32-mandatory-attributes">3.2 Mandatory attributes</a><a class="lvl3" href="#33-optional-attributes">3.3 Optional attributes</a><a class="lvl3" href="#34-conditional-attributes">3.4 Conditional attributes</a><a class="lvl2" href="#4-metadata">4 Metadata</a><a class="lvl3" href="#41-mandatory-metadata">4.1 Mandatory metadata</a><a class="lvl3" href="#42-optional-metadata">4.2 Optional metadata</a><a class="lvl3" href="#43-conditional-metadata">4.3 Conditional metadata</a><a class="lvl3" href="#44-code-lists">4.4 Code lists</a><a class="lvl3" href="#45-integrity-rules">4.5 Integrity rules</a><a class="lvl2" href="#5-formats">5 Formats</a><a class="lvl3" href="#51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</a><a class="lvl3" href="#52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</a><a class="lvl3" href="#53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</a><a class="lvl2" href="#6-protocols">6 Protocols</a><a class="lvl3" href="#61-issuance">6.1 Issuance</a><a class="lvl3" href="#62-presentation">6.2 Presentation</a><a class="lvl2" href="#7-issuance">7 Issuance</a><a class="lvl3" href="#71-binding">7.1 Binding</a><a class="lvl3" href="#72-issuance-policy">7.2 Issuance Policy</a><a class="lvl3" href="#73-lifecycle-management">7.3 Lifecycle management</a><a class="lvl3" href="#74-embedded-disclosure-policy">7.4 Embedded disclosure policy</a><a class="lvl2" href="#8-revocation">8 Revocation</a><a class="lvl2" href="#9-presentation">9 Presentation</a><a class="lvl3" href="#91-presentation-policy">9.1 Presentation Policy</a><a class="lvl3" href="#92-presentation-modes">9.2 Presentation modes</a><a class="lvl3" href="#93-transactional-data">9.3 Transactional data</a><a class="lvl2" href="#10-trust-framework">10 Trust Framework</a><a class="lvl2" href="#11-references">11 References</a></nav>
+    </details>
+  </aside>
+  <article class="doc-body">
+    <p class="doc-tags"><span class="tag cat" style="background:#514f59">EAA</span><span class="tag fmt">SD-JWT VC</span></p>
+    <h1 id="attestation-rulebook-for-attestations-of-type-site">Attestation Rulebook for attestations of type Site</h1>
+<p>Category: non-qualified EAA</p>
+<ul>
+<li><strong>Author(s):</strong></li>
+<li>[Dominic Hurni, SBB]</li>
+<li>[Werner Folkendt, Robert Bosch GmbH]</li>
+<li><strong>Reviewer(s):</strong></li>
+<li>[Florin Coptil, Robert Bosch GmbH]</li>
+<li><strong>Contact:</strong></li>
+<li><a href="mailto:dominic.hurni@sbb.ch">Dominic Hurni</a> *</li>
+<li><a href="mailto:werner.folkendt@de.bosch.com">Werner Folkendt</a> *</li>
+<li><strong>Sources:</strong></li>
+<li><a href="https://portal.webuildconsortium.eu/group/3/files/6256/collabora-online/edit/3001">Powerpoint</a></li>
+<li><a href="https://portal.webuildconsortium.eu/group/3/files/5757/collabora-online/edit/2384">Excel</a></li>
+</ul>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>2026-10-02</td>
+<td>Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Written against:</strong> ARF version 3.0.0, WE BUILD template version 1.0 (generic)</p>
+<p><strong>Feedback:</strong> <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues">GitHub issues</a></p>
+<h2 id="1-introduction">1 Introduction</h2>
+<p>This attestation addresses the following question:</p>
+<p><strong>Where does the responsible economic operator operate his business, and what unique
+identifiers are associated to a site?</strong></p>
+<p>The Site Attestation provides a standardized, verifiable digital representation of a specific
+physical location (site) operated by an economic operator. It enables structured exchange of
+site-level data for use in KYS (Know Your Supplier), KYC (Know Your Customer), supply chain
+mapping, compliance verification, and regulatory audit processes.</p>
+<p>A site is defined as an operational business element conducted by a specific economic operator
+entity at a specific physical location. An economic operator is a role of a European Business
+Wallet Owner (EBW owner).</p>
+<p>The Site Attestation is <strong>NOT</strong> designed to provide Economic Operator specific data such as
+NACE code, tax information, nor attestations regarding the operating Economic Operator. These
+data are provided by EBW owner attestations like EUCC, EBWOID, and others. The site
+attestation <strong>MUST</strong> be linked to the economic operator by providing at least one unique
+identifier associated to the Economic Operator.</p>
+<p>Transparency in supply chain requires clarity about location and operation of an economic
+operator's sites, for example to define incoterms, track products, or calculate CO2eq emissions.</p>
+<p>Examples:
+- A legal entity delivers goods to 10 other companies and operates from a hired site.
+- A legal entity operates in 100 manufacturing sites and has to declare from which site the
+  product is delivered.</p>
+<p>The added value for a company to have "site" as an attestation is to automate contracting
+processes in offering, delivering, creating digital product passports and reporting, customs and
+other authorities.</p>
+<p>Economic Operator attestations (like EUCC, LEI, DUNS legal entity, ...) help to answer
+KYC/KYS questions like:
+- Who signs the contract?
+- Who bears liability?
+- Corporate hierarchy?</p>
+<p>The Site Attestation helps to answer questions like:
+- Where does the work get performed?
+- Which facility is in scope?
+- What operational risk do we have?
+- For which establishments do we need which compliance attestations? (e.g., ISO 9000, ...)</p>
+<p>Together, they support key KYC/KYS topics:
+- Multi-site suppliers
+- Site-specific approvals
+- Regulatory audits
+- Supply-chain mapping</p>
+<h3 id="11-document-scope-and-purpose">1.1 Document scope and purpose</h3>
+<p>The Site Attestation provides a standardized, verifiable digital representation of a specific
+physical location (site) operated by an economic operator. It enables structured exchange of
+site-level data for use in KYS (Know Your Supplier), KYC (Know Your Customer), supply chain
+mapping, compliance verification, and regulatory audit processes.</p>
+<p>The attributes listed in this attestation are required to automate cross-business processes
+within supply management.</p>
+<p><strong>Design Decisions</strong></p>
+<p>This Site Attestation Rulebook is based on:
+- European Business Wallet (EBW) framework and vocabulary v0.1 for economic operator
+  identity linkage
+- The Organization Ontology for site naming
+- Core Location Vocabulary for address and site identifier structures
+- CDDL representation types per [RFC 8610] for attribute encoding
+- International Code Designator (ICD) 0243 for BPNL/BPNS identifiers as used in Catena-X
+- Support for multiple site and economic operator identifier schemes (EUID, LEI, DUNS,
+  EORI, VAT ID, BPNL, GLN, SIREN, BPNS, SIRET)</p>
+<blockquote>
+<p><strong>Note:</strong> EUID is only available and mandatory for legal entities within the EU. Legal entities
+outside the EU, for which the EUCC is not available, can use the DUNS Legal Entity, LEI Legal
+Entity, or GLN Legal Entity attestation.</p>
+</blockquote>
+<h3 id="12-document-structure">1.2 Document structure</h3>
+<p>This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.</p>
+<h3 id="13-key-words">1.3 Key words</h3>
+<p>This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.</p>
+<p>In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.</p>
+<h3 id="14-terminology">1.4 Terminology</h3>
+<p><em>Additional terminology specific to this attestation:</em></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Term</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Site</td>
+<td>An operational business element conducted by a specific economic operator entity at a specific physical location</td>
+</tr>
+<tr>
+<td>Economic Operator</td>
+<td>A role of a European Business Wallet (EBW) owner, the legal entity that operates one or more sites</td>
+</tr>
+<tr>
+<td>EBW</td>
+<td>European Business Wallet, the digital wallet used by legal entities to hold and present verifiable attestations</td>
+</tr>
+<tr>
+<td>EUCC</td>
+<td>EU Company Certificate, attestation establishing the legal existence and identity of a legal entity within the EU</td>
+</tr>
+<tr>
+<td>EUID</td>
+<td>European Unique Identifier, the unique identifier assigned to legal entities registered within the EU per Directive (EU) 2017/1132; preferred main ID for economic operators within the EU</td>
+</tr>
+<tr>
+<td>LEI</td>
+<td>Legal Entity Identifier, a 20-character alphanumeric code per ISO 17442</td>
+</tr>
+<tr>
+<td>DUNS</td>
+<td>Data Universal Numbering System, Dun &amp; Bradstreet company identifier</td>
+</tr>
+<tr>
+<td>EORI</td>
+<td>Economic Operators Registration and Identification number, EU customs identifier</td>
+</tr>
+<tr>
+<td>BPNL</td>
+<td>Business Partner Number Legal entity, Catena-X identifier per ICD 0243</td>
+</tr>
+<tr>
+<td>BPNS</td>
+<td>Business Partner Number Site, Catena-X site-level identifier per ICD 0243</td>
+</tr>
+<tr>
+<td>GLN</td>
+<td>Global Location Number, a GS1 identifier for legal entities and locations</td>
+</tr>
+<tr>
+<td>SIREN</td>
+<td>Système d'Identification du Répertoire des ENtreprises, French company identifier</td>
+</tr>
+<tr>
+<td>SIRET</td>
+<td>Système d'Identification du Répertoire des ETablissements, French site-level identifier</td>
+</tr>
+<tr>
+<td>site_main_id</td>
+<td>A globally unique identifier created by the Economic Operator using his EBW; generated as a UUID and stable throughout the lifecycle of the site</td>
+</tr>
+<tr>
+<td>KYC</td>
+<td>Know Your Customer, due diligence process for verifying customer identity and assessing risk in financial relationships</td>
+</tr>
+<tr>
+<td>KYS</td>
+<td>Know Your Supplier, due diligence process for verifying supplier credentials, integrity, and risk exposure</td>
+</tr>
+<tr>
+<td>EAA</td>
+<td>Electronic Attestation of Attributes, as defined under eIDAS 2.0</td>
+</tr>
+<tr>
+<td>RFC 8610</td>
+<td>Concise Data Definition Language (CDDL) for encoding data structures</td>
+</tr>
+<tr>
+<td>Core Location Vocabulary</td>
+<td>W3C vocabulary for representing addresses and location data in a structured, interoperable format</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="2-compliance">2 Compliance</h2>
+<h3 id="21-compliance-statement">2.1 Compliance statement</h3>
+<p>This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.</p>
+<h3 id="22-regulatory-basis">2.2 Regulatory basis</h3>
+<p>This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
+recommendation is not followed, the reason is stated below.</p>
+<p>Where the attestation is issued as a qualified electronic attestation of attributes,
+the trust model of chapter 10 applies in its qualified form and the legal category
+recorded in section 4.1 changes accordingly.</p>
+<h3 id="23-traceability">2.3 Traceability</h3>
+<p>Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Legacy ID</th>
+<th>Applies</th>
+<th>Satisfied in section</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EW-DM-12-001</td>
+<td>ARB_01a</td>
+<td>yes</td>
+<td>5</td>
+<td>W3C VCDM permitted for this category; no encoding defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-002</td>
+<td>ARB_01b</td>
+<td>yes</td>
+<td>5.1</td>
+<td>SD-JWT VC following the HAIP profile</td>
+</tr>
+<tr>
+<td>EW-DM-12-003</td>
+<td>ARB_02</td>
+<td>no</td>
+<td></td>
+<td>Proximity presentation is not in scope; mdoc is out of scope per section 5.2</td>
+</tr>
+<tr>
+<td>EW-DM-12-005</td>
+<td>ARB_04</td>
+<td>no</td>
+<td></td>
+<td>No W3C VCDM encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-006</td>
+<td>ARB_05</td>
+<td>yes</td>
+<td>5.1</td>
+<td>Unique vct for this attestation type</td>
+</tr>
+<tr>
+<td>EW-DM-12-007</td>
+<td>ARB_06</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes defined independently of encoding</td>
+</tr>
+<tr>
+<td>EW-DM-12-008</td>
+<td>ARB_06a</td>
+<td>no</td>
+<td></td>
+<td>No mdoc encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-009</td>
+<td>ARB_06b</td>
+<td>yes</td>
+<td>5.1</td>
+<td>SD-JWT VC claim naming</td>
+</tr>
+<tr>
+<td>EW-DM-12-010</td>
+<td>ARB_07</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes reused from the catalogued vocabulary where one exists</td>
+</tr>
+<tr>
+<td>EW-DM-12-012</td>
+<td>ARB_09</td>
+<td>yes</td>
+<td>3, 4</td>
+<td>Mandatory, optional and conditional stated per attribute</td>
+</tr>
+<tr>
+<td>EW-DM-12-013</td>
+<td>ARB_10</td>
+<td>no</td>
+<td></td>
+<td>No domestic namespace is defined</td>
+</tr>
+<tr>
+<td>EW-DM-12-014</td>
+<td>ARB_11</td>
+<td>no</td>
+<td></td>
+<td>Annex V and VII point a apply to QEAA and PuB-EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-015</td>
+<td>ARB_12</td>
+<td>yes</td>
+<td>4.1</td>
+<td>EAA indication for a non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018</td>
+<td>ARB_13 / ARB_14 / ARB_15</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point b, EW-DM-12-018 for the non-qualified case</td>
+</tr>
+<tr>
+<td>EW-DM-12-019 / EW-DM-12-020</td>
+<td>ARB_16 / ARB_17</td>
+<td>yes</td>
+<td>2.2</td>
+<td>Point c, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-021 / EW-DM-12-022</td>
+<td>ARB_18 / ARB_19</td>
+<td>yes</td>
+<td>2.2, 4.2</td>
+<td>Point e, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-023 / EW-DM-12-024</td>
+<td>ARB_20 / ARB_21</td>
+<td>yes</td>
+<td>4.2, 10</td>
+<td>Trust anchor location and the trust framework</td>
+</tr>
+<tr>
+<td>EW-DM-12-029</td>
+<td>ARB_25</td>
+<td>yes</td>
+<td>4.1</td>
+<td>Legal category attribute; see the note in section 4.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-030</td>
+<td>ARB_26</td>
+<td>yes</td>
+<td>10</td>
+<td>Trust anchor publication for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-031</td>
+<td>ARB_27</td>
+<td>no</td>
+<td></td>
+<td>This attestation does not require the Relying Party to verify a PID</td>
+</tr>
+<tr>
+<td>EW-DM-12-032</td>
+<td>ARB_28</td>
+<td>no</td>
+<td></td>
+<td>cryptographically_bound_to is not used by this attestation</td>
+</tr>
+<tr>
+<td>EW-DM-12-034</td>
+<td>ARB_30</td>
+<td>yes</td>
+<td>5.1</td>
+<td>Selective disclosure stated per claim</td>
+</tr>
+<tr>
+<td>EW-DM-12-035</td>
+<td>ARB_31</td>
+<td>no</td>
+<td></td>
+<td>No Claim Selective Disclosure Metadata document is used</td>
+</tr>
+<tr>
+<td>EW-DM-12-038</td>
+<td>ARB_34</td>
+<td>yes</td>
+<td>7.1</td>
+<td>Device binding</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-attestation-attributes">3 Attestation attributes</h2>
+<p>The Site Attestation provides a standardized, verifiable digital representation of a specific physical location (site) operated by an economic operator. It captures the essential attributes required to uniquely identify a site, link it to its operating economic operator, and support cross-business processes within supply chain management and compliance verification.</p>
+<p>Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.</p>
+<h3 id="31-introduction">3.1 Introduction</h3>
+<p>The data model for the Site Attestation is structured as follows:</p>
+<p><strong>Data Model:</strong>
+[Economic Operator] ---operates--- [Site] [1 - 1 ]</p>
+<pre><code>├─ name (string), mandatory
+├─ identifier (uuid), mandatory
+├─ additional_identifiers - optional 
+│   ├─ gln (str) (O)                          // Global Location Number for site 
+│   ├─ duns (str) (O)                         // duns number for site 
+│   ├─ bpns (str) (O)                         // Business Partner Number Site
+│   ├─ siret (str) (O)                        // Système d'Identification du Répertoire des Établissements
+├─ address (Address) (M)           
+│   ├─ street (tstr) (M)
+│   ├─ house_number (tstr) (M)
+│   ├─ locality (tstr) (M)
+│   ├─ region (tstr) (M)
+│   ├─ postal_code (tstr) (M)
+│   └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
+└─ additional_addresses [0..n]                  //(Array of Address) 
+│   ├─ street (tstr) (M)
+│   ├─ house_number (tstr) (M)
+│   ├─ locality (tstr) (M)
+│   ├─ region (tstr) (M)
+│   ├─ postal_code (tstr) (M)
+│   └─ country (tstr) (M)                       // ISO 3166-1 alpha-2
+├── economic_operator (M) 
+│   ├─ identifier  (M)                    
+│   │   ├─ euid (str) (O)                       // European Unique Identifier
+│   │   ├─ lei (str) (O)                        // Legal Entity Identifier per ISO 17442
+│   │   ├─ tax (str) (O)                        // National tax or registration number    
+│   │   ├─ gln (str) (O)                        // Global Location Number for legal entities, GS1 identifier
+│   │   ├─ duns (str) (O)                       // Data Universal Numbering System, Dun &amp; Bradstreet identifier
+│   │   ├─ eori (str) (O)                       // Economic Operators Registration and Identification number, EU customs identifier
+│   │   ├─ bpnl (str) (O)                       // Business Partner Number Legal entity, Catena-X identifier per ICD 0243
+│   │   ├─ siren (str) (O)                      // Système d'Identification du Répertoire des ENtreprises, French company identifier
+</code></pre>
+<p><em>Note</em>: M - mandatory / O - optional.</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The root object of the attestation is the <code>Site</code>.</li>
+<li>A <code>Site</code> is defined by its mandatory <code>name</code>, a unique <code>identifier</code> (UUID), and its primary <code>address</code>.</li>
+<li>It is optionally possible to add <code>additional_identifiers</code> (like GLN, DUNS, BPNS for the site) and a list of <code>additional_addresses</code>.</li>
+<li>Each <code>Site</code> attestation <strong>SHALL</strong> contain a mandatory <code>economic_operator</code> object, which links the site to the legal entity that operates it.</li>
+<li>The <code>economic_operator</code> object <strong>SHALL</strong> contain an <code>identifier</code> object with at least one official identifier of the legal entity (e.g., <code>euid</code>, <code>lei</code>, <code>bpnl</code>).</li>
+</ul>
+<p><strong>Attestation Classification:</strong></p>
+<p>This attestation type is classified as:
+- <strong>"EAA"</strong> when self-issued by the economic operator operating the site.</p>
+<p><strong>Top-Level Data Identifiers:</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parent_economic_operator_main_id</td>
+<td><a href="https://w3id.org/ebwv#parent">parent</a>.<a href="https://w3id.org/ebwv#legalIdentifier">legalIdentifier</a></td>
+<td>Primary unique identifier of the economic operator that operates this site (preferred: EUID)</td>
+<td>String</td>
+</tr>
+<tr>
+<td>parent_economic_operator_additional_id</td>
+<td><a href="https://w3id.org/ebwv#parent">parent</a>.<a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>Array of additional identifiers for the economic operator</td>
+<td>Array of Strings</td>
+</tr>
+<tr>
+<td>site_name</td>
+<td><a href="https://schema.org/name">schema:name</a></td>
+<td>The name of the site</td>
+<td>String</td>
+</tr>
+<tr>
+<td>site_main_id</td>
+<td>@id</td>
+<td>Globally unique identifier of the site, generated by the EBW as a UUID</td>
+<td>UUID (String)</td>
+</tr>
+<tr>
+<td>site_additional_ids</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>Array of additional site-level identifiers</td>
+<td>Array of Strings</td>
+</tr>
+<tr>
+<td>site_main_address</td>
+<td><a href="https://w3id.org/ebwv#hasAddress">hasAddress</a></td>
+<td>Physical main address of the site</td>
+<td>Object (Address)</td>
+</tr>
+<tr>
+<td>site_additional_addresses</td>
+<td><a href="https://w3id.org/ebwv#hasAddress">hasAddress</a></td>
+<td>Array of additional addresses associated to the site</td>
+<td>Array of Address</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="32-mandatory-attributes">3.2 Mandatory attributes</h3>
+<p><strong>Site Attributes</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Existing Vocabularies</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parent_economic_operator_main_id</td>
+<td><a href="https://w3id.org/ebwv#parent">parent</a>.<a href="https://w3id.org/ebwv#legalIdentifier">legalIdentifier</a></td>
+<td>The Economic Operator ID containing at least one ID (preferred: EUID)</td>
+<td>String</td>
+<td>European Business Wallet Vocabulary v0.1</td>
+</tr>
+<tr>
+<td>site_name</td>
+<td><a href="https://schema.org/name">schema:name</a></td>
+<td>The name of the site</td>
+<td>String</td>
+<td>The Organization Ontology</td>
+</tr>
+<tr>
+<td>site_main_id</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>A globally unique identifier created by the Economic Operator using his EBW. The identifier is an attribute of the site that will not change during the lifecycle of the site</td>
+<td>UUID</td>
+<td>UUID generated by the wallet via API call</td>
+</tr>
+<tr>
+<td>site_main_address</td>
+<td><a href="https://w3id.org/ebwv#hasAddress">hasAddress</a></td>
+<td>Physical main address of the site</td>
+<td>Address object</td>
+<td>Core Location Vocabulary</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Nested Mandatory Attributes</strong></p>
+<p>Applies to both <code>site_main_address</code> and entries within <code>site_additional_addresses</code>:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>street</td>
+<td><a href="https://w3id.org/ebwv#thoroughfare">thoroughfare</a></td>
+<td>Street name of the address</td>
+<td>String</td>
+</tr>
+<tr>
+<td>nr</td>
+<td><a href="https://w3id.org/ebwv#locatorDesignator">locatorDesignator</a></td>
+<td>House or building number of the address</td>
+<td>String</td>
+</tr>
+<tr>
+<td>postal_code</td>
+<td><a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>Postal code of the address</td>
+<td>String</td>
+</tr>
+<tr>
+<td>city</td>
+<td><a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>City of the address</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="33-optional-attributes">3.3 Optional attributes</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Existing Vocabularies</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parent_economic_operator_additional_id</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>Array of additional economic operator identifiers. <strong>MAY</strong> contain zero or more entries. <strong>SHALL</strong> use identifier types from Section 4.4.1</td>
+<td>Array of Strings [0..n]</td>
+<td>European Business Wallet Vocabulary v0.1</td>
+</tr>
+<tr>
+<td>site_additional_ids</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>Array of additional site identifiers associated to this site. <strong>MAY</strong> contain zero or more entries. <strong>SHALL</strong> use identifier types from Section 4.4.2</td>
+<td>Array of Strings [0..n]</td>
+<td>Core Location Vocabulary</td>
+</tr>
+<tr>
+<td>site_additional_addresses</td>
+<td><a href="https://w3id.org/ebwv#hasAddress">hasAddress</a></td>
+<td>Array of additional addresses associated to the site (e.g., additional entrances or addresses of external/rented buildings used by the site). <strong>MAY</strong> contain zero or more entries</td>
+<td>Array of Address [0..n]</td>
+<td>Core Location Vocabulary</td>
+</tr>
+</tbody>
+</table></div>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>additional_identifiers</code></td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>An object containing additional standardized identifiers for the site itself (e.g., BPNS, SIRET).</td>
+<td>Object</td>
+</tr>
+<tr>
+<td><code>additional_addresses</code></td>
+<td><a href="https://w3id.org/ebwv#hasAddress">hasAddress</a></td>
+<td>An array of additional addresses associated with the site (e.g., other entrances, rented buildings).</td>
+<td><a href="https://w3id.org/ebwv#Address">Address</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Economic Operator Identifier Optional Attributes</strong>
+At least one of the following sub-fields <strong>SHALL</strong> be provided within the <code>economic_operator.identifier</code> object.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>euid</code></td>
+<td>,</td>
+<td>European Unique Identifier per Directive (EU) 2017/1132.</td>
+<td><a href="https://w3id.org/ebwv#Euid">Euid</a></td>
+</tr>
+<tr>
+<td><code>lei</code></td>
+<td>,</td>
+<td>Legal Entity Identifier (LEI) per ISO 17442.</td>
+<td><a href="https://w3id.org/ebwv#Lei">Lei</a></td>
+</tr>
+<tr>
+<td><code>tax</code></td>
+<td>,</td>
+<td>National tax or company registration number.</td>
+<td><a href="https://w3id.org/ebwv#Tin">Tin</a></td>
+</tr>
+<tr>
+<td><code>gln</code></td>
+<td>,</td>
+<td>Global Location Number for legal entities (GS1 identifier).</td>
+<td><a href="https://w3id.org/ebwv#GlobalLocationNumber">GlobalLocationNumber</a></td>
+</tr>
+<tr>
+<td><code>duns</code></td>
+<td>,</td>
+<td>Data Universal Numbering System (Dun &amp; Bradstreet identifier).</td>
+<td><a href="https://w3id.org/ebwv#DunsNumber">DunsNumber</a></td>
+</tr>
+<tr>
+<td><code>eori</code></td>
+<td>,</td>
+<td>Economic Operators Registration and Identification number (EU customs).</td>
+<td><a href="https://w3id.org/ebwv#Eori">Eori</a></td>
+</tr>
+<tr>
+<td><code>bpnl</code></td>
+<td>,</td>
+<td>Business Partner Number Legal entity (Catena-X identifier).</td>
+<td>String</td>
+</tr>
+<tr>
+<td><code>siren</code></td>
+<td>,</td>
+<td>Système d'Identification du Répertoire des ENtreprises (French identifier).</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="34-conditional-attributes">3.4 Conditional attributes</h3>
+<p>No conditional attributes are defined for this attestation type.</p>
+<h2 id="4-metadata">4 Metadata</h2>
+<p>Metadata describes the attestation rather than its subject.</p>
+<h3 id="41-mandatory-metadata">4.1 Mandatory metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>issuance_date</td>
+<td><a href="https://www.w3.org/2018/credentials/#validFrom">cred:validFrom</a></td>
+<td>The date and time when the Site Attestation was issued (ISO 8601)</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>expiry_date</td>
+<td><a href="https://www.w3.org/2018/credentials/#validUntil">cred:validUntil</a></td>
+<td>The date and time when the Site Attestation expires (ISO 8601)</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>issuing_entity</td>
+<td><a href="https://www.w3.org/2018/credentials/#issuer">cred:issuer</a></td>
+<td>The identifier of the economic operator that issued the attestation (typically the subject entity itself for self-issued EAA)</td>
+<td>String</td>
+</tr>
+<tr>
+<td>attestation_legal_category</td>
+<td><a href="https://w3id.org/ebwv#attestationLegalCategory">attestationLegalCategory</a></td>
+<td>Indicates the legal category of this attestation ("EAA")</td>
+<td>String</td>
+</tr>
+<tr>
+<td>vct</td>
+<td></td>
+<td>A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Note: Standard JWT claims (<code>iss</code>, <code>iat</code>, <code>exp</code>) are also mandatory.</em></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trust_anchor_url</td>
+<td><a href="https://www.w3.org/2018/credentials/#termsOfUse">cred:termsOfUse</a></td>
+<td>URL where the trust anchor for verifying this attestation can be retrieved</td>
+<td>URI</td>
+</tr>
+<tr>
+<td>schema_version</td>
+<td>@context</td>
+<td>Version of the schema used for this attestation</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>trust_anchor_url</code></td>
+<td>URL where the trust anchor for verifying this attestation can be retrieved.</td>
+<td>URI</td>
+</tr>
+<tr>
+<td><code>schema_version</code></td>
+<td>Version of the schema used for this attestation.</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Legal category.</strong> This Rulebook retains the <code>attestation_legal_category</code> attribute.
+Section 4.1 of the generic template replaces it with the <code>category</code> attribute of
+[ETSI TS 119 472-1], whose value for this category is <code>eaa:eu:non-qualified</code>.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+<code>attestation_legal_category</code>, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.</p>
+<h3 id="42-optional-metadata">4.2 Optional metadata</h3>
+<h3 id="43-conditional-metadata">4.3 Conditional metadata</h3>
+<p>No conditional metadata elements are defined for this attestation type.</p>
+<h3 id="44-code-lists">4.4 Code lists</h3>
+<h4 id="441-economic-operator-identifier-type-codes">4.4.1 Economic Operator Identifier Type Codes</h4>
+<p>The <code>economic_operator.identifier</code> object <strong>SHOULD</strong> use one or more of the following standardized identifier types as keys:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Code</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>euid</code></td>
+<td>European Unique Identifier per Directive (EU) 2017/1132.</td>
+</tr>
+<tr>
+<td><code>lei</code></td>
+<td>Legal Entity Identifier per ISO 17442.</td>
+</tr>
+<tr>
+<td><code>tax</code></td>
+<td>National tax or company registration number.</td>
+</tr>
+<tr>
+<td><code>gln</code></td>
+<td>Global Location Number for legal entities (GS1 identifier).</td>
+</tr>
+<tr>
+<td><code>duns</code></td>
+<td>Data Universal Numbering System (Dun &amp; Bradstreet identifier).</td>
+</tr>
+<tr>
+<td><code>eori</code></td>
+<td>Economic Operators Registration and Identification number (EU customs).</td>
+</tr>
+<tr>
+<td><code>bpnl</code></td>
+<td>Business Partner Number Legal entity (Catena-X identifier per ICD 0243).</td>
+</tr>
+<tr>
+<td><code>siren</code></td>
+<td>Système d'Identification du Répertoire des ENtreprises (French identifier).</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="442-site-identifier-type-codes">4.4.2 Site Identifier Type Codes</h4>
+<p>The <code>additional_identifiers</code> object <strong>SHOULD</strong> use one or more of the following standardized site-level identifier types as keys:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Code</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gln</code></td>
+<td>Global Location Number for physical locations (GS1 site-level identifier).</td>
+</tr>
+<tr>
+<td><code>duns</code></td>
+<td>DUNS site-level identifier issued by Dun &amp; Bradstreet.</td>
+</tr>
+<tr>
+<td><code>bpns</code></td>
+<td>Business Partner Number Site (Catena-X site-level identifier per ICD 0243).</td>
+</tr>
+<tr>
+<td><code>siret</code></td>
+<td>Système d'Identification du Répertoire des ETablissements (French site-level identifier).</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="45-integrity-rules">4.5 Integrity rules</h3>
+<ul>
+<li>The root <code>Site</code> object SHALL be present.</li>
+<li><code>name</code>, <code>identifier</code>, <code>address</code>, and <code>economic_operator</code> SHALL be present and non-empty.</li>
+<li>The <code>identifier</code> for the site SHALL be a valid UUID.</li>
+<li>The <code>economic_operator.identifier</code> object SHALL contain at least one valid, non-empty identifier sub-field.</li>
+<li>All <code>Address</code> objects SHALL contain non-empty <code>street</code>, <code>house_number</code>, <code>locality</code>, <code>postal_code</code>, and <code>country</code>.</li>
+</ul>
+<h2 id="5-formats">5 Formats</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Supported</th>
+<th>Identifier</th>
+<th>Specification</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISO/IEC 18013-5 mdoc</td>
+<td>no</td>
+<td></td>
+<td>[ISO/IEC 18013-5]</td>
+<td>Out of scope, see section 5.2</td>
+</tr>
+<tr>
+<td>SD-JWT VC</td>
+<td>yes</td>
+<td>see section 5.1</td>
+<td>[SD-JWT VC], [HAIP]</td>
+<td></td>
+</tr>
+<tr>
+<td>W3C VCDM</td>
+<td>no</td>
+<td></td>
+<td>[W3C VCDM v2.0]</td>
+<td>Not defined in this version, see section 5.3</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</h3>
+<p>The Site Attestation uses the SD-JWT VC format to allow for selective disclosure.</p>
+<p><strong>Verifiable Credential Type (<code>vct</code>):</strong> <code>eu.we-build:site:1</code></p>
+<h4 id="511-attribute-encoding-table">5.1.1 Attribute Encoding Table</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute Identifier</strong></th>
+<th><strong>Encoding Format</strong></th>
+<th><strong>Reference/Notes</strong></th>
+<th><strong>Disclosable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Site Details</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td><code>name</code></td>
+<td>String</td>
+<td>The common name of the site.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td><code>identifier</code></td>
+<td>String (UUID)</td>
+<td>Unique identifier for the site.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Additional Site Identifiers</strong></td>
+<td><code>additional_identifiers</code></td>
+<td>Object</td>
+<td>Object containing other site IDs.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>gln</td>
+<td><code>additional_identifiers.gln</code></td>
+<td>String</td>
+<td>GS1 Global Location Number for the site.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>duns</td>
+<td><code>additional_identifiers.duns</code></td>
+<td>String</td>
+<td>Dun &amp; Bradstreet number for the site.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>bpns</td>
+<td><code>additional_identifiers.bpns</code></td>
+<td>String</td>
+<td>Catena-X Business Partner Number for the site.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>siret</td>
+<td><code>additional_identifiers.siret</code></td>
+<td>String</td>
+<td>French SIRET number for the establishment.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Main Address</strong></td>
+<td><code>address</code></td>
+<td>Object</td>
+<td>The primary address of the site.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>street</td>
+<td><code>address.street</code></td>
+<td>String</td>
+<td>Street name of the primary address.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>house_number</td>
+<td><code>address.house_number</code></td>
+<td>String</td>
+<td>House number of the primary address.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>locality</td>
+<td><code>address.locality</code></td>
+<td>String</td>
+<td>Locality of the primary address.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>region</td>
+<td><code>address.region</code></td>
+<td>String</td>
+<td>Region of the primary address.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>postal_code</td>
+<td><code>address.postal_code</code></td>
+<td>String</td>
+<td>Postal code of the primary address.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>country</td>
+<td><code>address.country</code></td>
+<td>String</td>
+<td>Country of the primary address.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Additional Addresses</strong></td>
+<td><code>additional_addresses</code></td>
+<td>Array</td>
+<td>Array of additional site addresses.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Economic Operator</strong></td>
+<td><code>economic_operator</code></td>
+<td>Object</td>
+<td>The operating legal entity.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>euid</td>
+<td><code>economic_operator.identifier.euid</code></td>
+<td>String</td>
+<td>European Unique Identifier.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>lei</td>
+<td><code>economic_operator.identifier.lei</code></td>
+<td>String</td>
+<td>Legal Entity Identifier.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>tax</td>
+<td><code>economic_operator.identifier.tax</code></td>
+<td>String</td>
+<td>National tax/registration number.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>bpnl</td>
+<td><code>economic_operator.identifier.bpnl</code></td>
+<td>String</td>
+<td>Catena-X BPNL identifier.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Metadata</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>issuance_date</td>
+<td><code>iat</code></td>
+<td>Number</td>
+<td>Issuance timestamp.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>expiry_date</td>
+<td><code>exp</code></td>
+<td>Number</td>
+<td>Expiration timestamp.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuing_entity</td>
+<td><code>iss</code></td>
+<td>String</td>
+<td>Identifier of the issuer.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>attestation_legal_category</td>
+<td><code>attestation_legal_category</code></td>
+<td>String</td>
+<td>"EAA"</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>vct</td>
+<td><code>vct</code></td>
+<td>String</td>
+<td>Verifiable Credential Type.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>cnf</td>
+<td><code>cnf</code></td>
+<td>Object</td>
+<td>Cryptographic Key Binding.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>trust_anchor_url</td>
+<td><code>trust_anchor_url</code></td>
+<td>String (URI)</td>
+<td>Optional URL to the trust anchor.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td>schema_version</td>
+<td><code>schema_version</code></td>
+<td>String</td>
+<td>Optional version of the schema.</td>
+<td>MAY</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="512-status-claim">5.1.2 Status Claim</h4>
+<p>For SD-JWT VC-compliant Attestations, the attestation MUST include a <code>status</code> claim if the technical validity period is greater than 24 hours.</p>
+<p>The <code>status</code> claim SHALL be a JSON object with the following members:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Value / Constraint</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>String</td>
+<td>SHALL be <code>"status-list"</code></td>
+</tr>
+<tr>
+<td><code>status_list_credential</code></td>
+<td>String (URI)</td>
+<td>URI of the Status List Credential document</td>
+</tr>
+<tr>
+<td><code>status_list_index</code></td>
+<td>Integer (&gt;= 0)</td>
+<td>Zero-based index into the status list</td>
+</tr>
+<tr>
+<td><code>status_purpose</code></td>
+<td>String</td>
+<td>SHALL be <code>"revocation"</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">{
+  &quot;status&quot;: {
+    &quot;type&quot;: &quot;status-list&quot;,
+    &quot;status_list_credential&quot;: &quot;https://issuer.example.com/status/site/2026&quot;,
+    &quot;status_list_index&quot;: 789,
+    &quot;status_purpose&quot;: &quot;revocation&quot;
+  }
+}
+</code></pre>
+<h4 id="513-example-payload">5.1.3 Example Payload</h4>
+<p>The following is a non-normative example of a Site Attestation SD-JWT VC payload:</p>
+<pre><code>{
+  &quot;vct&quot;: &quot;eu.we-build:site:1&quot;,
+  &quot;iss&quot;: &quot;did:example:robert-bosch-gmbh&quot;,
+  &quot;iat&quot;: 1746000000,
+  &quot;exp&quot;: 1777536000,
+  &quot;attestation_legal_category&quot;: &quot;EAA&quot;,
+  &quot;name&quot;: &quot;Bosch Karlsruhe Manufacturing Site&quot;,
+  &quot;identifier&quot;: &quot;urn:uuid:550e8400-e29b-41d4-a716-446655440000&quot;,
+  &quot;additional_identifiers&quot;: {
+    &quot;bpns&quot;: &quot;BPNS0000000001XY&quot;,
+    &quot;gln&quot;: &quot;4012345000016&quot;
+  },
+  &quot;address&quot;: {
+    &quot;street&quot;: &quot;Auf der Breit&quot;,
+    &quot;house_number&quot;: &quot;4&quot;,
+    &quot;locality&quot;: &quot;Karlsruhe&quot;,
+    &quot;region&quot;: &quot;Baden-Württemberg&quot;,
+    &quot;postal_code&quot;: &quot;76227&quot;,
+    &quot;country&quot;: &quot;DE&quot;
+  },
+  &quot;additional_addresses&quot;: [
+    {
+      &quot;street&quot;: &quot;Robert-Bosch-Strasse&quot;,
+      &quot;house_number&quot;: &quot;2&quot;,
+      &quot;locality&quot;: &quot;Karlsruhe&quot;,
+      &quot;region&quot;: &quot;Baden-Württemberg&quot;,
+      &quot;postal_code&quot;: &quot;76131&quot;,
+      &quot;country&quot;: &quot;DE&quot;
+    }
+  ],
+  &quot;economic_operator&quot;: {
+    &quot;identifier&quot;: {
+      &quot;euid&quot;: &quot;DE.HRB.12345&quot;,
+      &quot;bpnl&quot;: &quot;BPNL00000003CML1&quot;
+    }
+  },
+  &quot;status&quot;: {
+    &quot;type&quot;: &quot;status-list&quot;,
+    &quot;status_list_credential&quot;: &quot;https://issuer.example.com/status/site/2026&quot;,
+    &quot;status_list_index&quot;: 789,
+    &quot;status_purpose&quot;: &quot;revocation&quot;
+  },
+  &quot;cnf&quot;: {
+    &quot;jwk&quot;: {
+      &quot;kty&quot;: &quot;EC&quot;,
+      &quot;crv&quot;: &quot;P-256&quot;,
+      &quot;x&quot;: &quot;TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc&quot;,
+      &quot;y&quot;: &quot;ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ&quot;
+    }
+  }
+}
+</code></pre>
+<p>Sample payloads are provided under  ../data-schemas/sd-jwt/sample-data/site-attestation-sd-jwt-sample.json</p>
+<h3 id="52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</h3>
+<p>ISO/IEC 18013-5 is out of scope for this Rulebook.</p>
+<h3 id="53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</h3>
+<p>@TODO, To be discussed: which stakeholders will support this format and which use cases require it.</p>
+<h2 id="6-protocols">6 Protocols</h2>
+<h3 id="61-issuance">6.1 Issuance</h3>
+<p>This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI], as profiled by [HAIP].</p>
+<h3 id="62-presentation">6.2 Presentation</h3>
+<p>This attestation is presented using OpenID for Verifiable Presentations [OpenID4VP].
+Only remote presentation is in scope, consistent with chapter 5, which records the
+mdoc encoding as out of scope.</p>
+<h2 id="7-issuance">7 Issuance</h2>
+<h3 id="71-binding">7.1 Binding</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device-bound</td>
+<td>MAY</td>
+<td>EW-DM-12-038</td>
+</tr>
+<tr>
+<td>Cryptographically bound to</td>
+<td>none</td>
+<td>EW-DM-12-032</td>
+</tr>
+<tr>
+<td>Relying Party must also verify a PID</td>
+<td>no</td>
+<td>EW-DM-12-031</td>
+</tr>
+<tr>
+<td>Binding subject</td>
+<td>legal person</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="72-issuance-policy">7.2 Issuance Policy</h3>
+<p><strong>For EAA (Self-Issued / Standard Issuance)</strong>:
+- The issuer (i.e., the legal entity itself) issues the attestation based on the information and supporting documentation available at the time of issuance.
+- The issuer is responsible for ensuring that the attested information remains accurate and must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.</p>
+<p><strong>For QEAA (Qualified Issuance)</strong>:
+- The issuer-either a Qualified Trust Service Provider (QTSP) or another authorized competent body-must issue and verify the attestation exclusively on the basis of authoritative sources, such as official company register data or audited financial statements.
+- The issuer is also responsible for maintaining a high level of assurance throughout the attestation's validity period by continuously monitoring the underlying information. If any change affecting the accuracy or validity of the attested data is detected, the issuer must promptly revoke the attestation.</p>
+<p>The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations</p>
+<h3 id="73-lifecycle-management">7.3 Lifecycle management</h3>
+<p>The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.</p>
+<h3 id="74-embedded-disclosure-policy">7.4 Embedded disclosure policy</h3>
+<p>This attestation defines no embedded disclosure policy.</p>
+<h2 id="8-revocation">8 Revocation</h2>
+<p>An attestation SHALL remain valid only while its underlying information is accurate, complete, and legally effective.</p>
+<p><strong>Revocation Mechanism</strong>
+- Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
+- Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.</p>
+<p>Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.</p>
+<p><strong>Revocation Triggers &amp; Business Rules</strong>
+- QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
+- EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.</p>
+<p>Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
+The business interpretation is determined by the Relying Party's internal compliance policies.</p>
+<h2 id="9-presentation">9 Presentation</h2>
+<h4 id="base-verification-process">Base Verification Process</h4>
+<p>The Relying Party SHALL perform the base attestation verification process as defined in the
+Base Verification specification:
+https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations</p>
+<h3 id="91-presentation-policy">9.1 Presentation Policy</h3>
+<p>To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:</p>
+<ol>
+<li>verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;</li>
+<li>verify that the attestation is within its validity period;</li>
+<li>check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;</li>
+<li>verify device binding where section 7.1 records the attestation as device-bound;</li>
+<li>request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.</li>
+</ol>
+<p>Obligations specific to this attestation type, carried over from the Relying Party
+obligations of the previous version of this Rulebook:</p>
+<p>When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.</p>
+<h3 id="92-presentation-modes">9.2 Presentation modes</h3>
+<p>Remote presentation is in scope. Proximity presentation is not in scope, consistent
+with chapter 5, which records the mdoc encoding as out of scope.</p>
+<h3 id="93-transactional-data">9.3 Transactional data</h3>
+<p>This Rulebook defines no transactional data.</p>
+<h2 id="10-trust-framework">10 Trust Framework</h2>
+<p>The trust anchor is obtained as described in the branch below that corresponds to the
+legal category under which the attestation was issued.</p>
+<p>This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.</p>
+<p><strong>Qualified Electronic Attestations of Attributes (QEAAs)</strong></p>
+<p>For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
+The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.</p>
+<p>Successful certificate chain validation establishes that:
+- the issuer's certificate was recognized within the applicable trust framework;
+- the issuer's identity has been validated by the supervisory authority during inclusion in the TLOL; and
+- the issuer satisfies the trust requirements applicable to QEAAs.</p>
+<p>In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.</p>
+<p><strong>Electronic Attestations of Attributes (EAAs)</strong></p>
+<p>For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
+The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.</p>
+<p>The Relying Party SHALL verify the EBWOID in accordance with the verification procedure defined in this Rulebook. Upon successful verification, the Relying Party obtains:
+- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
+- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
+- the public key authorized to verify the EAA signature.</p>
+<p>Authorization of the issuer is subsequently determined in accordance with the Relying Party's internal policies. Such authorization MAY be based on locally maintained wallet configuration or on trusted jurisdiction- or domain-specific trust list services that identify issuers authorized for a particular type of EAA</p>
+<p><strong>Trust anchor location</strong></p>
+<p>The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.</p>
+<h2 id="11-references">11 References</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Item Reference</strong></th>
+<th><strong>Standard name/details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[European Digital Identity Regulation]</td>
+<td><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183">Regulation (EU) 2024/1183</a> of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework</td>
+</tr>
+<tr>
+<td>[HAIP]</td>
+<td>Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03</td>
+</tr>
+<tr>
+<td>[IANA-JWT-Claims]</td>
+<td>IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml</td>
+</tr>
+<tr>
+<td>[ISO/IEC 18013-5]</td>
+<td>ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09</td>
+</tr>
+<tr>
+<td>[ISO 8601]</td>
+<td>ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html</td>
+</tr>
+<tr>
+<td>[OIDC]</td>
+<td>Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html</td>
+</tr>
+<tr>
+<td>[RFC 2119]</td>
+<td>RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997</td>
+</tr>
+<tr>
+<td>[RFC 3339]</td>
+<td>RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002</td>
+</tr>
+<tr>
+<td>[RFC 8610]</td>
+<td>RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019</td>
+</tr>
+<tr>
+<td>[RFC 8943]</td>
+<td>RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020</td>
+</tr>
+<tr>
+<td>[RFC 8949]</td>
+<td>RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020</td>
+</tr>
+<tr>
+<td>[SD-JWT VC]</td>
+<td>SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09</td>
+</tr>
+<tr>
+<td>[Topic 7]</td>
+<td>ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking</td>
+</tr>
+</tbody>
+</table></div>
+  </article>
+</div>
+
+<footer class="foot">
+  <div class="foot-band">
+    <div class="foot-inner">
+      <a class="foot-logolink" href="https://www.webuildconsortium.eu/" target="_blank" rel="noopener"><img class="foot-logo" src="../assets/logo.svg" alt="WE BUILD Consortium" height="56"></a>
+      <img class="foot-eu" src="../assets/logo-eu.svg" alt="Co-funded by the European Union" height="46">
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="foot-inner">
+      <span class="copyright">&copy; Copyright 2026 WE BUILD Consortium. All Rights Reserved.</span>
+      <span class="gen">Rendered from <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-site/README.md" target="_blank" rel="noopener">the rulebook</a> in this repository.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* the chapter list is open beside the text, and out of the way on a phone */
+(function () {
+  var box = document.querySelector(".doc-chapters");
+  if (box && window.matchMedia("(max-width: 860px)").matches) box.open = false;
+}());
+</script>
+
+</body>
+</html>

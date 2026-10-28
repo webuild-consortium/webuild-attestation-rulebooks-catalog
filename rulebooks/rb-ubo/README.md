@@ -57,11 +57,14 @@ Category: S-EAA or QEAA, selected at issuance per integrity rule IR-24 in sectio
    * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
-- [9 Presentation](#9-presentation)
-   * [9.1 Presentation Policy](#91-presentation-policy)
-   * [9.2 Presentation modes](#92-presentation-modes)
-   * [9.3 Transactional data](#93-transactional-data)
+- [9 Request, Presentation and Verification](#9-request-presentation-and-verification)
+   * [9.1 Relying Party Role ( RP Instance - EUDI Wallet)](#91-relying-party-role--rp-instance---eudi-wallet)
+   * [9.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)](#92-ebw-relying-party-role--ebw-wallet---ebw-wallet)
+   * [9.3 Presentation modes](#93-presentation-modes)
+   * [9.4 Transactional data](#94-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
+   * [10.1 Relying Party Role ( RP Instance - EUDI Wallet)](#101-relying-party-role--rp-instance---eudi-wallet)
+   * [10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)](#102-ebw-relying-party-role--ebw-wallet---ebw-wallet)
 - [11 References](#11-references)
 
 
@@ -150,6 +153,11 @@ capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 
 ## 2 Compliance
 
+This chapter states how this Rulebook complies with the Architecture and Reference
+Framework and with the applicable Regulations. Sections 2.1 and 2.2 follow from the
+legal category of this attestation. Section 2.3 maps each applicable requirement to
+the section that satisfies it.
+
 ### 2.1 Compliance statement
 
 This Rulebook complies with the applicable requirements of Topic 12, Attestation
@@ -161,38 +169,54 @@ Articles 3, 21, 25, 60 and 62, and with the applicable Regulatory Technical Stan
 
 ### 2.2 Regulatory basis
 
-> **Deviation from the generic template: dual legal category.** The template assumes a
-> single legal category per attestation, asks for one `Category` value, and directs
-> authors to keep one block in 2.2 and one branch in chapter 10. This attestation is
-> issuable under either of two categories, and that is a deliberate deployment model
-> rather than an unresolved question:
->
-> - as an **EAA**, self-issued by the legal entity as part of its Ultimate Beneficial
->   Owner disclosure obligations, with trust anchored in the EBWOID carried in the
->   attestation header;
-> - as a **QEAA**, issued by a Qualified Trust Service Provider or an authorised
->   competent body such as a notary, commercial register authority or AML-supervised
->   entity, with trust anchored in the X.509 PKI and the applicable Trust List of
->   Licensees.
->
-> Integrity rule IR-24 in section 4.5 already states this normatively. Both blocks are
-> therefore kept in 2.2, both branches in chapter 10, and the rows in 2.3 that apply
-> only in the qualified case are marked accordingly. The template is not changed; this
-> is recorded as an exception carried by this Rulebook.
+FIXED
+
+The regulatory basis below is the one applicable to the legal category of this
+attestation.
+
+**PID**
+
+This Rulebook specifies how the mandatory and optional person identification data
+defined in Tables 1 and 2 of the Annex to CIR (EU) 2024/2977, and the metadata
+defined in Table 5 of that CIR, are encoded within the EUDI Wallet ecosystem.
 
 **QEAA**
 
-This attestation includes the data required by Annex V of Regulation (EU)
-2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-016,
-EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by a
-qualified trust service provider or an authorised competent body.
+> This attestation includes the data required by Annex V of Regulation (EU)
+> 2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-016,
+> EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by a
+> qualified trust service provider.
+
+**PuB-EAA**
+
+> This attestation includes the data required by Annex VII of Regulation (EU)
+> 2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-017,
+> EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by or on
+> behalf of a public sector body responsible for an authentic source.
 
 **Non-qualified EAA**
 
-This attestation is not a qualified electronic attestation of attributes. The data
-described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
-required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
-Where a recommendation is not followed, the reason is stated below.
+> This attestation is not a qualified electronic attestation of attributes. The data
+> described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+> required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
+> Where a recommendation is not followed, the reason is stated below.
+
+**Non-qualified self EAA (S-EAA)** 
+
+> This attestation is a subtype of a non-qualified electronic attestation of attributes.
+> From a technical perspective, there is no difference between an EAA and an self EAA.
+> The distinction lies primarily in the legal framework, particularly with regard to issuer liability.
+> A self EAA is based on information owned or self-asserted by the issuer and
+> is issued and used exclusively within a defined closed ecosystem
+> and is intended to have no effect on third parties.
+> Where Article 2(2) eIDAS applies, the service falls outside the scope of eIDAS;
+> consequently, the eIDAS TSP liability regime does not apply, and
+> liability is governed by applicable contractual and national law.
+
+**EBWOID**
+
+> TO AGREE. Do not assert qualified status unless the issuer is a QTSP, and do not
+> cite Annex V or Annex VII by default.
 
 ### 2.3 Traceability
 
@@ -227,6 +251,8 @@ requirement bites only in one of the two legal categories.
 | EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
 | EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
 
+*A non-qualified self EAA answers these rows as a non-qualified EAA (EW-DM-12-015, -018, -020, , -024 and -030).
+
 ## 3 Attestation attributes
 
 The Ultimate Beneficial Owner (UBO) Attestation provides a standardized, verifiable
@@ -236,7 +262,9 @@ KYS (Know Your Supplier), KYC (Know Your Customer), Anti-Money Laundering (AML) 
 supplier onboarding, and regulatory due diligence processes.
 
 Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
-encoding of each attribute is given in chapter 5.
+authoritative encoding lives in the machine-readable schema artefacts referenced in
+section 3.1, not in this document. Do not paste schema fragments into the prose,
+they will drift.
 
 ### 3.1 Introduction
 
@@ -354,6 +382,8 @@ Sample data is at `data-schemas/sd-jwt/sample-data/ubo-sd-jwt-sample.json`.
 
 ### 3.2 Mandatory attributes
 
+Attributes that SHALL be present in every attestation of this type.
+
 #### Person Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
@@ -419,6 +449,8 @@ Sample data is at `data-schemas/sd-jwt/sample-data/ubo-sd-jwt-sample.json`.
 
 ### 3.3 Optional attributes
 
+Attributes the Provider MAY include at its discretion.
+
 #### BirthPlace Optional Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
@@ -458,6 +490,9 @@ Sample data is at `data-schemas/sd-jwt/sample-data/ubo-sd-jwt-sample.json`.
 
 ### 3.4 Conditional attributes
 
+Attributes required only when a stated condition holds. State the condition
+explicitly in the definition, not in a footnote.
+
 | **Data Identifier** | **Condition** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
 | `source.data` | **SHALL** be provided if `source.url` is not a publicly accessible URI | Base64-encoded evidence document | String (base64) |
@@ -471,21 +506,12 @@ Metadata describes the attestation rather than its subject.
 
 ### 4.1 Mandatory metadata
 
-| **Data Identifier** | **Definition** | **Data type** |
-| --- | --- | --- |
-| attestation_legal_category | Indicates the legal category of the AuthorisedSignatories Attestation ("EAA") | String |
-| cnf | cryptographic Key Binding | String |
-
 *Note*: Only the additional mandatory attributes are listed; the mandatory attributes defined by the protocol are not specified.
 
-> **Legal category.** The value of `attestation_legal_category` is determined at
-> issuance and SHALL be one of `EAA` or `QEAA`, per integrity rule IR-24 in section
-> 4.5 and the deviation recorded in section 2.2. Section 4.1 of the generic template
-> states that this attribute is superseded by the `category` attribute of
-> [ETSI TS 119 472-1] and SHALL NOT be used. The attribute is retained here as the
-> authors wrote it. Note that EW-DM-12-029 (legacy ARB_25) of ARF v3.0.0 is a SHALL
-> that still requires `attestation_legal_category`, so the template and the ARF
-> currently disagree. This is on the quality assurance group's list.
+| **Data Identifier** | **Semantic reference**|**Definition** |**Data type**| **Example value** |                   
+| --- |-----------------------------------------------------------| --- | -- |-------------------|
+| attestation_legal_category | |Indicates the legal category of the Attestation | String | S-EAA , QEAA      |
+| cnf | | cryptographic Key Binding                                  | String |                   |
 
 ### 4.2 Optional metadata
 
@@ -646,7 +672,7 @@ The `.` notation is used to indicate the nesting of attributes.
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:ubo:1`
 
-#### 5.1.1 Attribute Encoding Table
+#### Attribute Encoding Table
 
 | **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference / Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
@@ -719,185 +745,12 @@ The `.` notation is used to indicate the nesting of attributes.
   source entry SHALL be present per UBO.
 - `iat`, `exp`, and `iss` follow RFC 7519 standard JWT claim naming conventions.
 
-#### 5.1.2 Status Claim
-
-For SD-JWT VC-compliant UBO Attestations, the attestation MUST include a `status` claim if the
-technical validity period is greater than 24 hours. This claim enables Relying Parties to
-determine if a credential has been revoked via a status list mechanism.
-
-The `status` claim SHALL be a JSON object with the following members:
-
-| **Field** | **Type** | **Value** |
-| --- | --- | --- |
-| `type` | String | SHALL be `"status-list"` |
-| `status_list_credential` | String (URI) | URI of the Status List Credential document |
-| `status_list_index` | Integer (>= 0) | Zero-based index into the status list bitstring |
-| `status_purpose` | String | SHALL be `"revocation"` |
-
-**Example:**
-
-```json
-{
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/ubo/2025",
-    "status_list_index": 101,
-    "status_purpose": "revocation"
-  }
-}
-```
-#### 5.1.3 Example Payload
-The following is a non-normative example of a UBO SD-JWT VC payload demonstrating a natural  person qualifying as UBO through direct shareholding and management control:
-```json
-{
-  "vct": "eu.we-build:ubo:1",
-  "iss": "https://issuer.example.com",
-  "iat": 1736935200,
-  "exp": 1768471200,
-  "issuing_entity": "did:example:legal-entity-789",
-  "attestation_legal_category": "EAA",
-  "schema_version": "0.4.0",
-  "trust_anchor_url": "https://trust.webuildconsortium.eu/anchors/eidas-tl",
-
-  "ubo": [
-    {
-      "jurisdiction": "DE",
-      "person": {
-        "first_name": "Anna",
-        "surname": "Müller",
-        "birth_date": "1978-04-15"
-      },
-      "birth_place": {
-        "locality": "Munich",
-        "country": "DE",
-        "region": "Bavaria"
-      },
-      "citizenship": ["DE", "AT"],
-      "residential_address": {
-        "street": "Hauptstraße",
-        "house_number": "12",
-        "locality": "Munich",
-        "region": "Bavaria",
-        "postal_code": "80331",
-        "country": "DE"
-      },
-      "contact_address": {
-        "street": "Marienplatz",
-        "house_number": "1",
-        "locality": "Munich",
-        "region": "Bavaria",
-        "postal_code": "80331",
-        "country": "DE"
-      },
-      "person_identifier": {
-        "document_type": "PASSPORT",
-        "document_number": "C01X00T47",
-        "issuing_country": "DE",
-        "expiry_date": "2030-04-14"
-      },
-      "person_unique_identifier": {
-        "identifier_unique": "DE-12345678",
-        "identifier_issuing_authority": "Bundesamt für Justiz"
-      },
-      "justification": {
-        "threshold_met": [
-          "ownership_25_plus",
-          "control_voting_25_plus",
-          "control_management"
-        ],
-        "ownership_percentage": 45.0,
-        "voting_rights_percentage": 45.0,
-        "control_details": "Additionally controls via contractual right to appoint CEO per shareholders agreement dated 2015-03-01"
-      },
-      "effective_date": "2015-03-01",
-      "source": [
-        {
-          "id": "src-ubo-001",
-          "type": "ShareRegister",
-          "url": "https://example.com/docs/share-register-extract-2024.pdf"
-        },
-        {
-          "id": "src-ubo-002",
-          "type": "ShareholderAgreement",
-          "url": "https://example.com/docs/shareholder-agreement-2015.pdf"
-        }
-      ]
-    },
-    {
-      "jurisdiction": "DE",
-      "person": {
-        "first_name": "Klaus",
-        "surname": "Weber",
-        "birth_date": "1965-11-30"
-      },
-      "birth_place": {
-        "locality": "Hamburg",
-        "country": "DE"
-      },
-      "citizenship": ["DE"],
-      "residential_address": {
-        "street": "Alsterufer",
-        "house_number": "5",
-        "locality": "Hamburg",
-        "region": "Hamburg",
-        "postal_code": "20354",
-        "country": "DE"
-      },
-      "person_identifier": {
-        "document_type": "NATIONAL_ID",
-        "document_number": "L01X00T28",
-        "issuing_country": "DE",
-        "expiry_date": "2028-11-29"
-      },
-      "justification": {
-        "threshold_met": [
-          "ownership_indirect",
-          "control_voting_indirect"
-        ],
-        "ownership_percentage": 30.0,
-        "voting_rights_percentage": 30.0
-      },
-      "effective_date": "2018-07-15",
-      "source": [
-        {
-          "id": "src-ubo-003",
-          "type": "CommercialRegister",
-          "url": "https://handelsregister.example.de/extract/HRB-12345"
-        }
-      ]
-    }
-  ],
-
-  "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.com/status/ubo/2025",
-    "status_list_index": 101,
-    "status_purpose": "revocation"
-  },
-
-  "cnf": {
-    "jwk": {
-      "kty": "EC",
-      "crv": "P-256",
-      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-    }
-  }
-}
-```
-Sample payloads are provided under `../data-schemas/sd-jwt/sample-data/ubo-sd-jwt-sample.json`
-
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
-ISO/IEC 18013-5 (mdoc) is **out of scope** for this Rulebook, as offline proximity  presentation is not a current requirement for the Control Attestation.
+**out of scope** for this Rulebook
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
-
-
-
-> **Empty in the previous version.** This section carried a heading and no content.
-> Either an encoding needs writing or the section should state that the format is out
-> of scope, as section 5.2 does for mdoc.
+**out of scope** for this Rulebook
 
 ## 6 Protocols
 
@@ -914,7 +767,11 @@ records the mdoc encoding as out of scope.
 
 ## 7 Issuance
 
-### 7.1 Binding
+### 7.1 Holder Key Binding at Issuance (Wallet Binding)
+
+This is a fundamental security requirement that prevents credential theft and ensures an attestation is bound to a specific wallet. 
+**What it is:** Where the attestation is device-bound (see table below), the Holder's wallet **MUST** perform a "proof-of-possession" challenge to prove it controls a specific private key. The Attestation Provider then embeds the corresponding public key into the attestation payload before signing it.
+**Why it matters:** This process creates a permanent, cryptographic link between the attestation and the Holder's wallet. During presentation (as described in Chapter 9), a Relying Party can then challenge the presenting wallet to prove it still controls that same private key. This verification step makes stolen or copied attestation files useless to a thief, as they will not have the required private key.
 
 | Field | Value | Source |
 | --- | --- | --- |
@@ -928,31 +785,53 @@ is used.
 
 ### 7.2 Issuance Policy
 
+An Issuance Policy defines the minimum rules, policies, and procedures that any compliant Attestation Provider **SHALL** follow when issuing attestations of this type. 
+For transparency and to allow Relying Parties to programmatically assess their trust in the attestation, each Attestation Provider **SHALL** publish their terms and conditions, a generic Trust Services Policy, and an EAA Policy (per attestation type) in accordance with **[ETSI TS 119 471]**. These policies must be accepted by the Holder upon receipt of the attestation.
+This section references key concepts from **[ETSI TS 119 471]** and **[ETSI TS 119 461]**. The most critical issuance concepts for a rulebook author to understand and specify are explained below:
+
+#### **1. Core Issuer Obligations**
+
+Any entity acting as an authorized Attestation Provider under this rulebook **SHALL** comply with the following general obligations:
+**Issuance Basis and Timestamping:** The Provider **SHALL** issue the attestation based on information and supporting documentation that is valid and accurate at the exact moment of issuance. A timestamp of issuance (iat in SD-JWT VC) **MUST** be included in each attestation. This enables a Relying Party to not only verify the attestation's temporal validity but also to correctly validate the Attestation Provider's trust status as it was at the moment of issuance (e.g., by checking against a historical Trust List).
+**Data Currency and Revocation:** The Provider is responsible for the ongoing accuracy of the attested information. The Provider **MUST** immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
+
+#### **2. Identity and Attribute Proofing (as per ETSI TS 119 461)**
+
+This refers to the rigor with which the Attestation Provider verifies the information before issuing the attestation. The level of trust a Relying Party can place in an attestation depends directly on the quality of this proofing process.
+**Identity Proofing:** This is the process of verifying the identity of the subject. For example, for registered legal entities in a national register, this **MUST** involve verifying its active registration in the respective register.
+**Attribute Proofing:** This is the process of verifying the specific claims (attributes) being attested. The Provider **MUST** verify the attributes against a designated authentic data source (as defined by the author below).
+
+#### **3. Architectural Pattern for EAA Provider Trust**
+To enable the EAA Provider to implement the basic verification steps described in Chapter 9, the following general issuer obligations apply to all EAA Providers:
+* EAA Provider SHALL make the key it signs with verifiable through the trust framework of chapter 10.
+* Issuer obligation differ for the different trust mechanisms
+
+##### Attestation Chaining (Issuer Component with Access Certificate)
+1.  **Provider Identity Credential:** The EAA Provider **MUST** possess an **Access Certificate** issued by a Qualified Trust Service Provider (QTSP). This certicate already contain a `signing_key` parameter holding the public key the Provider uses to sign the issued EAAs. 
+2.  **Trust Chaining Mechanism:** The EAA Provider **MUST** include their access certificate in the header of every EAA they issue. This allows a Relying Party to verify the EAA signature using the public key from the embedded access certificate and then verify the access certificate itself against the eIDAS Trusted List.
+
+###### Attestation Chaining (EBW with EBWOID) 
+1.  **Provider Identity Credential:** The EAA Provider **MUST** possess their own European Business Wallet Owner Identity (EBWOID), issued by a Qualified Trust Service Provider (QTSP). To be authorized to sign and issue other EAAs, this EBWOID **MUST** contain a `signing_key` parameter holding the public key the Provider uses to sign the issued EAAs. 
+2.  **Trust Chaining Mechanism:** The EAA Provider **MUST** include their own EBWOID (or a reference/chain to it) in the header of every EAA they issue. This allows a Relying Party to verify the EAA signature using the public key from the embedded EBWOID, and then verify the EBWOID itself against the eIDAS Trusted List.
+
+##### QSEAL
+[to be described]
+
+##### to be defined according to ADR#336
+[to be described]
+
+#### **4. Batch Issuance (Protocol Optimization)**
+This is a technical efficiency and privacy feature defined in the underlying OpenID4VCI protocols.
+**What it is:** A technical capability allowing a Wallet to request, and an Attestation Provider to issue, multiple credentials simultaneously in a single API interaction, rather than requiring separate network connections for each credential.
+**Application to this Rulebook:** For unique, long-lived business attestations, batch issuance is typically **Optional** or **Not Applicable**, as these credentials do not require multi-copy anonymity and are issued on a one-off basis.
+
 When issuing a UBO Attestation, the Issuer SHALL comply with the following obligations.
+
 #### UBO Determination
 The legal entity SHALL determine its Ultimate Beneficial Owner(s) (UBOs) by:
 - applying the ≥25% ownership threshold to the Ownership List to identify natural persons holding, directly or indirectly, at least 25% ownership;
 - analysing the Control List to identify natural persons exercising ultimate control through other means, irrespective of ownership percentage; and
 - applying the applicable AMLR methodologies for determining direct ownership, indirect ownership, legal arrangement roles, and other forms of control.
-
-#### Attestation Issuance
-- For an Electronic Attestation of Attributes (EAA), the legal entity SHALL self-issue the UBO Attestation into its Company Wallet.
-- For a Qualified Electronic Attestation of Attributes (QEAA), a Qualified Trust Service Provider (QTSP) or another authorized competent body SHALL issue the UBO Attestation to the Company's Wallet.
-
-
-#### Issuer Responsibilities
-**Electronic Attestation of Attributes (EAA)**
-- The legal entity SHALL issue the attestation based on the information and supporting documentation available at the time of issuance.
-- The issuer SHALL ensure that the attested information remains accurate throughout the attestation's validity period and SHALL revoke the attestation without undue delay whenever a change affects the validity or accuracy of the underlying information.
-
-**Qualified Electronic Attestation of Attributes (QEAA)**
-- Prior to issuing the attestation, the QTSP or other authorized competent body SHALL:
-  - verify that all information required to determine the UBO(s) is complete and available; and
-  - validate the UBO determination against the applicable Trade Register (TR) record or another authoritative data source.
-- The QTSP or other authorized competent body SHALL issue and verify the attestation exclusively on the basis of authoritative sources, such as official company register data, audited financial statements, or other legally recognized evidence.
-
-The Issuer SHALL implement the base issuer obligation as defined in the Issuer Obligation specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations
 
 ### 7.3 Lifecycle management
 
@@ -974,38 +853,26 @@ An attestation SHALL remain valid only while its underlying information is accur
 - Token Status List: The issuer must maintain an active IETF Token Status List (aligned with the Attestation Status List mechanism specified by the EU Commission).
 - Credential Metadata: The metadata status_list must be populated in every issued CompanyInfo attestation, referencing the status list URI and the credential's specific index.
 
-Authorized Authority: Only the authorized issuer (the QTSP/competent body for QEAA, or the self-issuing legal entity for EAA) may modify the status list entry.
+# 9. Request, Presentation and Verification
 
-**Revocation Triggers & Business Rules**
-- QEAA Trigger (Automatic): The QTSP/competent body must actively monitor official company register data and audited financial statements. Any detected discrepancy or change in the company registry must automatically trigger revocation of the QEAA.
-- EAA Trigger (Manual Obligation): The self-issuing legal entity is under strict obligation to immediately update or revoke its EAA if its available documents, financial thresholds, or ownership structures change.
-
-Relying Party Action: A revoked or suspended attestation must be treated as invalid for credential-validity purposes by all RPs.
-The business interpretation is determined by the Relying Party's internal compliance policies.
-
-## 9 Presentation
-
-### 9.1 Presentation Policy
-
+FIXED 
 To verify and validate a received presentation of an attestation of this type,
 the following steps SHALL be performed:
 
-1. verify the signature over the attestation using a trust anchor obtained as
-   described in chapter 10;
-2. verify that the attestation is within its validity period;
-3. check revocation status as described in chapter 8, unless the attestation is
-   short-lived; or remaining lifetime of the attestation is below revocation time
-   threshold;
-4. verify device binding where section 7.1 records the attestation as device-bound;
-5. request only those attributes that are necessary for the stated purpose of the
-   transaction, and, where the trust model for this attestation requires Relying
-   Party registration, only those attributes it is registered and authorised to
-   request.
-
-Obligations specific to this attestation type, carried over from the attestation usage
-chapter of the previous version of this Rulebook:
-
-The UBO Attestation serves the core AML/CTF compliance requirement of identifying ultimate beneficial owners across European financial and business ecosystems:
+1.  **Cryptographic Integrity Verification (Tamper Proof):**
+    The Verifier **MUST** verify that the received attestation data has not been altered or tampered with since its issuance. The wallet shall validate the digital signature over the attestation using a trusted public key (trust anchor) obtained according to the framework detailed in Chapter 10.
+2.  **Issuer Authentication and Trust Evaluation:**
+    The Verifier **MUST** verify the identity and regulatory standing of the Attestation Provider. The Verifier **MUST** verify that a trust anchor (Qualified Trust Service Provider (QTSP) for EAAs or the designated national Supervisory Body for other attestation), has confirmed that the attestation issuer owned the public key corresponding to the private key used to sign the verified attestation at the time of issuance.
+3.  **Temporal Validity Verification:**
+    The Verifier **MUST** verify that the attestation is within its stated validity window. An attestation that has not yet taken effect or has already expired **SHOULD** be accepted, regardless of any other successful checks.
+4.  **Revocation Status Verification:**
+    The Verifier **MUST** verify the real-time revocation status of the received attestation as described in Chapter 8, unless:
+    *   The attestation is explicitly defined as short-lived; or
+    *   The remaining lifetime of the attestation is below the designated revocation time threshold.
+5.  **Holder Wallet and Device Binding Verification:**
+    Where the attestation is device-bound according to section 7.1, the Verifier **MUST** verify the Holder's presentation signature and the presentation's binding to achieve two critical security checks:
+    *   Ensure that the presenter has not submitted a copied or replayed attestation 
+    *   Validate that the presented attestation was issued to this exact presenting wallet instance.
 
 *Primary use cases:*
 - Bank KYC for Corporate Account Opening (per AMLR Articles 20-25)
@@ -1014,17 +881,83 @@ The UBO Attestation serves the core AML/CTF compliance requirement of identifyin
 - Regulatory Reporting for company (Transparency Register Cross-Reference)
 - Ongoing Monitoring (AMLR Article 25)
 
-When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.
-#### 9.1.1 – 4.2.8 Base Verification Process
-The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:
-https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations
+## 9.1. Relying Party Role ( RP Instance - EUDI Wallet)
 
-#### 9.1.9 Validate Integrity Rule
-- Verify that at least one UBO is present
-- Verify that all AMLR Article 62 mandatory attributes are present for each UBO
-- Verify that each UBO has at least one determination_methodology
+[AUTHOR] Add obligations specific to this attestation type below. Do not edit the
+list above.
 
-##### 9.1.10 UseCaseSpecific: Cross-Reference with Ownership and Control Lists (AMLR Article 60) ###
+## 9.2. EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+
+Following the principle of mutual identification the verification in the **European Business Wallet (EBW)** ecosystem is designed as a mutual cryptographic process. Unlike traditional consumer wallet flows, EBW transactions must satisfy high-assurance, machine-to-machine (M2M) environments. Verification of EAAs is executed under two distinct conditions:
+
+1.  **Relying Party Role:** When an EBW Owner receives a presented attestation from a Holder and must verify its cryptographic claims before providing a service or executing a transaction.
+2.  **Holder Role:** When an EBW Holder receives an incoming Presentation Request and must verify the identity and system integrity of the requesting Relying Party before releasing confidential, non-public attestation data.
+
+The system performs these verification steps to achieve three core business and regulatory objectives:
+**Trust Augmentation:** Establishing the absolute cryptographic authenticity of exchanged data and validating the identity of the participating legal entities.
+**Liability Allocation:** Fulfilling statutory due diligence to minimize operational risk and programmatically shift liability to the responsible party (Issuer or Holder).
+**Data Protection:** Safeguarding highly confidential corporate data (e.g., ultimate beneficial ownership, control structures) stored in the EBW against unauthorized harvest or access.
+
+## 9.2.1 Relying Party obligation during request
+1.  **Include own identification and authorization data in presentation requests:**
+      When requesting non-public and therefore confidential data, the Relying Party **SHALL** include its own **EBWOID** and **BWUA** (using the `ebwoid` and `ebw_wallet_unit` format blocks in the `verifier_info` array of the Request Object) to allow the receiving Holder to:
+   *   Enforce automated consent and exchange policies based on the Verifier’s legal identity and verified platform integrity.
+   *   Ensure the request originates from a valid wallet instance rather than uncertified or spoofed software.
+   *   *Operational Constraint:* Requesters that do not present a valid EBWOID and BWUA **SHOULD NOT** receive confidential attestations.
+2.  **Request Wallet Unit Attestations (BWUA):**
+       The Relying Party **SHOULD** include a request for the Holder’s Business Wallet Unit Attestation (BWUA)  to mitigate the risk of interacting with a revoked, compromised, or modified wallet instance.
+3.  **Adhere to Data Minimization (Purpose Limitation):**
+       The Relying Party **SHALL** only request attributes that are strictly necessary to fulfill the stated business purpose of the transaction.
+4.  **Respect Trust Model Registration:**
+       Where the trust model for a requested attestation requires Relying Party registration, the RP **SHALL** only request attributes it is explicitly registered and authorized to request.
+
+## 9.2.2. Holder and Relying Party obligation during verification
+
+To protect the Holder and Relying Party from processing fraudulent, tampered, or stolen attestations, they  **MUST** programmatically execute the following five verification steps on all received attestations. Holder and Relying Party performing the verification steps are called Verifier within the rest of this chapter. The Verifier can perform the steps only if the EBW supports the verification steps, therefore the EBW Wallet Provider **MUST** support the following verification steps with their EBW:
+
+### 9.2.2.1 Impact of Cryptographic Verification on Holder Liability
+ The mandatory validation of incoming requests protects the Holder when operating in high-security, backend-to-backend environments:
+
+ *   **Establishes Non-Repudiation (Defense Against Dispute):** By validating the signature of the Request Object against the public key attested inside the Relying Party's EBWOID, the Relying Party cannot later deny having initiated the transaction or requested the data. This protects the Holder from legal claims that they disclosed confidential business secrets without a valid, authorized request.
+ *   **Protects Against Impersonation (Defense Against Data Breaches):** It cryptographically proves the request did not originate from a malicious actor who simply spoofed the Relying Party's public `client_id` or metadata. Because the transaction requires a signature generated by the private key securely held within the Relying Party's hardware wallet, the Holder is guaranteed they are communicating with the actual legal entity identified in the EBWOID.
+ *   **Fulfills Statutory Due Diligence (Safe Harbor under GDPR):** Under data protection regulations, a corporate Holder has a legal duty to protect its confidential operational data. Executing these mandatory checks before releasing any data payload safe-harbors the Holder from charges of negligence or unauthorized data disclosure.
+ ---
+
+ ### 9.2.2.2 Impact of Cryptographic Verification on Relying Party Liability
+
+ The execution of the mandatory cryptographic checks defined in this chapter directly determines the legal and liability posture of the Relying Party (RP). Under the European Business Wallet framework and eIDAS, performing these verifications shifts liability and protects the RP from negligence claims:
+
+ | Verification Check | Cryptographic Fact | Impact on Relying Party Liability |
+ | :--- | :--- | :--- |
+ | **Integrity & Issuer Auth (Steps 1 & 2)** | Proves data has not been modified; validates the cryptographic identity of the issuer. | **Transfers Data-Accuracy Liability to Issuer.** The RP is legally protected against errors or falsehoods in the received data. Liability shifts to the Attestation Provider under eIDAS2 or their published terms. |
+ | **Temporal & Revocation (Steps 3 & 4)** | Proves the credential was actively valid and unrevoked at the exact moment of the transaction. | **Protects Against Fraud Claims.** Safe-harbors the RP from claims arising from the use of credentials that were valid in the past but have since expired or been revoked. |
+ | **Device Binding & Presentation Signature (Step 5)** | Proves the holder has possession of the private key associated with the credential and actively authorized this specific session. | **Protects Against Identity Theft & Establishes Safe Harbor.** Explained in detail below. |
+
+ #### **Defense Against Identity Theft (Shifts Burden of Proof)**
+ By verifying the device binding (e.g., via the Key Binding JWT, matching `nonce` and `aud`), the RP proves that the presenter has real-time, hardware-backed control over the private key associated with the credential.
+
+ If a malicious actor steals a copy of another company's EBWOID file, they **cannot** generate a valid binding signature without access to that specific wallet's private key. By verifying this binding, the RP completely protects itself from claims of *"failing to prevent obvious credential-sharing or identity theft,"* shifting the burden of proof entirely to the claimant.
+
+ #### **Safe Harbor for Data Access and Key Compromise**
+ Under GDPR and eIDAS, if an RP discloses confidential data or executes a transaction based on a credential where device binding was fully and correctly verified, it is legally deemed to have fulfilled its due diligence. If it is later discovered that the Holder's private key was compromised at the time of the transaction, the liability shifts away from the RP to:
+ *   The **Holder**, for failing to adequately secure and protect their private key/hardware device.
+ *   The **Issuer**, if they were notified of the key compromise but failed to add the credential to their revocation list in a timely manner.
+
+ #### **Eliminates Sole Negligence under eIDAS (Art 12a / 12b)**
+ Under eIDAS Article 12a and 12b, a Relying Party has a duty of care to validate credentials. If an RP fails to verify the presentation signature and the corresponding trust chains, they are considered to have accepted an unauthenticated payload. In the event of a security breach or fraudulent transaction, the RP can be held **solely liable** due to technical negligence.
+
+### 9.2 Presentation modes
+
+Remote presentation is in scope. Proximity presentation is not in scope, consistent
+with chapter 5, which records the mdoc encoding as out of scope.
+
+### 9.3 Transactional data
+
+This Rulebook defines no transactional data.
+
+### 9.4 Attestation type or use case specific Relying Party Obligation 
+
+##### 9.4.1 Cross-Reference with Ownership and Control Lists (AMLR Article 60) ###
 
 The AMLR compliance requires independent verification of UBO calculations.
 
@@ -1043,7 +976,7 @@ The AMLR compliance requires independent verification of UBO calculations.
   - If discrepancies relate to Transparency Register submission → report to register authority per AMLR Article 60
   - If discrepancies cannot be resolved -> risk cases: apply enhanced due diligence or decline relationship
 
-##### 9.1.12 UseCaseSpecific: UBO Identity Verification (AMLR Article 21 Procedure) ####
+##### 9.4.2 UBO Identity Verification (AMLR Article 21 Procedure) ####
 For each UBO in the UBO  Attestation, the RP SHALL perform identity verification following this hierarchical procedure:
 @TODO Florin Specify the process (relevant in MVP+)
 
@@ -1069,43 +1002,59 @@ For each UBO in the UBO  Attestation, the RP SHALL perform identity verification
 - Check if unique_personal_identification_number is available in UBO
 - If available:Use the unique ID number for identity verification
 
-### 9.2 Presentation modes
-
-Remote presentation is in scope. Proximity presentation is not in scope, consistent
-with chapter 5, which records the mdoc encoding as out of scope.
-
-### 9.3 Transactional data
-
-This Rulebook defines no transactional data.
-
 ## 10 Trust Framework
 
-This chapter specifies the trust anchor mechanisms used by Relying Parties to establish trust in the issuer of an Electronic Attestation of Attributes (EAA) or a Qualified Electronic Attestation of Attributes (QEAA). The corresponding verification procedures are defined in Sections 4.2.2–4.2.4.
+The trust anchor for this attestation is obtained as described in the branch below
+that corresponds to its legal category. The trust anchor location applies in either
+case.
 
-Both branches below apply, selected by the legal category under which the attestation
-was issued. See the deviation recorded in section 2.2.
-
-**QEAA, resolved via Trusted Lists**
+**PID, QEAA, PuB-EAA and attestations resolved via Trusted Lists**
 
 The trust anchor is obtained from a Trusted List, as described in section 6.6.3.6
 of the ARF main document. The Provider may sign the attestation with an
 intermediate signing certificate, in which case the trust anchor is used to verify
 that certificate rather than the attestation directly.
 
-**Non-qualified EAA**
+**Non-qualified EAA (including S-EAA)**
+
+## 10.1. Relying Party Role ( RP Instance - EUDI Wallet)
 
 The trust anchor is not obtained from a Trusted List of qualified trust service
-providers. A Relying Party obtains it as described in the deployment profile below,
-and verifies that the Provider is authorised to issue this attestation type by the
-same means.
+providers. It is obtained as follows: [CONSORTIUM DEFAULT MECHANISM, TO AGREE].
+Authorisation of the Provider to issue this attestation type is then verified by
+[PROCEDURE].
+
+A Wallet Unit MAY verify Provider authorisation using the mechanism described in
+ISSU_34 of Topic 10 of Annex 2 of the ARF.
+
+## 10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+
+### 10.2.1 Attestation Chaining
+
+For this category, the attestation is not issued directly by a Qualified Trust Service Provider (QTSP). Instead, trust is established through a **delegated trust model** that chains back to a qualified credential. The process for a Relying Party to establish the trust anchor is as follows:
+
+1.  **Locating the Trust Link:** The EAA Provider **MUST** embed their own European Business Wallet Owner Identity (EBWOID) credential within the header of the issued EAA. This embedded EBWOID serves as the crucial link in the trust chain.
+
+2.  **Verifying the Trust Link:** The Relying Party **MUST** first extract and fully verify the embedded EBWOID. Since the EBWOID is itself a QEAA, its trust anchor is found on the **EU Trusted List of Lists (TLoL)**. This verification confirms that the EAA Provider is a legitimate legal entity, as certified by a QTSP.
+
+3.  **Establishing the EAA's Trust Anchor:** The payload of the verified EBWOID contains the EAA Provider's public signing key (the `signing_key`). This key becomes the **direct trust anchor** for the Non-qualified EAA itself.
+
+4.  **Verifying the EAA:** The Relying Party uses this trust anchor (the `signing_key` from the EBWOID) to perform the cryptographic integrity verification of the EAA.
+
+In this model, trust is not directly established from the TLoL to the EAA, but is delegated from the **TLoL -> QTSP -> EAA Provider's EBWOID -> EAA Provider's Signing Key -> EAA**.
+
+Following successful cryptographic verification, the authorisation of the Provider to issue this specific type of attestation is a business-level decision for the Relying Party, based on its own internal policies and trust lists.
+
+### 10.2.2 QSEAL
+[to be described]
+
+### 10.2.3 to be defined according to ADR#336
+[to be described]
 
 **Trust anchor location**
 
 The attribute or metadata carrying the trust anchor location contains at least the
-URL at which a machine-readable version can be found or looked up.
-
-Coherence check: the attribute named here is `trust_anchor_url`, declared in section
-4.1.
+URL at which a machine-readable version can be found or looked up. 
 
 **Deployment profile**
 

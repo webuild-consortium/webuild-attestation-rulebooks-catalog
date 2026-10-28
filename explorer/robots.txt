@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/sitemap.xml

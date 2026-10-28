@@ -1,0 +1,1694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAT ID rulebook | WE BUILD</title>
+<meta name="description" content="VAT ID. An attestation rulebook, QEAA and PuB-EAA, issued as SD-JWT VC, 34 attributes.">
+<link rel="canonical" href="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-vat-id.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="WE BUILD Attestation Rulebook Explorer">
+<meta property="og:title" content="VAT ID rulebook">
+<meta property="og:description" content="VAT ID. An attestation rulebook, QEAA and PuB-EAA, issued as SD-JWT VC, 34 attributes.">
+<meta property="og:url" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-vat-id.html">
+<meta property="og:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WE BUILD Attestation Rulebook Explorer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta name="theme-color" content="#003399">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+<style>:root{--brand:#003399;--brand-dark:#001d58;--brand-light:#eef2fb;--accent:#ffcc00;--accent-dark:#f1b40d;--ink:#1d1d1f;--muted:#6e6e73;--line:rgba(0,0,0,.08);--surface:#ffffff;--canvas:#f2f2f5;--radius:12px;--font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--heading-font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--mono-font:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;--header-gradient:linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)}</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="WE BUILD Consortium" height="44"></a>
+    <span class="brand-sep" aria-hidden="true"></span>
+    <span class="brand-product">Attestation Rulebook Explorer</span>
+    <nav class="masthead-links">
+      <a class="ghlink" href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-vat-id/README.md" target="_blank" rel="noopener" title="View this rulebook on GitHub">
+        <svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="doc-nav">
+    <a class="doc-back" href="../index.html">All rulebooks</a>
+    <details class="doc-chapters" open>
+      <summary>Chapters</summary>
+      <nav class="doc-toc" aria-label="Chapters"><a class="lvl2" href="#1-introduction">1 Introduction</a><a class="lvl3" href="#11-document-scope-and-purpose">1.1 Document scope and purpose</a><a class="lvl3" href="#12-document-structure">1.2 Document structure</a><a class="lvl3" href="#13-key-words">1.3 Key words</a><a class="lvl3" href="#14-terminology">1.4 Terminology</a><a class="lvl2" href="#2-compliance">2 Compliance</a><a class="lvl3" href="#21-compliance-statement">2.1 Compliance statement</a><a class="lvl3" href="#22-regulatory-basis">2.2 Regulatory basis</a><a class="lvl3" href="#23-traceability">2.3 Traceability</a><a class="lvl2" href="#3-attestation-attributes">3 Attestation attributes</a><a class="lvl3" href="#31-introduction">3.1 Introduction</a><a class="lvl3" href="#32-mandatory-attributes">3.2 Mandatory attributes</a><a class="lvl3" href="#33-optional-attributes">3.3 Optional attributes</a><a class="lvl3" href="#34-conditional-attributes">3.4 Conditional attributes</a><a class="lvl2" href="#4-metadata">4 Metadata</a><a class="lvl3" href="#41-mandatory-metadata">4.1 Mandatory metadata</a><a class="lvl3" href="#42-optional-metadata">4.2 Optional metadata</a><a class="lvl3" href="#43-conditional-metadata">4.3 Conditional metadata</a><a class="lvl3" href="#44-code-lists">4.4 Code lists</a><a class="lvl3" href="#45-integrity-rules">4.5 Integrity rules</a><a class="lvl2" href="#5-formats">5 Formats</a><a class="lvl3" href="#51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</a><a class="lvl3" href="#52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</a><a class="lvl3" href="#53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</a><a class="lvl2" href="#6-protocols">6 Protocols</a><a class="lvl3" href="#61-issuance">6.1 Issuance</a><a class="lvl3" href="#62-presentation">6.2 Presentation</a><a class="lvl2" href="#7-issuance">7 Issuance</a><a class="lvl3" href="#71-binding">7.1 Binding</a><a class="lvl3" href="#72-issuance-policy">7.2 Issuance Policy</a><a class="lvl3" href="#73-lifecycle-management">7.3 Lifecycle management</a><a class="lvl3" href="#74-embedded-disclosure-policy">7.4 Embedded disclosure policy</a><a class="lvl2" href="#8-revocation">8 Revocation</a><a class="lvl2" href="#9-presentation">9 Presentation</a><a class="lvl3" href="#91-presentation-policy">9.1 Presentation Policy</a><a class="lvl3" href="#92-presentation-modes">9.2 Presentation modes</a><a class="lvl3" href="#93-transactional-data">9.3 Transactional data</a><a class="lvl3" href="#94-use-cases">9.4 Use cases</a><a class="lvl2" href="#10-trust-framework">10 Trust Framework</a><a class="lvl2" href="#11-references">11 References</a><a class="lvl3" href="#111-list-of-alternative-nomenclatures-for-activity-types">11.1 List of Alternative Nomenclatures for Activity types</a></nav>
+    </details>
+  </aside>
+  <article class="doc-body">
+    <p class="doc-tags"><span class="tag cat" style="background:#1f7a5a">QEAA</span><span class="tag cat" style="background:#9a6b12">PuB-EAA</span><span class="tag fmt">SD-JWT VC</span></p>
+    <h1 id="attestation-rulebook-for-attestations-of-type-vat-id">Attestation Rulebook for attestations of type VAT ID</h1>
+<p>Category: QEAA or PuB-EAA, as stated in <code>attestation_legal_category</code></p>
+<ul>
+<li>Author(s):<ul>
+<li><a href="mailto:s.westerfield@belastingdienst.nl">Sierd Westerfield</a>, Tax Administration Netherlands</li>
+</ul>
+</li>
+</ul>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td>08-10-2026</td>
+<td>Removed Display</td>
+</tr>
+<tr>
+<td>0.99</td>
+<td>05-10-2026</td>
+<td>Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed.</td>
+</tr>
+<tr>
+<td>0.98</td>
+<td>08-09-2026</td>
+<td>Split Legal &amp; natural person</td>
+</tr>
+<tr>
+<td>0.97</td>
+<td>03-09-2026</td>
+<td>Further enhancements</td>
+</tr>
+<tr>
+<td>0.95</td>
+<td>28-08-2026</td>
+<td>Updates by semantics</td>
+</tr>
+<tr>
+<td>0.9</td>
+<td>29-06-2026</td>
+<td>Multiple enhancements</td>
+</tr>
+<tr>
+<td>0.8</td>
+<td>05-06-2026</td>
+<td>Changed registration for xborder VAT and description of economic activity</td>
+</tr>
+<tr>
+<td>0.7</td>
+<td>30-04-2026</td>
+<td>Copy from Open Social Rulebook specification</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+<td>---</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Written against:</strong> ARF version 3.0.0, WE BUILD template version 1.0 (generic)</p>
+<p><strong>Feedback:</strong></p>
+<ul>
+<li><a href="mailto:s.westerfield@belastingdienst.nl">mail the author</a></li>
+</ul>
+<h2 id="1-introduction">1 Introduction</h2>
+<h3 id="11-document-scope-and-purpose">1.1 Document scope and purpose</h3>
+<p>The VAT-ID attestation is an official document issued by a recognized authority, such as the Tax Administration, that verifies the validity of a VAT-ID. This attestation serves as proof of the company’s or administrative unit’s VAT-ID and its corresponding validity period. It contains only information directly related to the VAT-ID.</p>
+<p>The VAT-ID attestation can be utilized by a company to substantiate its identity and ownership of the provided VAT-ID. The recipient of the attestation can trust its authenticity, eliminating the need for external verification through the VAT Information Exchange System (VIES) or the request for a physical VAT-ID Certificate.</p>
+<p>The most practical applications of the VAT-ID attestation are within procurement processes. Both the buyer and seller provide proof of their VAT ID. This eliminates the necessity of relying on external databases to verify the validity of the VAT ID.</p>
+<p>In tender procedures, proof of the VAT ID is required. For instance, companies seeking to participate in the WeBuild project were required to submit a VAT ID Certificate to the commission. For companies based in the Netherlands, the Tax Agency was contacted to request the proof. The Tax Agency provided the proof on paper, affixed with a stamp. The company then scanned the document and uploaded it to the commission as part of its application submission.</p>
+<p>The VAT-ID attestation also provides information on:
+* The address of the economic operator.
+* The economic activities in which the economic operator engages. These activities are referenced in both NACE codes, local equivalents, and a concise description of the activity.
+* The period in which the VAT-ID is valid.</p>
+<p>The VAT-ID attestation seeks to replace the traditional paper-based proof with an attestation. The VAT-ID Attestation is expected to enhance both the efficiency and security of the process.</p>
+<h3 id="12-document-structure">1.2 Document structure</h3>
+<p>This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.</p>
+<h3 id="13-key-words">1.3 Key words</h3>
+<p>This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.</p>
+<p>In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.</p>
+<h3 id="14-terminology">1.4 Terminology</h3>
+<p>This document uses the terminology specified in Annex 1 of the ARF.</p>
+<h2 id="2-compliance">2 Compliance</h2>
+<h3 id="21-compliance-statement">2.1 Compliance statement</h3>
+<p>This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.</p>
+<h3 id="22-regulatory-basis">2.2 Regulatory basis</h3>
+<p>The VAT-ID attestation is issued as a QEAA or a PuB-EAA (section 3.1). The paragraph for the
+category stated in <code>attestation_legal_category</code> applies.</p>
+<p><strong>QEAA</strong></p>
+<p>This attestation includes the data required by Annex V of Regulation (EU) 2024/1183,
+points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-016, EW-DM-12-019, EW-DM-12-021
+and EW-DM-12-023 respectively. It is issued by a qualified trust service provider.</p>
+<p><strong>PuB-EAA</strong></p>
+<p>This attestation includes the data required by Annex VII of Regulation (EU) 2024/1183,
+points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-017, EW-DM-12-019, EW-DM-12-021
+and EW-DM-12-023 respectively. It is issued by or on behalf of a public sector body
+responsible for an authentic source.</p>
+<h3 id="23-traceability">2.3 Traceability</h3>
+<p>Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Legacy ID</th>
+<th>Applies</th>
+<th>Satisfied in section</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EW-DM-12-001</td>
+<td>ARB_01a</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC only; W3C VCDM is not permitted for a QEAA or PuB-EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-002</td>
+<td>ARB_01b</td>
+<td>yes</td>
+<td>5.1</td>
+<td>SD-JWT VC following the HAIP profile</td>
+</tr>
+<tr>
+<td>EW-DM-12-003</td>
+<td>ARB_02</td>
+<td>no</td>
+<td></td>
+<td>No proximity use case, see section 5.2</td>
+</tr>
+<tr>
+<td>EW-DM-12-005</td>
+<td>ARB_04</td>
+<td>no</td>
+<td></td>
+<td>W3C VCDM is not permitted for this category</td>
+</tr>
+<tr>
+<td>EW-DM-12-006</td>
+<td>ARB_05</td>
+<td>yes</td>
+<td>5.1</td>
+<td><code>uri:eu.eudi.vat.1</code></td>
+</tr>
+<tr>
+<td>EW-DM-12-007</td>
+<td>ARB_06</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes defined independently of encoding</td>
+</tr>
+<tr>
+<td>EW-DM-12-008</td>
+<td>ARB_06a</td>
+<td>no</td>
+<td></td>
+<td>No mdoc encoding is defined</td>
+</tr>
+<tr>
+<td>EW-DM-12-009</td>
+<td>ARB_06b</td>
+<td>yes</td>
+<td>5.1</td>
+<td>SD-JWT VC claim naming</td>
+</tr>
+<tr>
+<td>EW-DM-12-010</td>
+<td>ARB_07</td>
+<td>yes</td>
+<td>3</td>
+<td>European Business Wallet Vocabulary references</td>
+</tr>
+<tr>
+<td>EW-DM-12-012</td>
+<td>ARB_09</td>
+<td>yes</td>
+<td>3, 4</td>
+<td>Mandatory and optional stated per object</td>
+</tr>
+<tr>
+<td>EW-DM-12-013</td>
+<td>ARB_10</td>
+<td>no</td>
+<td></td>
+<td>No domestic namespace is defined</td>
+</tr>
+<tr>
+<td>EW-DM-12-014</td>
+<td>ARB_11</td>
+<td>yes</td>
+<td>4.1, 5.1</td>
+<td><code>attestation_legal_category</code>, QEAA or PuB-EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-015</td>
+<td>ARB_12</td>
+<td>no</td>
+<td></td>
+<td>Not a non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018</td>
+<td>ARB_13 / ARB_14 / ARB_15</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point b through the issuer metadata</td>
+</tr>
+<tr>
+<td>EW-DM-12-019 / EW-DM-12-020</td>
+<td>ARB_16 / ARB_17</td>
+<td>yes</td>
+<td>2.2, 3.2</td>
+<td>Point c through the legal person or natural person attributes</td>
+</tr>
+<tr>
+<td>EW-DM-12-021 / EW-DM-12-022</td>
+<td>ARB_18 / ARB_19</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point e through the attestation issuing and expiry dates</td>
+</tr>
+<tr>
+<td>EW-DM-12-023 / EW-DM-12-024</td>
+<td>ARB_20 / ARB_21</td>
+<td>yes</td>
+<td>4.2, 10</td>
+<td><code>trust_anchor</code> metadata and the Trusted List</td>
+</tr>
+<tr>
+<td>EW-DM-12-029</td>
+<td>ARB_25</td>
+<td>yes</td>
+<td>4.1, 5.1</td>
+<td>Legal category attribute; see the note in section 4.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-030</td>
+<td>ARB_26</td>
+<td>no</td>
+<td></td>
+<td>Not a non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-031</td>
+<td>ARB_27</td>
+<td>no</td>
+<td></td>
+<td>Ownership is checked through the EBWOID, a PID or a mandate, see section 9.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-032</td>
+<td>ARB_28</td>
+<td>no</td>
+<td></td>
+<td><code>cryptographically_bound_to</code> is not used</td>
+</tr>
+<tr>
+<td>EW-DM-12-034</td>
+<td>ARB_30</td>
+<td>yes</td>
+<td>5.1</td>
+<td>Selective disclosure stated per claim</td>
+</tr>
+<tr>
+<td>EW-DM-12-035</td>
+<td>ARB_31</td>
+<td>no</td>
+<td></td>
+<td>No Claim Selective Disclosure Metadata document is used</td>
+</tr>
+<tr>
+<td>EW-DM-12-038</td>
+<td>ARB_34</td>
+<td>yes</td>
+<td>7.1</td>
+<td>Non device-bound by design, see the justification in section 7.1</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-attestation-attributes">3 Attestation attributes</h2>
+<p>Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.</p>
+<h3 id="31-introduction">3.1 Introduction</h3>
+<p>The VAT-ID attestation is an attestation provided by an authentic source such as a TAX-Administration. The attestation proves the VAT-ID of the company or administrative unit within the company and the validity period of that VAT-ID. The VAT-ID attestation only contains information directly related to the VAT-ID.
+The VAT-ID attestation can be used by a company to prove that the company really is the company with that number. The receiver of the attestation can trust the content and there is no need for checking the VAT-ID at VIES (VAT Information Exchange System)1 or request a (paper) VAT-ID Certificate.</p>
+<p>The VAT-ID attestation contains some information for which the TAX-agency usually is not the authentic source. We choose to include the information because:
+* it is currently on the paper certificate,
+* the information might be relevant to the receiver of the attestation. Alternatively the holder should present multiple attestations at once.</p>
+<p>Both the attributes of the address and the economic activity usually are not administered by the TAX Agency but at the business register. However the TAX-Administration might hold different addresses and have specific economic activities registered for an administrative unit in the case that an economic operator has multiple administrative units.</p>
+<p>*According to Annex V point a) and  Annex VII point a) of the [European Digital Identity Regulation]
+an indication, at least in a form suitable for automated processing, that the attestation
+has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
+of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.</p>
+<p>This document defines the attribute "VAT-ID" which SHALL either be issued as QEAA or a PuB-EAA</p>
+<pre><code>vat_id_attestation
+├─ administrative_unit                            [1]
+│   ├─ vat_id                                     [1]       (VAT-ID of the administrative unit)
+│   ├─ name                                       [1]       (name of the administrative unit)
+│   ├─ organisation_type                          [0]       (type of organisation in free text)
+│   ├─ validity_period                            [1..n]    (period(s) for which the vat-id is valid)
+│   │   ├─ start_date                             [1]       (start date of the validity period of the vat-id)
+│   │   └─ end_date                               [0]       (end date of the validity period of the vat-id)
+│   ├─ registered_eu_cross_border_transactions    [1]       (Boolean that describes if the VAT-ID may be used EU cross border transactions)
+│   ├─ economic_operator                          [1]       (Reference to the Economic Operator that owns the VAT ID)
+│   │   ├─ legal_person                           [0]
+│   │   │   ├─ legal_identifier                   [1]
+│   │   │   ├─ legal_name                         [1]
+│   │   ├─ natural_person                         [0]
+│   │   │   ├─ family_name                        [1]
+│   │   │   ├─ given_name                         [1]
+│   │   │   ├─ birth_date                         [1]
+│   │   │   ├─ birth_place                        [0]
+│   │   │   ├─ tin                                [0]
+│   │   │   └─ personal_administrative_number     [0]
+│   ├─ address                                    [0]       (the postal address registered for the administrative unit)
+│   │   ├─ po_box                                 [0]
+│   │   ├─ thoroughfare                           [0]
+│   │   ├─ location_designator                    [0]
+│   │   ├─ post_code                              [0]
+│   │   ├─ post_name                              [0]
+│   │   ├─ admin_unit_l1                          [0]
+│   │   └─ admin_unit_l2                          [0]
+│   └─ economic_activity                          [0..n]    (reference to the economic operator)
+│       ├─ economic_activity_nomenclature         [1]       (nomenclature used to describe the economic activity)
+│       ├─ economic_activity_nomenclature_version [0]     (version of the nomenclature)
+│       ├─ economic_activity_id                   [1]       (id used in the nomenclature)
+│       └─ economic_activity_description.         [1..n]    (object using language:, value)
+└─ issuer                                         [1]   
+    ├─ issuing_country                            [1]
+    ├─ issuing_authority                          [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
+    ├─ attestation_issuing_date                   [1]        (date on which the attestation is issued)
+    └─ attestation_issuing_organisation           [1]
+</code></pre>
+<h3 id="32-mandatory-attributes">3.2 Mandatory attributes</h3>
+<p>Mandatory attributes are stated per object of the data model in section 3.1.</p>
+<h4 id="321-vat-id-attestation">3.2.1 VAT-ID Attestation</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>data identifier</th>
+<th>Semantic Reference</th>
+<th>Definition</th>
+<th>Data Type</th>
+<th>Example Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>administrative_unit</td>
+<td>administrative unit</td>
+<td>administrative unit within an economic operator that holds a separate administration to which the VAT-ID is issued</td>
+<td>Administrative_unit  Object</td>
+<td>..</td>
+</tr>
+<tr>
+<td>issuer</td>
+<td><a href="https://www.w3.org/2018/credentials#issuer">cred:issuer</a></td>
+<td>Authority that issues the VAT ID</td>
+<td>Issuer Object</td>
+<td>..</td>
+</tr>
+<tr>
+<td>display</td>
+<td>display</td>
+<td></td>
+<td>Display Object</td>
+<td>..</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="322-administrative_unit">3.2.2 administrative_unit</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>data identifier</th>
+<th>Semantic Reference</th>
+<th>Definition</th>
+<th>Data Type</th>
+<th>Example Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>administrative_unit.vat_id</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>Unique identifier for VAT purposes</td>
+<td>String</td>
+<td>DE123456789</td>
+</tr>
+<tr>
+<td>administrative_unit.name</td>
+<td><a href="https://w3id.org/ebwv#VATRegistrationUnit">VATRegistrationUnit</a>.<a href="https://schema.org/name">schema:name</a></td>
+<td>Name of the unit responsible for VAT</td>
+<td>String</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>administrative_unit.validity_period</td>
+<td><a href="https://www.w3.org/2018/credentials/#validFrom">cred:validFrom</a><br><a href="https://www.w3.org/2018/credentials/#validUntil">cred:validUntil</a></td>
+<td>Duration during which the data is valid</td>
+<td>Date Range</td>
+<td>2026-01-01 to 2026-12-31</td>
+</tr>
+<tr>
+<td>administrative_unit.economic_operator</td>
+<td><a href="https://w3id.org/ebwv#EconomicOperator">EconomicOperator</a></td>
+<td>Entity responsible for economic operations</td>
+<td>Economic Operator object</td>
+<td>..</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="323-economic-operator">3.2.3 Economic Operator</h4>
+<p>There SHALL be a reference from the Administrative Unit to the Economic Operator. However the the Economic Operator can either be a <a href="https://iri.suomi.fi/terminology/webuild/concept-109">Legal Person</a> or a <a href="https://iri.suomi.fi/terminology/webuild/concept-6005">Natural Person</a>. The economic operator object SHALL be filled to one of the two, not to both.</p>
+<h4 id="324-legal-person">3.2.4 Legal person</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>data identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>legal_person.legal_identifier</td>
+<td><a href="https://w3id.org/ebwv#legalIdentifier">legalIdentifier</a></td>
+<td>The relevant unique identifier attributed in accordance with Article 9 of EWB (WEBUILD specific EUID where available, otherwise a similar constructed, unique per issuer identifier. <Countrycode ISO 3166-1 alpha-2>. eks. SE +  BOLREG + 123456789 -&gt; SEBOLREG.123456789</td>
+<td>string</td>
+<td>SEBOLREG.123456789</td>
+</tr>
+<tr>
+<td>legal_person.legal_name</td>
+<td><a href="https://w3id.org/ebwv#legalname">legalName</a></td>
+<td>the name under which the legal entity is legally registered</td>
+<td>string</td>
+<td>ACME</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="325-natural-person">3.2.5 Natural person</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>data identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>natural_person.family_name</td>
+<td><a href="https://w3id.org/ebwv#familyName">familyName</a></td>
+<td>Current last name(s) or surname(s) of the user to whom the person identification data relates.</td>
+<td>string</td>
+<td>Doe</td>
+</tr>
+<tr>
+<td>natural_person.given_name</td>
+<td><a href="https://w3id.org/ebwv#givenName">givenName</a></td>
+<td>Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates.</td>
+<td>string</td>
+<td>John</td>
+</tr>
+<tr>
+<td>natural_person.birth_date</td>
+<td><a href="https://w3id.org/ebwv#dateOfBirth">dateOfBirth</a></td>
+<td>Day, month, and year on which the user to whom the person identification data relates was born.</td>
+<td>Date</td>
+<td>1968-04-27</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="326-validity-period">3.2.6 Validity Period</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>validity_period.start_date</td>
+<td><a href="https://w3id.org/ebwv#startDate">startDate</a></td>
+<td>Date of registration of the VAT-ID.</td>
+<td>date</td>
+<td>2011-12-24</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="327-address">3.2.7 Address</h4>
+<p>No mandatory attributes</p>
+<h4 id="328-economic-activity-type-attributes">3.2.8 Economic Activity Type attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>data identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>economic_activity.nomenclature</td>
+<td><a href="https://w3id.org/ebwv#activity">activity</a></td>
+<td>The nomenclature that is used to describe the administrative unit. NACE should be used as default. However some countries have more elaborate nomenclature.</td>
+<td>string</td>
+<td>nace</td>
+</tr>
+<tr>
+<td>economic_activity.id</td>
+<td><a href="https://w3id.org/ebwv#activity">activity</a></td>
+<td>The ID that under which the Administrative unit is registered.</td>
+<td>string</td>
+<td>C26.5.2</td>
+</tr>
+<tr>
+<td>economic_activity.description</td>
+<td><a href="https://w3id.org/ebwv#activity">activity</a></td>
+<td>The human readable text that describes the economic ativity in a specific language. The language is described in BCP 47 standard</td>
+<td>array</td>
+<td>en-GB: Manufacture of bearings, gears, gearing and driving elements</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="33-optional-attributes">3.3 Optional attributes</h3>
+<p>Optional attributes are stated per object of the data model in section 3.1.</p>
+<h4 id="331-administrative_unit">3.3.1 administrative_unit</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>data identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>administrative_unit.organisation_type</td>
+<td><a href="https://w3id.org/ebwv#type">type</a></td>
+<td>Type (e.g., Government, Local Authority, B.V, GmbH)</td>
+<td>String</td>
+<td>GmbH</td>
+</tr>
+<tr>
+<td>administrative_unit.address</td>
+<td><a href="https://w3id.org/ebwv#VATRegistrationUnit">VATRegistrationUnit</a>.<a href="https://w3id.org/ebwv#address">address</a></td>
+<td>The address where the company is located based on the information from the authentic source of the VAT-ID. This address may differ from the address in the business register.</td>
+<td>Address Object</td>
+<td>...</td>
+</tr>
+<tr>
+<td>administrative_unit.economic_activity</td>
+<td><a href="https://w3id.org/ebwv#VATRegistrationUnit">VATRegistrationUnit</a>.<a href="https://w3id.org/ebwv#activity">activity</a></td>
+<td>Type of business this administrative unit is registered</td>
+<td>Economic Activity Type Object</td>
+<td>...</td>
+</tr>
+<tr>
+<td>administrative_unit. registered_eu_cross_border_transactions</td>
+<td><a href="https://w3id.org/ebwv#VATRegistrationUnit">VATRegistrationUnit</a>.<a href="https://w3id.org/ebwv#references">references</a></td>
+<td>Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services</td>
+<td>Boolean</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="332-economic-operator">3.3.2 Economic Operator</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>data identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>legal_person</td>
+<td><a href="https://w3id.org/ebwv#LegalPerson">legalPerson</a></td>
+<td>individual, company, or organization recognized by law. It possesses distinct rights and responsibilities, meaning it can own property, enter into contracts, incur debts, pay taxes, and sue or be sued in</td>
+<td>oBeject</td>
+<td></td>
+</tr>
+<tr>
+<td>natural_person</td>
+<td><a href="https://w3id.org/ebwv#NaturalPerson">naturalPerson</a></td>
+<td>The natural person the VAT-ID is issued to</td>
+<td>Object</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="333-legal-person">3.3.3 Legal person</h4>
+<p>If the Legal person is filled, there are no optional attributes</p>
+<h4 id="334-natural-person">3.3.4 Natural person</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>data identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>natural_person.birth_place</td>
+<td><a href="https://w3id.org/ebwv#placeOfBirth">placeOfBirth</a></td>
+<td>The country as acountry code as specified in ISO 3166-1 alpha-2, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born.</td>
+<td>string</td>
+<td>Amsterdam</td>
+</tr>
+<tr>
+<td>natural_person.tin</td>
+<td><a href="https://w3id.org/ebwv#identifier">identifier</a></td>
+<td>tax reference number</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>natural_person.personal_administrative_number</td>
+<td><a href="https://w3id.org/ebwv#personalAdministrativeNumber">personalAdministrative Number</a></td>
+<td>A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. The personal Administrative Number may only be used if the local law allows for unrestricted use</td>
+<td>string</td>
+<td>123456782</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="335-validity-period">3.3.5 Validity Period</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>validity_period.end_date</td>
+<td><a href="https://w3id.org/ebwv#endDate">endDate</a></td>
+<td>The end date after which VAT-ID registration ended.</td>
+<td>date</td>
+<td>2021-01-24</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="336-address">3.3.6 Address</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>address.po_box</td>
+<td><a href="https://w3id.org/ebwv#poBox">poBox</a></td>
+<td>P.O. box number or identifier within the address; optional</td>
+<td>string</td>
+<td>PO Box 123</td>
+</tr>
+<tr>
+<td>address.thoroughfare</td>
+<td><a href="https://w3id.org/ebwv#thoroughfare">thoroughfare</a></td>
+<td>Street name and house number or other thoroughfare designation; optional</td>
+<td>string</td>
+<td>Main Street 10</td>
+</tr>
+<tr>
+<td>address.location_designator</td>
+<td><a href="https://w3id.org/ebwv#locatordesignator">locationDesignator</a></td>
+<td>Internal location designation within a building (e.g., floor, unit); optional</td>
+<td>string</td>
+<td>Floor 3, Unit B</td>
+</tr>
+<tr>
+<td>address.post_code</td>
+<td><a href="https://w3id.org/ebwv#postcode">postCode</a></td>
+<td>Postal or ZIP code; optional</td>
+<td>string</td>
+<td>12345</td>
+</tr>
+<tr>
+<td>address.post_name</td>
+<td><a href="https://w3id.org/ebwv#postname">postName</a></td>
+<td>Town or locality name; optional</td>
+<td>string</td>
+<td>Amsterdam</td>
+</tr>
+<tr>
+<td>address.admin_unit_L1</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>First-level administrative division (e.g., province, state); optional</td>
+<td>string</td>
+<td>North Holland</td>
+</tr>
+<tr>
+<td>address.admin_unit_L2</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL2">adminUnitL2</a></td>
+<td>Second-level administrative division (e.g., district, municipality); optional</td>
+<td>string</td>
+<td>Amsterdam Municipality</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="337-economic-activity-type-attributes">3.3.7 Economic Activity Type attributes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>data identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>economic_activity.nomenclature_version</td>
+<td><a href="https://w3id.org/ebwv#activity">activity</a></td>
+<td>The version of the nomenclature that is used to describe the administrative unit.</td>
+<td>string</td>
+<td>Rev 2.1</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="34-conditional-attributes">3.4 Conditional attributes</h3>
+<p>No conditional attributes are defined for this attestation type.</p>
+<h2 id="4-metadata">4 Metadata</h2>
+<p>Metadata describes the attestation rather than its subject.</p>
+<h3 id="41-mandatory-metadata">4.1 Mandatory metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>data identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>issuer.authentic_source_country</td>
+<td>issuingCountry</td>
+<td>Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID.</td>
+<td>string</td>
+<td>NL</td>
+</tr>
+<tr>
+<td>issuer.vat_id_authenticsource</td>
+<td>authenticSource</td>
+<td>Name of the administrative authority that issued the VAT ID. This is the authentic source for the VAT-ID, which may differ from the issuer of the attestation</td>
+<td>string</td>
+<td>Belastingdienst</td>
+</tr>
+<tr>
+<td>issuer.country</td>
+<td>issuingCountry</td>
+<td>Country code, as specified in ISO 3166-1 alpha-2, of the country or territory of the provider of the VAT ID.</td>
+<td>string</td>
+<td>NL</td>
+</tr>
+<tr>
+<td>issuer.issuing_authority</td>
+<td>issuerAuthority</td>
+<td>Name of the administrative authority or qualified trust service provider that issued the VAT ID attestation, in a specific language using  BCP 47</td>
+<td>string</td>
+<td>en-GB</td>
+</tr>
+<tr>
+<td>issuer.attestation_issuing_date</td>
+<td>iat</td>
+<td>The date the attestation was issued</td>
+<td>Integer (Unix timestamp)</td>
+<td></td>
+</tr>
+<tr>
+<td>issuer.attestation_expiry_date</td>
+<td>exp</td>
+<td>The date the attestation was issued</td>
+<td>Integer (Unix timestamp)</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Legal category.</strong> This Rulebook retains the <code>attestation_legal_category</code> attribute.
+Section 4.1 of the generic template replaces it with the <code>category</code> attribute of
+[ETSI TS 119 472-1]. EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that
+still requires the legal category attribute, so the template and the ARF disagree. The
+attribute is left as written and the deviation is recorded for the rulebook quality
+assurance group.</p>
+<h3 id="42-optional-metadata">4.2 Optional metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>issuer.location_status</td>
+<td>locationStatus</td>
+<td>The location of validity status information on the VAT ID used for revocation/suspension checks.</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>trust_anchor</td>
+<td>trustAnchor</td>
+<td>This meta-data attribute indicates at least the URL at which a machine‑readable version of the trust anchor to be used for verifying the VAT ID can be found or looked up. This corresponds to Annex V/VII point h) of the [European Digital Identity Regulation] and EBW Article 8 issuance as EAA/QEAA.</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="43-conditional-metadata">4.3 Conditional metadata</h3>
+<p>No conditional metadata are defined for this attestation type.</p>
+<h3 id="44-code-lists">4.4 Code lists</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>field name</strong></th>
+<th><strong>Allowed values</strong></th>
+<th><strong>Meaning</strong></th>
+<th><strong>Source / vocabulary</strong></th>
+<th><strong>Notes / extensibility</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>administrative_unit.economic_activity_type. nomenclature</td>
+<td>NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA</td>
+<td>Each name refers to the local adaptation of the NACE list.</td>
+<td><a href="#81-list-of-alternative-nace-codes">Overview of alternative nomenclatures</a></td>
+<td>List SHOULD be used or refer to NACE closest alternative</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="45-integrity-rules">4.5 Integrity rules</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Rule ID</strong></th>
+<th><strong>Rule statement</strong></th>
+<th><strong>Why it exists</strong></th>
+<th><strong>Where enforced</strong></th>
+<th><strong>Verifier / issuer behavior on failure</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EO1</td>
+<td>Exactly one of legal_person or natural_person SHALL be present.</td>
+<td>There may only be one reference to the holder of the Wallet. If there is more than one, there could be an inconsistency</td>
+<td><em>Issuer, verifier, schema validation, or business process</em></td>
+<td><em>Describe rejection, warning, or remediation behavior</em></td>
+</tr>
+<tr>
+<td>VP1</td>
+<td>If 'administrative_unit. validity_Period.end_Date' is not NULL, 'administrative_unit. validity_Period.end_Date' SHALL be higher than 'administrative_unit.validity_Period.start_Date'</td>
+<td>Validity periods may not be negative</td>
+<td>The VAT-ID attestation may not be issued, because there shouldn't be a negative period in the register</td>
+<td></td>
+</tr>
+<tr>
+<td>VP2</td>
+<td>If any 'validity_Period' overlaps with another validity period the attestation SHALL NOT be issued</td>
+<td>Validity periods may not overlap because this should not happen and might create problems for relying parties. This rule also takes care of the issue of multiple validity periods without an enddate</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>VP3</td>
+<td>If 'administrative_unit. validity_Period.end_Date' &lt; issuer. attestation_issuing_date - 5 years</td>
+<td>Old validity periods are not relevant to relying parties, the limit of 5 years should be used as a rule of thumb</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>VP4</td>
+<td>If there is more than one 'administrative_unit.validity_Period' the issuer MAY omit older validity_Periods</td>
+<td>Issuers have the freedom to omit older validity periods, when they find they are not relevant</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>EA1</td>
+<td>If ('administrative_unit. Economic_Activity_Type.ID' AND 'administrative_unit. Economic_Activity_Type.Nomenclature &lt;&gt;"NACE")  is equal ('administrative_unit. Economic_Activity_Type.ID' AND 'administrative_unit. Economic_Activity_Type.Nomenclature == "NACE") Then 'administrative_unit.Economic_Activity_Type.Nomenclature SHOULD be "NACE"</td>
+<td>The default Nomenclature is NACE, if the ID in the local Nomenclature directly relates to the NACE ID, the NACE ID and TYPE SHOULD be used.</td>
+<td>Issuers SHOULD implement a tranlation table to create mostly NACE codes</td>
+<td></td>
+</tr>
+<tr>
+<td>XB1</td>
+<td>If ('issuing_country' is not in EU Then  'registered_eu_ cross_border_transactions' SHOULD be false</td>
+<td>Only countries in the EU can take part in the registered_eu_ cross_border_transactions</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="5-formats">5 Formats</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Supported</th>
+<th>Identifier</th>
+<th>Specification</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISO/IEC 18013-5 mdoc</td>
+<td>no</td>
+<td></td>
+<td>[ISO/IEC 18013-5]</td>
+<td>Not defined; no proximity use case, see section 5.2</td>
+</tr>
+<tr>
+<td>SD-JWT VC</td>
+<td>yes</td>
+<td><code>vct</code> <code>uri:eu.eudi.vat.1</code></td>
+<td>[SD-JWT VC], [HAIP]</td>
+<td>SHALL follow the HAIP profile, see section 5.1</td>
+</tr>
+<tr>
+<td>W3C VCDM</td>
+<td>no</td>
+<td></td>
+<td>[W3C VCDM v2.0]</td>
+<td>Not permitted for a QEAA or PuB-EAA</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</h3>
+<p>The VAT-ID attestation uses the SD-JWT VC format to allow for selective disclosure of  attributes.</p>
+<p><strong>Verifiable Credential Type (<code>vct</code>):</strong> <code>uri:eu.eudi.vat.1</code></p>
+<h4 id="511-attribute-encoding-table">5.1.1 Attribute Encoding Table</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute identifier</strong></th>
+<th><strong>Encoding format</strong></th>
+<th><strong>Reference/ Notes</strong></th>
+<th><strong>Disclosable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>administrative_unit.vat_id</td>
+<td>vat_id</td>
+<td>VAT Identification Number</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>administrative_unit.name</td>
+<td>administrative_unit_name</td>
+<td>String</td>
+<td></td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>administrative_unit.validity_period</td>
+<td>validity_period</td>
+<td>Array [validity period]</td>
+<td></td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>administrative_unit.economic_operator</td>
+<td>economic_operator</td>
+<td>object</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuer</td>
+<td>issuer</td>
+<td>Object</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>administrative_unit.organisation_type</td>
+<td>organisation_type</td>
+<td>Object</td>
+<td>...</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit.address</td>
+<td>administrative_unit_address</td>
+<td>Object</td>
+<td>...</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. registered_eu_cross_border_transactions</td>
+<td>registered_eu_cross_ border_transactions</td>
+<td>Boolean</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_operator.legal_person. legal_identifier</td>
+<td>legal_identifier</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_operator.legal_person. legal_name</td>
+<td>legal_name</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_operator.natural_person. family_name</td>
+<td>family_name</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_operator.natural_person. given_name</td>
+<td>given_name</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_operator.natural_person. birth_date</td>
+<td>birth_date</td>
+<td>String (ISO 8601 YYYY-MM-DD)</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_operator.natural_person. birth_place</td>
+<td>birth_place</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_operator.natural_person. tin</td>
+<td>tin</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_operator.natural_person. epersonal_administrative_number</td>
+<td>personal_administrative_number</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. validity_period.start_date</td>
+<td>validity_period.start_date</td>
+<td>String (ISO 8601 YYYY-MM-DD)</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>administrative_unit. validity_period.end_date</td>
+<td>validity_period.end_date</td>
+<td>String (ISO 8601 YYYY-MM-DD)</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>administrative_unit. address.po_box</td>
+<td>address.po_box</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. address.thoroughfare</td>
+<td>address.thoroughfare</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. address.location_designator</td>
+<td>address.location_designator</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. address.post_code</td>
+<td>address.post_code</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. address.post_name</td>
+<td>address.post_name</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. address.admin_unit_L1</td>
+<td>address.admin_unit_L1</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. address.admin_unit_L2</td>
+<td>address.admin_unit_L2</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_activity_type</td>
+<td>economic_activity_type</td>
+<td>Array</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_activity_type. nomenclature</td>
+<td>economic_activity_type. nomenclature</td>
+<td>String one of(NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA)</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_activity_type. id</td>
+<td>economic_activity_type.id</td>
+<td>String</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>administrative_unit. economic_activity_type. description</td>
+<td>economic_activity_type. description</td>
+<td>object ("langue code iso 639-1": "description")</td>
+<td>..</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>issuer.authentic_source_country</td>
+<td>issuer.authentic_source_country</td>
+<td>String (ISO 3166-1 alpha-2)</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuer.vat_id_authenticsource</td>
+<td>issuer.vat_id_authenticsource</td>
+<td>String</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuer.country</td>
+<td>issuer.country</td>
+<td>String</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuer.issuing_authority</td>
+<td>issuer.issuing_authority</td>
+<td>String</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuer.attestation_legal_category</td>
+<td>issuer.attestation_legal_category</td>
+<td>String</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuer.location_status</td>
+<td>issuer.location_status</td>
+<td>String (URI)</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>trust_anchor</td>
+<td>trustAnchor</td>
+<td>String (URI)</td>
+<td>..</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>iat</td>
+<td><code>iat</code></td>
+<td>Integer (Unix timestamp)</td>
+<td>The date and time when the attestation was issued (ISO 8601); RFC 7519 / Section 3.2.4</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>exp</td>
+<td><code>exp</code></td>
+<td>Integer (Unix timestamp)</td>
+<td>The date and time when the attestation expires (ISO 8601); RFC 7519 / Section 3.2.4</td>
+<td>MUST NOT</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><strong>MUST</strong>: The claim SHALL be selectively disclosable, the holder MAY choose to disclose or
+  withhold this claim when presenting the credential to a Relying Party.</li>
+<li><strong>MUST NOT</strong>: The claim SHALL NOT be selectively disclosable, it is always present in plain
+  text in the JWT header/payload and cannot be withheld by the holder, as it is required for
+  credential verification and trust establishment.</li>
+<li><code>iat</code> and <code>exp</code> follow RFC 7519 standard JWT claim naming conventions.</li>
+</ul>
+<h4 id="512-status-claim">5.1.2 Status Claim</h4>
+<p>The revocable attestation (SD-JWT VC per HAIP [7]) carries the status reference in its signed payload. The claim is not selectively disclosable.</p>
+<pre><code class="language-json">{
+  &quot;status&quot;: {
+    &quot;status_list&quot;: {
+      &quot;idx&quot;: 422,
+      &quot;uri&quot;: &quot;https://status-provider.example.com/statuslists/1&quot;
+    }
+  }
+}
+</code></pre>
+<ul>
+<li><code>uri</code> — the Status Provider's URI from which the Status List Token can be retrieved</li>
+<li><code>idx</code> — the index of this attestation's entry within the status list, assigned per ISS-RV-03</li>
+</ul>
+<h3 id="52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</h3>
+<p>Currently there is no usecase defined where proximity use of the VAT-ID attestation. For now there will be no ISO/IEC 18013-5-compliant encoding.</p>
+<h3 id="53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</h3>
+<p>This Rulebook does not define a W3C Verifiable Credentials Data Model encoding; the format is not permitted for a QEAA or PuB-EAA.</p>
+<h2 id="6-protocols">6 Protocols</h2>
+<h3 id="61-issuance">6.1 Issuance</h3>
+<p>This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI], as profiled by [HAIP].</p>
+<h3 id="62-presentation">6.2 Presentation</h3>
+<p>This attestation is presented using OpenID for Verifiable Presentations [OpenID4VP].
+Only remote presentation is in scope, consistent with chapter 5, which records the
+mdoc encoding as out of scope.</p>
+<h2 id="7-issuance">7 Issuance</h2>
+<h3 id="71-binding">7.1 Binding</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device-bound</td>
+<td>non device-bound</td>
+<td>EW-DM-12-038</td>
+</tr>
+<tr>
+<td>Cryptographically bound to</td>
+<td>none</td>
+<td>EW-DM-12-032</td>
+</tr>
+<tr>
+<td>Relying Party must also verify a PID</td>
+<td>no</td>
+<td>EW-DM-12-031</td>
+</tr>
+<tr>
+<td>Binding subject</td>
+<td>legal person or natural person, the economic operator</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>The attestation SHALL be non-device-bound. The relying party SHOULD check the ownership of the VAT-ID using the method described above. Device binding might create a false sence of trustworthyness. Because the VAT-ID can be issued to an intermediary organisation, using a mandate, presenting the VAT-ID is no proof of ownership. The VAT-ID attestation will not be revoked by the issuer, when the mandate is revoked.</p>
+<h3 id="72-issuance-policy">7.2 Issuance Policy</h3>
+<p>General obligations on Attestation Providers are out of scope of this Rulebook. They
+are specified in Topic 10 of Annex 2 of the ARF, in the applicable Implementing
+Regulations, and in [ETSI TS 119 471]. This Rulebook states only obligations specific
+to this attestation type.</p>
+<p>The VAT-ID attestation may only be issued to the wallet of the organisation that holds the VAT-ID, or to the wallet of an Agent (natural or legal person) that can prove that he is allowed to act upon the holder for this service. Although many of the information in the attestation is public information, the attestation itself should be considered private. In order to issue the VAT-ID attestation to the Economic Operator itself the issuing party SHOULD: Verify the identity of the Economic Opereator and issue the VAT-ID attestation to the wallet of that Economic Operator.</p>
+<p>If an agent wishes to receive the attestation of another economic operator, the issuing party SHOULD:
+* Check the identity of the Agent
+    - check if the agent has a mandate with the right scope and actors
+      -    the mandate is not revoked
+      -    the mandate is currently valid</p>
+<h3 id="73-lifecycle-management">7.3 Lifecycle management</h3>
+<p>The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.</p>
+<h3 id="74-embedded-disclosure-policy">7.4 Embedded disclosure policy</h3>
+<p>This attestation defines no embedded disclosure policy.</p>
+<h2 id="8-revocation">8 Revocation</h2>
+<p>The VAT-ID Attestation SHOULD preferably be issued as a longlived attestation. In order to make sure the attestation reflects the current situation, the issuer MUST have revocation in place. An issuer must revoke the attestation following an event that would render any part of the content invalid.</p>
+<p>When the attestation is issued by a QTSP outside the Authentic Source it should receive information from the authentic source in case attributes of the attestation change at the source. If the QTSP cannot receive this information, the attestation MUST be shortlived.</p>
+<h2 id="9-presentation">9 Presentation</h2>
+<h3 id="91-presentation-policy">9.1 Presentation Policy</h3>
+<p>To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:</p>
+<ol>
+<li>verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;</li>
+<li>verify that the attestation is within its validity period;</li>
+<li>check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;</li>
+<li>verify device binding where section 7.1 records the attestation as device-bound;</li>
+<li>request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.</li>
+</ol>
+<p>Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:</p>
+<p>The VAT-ID provides proof that the Economic Operator, registered in the attestation, is the owner of the VAT-ID. It does not prove that the party that presents the attestation also is the owner of the attestation. The VAT-ID attestion can also be issued to an Agent ( Intermediary party), if they have the right mandate to receive the attestation. However the mandate may be revoked by the owner, but the VAT-ID attestation will (likely) not be revoked. Therefore the attestation itself (even if holderbinding is active) is not proof that the presenter actually holds, or may present the attestation.</p>
+<p>The relying party SHOULD:
+- Check the status of revocation and expiry date of the attestation.
+- Check the validity period in the attestation.</p>
+<ul>
+<li>Check if the Economic Operator in the Attestation is:</li>
+<li>equal to the owner of the EBW (via EBWOID, PID, or other means) OR</li>
+<li>has a mandate with the right scope and actors<ul>
+<li>the mandate is not revoked</li>
+<li>the mandate is currenty valid</li>
+</ul>
+</li>
+</ul>
+<p>If the relying party does not perform all verification aspects, he MUST accept the risks involved.</p>
+<h3 id="92-presentation-modes">9.2 Presentation modes</h3>
+<p>Remote presentation is in scope. Proximity presentation is not in scope, consistent
+with chapter 5, which records that no mdoc encoding is defined.</p>
+<h3 id="93-transactional-data">9.3 Transactional data</h3>
+<p>This Rulebook defines no transactional data.</p>
+<h3 id="94-use-cases">9.4 Use cases</h3>
+<p>The VAT_ID attestation aims to be used in two general usecases, but it could be used elsewhere. The first usecae is where the relying party requires proof that the Economic Operator has a valid VAT-ID. In the 'paper' world, the relying party would request a 'Certificate of the VAT-ID' relyably issued by the relevant Tax Authority. The Economic Operator requests the Certificate, and it will be sent to the registered address of the Economic Operator. The Certificate is printed on paper of the Tax Authority and or contains stamps, signature or other ways to proof its validity.</p>
+<p>The second usecase is where a seller needs proof, in case of intra-communitairy business, that the buyer will pay tax in his own country and that it can sell services or goods without TAX. In the current world the seller needs to check with VIES and keep proof in its administration. The VAT-ID attestation will provide the proof, and a check with VIES is not necessary anymore.</p>
+<h2 id="10-trust-framework">10 Trust Framework</h2>
+<p>The trust anchor is obtained as described in the branch below that corresponds to the
+legal category under which the attestation was issued.</p>
+<p><strong>PID, QEAA, PuB-EAA and attestations resolved via Trusted Lists</strong></p>
+<p>The trust anchor is obtained from a Trusted List, as described in section 6.6.3.6 of the
+ARF main document. The Provider may sign the attestation with an intermediate signing
+certificate, in which case the trust anchor is used to verify that certificate rather
+than the attestation directly.</p>
+<p><strong>Trust anchor location</strong></p>
+<p>The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.</p>
+<h2 id="11-references">11 References</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Item Reference</strong></th>
+<th><strong>Standard name/details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[European Digital Identity Regulation]</td>
+<td><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183">Regulation (EU) 2024/1183</a> of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework</td>
+</tr>
+<tr>
+<td>[HAIP]</td>
+<td>Yasuda, K. <em>et al,</em> OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03</td>
+</tr>
+<tr>
+<td>[IANA-JWT-Claims]</td>
+<td>IANA JSON Web Token Claims Registry. Available: <a href="https://www.iana.org/assignments/jwt/jwt.xhtml">https://www.iana.org/assignments/jwt/jwt.xhtml</a></td>
+</tr>
+<tr>
+<td>[ISO/IEC 18013-5]</td>
+<td>ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09</td>
+</tr>
+<tr>
+<td>[OIDC]</td>
+<td>Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a></td>
+</tr>
+<tr>
+<td>[RFC 3339]</td>
+<td>RFC 3339  - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002</td>
+</tr>
+<tr>
+<td>[RFC 8610]</td>
+<td>RFC 8610  - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019</td>
+</tr>
+<tr>
+<td>[RFC 8943]</td>
+<td>RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020</td>
+</tr>
+<tr>
+<td>[RFC 8949]</td>
+<td>RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020</td>
+</tr>
+<tr>
+<td>[SD-JWT VC]</td>
+<td>SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/">https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/</a>, version draft-ietf-oauth-sd-jwt-vc-09</td>
+</tr>
+<tr>
+<td>[Topic 7]</td>
+<td>ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking</a></td>
+</tr>
+<tr>
+<td>[Topic 10]</td>
+<td>ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit</a></td>
+</tr>
+<tr>
+<td>[Topic 12]</td>
+<td>ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks</a></td>
+</tr>
+<tr>
+<td>[Topic 20]</td>
+<td>ARF Annex 2 - Strong User authentication for electronic payments, Available: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments</a></td>
+</tr>
+<tr>
+<td>[W3C VCDM v2.0]</td>
+<td>Sporny, M. <em>et al,</em> Verifiable Credentials Data Model v2.0, W3C Recommendation.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="111-list-of-alternative-nomenclatures-for-activity-types">11.1 List of Alternative Nomenclatures for Activity types</h3>
+<p>Generated by DUCK.AI using ChatGPT 5.1 mini</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Country</th>
+<th>National implementation / name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Belgium</td>
+<td>NACE-BEL</td>
+</tr>
+<tr>
+<td>Bulgaria</td>
+<td>NACE (Bulgarian implementation, Rev.2)</td>
+</tr>
+<tr>
+<td>Czech Republic</td>
+<td>CZ‑NACE</td>
+</tr>
+<tr>
+<td>Denmark</td>
+<td>DB07 / Danish adaptations (mapped to NACE)</td>
+</tr>
+<tr>
+<td>Germany</td>
+<td>WZ 2008 (Klassifikation der Wirtschaftszweige)</td>
+</tr>
+<tr>
+<td>Estonia</td>
+<td>NACE (Estonian implementation)</td>
+</tr>
+<tr>
+<td>Ireland</td>
+<td>NACE (CSO adapted list)</td>
+</tr>
+<tr>
+<td>Greece</td>
+<td>KAD (Classification of Economic Activities)</td>
+</tr>
+<tr>
+<td>Spain</td>
+<td>CNAE</td>
+</tr>
+<tr>
+<td>France</td>
+<td>NAF</td>
+</tr>
+<tr>
+<td>Croatia</td>
+<td>NKD</td>
+</tr>
+<tr>
+<td>Italy</td>
+<td>ATECO (ISTAT)</td>
+</tr>
+<tr>
+<td>Cyprus</td>
+<td>NACE (Cyprus Statistical Service)</td>
+</tr>
+<tr>
+<td>Latvia</td>
+<td>NACE (Latvian implementation)</td>
+</tr>
+<tr>
+<td>Lithuania</td>
+<td>NACE (Lithuanian implementation)</td>
+</tr>
+<tr>
+<td>Luxembourg</td>
+<td>NACE (STATEC)</td>
+</tr>
+<tr>
+<td>Hungary</td>
+<td>TEÁOR (TEÁOR 08)</td>
+</tr>
+<tr>
+<td>Malta</td>
+<td>NACE (NSO)</td>
+</tr>
+<tr>
+<td>Netherlands</td>
+<td>SBI (Standard Industrial Classification)</td>
+</tr>
+<tr>
+<td>Austria</td>
+<td>ÖNACE</td>
+</tr>
+<tr>
+<td>Poland</td>
+<td>PKD</td>
+</tr>
+<tr>
+<td>Portugal</td>
+<td>CAE</td>
+</tr>
+<tr>
+<td>Romania</td>
+<td>CAEN</td>
+</tr>
+<tr>
+<td>Slovenia</td>
+<td>SKD</td>
+</tr>
+<tr>
+<td>Slovakia</td>
+<td>SK NACE / OKEČ</td>
+</tr>
+<tr>
+<td>Finland</td>
+<td>TOL</td>
+</tr>
+<tr>
+<td>Sweden</td>
+<td>SNI</td>
+</tr>
+<tr>
+<td>United Kingdom*</td>
+<td>UK SIC (historical mappings to NACE)</td>
+</tr>
+<tr>
+<td>Norway</td>
+<td>NACE‑mapped national classification (Statistics Norway)</td>
+</tr>
+<tr>
+<td>Iceland</td>
+<td>NACE/ISIC mappings (Statistics Iceland)</td>
+</tr>
+<tr>
+<td>Liechtenstein</td>
+<td>NACE‑mapped classification</td>
+</tr>
+<tr>
+<td>Switzerland</td>
+<td>NOGA</td>
+</tr>
+</tbody>
+</table></div>
+<p>*The UK is no longer an EU member; included due to extensive historical mappings.</p>
+  </article>
+</div>
+
+<footer class="foot">
+  <div class="foot-band">
+    <div class="foot-inner">
+      <a class="foot-logolink" href="https://www.webuildconsortium.eu/" target="_blank" rel="noopener"><img class="foot-logo" src="../assets/logo.svg" alt="WE BUILD Consortium" height="56"></a>
+      <img class="foot-eu" src="../assets/logo-eu.svg" alt="Co-funded by the European Union" height="46">
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="foot-inner">
+      <span class="copyright">&copy; Copyright 2026 WE BUILD Consortium. All Rights Reserved.</span>
+      <span class="gen">Rendered from <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-vat-id/README.md" target="_blank" rel="noopener">the rulebook</a> in this repository.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* the chapter list is open beside the text, and out of the way on a phone */
+(function () {
+  var box = document.querySelector(".doc-chapters");
+  if (box && window.matchMedia("(max-width: 860px)").matches) box.open = false;
+}());
+</script>
+
+</body>
+</html>

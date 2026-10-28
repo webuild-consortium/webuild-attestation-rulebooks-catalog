@@ -1,0 +1,1421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EU Company Certificate (EUCC) rulebook | WE BUILD</title>
+<meta name="description" content="EU Company Certificate (EUCC). An attestation rulebook, PuB-EAA, issued as SD-JWT VC, 8 attributes.">
+<link rel="canonical" href="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-eucc.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="WE BUILD Attestation Rulebook Explorer">
+<meta property="og:title" content="EU Company Certificate (EUCC) rulebook">
+<meta property="og:description" content="EU Company Certificate (EUCC). An attestation rulebook, PuB-EAA, issued as SD-JWT VC, 8 attributes.">
+<meta property="og:url" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-eucc.html">
+<meta property="og:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WE BUILD Attestation Rulebook Explorer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta name="theme-color" content="#003399">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+<style>:root{--brand:#003399;--brand-dark:#001d58;--brand-light:#eef2fb;--accent:#ffcc00;--accent-dark:#f1b40d;--ink:#1d1d1f;--muted:#6e6e73;--line:rgba(0,0,0,.08);--surface:#ffffff;--canvas:#f2f2f5;--radius:12px;--font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--heading-font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--mono-font:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;--header-gradient:linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)}</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="WE BUILD Consortium" height="44"></a>
+    <span class="brand-sep" aria-hidden="true"></span>
+    <span class="brand-product">Attestation Rulebook Explorer</span>
+    <nav class="masthead-links">
+      <a class="ghlink" href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-eucc/README.md" target="_blank" rel="noopener" title="View this rulebook on GitHub">
+        <svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="doc-nav">
+    <a class="doc-back" href="../index.html">All rulebooks</a>
+    <details class="doc-chapters" open>
+      <summary>Chapters</summary>
+      <nav class="doc-toc" aria-label="Chapters"><a class="lvl2" href="#1-introduction">1 Introduction</a><a class="lvl3" href="#11-document-scope-and-purpose">1.1 Document scope and purpose</a><a class="lvl3" href="#12-document-structure">1.2 Document structure</a><a class="lvl3" href="#13-key-words">1.3 Key words</a><a class="lvl3" href="#14-terminology">1.4 Terminology</a><a class="lvl2" href="#2-compliance">2 Compliance</a><a class="lvl3" href="#21-compliance-statement">2.1 Compliance statement</a><a class="lvl3" href="#22-regulatory-basis">2.2 Regulatory basis</a><a class="lvl3" href="#23-traceability">2.3 Traceability</a><a class="lvl2" href="#3-attestation-attributes">3 Attestation attributes</a><a class="lvl3" href="#31-introduction">3.1 Introduction</a><a class="lvl3" href="#32-mandatory-attributes">3.2 Mandatory attributes</a><a class="lvl3" href="#33-optional-attributes">3.3 Optional attributes</a><a class="lvl3" href="#34-conditional-attributes">3.4 Conditional attributes</a><a class="lvl2" href="#4-metadata">4 Metadata</a><a class="lvl3" href="#41-mandatory-metadata">4.1 Mandatory metadata</a><a class="lvl3" href="#42-optional-metadata">4.2 Optional metadata</a><a class="lvl3" href="#43-conditional-metadata">4.3 Conditional metadata</a><a class="lvl3" href="#44-code-lists">4.4 Code lists</a><a class="lvl3" href="#45-integrity-rules">4.5 Integrity rules</a><a class="lvl2" href="#5-formats">5 Formats</a><a class="lvl3" href="#51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</a><a class="lvl3" href="#52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</a><a class="lvl3" href="#53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</a><a class="lvl2" href="#6-protocols">6 Protocols</a><a class="lvl2" href="#7-issuance">7 Issuance</a><a class="lvl3" href="#71-binding">7.1 Binding</a><a class="lvl3" href="#72-issuance-policy">7.2 Issuance Policy</a><a class="lvl3" href="#73-lifecycle-management">7.3 Lifecycle management</a><a class="lvl3" href="#74-embedded-disclosure-policy">7.4 Embedded disclosure policy</a><a class="lvl2" href="#8-revocation">8 Revocation</a><a class="lvl2" href="#9-presentation">9 Presentation</a><a class="lvl3" href="#91-presentation-policy">9.1 Presentation Policy</a><a class="lvl3" href="#92-presentation-modes">9.2 Presentation modes</a><a class="lvl3" href="#93-transactional-data">9.3 Transactional data</a><a class="lvl2" href="#10-trust-framework">10 Trust Framework</a><a class="lvl2" href="#11-references">11 References</a></nav>
+    </details>
+  </aside>
+  <article class="doc-body">
+    <p class="doc-tags"><span class="tag cat" style="background:#9a6b12">PuB-EAA</span><span class="tag fmt">SD-JWT VC</span></p>
+    <h1 id="attestation-rulebook-for-attestations-of-type-eu-company-certificate-eucc">Attestation Rulebook for attestations of type EU Company Certificate (EUCC)</h1>
+<p>Category: PuB-EAA</p>
+<p><em>Provide information about the author(s) of this Rulebook in the following form:</em></p>
+<ul>
+<li>Author(s):
+    <!-- Usage help: (Name LastName, Affiliation) --></li>
+<li>Jonas Toennis, <a href="https://www.brreg.no">Brønnøysund Registry Center</a></li>
+<li>Erwin Nieuwlaar, <a href="https://www.kvk.nl">KVK</a></li>
+<li>
+<p>Astrid Verhallen, <a href="https://www.infogreffe.fr/">Infogreffe</a></p>
+</li>
+<li>
+<p>Previous Authors
+     <!-- Usage help: (Name LastName, Affiliation) --></p>
+<ul>
+<li><a href="https://github.com/celiacouson">celiacouson</a></li>
+</ul>
+</li>
+</ul>
+<p><em>Provide versioning information about the Rulebook in the following form:</em></p>
+<p><strong>Feedback:</strong>
+Main feedback channel: <a href="https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues">GitHub issues</a>
+Alternative: Contact Business usecase 2 contact points in WE BUILD.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>2026-10-02</td>
+<td>Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Written against:</strong> ARF version 3.0.0, WE BUILD template version 1.0 (generic)</p>
+<p><strong>Feedback:</strong> <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues">GitHub issues</a></p>
+<h2 id="1-introduction">1 Introduction</h2>
+<h3 id="11-document-scope-and-purpose">1.1 Document scope and purpose</h3>
+<p>This document is the EU Company Certificate Data Rulebook (referred to as EUCC) based on
+the <a href="https://eur-lex.europa.eu/eli/dir/2025/25/oj/eng">EU Company Law regulation</a>. It contains the specific requirements, issuance process, formatting and content of the EUCC. 
+This document is created and used by the WEBUILD consortium to provide a common understanding, data schema, format and usage guidlines for the WEBUILD eco system. </p>
+<p>This document MAY be used as one of multiple innputs toward a final EUCC definition for the EBW ecosystem. That is under the sole discreation of the EU commission or any other relevant authority with delgated power from the commission.</p>
+<p>This attestation represents a legally valid European Company Certificate (EUCC).
+It embodies:
+- Information of a legal person registered in a Member State
+- The legal form of the entity
+- The unique company identifier (EUID structure)
+- The Member State of registration
+- The official registered address
+- The registration date
+- The legal status of the entity
+- The main economic activity (e.g. NACE classification)
+- The legal representatives authorized to bind the company
+- The applicable signatory rules</p>
+<h3 id="12-document-structure">1.2 Document structure</h3>
+<p>This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.</p>
+<h3 id="13-key-words">1.3 Key words</h3>
+<p>This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.</p>
+<p>In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.</p>
+<h3 id="14-terminology">1.4 Terminology</h3>
+<p>This document uses terminology specified in <a href="https://eur-lex.europa.eu/eli/reg/2024/1183/oj/eng">Regulation (EU) 2024/1183</a> and <a href="https://eudi.dev/1.4.0/annexes/annex-1/annex-1-definitions/">Annex 1 of the ARF</a>.</p>
+<p>In addition to the attributes definition necessary to understand the data schema, it's important to understand:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition in WE BUILD Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Natural person</td>
+<td>an individual human being who has legal rights and obligations. Unlike a legal person (which refers to an organization or entity), a natural person is a human with the capacity to engage in legal relationships, enter into contracts, own property, and be subject to legal actions. Natural persons are distinct from artificial entities (like corporations or governments). In legal terms, a natural person is someone who exists as a human being, as opposed to a corporate or fictional entity.</td>
+</tr>
+<tr>
+<td>Legal person</td>
+<td>an entity that has legal rights and obligations, similar to a natural person (an individual). It is an organization or group recognized by law as having the capacity to enter into contracts, sue, and be sued, and own property. Legal persons are distinct from the individuals who may own, manage, or be part of them. Examples of legal persons include Corporations, Government agencies, public entities (that are granted legal recognition to act on behalf of the state), Nonprofit organizations A legal person exists as a separate legal entity, meaning it can perform legal actions in its own name, distinct from the actions of its members.</td>
+</tr>
+<tr>
+<td>Legal entity</td>
+<td>an organization or structure that is recognized by law as having legal rights and responsibilities distinct from those of its members or owners. A legal entity can enter into contracts, own property, incur debts, and be held liable for legal actions in its own name. Legal entities include various forms of organizations such as Corporations, Limited liability companies (LLCs), Nonprofit organizations, Partnerships The key characteristic of a legal entity is that it has its own legal existence, allowing it to perform actions independently of the individuals who are involved with it.</td>
+</tr>
+<tr>
+<td>Legal representative</td>
+<td>Natural or legal person authorized to act on behalf of another person or organization in legal matters. This person has the legal authority to represent the interests of the entity, such as a company, in dealings with other parties, including signing contracts, making decisions, and appearing in legal proceedings. For businesses, a legal representative can be a director, officer, or another person designated by the company's governing body (like the board of directors) to represent the company in legal matters. In the case of individuals, a legal representative might include a guardian, power of attorney holder, or someone with similar legal authority to act on behalf of the person.</td>
+</tr>
+<tr>
+<td>Signatory rights</td>
+<td>the authority or power granted to an individual or entity to legally bind an organization or company by signing contracts, agreements, or other formal documents. This authority can be granted to a specific person, such as an executive, director, or authorized representative, and can be either individual (where one person alone can sign) or joint (where multiple individuals are required to sign together). Signatory rights are important because they ensure that any commitments made by the organization are legally valid and enforceable. The terms and scope of signatory rights are usually outlined in the organization's internal governance documents, such as its bylaws, and can vary based on the level of responsibility and the nature of the agreements being signed.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="2-compliance">2 Compliance</h2>
+<h3 id="21-compliance-statement">2.1 Compliance statement</h3>
+<p>This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.</p>
+<h3 id="22-regulatory-basis">2.2 Regulatory basis</h3>
+<p>This attestation includes the data required by Annex VII of Regulation (EU) 2024/1183,
+points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-017, EW-DM-12-019, EW-DM-12-021
+and EW-DM-12-023 respectively. It is issued by or on behalf of a public sector body
+responsible for an authentic source: the business register of the Member State of
+registration.</p>
+<h3 id="23-traceability">2.3 Traceability</h3>
+<p>Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Legacy ID</th>
+<th>Applies</th>
+<th>Satisfied in section</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EW-DM-12-001</td>
+<td>ARB_01a</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC only; W3C VCDM is not permitted for a PuB-EAA, section 5.3 is retained as an informative working profile</td>
+</tr>
+<tr>
+<td>EW-DM-12-002</td>
+<td>ARB_01b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC following the HAIP profile</td>
+</tr>
+<tr>
+<td>EW-DM-12-003</td>
+<td>ARB_02</td>
+<td>no</td>
+<td></td>
+<td>Proximity presentation is not in scope</td>
+</tr>
+<tr>
+<td>EW-DM-12-005</td>
+<td>ARB_04</td>
+<td>no</td>
+<td></td>
+<td>W3C VCDM is not permitted for a PuB-EAA; see the note in section 5.3</td>
+</tr>
+<tr>
+<td>EW-DM-12-006</td>
+<td>ARB_05</td>
+<td>yes</td>
+<td>5</td>
+<td>Unique vct for this attestation type</td>
+</tr>
+<tr>
+<td>EW-DM-12-007</td>
+<td>ARB_06</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes defined independently of encoding</td>
+</tr>
+<tr>
+<td>EW-DM-12-008</td>
+<td>ARB_06a</td>
+<td>no</td>
+<td></td>
+<td>No mdoc encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-009</td>
+<td>ARB_06b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC claim naming</td>
+</tr>
+<tr>
+<td>EW-DM-12-010</td>
+<td>ARB_07</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes reused from the catalogued vocabulary where one exists</td>
+</tr>
+<tr>
+<td>EW-DM-12-012</td>
+<td>ARB_09</td>
+<td>yes</td>
+<td>3, 4</td>
+<td>Mandatory, optional and conditional stated per attribute</td>
+</tr>
+<tr>
+<td>EW-DM-12-013</td>
+<td>ARB_10</td>
+<td>no</td>
+<td></td>
+<td>No domestic namespace is defined</td>
+</tr>
+<tr>
+<td>EW-DM-12-014</td>
+<td>ARB_11</td>
+<td>yes</td>
+<td>3.2</td>
+<td><code>attestation_legal_category</code> carries the Annex VII point a indication</td>
+</tr>
+<tr>
+<td>EW-DM-12-015</td>
+<td>ARB_12</td>
+<td>no</td>
+<td></td>
+<td>Applies to non-qualified EAA only</td>
+</tr>
+<tr>
+<td>EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018</td>
+<td>ARB_13 / ARB_14 / ARB_15</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point b, EW-DM-12-017 for a PuB-EAA, through <code>issuing_authority</code> and <code>issuing_country</code></td>
+</tr>
+<tr>
+<td>EW-DM-12-019 / EW-DM-12-020</td>
+<td>ARB_16 / ARB_17</td>
+<td>yes</td>
+<td>2.2, 3.2</td>
+<td>Point c, EW-DM-12-019, through the company identification attributes</td>
+</tr>
+<tr>
+<td>EW-DM-12-021 / EW-DM-12-022</td>
+<td>ARB_18 / ARB_19</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point e, EW-DM-12-021, through <code>expiry_date</code> and the issuance metadata</td>
+</tr>
+<tr>
+<td>EW-DM-12-023 / EW-DM-12-024</td>
+<td>ARB_20 / ARB_21</td>
+<td>yes</td>
+<td>4.2, 10</td>
+<td>Point h, EW-DM-12-023: <code>trust_anchor</code> locates the qualified certificate that signed the attestation</td>
+</tr>
+<tr>
+<td>EW-DM-12-029</td>
+<td>ARB_25</td>
+<td>yes</td>
+<td>4.1</td>
+<td>Legal category attribute; see the note in section 4.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-030</td>
+<td>ARB_26</td>
+<td>no</td>
+<td></td>
+<td>Applies to non-qualified EAA only</td>
+</tr>
+<tr>
+<td>EW-DM-12-031</td>
+<td>ARB_27</td>
+<td>no</td>
+<td></td>
+<td>The holder is a legal person identified through the EBWOID; see section 7.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-032</td>
+<td>ARB_28</td>
+<td>no</td>
+<td></td>
+<td>cryptographically_bound_to is not used by this attestation</td>
+</tr>
+<tr>
+<td>EW-DM-12-034</td>
+<td>ARB_30</td>
+<td>yes</td>
+<td>5</td>
+<td>Selective disclosure stated per claim</td>
+</tr>
+<tr>
+<td>EW-DM-12-035</td>
+<td>ARB_31</td>
+<td>no</td>
+<td></td>
+<td>No Claim Selective Disclosure Metadata document is used</td>
+</tr>
+<tr>
+<td>EW-DM-12-038</td>
+<td>ARB_34</td>
+<td>yes</td>
+<td>7.1</td>
+<td>Device binding MAY apply; justification in section 7.1</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-attestation-attributes">3 Attestation attributes</h2>
+<p>Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.</p>
+<h3 id="31-introduction">3.1 Introduction</h3>
+<p>The attestation attributes are defined in the tables of this chapter. These tables contain the following information:
+- The first column specifies the identifiers of the attestation attributes. The attribute identifiers in this column SHALL be used in requests and responses. There SHALL be at most one attribute with the same attribute identifier in each attestation attribute.
+- The second column describes the meaning of the attribute.
+- The third column specifies whether the presence of the attribute in an attestation is mandatory (M), or optional (O).
+    - NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.
+- The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].</p>
+<h4 id="311-overview-attributes-attestation">3.1.1 Overview attributes attestation</h4>
+<p>The following table combines all attestation attributes for the EUCC (mandatory, optional, and conditional) in a single overview. Attribute identifiers SHALL be used in requests and responses.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Optionality</strong></th>
+<th><strong>Encoding format</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>attestation_legal_category</td>
+<td><a href="https://w3id.org/ebwv#attestationLegalCategory">attestationLegalCategory</a></td>
+<td><code>Pub-EAA</code>; the EUCC is issued as a public sector body EAA</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>legal_person_name</td>
+<td><a href="https://w3id.org/ebwv#legalName">legalName</a></td>
+<td>Official current legal person name as registered in the business register.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>legal_person_id</td>
+<td><a href="https://w3id.org/ebwv#legalIdentifier">legalIdentifier</a></td>
+<td>Unique ID for the legal person in the EUID structure.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>legal_form_type</td>
+<td><a href="https://w3id.org/ebwv#legalForm">legalForm</a></td>
+<td>Legal form of the company.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>registration_member_state</td>
+<td>The registration member state information can be retrieved from the EUID.</td>
+<td>The member state where the company is registered (Alpha-2 country code).</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>registered_address</td>
+<td><a href="https://w3id.org/ebwv#registeredAddress">registeredAddress</a></td>
+<td>The official address of the company as registered by public authority. See <a href="#25-address">section 3.1.2</a></td>
+<td>M</td>
+<td>object</td>
+</tr>
+<tr>
+<td>registration_date</td>
+<td><a href="https://w3id.org/ebwv#dateOfRegistration">dateOfRegistration</a></td>
+<td>Date of company registration.</td>
+<td>M</td>
+<td>string (date)</td>
+</tr>
+<tr>
+<td>legal_person_status</td>
+<td><a href="https://w3id.org/ebwv#legalStatus">legalStatus</a></td>
+<td>Status of the company as defined in national law.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>legal_person_activity</td>
+<td><a href="https://w3id.org/ebwv#activity">activity</a></td>
+<td>Main activity of the company (NACE).</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>legal_representative</td>
+<td><a href="https://w3id.org/ebwv#legalRepresentative">legalRepresentative</a></td>
+<td>Information about the natural or legal person(s) authorized to represent the company. See <a href="#24-conditional-attributes">section 2.4</a>. At least one is required.</td>
+<td>M</td>
+<td>array&lt;object&gt;</td>
+</tr>
+<tr>
+<td>share_capital</td>
+<td><a href="https://w3id.org/ebwv#subscribedCapital">subscribedCapital</a></td>
+<td>Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015</td>
+<td>O</td>
+<td>object</td>
+</tr>
+<tr>
+<td>legal_person_duration</td>
+<td><a href="https://w3id.org/ebwv#endDate">endDate</a></td>
+<td>Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601</td>
+<td>O</td>
+<td>string (date)</td>
+</tr>
+<tr>
+<td>digital_contact_point</td>
+<td><a href="https://w3id.org/ebwv#contactPoint">contactPoint</a></td>
+<td>Correspondence address of the company, such as electronic mail and/or website</td>
+<td>O</td>
+<td>object</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="312-address">3.1.2 Address</h4>
+<p>There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Optionality</strong></th>
+<th><strong>Encoding format</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>full_address</td>
+<td><a href="https://w3id.org/ebwv#fullAddress">fullAddress</a></td>
+<td>Complete address of the company, written as a string, separated by semicolons.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>care_of</td>
+<td></td>
+<td>Used when the address is at the address of another person or legal person.</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>thorough_fare</td>
+<td><a href="https://w3id.org/ebwv#thoroughfare">thoroughfare</a></td>
+<td>The name of a passage or way through from one location to another.</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>locator_designator</td>
+<td><a href="https://w3id.org/ebwv#locatorDesignator">locatorDesignator</a></td>
+<td>A number or sequence that uniquely identifies the locator.</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>post_code</td>
+<td><a href="https://w3id.org/ebwv#postCode">postCode</a></td>
+<td>The code created and maintained for postal purposes.</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>post_name</td>
+<td><a href="https://w3id.org/ebwv#postName">postName</a></td>
+<td>A name identifying a subdivision of addresses (e.g., city).</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>post_office_box</td>
+<td><a href="https://w3id.org/ebwv#poBox">poBox</a></td>
+<td>A location designator for a postal delivery point at a post office.</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>locator_name</td>
+<td><a href="https://w3id.org/ebwv#locatorName">locatorName</a></td>
+<td>Proper noun(s) applied to the real-world entity.</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>admin_unit_level_1</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL1">adminUnitL1</a></td>
+<td>The uppermost administrative unit (typically country).</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>admin_unit_level_2</td>
+<td><a href="https://w3id.org/ebwv#adminUnitL2">adminUnitL2</a></td>
+<td>Secondary level/region (typically county or state).</td>
+<td>O</td>
+<td>string</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="32-mandatory-attributes">3.2 Mandatory attributes</h3>
+<h3 id="33-optional-attributes">3.3 Optional attributes</h3>
+<h3 id="34-conditional-attributes">3.4 Conditional attributes</h3>
+<p>If a Natural Person is representative of a legal person, the following attributes SHALL be included:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Optionality</strong></th>
+<th><strong>Encoding format</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>full_name</td>
+<td><a href="https://w3id.org/ebwv#Person">Person</a>.<a href="https://w3id.org/ebwv#fullName">fullName</a></td>
+<td>Full name of the natural person representing the company.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>date_of_birth</td>
+<td><a href="https://w3id.org/ebwv#Person">Person</a>.<a href="https://w3id.org/ebwv#dateOfBirth">dateOfBirth</a></td>
+<td>Date of birth of the natural person representing the company.</td>
+<td>M</td>
+<td>string (date)</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td><a href="https://w3id.org/ebwv#legalRepresentativeId">legalRepresentativeId</a></td>
+<td>Natural person representative or national identifier</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>nationality</td>
+<td><a href="https://w3id.org/ebwv#Person">Person</a>.<a href="https://w3id.org/ebwv#citizenship">citizenship</a></td>
+<td>OPTIONAL: Nationality of the natural person representing the company.</td>
+<td>O</td>
+<td>string</td>
+</tr>
+<tr>
+<td>signatory_rule</td>
+<td><a href="https://w3id.org/ebwv#scopeOfAuthorization">scopeOfAuthorization</a></td>
+<td>Information on whether the representative can engage the company alone or jointly.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+</tbody>
+</table></div>
+<p>If a Legal Person is representative of a legal person, the following attributes SHALL be included:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Optionality</strong></th>
+<th><strong>Encoding format</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td><a href="https://w3id.org/ebwv#EconomicOperator">EconomicOperator</a>.<a href="https://w3id.org/ebwv#legalName">legalName</a></td>
+<td>Details about the legal person representing the company.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>id</td>
+<td><a href="https://w3id.org/ebwv#legalRepresentativeId">legalRepresentativeId</a></td>
+<td>Unique ID for the legal person in the EUID structure.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>legal_form_type</td>
+<td><a href="https://w3id.org/ebwv#EconomicOperator">EconomicOperator</a>.<a href="https://w3id.org/ebwv#legalForm">legalForm</a></td>
+<td>Legal form of the legal person representing the company.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+<tr>
+<td>signatory_rule</td>
+<td><a href="https://w3id.org/ebwv#scopeOfAuthorization">scopeOfAuthorization</a></td>
+<td>Information on whether the representative can engage the company alone or jointly.</td>
+<td>M</td>
+<td>string</td>
+</tr>
+</tbody>
+</table></div>
+<p>A combination of natural and legal persons can be legal representatives of a legal person.</p>
+<h2 id="4-metadata">4 Metadata</h2>
+<p>Metadata describes the attestation rather than its subject.</p>
+<h3 id="41-mandatory-metadata">4.1 Mandatory metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>expiry_date</td>
+<td><a href="https://w3.org/2018/credentials#validUntil">cred:validUntil</a></td>
+<td>Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format.</td>
+</tr>
+<tr>
+<td>issuing_authority</td>
+<td><a href="https://w3.org/2018/credentials#issuer">cred:issuer</a>.<a href="https://w3id.org/ebwv#legalName">legalName</a></td>
+<td>Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.</td>
+</tr>
+<tr>
+<td>issuing_country</td>
+<td><a href="https://w3.org/2018/credentials#issuer">cred:issuer</a>.<a href="https://w3id.org/ebwv#jurisdiction">jurisdiction</a></td>
+<td>Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Legal category.</strong> This Rulebook retains the <code>attestation_legal_category</code> attribute.
+Section 4.1 of the generic template replaces it with the <code>category</code> attribute of
+[ETSI TS 119 472-1], whose value for this category is <code>urn:etsi:esi:eaa:eu:pub</code>.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+<code>attestation_legal_category</code>, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.</p>
+<h3 id="42-optional-metadata">4.2 Optional metadata</h3>
+<h3 id="43-conditional-metadata">4.3 Conditional metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>location_status</td>
+<td><a href="https://w3.org/2018/credentials#credentialStatus">cred:credentialStatus</a></td>
+<td>The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours.</td>
+</tr>
+<tr>
+<td>trust_anchor</td>
+<td><a href="https://w3.org/2018/credentials#termsOfUse">cred:termsOfUse</a></td>
+<td>This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="44-code-lists">4.4 Code lists</h3>
+<p>The following code lists apply to specific attributes:</p>
+<p><strong>legal_person_status</strong></p>
+<p>Examples (Member-State specific):
+- active
+- dissolved
+- in_liquidation
+- insolvent
+- struck_off</p>
+<p><strong>legal_person_activity</strong></p>
+<p>Values:
+- NACE codes (EU)
+- ATECO (Italy)</p>
+<p><strong>registration_member_state</strong></p>
+<p>ISO 3166-1 alpha-2 country codes</p>
+<p><strong>signatory_rule</strong></p>
+<p>Values:
+- sole
+- joint
+- joint_two
+- joint_all
+- limited</p>
+<h3 id="45-integrity-rules">4.5 Integrity rules</h3>
+<ul>
+<li>registration_member_state MUST be a valid ISO 3166-1 alpha-2 code.</li>
+<li>registration_date MUST be equal to or earlier than the issuance date of the attestation.</li>
+<li>legal_person_id MUST follow the EUID structure.</li>
+<li>At least one legal_representative MUST be present.</li>
+<li>signatory_rule MUST be defined for each legal representative.</li>
+</ul>
+<h2 id="5-formats">5 Formats</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Supported</th>
+<th>Identifier</th>
+<th>Specification</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISO/IEC 18013-5 mdoc</td>
+<td>no</td>
+<td></td>
+<td>[ISO/IEC 18013-5]</td>
+<td>Not defined; no proximity presentation requirement, see section 5.2</td>
+</tr>
+<tr>
+<td>SD-JWT VC</td>
+<td>yes</td>
+<td><code>vct</code> <code>uri:eu.eudi.eucc.1</code></td>
+<td>[SD-JWT VC], [HAIP]</td>
+<td>SHALL follow the HAIP profile, see section 5.1</td>
+</tr>
+<tr>
+<td>W3C VCDM</td>
+<td>no</td>
+<td></td>
+<td>[W3C VCDM v2.0]</td>
+<td>Not permitted for a PuB-EAA (EW-DM-12-001); section 5.3 is an informative working profile</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</h3>
+<p>The EUCC attestation uses the SD-JWT VC format to allow for selective disclosure of company attributes.
+Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to preserve the legally mandated content of the EUCC.</p>
+<p>The . notation is used to indicate the nesting of attributes.</p>
+<p><strong>Verifiable Credential Type (<code>vct</code>):</strong> <code>uri:eu.eudi.eucc.1</code></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute identifier</strong></th>
+<th><strong>Encoding format</strong></th>
+<th><strong>Reference/Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>attestation_legal_category</td>
+<td>attestation_legal_category</td>
+<td>string</td>
+<td><code>Pub-EAA</code> as defined by eIDAS 2</td>
+</tr>
+<tr>
+<td>issuing_authority</td>
+<td>iss</td>
+<td>string</td>
+<td>RFC 7519 / Section 2.6</td>
+</tr>
+<tr>
+<td>expiry_date</td>
+<td>exp</td>
+<td>number</td>
+<td>RFC 7519 / Section 2.6 (Unix timestamp)</td>
+</tr>
+<tr>
+<td>issuing_country</td>
+<td>issuing_country</td>
+<td>string</td>
+<td>ISO 3166-1 alpha-2</td>
+</tr>
+<tr>
+<td>legal_person_name</td>
+<td>legal_person_name</td>
+<td>string</td>
+<td>Official current legal person name as registered in the business register.</td>
+</tr>
+<tr>
+<td>legal_person_id</td>
+<td>legal_person_id</td>
+<td>string</td>
+<td>EUID</td>
+</tr>
+<tr>
+<td>legal_form_type</td>
+<td>legal_form_type</td>
+<td>string</td>
+<td>Legal form of the company.</td>
+</tr>
+<tr>
+<td>registration_member_state</td>
+<td>registration_member_state</td>
+<td>string</td>
+<td>The member state where the company is registered (Alpha-2 country code).</td>
+</tr>
+<tr>
+<td>registration_date</td>
+<td>registration_date</td>
+<td>string</td>
+<td>ISO 8601 (YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td>legal_person_status</td>
+<td>legal_person_status</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_person_activity</td>
+<td>legal_person_activity</td>
+<td>object</td>
+<td>The NACE code describing the main activity</td>
+</tr>
+<tr>
+<td>legal_person_activity.code</td>
+<td>legal_person_activity.code</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_person_activity.description</td>
+<td>legal_person_activity.description</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_person_duration</td>
+<td>legal_person_duration</td>
+<td>date</td>
+<td>Given as date following ISO 8601</td>
+</tr>
+<tr>
+<td>registered_address</td>
+<td>registered_address</td>
+<td>object</td>
+<td>See section 3.1.2 for structure</td>
+</tr>
+<tr>
+<td>registered_address.full_address</td>
+<td>registered_address.full_address</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.care_of</td>
+<td>registered_address.care_of</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.thorough_fare</td>
+<td>registered_address.thorough_fare</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.locator_designator</td>
+<td>registered_address.locator_designator</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.post_code</td>
+<td>registered_address.post_code</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.post_name</td>
+<td>registered_address.post_name</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.post_office_box</td>
+<td>registered_address.post_office_box</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.locator_name</td>
+<td>registered_address.locator_name</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.admin_unit_level_1</td>
+<td>registered_address.admin_unit_level_1</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>registered_address.admin_unit_level_2</td>
+<td>registered_address.admin_unit_level_2</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative</td>
+<td>legal_representative</td>
+<td>array</td>
+<td>Array of natural/legal persons</td>
+</tr>
+<tr>
+<td>legal_representative.legal_person</td>
+<td>legal_representative.legal_person</td>
+<td>object</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.legal_person.name</td>
+<td>legal_representative.legal_person.name</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.legal_person.id</td>
+<td>legal_representative.legal_person.id</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.legal_person.formtype</td>
+<td>legal_representative.legal_person.formtype</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.legal_person.signatory_rule</td>
+<td>legal_representative.legal_person.signatory_rule</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.natural_person</td>
+<td>legal_representative.natural_person</td>
+<td>object</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.natural_person.full_name</td>
+<td>legal_representative.natural_person.full_name</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.natural_person.identifier</td>
+<td>legal_representative.natural_person.identifier</td>
+<td>string</td>
+<td>Natural person representative identifier</td>
+</tr>
+<tr>
+<td>legal_representative.natural_person.date_of_birth</td>
+<td>legal_representative.natural_person.date_of_birth</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.natural_person.nationality</td>
+<td>legal_representative.natural_person.nationality</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>legal_representative.natural_person.signatory_rule</td>
+<td>legal_representative.natural_person.signatory_rule</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>share_capital</td>
+<td>share_capital</td>
+<td>object</td>
+<td></td>
+</tr>
+<tr>
+<td>share_capital.amount</td>
+<td>share_capital.amount</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>share_capital.currency</td>
+<td>share_capital.currency</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>digital_contact_point</td>
+<td>digital_contact_point</td>
+<td>object</td>
+<td></td>
+</tr>
+<tr>
+<td>digital_contact_point.website</td>
+<td>digital_contact_point.website</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>digital_contact_point.email</td>
+<td>digital_contact_point.email</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>location_status</td>
+<td>status</td>
+<td>object</td>
+<td>See chapter <a href="#321-attribute-status">3.2.3</a></td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="511-attribute-status">5.1.1 Attribute status</h4>
+<p>For SD-JWT VC-compliant EUCCs, the EUCC MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/">SD-JWT VC</a>.</p>
+<p>The status claim SHALL be a JSON object with the following members:</p>
+<ul>
+<li><code>status_list</code> (object): the reference to this EUCC's entry in a Token Status List, as specified in CS-10 of the WE BUILD conformance specifications and in the IETF Token Status List.</li>
+<li><code>status_list.idx</code> (integer, &gt;= 0): the index of this EUCC in the status list.</li>
+<li><code>status_list.uri</code> (string, URI): the URI of the Status List Token.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-json">{
+  &quot;status&quot;: {
+    &quot;status_list&quot;: {
+      &quot;idx&quot;: 42,
+      &quot;uri&quot;: &quot;https://issuer.example.com/statuslists/1&quot;
+    }
+  }
+}
+</code></pre>
+<h4 id="512-example-payload">5.1.2 Example Payload</h4>
+<p>Sample payloads provided under <code>../../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json</code></p>
+<h3 id="52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</h3>
+<p>ISO/IEC 18013-5 (also called mdoc) is out of scope for this rulebook, as offline proximity presentation is not a current requirement for EUCC.</p>
+<h3 id="53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</h3>
+<blockquote>
+<p>Note: EW-DM-12-001 (ARB_01a) permits the W3C Verifiable Credentials Data Model format for
+non-qualified EAA only. As a PuB-EAA the EUCC is not issued in this format. The encoding below
+is retained as an informative working profile of the EU Business Wallet ecosystem, pending a
+consortium decision, and the deviation is recorded for the rulebook quality assurance group.</p>
+</blockquote>
+<p>W3C Verifiable Credentials are serialized using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) are SHACL (data graph) can be used to validate data - see <a href="https://www.w3.org/TR/vc-data-model-2.0/#data-schemas">Data Schemas</a>.</p>
+<h4 id="metadata">Metadata</h4>
+<p>The metadata of an W3C Verifiable Credential are defined in the <a href="https://www.w3.org/2018/credentials/">Verifiable Credentials Vocabulary v2.0</a>. The following extensions are defined in the <a href="https://w3id.org/ebwv">European Business Wallet Vocabulary</a> in order to support Electronic Attestions of Attributes:
+* <a href="https://w3id.org/ebwv#attestationLegalCategory">attestationLegalCategory</a> in order to specify the category of the EAA, <code>Pub-EAA</code> for the EUCC.</p>
+<h4 id="credential-subject">Credential Subject</h4>
+<p>There are two different flavors of European Company Certificates:
+* for limited liability companies and
+* for partnerships.</p>
+<p>Both are modeled by their own classes:
+* <a href="https://w3id.org/ebwv#LimitedLiabilityCompany">LimitedLiabilityCompany</a> - EU Company Certificate for limited liability companies
+* <a href="https://w3id.org/ebwv#Partnership">Partnership</a> - EU Company Certificate for partnerships </p>
+<h4 id="holder-binding">Holder Binding</h4>
+<p>EUCC credentials are hold by the organization and their legal representatives. Corresponding key binding is provided by using DID's. Please note that every node of JSON-LD tree is addressable by its own locally or globally unique identifier <code>@id</code>. Using <a href="https://www.w3.org/TR/did-1.0/">Decentralized Identifiers (DIDs) v1.0</a> as identifiers allows to cryptographically bind any node to its underlying identity:</p>
+<p>example of key binding using DID's:</p>
+<pre><code class="language-json5">{
+  &quot;@context&quot;: [
+    &quot;https://www.w3.org/ns/credentials/v2&quot;,
+    &quot;https://w3id.org/ebwv/v0.1&quot;
+  ],
+  &quot;@id&quot;: &quot;urn:d5dfeb39-edc7-40b1-a2fc-3968dbd3eac8&quot;,
+  &quot;@type&quot;: [
+    &quot;VerifiableCredential&quot;,
+    &quot;ElectronicAttestationOfAttributes&quot;
+  ],
+  &quot;attestationLegalCategory&quot;: &quot;Pub-EAA&quot;,
+  &quot;credentialSubject&quot;: {
+    &quot;@id&quot;: &quot;did:key:$publicKeyOfHolder$&quot;, // credential subject is bound to organisation
+    &quot;@type&quot;: [
+      &quot;EconomicOperator&quot;,
+      &quot;Company&quot;,
+      &quot;Partnership&quot;
+    ],
+    &quot;legalIdentifier&quot;: {
+      &quot;@type&quot; : &quot;Euid&quot;,
+      &quot;@value&quot; : &quot;NOFOR.987654321&quot;
+    },
+    &quot;legalName&quot;: &quot;acme Partnership&quot;,
+    &quot;legalForm&quot;: &quot;Partnership&quot;,
+    &quot;registeredAddress&quot;: {
+      &quot;@type&quot;:&quot;Address&quot;,
+      &quot;fullAddress&quot;: &quot;Via Appia 123, 00100 Rome, Italy&quot;,
+      &quot;thoroughfare&quot;: &quot;Via Appia&quot;,
+      &quot;locatorDesignator&quot;: &quot;123&quot;,
+      &quot;postName&quot;: &quot;Rome&quot;,
+      &quot;adminUnitL2&quot;: &quot;Lazio&quot;,
+      &quot;postCode&quot;: &quot;00100&quot;,
+      &quot;adminUnitL1&quot;: &quot;IT&quot;
+    },
+    &quot;partner&quot;: [
+      {
+        &quot;@type&quot;: &quot;GeneralPartner&quot;,
+        &quot;partnerId&quot;: &quot;did:key:$publicKeyOfPartner1$&quot; // general partner is bound to natural person 1
+      },
+      {
+        &quot;@type&quot;: &quot;LimitedPartner&quot;,
+        &quot;partnerId&quot;: &quot;did:key:$publicKeyOfPartner2$&quot;, // limited partner is bound to natural person 2
+        &quot;liabilityOrContribution&quot;: {
+          &quot;@type&quot;: &quot;Capital&quot;,
+          &quot;amount&quot;: 100000,
+          &quot;currency&quot;: &quot;EUR&quot;
+        }
+      },
+      {
+        &quot;@type&quot;: &quot;StatutoryPartner&quot;,
+        &quot;partnerId&quot;: &quot;did:key:$publicKeyOfPartner3$&quot;, // statutory partner is bound to natural person 3
+        &quot;role&quot;: &quot;Head of HR&quot;,
+        &quot;scopeOfAuthorization&quot;: &quot;Jointly&quot;
+      }
+    ]
+  },
+  &quot;validUntil&quot;: &quot;2029-12-03T12:19:52Z&quot;,
+  &quot;validFrom&quot;: &quot;2019-12-03T12:19:52Z&quot;,
+  &quot;issuer&quot;: &quot;did:key:$publicKeyOfIssuer$&quot;
+}
+</code></pre>
+<p>The Verifiable Credential Data Model (VCDM) doesn't dictate any specific DID-method. Instead, any did method that supports the underlying trust framework and is able to provide the required level of assurance can be used:
+* PKI-Infrastructure (e.g. EU-TLOL based on X.509 certificates): <a href="https://github.com/digitalbazaar/did-method-key">did:key</a> - the public key is directly encoded in the identifier
+* DTL (e.g.: Ethereum): <a href="https://github.com/uport-project/ethr-did">did:ethr</a>
+* European Block Chain Infrastructure: <a href="https://hub.ebsi.eu/vc-framework/did/legal-entities">did:ebsi</a>
+* Domain Name System (DNS): <a href="https://w3c-ccg.github.io/did-method-web/">did:web</a>
+* Domain Name System verifiable history: <a href="https://identity.foundation/didwebvh/v1.0/">did:webvh</a></p>
+<h4 id="proof-mechanisms">Proof mechanisms</h4>
+<p>The preferred proof mechanism for the EUCC Attesation is <a href="https://www.w3.org/TR/vc-di-ecdsa/#ecdsa-sd-2023-functions">ecdsa-sd-2023</a> as specified in <a href="https://www.w3.org/TR/vc-di-ecdsa">Data Integrity ECDSA Cryptosuites v1.0</a>. ecdsa-sd-2023 supports selective disclosure out of the box. The issuer doesn't need the select disclosable claims, create disclosures or manipulate the payload of the credential. The issuer just applies the ecdsa-sd-2023 data integrity proof to the credential. The holder chooses which claims he wants to disclose and derives a proof from the original assertion proof.</p>
+<p>For backward compatibility and for trust frameworks whose policies require a particular proof mechanism, <a href="https://www.w3.org/TR/vc-jose-cose/#with-jose">JOSE</a> and <a href="https://www.w3.org/TR/vc-jose-cose/#with-sd-jwt">SD-JWT</a> as specified in <a href="https://www.w3.org/TR/vc-jose-cose/">Securing Verifiable Credentials using JOSE and COSE</a> should be supported, too.</p>
+<p>The <a href="https://www.w3.org/2025/credentials/vcdi/vocab/v2/vocabulary.html">Security Vocabulary</a> is used to embed the proofs into the credentials.</p>
+<p>A <a href="https://www.w3.org/TR/vc-data-model-2.0/#example-use-of-the-credentialsubject-property">side-by-side comparision</a> of the proofs is provided in the <a href="https://www.w3.org/TR/vc-data-model-2.0">Verifiable Credentials Data Model v2.0</a>.</p>
+<h4 id="credential-status">Credential status</h4>
+<p>The EUCC SHALL include a status claim <code>credentialStatus</code> if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in <a href="https://www.w3.org/TR/vc-bitstring-status-list/">Bitstring Status List v1.0</a>.</p>
+<h2 id="6-protocols">6 Protocols</h2>
+<p>This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].</p>
+<h2 id="7-issuance">7 Issuance</h2>
+<h3 id="71-binding">7.1 Binding</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device-bound</td>
+<td>MAY</td>
+<td>EW-DM-12-038</td>
+</tr>
+<tr>
+<td>Cryptographically bound to</td>
+<td>none</td>
+<td>EW-DM-12-032</td>
+</tr>
+<tr>
+<td>Relying Party must also verify a PID</td>
+<td>no</td>
+<td>EW-DM-12-031</td>
+</tr>
+<tr>
+<td>Binding subject</td>
+<td>legal person</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>The EUCC is a legal-person attestation held in an EU Business Wallet and identified through
+the EBWOID, so the PuB-EAA defaults of binding to a natural person's device and to the PID
+do not apply. Device binding MAY be applied to the key of the business wallet unit, and no
+<code>cryptographically_bound_to</code> attribute is used.</p>
+<h3 id="72-issuance-policy">7.2 Issuance Policy</h3>
+<p>The EUCC is intended to be used as a standardised, machine-verifiable proof of a company's incorporation and registered company information, to be presented by a Wallet User to an RP in cross-border and domestic contexts.</p>
+<p>Typical scenarios include, but are not limited to:</p>
+<ul>
+<li><strong>Cross-border business onboarding (B2B)</strong>: sharing official company registration data during supplier/customer onboarding, procurement qualification, or partner due diligence.</li>
+<li><strong>Public administration procedures (G2B)</strong>: providing evidence of registration and company attributes when applying for permits, registrations, notifications, or access to public services.</li>
+<li><strong>Financial and regulated services</strong>: supporting organisational onboarding steps where official company data is required (e.g., account opening or contractual setup), where the RP needs a reliable, registry-backed set of company attributes.</li>
+<li><strong>Replacement/supplement of national extracts</strong>: substituting ad-hoc sharing of national registry extracts (often requiring translation) with a harmonised EUCC attestation.</li>
+</ul>
+<p>The EUCC is <strong>not</strong> intended to be used as a standalone authentication mechanism to log into a company register or to replace processes that legally require a natural person to act and be authenticated in their own right.</p>
+<p><strong>Note:</strong> The EUCC includes information about legal representation (e.g., legal representatives and signatory rules). This supports business decisions but does not, by itself, prove that the current presenter is one of those representatives unless the RP also performs an appropriate binding to the presenter (typically via PID and/or additional authorisation evidence outside the scope of this rulebook).</p>
+<p><strong>Note:</strong> The EUCC is intended for <strong>online, remote presentation</strong> using EUDI Wallet-compatible presentation protocols.</p>
+<ul>
+<li>The Authentic Source of the data contained in the EUCC MUST be the company register.   The company register can or MUST authorize an issuer to issue EUCCs on their behalf. </li>
+<li>The Issuance SHALL be based on up to date, authoritive data from the authorative source as defined by ????? #TODO</li>
+<li>The EUCC SHALL be key bound to the wallet, IF the wallet belongs to the company that the EUCC is issued for.</li>
+<li>If the EUCC is issued to a wallet that is not owned by the company that the EUCC is issued for, the EUCC SHALL NOT be  key bound to the wallet.</li>
+<li>The EUCC SHALL be issued in a format that is compatible with the EUDI Wallet ecosystem (e.g., <strong>OpenID4VP</strong> profiles adopted by the ecosystem).</li>
+<li>To recive an EUCC with keybinding, the application shall ensure that the wallet is owned by the company that the EUCC is issued for through presentation, and matching of key material of the European busesiness wallet owner identifaction data (OID). <strong>Note</strong> If bulk issued to the same wallet, the authorisation process of the OID process SHOULD be considered sufficent for reciept of an EUCC with keybinding in the same transaction. </li>
+</ul>
+<h3 id="73-lifecycle-management">7.3 Lifecycle management</h3>
+<p>The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.</p>
+<h3 id="74-embedded-disclosure-policy">7.4 Embedded disclosure policy</h3>
+<p>This attestation defines no embedded disclosure policy.</p>
+<h2 id="8-revocation">8 Revocation</h2>
+<p>Attestations of this type are revocable. The facts attested by an EU Company Certificate
+change when the company's registration changes, and the superseded attestation is revoked
+when a new one is issued (section 7.3).</p>
+<p>Revocation status is published using a Token Status List, as specified in CS-10 of the
+WE BUILD conformance specifications and in the IETF Token Status List. Every revocable
+EUCC carries a <code>status</code> claim with a <code>status_list</code> object holding the <code>idx</code> of its entry
+and the <code>uri</code> of the Status List Token (section 5.1.1). The business register that issued
+the EUCC, or a Status Provider acting on its behalf, publishes the status. The expected
+time from the registration change to the status list update is to be stated by the authors.</p>
+<h2 id="9-presentation">9 Presentation</h2>
+<h3 id="91-presentation-policy">9.1 Presentation Policy</h3>
+<p>To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:</p>
+<ol>
+<li>verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;</li>
+<li>verify that the attestation is within its validity period;</li>
+<li>check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;</li>
+<li>verify device binding where section 7.1 records the attestation as device-bound;</li>
+<li>request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.</li>
+</ol>
+<p>Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:</p>
+<p>Beyond protocol-level checks, an RP processing an EUCC presentation <strong>SHALL</strong> perform at least the following controls:</p>
+<ol>
+<li>
+<p><strong>Verify authenticity and integrity</strong></p>
+<ul>
+<li>Verify the EUCC cryptographic protections (signature/seal chain validation as applicable for the legal category).</li>
+<li>Verify that the issuer is authorised to issue EUCCs according to the trust anchor mechanism defined in this rulebook (see Chapter 5).</li>
+</ul>
+</li>
+<li>
+<p><strong>Verify time validity / freshness</strong></p>
+<ul>
+<li>Verify the EUCC is within its validity period (e.g., using <code>exp</code> in SD-JWT VC).</li>
+</ul>
+</li>
+<li>
+<p><strong>Check revocation / status (where applicable)</strong></p>
+<ul>
+<li>Where the EUCC validity exceeds 24 hours and a status mechanism is provided, the RP <strong>SHALL</strong> check the EUCC validity status using the mechanism defined in Chapter 6.</li>
+</ul>
+</li>
+<li>
+<p><strong>Process according to purpose limitation</strong></p>
+<ul>
+<li>RPs <strong>SHOULD</strong> request and process the EUCC only when needed for the specific transaction, and only for the purpose of the transaction, in line with applicable legal requirements.</li>
+</ul>
+</li>
+</ol>
+<p>EUCC presentation may involve <strong>transactional data</strong> exchanged as part of the presentation protocol. The following transactional data elements are relevant for EUCC usage:</p>
+<ul>
+<li><strong>Relying Party request parameters</strong>, including the requested credential type(s) and any policy constraints (e.g., requirement to include PID alongside EUCC).</li>
+<li><strong>Challenge/nonce and session identifiers</strong> used to prevent replay and bind the presentation to a specific session.</li>
+<li><strong>Presentation timestamp</strong> (implicit or explicit), to support auditability and freshness validation.</li>
+<li><strong>Relying Party identification information</strong> presented to the Wallet Unit (e.g., RP name, domain, certificate details), to support user transparency and consent decisions.</li>
+</ul>
+<p>The specific protocol artefacts and parameter names depend on the adopted OpenID4VP profile(s). This rulebook does not prescribe additional EUCC-specific transactional data beyond what is required by the underlying presentation protocol(s).</p>
+<h3 id="92-presentation-modes">9.2 Presentation modes</h3>
+<p>Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.</p>
+<h3 id="93-transactional-data">9.3 Transactional data</h3>
+<p>This Rulebook defines no transactional data.</p>
+<h2 id="10-trust-framework">10 Trust Framework</h2>
+<p>The trust anchor for this attestation is obtained as described below for a PuB-EAA. The trust
+anchor location applies in either case.</p>
+<p><strong>PuB-EAA</strong></p>
+<p>The Relying Party verifies a PuB-EAA by first verifying the signature of the PuB-EAA Provider
+over the attestation, using the PuB-EAA Provider certificate issued by a qualified trust
+service provider. It then verifies the signature over that certificate using the corresponding
+trust anchor from the QTSP Trusted List, as described in section 6.6.3.6 of the ARF main
+document. Both the PuB-EAA Provider and the QTSP may use an intermediate signing certificate,
+in which case the trust anchor is used to verify that certificate rather than the attestation
+directly.</p>
+<p><strong>Trust anchor location</strong></p>
+<p>The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up. For a PuB-EAA this location
+refers to the qualified certificate that signed the attestation (EW-DM-12-023); in this
+Rulebook it is the <code>trust_anchor</code> metadata of section 4.2.</p>
+<p><strong>Deployment profile</strong></p>
+<h1 id="todo-the-authors-are-to-record-how-the-business-registers-certificates-are-distributed-in">TODO: the authors are to record how the business registers' certificates are distributed in</h1>
+<p>the WE BUILD deployment, how a Relying Party or Wallet Unit looks them up, and the ordered
+verification steps.</p>
+<h2 id="11-references">11 References</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Item Reference</strong></th>
+<th><strong>Standard name/details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[European Digital Identity Regulation]</td>
+<td><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183">Regulation (EU) 2024/1183</a> of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework</td>
+</tr>
+<tr>
+<td>[HAIP]</td>
+<td>Yasuda, K. <em>et al,</em> OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03</td>
+</tr>
+<tr>
+<td>[IANA-JWT-Claims]</td>
+<td>IANA JSON Web Token Claims Registry. Available: <a href="https://www.iana.org/assignments/jwt/jwt.xhtml">https://www.iana.org/assignments/jwt/jwt.xhtml</a></td>
+</tr>
+<tr>
+<td>[ISO/IEC 18013-5]</td>
+<td>ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09</td>
+</tr>
+<tr>
+<td>[OIDC]</td>
+<td>Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a></td>
+</tr>
+<tr>
+<td>[RFC 3339]</td>
+<td>RFC 3339  - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002</td>
+</tr>
+<tr>
+<td>[RFC 8610]</td>
+<td>RFC 8610  - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019</td>
+</tr>
+<tr>
+<td>[RFC 8943]</td>
+<td>RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020</td>
+</tr>
+<tr>
+<td>[RFC 8949]</td>
+<td>RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020</td>
+</tr>
+<tr>
+<td>[SD-JWT VC]</td>
+<td>SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/">https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/</a>, version draft-ietf-oauth-sd-jwt-vc-09</td>
+</tr>
+<tr>
+<td>[Topic 7]</td>
+<td>ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking</a></td>
+</tr>
+<tr>
+<td>[Topic 10]</td>
+<td>ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit</a></td>
+</tr>
+<tr>
+<td>[Topic 12]</td>
+<td>ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks</a></td>
+</tr>
+<tr>
+<td>[Topic 20]</td>
+<td>ARF Annex 2 - Strong User authentication for electronic payments, Available: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2320-topic-20-strong-user-authentication-for-electronic-payments</a></td>
+</tr>
+<tr>
+<td>[W3C VCDM v2.0]</td>
+<td>Sporny, M. <em>et al,</em> Verifiable Credentials Data Model v2.0, W3C Recommendation.</td>
+</tr>
+</tbody>
+</table></div>
+  </article>
+</div>
+
+<footer class="foot">
+  <div class="foot-band">
+    <div class="foot-inner">
+      <a class="foot-logolink" href="https://www.webuildconsortium.eu/" target="_blank" rel="noopener"><img class="foot-logo" src="../assets/logo.svg" alt="WE BUILD Consortium" height="56"></a>
+      <img class="foot-eu" src="../assets/logo-eu.svg" alt="Co-funded by the European Union" height="46">
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="foot-inner">
+      <span class="copyright">&copy; Copyright 2026 WE BUILD Consortium. All Rights Reserved.</span>
+      <span class="gen">Rendered from <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-eucc/README.md" target="_blank" rel="noopener">the rulebook</a> in this repository.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* the chapter list is open beside the text, and out of the way on a phone */
+(function () {
+  var box = document.querySelector(".doc-chapters");
+  if (box && window.matchMedia("(max-width: 860px)").matches) box.open = false;
+}());
+</script>
+
+</body>
+</html>

@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legal Entity Identifier rulebook | WE BUILD</title>
+<meta name="description" content="Legal Entity Identifier. An attestation rulebook, EAA, issued as SD-JWT VC, 3 attributes.">
+<link rel="canonical" href="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-lei.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="WE BUILD Attestation Rulebook Explorer">
+<meta property="og:title" content="Legal Entity Identifier rulebook">
+<meta property="og:description" content="Legal Entity Identifier. An attestation rulebook, EAA, issued as SD-JWT VC, 3 attributes.">
+<meta property="og:url" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-lei.html">
+<meta property="og:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WE BUILD Attestation Rulebook Explorer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta name="theme-color" content="#003399">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+<style>:root{--brand:#003399;--brand-dark:#001d58;--brand-light:#eef2fb;--accent:#ffcc00;--accent-dark:#f1b40d;--ink:#1d1d1f;--muted:#6e6e73;--line:rgba(0,0,0,.08);--surface:#ffffff;--canvas:#f2f2f5;--radius:12px;--font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--heading-font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--mono-font:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;--header-gradient:linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)}</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="WE BUILD Consortium" height="44"></a>
+    <span class="brand-sep" aria-hidden="true"></span>
+    <span class="brand-product">Attestation Rulebook Explorer</span>
+    <nav class="masthead-links">
+      <a class="ghlink" href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-lei/README.md" target="_blank" rel="noopener" title="View this rulebook on GitHub">
+        <svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="doc-nav">
+    <a class="doc-back" href="../index.html">All rulebooks</a>
+    <details class="doc-chapters" open>
+      <summary>Chapters</summary>
+      <nav class="doc-toc" aria-label="Chapters"><a class="lvl2" href="#1-introduction">1 Introduction</a><a class="lvl3" href="#11-document-scope-and-purpose">1.1 Document scope and purpose</a><a class="lvl3" href="#12-document-structure">1.2 Document structure</a><a class="lvl3" href="#13-key-words">1.3 Key words</a><a class="lvl3" href="#14-terminology">1.4 Terminology</a><a class="lvl2" href="#2-compliance">2 Compliance</a><a class="lvl3" href="#21-compliance-statement">2.1 Compliance statement</a><a class="lvl3" href="#22-regulatory-basis">2.2 Regulatory basis</a><a class="lvl3" href="#23-traceability">2.3 Traceability</a><a class="lvl2" href="#3-attestation-attributes">3 Attestation attributes</a><a class="lvl3" href="#31-introduction">3.1 Introduction</a><a class="lvl3" href="#32-mandatory-attributes">3.2 Mandatory attributes</a><a class="lvl3" href="#33-optional-attributes">3.3 Optional attributes</a><a class="lvl3" href="#34-conditional-attributes">3.4 Conditional attributes</a><a class="lvl2" href="#4-metadata">4 Metadata</a><a class="lvl3" href="#41-mandatory-metadata">4.1 Mandatory metadata</a><a class="lvl3" href="#42-optional-metadata">4.2 Optional metadata</a><a class="lvl3" href="#43-conditional-metadata">4.3 Conditional metadata</a><a class="lvl3" href="#44-code-lists">4.4 Code lists</a><a class="lvl3" href="#45-integrity-rules">4.5 Integrity rules</a><a class="lvl2" href="#5-formats">5 Formats</a><a class="lvl3" href="#51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</a><a class="lvl3" href="#52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</a><a class="lvl3" href="#53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</a><a class="lvl2" href="#6-protocols">6 Protocols</a><a class="lvl2" href="#7-issuance">7 Issuance</a><a class="lvl3" href="#71-binding">7.1 Binding</a><a class="lvl3" href="#72-issuance-policy">7.2 Issuance Policy</a><a class="lvl3" href="#73-lifecycle-management">7.3 Lifecycle management</a><a class="lvl3" href="#74-embedded-disclosure-policy">7.4 Embedded disclosure policy</a><a class="lvl2" href="#8-revocation">8 Revocation</a><a class="lvl2" href="#9-presentation">9 Presentation</a><a class="lvl3" href="#91-presentation-policy">9.1 Presentation Policy</a><a class="lvl3" href="#92-presentation-modes">9.2 Presentation modes</a><a class="lvl3" href="#93-transactional-data">9.3 Transactional data</a><a class="lvl2" href="#10-trust-framework">10 Trust Framework</a><a class="lvl2" href="#11-references">11 References</a></nav>
+    </details>
+  </aside>
+  <article class="doc-body">
+    <p class="doc-tags"><span class="tag cat" style="background:#514f59">EAA</span><span class="tag fmt">SD-JWT VC</span></p>
+    <h1 id="attestation-rulebook-for-attestations-of-type-legal-entity-identifier">Attestation Rulebook for attestations of type Legal Entity Identifier</h1>
+<p>Category: non-qualified EAA</p>
+<ul>
+<li>Authors:</li>
+<li>Martin Westerkamp, <a href="https://www.spherity.com">Spherity</a></li>
+<li>Monika Nowicki, <a href="https://www.bundesanzeiger-verlag.de">Bundesanzeiger Verlag</a></li>
+</ul>
+<p><strong>Feedback:</strong>
+Main feedback channel: <a href="https://github.com/webuild-consortium/eudi-wallet-rulebooks-and-schemas/issues">GitHub issues</a>
+Alternative: Contact the relevant WE BUILD business use case contact points.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>2026-10-02</td>
+<td>Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Written against:</strong> ARF version 3.0.0, WE BUILD template version 1.0 (generic)</p>
+<p><strong>Feedback:</strong> <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues">GitHub issues</a></p>
+<h2 id="1-introduction">1 Introduction</h2>
+<h3 id="11-document-scope-and-purpose">1.1 Document scope and purpose</h3>
+<p>This document is the Legal Entity Identifier Data Rulebook (referred to as LEI). It contains the specific requirements, issuance process, formatting and content of the LEI attestation.
+This document is created and used by the WEBUILD consortium to provide a common understanding, data schema, format and usage guidelines for the WEBUILD eco system.</p>
+<p>The Legal Entity Identifier (LEI) is a unique, 20-character alphanumeric code used to strictly identify distinct legal entities that participate in global financial transactions. Established by the G20 in the wake of the 2008 financial crisis, its primary purpose is to improve transparency and risk management across the international financial system. Yet, it can also be utilized in other contexts to enable global authentication of legal entities.</p>
+<p>Each LEI links to a public database containing company information. By providing a standardized, machine-readable identity, the system reduces the complexity of verifying counterparts in cross-border markets. Essentially, it acts as a global "social security number" for businesses, ensuring that every participant in a trade is clearly and universally recognized.</p>
+<p>This attestation provides a minimal, verifiable proof that a given LEI exists, is currently valid, and belongs to the attestation owner.</p>
+<p>This document is based on the data model provided by GLEIF: <a href="https://www.gleif.org/en/lei-data/access-and-use-lei-data/level-1-data-lei-cdf-3-1-format">https://www.gleif.org/en/lei-data/access-and-use-lei-data/level-1-data-lei-cdf-3-1-format</a>.</p>
+<p>This attestation represents a Legal Entity Identifier (LEI) record. It embodies only:
+- The LEI code uniquely identifying the legal entity (ISO 17442)
+- The current status of the LEI (LEI Status)
+- The next renewal date of the LEI (LEI Renewal Date)</p>
+<p><strong>Issuance by an LOU.</strong> The LEI attestation SHALL be issued by an accredited Local Operating Unit (LOU). This need not be the LOU that originally issued the LEI: any accredited LOU may issue the attestation on the basis of authoritative LEI data. Within the Global LEI System, an LOU (not GLEIF) is the authentic source: each LOU validates entity data against local registers and is accountable for its correctness, up to loss of accreditation. GLEIF acts only as an aggregator: it publishes a periodically refreshed copy of the LOUs' records in the Global LEI Index, performs a data-quality check but still publishes the data it receives even where it believes them to be incorrect, has no regulatory authority to guarantee accuracy, and bears no legal responsibility for errors. Because the Global LEI Index is synchronised only at intervals and depends on LOU systems being reachable at collection time, it may disseminate stale status or renewal information.</p>
+<h3 id="12-document-structure">1.2 Document structure</h3>
+<p>This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.</p>
+<h3 id="13-key-words">1.3 Key words</h3>
+<p>This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.</p>
+<p>In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.</p>
+<h3 id="14-terminology">1.4 Terminology</h3>
+<p>This document uses terminology specified in <a href="https://eur-lex.europa.eu/eli/reg/2024/1183/oj/eng">Regulation (EU) 2024/1183</a> and <a href="https://eudi.dev/1.4.0/annexes/annex-1/annex-1-definitions/">Annex 1 of the ARF</a>.</p>
+<p>In addition to the attributes definition necessary to understand the data schema, it's important to understand:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition in WE BUILD Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Legal entity</td>
+<td>an organization or structure that is recognized by law as having legal rights and responsibilities distinct from those of its members or owners. A legal entity can enter into contracts, own property, incur debts, and be held liable for legal actions in its own name.</td>
+</tr>
+<tr>
+<td>LEI</td>
+<td>Legal Entity Identifier: a unique, 20-character alphanumeric code conforming to ISO 17442 that uniquely identifies a legal entity participating in financial and other transactions globally.</td>
+</tr>
+<tr>
+<td>LOU</td>
+<td>Local Operating Unit: an organization accredited by GLEIF to issue and administer LEIs (also referred to as an LEI Issuer).</td>
+</tr>
+<tr>
+<td>GLEIF</td>
+<td>Global Legal Entity Identifier Foundation: the not-for-profit organization that oversees the Global LEI System and the integrity of LEI data.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="2-compliance">2 Compliance</h2>
+<h3 id="21-compliance-statement">2.1 Compliance statement</h3>
+<p>This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.</p>
+<h3 id="22-regulatory-basis">2.2 Regulatory basis</h3>
+<p>This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
+recommendation is not followed, the reason is stated below.</p>
+<h3 id="23-traceability">2.3 Traceability</h3>
+<p>Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Legacy ID</th>
+<th>Applies</th>
+<th>Satisfied in section</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EW-DM-12-001</td>
+<td>ARB_01a</td>
+<td>yes</td>
+<td>5</td>
+<td>W3C VCDM permitted for this category; no encoding defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-002</td>
+<td>ARB_01b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC following the HAIP profile</td>
+</tr>
+<tr>
+<td>EW-DM-12-003</td>
+<td>ARB_02</td>
+<td>no</td>
+<td></td>
+<td>Proximity presentation is not in scope</td>
+</tr>
+<tr>
+<td>EW-DM-12-005</td>
+<td>ARB_04</td>
+<td>no</td>
+<td></td>
+<td>No W3C VCDM encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-006</td>
+<td>ARB_05</td>
+<td>yes</td>
+<td>5</td>
+<td>Unique vct for this attestation type</td>
+</tr>
+<tr>
+<td>EW-DM-12-007</td>
+<td>ARB_06</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes defined independently of encoding</td>
+</tr>
+<tr>
+<td>EW-DM-12-008</td>
+<td>ARB_06a</td>
+<td>no</td>
+<td></td>
+<td>No mdoc encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-009</td>
+<td>ARB_06b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC claim naming</td>
+</tr>
+<tr>
+<td>EW-DM-12-010</td>
+<td>ARB_07</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes reused from the catalogued vocabulary where one exists</td>
+</tr>
+<tr>
+<td>EW-DM-12-012</td>
+<td>ARB_09</td>
+<td>yes</td>
+<td>3, 4</td>
+<td>Mandatory, optional and conditional stated per attribute</td>
+</tr>
+<tr>
+<td>EW-DM-12-013</td>
+<td>ARB_10</td>
+<td>no</td>
+<td></td>
+<td>No domestic namespace is defined</td>
+</tr>
+<tr>
+<td>EW-DM-12-014</td>
+<td>ARB_11</td>
+<td>no</td>
+<td></td>
+<td>Annex V and VII point a apply to QEAA and PuB-EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-015</td>
+<td>ARB_12</td>
+<td>yes</td>
+<td>4.1</td>
+<td>EAA indication for a non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018</td>
+<td>ARB_13 / ARB_14 / ARB_15</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point b, EW-DM-12-018 for the non-qualified case</td>
+</tr>
+<tr>
+<td>EW-DM-12-019 / EW-DM-12-020</td>
+<td>ARB_16 / ARB_17</td>
+<td>yes</td>
+<td>2.2</td>
+<td>Point c, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-021 / EW-DM-12-022</td>
+<td>ARB_18 / ARB_19</td>
+<td>yes</td>
+<td>2.2, 4.2</td>
+<td>Point e, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-023 / EW-DM-12-024</td>
+<td>ARB_20 / ARB_21</td>
+<td>yes</td>
+<td>4.2, 10</td>
+<td>Trust anchor location and the trust framework</td>
+</tr>
+<tr>
+<td>EW-DM-12-029</td>
+<td>ARB_25</td>
+<td>yes</td>
+<td>4.1</td>
+<td>Legal category attribute; see the note in section 4.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-030</td>
+<td>ARB_26</td>
+<td>yes</td>
+<td>10</td>
+<td>Trust anchor publication for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-031</td>
+<td>ARB_27</td>
+<td>no</td>
+<td></td>
+<td>This attestation does not require the Relying Party to verify a PID</td>
+</tr>
+<tr>
+<td>EW-DM-12-032</td>
+<td>ARB_28</td>
+<td>no</td>
+<td></td>
+<td>cryptographically_bound_to is not used by this attestation</td>
+</tr>
+<tr>
+<td>EW-DM-12-034</td>
+<td>ARB_30</td>
+<td>yes</td>
+<td>5</td>
+<td>Selective disclosure stated per claim</td>
+</tr>
+<tr>
+<td>EW-DM-12-035</td>
+<td>ARB_31</td>
+<td>no</td>
+<td></td>
+<td>No Claim Selective Disclosure Metadata document is used</td>
+</tr>
+<tr>
+<td>EW-DM-12-038</td>
+<td>ARB_34</td>
+<td>yes</td>
+<td>7.1</td>
+<td>Device binding</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-attestation-attributes">3 Attestation attributes</h2>
+<p>Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.</p>
+<h3 id="31-introduction">3.1 Introduction</h3>
+<p><em>This section is used for defining all attributes that an
+attestation of the defined type may contain. In this section
+the attributes SHALL be defined in an encoding-independent manner (see ARB_06 in [Topic 12]).
+Each attribute can be mandatory, optional, or conditional,
+and it SHALL be specified in the corresponding section (see ARB_09 in [Topic 12]).</em></p>
+<p><em>When attributes are defined, referring to attributes that
+already exist in a catalogue of attestation attributes
+SHOULD be considered (see ARB_07 in [Topic 12]).</em></p>
+<p><em>[Topic 12] of Annex 2 of the ARF defines the following High-Level Requirements with
+respect to the Attestation Rulebooks</em></p>
+<p><strong>Requirements for QEAA</strong>
+* An attribute as meant in Annex V point a) of the [European Digital Identity Regulation]
+SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
+* One or more attributes or metadata representing the set of data meant in Annex
+V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_13 in [Topic 12])
+* One or more attributes representing the set of data meant in Annex V point c)
+of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
+* One or more attributes or metadata representing the set of data meant in Annex V point e)
+of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
+* One or more attributes or metadata representing the location meant in Annex V point h)
+of the [European Digital Identity Regulation] SHALL be included. This location SHALL
+indicate at least the URL at which a machine-readable version of the trust anchor to be
+used for verifying the QEAA can be found or looked up (see ARB_20 in [Topic 12])</p>
+<p><strong>Requirements for PuB-EAA</strong>
+* Αn attribute as meant in Annex VII point a) of the [European Digital Identity Regulation]
+SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
+* Οne or more attributes or metadata representing the set of data meant in Annex
+ VII point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_14 in [Topic 12]).
+* Οne or more attributes representing the set of data meant in Annex VII point c)
+of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
+* Οne or more attributes or metadata representing the set of data meant in Annex VII point e)
+of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
+* one or more attributes or metadata representing the location meant in Annex VII point h)
+of the [European Digital Identity Regulation] SHALL be included. This location SHALL
+indicate at least the URL at which a machine-readable version of the qualified
+certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [Topic 12])</p>
+<p><strong>Requirements for non-qualified EAA</strong>
+* An attribute indicating that the attestation is an EAA should be included (see ARB_12 in [Topic 12]).
+See also section 2.1.
+* Οne or more attributes or metadata representing the set of data meant in Annex
+V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_15 in [Topic 12]).
+* Οne or more attributes representing the set of data meant in Annex V point c) of the
+[European Digital Identity Regulation] SHOULD be included (see ARB_17 in [Topic 12])
+* Οne or more attributes representing the set of data meant in Annex V point e) of
+the [European Digital Identity Regulation] SHOULD be defined (see ARB_19 in [Topic 12]).
+ * Οne or more attributes or metadata representing the location at which a machine-readable
+version of the trust anchor to be used for verifying the EAA can be found or
+looked up SHOULD be defined. What this location indicates precisely is dependent
+on the nature of the mechanism used for distributing trust anchors, detailed in section
+5 (see ARB_21 in [Topic 12])</p>
+<p>The attestation attributes are defined in the tables of Chapter 2 of this document. These tables contain the following information:
+- The first column specifies the identifiers of the attestation attributes. The attribute identifiers in this column SHALL be used in requests and responses. There SHALL be at most one attribute with the same attribute identifier in each attestation attribute.
+- The second column describes the meaning of the attribute.
+- The third column specifies whether the presence of the attribute in an attestation is mandatory (M), or optional (O).
+    - NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.
+- The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].
+- The fifth column provides the semantic reference for the attribute in the <a href="https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html">European Business Wallet Vocabulary</a>.</p>
+<h4 id="todo">TODO</h4>
+<p>(Refer to [Topic 7] of the ARF for a list of High-Level Requirements related to Revocation)</p>
+<p><em>In this section information about the revocation mechanism used SHALL be defined.</em></p>
+<p><em>For PID, QEAA, or PuB-EAA it SHALL be defined whether only short-lived attestations
+will be used, having a validity period of 24 hours or less, such that revocation
+will never be necessary, or that the attestations are revocable.</em></p>
+<p><em>For revocable attestations it SHALL be defined which of the following methods must be implemented:</em>
+* Use an Attestation Status List mechanism included in a Technical Specification
+that will be specified by the Commission.
+* Use an Attestation Revocation List mechanism included in a Technical Specification
+that will be specified by the Commission.</p>
+<h4 id="311-overview-attributes-attestation">3.1.1 Overview attributes attestation</h4>
+<p>The LEI attestation is structured as a flat <code>LegalEntityIdentifier</code> object containing the <code>lei</code> code together with its current status and next renewal date. The model is as follows:</p>
+<pre><code>LegalEntityIdentifier
+├── lei (tstr)
+├── lei_status (tstr)
+└── lei_renewal_date (tstr)
+</code></pre>
+<p>The following table lists the attributes of the LEI attestation. Attribute identifiers SHALL be used in requests and responses.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Optionality</strong></th>
+<th><strong>Encoding format</strong></th>
+<th><strong>Semantic reference</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lei</td>
+<td>A Legal Entity Identifier (LEI) code, in the format specified by ISO 17442.</td>
+<td>M</td>
+<td>tstr</td>
+<td><a href="https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#lei">lei</a></td>
+</tr>
+<tr>
+<td>lei_status</td>
+<td>The status of the LEI record registration with the managing LOU. One of the values defined in <a href="#22-code-lists">section 2.2</a>.</td>
+<td>M</td>
+<td>tstr</td>
+<td><a href="https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#leiRegistrationStatus">leiRegistrationStatus</a></td>
+</tr>
+<tr>
+<td>lei_renewal_date</td>
+<td>The next renewal date of the LEI record, given as a date and time including the timezone, based on ISO 8601.</td>
+<td>M</td>
+<td>tstr</td>
+<td><a href="https://webuild-consortium.github.io/wp4-semantics-group/ebwv//vocabulary.html#leiNextRenewal">leiNextRenewal</a></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="32-mandatory-attributes">3.2 Mandatory attributes</h3>
+<h3 id="33-optional-attributes">3.3 Optional attributes</h3>
+<h3 id="34-conditional-attributes">3.4 Conditional attributes</h3>
+<h2 id="4-metadata">4 Metadata</h2>
+<p>Metadata describes the attestation rather than its subject.</p>
+<h3 id="41-mandatory-metadata">4.1 Mandatory metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>expiry_date</td>
+<td>Date (and if possible time) when the attestation will expire. Does not need to be an attribute and can be covered by credential format metadata, such as for example the "exp" field on the sd-jwt format.</td>
+</tr>
+<tr>
+<td>issuing_authority</td>
+<td>Name of the administrative authority (LEI Issuer / LOU) that issued the LEI attestation, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the LEI attestation.</td>
+</tr>
+<tr>
+<td>issuing_country</td>
+<td>Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the attestation data.</td>
+</tr>
+<tr>
+<td>attestation_legal_category</td>
+<td>Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA")</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Legal category.</strong> This Rulebook retains the <code>attestation_legal_category</code> attribute.
+Section 4.1 of the generic template replaces it with the <code>category</code> attribute of
+[ETSI TS 119 472-1], whose value for this category is <code>eaa:eu:non-qualified</code>.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+<code>attestation_legal_category</code>, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.</p>
+<h3 id="42-optional-metadata">4.2 Optional metadata</h3>
+<h3 id="43-conditional-metadata">4.3 Conditional metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>location_status</td>
+<td>The location of validity status information on the attestation data where the providers of the attestation revoke it. This attribute is required when the validity time period of the attestation exceeds 24 hours.</td>
+</tr>
+<tr>
+<td>trust_anchor</td>
+<td>This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the LEI attestation can be found or looked up. <em>Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This Rulebook adds this as an optional attribute for LEI attestations as well, so LEI Providers are able to ensure that LEI attestations can be validated by Relying Parties in the same manner as QEAAs.</em></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="44-code-lists">4.4 Code lists</h3>
+<p>The following code list applies to the <code>lei_status</code> attribute:</p>
+<p><strong>lei_status</strong></p>
+<p>Values:
+- PENDING_VALIDATION
+- ISSUED
+- DUPLICATE
+- LAPSED
+- RETIRED
+- ANNULLED
+- CANCELLED
+- TRANSFERRED
+- PENDING_TRANSFER
+- PENDING_ARCHIVAL</p>
+<h3 id="45-integrity-rules">4.5 Integrity rules</h3>
+<ul>
+<li>lei MUST conform to the format specified by ISO 17442 (a 20-character alphanumeric code).</li>
+<li>lei_status MUST be one of the values defined in the lei_status code list (section 2.2).</li>
+<li>lei_renewal_date MUST follow ISO 8601.</li>
+</ul>
+<h2 id="5-formats">5 Formats</h2>
+<h3 id="51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</h3>
+<p>The LEI attestation is available in the SD-JWT VC format to be aligned with the WeBuild formats.
+Yet, selective disclosure is not required for any claim because the included data is public.</p>
+<p>The . notation is used to indicate the nesting of attributes.</p>
+<p><strong>Verifiable Credential Type (<code>vct</code>):</strong> <code>eu.we-build.lei.1</code></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute identifier</strong></th>
+<th><strong>Encoding format</strong></th>
+<th><strong>Reference/Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>issuing_authority</td>
+<td>iss</td>
+<td>string</td>
+<td>RFC 7519 / Section 2.4</td>
+</tr>
+<tr>
+<td>expiry_date</td>
+<td>exp</td>
+<td>number</td>
+<td>RFC 7519 / Section 2.4 (Unix timestamp)</td>
+</tr>
+<tr>
+<td>attestation_legal_category</td>
+<td>attestation_legal_category</td>
+<td>string</td>
+<td>Section 2.4</td>
+</tr>
+<tr>
+<td>issuing_country</td>
+<td>issuing_country</td>
+<td>string</td>
+<td>ISO 3166-1 alpha-2</td>
+</tr>
+<tr>
+<td>lei</td>
+<td>lei</td>
+<td>string</td>
+<td>ISO 17442 (20-character alphanumeric)</td>
+</tr>
+<tr>
+<td>lei_status</td>
+<td>lei_status</td>
+<td>string</td>
+<td>See lei_status code list (section 2.2)</td>
+</tr>
+<tr>
+<td>lei_renewal_date</td>
+<td>lei_renewal_date</td>
+<td>string</td>
+<td>ISO 8601 (date-time with timezone)</td>
+</tr>
+<tr>
+<td>location_status</td>
+<td>status</td>
+<td>object</td>
+<td>See chapter <a href="#321-attribute-status">3.2.1</a></td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="511-attribute-status">5.1.1 Attribute status</h4>
+<p>For SD-JWT VC-compliant LEI attestations, the attestation MUST include a status claim if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/12/">SD-JWT VC</a>.</p>
+<p>The status claim SHALL be a JSON object with the following members:</p>
+<ul>
+<li>'type' (string): SHALL be "status-list".</li>
+<li>'status_list_credential' (string, URI): The URI of the Status List Credential document that contains the status bitstring.</li>
+<li>'status_list_index' (integer, &gt;= 0): The zero-based index into the status list bitstring that corresponds to this credential.</li>
+<li>'status_purpose' (string): SHALL be "revocation".</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-json">{
+  &quot;status&quot;: {
+    &quot;type&quot;: &quot;status-list&quot;,
+    &quot;status_list_credential&quot;: &quot;https://issuer.example.com/status/1&quot;,
+    &quot;status_list_index&quot;: 42,
+    &quot;status_purpose&quot;: &quot;revocation&quot;
+  }
+}
+</code></pre>
+<h4 id="512-example-payload">5.1.2 Example Payload</h4>
+<p>Sample payloads to be provided under <code>../../data-schemas/sd-jwt-vc/sample-data/rb-lei-sd-jwt-sample.json</code>.</p>
+<h3 id="52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</h3>
+<p>ISO/IEC 18013-5 (also called mdoc) is out of scope for this rulebook, as offline proximity presentation is not a current requirement for the LEI attestation.</p>
+<h3 id="53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</h3>
+<p>W3C Verifiable Credentials are defined using linked data (JSON-LD). Ontologies (vocabularies) are used to semantically define the different aspects of credentials including the credential subject. Validation of data structures is optional. If required, either JSON-schemes (data structure) or SHACL (data graph) can be used to validate data.</p>
+<h4 id="metadata">Metadata</h4>
+<p>The metadata of a W3C Verifiable Credential are defined in the <a href="https://www.w3.org/2018/credentials/">Verifiable Credentials Vocabulary v2.0</a>. The following extensions are defined in the <a href="https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary">European Business Wallet Vocabulary v0.1</a> in order to support Electronic Attestations of Attributes:
+* <a href="https://ebw-vocabulary.spherity.dev/ebw/v0.1/vocabulary#attestationLegalCategory">attestationLegalCategory</a> in order to specify the category of the EAA (QEAA, Pub-EAA or EAA).</p>
+<p>The semantic terms used for the LEI attributes are defined in the [European Business Wallet Vocabulary] (WP4 semantics group): <a href="https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html">https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html</a>.</p>
+<h4 id="holder-binding">Holder Binding</h4>
+<p>LEI attestations are held by the organization identified by the LEI. Corresponding key binding is provided by using DIDs. Please note that every node of a JSON-LD tree is addressable by its own locally or globally unique identifier <code>@id</code>. Using <a href="https://www.w3.org/TR/did-1.0/">Decentralized Identifiers (DIDs) v1.0</a> as identifiers allows to cryptographically bind any node to its underlying identity.</p>
+<p>The Verifiable Credential Data Model (VCDM) doesn't dictate any specific DID method. Instead, any DID method that supports the underlying trust framework and is able to provide the required level of assurance can be used:
+* PKI-Infrastructure (e.g. EU-TLOL based on X.509 certificates): <a href="https://github.com/digitalbazaar/did-method-key">did:key</a> - the public key is directly encoded in the identifier
+* DTL (e.g.: Ethereum): <a href="https://github.com/uport-project/ethr-did">did:ethr</a>
+* European Blockchain Infrastructure: <a href="https://hub.ebsi.eu/vc-framework/did/legal-entities">did:ebsi</a>
+* Domain Name System (DNS): <a href="https://w3c-ccg.github.io/did-method-web/">did:web</a>
+* Domain Name System verifiable history: <a href="https://identity.foundation/didwebvh/v1.0/">did:webvh</a></p>
+<h4 id="proof-mechanisms">Proof mechanisms</h4>
+<p>The preferred proof mechanism for the LEI attestation is <a href="https://www.w3.org/TR/vc-di-ecdsa/#ecdsa-sd-2023-functions">ecdsa-sd-2023</a> as specified in <a href="https://www.w3.org/TR/vc-di-ecdsa">Data Integrity ECDSA Cryptosuites v1.0</a>. ecdsa-sd-2023 supports selective disclosure out of the box. The holder chooses which claims to disclose and derives a proof from the original assertion proof.</p>
+<p>For backward compatibility and for trust frameworks whose policies require a particular proof mechanism, <a href="https://www.w3.org/TR/vc-jose-cose/#with-jose">JOSE</a> and <a href="https://www.w3.org/TR/vc-jose-cose/#with-sd-jwt">SD-JWT</a> as specified in <a href="https://www.w3.org/TR/vc-jose-cose/">Securing Verifiable Credentials using JOSE and COSE</a> should be supported, too.</p>
+<p>The <a href="https://www.w3.org/2025/credentials/vcdi/vocab/v2/vocabulary.html">Security Vocabulary</a> is used to embed the proofs into the credentials.</p>
+<h4 id="credential-status">Credential status</h4>
+<p>The LEI attestation SHALL include a status claim <code>credentialStatus</code> if the technical validity period is greater than 24 hours. This claim enables Relying Parties to determine if a credential has been revoked via a status list mechanism, as specified in <a href="https://www.w3.org/TR/vc-bitstring-status-list/">Bitstring Status List v1.0</a>.</p>
+<h2 id="6-protocols">6 Protocols</h2>
+<p>This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].</p>
+<h2 id="7-issuance">7 Issuance</h2>
+<h3 id="71-binding">7.1 Binding</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device-bound</td>
+<td>MAY</td>
+<td>EW-DM-12-038</td>
+</tr>
+<tr>
+<td>Cryptographically bound to</td>
+<td>none</td>
+<td>EW-DM-12-032</td>
+</tr>
+<tr>
+<td>Relying Party must also verify a PID</td>
+<td>no</td>
+<td>EW-DM-12-031</td>
+</tr>
+<tr>
+<td>Binding subject</td>
+<td>legal person</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="72-issuance-policy">7.2 Issuance Policy</h3>
+<p>The LEI attestation is intended to be used as a standardised, machine-verifiable proof of a legal entity's LEI and its current registration status, to be presented by a Wallet User to a Relying Party in cross-border and domestic contexts.</p>
+<p>Typical scenarios include, but are not limited to:</p>
+<ul>
+<li><strong>Know Your Customer (KYC) and onboarding in finance</strong>: providing a globally recognized, registry-backed identifier and its current status during customer onboarding and counterparty verification.</li>
+<li><strong>Cross-border business onboarding (B2B)</strong>: sharing an authoritative legal entity identifier during supplier/customer onboarding, procurement qualification, or partner due diligence.</li>
+<li><strong>Authentication of issuers in international settings</strong>: proving the identity of issuers (e.g. of Digital Product Passports) where a globally unique entity identifier is required.</li>
+<li><strong>Confirming LEI validity without external lookups</strong>: including the LEI status and renewal date in the attestation so that Relying Parties can confirm the LEI is currently valid without querying the Global LEI Index at verification time.</li>
+</ul>
+<p>The LEI attestation is <strong>not</strong> intended to be used as a standalone authentication mechanism to replace processes that legally require a natural person to act and be authenticated in their own right.</p>
+<p><strong>Note:</strong> The LEI attestation identifies a legal entity but does not, by itself, prove that the current presenter is authorised to act on behalf of that entity unless the Relying Party also performs an appropriate binding to the presenter (typically via PID and/or additional authorisation evidence outside the scope of this rulebook).</p>
+<p><strong>Note:</strong> The LEI attestation is intended for <strong>online, remote presentation</strong> using EUDI Wallet-compatible presentation protocols.</p>
+<ul>
+<li>The LEI attestation SHALL be issued by an accredited Local Operating Unit (LOU). This need not be the LOU that originally issued the LEI; any accredited LOU may issue the attestation on the basis of authoritative LEI data. An LOU can authorize an issuer to issue LEI attestations on its behalf.</li>
+<li>The Authentic Source of the data contained in the LEI attestation MUST be an LOU, which validates the data against local registers and is accountable for its correctness. The Global LEI Index operated by GLEIF is an aggregated, periodically refreshed copy and MUST NOT be used as the authentic source, as it may disseminate stale or incorrect status and renewal information.</li>
+<li>The Issuance SHALL be based on up-to-date, authoritative data obtained directly from an LOU.</li>
+<li>The LEI attestation SHALL be key bound to the wallet, IF the wallet belongs to the entity that the LEI attestation is issued for.</li>
+<li>If the LEI attestation is issued to a wallet that is not owned by the entity that the attestation is issued for, the attestation SHALL NOT be key bound to the wallet.</li>
+<li>The LEI attestation SHALL be issued in a format that is compatible with the EUDI Wallet ecosystem (e.g., <strong>OpenID4VP</strong> profiles adopted by the ecosystem).</li>
+<li>To receive an LEI attestation with key binding, the application shall ensure that the wallet is owned by the entity that the attestation is issued for through presentation and matching of key material of the European business wallet owner identification data (OID).</li>
+</ul>
+<h3 id="73-lifecycle-management">7.3 Lifecycle management</h3>
+<p>The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.</p>
+<h3 id="74-embedded-disclosure-policy">7.4 Embedded disclosure policy</h3>
+<p>This attestation defines no embedded disclosure policy.</p>
+<h2 id="8-revocation">8 Revocation</h2>
+<h2 id="9-presentation">9 Presentation</h2>
+<h3 id="91-presentation-policy">9.1 Presentation Policy</h3>
+<p>To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:</p>
+<ol>
+<li>verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;</li>
+<li>verify that the attestation is within its validity period;</li>
+<li>check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;</li>
+<li>verify device binding where section 7.1 records the attestation as device-bound;</li>
+<li>request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.</li>
+</ol>
+<p>Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:</p>
+<p>Beyond protocol-level checks, an RP processing an LEI attestation presentation <strong>SHALL</strong> perform at least the following controls:</p>
+<ol>
+<li>
+<p><strong>Verify authenticity and integrity</strong></p>
+<ul>
+<li>Verify the LEI attestation cryptographic protections (signature/seal chain validation as applicable for the legal category).</li>
+<li>Verify that the issuer is authorised to issue LEI attestations according to the trust anchor mechanism defined in this rulebook (see Chapter 5).</li>
+</ul>
+</li>
+<li>
+<p><strong>Verify time validity / freshness</strong></p>
+<ul>
+<li>Verify the LEI attestation is within its validity period (e.g., using <code>exp</code> in SD-JWT VC).</li>
+</ul>
+</li>
+<li>
+<p><strong>Check revocation / status (where applicable)</strong></p>
+<ul>
+<li>Where the LEI attestation validity exceeds 24 hours and a status mechanism is provided, the RP <strong>SHALL</strong> check the attestation validity status using the mechanism defined in Chapter 6.</li>
+</ul>
+</li>
+<li>
+<p><strong>Process according to purpose limitation</strong></p>
+<ul>
+<li>RPs <strong>SHOULD</strong> request and process the LEI attestation only when needed for the specific transaction, and only for the purpose of the transaction, in line with applicable legal requirements.</li>
+</ul>
+</li>
+</ol>
+<p>LEI attestation presentation may involve <strong>transactional data</strong> exchanged as part of the presentation protocol. The following transactional data elements are relevant:</p>
+<ul>
+<li><strong>Relying Party request parameters</strong>, including the requested credential type(s) and any policy constraints (e.g., requirement to include PID alongside the LEI attestation).</li>
+<li><strong>Challenge/nonce and session identifiers</strong> used to prevent replay and bind the presentation to a specific session.</li>
+<li><strong>Presentation timestamp</strong> (implicit or explicit), to support auditability and freshness validation.</li>
+<li><strong>Relying Party identification information</strong> presented to the Wallet Unit (e.g., RP name, domain, certificate details), to support user transparency and consent decisions.</li>
+</ul>
+<p>The specific protocol artefacts and parameter names depend on the adopted OpenID4VP profile(s). This rulebook does not prescribe additional LEI-specific transactional data beyond what is required by the underlying presentation protocol(s).</p>
+<h3 id="92-presentation-modes">9.2 Presentation modes</h3>
+<p>Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.</p>
+<h3 id="93-transactional-data">9.3 Transactional data</h3>
+<p>This Rulebook defines no transactional data.</p>
+<h2 id="10-trust-framework">10 Trust Framework</h2>
+<h1 id="todo_1">TODO</h1>
+<p><em>Mechanisms for the provision of a trust anchor that SHALL
+be used for the verification of an attestation SHALL be defined in this section.</em></p>
+<p><em>It is noted that the ARF specifies the following for QEAAs and Pub-EAAs</em></p>
+<blockquote>
+<p>To do this for [...] QEAAs the Relying Party Instance uses a trust anchor of
+the Provider obtained from a Trusted List. Note that the PID Provider or QEAA
+Provider may use an intermediate signing certificate to sign the PID or
+attestation and use the trust anchor to sign the signing certificate, instead
+of signing the PID or attestation directly with the trust anchor.</p>
+<p>For PuB-EAAs, the Relying Party Instance verifies a PuB-EAA by first
+verifying the signature of the PuB-EAA Provider over the PuB-EAA, using the
+PuB-EAA Provider certificate issued by a QTSP. Subsequently, the Relying Party
+Instance verifies the signature over this certificate, using the corresponding
+trust anchor from the QTSP Trusted List. Note that both the PuB-EAA Provider
+and the QTSP may use an intermediate signing certificate. All other things
+being equal, the verification of a PuB-EAA will therefore involve one or more
+extra certificates, compared to the verification of a PID or QEAA.</p>
+</blockquote>
+<p><em>For non-qualified EAA in this section it SHOULD be defined (see ARB_26 in [Topic 12])
+how the attributes or metadata representing the location at which a machine-readable
+version of the trust anchor to be used for verifying the attestation can be found,
+specified in section 2, are used. This includes a detailed description about how
+a Relying Party can obtain the trust anchor, as well as a detailed description about
+how this trust anchor can be used for verifying that the provider is authorised
+to issue the attestation. Additionally, for non-qualified EAA Provider this section
+MAY include a description of mechanisms that can be used by a Wallet Unit for
+verifying that the provider is authorised to issue this type of attestation (see
+ISSU_34 in [Topic 10])</em></p>
+<p><strong>Trust anchor location</strong></p>
+<p>The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.</p>
+<h2 id="11-references">11 References</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Item Reference</strong></th>
+<th><strong>Standard name/details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[European Business Wallet Vocabulary]</td>
+<td>WE BUILD WP4 Semantics Group, European Business Wallet Vocabulary. Available: <a href="https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html">https://webuild-consortium.github.io/wp4-semantics-group/ebwv/vocabulary.html</a></td>
+</tr>
+<tr>
+<td>[European Digital Identity Regulation]</td>
+<td><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183">Regulation (EU) 2024/1183</a> of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework</td>
+</tr>
+<tr>
+<td>[GLEIF LEI-CDF]</td>
+<td>GLEIF, LEI Common Data File (LEI-CDF) Format 3.1. Available: <a href="https://www.gleif.org/en/lei-data/access-and-use-lei-data/level-1-data-lei-cdf-3-1-format">https://www.gleif.org/en/lei-data/access-and-use-lei-data/level-1-data-lei-cdf-3-1-format</a></td>
+</tr>
+<tr>
+<td>[HAIP]</td>
+<td>Yasuda, K. <em>et al,</em> OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03</td>
+</tr>
+<tr>
+<td>[IANA-JWT-Claims]</td>
+<td>IANA JSON Web Token Claims Registry. Available: <a href="https://www.iana.org/assignments/jwt/jwt.xhtml">https://www.iana.org/assignments/jwt/jwt.xhtml</a></td>
+</tr>
+<tr>
+<td>[ISO 17442]</td>
+<td>ISO 17442-1:2020, Financial services --- Legal entity identifier (LEI) --- Part 1: Assignment</td>
+</tr>
+<tr>
+<td>[ISO 3166-1]</td>
+<td>ISO 3166-1, Codes for the representation of names of countries and their subdivisions --- Part 1: Country code</td>
+</tr>
+<tr>
+<td>[ISO/IEC 18013-5]</td>
+<td>ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09</td>
+</tr>
+<tr>
+<td>[OIDC]</td>
+<td>Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: <a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a></td>
+</tr>
+<tr>
+<td>[RFC 3339]</td>
+<td>RFC 3339  - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002</td>
+</tr>
+<tr>
+<td>[RFC 8610]</td>
+<td>RFC 8610  - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019</td>
+</tr>
+<tr>
+<td>[RFC 8943]</td>
+<td>RFC 8943  - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020</td>
+</tr>
+<tr>
+<td>[RFC 8949]</td>
+<td>RFC 8949 - Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020</td>
+</tr>
+<tr>
+<td>[SD-JWT VC]</td>
+<td>SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/">https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/</a>, version draft-ietf-oauth-sd-jwt-vc-09</td>
+</tr>
+<tr>
+<td>[Topic 7]</td>
+<td>ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking Available: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking</a></td>
+</tr>
+<tr>
+<td>[Topic 10]</td>
+<td>ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2310-topic-10-issuing-a-pid-or-attestation-to-a-wallet-unit</a></td>
+</tr>
+<tr>
+<td>[Topic 12]</td>
+<td>ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <a href="https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks">https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a2312-topic-12-attestation-rulebooks</a></td>
+</tr>
+<tr>
+<td>[W3C VCDM v2.0]</td>
+<td>Sporny, M. <em>et al,</em> Verifiable Credentials Data Model v2.0, W3C Recommendation.</td>
+</tr>
+</tbody>
+</table></div>
+  </article>
+</div>
+
+<footer class="foot">
+  <div class="foot-band">
+    <div class="foot-inner">
+      <a class="foot-logolink" href="https://www.webuildconsortium.eu/" target="_blank" rel="noopener"><img class="foot-logo" src="../assets/logo.svg" alt="WE BUILD Consortium" height="56"></a>
+      <img class="foot-eu" src="../assets/logo-eu.svg" alt="Co-funded by the European Union" height="46">
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="foot-inner">
+      <span class="copyright">&copy; Copyright 2026 WE BUILD Consortium. All Rights Reserved.</span>
+      <span class="gen">Rendered from <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-lei/README.md" target="_blank" rel="noopener">the rulebook</a> in this repository.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* the chapter list is open beside the text, and out of the way on a phone */
+(function () {
+  var box = document.querySelector(".doc-chapters");
+  if (box && window.matchMedia("(max-width: 860px)").matches) box.open = false;
+}());
+</script>
+
+</body>
+</html>

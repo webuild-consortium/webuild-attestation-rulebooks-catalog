@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IBAN Ownership Verification rulebook | WE BUILD</title>
+<meta name="description" content="IBAN Ownership Verification. An attestation rulebook, EAA, issued as SD-JWT VC, 17 attributes.">
+<link rel="canonical" href="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-iban-ov.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="WE BUILD Attestation Rulebook Explorer">
+<meta property="og:title" content="IBAN Ownership Verification rulebook">
+<meta property="og:description" content="IBAN Ownership Verification. An attestation rulebook, EAA, issued as SD-JWT VC, 17 attributes.">
+<meta property="og:url" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-iban-ov.html">
+<meta property="og:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WE BUILD Attestation Rulebook Explorer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta name="theme-color" content="#003399">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+<style>:root{--brand:#003399;--brand-dark:#001d58;--brand-light:#eef2fb;--accent:#ffcc00;--accent-dark:#f1b40d;--ink:#1d1d1f;--muted:#6e6e73;--line:rgba(0,0,0,.08);--surface:#ffffff;--canvas:#f2f2f5;--radius:12px;--font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--heading-font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--mono-font:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;--header-gradient:linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)}</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="WE BUILD Consortium" height="44"></a>
+    <span class="brand-sep" aria-hidden="true"></span>
+    <span class="brand-product">Attestation Rulebook Explorer</span>
+    <nav class="masthead-links">
+      <a class="ghlink" href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-iban-ov/README.md" target="_blank" rel="noopener" title="View this rulebook on GitHub">
+        <svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="doc-nav">
+    <a class="doc-back" href="../index.html">All rulebooks</a>
+    <details class="doc-chapters" open>
+      <summary>Chapters</summary>
+      <nav class="doc-toc" aria-label="Chapters"><a class="lvl2" href="#1-introduction">1 Introduction</a><a class="lvl3" href="#11-document-scope-and-purpose">1.1 Document scope and purpose</a><a class="lvl3" href="#12-document-structure">1.2 Document structure</a><a class="lvl3" href="#13-key-words">1.3 Key words</a><a class="lvl3" href="#14-terminology">1.4 Terminology</a><a class="lvl2" href="#2-compliance">2 Compliance</a><a class="lvl3" href="#21-compliance-statement">2.1 Compliance statement</a><a class="lvl3" href="#22-regulatory-basis">2.2 Regulatory basis</a><a class="lvl3" href="#23-traceability">2.3 Traceability</a><a class="lvl2" href="#3-attestation-attributes">3 Attestation attributes</a><a class="lvl3" href="#31-introduction">3.1 Introduction</a><a class="lvl3" href="#32-mandatory-attributes">3.2 Mandatory attributes</a><a class="lvl3" href="#33-optional-attributes">3.3 Optional attributes</a><a class="lvl3" href="#34-conditional-attributes">3.4 Conditional attributes</a><a class="lvl2" href="#4-metadata">4 Metadata</a><a class="lvl3" href="#41-mandatory-metadata">4.1 Mandatory metadata</a><a class="lvl3" href="#42-optional-metadata">4.2 Optional metadata</a><a class="lvl3" href="#43-conditional-metadata">4.3 Conditional metadata</a><a class="lvl3" href="#44-code-lists">4.4 Code lists</a><a class="lvl3" href="#45-integrity-rules">4.5 Integrity rules</a><a class="lvl2" href="#5-formats">5 Formats</a><a class="lvl3" href="#51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</a><a class="lvl3" href="#52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</a><a class="lvl3" href="#53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</a><a class="lvl2" href="#6-protocols">6 Protocols</a><a class="lvl2" href="#7-issuance">7 Issuance</a><a class="lvl3" href="#71-binding">7.1 Binding</a><a class="lvl3" href="#72-issuance-policy">7.2 Issuance Policy</a><a class="lvl3" href="#73-lifecycle-management">7.3 Lifecycle management</a><a class="lvl3" href="#74-embedded-disclosure-policy">7.4 Embedded disclosure policy</a><a class="lvl2" href="#8-revocation">8 Revocation</a><a class="lvl2" href="#9-presentation">9 Presentation</a><a class="lvl3" href="#91-presentation-policy">9.1 Presentation Policy</a><a class="lvl3" href="#92-presentation-modes">9.2 Presentation modes</a><a class="lvl3" href="#93-transactional-data">9.3 Transactional data</a><a class="lvl2" href="#10-trust-framework">10 Trust Framework</a><a class="lvl2" href="#11-references">11 References</a></nav>
+    </details>
+  </aside>
+  <article class="doc-body">
+    <p class="doc-tags"><span class="tag cat" style="background:#514f59">EAA</span><span class="tag fmt">SD-JWT VC</span></p>
+    <h1 id="attestation-rulebook-for-attestations-of-type-iban-ownership-verification">Attestation Rulebook for attestations of type IBAN Ownership Verification</h1>
+<p>Category: non-qualified EAA</p>
+<ul>
+<li>Author(s):</li>
+<li>[Ricky Lamberty, Robert Bosch GmbH]</li>
+<li>[Stephan Fuchs, Deutsche Bank AG]</li>
+<li>Previous Authors:</li>
+<li>Reviewer(s):</li>
+<li>[Florin Coptil, Robert Bosch GmbH]</li>
+<li>[Stefan, Kauhaus, Visa Inc.]</li>
+<li>[Ivan Faltus, BankID.CZ]</li>
+<li>[Filip Hladký, BankID.CZ]</li>
+<li>
+<p>@Reviewers: Contact Ricky to be added in the Reviewers section if you're missing. </p>
+</li>
+<li>
+<p>Contact:</p>
+</li>
+<li><a href="mailto:Ricky.Lamberty@bosch.com">Ricky Lamberty</a> </li>
+<li><a href="mailto:stephan-a.fuchs@db.com">Stephan Fuchs</a> </li>
+<li>Feedback:</li>
+</ul>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>2026-10-02</td>
+<td>Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Written against:</strong> ARF version 3.0.0, WE BUILD template version 1.0 (generic)</p>
+<p><strong>Feedback:</strong> <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues">GitHub issues</a></p>
+<h2 id="1-introduction">1 Introduction</h2>
+<p>This attestation addresses the following question:</p>
+<p><strong>Is a specific IBAN legally owned by a designated legal entity or natural person, and has this ownership been verified and confirmed by the account-servicing financial institution?</strong></p>
+<p>The IBAN Ownership Verification (IBAN-OV) Attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person (e.g. acting as a sole trader), enabling structured and fraud-resistant exchange of bank account ownership data for use in KYS, KYC, and payment compliance processes.</p>
+<h3 id="11-document-scope-and-purpose">1.1 Document scope and purpose</h3>
+<p>The IBAN-OV attestation provides trusted assurance to third parties that a specific IBAN is legally owned by a designated legal entity or natural person. This verified proof of ownership can be used across various business processes (e.g. onboarding process, supporting payment-related triggers) to reduce errors and mitigate fraud risks. This attestation will not be used to initiate or execute any kind of payment.</p>
+<p>The IBAN-OV attestation will be provided within the RP registration process (e.g. bank account opening) or upon request from the legal entity or natural person owning the IBAN account. Its purpose is to ensure that, at a later stage, payments for delivered services or sold products can be properly attributed to the verified legal entity or natural person.</p>
+<p>Once issued and securely stored in the EBW wallet, the IBAN-OV attestation can be reused for multiple transactions as long as it will not be revoked. This increases operational efficiency while ensuring continued compliance with banking regulations and applicable legal standards.</p>
+<p><strong>Design Decisions</strong></p>
+<p>This IBAN-OV Attestation Rulebook is based on:</p>
+<ul>
+<li>IBAN Attestation Data Rulebook from EWC: https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/rulebooks/rb003_IBAN_attestation.md</li>
+<li>PSD2 / PSD3 framework as the foundational payment services regulatory layer</li>
+<li>ISO 13616:2020 for IBAN formatting and validation</li>
+<li>ISO 9362:2022 for BIC/SWIFT code formatting</li>
+<li>ISO 4217:2015 for currency codes</li>
+<li>ISO 3166-1 for country codes (Alpha-3)</li>
+</ul>
+<h3 id="12-document-structure">1.2 Document structure</h3>
+<p>This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.</p>
+<h3 id="13-key-words">1.3 Key words</h3>
+<p>This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.</p>
+<p>In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.</p>
+<h3 id="14-terminology">1.4 Terminology</h3>
+<p><em>Additional terminology specific to this attestation:</em></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IBAN-OV</td>
+<td>IBAN Ownership Verification (IBAN-OV), the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader</td>
+</tr>
+<tr>
+<td>ASPSP</td>
+<td>Account Servicing Payment Service Provider, the financial institution holding and managing the bank account</td>
+</tr>
+<tr>
+<td>IBAN</td>
+<td>International Bank Account Number, a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020</td>
+</tr>
+<tr>
+<td>BIC/SWIFT</td>
+<td>Bank Identifier Code, an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022</td>
+</tr>
+<tr>
+<td>EUID</td>
+<td>European Unique Identifier, the unique identifier assigned to legal entities registered within the EU</td>
+</tr>
+<tr>
+<td>KYC</td>
+<td>Know Your Customer, due diligence process for verifying customer identity and assessing risk in financial relationships</td>
+</tr>
+<tr>
+<td>KYS</td>
+<td>Know Your Supplier, due diligence process for verifying supplier identity and integrity.</td>
+</tr>
+<tr>
+<td>Legal Person</td>
+<td>A legal entity registered in a national or EU company register, identified by an appropriate identifier. For IBAN-OV purposes, the account owner in the legal_person case</td>
+</tr>
+<tr>
+<td>Sole Trader</td>
+<td>A natural person operating a business who is registered in a national register</td>
+</tr>
+<tr>
+<td>Owner Type</td>
+<td>A discriminator attribute within <em>Account_Ownership</em> that explicitly identifies whether the account owner is a legal entity or a natural person.</td>
+</tr>
+<tr>
+<td>ISO 4217:2015</td>
+<td>International standard defining currency codes (e.g., EUR, USD, GBP)</td>
+</tr>
+<tr>
+<td>ISO 13616-1:2020</td>
+<td>International standard defining the IBAN format and validation rules</td>
+</tr>
+<tr>
+<td>ISO 9362:2014</td>
+<td>International standard defining the BIC/SWIFT code format</td>
+</tr>
+<tr>
+<td>ISO 3166-1</td>
+<td>International standard defining country codes (Alpha-3 code)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="2-compliance">2 Compliance</h2>
+<h3 id="21-compliance-statement">2.1 Compliance statement</h3>
+<p>This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.</p>
+<h3 id="22-regulatory-basis">2.2 Regulatory basis</h3>
+<p>This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
+recommendation is not followed, the reason is stated below.</p>
+<h3 id="23-traceability">2.3 Traceability</h3>
+<p>Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Legacy ID</th>
+<th>Applies</th>
+<th>Satisfied in section</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EW-DM-12-001</td>
+<td>ARB_01a</td>
+<td>yes</td>
+<td>5</td>
+<td>W3C VCDM permitted for this category; no encoding defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-002</td>
+<td>ARB_01b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC following the HAIP profile</td>
+</tr>
+<tr>
+<td>EW-DM-12-003</td>
+<td>ARB_02</td>
+<td>no</td>
+<td></td>
+<td>Proximity presentation is not in scope</td>
+</tr>
+<tr>
+<td>EW-DM-12-005</td>
+<td>ARB_04</td>
+<td>no</td>
+<td></td>
+<td>No W3C VCDM encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-006</td>
+<td>ARB_05</td>
+<td>yes</td>
+<td>5</td>
+<td>Unique vct for this attestation type</td>
+</tr>
+<tr>
+<td>EW-DM-12-007</td>
+<td>ARB_06</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes defined independently of encoding</td>
+</tr>
+<tr>
+<td>EW-DM-12-008</td>
+<td>ARB_06a</td>
+<td>no</td>
+<td></td>
+<td>No mdoc encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-009</td>
+<td>ARB_06b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC claim naming</td>
+</tr>
+<tr>
+<td>EW-DM-12-010</td>
+<td>ARB_07</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes reused from the catalogued vocabulary where one exists</td>
+</tr>
+<tr>
+<td>EW-DM-12-012</td>
+<td>ARB_09</td>
+<td>yes</td>
+<td>3, 4</td>
+<td>Mandatory, optional and conditional stated per attribute</td>
+</tr>
+<tr>
+<td>EW-DM-12-013</td>
+<td>ARB_10</td>
+<td>no</td>
+<td></td>
+<td>No domestic namespace is defined</td>
+</tr>
+<tr>
+<td>EW-DM-12-014</td>
+<td>ARB_11</td>
+<td>no</td>
+<td></td>
+<td>Annex V and VII point a apply to QEAA and PuB-EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-015</td>
+<td>ARB_12</td>
+<td>yes</td>
+<td>4.1</td>
+<td>EAA indication for a non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018</td>
+<td>ARB_13 / ARB_14 / ARB_15</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point b, EW-DM-12-018 for the non-qualified case</td>
+</tr>
+<tr>
+<td>EW-DM-12-019 / EW-DM-12-020</td>
+<td>ARB_16 / ARB_17</td>
+<td>yes</td>
+<td>2.2</td>
+<td>Point c, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-021 / EW-DM-12-022</td>
+<td>ARB_18 / ARB_19</td>
+<td>yes</td>
+<td>2.2, 4.2</td>
+<td>Point e, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-023 / EW-DM-12-024</td>
+<td>ARB_20 / ARB_21</td>
+<td>yes</td>
+<td>4.2, 10</td>
+<td>Trust anchor location and the trust framework</td>
+</tr>
+<tr>
+<td>EW-DM-12-029</td>
+<td>ARB_25</td>
+<td>yes</td>
+<td>4.1</td>
+<td>Legal category attribute; see the note in section 4.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-030</td>
+<td>ARB_26</td>
+<td>yes</td>
+<td>10</td>
+<td>Trust anchor publication for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-031</td>
+<td>ARB_27</td>
+<td>no</td>
+<td></td>
+<td>This attestation does not require the Relying Party to verify a PID</td>
+</tr>
+<tr>
+<td>EW-DM-12-032</td>
+<td>ARB_28</td>
+<td>no</td>
+<td></td>
+<td>cryptographically_bound_to is not used by this attestation</td>
+</tr>
+<tr>
+<td>EW-DM-12-034</td>
+<td>ARB_30</td>
+<td>yes</td>
+<td>5</td>
+<td>Selective disclosure stated per claim</td>
+</tr>
+<tr>
+<td>EW-DM-12-035</td>
+<td>ARB_31</td>
+<td>no</td>
+<td></td>
+<td>No Claim Selective Disclosure Metadata document is used</td>
+</tr>
+<tr>
+<td>EW-DM-12-038</td>
+<td>ARB_34</td>
+<td>yes</td>
+<td>7.1</td>
+<td>Device binding</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-attestation-attributes">3 Attestation attributes</h2>
+<p>Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.</p>
+<h3 id="31-introduction">3.1 Introduction</h3>
+<p>The IBAN-OV Attestation is a document that provides verified information about the bank account details of the account owner. It ensures that a legal entity (or natural person) can confidentially prove to a third party that this IBAN also belongs to the same legal entity (or natural person). </p>
+<p><strong>Data Model:</strong></p>
+<pre><code>IBAN-OV Attestation
+│
+├── Bank_Account                (m)
+│ ├── account_name              (m)
+│ ├── iban                      (m)
+│ ├── national_account_number   (o)
+│ ├── account_type              (m)
+│ └── account_currency          (m)
+│
+├── Account_Ownership           (m)
+│ ├── owner_type                (m)
+│ ├── owner_name                (m)     (mandatory if legal person, 'entity')
+│ ├── legal_person_identifiers  (m)     (array of objects, mandatory if 'entity')
+│ │   ├── type                  (m)
+│ │   └── value                 (m)
+│ ├── given_name                (m)     (mandatory if natural person, 'person')
+│ └── surname                   (m)     (mandatory if natural person, 'person')
+│
+└── Account_Provider            (m)
+  ├── provider_name             (m)
+  ├── legal_person_identifiers  (m)     (array of objects)
+  │   ├── type                  (m)
+  │   └── value                 (m)
+  ├── provider_country          (m)
+  ├── bic_swift                 (m)
+  ├── national_bank_code        (o) 
+  ├── nace_code                 (o) 
+  └── clearing_number           (o)
+</code></pre>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>Bank_Account</code> contains the core details of the account itself, such as IBAN, currency,
+  and type.</li>
+<li><code>Account_Ownership</code> identifies the legal owner of the account, including name and an array of flexible company identifiers (e.g., EUID, LEI, TAX) to accommodate global entities.</li>
+<li><code>Account_Provider</code> describes the financial institution that issued the account (also utilizing flexible identifiers) and metadata about the attestation.</li>
+</ul>
+<p>This structure effectively separates the <strong>what</strong> (the bank account), the <strong>who</strong> (the bank
+account owner) and the <strong>where &amp; how</strong> (the provider &amp; metadata).</p>
+<p><strong>Attestation Classification:</strong></p>
+<p>This attestation type MAY be classified as:</p>
+<ul>
+<li><strong>"EAA"</strong> when issued by the bank (ASPSP) acting as an authorized issuer within the EUDI  framework according to ETSI 119 478.</li>
+</ul>
+<h3 id="32-mandatory-attributes">3.2 Mandatory attributes</h3>
+<p><strong>Bank_Account Mandatory Attributes</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>account_name</td>
+<td>tbd</td>
+<td>Name of the account, generated by the bank or customized by the owner.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>iban</td>
+<td>tbd</td>
+<td>International Bank Account Number, as defined in ISO 13616:2020.</td>
+<td>[A-Z]{2}[0-9A-Z]{13,30}</td>
+</tr>
+<tr>
+<td>account_type</td>
+<td>tbd</td>
+<td>Nature of the bank account.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>account_currency</td>
+<td>tbd</td>
+<td>Currency code(s) used for the account, as defined in ISO 4217:2015.</td>
+<td>Array (3-digit code(s)), ISO 4217:2015</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Account_Ownership Mandatory Attributes</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>owner_type</td>
+<td>tbd</td>
+<td>Discriminator identifying whether the account owner is a legal person or a natural person.</td>
+<td>String - enum</td>
+</tr>
+<tr>
+<td>owner_name</td>
+<td>tbd</td>
+<td>Legal name of the legal person owning the account.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>legal_person_identifiers</td>
+<td>tbd</td>
+<td>Array of objects containing unique identification strings of the legal entity owning the account.</td>
+<td>Array [Object]</td>
+</tr>
+<tr>
+<td>legal_person_identifiers[n].type</td>
+<td>tbd</td>
+<td>Scheme or type of the identifier used (e.g., 'EUID', 'LEI', 'TAX').</td>
+<td>String</td>
+</tr>
+<tr>
+<td>legal_person_identifiers[n].value</td>
+<td>tbd</td>
+<td>The actual identifier value.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>given_name</td>
+<td>tbd</td>
+<td>Given name(s) of the natural person owning the account.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>surname</td>
+<td>tbd</td>
+<td>Surname / family name of the natural person owning the account.</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Account_Provider Mandatory Attributes</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>provider_name</td>
+<td>tbd</td>
+<td>Name of the financial institution providing the account.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>legal_person_identifiers</td>
+<td>tbd</td>
+<td>Array of objects containing unique identification strings of the financial institution.</td>
+<td>Array [Object]</td>
+</tr>
+<tr>
+<td>legal_person_identifiers[n].type</td>
+<td>tbd</td>
+<td>Scheme or type of the identifier used (e.g., 'EUID', 'LEI', 'TAX').</td>
+<td>String</td>
+</tr>
+<tr>
+<td>legal_person_identifiers[n].value</td>
+<td>tbd</td>
+<td>The actual identifier value.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>provider_country</td>
+<td>tbd</td>
+<td>Alpha-3 country code, as defined in ISO 3166-1, of the provider country or territory.</td>
+<td>3-digit code</td>
+</tr>
+<tr>
+<td>bic_swift</td>
+<td>tbd</td>
+<td>International code (i.e. BIC or SWIFT code), as defined in ISO 9362, of the financial institution.</td>
+<td>String ISO 9362</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="33-optional-attributes">3.3 Optional attributes</h3>
+<p><strong>Account_Provider Optional Attributes</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>national_bank_code</td>
+<td>tbd</td>
+<td>Country-specific code for internal routing within a specific country's clearing system.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>nace_code</td>
+<td>tbd</td>
+<td>NACE code for activity specification (e.g. 64.19) of the institution providing the account.</td>
+<td>String</td>
+</tr>
+<tr>
+<td>clearing_number</td>
+<td>tbd</td>
+<td>Clearing number for identification of the financial institution, used only in some countries.</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="34-conditional-attributes">3.4 Conditional attributes</h3>
+<p>The following conditional attributes are defined for the <code>Account_Ownership</code> object. Their presence is mandatory or prohibited depending on the value of <code>owner_type</code>:</p>
+<ul>
+<li><code>owner_name</code> and <code>legal_person_identifiers</code> SHALL be present if and only if <code>owner_type</code> = 'entity'.</li>
+<li><code>given_name</code> and <code>surname</code> SHALL be present if and only if <code>owner_type</code> = 'person'.</li>
+<li><code>given_name</code> and <code>surname</code> SHALL NOT be present when <code>owner_type</code> = 'entity'.</li>
+</ul>
+<p>This conditional structure is enforced via JSON Schema if/then validation (Draft 2020-12) in the accompanying data schema.</p>
+<h2 id="4-metadata">4 Metadata</h2>
+<p>Metadata describes the attestation rather than its subject.</p>
+<h3 id="41-mandatory-metadata">4.1 Mandatory metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iat</td>
+<td>The date and time when the verifiable credential was issued (ISO 8601)</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>exp</td>
+<td>The date and time when the attestation expires (ISO 8601)</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>iss</td>
+<td>The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations)</td>
+<td>String</td>
+</tr>
+<tr>
+<td>attestation_legal_category</td>
+<td>Indicates the legal category of this attestation ("EAA")</td>
+<td>String</td>
+</tr>
+<tr>
+<td>vct</td>
+<td>A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed</td>
+<td>String</td>
+</tr>
+<tr>
+<td>cnf</td>
+<td>Cryptographic key binding element</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Legal category.</strong> This Rulebook retains the <code>attestation_legal_category</code> attribute.
+Section 4.1 of the generic template replaces it with the <code>category</code> attribute of
+[ETSI TS 119 472-1], whose value for this category is <code>eaa:eu:non-qualified</code>.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+<code>attestation_legal_category</code>, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.</p>
+<h3 id="42-optional-metadata">4.2 Optional metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trust_anchor_url</td>
+<td>URL where the trust anchor for verifying this attestation can be retrieved</td>
+<td>URI</td>
+</tr>
+<tr>
+<td>schema_version</td>
+<td>Version of the schema used</td>
+<td>String</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="43-conditional-metadata">4.3 Conditional metadata</h3>
+<p>No conditional metadata elements are defined for this attestation type.</p>
+<h3 id="44-code-lists">4.4 Code lists</h3>
+<h4 id="441-currency-codes">4.4.1 Currency Codes</h4>
+<p>The <code>account_currency</code> attribute SHALL follow ISO 4217:2015 currency codes.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Code</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EUR</td>
+<td>Euro</td>
+</tr>
+<tr>
+<td>USD</td>
+<td>United States Dollar</td>
+</tr>
+<tr>
+<td>GBP</td>
+<td>Pound Sterling</td>
+</tr>
+<tr>
+<td>CHF</td>
+<td>Swiss Franc</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="442-account-type-codes">4.4.2 Account Type Codes</h4>
+<p>The <code>account_type</code> attribute SHOULD use one of the following standardized values:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Example Code</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CURRENT</td>
+<td>Current Account</td>
+</tr>
+<tr>
+<td>SAVINGS</td>
+<td>Savings Account</td>
+</tr>
+<tr>
+<td>BASIC</td>
+<td>Basic Bank Account</td>
+</tr>
+<tr>
+<td>LOAN</td>
+<td>Loan Account</td>
+</tr>
+<tr>
+<td>OTHER</td>
+<td>Other</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="443-owner-type-codes">4.4.3 Owner Type Codes</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Example Code</strong></th>
+<th><strong>Definition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>person</td>
+<td>Natural Person</td>
+</tr>
+<tr>
+<td>entity</td>
+<td>Legal Person/Entity</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="45-integrity-rules">4.5 Integrity rules</h3>
+<p>The following integrity rules SHALL be enforced:</p>
+<ul>
+<li>The IBAN-OV attestation SHALL be cryptographically bound and issued exclusively to the   specific Holder wallet that was onboarded by the Issuer (the bank).</li>
+<li><code>expiry_date</code> SHALL be dated after the <code>issuance_date</code>.</li>
+<li><code>iban</code> SHALL conform to the ISO 13616:2020 format: [A-Z]{2}[0-9A-Z]{13,30}.</li>
+<li><code>bic_swift</code> SHALL conform to the ISO 9362:2022 format: [A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3}).</li>
+<li><code>provider_country</code> SHALL be a valid ISO 3166-1 alpha-3 country code.</li>
+<li><code>account_currency</code> SHALL contain at least one valid ISO 4217:2015 currency code.</li>
+<li><code>legal_person_identifiers</code> in Account_Provider SHALL be present, be an array, and contain at least one valid identifier object with <code>type</code> and <code>value</code> identifying the issuing financial institution.</li>
+<li>If <code>owner_type</code> = <code>entity</code>, <code>legal_person_identifiers</code> in Account_Ownership SHALL be present, be an array, and contain at least one valid identifier object with <code>type</code> and <code>value</code> identifying the account owner.</li>
+<li>Each attribute SHALL appear at most once in the attestation.</li>
+<li><code>owner_type</code> in Account_Ownership SHALL be present and SHALL contain exactly one of the values <code>entity</code> or <code>person</code>.</li>
+<li>If <code>owner_type</code> = <code>entity</code>, <code>owner_name</code> SHALL be present and <code>given_name</code> and <code>surname</code> SHALL NOT be present.</li>
+<li>If <code>owner_type</code> = <code>person</code>, <code>given_name</code> and <code>surname</code> SHALL both be present and <code>owner_name</code> SHALL NOT be present.</li>
+<li>The attestation SHALL NOT be used to directly initiate or execute payments.</li>
+</ul>
+<h2 id="5-formats">5 Formats</h2>
+<h3 id="51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</h3>
+<p>The IBAN-OV attestation uses the SD-JWT VC format to allow for selective disclosure of account attributes.</p>
+<p><strong>Selective Disclosure:</strong> Top-level claims (<code>bank_account</code>, <code>account_ownership</code>, <code>account_provider</code>) SHALL be individually selectively disclosable, enabling the account holder to disclose only the attributes requested by a Relying Party.</p>
+<p>The <code>.</code> notation is used to indicate the nesting of attributes.</p>
+<p><strong>Verifiable Credential Type (<code>vct</code>):</strong> <code>vct: eu.we-build:iban-ov.1</code></p>
+<h4 id="511-attribute-encoding-table">5.1.1 Attribute Encoding Table</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute identifier</strong></th>
+<th><strong>Encoding format</strong></th>
+<th><strong>Reference/Notes</strong></th>
+<th><strong>Disclosable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bank_Account</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>account_name</td>
+<td>bank_account.account_name</td>
+<td>String</td>
+<td>Name of the account</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>iban</td>
+<td>bank_account.iban</td>
+<td>String</td>
+<td>ISO 13616:2020 format</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>account_type</td>
+<td>bank_account.account_type</td>
+<td>String</td>
+<td>Nature of the bank account</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>account_currency</td>
+<td>bank_account.account_currency</td>
+<td>Array of Strings</td>
+<td>ISO 4217:2015 currency codes</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Account_Ownership</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>owner_type</td>
+<td>account_ownership.owner_type</td>
+<td>String</td>
+<td>Discriminator identifying the owner type. Enum: <code>entity</code> | <code>person</code></td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>owner_name</td>
+<td>account_ownership.owner_name</td>
+<td>String</td>
+<td>Legal name of the legal entity owning the account. Present only if <code>owner_type = entity</code></td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>legal_person_identifiers</td>
+<td>account_ownership.legal_person_identifiers</td>
+<td>Array [Object]</td>
+<td>Array of identifier objects. Present only if <code>owner_type = entity</code></td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>legal_person_identifiers.type</td>
+<td>account_ownership.legal_person_identifiers[n].type</td>
+<td>String</td>
+<td>Scheme of the identifier (e.g., 'EUID', 'LEI', 'TAX')</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>legal_person_identifiers.value</td>
+<td>account_ownership.legal_person_identifiers[n].value</td>
+<td>String</td>
+<td>Value of the identifier</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>given_name</td>
+<td>account_ownership.given_name</td>
+<td>String</td>
+<td>Given name(s) of the natural person owning the account. Present only if <code>owner_type = person</code></td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>surname</td>
+<td>account_ownership.surname</td>
+<td>String</td>
+<td>Surname of the natural person owning the account. Present only if <code>owner_type = person</code></td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Account_Provider</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>provider_name</td>
+<td>account_provider.provider_name</td>
+<td>String</td>
+<td>Name of the financial institution</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>legal_person_identifiers</td>
+<td>account_provider.legal_person_identifiers</td>
+<td>Array [Object]</td>
+<td>Array of identifier objects for the provider</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>legal_person_identifiers.type</td>
+<td>account_provider.legal_person_identifiers[n].type</td>
+<td>String</td>
+<td>Scheme of the identifier (e.g., 'EUID', 'LEI', 'BIC')</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>legal_person_identifiers.value</td>
+<td>account_provider.legal_person_identifiers[n].value</td>
+<td>String</td>
+<td>Value of the identifier</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>provider_country</td>
+<td>account_provider.provider_country</td>
+<td>String</td>
+<td>ISO 3166-1 alpha-3 country code</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>bic_swift</td>
+<td>account_provider.bic_swift</td>
+<td>String</td>
+<td>ISO 9362 BIC/SWIFT format</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>national_bank_code</td>
+<td>account_provider.national_bank_code</td>
+<td>String</td>
+<td>Country-specific routing code</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>nace_code</td>
+<td>account_provider.nace_code</td>
+<td>String</td>
+<td>NACE activity code</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>clearing_number</td>
+<td>account_provider.clearing_number</td>
+<td>String</td>
+<td>Country-specific clearing number</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><strong>Metadata</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>issuance_date</td>
+<td>iat</td>
+<td>Number (Unix timestamp)</td>
+<td>ISO 8601, RFC 7519 / Section 2.5</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>expiry_date</td>
+<td>exp</td>
+<td>Number (Unix timestamp)</td>
+<td>ISO 8601, RFC 7519 / Section 2.5</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>issuing_entity</td>
+<td>iss</td>
+<td>String</td>
+<td>Identifier of the issuing financial institution</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>attestation_legal_category</td>
+<td>attestation_legal_category</td>
+<td>String</td>
+<td>"EAA" defined by eIDAS 2</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td>vct</td>
+<td>vct</td>
+<td>String</td>
+<td>A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td>schema_version</td>
+<td>schema_version</td>
+<td>String</td>
+<td>Version of the schema used for this attestation</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td>trust_anchor_url</td>
+<td>trust_anchor_url</td>
+<td>String (URI)</td>
+<td>URL where the trust anchor for verifying this attestation can be retrieved</td>
+<td>MAY</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><strong>MUST</strong>: The claim SHALL be selectively disclosable, the holder MAY choose to disclose or
+  withhold this claim when presenting the credential to a Relying Party.</li>
+<li><strong>MUST NOT</strong>: The claim SHALL NOT be selectively disclosable, it is always present in plain
+  text in the JWT header/payload and cannot be withheld by the holder, as it is required for
+  credential verification and trust establishment.</li>
+<li><code>iat</code>, <code>exp</code>, and <code>iss</code> follow RFC 7519 standard JWT claim naming conventions.</li>
+</ul>
+<h4 id="512-status-claim">5.1.2 Status Claim</h4>
+<p>For SD-JWT VC-compliant IBAN-OV attestations, the attestation MUST include a <code>status</code> claim if
+the technical validity period is greater than 24 hours. This claim enables Relying Parties to
+determine if a credential has been revoked via a status list mechanism, as specified in SD-JWT VC.</p>
+<p>The <code>status</code> claim SHALL be a JSON object containing a <code>status_list</code> member with the following fields:</p>
+<ul>
+<li><code>idx</code> (integer, &gt;= 0): The zero-based index into the status list bitstring that corresponds to this credential.</li>
+<li><code>uri</code> (string, URI): The URI of the Status List Token that contains the status bitstring for this credential.</li>
+</ul>
+<p>This structure follows the Token Status List specification as defined in [draft-ietf-oauth-status-list-21]:
+https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/21/</p>
+<p>Example:</p>
+<pre><code>{
+  &quot;status&quot;: {
+    &quot;status_list&quot;: {
+      &quot;idx&quot;: 456,
+      &quot;uri&quot;: &quot;https://issuer.example.com/status/iban-ov/2026&quot;
+    }
+  }
+}
+</code></pre>
+<h4 id="513-example-payload">5.1.3 Example Payload</h4>
+<p>The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a <strong>legal person</strong>:</p>
+<pre><code>{
+  &quot;vct&quot;: &quot;eu.we-build:iban-ov:1&quot;,
+  &quot;iss&quot;: &quot;https://bank.example.com&quot;,
+  &quot;iat&quot;: 1736935200,
+  &quot;exp&quot;: 1768471200,
+  &quot;issuing_entity&quot;: &quot;did:example:bank-123&quot;,
+  &quot;attestation_legal_category&quot;: &quot;EAA&quot;,
+  &quot;schema_version&quot;: &quot;1.0&quot;,
+  &quot;bank_account&quot;: {
+    &quot;account_name&quot;: &quot;Company A Main Account&quot;,
+    &quot;iban&quot;: &quot;DE89370400440532013000&quot;,
+    &quot;account_type&quot;: &quot;CURRENT&quot;,
+    &quot;account_currency&quot;: [&quot;EUR&quot;]
+  },
+  &quot;account_ownership&quot;: {
+    &quot;owner_type&quot;: &quot;entity&quot;,
+    &quot;owner_name&quot;: &quot;Company A GmbH&quot;,
+    &quot;legal_person_identifiers&quot;: [
+      {
+        &quot;type&quot;: &quot;EUID&quot;,
+        &quot;value&quot;: &quot;DE-HRB-123456&quot;
+      },
+      {
+        &quot;type&quot;: &quot;LEI&quot;,
+        &quot;value&quot;: &quot;529900T8BM49AURSDO55&quot;
+      },
+      {
+        &quot;type&quot;: &quot;TAX&quot;,
+        &quot;value&quot;: &quot;123/456/7890&quot;
+      }
+    ]
+  },
+  &quot;account_provider&quot;: {
+    &quot;provider_name&quot;: &quot;Example Bank AG&quot;,
+    &quot;legal_person_identifiers&quot;: [
+      {
+        &quot;type&quot;: &quot;EUID&quot;,
+        &quot;value&quot;: &quot;DE12121.HRB654321&quot;
+      },
+      {
+        &quot;type&quot;: &quot;BIC&quot;,
+        &quot;value&quot;: &quot;DEUTDEDB&quot;
+      },
+      {
+        &quot;type&quot;: &quot;LEI&quot;,
+        &quot;value&quot;: &quot;529900XYZ123ABCDEF99&quot;
+      }
+    ],
+    &quot;provider_country&quot;: &quot;DEU&quot;,
+    &quot;bic_swift&quot;: &quot;DEUTDEDB&quot;,
+    &quot;national_bank_code&quot;: &quot;37040044&quot;,
+    &quot;nace_code&quot;: &quot;64.19&quot;,
+    &quot;clearing_number&quot;: &quot;37040044&quot;
+  },
+  &quot;status&quot;: {
+    &quot;status_list&quot;: {
+      &quot;idx&quot;: 456,
+      &quot;uri&quot;: &quot;https://bank.example.com/status/iban-ov/2025&quot;
+    }
+  }
+}
+</code></pre>
+<p>The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a <strong>natural person (sole trader)</strong>:</p>
+<pre><code>{
+  &quot;vct&quot;: &quot;eu.we-build:iban-ov:1&quot;,
+  &quot;iss&quot;: &quot;https://bank.example.com&quot;,
+  &quot;iat&quot;: 1736935200,
+  &quot;exp&quot;: 1768471200,
+  &quot;issuing_entity&quot;: &quot;did:example:bank-123&quot;,
+  &quot;attestation_legal_category&quot;: &quot;EAA&quot;,
+  &quot;schema_version&quot;: &quot;1.0&quot;,
+  &quot;bank_account&quot;: {
+    &quot;account_name&quot;: &quot;Maria Müller Consulting&quot;,
+    &quot;iban&quot;: &quot;DE89370400440532013001&quot;,
+    &quot;account_type&quot;: &quot;CURRENT&quot;,
+    &quot;account_currency&quot;: [&quot;EUR&quot;]
+  },
+  &quot;account_ownership&quot;: {
+    &quot;owner_type&quot;: &quot;person&quot;,
+    &quot;given_name&quot;: &quot;Maria&quot;,
+    &quot;surname&quot;: &quot;Müller&quot;
+  },
+  &quot;account_provider&quot;: {
+    &quot;provider_name&quot;: &quot;Example Bank AG&quot;,
+    &quot;legal_person_identifiers&quot;: [
+      {
+        &quot;type&quot;: &quot;EUID&quot;,
+        &quot;value&quot;: &quot;DE1212.HRB654321&quot;
+      },
+      {
+        &quot;type&quot;: &quot;BIC&quot;,
+        &quot;value&quot;: &quot;DEUTDEDB&quot;
+      }
+    ],
+    &quot;provider_country&quot;: &quot;DEU&quot;,
+    &quot;bic_swift&quot;: &quot;DEUTDEDB&quot;,
+    &quot;national_bank_code&quot;: &quot;37040044&quot;,
+    &quot;nace_code&quot;: &quot;64.19&quot;,
+    &quot;clearing_number&quot;: &quot;37040044&quot;
+  },
+  &quot;status&quot;: {
+  &quot;status_list&quot;: {
+    &quot;idx&quot;: 457,
+    &quot;uri&quot;: &quot;https://bank.example.com/status/iban-ov/2026&quot;
+  }
+}
+</code></pre>
+<p>Sample payloads are provided under ../data-schemas/sd-jwt/sample-data/iban-ov-sd-jwt-sample.json</p>
+<h3 id="52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</h3>
+<p>ISO/IEC 18013-5 (also called mdoc) is out of scope for this Rulebook, as offline proximity presentation is not a current requirement for the IBAN-OV attestation.</p>
+<h3 id="53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</h3>
+<p>This Rulebook does not define a W3C Verifiable Credentials Data Model encoding for this attestation type.</p>
+<h2 id="6-protocols">6 Protocols</h2>
+<p>This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].</p>
+<h2 id="7-issuance">7 Issuance</h2>
+<h3 id="71-binding">7.1 Binding</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device-bound</td>
+<td>MAY</td>
+<td>EW-DM-12-038</td>
+</tr>
+<tr>
+<td>Cryptographically bound to</td>
+<td>none</td>
+<td>EW-DM-12-032</td>
+</tr>
+<tr>
+<td>Relying Party must also verify a PID</td>
+<td>no</td>
+<td>EW-DM-12-031</td>
+</tr>
+<tr>
+<td>Binding subject</td>
+<td>legal person</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="72-issuance-policy">7.2 Issuance Policy</h3>
+<p>The IBAN-OV attestation is issued by the bank (ASPSP) holding the account, either:</p>
+<ul>
+<li>Within the RP registration process, or</li>
+<li>
+<p>Upon explicit request from the legal entity owning the IBAN account.</p>
+</li>
+<li>
+<p>The issuer (i.e., the legal entity itself) issues the attestation based on the information and
+  supporting documentation available at the time of issuance.</p>
+</li>
+<li>The issuer is responsible for ensuring that the attested information remains accurate and
+  must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.</li>
+<li>The issuer is responsible for ensuring that the device binding is assured</li>
+<li>ex. EUDI Wallet</li>
+<li>ex. EBW Wallet - always in the same wallet by onboarding</li>
+</ul>
+<h3 id="73-lifecycle-management">7.3 Lifecycle management</h3>
+<p>The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.</p>
+<h3 id="74-embedded-disclosure-policy">7.4 Embedded disclosure policy</h3>
+<p>This attestation defines no embedded disclosure policy.</p>
+<h2 id="8-revocation">8 Revocation</h2>
+<p>This chapter will be completed in a future version of this Rulebook.</p>
+<h2 id="9-presentation">9 Presentation</h2>
+<h4 id="base-verification-process">Base Verification Process</h4>
+<p>The Relying Party SHALL perform the base attestation verification process as defined in the Base Verification specification:</p>
+<p>https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md</p>
+<p>In accordance with sections 4.2.5 and 4.2.6 of the Base Verification Process, relying parties are required to automatically verify the credential's revocation status. This verification confirms the current status of the bank account, thereby rendering an additional 'bank_account_status' attribute obsolete.</p>
+<h4 id="validate-integrity-rules">Validate Integrity Rules</h4>
+<ul>
+<li>The Relying Party SHALL verify that the attestation is NOT being used to initiate or execute a payment.</li>
+<li>The Relying Party SHALL verify that the <code>IBAN conforms</code> to ISO 13616:2020 format.</li>
+<li>The Relying Party SHALL verify that the <code>bic_swift</code> conforms to ISO 9362 format.</li>
+<li>The Relying Party SHALL verify that the <code>expiry_date</code> is after the issuance_date.</li>
+<li>The Relying Party SHALL verify that owner_type is present in account_ownership and contains exactly one of the permitted values ('entity', 'person').</li>
+<li>The Relying Party SHALL verify that the name attributes present in account_ownership are consistent with the declared owner_type: owner_name for legal persons; given_name and surname for natural persons.</li>
+</ul>
+<h3 id="91-presentation-policy">9.1 Presentation Policy</h3>
+<p>To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:</p>
+<ol>
+<li>verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;</li>
+<li>verify that the attestation is within its validity period;</li>
+<li>check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;</li>
+<li>verify device binding where section 7.1 records the attestation as device-bound;</li>
+<li>request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.</li>
+</ol>
+<p>Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:</p>
+<p>When receiving and processing an attestation, the Relying Party SHALL perform the following verification obligations.</p>
+<h3 id="92-presentation-modes">9.2 Presentation modes</h3>
+<p>Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.</p>
+<h3 id="93-transactional-data">9.3 Transactional data</h3>
+<p>This Rulebook defines no transactional data.</p>
+<h2 id="10-trust-framework">10 Trust Framework</h2>
+<p>This chapter will be completed in a future version of this Rulebook.</p>
+<p><strong>Trust anchor location</strong></p>
+<p>The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.</p>
+<h2 id="11-references">11 References</h2>
+<p>This chapter will be completed in a future version of this Rulebook.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Item Reference</strong></th>
+<th><strong>Standard name/details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[European Digital Identity Regulation]</td>
+<td><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183">Regulation (EU) 2024/1183</a> of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework</td>
+</tr>
+<tr>
+<td>[HAIP]</td>
+<td>Yasuda, K. et al, OpenID4VC High Assurance Interoperability Profile, OpenId Foundation, Version draft-03</td>
+</tr>
+<tr>
+<td>[IANA-JWT-Claims]</td>
+<td>IANA JSON Web Token Claims Registry. Available: https://www.iana.org/assignments/jwt/jwt.xhtml</td>
+</tr>
+<tr>
+<td>[ISO/IEC 18013-5]</td>
+<td>ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence - Part 5: Mobile driving licence (mDL) application, First edition, 2021-09</td>
+</tr>
+<tr>
+<td>[ISO 4217]</td>
+<td>ISO 4217, Currency codes. Available: https://www.iso.org/iso-4217-currency-codes.html</td>
+</tr>
+<tr>
+<td>[ISO 8601]</td>
+<td>ISO 8601, Date and time format. Available: https://www.iso.org/iso-8601-date-and-time-format.html</td>
+</tr>
+<tr>
+<td>[OIDC]</td>
+<td>Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html</td>
+</tr>
+<tr>
+<td>[RFC 2119]</td>
+<td>RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997</td>
+</tr>
+<tr>
+<td>[RFC 3339]</td>
+<td>RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002</td>
+</tr>
+<tr>
+<td>[RFC 8610]</td>
+<td>RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019</td>
+</tr>
+<tr>
+<td>[RFC 8943]</td>
+<td>RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020</td>
+</tr>
+<tr>
+<td>[RFC 8949]</td>
+<td>RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020</td>
+</tr>
+<tr>
+<td>[SD-JWT VC]</td>
+<td>SD-JWT-based Verifiable Credentials (SD-JWT VC). Available: https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/, version draft-ietf-oauth-sd-jwt-vc-09</td>
+</tr>
+<tr>
+<td>[Topic 7]</td>
+<td>ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking. Available: https://eu-digital-identity-wallet.github.io/eudi-doc-architecture-and-reference-framework/latest/annexes/annex-2/annex-2-high-level-requirements/#a237-topic-7-attestation-revocation-and-revocation-checking</td>
+</tr>
+<tr>
+<td>[Token Status List]</td>
+<td>OAuth Status List. draft-ietf-oauth-status-list-21. Available: https://www.ietf.org/archive/id/draft-ietf-oauth-status-list-21.html</td>
+</tr>
+</tbody>
+</table></div>
+  </article>
+</div>
+
+<footer class="foot">
+  <div class="foot-band">
+    <div class="foot-inner">
+      <a class="foot-logolink" href="https://www.webuildconsortium.eu/" target="_blank" rel="noopener"><img class="foot-logo" src="../assets/logo.svg" alt="WE BUILD Consortium" height="56"></a>
+      <img class="foot-eu" src="../assets/logo-eu.svg" alt="Co-funded by the European Union" height="46">
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="foot-inner">
+      <span class="copyright">&copy; Copyright 2026 WE BUILD Consortium. All Rights Reserved.</span>
+      <span class="gen">Rendered from <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-iban-ov/README.md" target="_blank" rel="noopener">the rulebook</a> in this repository.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* the chapter list is open beside the text, and out of the way on a phone */
+(function () {
+  var box = document.querySelector(".doc-chapters");
+  if (box && window.matchMedia("(max-width: 860px)").matches) box.open = false;
+}());
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loyalty Card rulebook | WE BUILD</title>
+<meta name="description" content="Loyalty Card. An attestation rulebook, EAA, issued as SD-JWT VC, 22 attributes.">
+<link rel="canonical" href="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-loyalty-card.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="WE BUILD Attestation Rulebook Explorer">
+<meta property="og:title" content="Loyalty Card rulebook">
+<meta property="og:description" content="Loyalty Card. An attestation rulebook, EAA, issued as SD-JWT VC, 22 attributes.">
+<meta property="og:url" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/rulebooks/rb-loyalty-card.html">
+<meta property="og:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WE BUILD Attestation Rulebook Explorer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta name="theme-color" content="#003399">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+<style>:root{--brand:#003399;--brand-dark:#001d58;--brand-light:#eef2fb;--accent:#ffcc00;--accent-dark:#f1b40d;--ink:#1d1d1f;--muted:#6e6e73;--line:rgba(0,0,0,.08);--surface:#ffffff;--canvas:#f2f2f5;--radius:12px;--font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--heading-font:Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;--mono-font:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;--header-gradient:linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)}</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="WE BUILD Consortium" height="44"></a>
+    <span class="brand-sep" aria-hidden="true"></span>
+    <span class="brand-product">Attestation Rulebook Explorer</span>
+    <nav class="masthead-links">
+      <a class="ghlink" href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-loyalty-card/README.md" target="_blank" rel="noopener" title="View this rulebook on GitHub">
+        <svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="doc-nav">
+    <a class="doc-back" href="../index.html">All rulebooks</a>
+    <details class="doc-chapters" open>
+      <summary>Chapters</summary>
+      <nav class="doc-toc" aria-label="Chapters"><a class="lvl2" href="#1-introduction">1 Introduction</a><a class="lvl3" href="#11-document-scope-and-purpose">1.1 Document scope and purpose</a><a class="lvl3" href="#12-document-structure">1.2 Document structure</a><a class="lvl3" href="#13-key-words">1.3 Key words</a><a class="lvl3" href="#14-terminology">1.4 Terminology</a><a class="lvl2" href="#2-compliance">2 Compliance</a><a class="lvl3" href="#21-compliance-statement">2.1 Compliance statement</a><a class="lvl3" href="#22-regulatory-basis">2.2 Regulatory basis</a><a class="lvl3" href="#23-traceability">2.3 Traceability</a><a class="lvl2" href="#3-attestation-attributes">3 Attestation attributes</a><a class="lvl3" href="#31-introduction">3.1 Introduction</a><a class="lvl3" href="#32-mandatory-attributes">3.2 Mandatory attributes</a><a class="lvl3" href="#33-optional-attributes">3.3 Optional attributes</a><a class="lvl3" href="#34-conditional-attributes">3.4 Conditional attributes</a><a class="lvl2" href="#4-metadata">4 Metadata</a><a class="lvl3" href="#41-mandatory-metadata">4.1 Mandatory metadata</a><a class="lvl3" href="#42-optional-metadata">4.2 Optional metadata</a><a class="lvl3" href="#43-conditional-metadata">4.3 Conditional metadata</a><a class="lvl3" href="#44-code-lists">4.4 Code lists</a><a class="lvl3" href="#45-integrity-rules">4.5 Integrity rules</a><a class="lvl2" href="#5-formats">5 Formats</a><a class="lvl3" href="#51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</a><a class="lvl3" href="#52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</a><a class="lvl3" href="#53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</a><a class="lvl2" href="#6-protocols">6 Protocols</a><a class="lvl2" href="#7-issuance">7 Issuance</a><a class="lvl3" href="#71-binding">7.1 Binding</a><a class="lvl3" href="#72-issuance-policy">7.2 Issuance Policy</a><a class="lvl3" href="#73-lifecycle-management">7.3 Lifecycle management</a><a class="lvl3" href="#74-embedded-disclosure-policy">7.4 Embedded disclosure policy</a><a class="lvl2" href="#8-revocation">8 Revocation</a><a class="lvl2" href="#9-presentation">9 Presentation</a><a class="lvl3" href="#91-presentation-policy">9.1 Presentation Policy</a><a class="lvl3" href="#92-presentation-modes">9.2 Presentation modes</a><a class="lvl3" href="#93-transactional-data">9.3 Transactional data</a><a class="lvl2" href="#10-trust-framework">10 Trust Framework</a><a class="lvl2" href="#11-references">11 References</a></nav>
+    </details>
+  </aside>
+  <article class="doc-body">
+    <p class="doc-tags"><span class="tag cat" style="background:#514f59">EAA</span><span class="tag fmt">SD-JWT VC</span></p>
+    <h1 id="attestation-rulebook-for-attestations-of-type-loyalty-card">Attestation Rulebook for attestations of type Loyalty Card</h1>
+<p>Category: non-qualified EAA</p>
+<p><em>[Based on the WE BUILD Attestation Rulebook Template and the Ferry Loyalty Card Attestation model.]</em></p>
+<ul>
+<li>Author(s):<ul>
+<li>Nikos Triantafyllou, UAegean</li>
+</ul>
+</li>
+<li>Previous Authors<ul>
+<li>N/A</li>
+</ul>
+</li>
+</ul>
+<p><strong>Feedback:</strong></p>
+<ul>
+<li>Github, portal, email, Slack</li>
+</ul>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>2026-10-02</td>
+<td>Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Written against:</strong> ARF version 3.0.0, WE BUILD template version 1.0 (generic)</p>
+<p><strong>Feedback:</strong> <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues">GitHub issues</a></p>
+<h2 id="1-introduction">1 Introduction</h2>
+<h3 id="11-document-scope-and-purpose">1.1 Document scope and purpose</h3>
+<p>This Rulebook defines the <em>Ferry Loyalty Card Attestation</em> for use in the European Digital Identity Wallet ecosystem.</p>
+<p>The Ferry Loyalty Card Attestation expresses the real-world fact that a natural person is a registered customer of a ferry operator and participates in that operator's loyalty or frequent traveller programme. It proves the existence and validity of a loyalty card issued by, or on behalf of, a ferry operator.</p>
+<p>The attestation is intended to be issued by an authentic source, such as a ferry operator or an authorised customer-management or ticketing system acting on behalf of the ferry operator. The Holder is the registered customer to whom the loyalty card applies. Relying Parties include ferry operators, authorised ticketing systems, customer-service systems, booking portals, port services, and other authorised partners that need to verify customer loyalty status or customer identity information for a legitimate service purpose.</p>
+<p>In practical terms, the attestation enables a customer to present loyalty-card information through an EUDI Wallet. It can support customer identification, service personalisation, loyalty benefits, journey-related discounts, and reduced reliance on physical loyalty cards or account lookups.</p>
+<p>The attestation contains customer, loyalty-card, organisation, and credential metadata. Because it is intended for repeated use across multiple journeys, it is longer-lived than a boarding pass and SHALL support revocation or status checking where operationally required.</p>
+<h3 id="12-document-structure">1.2 Document structure</h3>
+<p>This Rulebook follows the generic WE BUILD attestation rulebook template. Chapter 2
+states how it complies with the ARF and the applicable Regulations. Chapters 3 and 4
+define the attributes and metadata in an encoding-independent manner. Chapter 5 states
+the formats in which this attestation is issued. Chapters 6 to 9 cover protocols,
+issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
+chapter 11 lists references.</p>
+<h3 id="13-key-words">1.3 Key words</h3>
+<p>This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
+in [RFC 2119], to indicate requirements, recommendations and options.</p>
+<p>In addition, 'must' (non-capitalised) indicates an external constraint, a requirement
+not mandated by this document but by an external document. The word 'can' indicates a
+capability. Other words such as 'will', 'is' and 'are' are statements of fact.</p>
+<h3 id="14-terminology">1.4 Terminology</h3>
+<p>This document uses the terminology specified in Annex 1 of the ARF.</p>
+<p>In addition, the following domain-specific terms are used:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ferry Loyalty Card Attestation</td>
+<td>A Verifiable Credential representing a customer's membership in a ferry operator's loyalty or frequent traveller programme.</td>
+</tr>
+<tr>
+<td>Ferry operator</td>
+<td>The organisation operating ferry services and managing, or authorising the management of, the loyalty programme.</td>
+</tr>
+<tr>
+<td>Authorised customer-management system</td>
+<td>A system authorised by the ferry operator to create, manage, or issue loyalty-card records.</td>
+</tr>
+<tr>
+<td>Customer</td>
+<td>The natural person to whom the loyalty card applies.</td>
+</tr>
+<tr>
+<td>Loyalty card</td>
+<td>A customer identifier or membership record used by a ferry operator to recognise loyalty-programme participation.</td>
+</tr>
+<tr>
+<td>Loyalty programme</td>
+<td>A ferry operator programme used to provide customer identification, service personalisation, benefits, or journey-related offers.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="2-compliance">2 Compliance</h2>
+<h3 id="21-compliance-statement">2.1 Compliance statement</h3>
+<p>This Rulebook complies with the applicable requirements of Topic 12, Attestation
+Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
+uses the terminology of Annex 1 of the ARF.</p>
+<p>This Rulebook is designed to align with the EUDI Wallet architectural approach for Electronic Attestations of Attributes and with the Attestation Rulebook structure defined in the ARF.</p>
+<p>The Rulebook supports the following compliance objectives:</p>
+<ul>
+<li>it defines the attestation purpose and scope;</li>
+<li>it defines mandatory, optional, and conditional attributes in an encoding-independent manner;</li>
+<li>it defines a legal category indication through <code>attestation_legal_category</code>;</li>
+<li>it defines an SD-JWT VC <code>vct</code> value for the attestation type;</li>
+<li>it defines issuer, validity, and status metadata needed for verification;</li>
+<li>it defines code lists and integrity rules required for consistent interpretation;</li>
+<li>it defines how trust anchors can be obtained and used;</li>
+<li>it defines expiry and revocation expectations;</li>
+<li>it supports selective disclosure and data minimisation;</li>
+<li>it recognises the reusable nature of the loyalty-card attestation and therefore recommends status or revocation support.</li>
+</ul>
+<p>This Rulebook does not define a qualified EAA or public-sector EAA profile. It also does not define ISO/IEC 18013-5 mdoc or W3C VCDM encodings in this version.</p>
+<h3 id="22-regulatory-basis">2.2 Regulatory basis</h3>
+<p>This attestation is not a qualified electronic attestation of attributes. The data
+described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
+recommendation is not followed, the reason is stated below.</p>
+<h3 id="23-traceability">2.3 Traceability</h3>
+<p>Every applicable requirement mapped to the section that satisfies it. Requirements
+marked not applicable carry a stated reason.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Legacy ID</th>
+<th>Applies</th>
+<th>Satisfied in section</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EW-DM-12-001</td>
+<td>ARB_01a</td>
+<td>yes</td>
+<td>5</td>
+<td>W3C VCDM permitted for this category; no encoding defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-002</td>
+<td>ARB_01b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC following the HAIP profile</td>
+</tr>
+<tr>
+<td>EW-DM-12-003</td>
+<td>ARB_02</td>
+<td>no</td>
+<td></td>
+<td>Proximity presentation is not in scope</td>
+</tr>
+<tr>
+<td>EW-DM-12-005</td>
+<td>ARB_04</td>
+<td>no</td>
+<td></td>
+<td>No W3C VCDM encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-006</td>
+<td>ARB_05</td>
+<td>yes</td>
+<td>5</td>
+<td>Unique vct for this attestation type</td>
+</tr>
+<tr>
+<td>EW-DM-12-007</td>
+<td>ARB_06</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes defined independently of encoding</td>
+</tr>
+<tr>
+<td>EW-DM-12-008</td>
+<td>ARB_06a</td>
+<td>no</td>
+<td></td>
+<td>No mdoc encoding is defined in this version</td>
+</tr>
+<tr>
+<td>EW-DM-12-009</td>
+<td>ARB_06b</td>
+<td>yes</td>
+<td>5</td>
+<td>SD-JWT VC claim naming</td>
+</tr>
+<tr>
+<td>EW-DM-12-010</td>
+<td>ARB_07</td>
+<td>yes</td>
+<td>3</td>
+<td>Attributes reused from the catalogued vocabulary where one exists</td>
+</tr>
+<tr>
+<td>EW-DM-12-012</td>
+<td>ARB_09</td>
+<td>yes</td>
+<td>3, 4</td>
+<td>Mandatory, optional and conditional stated per attribute</td>
+</tr>
+<tr>
+<td>EW-DM-12-013</td>
+<td>ARB_10</td>
+<td>no</td>
+<td></td>
+<td>No domestic namespace is defined</td>
+</tr>
+<tr>
+<td>EW-DM-12-014</td>
+<td>ARB_11</td>
+<td>no</td>
+<td></td>
+<td>Annex V and VII point a apply to QEAA and PuB-EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-015</td>
+<td>ARB_12</td>
+<td>yes</td>
+<td>4.1</td>
+<td>EAA indication for a non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018</td>
+<td>ARB_13 / ARB_14 / ARB_15</td>
+<td>yes</td>
+<td>2.2, 4.1</td>
+<td>Point b, EW-DM-12-018 for the non-qualified case</td>
+</tr>
+<tr>
+<td>EW-DM-12-019 / EW-DM-12-020</td>
+<td>ARB_16 / ARB_17</td>
+<td>yes</td>
+<td>2.2</td>
+<td>Point c, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-021 / EW-DM-12-022</td>
+<td>ARB_18 / ARB_19</td>
+<td>yes</td>
+<td>2.2, 4.2</td>
+<td>Point e, recommendation for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-023 / EW-DM-12-024</td>
+<td>ARB_20 / ARB_21</td>
+<td>yes</td>
+<td>4.2, 10</td>
+<td>Trust anchor location and the trust framework</td>
+</tr>
+<tr>
+<td>EW-DM-12-029</td>
+<td>ARB_25</td>
+<td>yes</td>
+<td>4.1</td>
+<td>Legal category attribute; see the note in section 4.1</td>
+</tr>
+<tr>
+<td>EW-DM-12-030</td>
+<td>ARB_26</td>
+<td>yes</td>
+<td>10</td>
+<td>Trust anchor publication for non-qualified EAA</td>
+</tr>
+<tr>
+<td>EW-DM-12-031</td>
+<td>ARB_27</td>
+<td>no</td>
+<td></td>
+<td>This attestation does not require the Relying Party to verify a PID</td>
+</tr>
+<tr>
+<td>EW-DM-12-032</td>
+<td>ARB_28</td>
+<td>no</td>
+<td></td>
+<td>cryptographically_bound_to is not used by this attestation</td>
+</tr>
+<tr>
+<td>EW-DM-12-034</td>
+<td>ARB_30</td>
+<td>yes</td>
+<td>5</td>
+<td>Selective disclosure stated per claim</td>
+</tr>
+<tr>
+<td>EW-DM-12-035</td>
+<td>ARB_31</td>
+<td>no</td>
+<td></td>
+<td>No Claim Selective Disclosure Metadata document is used</td>
+</tr>
+<tr>
+<td>EW-DM-12-038</td>
+<td>ARB_34</td>
+<td>yes</td>
+<td>7.1</td>
+<td>Device binding</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-attestation-attributes">3 Attestation attributes</h2>
+<p>Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The
+encoding of each attribute is given in chapter 5.</p>
+<h3 id="31-introduction">3.1 Introduction</h3>
+<p>The Ferry Loyalty Card Attestation is defined as a non-qualified Electronic Attestation of Attributes unless a future version of this Rulebook explicitly defines a qualified or public-sector legal category.</p>
+<p>The attribute <code>attestation_legal_category</code> SHALL be included and SHALL have the value <code>non-qualified-EAA</code>.</p>
+<p>The attestation model consists of the following logical groups:</p>
+<ul>
+<li>customer information;</li>
+<li>loyalty-card information;</li>
+<li>organisation information;</li>
+<li>credential metadata.</li>
+</ul>
+<p>The attestation is bound to a single registered customer and a single loyalty-card record issued by a specific ferry operator or authorised operator system. It MAY be presented repeatedly, subject to validity, expiry, and revocation rules.</p>
+<h4 id="chapter-overview-and-requirements">Chapter overview and requirements</h4>
+<p>This chapter defines the attributes and metadata that a Ferry Loyalty Card Attestation may contain. The attributes are defined in an encoding-independent manner. Each attribute is classified as mandatory, optional, or conditional.</p>
+<p>The Ferry Loyalty Card Attestation is a reusable, customer-specific attestation. It is not bound to a single journey. Its attribute set is designed to support customer identification, loyalty-card verification, and controlled disclosure of optional customer information.</p>
+<h3 id="32-mandatory-attributes">3.2 Mandatory attributes</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>attestation_legal_category</code></td>
+<td>ARF Topic 12 / Rulebook legal category indication</td>
+<td>Indicates the legal category of the attestation.</td>
+<td>string</td>
+<td><code>non-qualified-EAA</code></td>
+</tr>
+<tr>
+<td><code>customer.first_name</code></td>
+<td>OIDC <code>given_name</code> where applicable</td>
+<td>Customer given name.</td>
+<td>string</td>
+<td><code>Nikos</code></td>
+</tr>
+<tr>
+<td><code>customer.last_name</code></td>
+<td>OIDC <code>family_name</code> where applicable</td>
+<td>Customer family name.</td>
+<td>string</td>
+<td><code>Triantafyllou</code></td>
+</tr>
+<tr>
+<td><code>loyalty_card.id</code></td>
+<td>N/A</td>
+<td>Unique loyalty-card identifier issued by the ferry operator.</td>
+<td>string</td>
+<td><code>LC-FAST-000123456</code></td>
+</tr>
+<tr>
+<td><code>loyalty_card.issue_date</code></td>
+<td>ISO 8601 date</td>
+<td>Date on which the loyalty card was issued.</td>
+<td>date</td>
+<td><code>2026-01-07</code></td>
+</tr>
+<tr>
+<td><code>organization.name</code></td>
+<td>N/A</td>
+<td>Legal or operating name of the ferry operator.</td>
+<td>string</td>
+<td><code>Fast Ferries S.A.</code></td>
+</tr>
+<tr>
+<td><code>organization.id</code></td>
+<td>N/A</td>
+<td>Ferry operator identifier.</td>
+<td>string</td>
+<td><code>GR-FAST-FERRIES</code></td>
+</tr>
+<tr>
+<td><code>organization.country</code></td>
+<td>ISO 3166-1 alpha-2 recommended</td>
+<td>Country of registration or operation of the ferry operator.</td>
+<td>string</td>
+<td><code>GR</code></td>
+</tr>
+<tr>
+<td><code>credential.type</code></td>
+<td>Rulebook-defined credential type</td>
+<td>Type of credential represented by the attestation.</td>
+<td>string</td>
+<td><code>FerryLoyaltyCardAttestation</code></td>
+</tr>
+<tr>
+<td><code>credential.issuer</code></td>
+<td>SD-JWT VC / issuer identifier</td>
+<td>Issuer of the credential.</td>
+<td>string</td>
+<td><code>https://issuer.example-ferry.gr</code></td>
+</tr>
+<tr>
+<td><code>credential.issuance_date</code></td>
+<td>ISO 8601 date</td>
+<td>Date on which the credential was issued.</td>
+<td>date</td>
+<td><code>2026-01-07</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="33-optional-attributes">3.3 Optional attributes</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>customer.nationality</code></td>
+<td>ISO 3166-1 alpha-2 recommended</td>
+<td>Nationality of the customer.</td>
+<td>string</td>
+<td><code>GR</code></td>
+</tr>
+<tr>
+<td><code>customer.birth_date</code></td>
+<td>ISO 8601 date</td>
+<td>Customer date of birth.</td>
+<td>date</td>
+<td><code>1985-04-12</code></td>
+</tr>
+<tr>
+<td><code>customer.address</code></td>
+<td>N/A</td>
+<td>Customer street address.</td>
+<td>string</td>
+<td><code>1 Example Street</code></td>
+</tr>
+<tr>
+<td><code>customer.city</code></td>
+<td>N/A</td>
+<td>City of residence.</td>
+<td>string</td>
+<td><code>Athens</code></td>
+</tr>
+<tr>
+<td><code>customer.zip_code</code></td>
+<td>N/A</td>
+<td>Postal code.</td>
+<td>string</td>
+<td><code>10557</code></td>
+</tr>
+<tr>
+<td><code>customer.phone</code></td>
+<td>N/A</td>
+<td>Fixed phone number.</td>
+<td>string</td>
+<td><code>+302101234567</code></td>
+</tr>
+<tr>
+<td><code>customer.mobile</code></td>
+<td>N/A</td>
+<td>Mobile phone number.</td>
+<td>string</td>
+<td><code>+306901234567</code></td>
+</tr>
+<tr>
+<td><code>customer.email</code></td>
+<td>RFC 5322</td>
+<td>Customer email address.</td>
+<td>string</td>
+<td><code>nikos@example.com</code></td>
+</tr>
+<tr>
+<td><code>credential.expiry_date</code></td>
+<td>ISO 8601 date</td>
+<td>Date after which the credential SHALL NOT be accepted.</td>
+<td>date</td>
+<td><code>2028-01-07</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="34-conditional-attributes">3.4 Conditional attributes</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>credential.expiry_date</code></td>
+<td>ISO 8601 date</td>
+<td>SHALL be present where the loyalty programme issues cards with a defined expiry date. MAY be omitted where the card remains valid until revoked.</td>
+<td>date</td>
+<td><code>2028-01-07</code></td>
+</tr>
+<tr>
+<td><code>customer.birth_date</code></td>
+<td>ISO 8601 date</td>
+<td>SHOULD be present only where age-related checks, age-based benefits, or customer disambiguation require it.</td>
+<td>date</td>
+<td><code>1985-04-12</code></td>
+</tr>
+<tr>
+<td><code>customer.email</code></td>
+<td>RFC 5322</td>
+<td>SHOULD be present only where the customer has consented to share email contact information or where it is required for the specific service interaction.</td>
+<td>string</td>
+<td><code>nikos@example.com</code></td>
+</tr>
+<tr>
+<td><code>customer.address</code>, <code>customer.city</code>, <code>customer.zip_code</code></td>
+<td>N/A</td>
+<td>SHOULD be present only where residency, address-based service rules, billing, or customer-service processes require address information.</td>
+<td>string</td>
+<td><code>Athens</code></td>
+</tr>
+<tr>
+<td><code>customer.phone</code>, <code>customer.mobile</code></td>
+<td>N/A</td>
+<td>SHOULD be present only where phone contact information is required for the relevant customer interaction.</td>
+<td>string</td>
+<td><code>+306901234567</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-metadata">4 Metadata</h2>
+<p>Metadata describes the attestation rather than its subject.</p>
+<h3 id="41-mandatory-metadata">4.1 Mandatory metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vct</code></td>
+<td>SD-JWT VC</td>
+<td>Verifiable Credential Type identifying this attestation type.</td>
+<td>string</td>
+<td><code>urn:eu.europa.ec.eudi:ferry_loyalty_card:1</code></td>
+</tr>
+<tr>
+<td><code>iss</code></td>
+<td>SD-JWT VC / JWT</td>
+<td>Identifier of the issuer of the credential.</td>
+<td>string</td>
+<td><code>https://issuer.example-ferry.gr</code></td>
+</tr>
+<tr>
+<td><code>iat</code></td>
+<td>JWT</td>
+<td>Time at which the credential was issued.</td>
+<td>integer</td>
+<td><code>1767787200</code></td>
+</tr>
+<tr>
+<td><code>cnf</code></td>
+<td>SD-JWT VC / JOSE</td>
+<td>Confirmation claim binding the credential to key material controlled by the Holder or Wallet Unit, where holder binding is used.</td>
+<td>object</td>
+<td><code>{ "jwk": { ... } }</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>SD-JWT VC status mechanism, where used</td>
+<td>Status information enabling revocation or suspension checks. SHOULD be used for this reusable attestation type.</td>
+<td>object</td>
+<td><code>{ "status_list": { ... } }</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Legal category.</strong> This Rulebook retains the <code>attestation_legal_category</code> attribute.
+Section 4.1 of the generic template replaces it with the <code>category</code> attribute of
+[ETSI TS 119 472-1], whose value for this category is <code>eaa:eu:non-qualified</code>.
+EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
+<code>attestation_legal_category</code>, so the template and the ARF disagree. The attribute is
+left as written and the deviation is recorded for the rulebook quality assurance group.</p>
+<h3 id="42-optional-metadata">4.2 Optional metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nbf</code></td>
+<td>JWT</td>
+<td>Time before which the credential MUST NOT be accepted.</td>
+<td>integer</td>
+<td><code>1767787200</code></td>
+</tr>
+<tr>
+<td><code>exp</code></td>
+<td>JWT</td>
+<td>Expiration time of the credential, where the credential has a technical expiry timestamp. SHOULD correspond to or not exceed <code>credential.expiry_date</code> where that attribute is present.</td>
+<td>integer</td>
+<td><code>1830859200</code></td>
+</tr>
+<tr>
+<td><code>jti</code></td>
+<td>JWT</td>
+<td>Unique identifier of the credential instance.</td>
+<td>string</td>
+<td><code>urn:uuid:ec622e9e-23f8-4c1d-9985-5c5b088caa11</code></td>
+</tr>
+<tr>
+<td><code>trust_anchor</code></td>
+<td>ARF Topic 12</td>
+<td>Location or identifier of the machine-readable trust anchor or trust framework entry used to verify issuer authorisation.</td>
+<td>string</td>
+<td><code>https://trust.example.eu/ferry/operators/fast-ferries</code></td>
+</tr>
+<tr>
+<td><code>cryptographically_bound_to</code></td>
+<td>ARF Topic 12 / ARB_28</td>
+<td>Identifier of another attestation type to which this attestation is cryptographically bound, where such binding is used.</td>
+<td>string</td>
+<td><code>urn:eudi:pid:1</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="43-conditional-metadata">4.3 Conditional metadata</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Semantic Reference</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Data type</strong></th>
+<th><strong>Example value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exp</code></td>
+<td>JWT</td>
+<td>SHALL be present where the credential has a fixed validity period. SHOULD be present where <code>credential.expiry_date</code> is present.</td>
+<td>integer</td>
+<td><code>1830859200</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>SD-JWT VC status mechanism, where used</td>
+<td>SHALL be present where the issuer supports revocation or suspension. SHOULD be present for reusable loyalty-card attestations.</td>
+<td>object</td>
+<td><code>{ "status_list": { ... } }</code></td>
+</tr>
+<tr>
+<td><code>cryptographically_bound_to</code></td>
+<td>ARF Topic 12 / ARB_28</td>
+<td>SHOULD be present where the loyalty card is required to be presented together with PID or another identity attestation for stronger customer identity matching.</td>
+<td>string</td>
+<td><code>urn:eudi:pid:1</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="44-code-lists">4.4 Code lists</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Field name</strong></th>
+<th><strong>Allowed values</strong></th>
+<th><strong>Meaning</strong></th>
+<th><strong>Source / vocabulary</strong></th>
+<th><strong>Notes / extensibility</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>customer.nationality</code></td>
+<td>ISO 3166-1 country codes</td>
+<td>Identifies the nationality of the customer.</td>
+<td>ISO 3166-1</td>
+<td>Alpha-2 representation is RECOMMENDED unless the ecosystem profile specifies otherwise.</td>
+</tr>
+<tr>
+<td><code>organization.country</code></td>
+<td>ISO 3166-1 country codes</td>
+<td>Identifies the country of registration or operation of the ferry operator.</td>
+<td>ISO 3166-1</td>
+<td>Alpha-2 representation is RECOMMENDED.</td>
+</tr>
+<tr>
+<td><code>loyalty_card.issue_date</code></td>
+<td>ISO 8601 date</td>
+<td>Date on which the loyalty card was issued.</td>
+<td>ISO 8601</td>
+<td>Date-only format SHOULD be used.</td>
+</tr>
+<tr>
+<td><code>credential.issuance_date</code></td>
+<td>ISO 8601 date</td>
+<td>Date on which the credential was issued.</td>
+<td>ISO 8601</td>
+<td>Date-only format SHOULD be used.</td>
+</tr>
+<tr>
+<td><code>credential.expiry_date</code></td>
+<td>ISO 8601 date</td>
+<td>Date after which the credential SHALL NOT be accepted.</td>
+<td>ISO 8601</td>
+<td>Date-only format SHOULD be used.</td>
+</tr>
+<tr>
+<td><code>customer.birth_date</code></td>
+<td>ISO 8601 date</td>
+<td>Customer date of birth.</td>
+<td>ISO 8601</td>
+<td>Date-only format SHOULD be used.</td>
+</tr>
+<tr>
+<td><code>customer.email</code></td>
+<td>Valid email address syntax</td>
+<td>Customer email address.</td>
+<td>RFC 5322</td>
+<td>Verifiers SHALL NOT request this attribute unless needed for the specific interaction.</td>
+</tr>
+<tr>
+<td><code>attestation_legal_category</code></td>
+<td><code>non-qualified-EAA</code>, <code>QEAA</code>, <code>PuB-EAA</code></td>
+<td>Indicates the legal category of the attestation.</td>
+<td>ARF Topic 12 / Rulebook template</td>
+<td>This Rulebook uses <code>non-qualified-EAA</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="45-integrity-rules">4.5 Integrity rules</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Rule ID</strong></th>
+<th><strong>Rule statement</strong></th>
+<th><strong>Why it exists</strong></th>
+<th><strong>Where enforced</strong></th>
+<th><strong>Verifier / issuer behavior on failure</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LC-IR-01</code></td>
+<td><code>loyalty_card.id</code> MUST be unique per issuer.</td>
+<td>Enables unambiguous identification of the loyalty-card record.</td>
+<td>Issuer business rules and verifier business validation.</td>
+<td>Issuer SHALL prevent duplicate active card identifiers. Verifier MAY reject duplicated identifiers if detected.</td>
+</tr>
+<tr>
+<td><code>LC-IR-02</code></td>
+<td>If <code>credential.expiry_date</code> is present, it MUST be later than <code>credential.issuance_date</code>.</td>
+<td>Prevents temporally invalid credentials.</td>
+<td>Issuer business rules, schema validation, verifier business validation.</td>
+<td>Issuer SHALL reject invalid validity periods. Verifier SHALL reject credentials with invalid validity periods.</td>
+</tr>
+<tr>
+<td><code>LC-IR-03</code></td>
+<td>Expired loyalty cards SHALL NOT be accepted.</td>
+<td>Ensures that relying parties do not provide benefits or services based on expired membership.</td>
+<td>Verifier freshness checks and business validation.</td>
+<td>Verifier SHALL reject the attestation if the credential is expired.</td>
+</tr>
+<tr>
+<td><code>LC-IR-04</code></td>
+<td>The attestation SHALL refer to a single loyalty-card record and a single issuing organisation.</td>
+<td>Prevents ambiguous membership claims.</td>
+<td>Issuer business rules and verifier business validation.</td>
+<td>Issuer SHALL reject ambiguous source data. Verifier SHALL reject the attestation if issuer or organisation data is inconsistent.</td>
+</tr>
+<tr>
+<td><code>LC-IR-05</code></td>
+<td>Optional contact and address attributes SHALL be requested and disclosed only where required for the specific service interaction.</td>
+<td>Supports data minimisation and selective disclosure.</td>
+<td>Wallet presentation policy, verifier request policy, and relying-party business rules.</td>
+<td>Verifier SHALL NOT require unnecessary optional attributes. Wallet SHOULD allow the Holder to review and consent to disclosure.</td>
+</tr>
+<tr>
+<td><code>LC-IR-06</code></td>
+<td>Where identity matching is required, <code>customer.first_name</code> and <code>customer.last_name</code> SHOULD be compared with PID or another accepted identity source.</td>
+<td>Ensures that the presenter is the customer to whom the loyalty card applies.</td>
+<td>Relying Party business validation.</td>
+<td>Verifier SHOULD reject the transaction where required identity matching fails.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="5-formats">5 Formats</h2>
+<h3 id="51-sd-jwt-vc-based-encoding">5.1 SD-JWT VC-based encoding</h3>
+<p>The Ferry Loyalty Card Attestation SHALL be issued as an SD-JWT VC.</p>
+<p>The Verifiable Credential Type (<code>vct</code>) for this attestation type is:</p>
+<pre><code class="language-text">urn:eu.europa.ec.eudi:ferry_loyalty_card:1
+</code></pre>
+<p>The credential claims defined in this section SHALL follow SD-JWT VC and HAIP conventions where applicable. Claim names are either IANA-registered JWT claims, public names, or private names specific to this attestation type.</p>
+<p>For all claims, this Rulebook specifies whether an Attestation Provider MUST, MAY, or MUST NOT make the claim selectively disclosable.</p>
+<h4 id="511-iana-registered-and-standard-jwt-sd-jwt-vc-claims">5.1.1 IANA-registered and standard JWT / SD-JWT VC claims</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute identifier</strong></th>
+<th><strong>Encoding format</strong></th>
+<th><strong>Reference/Notes</strong></th>
+<th><strong>Disclosable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>iss</code></td>
+<td><code>iss</code></td>
+<td>string</td>
+<td>JWT issuer identifier.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>iat</code></td>
+<td><code>iat</code></td>
+<td>integer</td>
+<td>Issued-at timestamp.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>nbf</code></td>
+<td><code>nbf</code></td>
+<td>integer</td>
+<td>Not-before timestamp, where used.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>exp</code></td>
+<td><code>exp</code></td>
+<td>integer</td>
+<td>Expiration timestamp, where used. SHOULD correspond to or not exceed <code>credential.expiry_date</code> where that attribute is present.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>jti</code></td>
+<td><code>jti</code></td>
+<td>string</td>
+<td>Unique credential instance identifier, where used.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>cnf</code></td>
+<td><code>cnf</code></td>
+<td>object</td>
+<td>Holder binding confirmation claim, where used.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>status</code></td>
+<td>object</td>
+<td>Status or revocation information, where used.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>vct</code></td>
+<td><code>vct</code></td>
+<td>string</td>
+<td>SD-JWT VC type. Value SHALL be <code>urn:eu.europa.ec.eudi:ferry_loyalty_card:1</code>.</td>
+<td>MUST NOT</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="512-public-or-reusable-claims">5.1.2 Public or reusable claims</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute identifier</strong></th>
+<th><strong>Encoding format</strong></th>
+<th><strong>Reference/Notes</strong></th>
+<th><strong>Disclosable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>customer.first_name</code></td>
+<td><code>customer.first_name</code></td>
+<td>string</td>
+<td>Customer given name. May be mapped to OIDC <code>given_name</code> in implementations that use OIDC naming conventions.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><code>customer.last_name</code></td>
+<td><code>customer.last_name</code></td>
+<td>string</td>
+<td>Customer family name. May be mapped to OIDC <code>family_name</code> in implementations that use OIDC naming conventions.</td>
+<td>MUST</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="513-private-claims-specific-to-the-ferry-loyalty-card-attestation">5.1.3 Private claims specific to the Ferry Loyalty Card Attestation</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Data Identifier</strong></th>
+<th><strong>Attribute identifier</strong></th>
+<th><strong>Encoding format</strong></th>
+<th><strong>Notes</strong></th>
+<th><strong>Disclosable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>attestation_legal_category</code></td>
+<td><code>attestation_legal_category</code></td>
+<td>string</td>
+<td>SHALL be <code>non-qualified-EAA</code>.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>customer</code></td>
+<td><code>customer</code></td>
+<td>object</td>
+<td>Customer information object.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>customer.nationality</code></td>
+<td><code>nationality</code></td>
+<td>string</td>
+<td>Nationality of the customer, where disclosed.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><code>customer.birth_date</code></td>
+<td><code>birth_date</code></td>
+<td>string</td>
+<td>Customer date of birth, formatted as ISO 8601 date.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><code>customer.address</code></td>
+<td><code>address</code></td>
+<td>string</td>
+<td>Customer street address.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><code>customer.city</code></td>
+<td><code>city</code></td>
+<td>string</td>
+<td>City of residence.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><code>customer.zip_code</code></td>
+<td><code>zip_code</code></td>
+<td>string</td>
+<td>Postal code.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><code>customer.phone</code></td>
+<td><code>phone</code></td>
+<td>string</td>
+<td>Fixed phone number.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><code>customer.mobile</code></td>
+<td><code>mobile</code></td>
+<td>string</td>
+<td>Mobile phone number.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><code>customer.email</code></td>
+<td><code>email</code></td>
+<td>string</td>
+<td>Customer email address.</td>
+<td>MAY</td>
+</tr>
+<tr>
+<td><code>loyalty_card</code></td>
+<td><code>loyalty_card</code></td>
+<td>object</td>
+<td>Loyalty-card information object.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>loyalty_card.id</code></td>
+<td><code>id</code></td>
+<td>string</td>
+<td>Unique loyalty-card identifier.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><code>loyalty_card.issue_date</code></td>
+<td><code>issue_date</code></td>
+<td>string</td>
+<td>Date of issuance, formatted as ISO 8601 date.</td>
+<td>MUST</td>
+</tr>
+<tr>
+<td><code>organization</code></td>
+<td><code>organization</code></td>
+<td>object</td>
+<td>Issuing ferry operator information object.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>organization.name</code></td>
+<td><code>name</code></td>
+<td>string</td>
+<td>Ferry operator name.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>organization.id</code></td>
+<td><code>id</code></td>
+<td>string</td>
+<td>Ferry operator identifier.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>organization.country</code></td>
+<td><code>country</code></td>
+<td>string</td>
+<td>Country of registration or operation.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>credential</code></td>
+<td><code>credential</code></td>
+<td>object</td>
+<td>Credential metadata object defined by the attestation model.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>credential.type</code></td>
+<td><code>type</code></td>
+<td>string</td>
+<td>Credential type.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>credential.issuer</code></td>
+<td><code>issuer</code></td>
+<td>string</td>
+<td>Issuer of the credential.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>credential.issuance_date</code></td>
+<td><code>issuance_date</code></td>
+<td>string</td>
+<td>Issuance date, formatted as ISO 8601 date.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>credential.expiry_date</code></td>
+<td><code>expiry_date</code></td>
+<td>string</td>
+<td>Expiry date, where present.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>trust_anchor</code></td>
+<td><code>trust_anchor</code></td>
+<td>string</td>
+<td>Location or identifier of the trust anchor or trust framework entry used to verify issuer authorisation, where used.</td>
+<td>MUST NOT</td>
+</tr>
+<tr>
+<td><code>cryptographically_bound_to</code></td>
+<td><code>cryptographically_bound_to</code></td>
+<td>string</td>
+<td>Identifier of another attestation type to which this attestation is bound, where used.</td>
+<td>MUST NOT</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="514-example-jwt-claim-set">5.1.4 Example JWT claim set</h4>
+<pre><code class="language-json">{
+  &quot;iss&quot;: &quot;https://issuer.example-ferry.gr&quot;,
+  &quot;iat&quot;: 1767787200,
+  &quot;nbf&quot;: 1767787200,
+  &quot;exp&quot;: 1830859200,
+  &quot;jti&quot;: &quot;urn:uuid:ec622e9e-23f8-4c1d-9985-5c5b088caa11&quot;,
+  &quot;vct&quot;: &quot;urn:eu.europa.ec.eudi:ferry_loyalty_card:1&quot;,
+  &quot;attestation_legal_category&quot;: &quot;non-qualified-EAA&quot;,
+  &quot;customer&quot;: {
+    &quot;first_name&quot;: &quot;Nikos&quot;,
+    &quot;last_name&quot;: &quot;Triantafyllou&quot;,
+    &quot;nationality&quot;: &quot;GR&quot;,
+    &quot;birth_date&quot;: &quot;1985-04-12&quot;,
+    &quot;city&quot;: &quot;Athens&quot;,
+    &quot;email&quot;: &quot;nikos@example.com&quot;,
+    &quot;mobile&quot;: &quot;+306901234567&quot;
+  },
+  &quot;loyalty_card&quot;: {
+    &quot;id&quot;: &quot;LC-FAST-000123456&quot;,
+    &quot;issue_date&quot;: &quot;2026-01-07&quot;
+  },
+  &quot;organization&quot;: {
+    &quot;name&quot;: &quot;Fast Ferries S.A.&quot;,
+    &quot;id&quot;: &quot;GR-FAST-FERRIES&quot;,
+    &quot;country&quot;: &quot;GR&quot;
+  },
+  &quot;credential&quot;: {
+    &quot;type&quot;: &quot;FerryLoyaltyCardAttestation&quot;,
+    &quot;issuer&quot;: &quot;https://issuer.example-ferry.gr&quot;,
+    &quot;issuance_date&quot;: &quot;2026-01-07&quot;,
+    &quot;expiry_date&quot;: &quot;2028-01-07&quot;
+  },
+  &quot;trust_anchor&quot;: &quot;https://trust.example.eu/ferry/operators/fast-ferries&quot;,
+  &quot;cnf&quot;: {
+    &quot;jwk&quot;: {
+      &quot;kty&quot;: &quot;EC&quot;,
+      &quot;crv&quot;: &quot;P-256&quot;,
+      &quot;x&quot;: &quot;...&quot;,
+      &quot;y&quot;: &quot;...&quot;
+    }
+  },
+  &quot;status&quot;: {
+    &quot;status_list&quot;: {
+      &quot;idx&quot;: 12345,
+      &quot;uri&quot;: &quot;https://issuer.example-ferry.gr/status/loyalty-card-status-list.jwt&quot;
+    }
+  }
+}
+</code></pre>
+<h4 id="515-example-issued-sd-jwt">5.1.5 Example issued SD-JWT</h4>
+<p>The following is a non-normative placeholder example. A production SD-JWT SHALL be generated by the issuer using the applicable signing algorithm, disclosure construction, holder binding, and SD-JWT VC rules.</p>
+<pre><code class="language-text">&lt;issuer-signed-sd-jwt&gt;~&lt;disclosure-1&gt;~&lt;disclosure-2&gt;~&lt;disclosure-n&gt;~&lt;holder-binding-jwt&gt;
+</code></pre>
+<h4 id="516-example-human-readable-disclosed-payload">5.1.6 Example human-readable disclosed payload</h4>
+<p>A verifier that needs only to confirm loyalty-programme participation may receive a presentation disclosing the following claims:</p>
+<pre><code class="language-json">{
+  &quot;vct&quot;: &quot;urn:eu.europa.ec.eudi:ferry_loyalty_card:1&quot;,
+  &quot;customer&quot;: {
+    &quot;first_name&quot;: &quot;Nikos&quot;,
+    &quot;last_name&quot;: &quot;Triantafyllou&quot;
+  },
+  &quot;loyalty_card&quot;: {
+    &quot;id&quot;: &quot;LC-FAST-000123456&quot;,
+    &quot;issue_date&quot;: &quot;2026-01-07&quot;
+  },
+  &quot;organization&quot;: {
+    &quot;name&quot;: &quot;Fast Ferries S.A.&quot;,
+    &quot;id&quot;: &quot;GR-FAST-FERRIES&quot;,
+    &quot;country&quot;: &quot;GR&quot;
+  }
+}
+</code></pre>
+<p>A verifier that needs contact details for a customer-service interaction MAY request additional selectively disclosable claims such as <code>customer.email</code> or <code>customer.mobile</code>, provided those claims are necessary for the interaction and the Holder consents to disclosure.</p>
+<p>The issuer identity, credential type, expiry time, signature, holder binding proof, status information, and trust anchor information are not treated as selectively disclosable customer attributes and SHALL remain available to the verifier for technical validation.</p>
+<h3 id="52-isoiec-18013-5-compliant-encoding">5.2 ISO/IEC 18013-5-compliant encoding</h3>
+<p>This version of the Rulebook does not define an ISO/IEC 18013-5 mdoc encoding for the Ferry Loyalty Card Attestation.</p>
+<p>The Ferry Loyalty Card Attestation defined in this Rulebook is specified for SD-JWT VC-based issuance and presentation. If a future version of this Rulebook defines an ISO/IEC 18013-5-compliant mdoc representation, that version SHALL define a unique document type, namespaces, attribute identifiers, CBOR encoding rules, and illustrative mdoc examples.</p>
+<h3 id="53-w3c-verifiable-credentials-data-model-based-encoding">5.3 W3C Verifiable Credentials Data Model-based encoding</h3>
+<p>This version of the Rulebook does not define a W3C Verifiable Credentials Data Model encoding for the Ferry Loyalty Card Attestation.</p>
+<p>If a future version defines a W3C VCDM representation, that version SHALL define the credential context, type, credential subject structure, proof type, selective disclosure mechanism, and presentation requirements.</p>
+<h2 id="6-protocols">6 Protocols</h2>
+<p>This attestation is issued using OpenID for Verifiable Credential Issuance
+[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
+as profiled by [HAIP].</p>
+<h2 id="7-issuance">7 Issuance</h2>
+<h3 id="71-binding">7.1 Binding</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device-bound</td>
+<td>MAY</td>
+<td>EW-DM-12-038</td>
+</tr>
+<tr>
+<td>Cryptographically bound to</td>
+<td>none</td>
+<td>EW-DM-12-032</td>
+</tr>
+<tr>
+<td>Relying Party must also verify a PID</td>
+<td>no</td>
+<td>EW-DM-12-031</td>
+</tr>
+<tr>
+<td>Binding subject</td>
+<td>legal person</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="72-issuance-policy">7.2 Issuance Policy</h3>
+<p>The Ferry Loyalty Card Attestation is intended for verifying a customer's loyalty-programme membership and, where necessary, selected customer information.</p>
+<p>Typical usage scenarios include:</p>
+<ul>
+<li>presentation by the customer during online ferry booking;</li>
+<li>presentation at a ticket office or customer-service point;</li>
+<li>verification of loyalty-card membership for customer benefits or discounts;</li>
+<li>customer identification for service personalisation;</li>
+<li>controlled disclosure of optional contact or residency information where required for a specific service interaction;</li>
+<li>repeated presentation across multiple journeys, subject to validity and revocation checks.</li>
+</ul>
+<p>A Relying Party receiving the attestation SHALL verify:</p>
+<ul>
+<li>the issuer signature;</li>
+<li>the SD-JWT VC type (<code>vct</code>);</li>
+<li>the issuer authorisation to issue Ferry Loyalty Card Attestations;</li>
+<li>the credential validity period, where defined;</li>
+<li>the credential status, where a status mechanism is present;</li>
+<li>holder binding, where used;</li>
+<li>the integrity rules defined in Section 2.9;</li>
+<li>that the loyalty-card and organisation details match the service context.</li>
+</ul>
+<p>The Relying Party SHOULD request and verify PID or another accepted identity credential when the service requires stronger customer identity matching. In such cases, the Relying Party SHOULD compare the relevant identity attributes, such as customer name, with the Ferry Loyalty Card Attestation. The Relying Party SHALL apply data minimisation and SHALL request only the attributes required for the specific loyalty or customer-service decision.</p>
+<p>The attestation SHOULD be device-bound through holder binding where supported by the EUDI Wallet and the applicable SD-JWT VC profile. The attestation MAY be cryptographically bound to a PID or another accepted identity attestation where the relying-party process requires stronger customer identity matching. Where this binding is used, the metadata attribute <code>cryptographically_bound_to</code> SHOULD contain:</p>
+<pre><code class="language-text">urn:eudi:pid:1
+</code></pre>
+<p>No payment-specific transactional data is defined by this Rulebook. If the Ferry Loyalty Card Attestation is used as part of a transaction that also involves payment or discounts, payment-related requirements SHALL be defined in a separate payment attestation, payment profile, discount rulebook, or transaction-specific rulebook.</p>
+<h3 id="73-lifecycle-management">7.3 Lifecycle management</h3>
+<p>The issuer sets the validity period of the attestation and reissues it when the
+underlying facts change, revoking the superseded attestation as described in chapter 8.</p>
+<h3 id="74-embedded-disclosure-policy">7.4 Embedded disclosure policy</h3>
+<p>This attestation defines no embedded disclosure policy.</p>
+<h2 id="8-revocation">8 Revocation</h2>
+<p>The Ferry Loyalty Card Attestation is intended for repeated use and is typically longer-lived than a boarding pass.</p>
+<p>The credential SHALL be considered invalid when:</p>
+<ul>
+<li>the <code>credential.expiry_date</code> has been reached, where present;</li>
+<li>the technical expiry timestamp <code>exp</code> has been reached, where present;</li>
+<li>the credential has been revoked or suspended by the issuer;</li>
+<li>the underlying loyalty-card record has been cancelled, replaced, closed, or otherwise invalidated.</li>
+</ul>
+<p>Revocation SHOULD be supported for this attestation type because loyalty-card status may change before the declared expiry date.</p>
+<p>Revocation MAY be handled by one or more of the following mechanisms:</p>
+<ul>
+<li>an attestation status list mechanism, where supported;</li>
+<li>an attestation revocation list mechanism, where supported;</li>
+<li>backend verification by the ferry operator or authorised customer-management system;</li>
+<li>short or medium validity periods combined with re-issuance, where appropriate for the operational model.</li>
+</ul>
+<p>If a status or revocation mechanism is included in the credential, the Relying Party SHALL check the status before accepting the attestation, unless offline operating rules explicitly allow deferred status checking.</p>
+<p>If a loyalty card is cancelled, replaced, or suspended, the issuer SHOULD revoke or suspend the attestation or ensure that backend verification detects the invalid state.</p>
+<h2 id="9-presentation">9 Presentation</h2>
+<h3 id="91-presentation-policy">9.1 Presentation Policy</h3>
+<p>To verify and validate a received presentation of an attestation of this type, the
+following steps SHALL be performed:</p>
+<ol>
+<li>verify the signature over the attestation using a trust anchor obtained as
+   described in chapter 10;</li>
+<li>verify that the attestation is within its validity period;</li>
+<li>check revocation status as described in chapter 8, unless the attestation is
+   short-lived, or its remaining lifetime is below the revocation time threshold;</li>
+<li>verify device binding where section 7.1 records the attestation as device-bound;</li>
+<li>request only those attributes that are necessary for the stated purpose of the
+   transaction, and, where the trust model for this attestation requires Relying Party
+   registration, only those attributes it is registered and authorised to request.</li>
+</ol>
+<p>Obligations specific to this attestation type, carried over from the previous version
+of this Rulebook:</p>
+<h3 id="92-presentation-modes">9.2 Presentation modes</h3>
+<p>Remote presentation is in scope. Proximity presentation is in scope only where
+chapter 5 records an mdoc encoding.</p>
+<h3 id="93-transactional-data">9.3 Transactional data</h3>
+<p>This Rulebook defines no transactional data.</p>
+<h2 id="10-trust-framework">10 Trust Framework</h2>
+<p>A Relying Party SHALL verify that the issuer of the Ferry Loyalty Card Attestation is authorised to issue this attestation type.</p>
+<p>For non-qualified EAA deployments, the Relying Party SHOULD obtain trust anchor information through one or more of the following mechanisms:</p>
+<ul>
+<li>a machine-readable trust list or trust registry used by the relevant ecosystem;</li>
+<li>an issuer metadata endpoint published by the ferry operator or authorised customer-management system;</li>
+<li>a trust framework entry managed by the WE BUILD ecosystem or by another authorised governance body;</li>
+<li>a pilot trust list used for controlled interoperability testing.</li>
+</ul>
+<p>Where the metadata attribute <code>trust_anchor</code> is present, it SHOULD identify the location or registry entry from which the Relying Party can obtain the issuer trust anchor or issuer authorisation information.</p>
+<p>The Relying Party SHALL use the trust anchor to verify that:</p>
+<ul>
+<li>the issuer signing key or certificate chains to a trusted authority or registered trust anchor;</li>
+<li>the issuer is authorised to issue the <code>urn:eu.europa.ec.eudi:ferry_loyalty_card:1</code> attestation type;</li>
+<li>the issuer metadata or trust framework entry has not expired or been revoked;</li>
+<li>the issuer identity in the credential is consistent with the issuer identity in the trust framework;</li>
+<li>the organisation information disclosed in the credential is consistent with the issuer's authorisation scope.</li>
+</ul>
+<p>Wallet Units MAY also use the same trust framework information during issuance to determine whether the provider is authorised to issue this attestation type.</p>
+<p><strong>Trust anchor location</strong></p>
+<p>The attribute or metadata carrying the trust anchor location contains at least the URL
+at which a machine-readable version can be found or looked up.</p>
+<h2 id="11-references">11 References</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th><strong>Item Reference</strong></th>
+<th><strong>Standard name/details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[European Digital Identity Regulation]</td>
+<td><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183">Regulation (EU) 2024/1183</a> of the European Parliament and of the Council of 11 April 2024 amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework</td>
+</tr>
+<tr>
+<td>[HAIP]</td>
+<td>Yasuda, K. <em>et al,</em> OpenID4VC High Assurance Interoperability Profile, OpenID Foundation</td>
+</tr>
+<tr>
+<td>[IANA-JWT-Claims]</td>
+<td>IANA JSON Web Token Claims Registry. Available: <a href="https://www.iana.org/assignments/jwt/jwt.xhtml">https://www.iana.org/assignments/jwt/jwt.xhtml</a></td>
+</tr>
+<tr>
+<td>[ISO/IEC 18013-5]</td>
+<td>ISO/IEC 18013-5, Personal identification --- ISO-compliant driving licence - Part 5: Mobile driving licence application</td>
+</tr>
+<tr>
+<td>[OIDC]</td>
+<td>Sakimura, N. et al., OpenID Connect Core 1.0, OpenID Foundation. Available: <a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a></td>
+</tr>
+<tr>
+<td>[RFC 2119]</td>
+<td>RFC 2119 - Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997</td>
+</tr>
+<tr>
+<td>[RFC 3339]</td>
+<td>RFC 3339 - Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002</td>
+</tr>
+<tr>
+<td>[RFC 5322]</td>
+<td>RFC 5322 - Internet Message Format, P. Resnick, October 2008</td>
+</tr>
+<tr>
+<td>[RFC 8610]</td>
+<td>RFC 8610 - Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation, H. Birkholz et al., June 2019</td>
+</tr>
+<tr>
+<td>[RFC 8943]</td>
+<td>RFC 8943 - Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020</td>
+</tr>
+<tr>
+<td>[RFC 8949]</td>
+<td>RFC 8949 - Concise Data Definition Language / CBOR-related references used by the template</td>
+</tr>
+<tr>
+<td>[SD-JWT VC]</td>
+<td>SD-JWT-based Verifiable Credentials. Available: <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/">https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/</a></td>
+</tr>
+<tr>
+<td>[Topic 7]</td>
+<td>ARF Annex 2 - Topic 7 - Attestation revocation and revocation checking</td>
+</tr>
+<tr>
+<td>[Topic 10]</td>
+<td>ARF Annex 2 - Topic 10 - Issuing a PID or attestation to a Wallet Unit</td>
+</tr>
+<tr>
+<td>[Topic 12]</td>
+<td>ARF Annex 2 - Topic 12 - Attestation Rulebooks</td>
+</tr>
+<tr>
+<td>[Topic 20]</td>
+<td>ARF Annex 2 - Strong User authentication for electronic payments</td>
+</tr>
+<tr>
+<td>[W3C VCDM v2.0]</td>
+<td>Verifiable Credentials Data Model v2.0, W3C Recommendation</td>
+</tr>
+</tbody>
+</table></div>
+  </article>
+</div>
+
+<footer class="foot">
+  <div class="foot-band">
+    <div class="foot-inner">
+      <a class="foot-logolink" href="https://www.webuildconsortium.eu/" target="_blank" rel="noopener"><img class="foot-logo" src="../assets/logo.svg" alt="WE BUILD Consortium" height="56"></a>
+      <img class="foot-eu" src="../assets/logo-eu.svg" alt="Co-funded by the European Union" height="46">
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="foot-inner">
+      <span class="copyright">&copy; Copyright 2026 WE BUILD Consortium. All Rights Reserved.</span>
+      <span class="gen">Rendered from <a href="https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-loyalty-card/README.md" target="_blank" rel="noopener">the rulebook</a> in this repository.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* the chapter list is open beside the text, and out of the way on a phone */
+(function () {
+  var box = document.querySelector(".doc-chapters");
+  if (box && window.matchMedia("(max-width: 860px)").matches) box.open = false;
+}());
+</script>
+
+</body>
+</html>
