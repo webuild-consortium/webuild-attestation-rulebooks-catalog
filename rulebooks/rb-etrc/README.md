@@ -147,7 +147,7 @@ the value "QEAA" or "PuB-EAA".*
 
 ````
 etrc
-├─ reference number                        [1]       (Number of the document)
+├─ reference_number                        [1]       (Number of the document)
 ├─ entity                                  [1]       (entity that owns the etrc)
 │   ├─ name                                [1]    
 │   ├─ tax_identification_number           [1]       (tax identification number)
@@ -194,18 +194,30 @@ etrc
 
 
 
-### 2. Attributes
-
-### 2.1 Entity
+### 3.2 Mandatory attributes
 
 | data identifier                | Semantic Reference                          | Definition                              | Data Type       | Example Value      |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
-| name  | [legalName](https://w3id.org/ebwv#legalName) | Name of the entity     | String           | Siemens AG        |
-| tax_identification_number       | [identifier](https://w3id.org/ebwv#identifier)   | tax identification number    | String           | 012345678-9        |
-| tax_identification_number_type                | Semantics: Needs property in separate "Identifier" class, but unclear if this is going to be introduced <br> type of identifier                          | class type | string       | legalIdentifier |
+| reference_number  |  | Reference number of the document    | String           | TRC2026-XYZ        |
+| entity  |  |     | object           |         |
+| natural_person  |  |    | object           |         |
+| validity_period  |  |    | object           |         |
+| treaty  |  |     | object           |         |
+| address  |  |     | object           |         |
+| issuer  |  |     | object           |         |
 
 
-### 2.2 Validity Period
+
+### 3.3 Mandatory Entity attributes
+
+| data identifier                | Semantic Reference                          | Definition                              | Data Type       | Example Value      |
+|--------|----------|--------------------------------------------------------------------------|------------|--------------|
+| Entity.name  | [legalName](https://w3id.org/ebwv#legalName) | Name of the entity     | String           | Siemens AG        |
+| Entity.tax_identification_number       | [identifier](https://w3id.org/ebwv#identifier)   | tax identification number    | String           | 012345678-9        |
+| Entity.tax_identification_number_type                | Semantics: Needs property in separate "Identifier" class, but unclear if this is going to be introduced <br> type of identifier                          | class type | string       | legalIdentifier |
+
+
+### 3.4 Validity Period
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -215,7 +227,7 @@ etrc
 | remark            | Either reuse of [qualificationNote](http://w3id.org/ebwv#qualificationNote) <br> or a separate "remark" property? |  Legal remark           | Legal remark           | ...  |
 
 
-### 2.3 Relevant Double Tax Treaty 
+### 3.5 Relevant Double Tax Treaty 
 
 | data identifier                | Semantic Reference                          | Definition                              | Data Type       | Example Value      |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -225,7 +237,7 @@ etrc
 | remark          |        | legal remark | string        | ..|
 
 
-#### 2.4 Person
+### 3.6 Person
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|---------------------------------------------------------------|------------|--------------|
@@ -237,7 +249,7 @@ etrc
 | tax_identification_number_type. | No solution yet in EBWV, but Identifier class could solve this <br> type if number | tax identification number | tstr | 123456782 |
 
 
-### 2.5 Address optional
+### 3.7 Address optional
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -249,8 +261,8 @@ etrc
 | address.admin_unit_L1 | [registeredAddress](https://w3id.org/ebwv#registeredAddress).[adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | First-level administrative division (e.g., province, state); optional | tstr | North Holland |
 | address.admin_unit_L2 | [registeredAddress](https://w3id.org/ebwv#registeredAddress).[adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | Second-level administrative division (e.g., district, municipality); optional | tstr | Amsterdam Municipality
 
-### 2.6 Mandatory metadata
-#### 2.6.1 Mandatory metadata 
+### 3.8 Mandatory metadata
+#### 3.8.1 Mandatory metadata 
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -263,7 +275,7 @@ etrc
 | issuer.attestation_expiry_date | [cred:validUntil] <br> exp | The date the attestation was issued | Number (Unix timestamp) | |
 
 
-#### 2.6.2 Optional metadata
+#### 3.8.2 Optional metadata
 
 | **Data Identifier** |**Semantic Reference** | **Definition** | **Data type** | **Example value** | 
 |--------|----------|--------------------------------------------------------------------------|------------|--------------|
@@ -271,25 +283,6 @@ etrc
 | trust_anchor         | [cred:termsOfUse] <br> trustAnchor| This meta-data attribute indicates at least the URL at which a machine‑readable version of the trust anchor to be used for verifying the etrc can be found or looked up. This corresponds to Annex V/VII point h) of the [European Digital Identity Regulation] and EBW Article 8 issuance as EAA/QEAA.  |tstr||
 
 
-
-### 2.7 Code lists
-
-*Use this section for controlled vocabularies, enumerations, value sets, or external catalogues
-that are necessary to interpret one or more attributes or metadata items. Definitions may be reused
-from the attestation description or other use-case documentation and refined here where needed.*
-
-*For each code list, authors SHOULD state the field to which it applies, the allowed values, their
-meaning, the source vocabulary or reference, and any extensibility rule or governance note.*
-
-| **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
-|----------------|--------------------|-------------|--------------------------|---------------------------|
-| *Provide a field name* | *List the allowed values* | *Explain what each value means* | *Reference the source* | *State whether extensions are allowed* |
-
-> Example
->
-> | **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
-> |----------------|--------------------|-------------|--------------------------|---------------------------|
-> | `signatory_rule` | `sole`, `joint` | Indicates whether the representative may bind the organisation alone or only together with one or more additional representatives | EUCC attestation description / WE BUILD company representation model | Additional values SHOULD only be introduced if they are defined consistently across issuer and verifier implementations |
 
 ### 2.8 Integrity rules
 
@@ -300,22 +293,6 @@ meaning, the source vocabulary or reference, and any extensibility rule or gover
 | VP1 | validity_Period.end_Date' <= 'issuer.issuance_date' | Validity period ends at issuance date | The etrc may not be given for the future|
 | VP2 | 'validity_period.start_date' >= previous year's first date || == tax year's start date ; 
 
-using namespace std::chrono;   const auto today = floor<days>(system_clock::now());
-    const year_month_day ymd{today};
-    const year_month_day start_prev_year{
-        (ymd.year() - years{1}) / January / 1
-    }; | Validity periods can start from the 1st day of the previous calendar or tax year|
-
-
-| **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
-|-------------|--------------------|-------------------|--------------------|-------------------------------------------|
-| *Provide a rule identifier* | *State the rule precisely* | *Explain the rationale* | *Issuer, verifier, schema validation, or business process* | *Describe rejection, warning, or remediation behavior* |
-
-> Example
->
-> | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
-> |-------------|--------------------|-------------------|--------------------|-------------------------------------------|
-> | `IR-01` | If `legal_representative.natural_person` is present, `full_name` and `date_of_birth` SHALL be present. If `legal_representative.legal_person` is present, `name`, `id`, and `legal_form_type` SHALL be present. | Prevents incomplete representation statements and ensures that a relying party can determine whether the representative is a natural person or a legal person and validate the representation data accordingly. | Issuer business rules, schema validation, and verifier business validation. | Issuer SHALL reject incomplete representative data; verifier SHALL treat the representation information as invalid or insufficient for the transaction. |
 
 # 3 Attestation encoding
 
