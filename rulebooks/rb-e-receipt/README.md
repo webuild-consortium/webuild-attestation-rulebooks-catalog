@@ -277,7 +277,7 @@ The machine-readable schema artefact for this attestation is:
 | `verifications[].type` | EMV / OCMF / EPC SCT/SCT-INST | Standard of the technical proof carried in `verifications[]`: EMV for card authorisation cryptograms; OCMF for charge-metering proofs; SCT or SCT-INST for SEPA credit transfer (account-to-account). The EMV cryptogram itself (the AC and its cryptogramType ARQC) is carried in `payments[].attributes`, not here. The type-specific fields below apply only for the named type. | tstr | `"EMV"` |
 | `verifications[].version` | Verification profile (per `verifications[].type`) | Version of the verification schema used. | tstr | `"1.0"` |
 | `verifications[].public_key` | Verification profile (per `verifications[].type`) | Public key used for transaction signing, base64url-encoded. | tstr | `"MIIBIjANBg…"` |
-| `verifications[].transactionId` | Verification profile (per `verifications[].type`) | Unique identifier of the underlying payment transaction, as assigned by the PSP or payment scheme. When `payments[].attributes.transactionId` is also present, both SHALL identify the same payment transaction. | tstr | `"T-20260423-000871"` |
+| `verifications[].transaction_id` | Verification profile (per `verifications[].type`) | Unique identifier of the underlying payment transaction, as assigned by the PSP or payment scheme. When `payments[].attributes.transactionId` is also present, both SHALL identify the same payment transaction. | tstr | `"T-20260423-000871"` |
 
 ### 3.3 Optional attributes
 
@@ -419,6 +419,8 @@ Versioning of the `vct` follows the `x.y` model:
 - **Minor version (y):** backward-compatible changes, such as adding optional attributes, display claims, or new languages.
 - **Major version (x):** breaking changes, such as removing or renaming claims, or changes to mandatory fields.
 
+**Recorded exception.** In September 2026 (revision 2.1 of this Rulebook) the eReceipt-specific claim names were changed from camelCase to snake_case, for example `receiptNumber` to `receipt_number`, with no change in meaning. Under the rule above this is a major change; it was nevertheless made under `eu.we-build.ereceipt.1` and the major version was not increased. An implementation built against revision 2.0 needs to adopt the names in this section; the `vct` does not distinguish the two revisions. The keys inside `payments[].attributes` were not renamed.
+
 Every claim name used in an eReceipt SHALL fall into one of three groups: (a) an IANA-registered JWT claim (Section 3.2.1), (b) a publicly-defined name reused from another specification such as OpenID Connect or SD-JWT VC (Section 3.2.2), or (c) a private name defined specifically for the eReceipt attestation in this Rulebook (Section 3.2.3).
 
 For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NOT make the claim selectively disclosable. Issuers SHALL also publish a Type Metadata Document for the eReceipt attestation type (as defined in Section 4 of [SD-JWT VC]), and the Type Metadata Document SHALL include Claim Selective Disclosure Metadata that matches the "Disclosable" column in the tables below.
@@ -507,7 +509,7 @@ For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NO
 | `verifications[].type` | `type` | string | Section 2.2 | MUST NOT |
 | `verifications[].version` | `version` | string | Section 2.2 | MUST NOT |
 | `verifications[].public_key` | `public_key` | string | Section 2.2 | MUST NOT |
-| `verifications[].transactionId` | `transactionId` | string | Section 2.2 | MUST NOT |
+| `verifications[].transaction_id` | `transaction_id` | string | Section 2.2 | MUST NOT |
 | `verifications[].current_type` | `current_type` | string | Section 2.2 | MUST NOT |
 | `verifications[].transaction_begin` | `transaction_begin` | object | Section 2.4 (conditional) | MUST NOT |
 | `verifications[].transaction_end` | `transaction_end` | object | Section 2.2 | MUST NOT |
@@ -554,7 +556,14 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
   "iat": 1745402075,
   "exp": 1761127275,
   "vct": "eu.we-build.ereceipt.1",
-  "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "…",
+      "y": "…"
+    }
+  },
   "attestation_legal_category": "non-qualified-EAA",
   "type": "PURCHASE",
   "receipt_number": "R-2026-04-23-000412",
@@ -595,7 +604,10 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
           "total_amount_inc_vat": 700
         }
       ],
-      "categorization": { "category": "F&B", "department": "Café" }
+      "categorization": {
+        "category": "F&B",
+        "department": "Café"
+      }
     },
     {
       "name": "Sandwich",
@@ -641,10 +653,15 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
       "type": "EMV",
       "version": "1.0",
       "public_key": "MIIBIjANBg…",
-      "transactionId": "T-20260423-000871"
+      "transaction_id": "T-20260423-000871"
     }
   ],
-  "status": { "status_list": { "idx": 17, "uri": "https://issuer.merchant.example/status/v1" } }
+  "status": {
+    "status_list": {
+      "idx": 17,
+      "uri": "https://issuer.merchant.example/status/v1"
+    }
+  }
 }
 ```
 
@@ -653,10 +670,20 @@ In the issued SD-JWT, the disclosable claims listed in Section 3.2.3 are wrapped
 The full issued SD-JWT for the example above (`typ` `dc+sd-jwt`): a base64url JWS followed by eleven Disclosures, tilde-separated.
 
 ```
-eyJhbGciOiJFUzI1NiIsInR5cCI6ImRjK3NkLWp3dCIsImtpZCI6ImFjbWUtZXJlY2VpcHQta2V5LTEifQ.eyJpc3MiOiJodHRwczovL2lzc3Vlci5tZXJjaGFudC5leGFtcGxlIiwiaWF0IjoxNzQ1NDAyMDc1LCJleHAiOjE3NjExMjcyNzUsInZjdCI6ImV1LndlLWJ1aWxkLmVyZWNlaXB0LjEiLCJjbmYiOnsiandrIjp7Imt0eSI6IkVDIiwiY3J2IjoiUC0yNTYiLCJ4IjoiTThMaVFEckJ6LXU2Y2NMZUc0TlczbnBNRHlXc2plcHZQdWJuWWFrbmtLZyIsInkiOiJPNnZUMUFqR3RyeG16Qmg3V25VbFYycDJXN0lKbHVXYTFzdy0zN1ZHTlhVIn19LCJhdHRlc3RhdGlvbl9sZWdhbF9jYXRlZ29yeSI6Im5vbi1xdWFsaWZpZWQtRUFBIiwidmVyaWZpY2F0aW9ucyI6W3sidHlwZSI6IkVNViIsInZlcnNpb24iOiIxLjAiLCJwdWJsaWNLZXkiOiJNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QSIsInRyYW5zYWN0aW9uSWQiOiJULTIwMjYwNDIzLTAwMDg3MSJ9XSwic3RhdHVzIjp7InN0YXR1c19saXN0Ijp7ImlkeCI6MTcsInVyaSI6Imh0dHBzOi8vaXNzdWVyLm1lcmNoYW50LmV4YW1wbGUvc3RhdHVzL3YxIn19LCJfc2QiOlsiNC05MmZUM0pyc0djNDRQdEtMUVFCNEJuZ19LQjFaRFBESXlLVDRzd3RmdyIsIjdHWkMxNWtSbHdPZUhqSUU3V182Nng5ci1lZ0dvY0dvSU9ydlJ0Vm4wSkEiLCI5NklhTnFPbU5vUGJkTE9uWG1YUTItWW1wSkNiUXFMREFlZXVkTTkzTGJvIiwiRVdKd3dsY3YtaWJRMHZxdEtPa0JQbVBEakx3VG1tNlByWlpmT3lDeVlBbyIsIktXQklEaTY1OVExdUp6dl9IYVBBQUZHRTM4TGp6UmV6T09pTW0tcmoxX28iLCJNbmFSdkpjbWhxX1hTNHVnLUhfVWpsbGtTT1VmY2dqQkZ5MjhEVUpmdHBrIiwiT3NaS1lUODhqbGtIbXBzLUh6NjhWZnZtam50NHI0VjR5Vnp2T3hpR0dyUSIsIlJwa0lwV2RKWGJ6SWdKbVhwcFdlWVR5bDNTOWVHRmJxdHQ2WUhZRkNnNWMiLCJTVTVoV3lxV2dHNFduX0FQU3YtemY0dUdUb2xSdjlKaC05amg2dEdJNGRvIiwiY0xfeXFwVTV6N2dOQ2Fpa2xGbS1wTzU2Y3I1ZzZQMl85N1VUTjYwTV9XayIsInNlMFU4ZzE5UjhfRVNCeG40Qnp3QWpPTFdSbm5hYmt2OFAtYjRfTVF5TG8iXSwiX3NkX2FsZyI6InNoYS0yNTYifQ.q7gy-ARToyFFjfLpR4DWxGLMegyYG-8o6JipFnlr6YjFjE7dCYBWMJ2kN1fCjwZtK06gR_yYj6OSHSV8c6bQoQ~WyJGMGJJdDR2QTNxTTRqLXJlQVpiaml3IiwgInR5cGUiLCAiUFVSQ0hBU0UiXQ~WyJ1LWRKbERDMjFzRGZ0WVI1RmROakZ3IiwgInJlY2VpcHROdW1iZXIiLCAiUi0yMDI2LTA0LTIzLTAwMDQxMiJd~WyJHTEZrVm1EcEJfeHJYcFUtZDJ5eEFBIiwgInJlY2VpcHRUaW1lU3RhbXAiLCAiMjAyNi0wNC0yM1QxMDoxNDozMloiXQ~WyJVemtXamNDczZ4eTI5dmozejVHd29nIiwgImN1cnJlbmN5SVNPQ29kZSIsICJFVVIiXQ~WyJGZDFMM2JTYXg2UXJ3bFpjcHF6eTVRIiwgInRvdGFsUHJpY2VFeGNWQVQiLCA0MjUwXQ~WyJzT2JVbXJIcXc0Uy0yU1Z6aVZuQTBRIiwgInRvdGFsVkFUQW1vdW50IiwgMTAyMF0~WyJwOFpHYW14WE9hME5QTlRlSU4xNGJRIiwgInRvdGFsUHJpY2VJbmNWQVQiLCA1MjcwXQ~WyJyZWJpUkxHUk00WWo1dkhtclhDRWJnIiwgIm1lcmNoYW50IiwgeyJuYW1lIjogIkFjbWUgUmV0YWlsIE95IiwgImNvbXBhbnlJRCI6ICJGSTEyMzQ1Njc4IiwgImJyYW5jaCI6IHsiaWQiOiAiQlItSEVMLTAwMSIsICJwb3NJZCI6ICJQT1MtMTIiLCAibmFtZSI6ICJBY21lIEhlbHNpbmtpIENlbnRyZSIsICJzdWJOYW1lIjogIkNhZlx1MDBlOSJ9LCAiYWRkcmVzcyI6IHsic3RyZWV0QWRkcmVzcyI6ICJNYW5uZXJoZWltaW50aWUgMTAiLCAiY2l0eSI6ICJIZWxzaW5raSIsICJ6aXBDb2RlIjogIjAwMTAwIiwgImNvdW50cnkiOiAiRkkifX1d~WyJTOXh5bmJrU0JTaDR2bkJwbnF3MTZ3IiwgInByb2R1Y3RzIiwgW3sibmFtZSI6ICJFc3ByZXNzbyIsICJxdWFudGl0eSI6ICIyIiwgInF1YW50aXR5Q29kZSI6ICJIODciLCAidW5pdFByaWNlSW5jVkFUIjogMzUwLCAidG90YWxBbW91bnRFeGNWQVQiOiA1NjUsICJ0b3RhbEFtb3VudEluY1ZBVCI6IDcwMCwgInZhdHMiOiBbeyJWQVRSYXRlIjogIjI0IiwgIlZBVEFtb3VudCI6IDEzNSwgInRvdGFsQW1vdW50RXhjVkFUIjogNTY1LCAidG90YWxBbW91bnRJbmNWQVQiOiA3MDB9XSwgImNhdGVnb3JpemF0aW9uIjogeyJjYXRlZ29yeSI6ICJGJkIiLCAiZGVwYXJ0bWVudCI6ICJDYWZcdTAwZTkifX0sIHsibmFtZSI6ICJTYW5kd2ljaCIsICJxdWFudGl0eSI6ICIxIiwgInF1YW50aXR5Q29kZSI6ICJIODciLCAidW5pdFByaWNlSW5jVkFUIjogNDU3MCwgInRvdGFsQW1vdW50RXhjVkFUIjogMzY4NSwgInRvdGFsQW1vdW50SW5jVkFUIjogNDU3MCwgInZhdHMiOiBbeyJWQVRSYXRlIjogIjI0IiwgIlZBVEFtb3VudCI6IDg4NSwgInRvdGFsQW1vdW50RXhjVkFUIjogMzY4NSwgInRvdGFsQW1vdW50SW5jVkFUIjogNDU3MH1dfV1d~WyJKNUkxMkRmU3lUSUtiWkUtMkhIRDNnIiwgInZhdHMiLCBbeyJWQVRSYXRlIjogIjI0IiwgInRvdGFsVkFUQW1vdW50IjogMTAyMCwgInRvdGFsQW1vdW50RXhjVkFUIjogNDI1MCwgInRvdGFsQW1vdW50SW5jVkFUIjogNTI3MCwgIlZBVENvZGUiOiAiUyJ9XV0~WyJOYjRXb1NpejRaTzVMNDNNbkZOelpnIiwgInBheW1lbnRzIiwgW3sidHlwZSI6ICJDQVJEIiwgImFtb3VudCI6IDUyNzAsICJhdHRyaWJ1dGVzIjogeyJBSUQiOiAiQTAwMDAwMDAwMzEwMTAiLCAibWFza2VkUEFOIjogIjQxMTExMSoqKioqKjExMTEiLCAiYXV0aG9yaXphdGlvbkNvZGUiOiAiQUIxMkNEIiwgInRlcm1pbmFsSWQiOiAiUE9TLTEyIiwgInRyYW5zYWN0aW9uSWQiOiAiVC0yMDI2MDQyMy0wMDA4NzEifX1dXQ~
+eyJhbGciOiJFUzI1NiIsInR5cCI6ImRjK3NkLWp3dCIsImtpZCI6ImFjbWUtZXJlY2VpcHQta2V5LTIifQ.eyJpc3MiOiAiaHR0cHM6Ly9pc3N1ZXIubWVyY2hhbnQuZXhhbXBsZSIsICJpYXQiOiAxNzQ1NDAyMDc1LCAiZXhwIjogMTc2MTEyNzI3NSwgInZjdCI6ICJldS53ZS1idWlsZC5lcmVjZWlwdC4xIiwgImNuZiI6IHsiandrIjogeyJrdHkiOiAiRUMiLCAiY3J2IjogIlAtMjU2IiwgIngiOiAiTThMaVFEckJ6LXU2Y2NMZUc0TlczbnBNRHlXc2plcHZQdWJuWWFrbmtLZyIsICJ5IjogIk82dlQxQWpHdHJ4bXpCaDdXblVsVjJwMlc3SUpsdVdhMXN3LTM3VkdOWFUifX0sICJhdHRlc3RhdGlvbl9sZWdhbF9jYXRlZ29yeSI6ICJub24tcXVhbGlmaWVkLUVBQSIsICJ2ZXJpZmljYXRpb25zIjogW3sidHlwZSI6ICJFTVYiLCAidmVyc2lvbiI6ICIxLjAiLCAicHVibGljX2tleSI6ICJNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QSIsICJ0cmFuc2FjdGlvbl9pZCI6ICJULTIwMjYwNDIzLTAwMDg3MSJ9XSwgInN0YXR1cyI6IHsic3RhdHVzX2xpc3QiOiB7ImlkeCI6IDE3LCAidXJpIjogImh0dHBzOi8vaXNzdWVyLm1lcmNoYW50LmV4YW1wbGUvc3RhdHVzL3YxIn19LCAiX3NkIjogWyI2cWJiT1pDa19CcGhnQ2lnckpraVgxOFh3UnRZMFRUSndDYzdTMk54QWhNIiwgIjlZWVoyN3Z3ZEV5UWpreXVRelE4MVNJQ3hYTWFPMnNjVTZ4ZmZEd1NfYkUiLCAiQ0pGZVduaU1PdXhpTWJibmZ1Rl9zVmZ2dlp5eWpfdzJZYnlGc084QnotTSIsICJDUGZBenVjWF9aOGxWRFNuRVZkYWhmSWR1UjJKYW41VzNaWnN3RlA0T280IiwgIlVUVGx6V2hpemlfdXA3SFlvRXJCcllLX253cEFQWWVfUG5aN2F4Mmt2MDQiLCAiV21kaElTZnM5UUpSMy1QMEpTWXBJOVBlSzhMOGMtZ0NRT1ZhWXFtNW5nQSIsICJaT0RUWThWeWdYUFB3U3VPS0NyNFhoUzUyWkI2TzNfbER6QVdiZWpxOEVvIiwgInFERFZnY21yUDZMd3VldkgtbHJqUUdxSktBcWJ0YWkxeE9pZWVmYS1VdmsiLCAidFgta1ZLcUVveGRqLWZWa3JSNm4tNWZLNGY5OUZfQlRsUVdZSEZlcmtaMCIsICJ1NzlZYXhzckUxUk82YmxpaGNBSGJ1SUdMeTZoTG80N0M3SUJCV0liSnZZIiwgIndweDJVOGJoTFVyMTZBVFJ4WjdDSnlBSi1ELWtOd1NhXzVlQWRBLUZOdTAiXSwgIl9zZF9hbGciOiAic2hhLTI1NiJ9.Atu4QLH_sVcXaN-YkuoNsoXDBayijwUJOsBPEL-8piMMxo2djWxa6LIA5CWX0bPJX2oY20wtcEDBTtQERbw4Kg~WyJyYW8tVzJibXl3aHJGeF92U1h2bW5BIiwgInR5cGUiLCAiUFVSQ0hBU0UiXQ~WyJsY3RzQXg0aml2RXltTVNDMTVkVjB3IiwgInJlY2VpcHRfbnVtYmVyIiwgIlItMjAyNi0wNC0yMy0wMDA0MTIiXQ~WyI4Ny1tRXptcDJ5VmZZMy1fNFZfLUd3IiwgInJlY2VpcHRfdGltZXN0YW1wIiwgIjIwMjYtMDQtMjNUMTA6MTQ6MzJaIl0~WyJqMGQxWXh3RHp2Q3hLN1FZMHlsTmZRIiwgImN1cnJlbmN5X2lzb19jb2RlIiwgIkVVUiJd~WyJ0MFVyODFkT3RySTBCMVdlXzc0MVFnIiwgInRvdGFsX3ByaWNlX2V4Y192YXQiLCA0MjUwXQ~WyJ3V3N0Ulp3cUV1SXBLQVJoOFp1V3h3IiwgInRvdGFsX3ZhdF9hbW91bnQiLCAxMDIwXQ~WyJrd01LQjgteWFsbWU5c0ZEU2hDYzRRIiwgInRvdGFsX3ByaWNlX2luY192YXQiLCA1MjcwXQ~WyJldFZFOFZLQy15M2luby1CT09aYUhRIiwgIm1lcmNoYW50IiwgeyJuYW1lIjogIkFjbWUgUmV0YWlsIE95IiwgImNvbXBhbnlfaWQiOiAiRkkxMjM0NTY3OCIsICJicmFuY2giOiB7ImlkIjogIkJSLUhFTC0wMDEiLCAicG9zX2lkIjogIlBPUy0xMiIsICJuYW1lIjogIkFjbWUgSGVsc2lua2kgQ2VudHJlIiwgInN1Yl9uYW1lIjogIkNhZlx1MDBlOSJ9LCAiYWRkcmVzcyI6IHsic3RyZWV0X2FkZHJlc3MiOiAiTWFubmVyaGVpbWludGllIDEwIiwgImNpdHkiOiAiSGVsc2lua2kiLCAiemlwX2NvZGUiOiAiMDAxMDAiLCAiY291bnRyeSI6ICJGSSJ9fV0~WyJHVE90Mmo1aGt4eU9NbVMyeS1qb3h3IiwgInByb2R1Y3RzIiwgW3sibmFtZSI6ICJFc3ByZXNzbyIsICJxdWFudGl0eSI6ICIyIiwgInF1YW50aXR5X2NvZGUiOiAiSDg3IiwgInVuaXRfcHJpY2VfaW5jX3ZhdCI6IDM1MCwgInRvdGFsX2Ftb3VudF9leGNfdmF0IjogNTY1LCAidG90YWxfYW1vdW50X2luY192YXQiOiA3MDAsICJ2YXRzIjogW3sidmF0X3JhdGUiOiAiMjQiLCAidmF0X2Ftb3VudCI6IDEzNSwgInRvdGFsX2Ftb3VudF9leGNfdmF0IjogNTY1LCAidG90YWxfYW1vdW50X2luY192YXQiOiA3MDB9XSwgImNhdGVnb3JpemF0aW9uIjogeyJjYXRlZ29yeSI6ICJGJkIiLCAiZGVwYXJ0bWVudCI6ICJDYWZcdTAwZTkifX0sIHsibmFtZSI6ICJTYW5kd2ljaCIsICJxdWFudGl0eSI6ICIxIiwgInF1YW50aXR5X2NvZGUiOiAiSDg3IiwgInVuaXRfcHJpY2VfaW5jX3ZhdCI6IDQ1NzAsICJ0b3RhbF9hbW91bnRfZXhjX3ZhdCI6IDM2ODUsICJ0b3RhbF9hbW91bnRfaW5jX3ZhdCI6IDQ1NzAsICJ2YXRzIjogW3sidmF0X3JhdGUiOiAiMjQiLCAidmF0X2Ftb3VudCI6IDg4NSwgInRvdGFsX2Ftb3VudF9leGNfdmF0IjogMzY4NSwgInRvdGFsX2Ftb3VudF9pbmNfdmF0IjogNDU3MH1dfV1d~WyJjNHpEZHBPMVAyWFNsbEN6ZzVpX3lnIiwgInZhdHMiLCBbeyJ2YXRfcmF0ZSI6ICIyNCIsICJ0b3RhbF92YXRfYW1vdW50IjogMTAyMCwgInRvdGFsX2Ftb3VudF9leGNfdmF0IjogNDI1MCwgInRvdGFsX2Ftb3VudF9pbmNfdmF0IjogNTI3MCwgInZhdF9jb2RlIjogIlMifV1d~WyJOdi10UUpObXhFeEp3Vy1IWnQ1aUpRIiwgInBheW1lbnRzIiwgW3sidHlwZSI6ICJDQVJEIiwgImFtb3VudCI6IDUyNzAsICJhdHRyaWJ1dGVzIjogeyJBSUQiOiAiQTAwMDAwMDAwMzEwMTAiLCAibWFza2VkUEFOIjogIjQxMTExMSoqKioqKjExMTEiLCAiYXV0aG9yaXphdGlvbkNvZGUiOiAiQUIxMkNEIiwgInRlcm1pbmFsSWQiOiAiUE9TLTEyIiwgInRyYW5zYWN0aW9uSWQiOiAiVC0yMDI2MDQyMy0wMDA4NzEifX1dXQ~
 ```
 
-Each tilde-separated Disclosure after the JWS is base64url([salt, claim, value]). The eleven disclosed claims are: `type`, `receipt_number`, `receipt_timestamp`, `currency_iso_code`, `total_price_exc_vat`, `total_vat_amount`, `total_price_inc_vat`, `merchant`, `products`, `vats` and `payments` (their values are those shown in the JSON claim set above). The claims `iss`, `iat`, `exp`, `vct`, `cnf`, `status`, `attestation_legal_category` and all of `verifications[]` are plain JWT claims and are not selectively disclosable. The decoded Disclosures, the issuer and holder verification keys, and a verification walkthrough are provided in the companion example file `rb-e-receipt_sd-jwt-example_v0_1.md`.
+Each tilde-separated Disclosure after the JWS is base64url([salt, claim, value]). The eleven disclosed claims are: `type`, `receipt_number`, `receipt_timestamp`, `currency_iso_code`, `total_price_exc_vat`, `total_vat_amount`, `total_price_inc_vat`, `merchant`, `products`, `vats` and `payments` (their values are those shown in the JSON claim set above). The claims `iss`, `iat`, `exp`, `vct`, `cnf`, `status`, `attestation_legal_category` and all of `verifications[]` are plain JWT claims and are not selectively disclosable. The claim set above abbreviates `cnf.jwk.x` and `cnf.jwk.y`, which the token carries in full; `verifications[].public_key` is a placeholder in both. The holder key is the `cnf.jwk` in the token. The JWS verifies with the following issuer public key, a test key published only so that the example signature can be checked, not for production use:
+
+```json
+{
+  "kty": "EC",
+  "crv": "P-256",
+  "kid": "acme-ereceipt-key-2",
+  "x": "TEhKQvqry-EKKkUeSEL1jgeg_Un7qzR4QPOMhp9Lv94",
+  "y": "Qu1qv9rXCLNgMToDwmLCUKMHmsHS81EVonYagasjkh8"
+}
+```
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
