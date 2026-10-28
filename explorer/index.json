@@ -11,9 +11,9 @@
  ],
  "counts": {
   "rulebooks": 40,
-  "onTemplate": 39,
+  "onTemplate": 40,
   "withSchema": 24,
-  "attributes": 1052
+  "attributes": 1048
  },
  "rulebooks": [
   {
@@ -610,86 +610,241 @@
    "title": "Approved Supplier",
    "path": "rulebooks/rb-approved-supplier/README.md",
    "page": "rulebooks/rb-approved-supplier.html",
-   "categories": [],
-   "categoryDeclared": "",
-   "onTemplate": false,
+   "categories": [
+    "EAA"
+   ],
+   "categoryDeclared": "non-qualified EAA",
+   "onTemplate": true,
    "vct": "eu.we-build:approvedsupplier:1",
-   "formats": [],
-   "encodings": {},
+   "formats": [
+    "SD-JWT VC",
+    "mdoc"
+   ],
+   "encodings": {
+    "SD-JWT VC": [
+     {
+      "data": "iss",
+      "identifier": "iss",
+      "encoding": "string"
+     },
+     {
+      "data": "iat",
+      "identifier": "iat",
+      "encoding": "number"
+     },
+     {
+      "data": "exp",
+      "identifier": "exp",
+      "encoding": "number"
+     },
+     {
+      "data": "vct",
+      "identifier": "vct",
+      "encoding": "string"
+     },
+     {
+      "data": "status",
+      "identifier": "status",
+      "encoding": "object"
+     },
+     {
+      "data": "cnf",
+      "identifier": "cnf",
+      "encoding": "object"
+     },
+     {
+      "data": "attestation_legal_category",
+      "identifier": "attestation_legal_category",
+      "encoding": "string"
+     },
+     {
+      "data": "approving_party",
+      "identifier": "approving_party",
+      "encoding": "object"
+     },
+     {
+      "data": "approved_supplier",
+      "identifier": "approved_supplier",
+      "encoding": "object"
+     },
+     {
+      "data": "approval_scope",
+      "identifier": "approval_scope",
+      "encoding": "string"
+     },
+     {
+      "data": "approval_valid_from",
+      "identifier": "approval_valid_from",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "approval_valid_until",
+      "identifier": "approval_valid_until",
+      "encoding": "string (full-date)"
+     },
+     {
+      "data": "approval_reference",
+      "identifier": "approval_reference",
+      "encoding": "string"
+     },
+     {
+      "data": "cryptographically_bound_to",
+      "identifier": "cryptographically_bound_to",
+      "encoding": "string"
+     }
+    ]
+   },
    "attributes": [
     {
-     "name": "iss",
+     "name": "approving_party.legal_name",
      "presence": "mandatory",
-     "definition": ""
+     "definition": "Registered legal name of the Buyer that issues the approval."
     },
     {
-     "name": "iat",
+     "name": "approving_party.legal_id",
      "presence": "mandatory",
-     "definition": ""
+     "definition": "Unique legal-person identifier of the Buyer, sourced from the Buyer's EBWOID."
     },
     {
-     "name": "exp",
+     "name": "approving_party.peppol_id",
      "presence": "mandatory",
-     "definition": ""
+     "definition": "Peppol participant identifier of the Buyer (scheme::value)."
     },
     {
-     "name": "vct",
+     "name": "approved_supplier.legal_name",
      "presence": "mandatory",
-     "definition": ""
+     "definition": "Registered legal name of the approved Supplier (the holder)."
     },
     {
-     "name": "status",
+     "name": "approved_supplier.legal_id",
      "presence": "mandatory",
-     "definition": ""
+     "definition": "Unique legal-person identifier of the Supplier, sourced from the Supplier's EBWOID."
     },
     {
-     "name": "cnf",
+     "name": "approved_supplier.peppol_id",
      "presence": "mandatory",
-     "definition": ""
-    },
-    {
-     "name": "attestation_legal_category",
-     "presence": "mandatory",
-     "definition": ""
-    },
-    {
-     "name": "approving_party",
-     "presence": "mandatory",
-     "definition": ""
-    },
-    {
-     "name": "approved_supplier",
-     "presence": "mandatory",
-     "definition": ""
+     "definition": "Peppol participant identifier of the Supplier."
     },
     {
      "name": "approval_scope",
      "presence": "mandatory",
-     "definition": ""
+     "definition": "Scope of the approval."
     },
     {
      "name": "approval_valid_from",
      "presence": "mandatory",
-     "definition": ""
+     "definition": "Date from which the approval is valid."
     },
     {
      "name": "approval_valid_until",
-     "presence": "mandatory",
-     "definition": ""
+     "presence": "optional",
+     "definition": "Date until which the approval is valid (business validity, distinct from the technical exp metadata claim)."
     },
     {
      "name": "approval_reference",
-     "presence": "mandatory",
-     "definition": ""
-    },
-    {
-     "name": "cryptographically_bound_to",
-     "presence": "mandatory",
-     "definition": ""
+     "presence": "optional",
+     "definition": "Buyer-internal reference for the underlying commercial relationship (e.g. framework agreement or contract number)."
     }
    ],
-   "attributeCount": 14,
-   "traceability": [],
+   "attributeCount": 10,
+   "traceability": [
+    {
+     "requirement": "EW-DM-12-001",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-002",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-003",
+     "applies": "no"
+    },
+    {
+     "requirement": "EW-DM-12-005",
+     "applies": "no"
+    },
+    {
+     "requirement": "EW-DM-12-006",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-007",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-008",
+     "applies": "no"
+    },
+    {
+     "requirement": "EW-DM-12-009",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-010",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-012",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-013",
+     "applies": "no"
+    },
+    {
+     "requirement": "EW-DM-12-014",
+     "applies": "no"
+    },
+    {
+     "requirement": "EW-DM-12-015",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-019 / EW-DM-12-020",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-021 / EW-DM-12-022",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-023 / EW-DM-12-024",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-029",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-030",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-031",
+     "applies": "no"
+    },
+    {
+     "requirement": "EW-DM-12-032",
+     "applies": "no"
+    },
+    {
+     "requirement": "EW-DM-12-034",
+     "applies": "yes"
+    },
+    {
+     "requirement": "EW-DM-12-035",
+     "applies": "no"
+    },
+    {
+     "requirement": "EW-DM-12-038",
+     "applies": "yes"
+    }
+   ],
    "schemas": [
     {
      "path": "data-schemas/sd-jwt/approved-supplier-sd-jwt.json",
@@ -697,7 +852,7 @@
      "propertyCount": 18
     }
    ],
-   "lines": 454
+   "lines": 612
   },
   {
    "slug": "rb-authorised-signatories",
