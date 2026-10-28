@@ -1,31 +1,25 @@
+# Attestation Rulebook for attestations of type Tax Residence Certificate 
+
+
+Category:  QEAA / PuB-EAA
+
+- Author(s):
+    * Pasi Sinervo Finnish Tax Administration
+    * Sierd Westerfield, Dutch Tax Administration 
+
+
 | Version | Date | Description |
 |---------|------------|------------|
-| 0.9 | 02-04-2026 | Copy created from the EUDI attestation rulebook template as the basis for the WE BUILD template. |
-| 1.0 | 02-04-2026 | Added WE BUILD v1 author guidance in Sections 1.1 and 2.1 and introduced Sections 2.8 Code lists and 2.9 Integrity rules. |
+| 1.2 | 28-10-2026 | Conformance to new template |
 | 1.1 | 08-04-2026 | Added a Semantic Reference column to Chapter 2 attribute and metadata tables. |
+| 1.0 | 02-04-2026 | Added WE BUILD v1 author guidance in Sections 1.1 and 2.1 and introduced Sections 2.8 Code lists and 2.9 Integrity rules. |
+| 0.9 | 02-04-2026 | Copy created from the EUDI attestation rulebook template as the basis for the WE BUILD template. |
 
-# WE BUILD Attestation Rulebook Template for attestations of type *etrc electronic tax residence certificate*
 
-*This WE BUILD v1 template is derived from the EUDI attestation rulebook template and keeps its
-main chapter structure while adding practical author guidance and reusable placeholders.*
-
-*Provide information about the author(s) of this Rulebook in the following form:*
-
-* Author(s):
-    * [Pasi Sinervo Finnish Tax Administration]
-
-*Provide versioning information about the Rulebook in the following form:*
-
-| Version | Date | Description |
-|---------|------------|------------|
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG] |
-| [VERSION NUMBER] | [PUBLICATION DATE] | [DESCRIPTION OR LINK TO THE CHANGELOG] |
-
-*Provide a contact email address and/or a link to an issue tracking system that can be used for
-providing feedback, e.g.:*
 
 **Feedback:**
 * [mail the author](pasi.sinervo@vero.fi)
+* Create Pull Request
 
 ## Table of contents
 
@@ -74,76 +68,72 @@ The etrc attestation seeks to replace the traditional paper-based proof with an 
 
 
 ### 1.2 Document structure
+Chapter 2 states how this Rulebook complies with the applicable regulatory and architectural requirements. Chapter 3 specifies the attestation attributes and chapter 4 the metadata, both in an encoding-independent manner, each referencing
+the machine-readable schema artefacts that define their encoding. Chapter 5 lists the attestation formats supported. Chapter 6 lists the issuance and presentation protocols supported. Chapter 7 specifies issuance, including binding and lifecycle
+management. Chapter 8 specifies revocation. Chapter 9 specifies presentation. Chapter 10 specifies the trust framework, including how trust anchors are obtained. Chapter 11 lists references. Chapters 5 and 6 identify formats and protocols only. The substantive rules for issuance and presentation are in chapters 7 and 9 respectively, and are not repeated in chapters 5 and 6.
 
-*Provide a brief overview of the Rulebook's sections and their purpose. The main
-sections of the Rulebook SHOULD be*
-
-* Chapter 2, which describes the attestation attributes and metadata in an
-encoding-independent manner.
-* Chapter 3, which specifies how the attestation
-attributes and metadata are encoded in case the attestation complies with [ISO/IEC
-18013-5] and/or [SD-JWT VC] and/or [W3C VCDM v2.0]. Each encoding SHALL be specified in a separate section, or even in a separate chapter.
-* Chapter 4, which specifies attestation usage.
-* Chapter 5, which defines how trust anchors for attestation verification can be obtained.
-* Chapter 6, which defines attestation revocation mechanisms.
-* Chapter 7, which provides compliance information.
 
 ### 1.3 Key words
 
-*The following are the recommended keywords. Modify if necessary*
-
-This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as
-specified in [RFC 2119], i.e., to indicate requirements, recommendations and
-options specified in this document.
-
-In addition, 'must' (non-capitalised) is used to indicate an external
-constraint, i.e., a requirement that is not mandated by this document, but, for
-instance, by an external document. The word 'can' indicates a capability,
-whereas other words, such as 'will', and 'is' or 'are' are intended as
-statements of fact.
+This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified in [RFC 2119], to indicate requirements, recommendations and options. In addition, 'must' (non-capitalised) indicates an external constraint, that is, a requirement mandated by an external document rather than by this document. The word 'can' indicates a capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 
 ### 1.4 Terminology
 
 This document uses the terminology specified in Annex 1 of the ARF.
 
-## 2 Attestation attributes and metadata
+## 2 Compliance
+This chapter states how this Rulebook complies with the Architecture and Reference Framework and with the applicable Regulations. Sections 2.1 and 2.2 follow from the legal category of this attestation. Section 2.3 maps each applicable requirement to the section that satisfies it.
 
-### Chapter overview and requirements
+### 2.1 Compliance statement
+This Rulebook complies with the applicable requirements of Topic 12, Attestation Rulebooks, in Annex 2 of the Architecture and Reference Framework, version [ARF VERSION]. It uses the terminology of Annex 1 of the ARF.
+
+### 2.2 Regulatory basis
+The regulatory basis below is the one applicable to the legal category of this attestation.
+
+**QEAA**
+
+This attestation includes the data required by Annex V of Regulation (EU) 2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-016, EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by a qualified trust service provider.
+
+**PuB-EAA**
+This attestation includes the data required by Annex VII of Regulation (EU)
+> 2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-017,
+> EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by or on
+> behalf of a public sector body responsible for an authentic source.
+
+### 2.3 Traceability
+Every applicable requirement mapped to the section that satisfies it. Mark a requirement not applicable only with a stated reason. No blank rows at submission.
+
+| Requirement | Legacy ID | Applies | Satisfied in section | Note |
+| --- | --- | --- | --- | --- |
+| EW-DM-12-001 | ARB_01a | | | Format restriction, W3C VCDM permitted for non-qualified EAA only |
+| EW-DM-12-002 | ARB_01b | | | SD-JWT VC per the HAIP profile |
+| EW-DM-12-003 | ARB_02 | | | mdoc required if proximity presentation is in scope |
+| EW-DM-12-005 | ARB_04 | | | Approved specifications for W3C VCDM encoding |
+| EW-DM-12-006 | ARB_05 | | | Unique attestation type or vct |
+| EW-DM-12-007 | ARB_06 | | | Encoding-independent attribute definitions |
+| EW-DM-12-008 | ARB_06a | | | mdoc attribute identifiers and namespaces |
+| EW-DM-12-009 | ARB_06b | | | SD-JWT VC claim naming |
+| EW-DM-12-010 | ARB_07 | | | Reuse of catalogued attributes |
+| EW-DM-12-012 | ARB_09 | | | Mandatory, optional or conditional marking |
+| EW-DM-12-013 | ARB_10 | | | Domestic namespace, if defined |
+| EW-DM-12-014 | ARB_11 | | | Annex V or VII point a |
+| EW-DM-12-015 | ARB_12 | | | EAA indication, non-qualified only |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | | | Point b, by category |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | | | Point c, by category |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | | | Point e, by category |
+| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | | | Trust anchor or certificate location, by category |
+| EW-DM-12-030 | ARB_26 | | | Trust anchor publication, non-qualified EAA |
+| EW-DM-12-031 | ARB_27 | | | Whether the Relying Party must also verify a PID |
+| EW-DM-12-032 | ARB_28 | | | `cryptographically_bound_to`, if used |
+| EW-DM-12-034 | ARB_30 | | | Selective disclosure per claim |
+| EW-DM-12-035 | ARB_31 | | | Claim Selective Disclosure Metadata |
+| EW-DM-12-038 | ARB_34 | | | Device binding |
 
 
-**Requirements for QEAA**
+## 3 Attestation attributes
+Attributes are defined here in an encoding-independent manner (EW-DM-12-007). The authoritative encoding lives in the machine-readable schema artefacts referenced in section 3.1, not in this document. Do not paste schema fragments into the prose, they will drift.
 
-* An attribute as meant in Annex V point a)  of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
-V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_13 in [Topic 12])
-* One or more attributes representing the set of data meant in Annex V point c)  
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex V point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* One or more attributes or metadata representing the location meant in Annex V point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL
-indicate at least the URL at which a machine-readable version of the trust anchor to be
-used for verifying the QEAA can be found or looked up (see ARB_20 in [Topic 12]).
-
-**Requirements for PuB-EAA**
-
-* An attribute as meant in  Annex VII point a) of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
-* One or more attributes or metadata representing the set of data meant in Annex
- VII point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_14 in [Topic 12]).
-* One or more attributes representing the set of data meant in Annex VII point c)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_16 in [Topic 12]).
-* One or more attributes or metadata representing the set of data meant in Annex VII point e)
-of the [European Digital Identity Regulation] SHALL be included (see ARB_18 in [Topic 12]).
-* one or more attributes or metadata representing the location meant in Annex VII point h)
-of the [European Digital Identity Regulation] SHALL be included. This location SHALL
-indicate at least the URL at which a machine-readable version of the qualified
-certificate that signed the PuB-EAA can be found or looked up. (see ARB_20 in [Topic 12])
-
-
-
-### 2.1 Introduction
+### 3.1 Introduction
 
 The etrc attestation is an attestation provided by an authentic source such as a TAX-Administration. The attestation proves how a taxable person should be taxed in the jurisdiction of the registration and of the RP. It indicates whether the taxable person has unlimiten or limited tax liability in the jurisdiction of the RP. The etrc attestation only contains information directly related to the etrc. 
  
@@ -194,6 +184,11 @@ etrc
 
 ````
 
+**Schema artefacts.** 
+
+| Format | Identifier | Schema artefact | Version | Location |
+| --- | --- | --- | --- | --- |
+| SD-JWT VC | `eTRC` value | JSON schema or Type Metadata Document | | [URL FOR SCHEMAS] - No Schema Yet |
 
 
 
