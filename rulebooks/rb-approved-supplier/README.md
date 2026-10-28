@@ -16,6 +16,9 @@ pre-approval).*
 
 | Version | Date | Description |
 | --- | --- | --- |
+| 0.1 | 2026-06-01 | Initial draft of the Approved Supplier attestation rulebook, derived from the WE BUILD Attestation Rulebook Template v1.1 and aligned with the SC5 eInvoicing scenario specification (Scenario 1). |
+| 0.6 | 2026-07-14 | Review draft for SC5 rulebook review meeting. Aligned with the WE BUILD attestation rulebooks catalog conventions: vct pattern `eu.we-build:<slug>:1`, legal category value `EAA`, EBWOID-anchored EAA trust model per rb-base, issuer and Relying Party obligations referencing the Base Verification rulebook, and Token Status List metadata (`status_list_credential`/`status_list_index`). |
+| 0.7 | 2026-07-15 | Added issue tracker and cleaned up author list layout |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
@@ -201,7 +204,7 @@ ApprovedSupplierAttestation
 │   ├── legal_name
 │   ├── legal_id               (EUID / LPID, from the Supplier's EBWOID)
 │   └── peppol_id
-├── approval_scope             (code list, see 2.8)
+├── approval_scope             (code list, see 4.4)
 ├── approval_valid_from        (date)
 └── approval_valid_until       (date; see also the exp metadata claim)
 ```
@@ -210,8 +213,8 @@ This model refines the flat claim list in the SC5 specification (issuer_id, issu
 subject_name, scope, approval_date, expiry_date, buyer_peppol_id, supplier_peppol_id) into two grouped
 party objects, while preserving the same information content.
 
-Subsections 2.2–2.7 define the attributes and metadata. Section 2.8 documents the scope code list and
-Section 2.9 the integrity rules.
+Sections 3.2 to 3.4 define the attributes and sections 4.1 to 4.3 the metadata. Section 4.4
+documents the scope code list and section 4.5 the integrity rules.
 
 #### Chapter overview and requirements
 
@@ -226,13 +229,13 @@ a "WE BUILD QEAA", this denotes a technically interoperable, ITB-tested attestat
 trust framework, not an eIDAS-qualified EAA (WA1.5). The requirements for non-qualified EAA in
 [Topic 12] therefore apply:
 
-* An attribute indicating that the attestation is an EAA SHOULD be included (ARB_12). See Section 2.1.
+* An attribute indicating that the attestation is an EAA SHOULD be included (ARB_12). See section 3.1.
 * One or more attributes or metadata representing identification data of the issuer SHALL be included
   (ARB_15).
 * One or more attributes representing the subject SHOULD be included (ARB_17).
 * Attributes or metadata representing the validity period SHOULD be defined (ARB_19).
 * Attributes or metadata representing the location of the trust anchor SHOULD be defined (ARB_21); see
-  Chapter 5.
+  chapter 10.
 
 ### 3.2 Mandatory attributes
 
@@ -256,9 +259,8 @@ trust framework, not an eIDAS-qualified EAA (WA1.5). The requirements for non-qu
 
 ### 3.4 Conditional attributes
 
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| N/A | N/A | No conditional attributes are defined for this attestation type in v0.1. | N/A | N/A |
+The Approved Supplier attestation defined in this Rulebook does not contain any
+conditional attributes.
 
 ## 4 Metadata
 
@@ -268,12 +270,12 @@ Metadata describes the attestation rather than its subject.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| `attestation_legal_category` | Defined in Section 2.1 | Indicates the legal category of the attestation. | string | `EAA` |
-| `vct` | [SD-JWT VC] | Verifiable Credential Type identifier (see Section 3.2). | string | `eu.we-build:approvedsupplier:1` |
+| `attestation_legal_category` | Defined in section 3.1 | Indicates the legal category of the attestation. | string | `EAA` |
+| `vct` | [SD-JWT VC] | Verifiable Credential Type identifier (see section 5.1). | string | `eu.we-build:approvedsupplier:1` |
 | `iss` | [IANA-JWT-Claims] | Issuer identifier (the Buyer's issuing system / EBW). | string (URI) | `https://wallet.lesrosesdor.example/issuer` |
 | `iat` | [IANA-JWT-Claims] | Issuance timestamp. | NumericDate | `1767225600` |
 | `exp` | [IANA-JWT-Claims] | Technical expiry timestamp of the attestation. | NumericDate | `1798761600` |
-| `status` | [SD-JWT VC] / [Token Status List] | Reference to the Token Status List entry for revocation (see Chapter 6). | object | *(see Chapter 6)* |
+| `status` | [SD-JWT VC] / [Token Status List] | Reference to the Token Status List entry for revocation (see chapter 8). | object | *(see chapter 8)* |
 | `cnf` | [SD-JWT VC] | Holder key-binding confirmation (proof of possession by the Supplier's EBW). | object | *(JWK / key reference)* |
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
@@ -287,13 +289,12 @@ left as written and the deviation is recorded for the rulebook quality assurance
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see Chapter 4. | string | `uri:eu.ebw.oid.1` |
+| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see section 7.1. | string | `uri:eu.ebw.oid.1` |
 
 ### 4.3 Conditional metadata
 
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| N/A | N/A | No conditional metadata is defined in v0.1. | N/A | N/A |
+The Approved Supplier attestation defined in this Rulebook does not contain any
+conditional metadata.
 
 ### 4.4 Code lists
 
@@ -340,21 +341,21 @@ A JSON Schema for this encoding is published in the catalog at
 | `iat` | iat | number | [IANA-JWT-Claims] | MUST NOT |
 | `exp` | exp | number | [IANA-JWT-Claims] | MUST NOT |
 | `vct` | vct | string | [SD-JWT VC] | MUST NOT |
-| `status` | status | object | [Token Status List]; Chapter 6 | MUST NOT |
+| `status` | status | object | [Token Status List]; chapter 8 | MUST NOT |
 | `cnf` | cnf | object | [SD-JWT VC]; holder binding | MUST NOT |
 
 **Private claims specific to this attestation type:**
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
-| `attestation_legal_category` | attestation_legal_category | string | Section 2.1 | MUST NOT |
+| `attestation_legal_category` | attestation_legal_category | string | Section 3.1 | MUST NOT |
 | `approving_party` | approving_party | object | Buyer (C4) | MAY |
 | `approved_supplier` | approved_supplier | object | Supplier (C1) | MAY |
 | `approval_scope` | approval_scope | string | Code list 2.8 | MAY |
 | `approval_valid_from` | approval_valid_from | string (full-date) |  | MAY |
 | `approval_valid_until` | approval_valid_until | string (full-date) | Optional | MAY |
 | `approval_reference` | approval_reference | string | Optional | MUST, issuer SHALL make selectively disclosable so the Supplier can withhold the internal reference |
-| `cryptographically_bound_to` | cryptographically_bound_to | string | Section 2.6; Chapter 4 | MUST NOT |
+| `cryptographically_bound_to` | cryptographically_bound_to | string | Section 4.2; section 7.1 | MUST NOT |
 
 **Illustrative JWT claim set (informative, synthetic data):**
 
@@ -392,14 +393,14 @@ ONCE THE SELECTIVE-DISCLOSURE STRUCTURE IS FINALISED WITH WP4]
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
 The Approved Supplier attestation is presented in automated, online, system-to-system flows between
-European Business Wallets and Access Points (see Chapter 4). There is no proximity / offline
+European Business Wallets and Access Points (see chapter 9). There is no proximity or offline
 presentation use case (ARB_02). Therefore an ISO/IEC 18013-5 (mdoc) encoding is **not specified** in
 this version. If a future use case requires proximity presentation, a document type and mdoc encoding
 would be added here.
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
-A W3C VCDM encoding is **not specified** for this attestation type. SD-JWT VC (Section 3.2) is the
+A W3C VCDM encoding is **not specified** for this attestation type. SD-JWT VC (section 5.1) is the
 single normative encoding for SC5, consistent with the WE BUILD Conformance Specifications. (Note that
 only a non-qualified EAA may use the VCDM format, ARB_01a; this attestation is a non-qualified EAA, so
 a VCDM encoding could be added in future if an interoperability need arises.)
@@ -429,7 +430,7 @@ C2 can verify the Buyer's approval before transmitting an invoice into the Peppo
 
 **PID verification (ARB_27).** A relying party (C2) **does not** request or verify a PID. The holder is
 a legal person, not a natural person; identity assurance is provided by the EBWOID binding (see
-Chapter 5), not by a PID.
+chapter 10), not by a PID.
 
 **Presentation requirements.** Presentation is online and system-to-system via OpenID4VP, using DCQL
 queries as profiled by the WE BUILD Conformance Specification cs-02. There is no human-in-the-loop
@@ -460,8 +461,8 @@ The Issuer SHALL implement the base issuer obligations defined in the Base Verif
 <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations>
 
 In particular, the issuer SHALL include the holder-generated public key (`cnf`) in the payload, SHALL
-include its own EBWOID-anchored certificate material in the attestation header (see Chapter 5), and
-SHALL populate the `status` metadata (see Chapter 6) in every issued attestation.
+include its own EBWOID-anchored certificate material in the attestation header (see chapter 10), and
+SHALL populate the `status` metadata (see chapter 8) in every issued attestation.
 
 ### 7.3 Lifecycle management
 
@@ -514,7 +515,7 @@ This covers verification of attestation authenticity and issuer identity via the
 
 #### Validate attestation-specific integrity rules
 In addition to the base verification, the Relying Party SHALL apply the integrity rules IR-AS-01 to
-IR-AS-03 defined in Section 2.9. In particular (IR-AS-03), C2 SHALL match the attestation's
+IR-AS-03 defined in section 4.5. In particular (IR-AS-03), C2 SHALL match the attestation's
 `approved_supplier.peppol_id` and `approving_party.peppol_id` against, respectively, the sender and
 buyer participant identifiers of the invoice in flight, and SHALL reject the invoice submission on
 mismatch.
