@@ -10,6 +10,11 @@ and writes three things: `index.json`, one readable page per rulebook under
 `rulebooks/`, and `sitemap.xml` with `robots.txt`. The home page loads the index and
 does the searching in the browser.
 
+None of that is committed. The deploy workflow builds it and publishes the result, so
+adding or changing a rulebook needs nothing but the rulebook. That matters because
+most rulebook changes arrive through the GitHub editor, where running a build is not
+an option.
+
 Parsing happens once, in CI, rather than on every page load. If a rulebook stops
 parsing, the build reports it rather than the visitor seeing an empty card.
 
@@ -60,17 +65,21 @@ python3 -m http.server 8000 --directory explorer &
   http://localhost:8000/scripts/og-card.html
 ```
 
-## Keeping the index current
+## What CI checks
 
-Everything generated is committed so that GitHub Pages can serve it directly. CI runs
+Every pull request runs
 
 ```sh
 python3 explorer/scripts/build_index.py --check
 ```
 
-which fails if any committed file no longer matches the rulebooks, naming the file
-and showing the first differences. When a pull request changes a rulebook, rebuild
-and commit in the same change.
+which builds the index and all the pages without writing them, and fails only if a
+rulebook can no longer be read or rendered. It prints what the build makes of the
+rulebooks, including any that are off template, carry an unrecognised category, or
+point a cross reference at a heading that is not there. Those are reported, not
+enforced, so a contributor is never blocked by a note about someone else's rulebook.
+
+A push to `main` runs the same build for real and publishes the result.
 
 ## What the index holds
 
@@ -109,6 +118,11 @@ properties that `branding.json` sets, with fallbacks if the file is missing.
 
 ## Deployment
 
-`.github/workflows/explorer.yml` publishes the `explorer/` folder to GitHub Pages on
-every push to `main`, and checks the generated files on every pull request. Pages is
-enabled in the repository settings with the source set to GitHub Actions.
+`.github/workflows/explorer.yml` builds the explorer and publishes the `explorer/`
+folder to GitHub Pages on every push to `main`, and builds it as a check on every
+pull request. Pages is enabled in the repository settings with the source set to
+GitHub Actions.
+
+`index.json` is served from the site rather than the repository, at
+`https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/index.json`,
+for anyone who wants to consume the catalogue as data.

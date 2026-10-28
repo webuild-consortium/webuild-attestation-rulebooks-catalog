@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  check-index:
-    name: Check the index is current
+  check:
+    name: Check every rulebook still builds
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,13 +25,13 @@ jobs:
           python-version: "3.11"
       - name: Install the build dependencies
         run: python3 -m pip install --quiet "markdown==3.11.2"
-      - name: Verify the generated files match the rulebooks
+      - name: Build the explorer without writing it
         run: python3 explorer/scripts/build_index.py --check
 
   deploy:
     name: Publish to GitHub Pages
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: check-index
+    needs: check
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -41,6 +41,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install the build dependencies
+        run: python3 -m pip install --quiet "markdown==3.11.2"
+      - name: Build the index, the rulebook pages and the sitemap
+        run: python3 explorer/scripts/build_index.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

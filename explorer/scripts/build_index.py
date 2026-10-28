@@ -14,7 +14,6 @@ follow it, the field is left empty and counted in the coverage report rather
 than guessed at.
 """
 import argparse
-import difflib
 import json
 import os
 import re
@@ -751,7 +750,7 @@ def artefacts():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true",
-                    help="fail if the committed files are out of date")
+                    help="build everything without writing it, and report")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
 
@@ -764,39 +763,30 @@ def main():
             print(f"  {d}")
         return 1
 
-    # the generated date moves on its own, it is not a reason to fail
-    def comparable(text):
-        text = re.sub(r'"generated": "[^"]*"', "", text)
-        return re.sub(r"<lastmod>[^<]*</lastmod>", "", text)
+    def report(label):
+        c = index["counts"]
+        print(f"{label}: {c['rulebooks']} rulebooks, {len(out)} files")
+        print(f"  on template   {c['onTemplate']}")
+        print(f"  with schema   {c['withSchema']}")
+        print(f"  attributes    {c['attributes']}")
+        by_cat = {}
+        for e in index["rulebooks"]:
+            for cat in (e["categories"] or ["(unrecognised)"]):
+                by_cat[cat] = by_cat.get(cat, 0) + 1
+        print("  by category")
+        for k in index["categories"] + ["(unrecognised)"]:
+            if k in by_cat:
+                print(f"    {k:22} {by_cat[k]}")
+        if problems:
+            print(f"  notes ({len(problems)})")
+            for note in problems:
+                print(f"    {note}")
 
     if args.check:
-        stale = []
-        for rel, payload in sorted(out.items()):
-            path = os.path.join(SITE, rel)
-            if not os.path.exists(path):
-                stale.append((rel, None, payload))
-                continue
-            if comparable(read(path)) != comparable(payload):
-                stale.append((rel, read(path), payload))
-        if stale:
-            print(f"{len(stale)} generated file(s) out of date. "
-                  "Run build_index.py and commit.")
-            for rel, current, payload in stale[:5]:
-                if current is None:
-                    print(f"  {rel} is missing")
-                    continue
-                print(f"  {rel}")
-                diff = difflib.unified_diff(
-                    comparable(current).split("\n"), comparable(payload).split("\n"),
-                    "committed", "rebuilt", n=1, lineterm="")
-                for n, line in enumerate(diff):
-                    if n > 14:
-                        print("    ...")
-                        break
-                    print("    " + line[:180])
-            return 1
-        print(f"generated files are current: {index['counts']['rulebooks']} rulebooks, "
-              f"{len(out)} files")
+        # Nothing generated is committed, so there is nothing to compare against.
+        # The check is that every rulebook still parses and still renders, and
+        # the notes tell a reviewer what the build thinks of the change.
+        report("build is clean")
         return 0
 
     # a rulebook that goes away must not leave its page behind
@@ -813,24 +803,7 @@ def main():
             fh.write(payload)
 
     if not args.quiet:
-        c = index["counts"]
-        print(f"wrote {len(out)} files under {os.path.relpath(SITE, ROOT)}/")
-        print(f"  rulebooks     {c['rulebooks']}")
-        print(f"  on template   {c['onTemplate']}")
-        print(f"  with schema   {c['withSchema']}")
-        print(f"  attributes    {c['attributes']}")
-        by_cat = {}
-        for e in index["rulebooks"]:
-            for cat in (e["categories"] or ["(unrecognised)"]):
-                by_cat[cat] = by_cat.get(cat, 0) + 1
-        print("  by category")
-        for k in index["categories"] + ["(unrecognised)"]:
-            if k in by_cat:
-                print(f"    {k:22} {by_cat[k]}")
-        if problems:
-            print(f"  notes ({len(problems)})")
-            for p in problems:
-                print(f"    {p}")
+        report(f"wrote into {os.path.relpath(SITE, ROOT)}/")
     return 0
 
 
