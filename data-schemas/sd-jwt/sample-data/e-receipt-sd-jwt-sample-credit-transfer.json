@@ -1,0 +1,97 @@
+{
+  "iss": "https://issuer.merchant.example",
+  "iat": 1776939275,
+  "exp": 1966328075,
+  "vct": "eu.we-build.ereceipt.1",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "…",
+      "y": "…"
+    }
+  },
+  "attestation_legal_category": "non-qualified-EAA",
+  "type": "PURCHASE",
+  "receipt_number": "R-2026-04-23-000413",
+  "receipt_timestamp": "2026-04-23T10:14:32Z",
+  "currency_iso_code": "EUR",
+  "total_price_exc_vat": 4250,
+  "total_vat_amount": 1020,
+  "total_price_inc_vat": 5270,
+  "merchant": {
+    "name": "Acme Retail Oy",
+    "company_id": "FI12345678",
+    "branch": {
+      "id": "BR-HEL-001",
+      "pos_id": "POS-12",
+      "name": "Acme Helsinki Centre",
+      "sub_name": "Café"
+    },
+    "address": {
+      "street_address": "Mannerheimintie 10",
+      "city": "Helsinki",
+      "zip_code": "00100",
+      "country": "FI"
+    }
+  },
+  "products": [
+    {
+      "name": "Espresso",
+      "quantity": "2",
+      "quantity_code": "H87",
+      "unit_price_inc_vat": 350,
+      "total_amount_exc_vat": 565,
+      "total_amount_inc_vat": 700,
+      "vats": [
+        {
+          "vat_rate": "24",
+          "vat_amount": 135,
+          "total_amount_exc_vat": 565,
+          "total_amount_inc_vat": 700
+        }
+      ],
+      "categorization": {
+        "category": "F&B",
+        "department": "Café"
+      }
+    },
+    {
+      "name": "Sandwich",
+      "quantity": "1",
+      "quantity_code": "H87",
+      "unit_price_inc_vat": 4570,
+      "total_amount_exc_vat": 3685,
+      "total_amount_inc_vat": 4570,
+      "vats": [
+        {
+          "vat_rate": "24",
+          "vat_amount": 885,
+          "total_amount_exc_vat": 3685,
+          "total_amount_inc_vat": 4570
+        }
+      ]
+    }
+  ],
+  "vats": [
+    {
+      "vat_rate": "24",
+      "total_vat_amount": 1020,
+      "total_amount_exc_vat": 4250,
+      "total_amount_inc_vat": 5270,
+      "vat_code": "S"
+    }
+  ],
+  "payments": [
+    {
+      "type": "CREDIT_TRANSFER",
+      "amount": 5270
+    }
+  ],
+  "status": {
+    "status_list": {
+      "idx": 17,
+      "uri": "https://issuer.merchant.example/status/v1"
+    }
+  }
+}

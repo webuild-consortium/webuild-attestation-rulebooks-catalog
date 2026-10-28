@@ -81,7 +81,7 @@ The expected ecosystem actors are:
 
 This version of the Rulebook is agnostic to the payment instrument (card or account-to-account credit transfer) and to the customer journey: both in-store (POS) and ecommerce or remote payment flows are in scope (see amendment 1.3).
 
-This attestation is **distinct from the Invoice Payment Confirmation (IPC) attestation**, which covers structured purchase-to-pay e-invoice flows settled via SEPA Credit Transfer (Peppol / EN 16931 framework). Where the IPC attestation proves that an invoice has been paid, the eReceipt attestation proves that an electronic payment transaction has taken place and captures the itemised transaction data at the moment of payment. Where an organisation operates a structured purchase-to-pay flow with eInvoices (Peppol, etc.) and SEPA Credit Transfers, the IPC attestation applies; where an employee or a representative makes an ad-hoc purchase using an electronic payment instrument and seeks reimbursement, the eReceipt attestation applies. Where a credit transfer settles an ad-hoc purchase with no associated structured e-invoice (for example an instant SEPA Credit Transfer at point of sale or in ecommerce checkout), the eReceipt applies and MAY carry `payments[].type` `CREDIT_TRANSFER` with a `verifications[].type` of SCT or SCT-INST; where a structured Peppol or EN 16931 e-invoice exists, the Invoice Payment Confirmation (IPC) attestation applies instead.
+This attestation is **distinct from the Invoice Payment Confirmation (IPC) attestation**, which covers structured purchase-to-pay e-invoice flows settled via SEPA Credit Transfer (Peppol / EN 16931 framework). Where the IPC attestation proves that an invoice has been paid, the eReceipt attestation proves that an electronic payment transaction has taken place and captures the itemised transaction data at the moment of payment. Where an organisation operates a structured purchase-to-pay flow with eInvoices (Peppol, etc.) and SEPA Credit Transfers, the IPC attestation applies; where an employee or a representative makes an ad-hoc purchase using an electronic payment instrument and seeks reimbursement, the eReceipt attestation applies. Where a credit transfer settles an ad-hoc purchase with no associated structured e-invoice (for example an instant SEPA Credit Transfer at point of sale or in ecommerce checkout), the eReceipt applies and MAY carry `payments[].type` `CREDIT_TRANSFER` and omits `verifications[]`, because this version defines no proof profile for SCT or SCT-INST; where a structured Peppol or EN 16931 e-invoice exists, the Invoice Payment Confirmation (IPC) attestation applies instead.
 
 The functional description, actor terminology and field names are aligned with the HeroJSON and CEN/TS 16931-8 semantics, and follow the EWC RFC011 delivery model. The canonical data model for this attestation is defined by Chapters 2 and 3 of this Rulebook; a HeroJSON-derived SD-JWT VC schema (`vct` `eu.we-build.ereceipt.1`) is published in the WE BUILD attestation catalog as [e-receipt-sd-jwt.json](../../data-schemas/sd-jwt/e-receipt-sd-jwt.json), with the Section 3.2.5 example as [e-receipt-sd-jwt-sample.json](../../data-schemas/sd-jwt/sample-data/e-receipt-sd-jwt-sample.json). The earlier EWC vReceipt schema [EWC ds011] is informative only (see Chapter 8) and is published at:
 
@@ -207,7 +207,7 @@ encoding of each attribute is given in chapter 5.
 
 The eReceipt attestation is a structured credential whose primary objects are the **header** (transaction-level totals and identifiers), the **merchant** (with branch and address sub-objects), the **products** array (line items, each with a per-line VAT breakdown), the receipt-level **vats** array, the **payments** array, the **verifications** array (an optional, typed technical proof that the payment event occurred, with its listed sub-fields mandatory once a `verifications[]` entry is present), an optional **journey** object (for travel and mobility receipts) and an optional **attachments** array.
 
-The `payments[]` array carries the payment data shown on the receipt, including any card (EMV) data in `payments[].attributes` (for example the application cryptogram, cryptogramType ARQC, TVR, TSI, AID, CID, CVM and masked PAN). The `verifications[]` array carries an optional, independent, typed proof that the payment event occurred: `verifications[].type` names the standard of that proof (for example EMV, OCMF or a credit-transfer scheme), and the type-specific fields below it apply only for that type.
+The `payments[]` array carries the payment data shown on the receipt, including any card (EMV) data in `payments[].attributes` (for example the application cryptogram, cryptogramType ARQC, TVR, TSI, AID, CID, CVM and masked PAN). The `verifications[]` array carries an optional, independent, typed proof that the payment event occurred: `verifications[].type` names the standard of that proof (for example EMV, OCMF or a credit-transfer scheme), and the type-specific fields below it apply only for that type. `verifications[]` SHALL be omitted when no independent proof of the payment event exists for the payment instrument, for example for a `CREDIT_TRANSFER`, for which this version defines no proof profile. A Relying Party SHALL NOT treat the absence of `verifications[]` as a defect of the credential; it SHALL read the payment data of such an eReceipt as the issuer's own statement.
 
 The high-level logical model is:
 
@@ -278,6 +278,8 @@ The machine-readable schema artefact for this attestation is:
 | `verifications[].version` | Verification profile (per `verifications[].type`) | Version of the verification schema used. | tstr | `"1.0"` |
 | `verifications[].public_key` | Verification profile (per `verifications[].type`) | Public key used for transaction signing, base64url-encoded. | tstr | `"MIIBIjANBg…"` |
 | `verifications[].transactionId` | Verification profile (per `verifications[].type`) | Unique identifier of the underlying payment transaction, as assigned by the PSP or payment scheme. When `payments[].attributes.transactionId` is also present, both SHALL identify the same payment transaction. | tstr | `"T-20260423-000871"` |
+
+The `verifications[]` rows above apply only where a `verifications[]` array is present; the array itself is optional (see Section 3.1).
 
 ### 3.3 Optional attributes
 
@@ -375,7 +377,7 @@ Rulebook.
 | `products[].ean_code` | Valid EAN-8, EAN-13 or GTIN-14 | Product barcode. | GS1 | Open list (governed by GS1). |
 | `payments[].type` | `CARD`, `CREDIT_TRANSFER`, `MOBILEPAY`, `GIFTCARD` (typical values) | Payment method used to settle the corresponding `payments[].amount`. | Issuer-defined; common values listed | Extensible. Issuers SHOULD reuse the listed values where applicable; additional values SHOULD be agreed across issuer and verifier implementations. |
 | `journey.type` | `TRAIN`, `BUS`, `TAXI`, `FLIGHT`, `FERRY` | Mode of transport for travel/mobility receipts. | WE BUILD Journey model | Closed list. New values SHALL only be introduced through a minor version of this Rulebook. |
-| `verifications[].type` | `EMV`, `OCMF`, `SCT`, `SCT-INST` | Standard of the technical proof in `verifications[]`. | EMV / OCMF / EPC SCT/SCT-INST | Extensible through a minor version of this Rulebook. |
+| `verifications[].type` | `EMV`, `OCMF`, `SCT`, `SCT-INST` | Standard of the technical proof in `verifications[]`. | EMV / OCMF / EPC SCT/SCT-INST | Extensible through a minor version of this Rulebook. `SCT` and `SCT-INST` are reserved: no proof profile is defined in this version, so issuers SHALL NOT use them until one is published. |
 | `verifications[].current_type` | `AC`, `DC` | OCMF electrical-current type: `AC` = alternating current, `DC` = direct current. Applies only to OCMF verifications. | OCMF | Closed list. |
 | `attachments[].type` | `BARCODE`, `QRCODE` | Encoding format of the attachment payload. | HeroJSON | Closed list. |
 | `attachments[].kind` | `TICKET`, `RETURN`, `VOUCHER` | Purpose of the attachment. | HeroJSON | Closed list. New values SHALL only be introduced through a minor version of this Rulebook. |
@@ -441,7 +443,7 @@ For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NO
 
 ##### 3.2.3 Private names (specific to the eReceipt attestation)
 
-- The `verifications[].type` proof is not limited to card/EMV: it also covers OCMF charge-metering proofs and SEPA credit-transfer (`SCT`, `SCT-INST`) scheme proofs.
+- The `verifications[].type` proof is not limited to card/EMV: it also covers OCMF charge-metering proofs. SEPA credit-transfer proof types (`SCT`, `SCT-INST`) are reserved for a future proof profile.
 - The `payments[].type` value `CREDIT_TRANSFER` covers IBAN-based (account-to-account) credit transfers.
 - Issuers SHOULD reuse the listed values where applicable; additional payment-method or verification-proof values SHOULD be agreed across issuer and verifier implementations.
 
@@ -503,7 +505,7 @@ For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NO
 | `payments[].type` | `type` | string | Section 2.2 | MUST |
 | `payments[].amount` | `amount` | integer | Section 2.2 | MUST |
 | `payments[].attributes` | `attributes` | object | Section 2.3 | MAY (per-sub-field) |
-| `verifications` | `verifications` | array of objects | Section 2.2 / 2.4 | MUST NOT (technical proof; required for verifier validation) |
+| `verifications` | `verifications` | array of objects | Section 2.2 / 2.4 | MUST NOT (technical proof; optional array, present only when an independent proof exists) |
 | `verifications[].type` | `type` | string | Section 2.2 | MUST NOT |
 | `verifications[].version` | `version` | string | Section 2.2 | MUST NOT |
 | `verifications[].public_key` | `public_key` | string | Section 2.2 | MUST NOT |

@@ -23,8 +23,7 @@
     "merchant",
     "products",
     "vats",
-    "payments",
-    "verifications"
+    "payments"
   ],
   "additionalProperties": false,
   "properties": {
@@ -144,7 +143,7 @@
       "items": {
         "$ref": "#/$defs/verification"
       },
-      "$comment": "Section 2.2 mandatory plus Section 2.4 conditional sub-fields. Technical proof; in the issued SD-JWT these claims are not selectively disclosable (3.2.3). minItems 1 added as a reasonable constraint."
+      "$comment": "Section 3.1: optional. Technical proof, present only when an independent proof of the payment event exists; omitted for CREDIT_TRANSFER, for which no proof profile is defined in this version. In the issued SD-JWT these claims are not selectively disclosable (3.2.3). minItems 1: if the array is present it contains at least one entry."
     },
     "free_text": {
       "type": "string",
