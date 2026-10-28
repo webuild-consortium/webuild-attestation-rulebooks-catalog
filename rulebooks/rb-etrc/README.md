@@ -293,6 +293,17 @@ etrc
 | VP1 | validity_Period.end_Date' <= 'issuer.issuance_date' | Validity period ends at issuance date | The etrc may not be given for the future|
 | VP2 | 'validity_period.start_date' >= previous year's first date || == tax year's start date ; 
 
+## 4 Metadata
+Metadata describes the attestation rather than its subject. Use the same schema artefacts referenced in section 3.1.
+
+### 4.1 Mandatory metadata
+
+Includes the `category` attribute for all categories except PID.
+
+| Category | `category` value |
+| --- | --- |
+| QEAA | `urn:etsi:esi:eaa:eu:qualified` |
+| PuB-EAA | `urn:etsi:esi:eaa:eu:pub` |
 
 # 3 Attestation encoding
 
