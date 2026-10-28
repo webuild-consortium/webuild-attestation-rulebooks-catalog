@@ -1,54 +1,97 @@
 # Contributing to WE BUILD Attestation Rulebooks and Schemas
 
-We welcome contributions that improve clarity, correctness, and coverage of rulebooks and schemas. This guide explains how to get involved.
+Contributions that improve the clarity, correctness and coverage of the rulebooks and
+schemas are welcome. This guide covers how to make a change and what happens to it.
 
-## Getting started
+## Making a change
 
-1. **Fork** the repository and clone it locally.
-2. Create a feature branch from `main`:
-   - Branch name suggestion: `feat/<area>-<short-description>` or `fix/<area>-<short-description>`.
-3. Make your changes (see sections below).
-4. Validate your changes locally before opening a pull request.
+Small edits are easiest in the GitHub editor: open the file, edit it, and GitHub will
+offer to create a branch and a pull request for you. Nothing has to be built or
+generated on your machine.
 
-## Rulebook contributions
+For larger work, clone the repository, branch from `main`, and open a pull request
+when you are ready. Name the branch after what it does, for example
+`feat/rb-taxid-revocation` or `fix/rb-pid-cross-references`. Contributors outside the
+consortium can fork and open a pull request from the fork.
 
-- Edit or add Markdown files under `rulebooks/`.
-- Use the [webuild-rulebook-generic-template.md](rulebooks/templates/webuild-rulebook-generic-template.md) as a starting point for new rulebooks.
-- Read [rulebooks/templates/README.md](rulebooks/templates/README.md) for the template markers and the pre-submission checklist.
-- Keep terminology consistent with EUDI specifications and the existing rulebooks.
-- Use RFC 2119 keywords (`SHALL`, `SHOULD`, `MAY`, etc.) for normative requirements.
-- Follow the standard section structure: Introduction, Document Scope, Document Structure, Keywords, Terminology, and numbered chapters.
+## Adding or changing a rulebook
 
-## Schema contributions
+**Every rulebook follows the generic template.** It is fixed at eleven chapters and
+they are not renumbered or renamed. Read
+[`rulebooks/README.md`](rulebooks/README.md) before you start writing. It lists the
+chapters, explains how to name the folder, and tells you where to begin.
 
-- Update or add JSON Schema files under `data-schemas/`. Schemas are organised by format (e.g. `sd-jwt/`, `mdoc/`).
-- Use the naming convention: `ds###-<name>-<format>.json` (e.g. `ds001-ebw-oid-sd-jwt.json`).
-- Include at least one representative sample under the corresponding `sample-data/` folder, named `ds###-<name>-<format>-sample.json`.
-- Use JSON Schema Draft-07 or later and include `$schema`, `$id`, `title`, `description`, `type`, and `version` properties.
+The two documents you need:
 
-## Validation
+- [`rulebooks/templates/webuild-rulebook-generic-template.md`](rulebooks/templates/webuild-rulebook-generic-template.md),
+  the template itself. Copy it to `rulebooks/rb-<slug>/README.md` and fill it in.
+- [`rulebooks/templates/README.md`](rulebooks/templates/README.md), which explains the
+  markers in the template, the requirement identifiers, and the checklist to run
+  through before you submit.
 
-The repository includes a GitHub Actions workflow ([validate-schemas.yml](.github/workflows/validate-schemas.yml)) that automatically validates schemas and samples on every pull request. Before opening a PR:
+While writing:
 
-1. Ensure all JSON files are well-formed.
-2. Verify your sample data conforms to its schema using any JSON Schema validator (e.g. `jsonschema` for Python, `ajv` for Node.js).
-3. Check that every schema has at least one matching sample in the same folder (matched by the `ds###` file prefix).
+- Use RFC 2119 key words, `SHALL`, `SHOULD` and `MAY`, for anything normative, and
+  lower case `must` only for a constraint imposed by some other document.
+- Keep terminology consistent with the ARF and with the rulebooks already here.
+- Give every attribute a definition, a presence, and a semantic reference where one
+  exists.
+- Strip the `FIXED`, `[AUTHOR]` and `TO AGREE` markers before you ask for review.
+  None of them belong in a finished rulebook.
 
-## Pull request process
+Every merged rulebook is published on the
+[rulebook explorer](https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/),
+with its own page, built automatically from this repository.
 
-1. **Open a pull request** against `main`.
-2. Describe the intent and scope of your change, and reference any related issues or external specifications.
-3. The CI workflow will run automatically — ensure all checks pass.
-4. Be responsive to review comments and iterate as needed until approval.
+## Adding or changing a schema
 
-## Style and conventions
+Schemas live under [`data-schemas/`](data-schemas), organised by format, currently
+`sd-jwt/`, `mdoc/` and `display/`.
 
-- **British English** spelling is preferred.
-- Use **lowercase with hyphens** for file and folder names.
-- Write **clear commit messages** with context and rationale.
-- Keep changes **scoped and focused** — separate unrelated updates into different PRs.
-- Prefer **additive changes**; avoid breaking changes unless necessary and clearly justified.
+- Name a new schema after the rulebook slug and the format,
+  for example `approved-supplier-sd-jwt.json`. Some older files still carry the
+  retired `ds###` numbering; leave those names alone rather than renumbering them.
+- Include at least one sample in the matching `sample-data/` folder, named after the
+  schema with `-sample` appended.
+- Use JSON Schema draft-07 or later, with `$schema`, `$id`, `title`, `description`,
+  `type` and `version` present.
+- Reference the schema from chapter 3 of the rulebook it belongs to, so a reader can
+  find it from the document.
+
+## What runs on your pull request
+
+Two checks, both automatic:
+
+- **Schema validation**, from
+  [`validate-schemas.yml`](.github/workflows/validate-schemas.yml). It checks that
+  every JSON file is well formed, that samples conform to their schema, and that each
+  schema has a sample.
+- **The explorer build**, from
+  [`explorer.yml`](.github/workflows/explorer.yml). It reads every rulebook and renders
+  every page without writing anything, and fails only if a rulebook can no longer be
+  read or rendered. It prints what it makes of the rulebooks, including any that are
+  off template or carry a stale cross reference. Those are reported, not enforced.
+
+You never need to commit generated files. The explorer is built when the site
+deploys.
+
+## Review and merge
+
+Open the pull request against `main` and describe what the change does and why,
+referencing any related issue or external specification. A rulebook change should name
+the authors as reviewers. Expect at least one approving review before merge, and
+respond to comments rather than force pushing over them.
+
+Keep a pull request to one subject. Separate unrelated changes.
+
+## Style
+
+- British English.
+- Lower case with hyphens for file and folder names.
+- Commit messages that say what changed and why.
+- Prefer additive changes. If something has to break, say so in the pull request.
 
 ## Licence
 
-This project is licensed under the [Apache Licence, Version 2.0](LICENCE). By contributing, you agree that your contributions will be licensed under the same terms.
+This project is licensed under the [Apache Licence, Version 2.0](LICENCE). By
+contributing, you agree that your contributions are licensed under the same terms.
