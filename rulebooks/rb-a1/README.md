@@ -476,8 +476,8 @@ The member state whose social security legislation applies to the holder. This s
 
 | Data Identifier | Semantic Reference | Definition | Data type | Occurrence | SD Group |
 | --- | --- | --- | --- | --- | --- |
-| `memberstate` | [jurisdiction](https://w3id.org/ebwv#jurisdiction) | Country code of the member state whose legislation applies | countryCodePDA1States | 1:1 | Non-SD |
-| `startDate` | could be [cred:validFrom](https://www.w3.org/2018/credentials#validFrom)<br>or then needs a "PeriodOfTime" reference, but from which class? | Start date from which the member state legislation applies | date | 1:1 | Non-SD |
+| `memberstate` | [memberStateLegislation](https://w3id.org/ebwv#memberStateLegislation).[MemberStateLegislation](https://w3id.org/ebwv#MemberStateLegislation).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Country code of the member state whose legislation applies | countryCodePDA1States | 1:1 | Non-SD |
+| `startDate` | [memberStateLegislation](https://w3id.org/ebwv#memberStateLegislation).[MemberStateLegislation](https://w3id.org/ebwv#MemberStateLegislation).[startDate](https://w3id.org/ebwv#startDate) | Start date from which the member state legislation applies | date | 1:1 | Non-SD |
 | `endDate` | could be [cred:validUntil](https://www.w3.org/2018/credentials#validUntil)<br>or then needs a "PeriodOfTime" reference, but from which class? | End date until which the member state legislation applies | date | 1:1 | Non-SD |
 | `certificateAppliesForDuranceOfStay` | [activityDurationCovered](https://w3id.org/ebwv#activityDurationCovered) | Indicates whether the certificate applies for the entire duration of the stay | Boolean | 0:1 | Non-SD |
 | `determinationIsProvisional` | [provisionalDetermination](https://w3id.org/ebwv#provisionalDetermination) | Indicates whether the determination of applicable legislation is provisional | Boolean | 0:1 | Non-SD |
