@@ -858,7 +858,7 @@ This certifies the optional information regerding a specific position or role he
 | --- | --- | --- | --- | --- |
 | *ProxyPosition.ExpirationDate* | *TBD* | *Specific date of expiration Issuanceof the power and the faculty it enables in the Proxy. The absence of this field implies that there is no expiration date.* | *date-time or full-date as specified in RFC 3339* | *2030-07-08T10:30:21.000Z* |
 | *ProxyPosition.Cardinality* | *TBD* | *Number of concurrent proxies with the same Position required to carry out the operations referred to in the scope of execution of the operation that is intended to be performed. If not included, it is assumed that only one Proxy is needed to perform the action.* | *Integer* | *3* |
-| *ProxyPosition.IssuingRegion* | *TBD* | *Region of a specific country where the attestation is being issued.* | *alpha-2 region code as specified in ISO 3166-2* | *MD* |
+| *ProxyPosition.IssuingRegion* | *TBD* | *Region of a specific country where the attestation is being issued.* | *alpha-2 region code as specified in ISO 3166-1* | *MD* |
 
 #### Domain 3.3 ProxyPowerScope (Power of Attorney | PoA )
 
@@ -870,7 +870,7 @@ This certifies the optional information regerding a specific scope and faculties
 | *ProxyPowerScope.Cardinality* | *TBD* | *Number of concurrent proxies with the same faculties required to carry out the operations referred to in the scope of execution of the power. If not included, it is assumed that only one Proxy is needed to perform the action.* | *Integer* | *3* |
 | *ProxyPowerScope.Constraints* | *TBD* | *In the cases where the Power is limited in its nature include the constraints. See Power.Constraints data structure. If not included, it is assumed that there are no constraints to be considered.* | *Json Object* | *See Constraints data structures below* |
 | *ProxyPowerScope.GeographicalScope* | *TBD* | *Country where the attestation is enabled to be used. Exception is made for the case that the power is usable in the EU will use the labels “EU” that are not conformant with the ISO 3166-1. If not included, it is assumed that there are no limitations in this regard.* | *List of alpha-2 country code as specified in ISO 3166-1* | *DE,ES,NL* |
-| *ProxyPowerScope.IssuingRegion* | *TBD* | *Region of a specific country where the attestation is being issued.* | *alpha-2 region code as specified in ISO 3166-2* | *MD* |
+| *ProxyPowerScope.IssuingRegion* | *TBD* | *Region of a specific country where the attestation is being issued.* | *alpha-2 region code as specified in ISO 3166-1* | *MD* |
 | *ProxyPowerScope.Mandator* | *TBD* | *The Mandator is the natural person that holds de PoR or PoA that entitles the empowerment of the subject.* | *Json Object* | *See Mandator data structures below* |
 | *ProxyPowerScope.ServiceAccess* | *TBD* | *List of all the (digital) services to which the power holder is entitled to access.* | *Json Object* | *See ServiceAccess data structures below* |
 | *ProxyPowerScope.AuthenticSourceId* | *TBD* | *Identification information with regard the authentic source that has the power and faculties registered.* | *String* | *VATES-E81458556* |
