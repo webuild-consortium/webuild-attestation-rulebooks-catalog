@@ -26,6 +26,7 @@ Alternative: Contact Business usecase 2 contact points in WE BUILD.
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-11-04 | Aligned with the ds004 data schema. `issuing_authority` and `expiry_date` are claims of their own instead of mapping to `iss` and `exp`; added `issuing_authority_id`, `issuance_date`, `authentic_source_id` and `authentic_source_name`; `legal_person_status` is a closed code list; `legal_representative` is encoded flat. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -204,7 +205,7 @@ The following table combines all attestation attributes for the EUCC (mandatory,
 | registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 3.1.2](#25-address) | M | object |
 | registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
 | legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | M | string |
-| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). | M | string |
+| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE), given as a code and a description. See [section 5.1](#51-sd-jwt-vc-based-encoding). | M | object |
 | legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
 | share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
 | legal_person_duration | [endDate](https://w3id.org/ebwv#endDate) | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
@@ -264,8 +265,12 @@ Metadata describes the attestation rather than its subject.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** |
 | --- | --- | --- |
-| expiry_date | [cred:validUntil](https://w3.org/2018/credentials#validUntil) | Date (and if possible time) when the attestation will expire. Does not need to be an atribute and can be covered by credentialformat metadata, such as for example the "exp" field on the sd-jwt format. |
+| expiry_date | [cred:validUntil](https://w3.org/2018/credentials#validUntil) | Date (and if possible time) when the attestation will expire. |
+| issuance_date | [cred:validFrom](https://w3.org/2018/credentials#validFrom) | Date and time when the attestation was issued. |
 | issuing_authority | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName) | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC. |
+| issuing_authority_id | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the authority that issued the EUCC (the business register identifier for BRIS). |
+| authentic_source_id |  | Identifier of the authentic source of the data in the EUCC (the business register identifier for BRIS). |
+| authentic_source_name |  | Name of the authentic source of the data in the EUCC. |
 | issuing_country | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data. |
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
@@ -274,6 +279,10 @@ Section 4.1 of the generic template replaces it with the `category` attribute of
 EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
 `attestation_legal_category`, so the template and the ARF disagree. The attribute is
 left as written and the deviation is recorded for the rulebook quality assurance group.
+
+**Issuer and expiry claims.** `issuing_authority` and `expiry_date` are claims of their own
+and are not mapped to the JWT claims `iss` and `exp`. An SD-JWT VC encoded EUCC carries both
+the claims and the JWT claims (section 5.1), which duplicates this information.
 
 ### 4.2 Optional metadata
 
@@ -291,8 +300,9 @@ The following code lists apply to specific attributes:
 
 **legal_person_status**
 
-Examples (Member-State specific):
+Values:
 - active
+- inactive
 - dissolved
 - in_liquidation
 - insolvent
@@ -320,7 +330,7 @@ Values:
 ### 4.5 Integrity rules
 
 - registration_member_state MUST be a valid ISO 3166-1 alpha-2 code.
-- registration_date MUST be equal to or earlier than the issuance date of the attestation.
+- registration_date MUST be equal to or earlier than the issuance_date of the attestation.
 - legal_person_id MUST follow the EUID structure.
 - At least one legal_representative MUST be present.
 - signatory_rule MUST be defined for each legal representative.
@@ -350,9 +360,15 @@ The . notation is used to indicate the nesting of attributes.
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** |
 | --- | --- | --- | --- |
 | attestation_legal_category | attestation_legal_category | string | `Pub-EAA` as defined by eIDAS 2 |
-| issuing_authority | iss | string | RFC 7519 / Section 2.6 |
-| expiry_date | exp | number | RFC 7519 / Section 2.6 (Unix timestamp) |
+| issuing_authority | issuing_authority | string | Not mapped to `iss`, see section 4.1 |
+| issuing_authority_id | issuing_authority_id | string |  |
+| expiry_date | expiry_date | string | ISO 8601 date or date and time. Not mapped to `exp`, see section 4.1 |
+| issuance_date | issuance_date | string | ISO 8601 date and time |
+| authentic_source_id | authentic_source_id | string |  |
+| authentic_source_name | authentic_source_name | string |  |
 | issuing_country | issuing_country | string | ISO 3166-1 alpha-2 |
+| iss | iss | string | RFC 7519. JWT issuer identifier, mandatory |
+| exp | exp | number | RFC 7519 (Unix timestamp), mandatory |
 | legal_person_name | legal_person_name | string | Official current legal person name as registered in the business register. |
 | legal_person_id | legal_person_id | string | EUID |
 | legal_form_type | legal_form_type | string | Legal form of the company. |
@@ -374,18 +390,15 @@ The . notation is used to indicate the nesting of attributes.
 | registered_address.locator_name | registered_address.locator_name | string |  |
 | registered_address.admin_unit_level_1 | registered_address.admin_unit_level_1 | string |  |
 | registered_address.admin_unit_level_2 | registered_address.admin_unit_level_2 | string |  |
-| legal_representative | legal_representative | array | Array of natural/legal persons |
-| legal_representative.legal_person | legal_representative.legal_person | object |  |
-| legal_representative.legal_person.name | legal_representative.legal_person.name | string |  |
-| legal_representative.legal_person.id | legal_representative.legal_person.id | string |  |
-| legal_representative.legal_person.formtype | legal_representative.legal_person.formtype | string |  |
-| legal_representative.legal_person.signatory_rule | legal_representative.legal_person.signatory_rule | string |  |
-| legal_representative.natural_person | legal_representative.natural_person | object |  |
-| legal_representative.natural_person.full_name | legal_representative.natural_person.full_name | string |  |
-| legal_representative.natural_person.identifier | legal_representative.natural_person.identifier | string | Natural person representative identifier |
-| legal_representative.natural_person.date_of_birth | legal_representative.natural_person.date_of_birth | string |  |
-| legal_representative.natural_person.nationality | legal_representative.natural_person.nationality | string |  |
-| legal_representative.natural_person.signatory_rule | legal_representative.natural_person.signatory_rule | string |  |
+| legal_representative | legal_representative | array | Array of natural/legal persons. Each item directly holds the attributes of either a natural person or a legal person, see section 3.4 |
+| legal_representative.name | legal_representative.name | string | Legal person |
+| legal_representative.id | legal_representative.id | string | Legal person |
+| legal_representative.legal_form_type | legal_representative.legal_form_type | string | Legal person |
+| legal_representative.full_name | legal_representative.full_name | string | Natural person |
+| legal_representative.identifier | legal_representative.identifier | string | Natural person representative identifier |
+| legal_representative.date_of_birth | legal_representative.date_of_birth | string | Natural person |
+| legal_representative.nationality | legal_representative.nationality | string | Natural person |
+| legal_representative.signatory_rule | legal_representative.signatory_rule | string | Natural person and legal person |
 | share_capital | share_capital | object |  |
 | share_capital.amount | share_capital.amount | string |  |
 | share_capital.currency | share_capital.currency | string |  |
@@ -393,6 +406,7 @@ The . notation is used to indicate the nesting of attributes.
 | digital_contact_point.website | digital_contact_point.website | string |  |
 | digital_contact_point.email | digital_contact_point.email | string |  |
 | location_status | status | object | See chapter [3.2.3](#321-attribute-status) |
+| trust_anchor | trust_anchor | string | URL, see section 4.3 |
 
 
 #### 5.1.1 Attribute status
