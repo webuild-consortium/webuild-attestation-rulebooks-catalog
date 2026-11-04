@@ -26,7 +26,7 @@ Alternative: Contact Business usecase 2 contact points in WE BUILD.
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
-| 1.2 | 2026-11-04 | Aligned with the ds004 data schema. `issuing_authority` and `expiry_date` are claims of their own instead of mapping to `iss` and `exp`; added `issuing_authority_id`, `issuance_date`, `authentic_source_id` and `authentic_source_name`; `legal_person_status` is a closed code list; `legal_representative` is encoded flat. |
+| 1.2 | 2026-11-04 | Aligned with the ds004 data schema. `issuing_authority` and `expiry_date` are claims of their own instead of mapping to `iss` and `exp`; added `issuing_authority_id`, `issuance_date`, `authentic_source_id` and `authentic_source_name`; `legal_person_status` is a closed code list; `legal_representative` is encoded flat; `trust_anchor` moved to optional metadata; device binding made consistent between sections 7.1 and 7.2; cross-references corrected. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -175,7 +175,7 @@ marked not applicable carry a stated reason.
 | EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
 | EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
 | EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
-| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding MAY apply; justification in section 7.1 |
+| EW-DM-12-038 | ARB_34 | yes | 7.1, 7.2 | Device binding is conditional; justification in sections 7.1 and 7.2 |
 
 ## 3 Attestation attributes
 
@@ -202,11 +202,11 @@ The following table combines all attestation attributes for the EUCC (mandatory,
 | legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
 | legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
 | registration_member_state | The registration member state information can be retrieved from the EUID. | The member state where the company is registered (Alpha-2 country code). | M | string |
-| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 3.1.2](#25-address) | M | object |
+| registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 3.1.2](#312-address) | M | object |
 | registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
 | legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | M | string |
 | legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE), given as a code and a description. See [section 5.1](#51-sd-jwt-vc-based-encoding). | M | object |
-| legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 2.4](#24-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
+| legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 3.4](#34-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
 | share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
 | legal_person_duration | [endDate](https://w3id.org/ebwv#endDate) | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
 | digital_contact_point | [contactPoint](https://w3id.org/ebwv#contactPoint) | Correspondence address of the company, such as electronic mail and/or website | O | object |
@@ -229,9 +229,11 @@ There is currently no open standard for addresses. As such, the definitions from
 
 ### 3.2 Mandatory attributes
 
+The mandatory attributes are those marked M in the overview table in section 3.1.1 and the address table in section 3.1.2.
 
 ### 3.3 Optional attributes
 
+The optional attributes are those marked O in the overview table in section 3.1.1 and the address table in section 3.1.2.
 
 ### 3.4 Conditional attributes
 
@@ -286,13 +288,15 @@ the claims and the JWT claims (section 5.1), which duplicates this information.
 
 ### 4.2 Optional metadata
 
+| **Data Identifier** | **Semantic Reference** | **Definition** |
+| --- | --- | --- |
+| trust_anchor | [cred:termsOfUse](https://w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs. |
 
 ### 4.3 Conditional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** |
 | --- | --- | --- |
 | location_status | [cred:credentialStatus](https://w3.org/2018/credentials#credentialStatus) | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours. |
-| trust_anchor | [cred:termsOfUse](https://w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EUCC can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This  Rulebook adds this as an optional attribute for EUCCs as well, so EUCC Providers are able to ensure that EUCCs can be validated by Relying Parties in the same manner as QEAAs. |
 
 ### 4.4 Code lists
 
@@ -303,6 +307,8 @@ The following code lists apply to specific attributes:
 Values:
 - active
 - inactive
+- closed
+- wound_up
 - dissolved
 - in_liquidation
 - insolvent
@@ -405,8 +411,8 @@ The . notation is used to indicate the nesting of attributes.
 | digital_contact_point | digital_contact_point | object |  |
 | digital_contact_point.website | digital_contact_point.website | string |  |
 | digital_contact_point.email | digital_contact_point.email | string |  |
-| location_status | status | object | See chapter [3.2.3](#321-attribute-status) |
-| trust_anchor | trust_anchor | string | URL, see section 4.3 |
+| location_status | status | object | See section [5.1.1](#511-attribute-status) |
+| trust_anchor | trust_anchor | string | URL, see section 4.2 |
 
 
 #### 5.1.1 Attribute status
@@ -431,7 +437,7 @@ Example:
 ```
 
 #### 5.1.2 Example Payload
-Sample payloads provided under `../../data-schemas/sd-jwt-vc/sample-data/ds004-eucc-sd-jwt-sample.json`
+Sample payloads provided under `../../data-schemas/sd-jwt/sample-data/ds004-eucc-sd-jwt-sample.json`
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
@@ -562,15 +568,16 @@ as profiled by [HAIP].
 
 | Field | Value | Source |
 | --- | --- | --- |
-| Device-bound | MAY | EW-DM-12-038 |
+| Device-bound | Conditional, see below | EW-DM-12-038 |
 | Cryptographically bound to | none | EW-DM-12-032 |
 | Relying Party must also verify a PID | no | EW-DM-12-031 |
 | Binding subject | legal person |  |
 
 The EUCC is a legal-person attestation held in an EU Business Wallet and identified through
 the EBWOID, so the PuB-EAA defaults of binding to a natural person's device and to the PID
-do not apply. Device binding MAY be applied to the key of the business wallet unit, and no
-`cryptographically_bound_to` attribute is used.
+do not apply. Section 7.2 sets when device binding applies: the EUCC is bound to the key of the
+business wallet unit if the wallet belongs to the company the EUCC is issued for, and is not bound
+otherwise. No `cryptographically_bound_to` attribute is used.
 
 ### 7.2 Issuance Policy
 
@@ -631,7 +638,7 @@ following steps SHALL be performed:
 2. verify that the attestation is within its validity period;
 3. check revocation status as described in chapter 8, unless the attestation is
    short-lived, or its remaining lifetime is below the revocation time threshold;
-4. verify device binding where section 7.1 records the attestation as device-bound;
+4. verify device binding where the attestation is device-bound (section 7.1);
 5. request only those attributes that are necessary for the stated purpose of the
    transaction, and, where the trust model for this attestation requires Relying Party
    registration, only those attributes it is registered and authorised to request.
@@ -643,13 +650,13 @@ Beyond protocol-level checks, an RP processing an EUCC presentation **SHALL** pe
 
 1. **Verify authenticity and integrity**
     - Verify the EUCC cryptographic protections (signature/seal chain validation as applicable for the legal category).
-    - Verify that the issuer is authorised to issue EUCCs according to the trust anchor mechanism defined in this rulebook (see Chapter 5).
+    - Verify that the issuer is authorised to issue EUCCs according to the trust anchor mechanism defined in this rulebook (see Chapter 10).
 
 2. **Verify time validity / freshness**
     - Verify the EUCC is within its validity period (e.g., using `exp` in SD-JWT VC).
 
 3. **Check revocation / status (where applicable)**
-    - Where the EUCC validity exceeds 24 hours and a status mechanism is provided, the RP **SHALL** check the EUCC validity status using the mechanism defined in Chapter 6.
+    - Where the EUCC validity exceeds 24 hours and a status mechanism is provided, the RP **SHALL** check the EUCC validity status using the mechanism defined in Chapter 8.
 
 4. **Process according to purpose limitation**
     - RPs **SHOULD** request and process the EUCC only when needed for the specific transaction, and only for the purpose of the transaction, in line with applicable legal requirements.

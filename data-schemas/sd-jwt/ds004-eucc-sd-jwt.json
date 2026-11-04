@@ -155,6 +155,8 @@
       "enum": [
         "active",
         "inactive",
+        "closed",
+        "wound_up",
         "dissolved",
         "in_liquidation",
         "insolvent",
