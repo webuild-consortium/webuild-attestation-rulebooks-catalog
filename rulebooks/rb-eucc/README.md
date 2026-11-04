@@ -205,11 +205,11 @@ The following table combines all attestation attributes for the EUCC (mandatory,
 | registered_address | [registeredAddress](https://w3id.org/ebwv#registeredAddress) | The official address of the company as registered by public authority. See [section 3.1.2](#312-address) | M | object |
 | registration_date | [dateOfRegistration](https://w3id.org/ebwv#dateOfRegistration) | Date of company registration. | M | string (date) |
 | legal_person_status | [legalStatus](https://w3id.org/ebwv#legalStatus) | Status of the company as defined in national law. | M | string |
-| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE), given as a code and a description. See [section 5.1](#51-sd-jwt-vc-based-encoding). | M | object |
+| legal_person_activity | [activity](https://w3id.org/ebwv#activity) | Main activity of the company (NACE). See [section 3.1.3](#313-activity) | M | object |
 | legal_representative | [legalRepresentative](https://w3id.org/ebwv#legalRepresentative) | Information about the natural or legal person(s) authorized to represent the company. See [section 3.4](#34-conditional-attributes). At least one is required. | M | array&lt;object&gt; |
-| share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015 | O | object |
+| share_capital | [subscribedCapital](https://w3id.org/ebwv#subscribedCapital) | Amount of the subscribed capital with currency. Currency code used of the capital subscribed, as defined in ISO 4217:2015. See [section 3.4](#34-conditional-attributes) | O | object |
 | legal_person_duration | [endDate](https://w3id.org/ebwv#endDate) | Endpoint of the legal duration of the company, if it is of a limited timespan. Given as date following ISO 8601 | O | string (date) |
-| digital_contact_point | [contactPoint](https://w3id.org/ebwv#contactPoint) | Correspondence address of the company, such as electronic mail and/or website | O | object |
+| digital_contact_point | [contactPoint](https://w3id.org/ebwv#contactPoint) | Correspondence address of the company, such as electronic mail and/or website. See [section 3.1.4](#314-digital-contact-point) | O | object |
 
 #### 3.1.2 Address
 There is currently no open standard for addresses. As such, the definitions from EWC for company addresses are re-used.
@@ -227,13 +227,27 @@ There is currently no open standard for addresses. As such, the definitions from
 | admin_unit_level_1 | [adminUnitL1](https://w3id.org/ebwv#adminUnitL1) | The uppermost administrative unit (typically country). | O | string |
 | admin_unit_level_2 | [adminUnitL2](https://w3id.org/ebwv#adminUnitL2) | Secondary level/region (typically county or state). | O | string |
 
+#### 3.1.3 Activity
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+| --- | --- | --- | --- | --- |
+| code | [activity](https://w3id.org/ebwv#activity) | Code of the main activity of the company. See section 4.4 | M | string |
+| description |  | Short description of the main activity of the company. | M | string |
+
+#### 3.1.4 Digital contact point
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+| --- | --- | --- | --- | --- |
+| website |  | Website of the company. | O | string |
+| email | [hasEmail](https://w3id.org/ebwv#hasEmail) | Electronic mail address of the company. | O | string |
+
 ### 3.2 Mandatory attributes
 
-The mandatory attributes are those marked M in the overview table in section 3.1.1 and the address table in section 3.1.2.
+The mandatory attributes are those marked M in the tables in sections 3.1.1 to 3.1.4.
 
 ### 3.3 Optional attributes
 
-The optional attributes are those marked O in the overview table in section 3.1.1 and the address table in section 3.1.2.
+The optional attributes are those marked O in the tables in sections 3.1.1 to 3.1.4.
 
 ### 3.4 Conditional attributes
 
@@ -258,6 +272,13 @@ If a Legal Person is representative of a legal person, the following attributes 
 | signatory_rule | [scopeOfAuthorization](https://w3id.org/ebwv#scopeOfAuthorization) | Information on whether the representative can engage the company alone or jointly. | M | string |
 
 A combination of natural and legal persons can be legal representatives of a legal person.
+
+If share_capital is present, the following attributes SHALL be included:
+
+| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
+| --- | --- | --- | --- | --- |
+| amount | [amount](https://w3id.org/ebwv#amount) | Amount of the capital subscribed. | M | string |
+| currency | [currency](https://w3id.org/ebwv#currency) | Currency code of the capital subscribed, as defined in ISO 4217:2015. | M | string |
 
 ## 4 Metadata
 
