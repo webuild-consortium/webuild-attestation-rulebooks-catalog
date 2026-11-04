@@ -26,7 +26,7 @@ Alternative: Contact Business usecase 2 contact points in WE BUILD.
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
-| 1.2 | 2026-11-04 | Aligned with the ds004 data schema. `issuing_authority` and `expiry_date` are claims of their own instead of mapping to `iss` and `exp`; added `issuing_authority_id`, `issuance_date`, `authentic_source_id` and `authentic_source_name`; `legal_person_status` is a closed code list; `legal_representative` is encoded flat; `trust_anchor` moved to optional metadata; device binding made consistent between sections 7.1 and 7.2; cross-references corrected. |
+| 1.2 | 2026-11-04 | Aligned with the ds004 data schema. `issuing_authority` and `expiry_date` are claims of their own instead of mapping to `iss` and `exp`; added `issuing_authority_id`, `issuance_date`, `authentic_source_id` and `authentic_source_name`; `legal_person_status` is a closed code list; `legal_representative` is encoded flat; `trust_anchor` moved to optional metadata; device binding made consistent between sections 7.1 and 7.2; selective disclosure ruled out throughout; cross-references corrected. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -173,7 +173,7 @@ marked not applicable carry a stated reason.
 | EW-DM-12-030 | ARB_26 | no |  | Applies to non-qualified EAA only |
 | EW-DM-12-031 | ARB_27 | no |  | The holder is a legal person identified through the EBWOID; see section 7.1 |
 | EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
-| EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
+| EW-DM-12-034 | ARB_30 | yes | 5 | No claim is selectively disclosable, see section 5.1 |
 | EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
 | EW-DM-12-038 | ARB_34 | yes | 7.1, 7.2 | Device binding is conditional; justification in sections 7.1 and 7.2 |
 
@@ -188,7 +188,7 @@ The attestation attributes are defined in the tables of this chapter. These tabl
 - The first column specifies the identifiers of the attestation attributes. The attribute identifiers in this column SHALL be used in requests and responses. There SHALL be at most one attribute with the same attribute identifier in each attestation attribute.
 - The second column describes the meaning of the attribute.
 - The third column specifies whether the presence of the attribute in an attestation is mandatory (M), or optional (O).
-    - NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. It does not imply that a Relying Party is required to request such an attribute when interacting with the Wallet Instance. Neither does it imply that the User cannot refuse to release a mandatory attribute if requested.
+    - NOTE: If the table indicates an attribute as mandatory, this solely means that the Issuer SHALL ensure that this element is present in the attestation. Because claims of the EUCC are not selectively disclosable (section 5.1), a presentation discloses all attributes of the attestation. The User can refuse to present the attestation, but cannot withhold individual attributes.
 - The fourth column indicates how the data elements SHALL be encoded, using the CDDL representation types defined in [RFC 8610].
 
 #### 3.1.1 Overview attributes attestation
@@ -273,7 +273,7 @@ Metadata describes the attestation rather than its subject.
 | issuing_authority_id | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the authority that issued the EUCC (the business register identifier for BRIS). |
 | authentic_source_id |  | Identifier of the authentic source of the data in the EUCC (the business register identifier for BRIS). |
 | authentic_source_name |  | Name of the authentic source of the data in the EUCC. |
-| issuing_country | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the person identification data. |
+| issuing_country | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the EUCC. |
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
 Section 4.1 of the generic template replaces it with the `category` attribute of
@@ -296,7 +296,7 @@ the claims and the JWT claims (section 5.1), which duplicates this information.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** |
 | --- | --- | --- |
-| location_status | [cred:credentialStatus](https://w3.org/2018/credentials#credentialStatus) | The location of validity status information on the person identification data where the providers of person identification data revoke person identification data. This attribute is required when the the time validity time periode of the attestation exceeds 24 hours. |
+| location_status | [cred:credentialStatus](https://w3.org/2018/credentials#credentialStatus) | The location of validity status information on the EUCC where the providers of EUCCs revoke EUCCs. This attribute is required when the validity period of the attestation exceeds 24 hours. |
 
 ### 4.4 Code lists
 
@@ -353,7 +353,7 @@ Values:
 
 ### 5.1 SD-JWT VC-based encoding
 
-The EUCC attestation uses the SD-JWT VC format to allow for selective disclosure of company attributes.
+The EUCC attestation uses the SD-JWT VC format.
 Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to preserve the legally mandated content of the EUCC.
 
 
@@ -544,9 +544,9 @@ The Verifiable Credential Data Model (VCDM) doesn't dictate any specific DID-met
 
 #### Proof mechanisms
 
-The preferred proof mechanism for the EUCC Attesation is [ecdsa-sd-2023](https://www.w3.org/TR/vc-di-ecdsa/#ecdsa-sd-2023-functions) as specified in [Data Integrity ECDSA Cryptosuites v1.0](https://www.w3.org/TR/vc-di-ecdsa). ecdsa-sd-2023 supports selective disclosure out of the box. The issuer doesn't need the select disclosable claims, create disclosures or manipulate the payload of the credential. The issuer just applies the ecdsa-sd-2023 data integrity proof to the credential. The holder chooses which claims he wants to disclose and derives a proof from the original assertion proof.
+Claims of EUCC SHALL NOT be selectively disclosable (section 5.1), so proof mechanisms that let the holder choose which claims to disclose, such as [ecdsa-sd-2023](https://www.w3.org/TR/vc-di-ecdsa/#ecdsa-sd-2023-functions), SHALL NOT be used for the EUCC.
 
-For backward compatibility and for trust frameworks whose policies require a particular proof mechanism, [JOSE](https://www.w3.org/TR/vc-jose-cose/#with-jose) and [SD-JWT](https://www.w3.org/TR/vc-jose-cose/#with-sd-jwt) as specified in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) should be supported, too.
+For trust frameworks whose policies require a particular proof mechanism, [JOSE](https://www.w3.org/TR/vc-jose-cose/#with-jose) and [SD-JWT](https://www.w3.org/TR/vc-jose-cose/#with-sd-jwt) as specified in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) should be supported. With SD-JWT, the EUCC SHALL NOT contain selectively disclosable claims.
 
 The [Security Vocabulary](https://www.w3.org/2025/credentials/vcdi/vocab/v2/vocabulary.html) is used to embed the proofs into the credentials.
 
@@ -639,9 +639,10 @@ following steps SHALL be performed:
 3. check revocation status as described in chapter 8, unless the attestation is
    short-lived, or its remaining lifetime is below the revocation time threshold;
 4. verify device binding where the attestation is device-bound (section 7.1);
-5. request only those attributes that are necessary for the stated purpose of the
+5. request the attestation only where it is necessary for the stated purpose of the
    transaction, and, where the trust model for this attestation requires Relying Party
-   registration, only those attributes it is registered and authorised to request.
+   registration, only where it is registered and authorised to request it. Claims are not
+   selectively disclosable (section 5.1), so a presentation discloses all attributes.
 
 Obligations specific to this attestation type, carried over from the previous version
 of this Rulebook:
