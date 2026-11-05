@@ -287,7 +287,7 @@ Metadata describes the attestation rather than its subject.
 | expiry_date | Date (and if possible time) when the attestation will expire. Does not need to be an attribute and can be covered by credential format metadata, such as for example the "exp" field on the sd-jwt format. |
 | issuing_authority | Name of the administrative authority (LEI Issuer / LOU) that issued the LEI attestation, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the LEI attestation. |
 | issuing_country | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the attestation data. |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA") |
+| attestation_legal_category | Indicates the legal category of this attestation ("EAA" or "PuB-EAA"/"QEAA") |
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
 Section 4.1 of the generic template replaces it with the `category` attribute of
@@ -535,7 +535,7 @@ This Rulebook defines no transactional data.
 *Mechanisms for the provision of a trust anchor that SHALL
 be used for the verification of an attestation SHALL be defined in this section.*
 
-*It is noted that the ARF specifies the following for QEAAs and Pub-EAAs*
+*It is noted that the ARF specifies the following for QEAAs and PuB-EAAs*
 
 > To do this for [...] QEAAs the Relying Party Instance uses a trust anchor of
 > the Provider obtained from a Trusted List. Note that the PID Provider or QEAA
