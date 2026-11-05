@@ -4,7 +4,7 @@
   "title": "ds007 - EU Power of Attorney (EU PoA) – SD-JWT VC payload",
   "description": "Schema for the SD-JWT VC payload of an EU PoA as defined in the EU PoA Rulebook (rb-eu-poa, Chapter 3.2). This models the JSON claims set prior to SD-JWT disclosure/packing. The attestation is a single flat object; selective disclosure per claim is specified in the rulebook, not here.",
   "type": "object",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "additionalProperties": false,
   "properties": {
     "vct": {
@@ -21,6 +21,7 @@
       "enum": [
         "EAA",
         "PUB-EAA",
+        "PuB-EAA",
         "QEAA"
       ]
     },

@@ -195,7 +195,7 @@ The encoding format column indicates how the data elements SHALL be encoded, usi
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| attestation_legal_category | TBD | One of EAA, Pub-EAA or QEAA | string | QEAA |
+| attestation_legal_category | TBD | One of EAA, PuB-EAA or QEAA | string | QEAA |
 | date_of_execution | TBD | Date the PoA was executed | string (date) | 2026-01-15 |
 | euid_reference | TBD | EUID reference | string | NLNHR.12345678 |
 | principal_full_name | TBD | Legal full name of the principal | string | Frouke Janssen |
@@ -296,7 +296,7 @@ The EU PoA attestation uses the SD-JWT VC format to allow for selective disclosu
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
-| attestation_legal_category | attestation_legal_category | string | One of EAA, Pub-EAA, QEAA as defined by eIDAS 2 | MUST NOT |
+| attestation_legal_category | attestation_legal_category | string | One of EAA, PuB-EAA, QEAA as defined by eIDAS 2 | MUST NOT |
 | issuing_authority | iss | string | RFC 7519 / Section 4.1 | MUST NOT |
 | expiry_date | exp | number | RFC 7519 / Section 4.1 (Unix timestamp) | MUST NOT |
 | issuing_country | issuing_country | string | ISO 3166-1 alpha-2 | MUST NOT |
