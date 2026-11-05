@@ -3,6 +3,7 @@
   "title": "EU Company Certificate (EUCC)",
   "description": "Schema for the SD-JWT VC payload of an EU Company Certificate, as defined in the EUCC Rulebook (rb-eucc).",
   "type": "object",
+  "version": "1.2.0",
   "additionalProperties": false,
   "properties": {
     "vct": {
@@ -18,7 +19,7 @@
       "type": "string"
     },
     "issuing_authority_id": {
-      "description": "Identifier of the authority that issued the EUCC (the business register identifier for BRIS).",
+      "description": "EUID of the authority that issued the EUCC. This is the EUID of the business register where it issues the EUCC itself, or the EUID of the issuer authorised to issue on its behalf.",
       "type": "string"
     },
     "issuing_country": {
@@ -44,7 +45,7 @@
       ]
     },
     "authentic_source_id": {
-      "description": "Identifier of the authentic source of the data in the EUCC (the business register identifier for BRIS).",
+      "description": "EUID of the authentic source of the data in the EUCC, which is the company register.",
       "type": "string"
     },
     "authentic_source_name": {
@@ -164,12 +165,12 @@
       ]
     },
     "legal_person_activity": {
-      "description": "Object of the company describing its main activity, expressed using the NACE classification or the ATECO classification (Italy)",
+      "description": "Object of the company describing its main activity, expressed using the NACE classification",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "code": {
-          "description": "Legal person activity code (NACE or ATECO)",
+          "description": "Legal person activity code (NACE)",
           "type": "string"
         },
         "description": {

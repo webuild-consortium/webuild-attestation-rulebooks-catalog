@@ -2,11 +2,11 @@
   "vct": "uri:eu.eudi.eucc.1",
   "attestation_legal_category": "Pub-EAA",
   "issuing_authority": "Brønnøysundregistrene",
-  "issuing_authority_id": "974760673",
+  "issuing_authority_id": "NOFOR.974760673",
   "issuing_country": "NO",
   "issuance_date": "2026-01-15T10:00:00Z",
   "expiry_date": "2027-01-15T10:53:20Z",
-  "authentic_source_id": "974760673",
+  "authentic_source_id": "NOFOR.974760673",
   "authentic_source_name": "Brønnøysundregistrene",
   "legal_person_name": "EUDI WALLET SOLUTIONS AS",
   "legal_person_id": "NOFOR.987654321",
@@ -28,7 +28,7 @@
   },
   "legal_person_status": "active",
   "legal_person_activity": {
-    "code": "62.010",
+    "code": "62.01",
     "description": "Computer programming activities"
   },
   "digital_contact_point": {

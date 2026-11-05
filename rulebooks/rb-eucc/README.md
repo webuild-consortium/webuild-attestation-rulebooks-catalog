@@ -26,7 +26,7 @@ Alternative: Contact Business usecase 2 contact points in WE BUILD.
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
-| 1.2 | 2026-11-04 | Aligned with the ds004 data schema. `issuing_authority` and `expiry_date` are claims of their own instead of mapping to `iss` and `exp`; added `issuing_authority_id`, `issuance_date`, `authentic_source_id` and `authentic_source_name`; `legal_person_status` is a closed code list; `legal_representative` is encoded flat; `trust_anchor` moved to optional metadata; device binding made consistent between sections 7.1 and 7.2; selective disclosure ruled out throughout; cross-references corrected. |
+| 1.2 | 2026-11-05 | Aligned with the ds004 data schema, which now carries the version `1.2.0`. `issuing_authority` and `expiry_date` are claims of their own instead of mapping to `iss` and `exp`; added `issuing_authority_id`, `issuance_date`, `authentic_source_id` and `authentic_source_name`; `issuing_authority_id` and `authentic_source_id` are EUIDs; `legal_person_activity` uses NACE only, ATECO removed; `legal_person_status` is a closed code list; `legal_representative` is encoded flat; `trust_anchor` moved to optional metadata; device binding made consistent between sections 7.1 and 7.2; selective disclosure ruled out throughout; cross-references corrected. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -291,8 +291,8 @@ Metadata describes the attestation rather than its subject.
 | expiry_date | [cred:validUntil](https://w3.org/2018/credentials#validUntil) | Date (and if possible time) when the attestation will expire. |
 | issuance_date | [cred:validFrom](https://w3.org/2018/credentials#validFrom) | Date and time when the attestation was issued. |
 | issuing_authority | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName) | Name of the administrative authority that issued the eucc, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC. |
-| issuing_authority_id | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Identifier of the authority that issued the EUCC (the business register identifier for BRIS). |
-| authentic_source_id |  | Identifier of the authentic source of the data in the EUCC (the business register identifier for BRIS). |
+| issuing_authority_id | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | EUID of the authority that issued the EUCC. This is the EUID of the business register where it issues the EUCC itself, or the EUID of the issuer authorised to issue on its behalf (section 7.2). |
+| authentic_source_id |  | EUID of the authentic source of the data in the EUCC, which is the company register (section 7.2). It has the same value as `issuing_authority_id` where the company register issues the EUCC itself. |
 | authentic_source_name |  | Name of the authentic source of the data in the EUCC. |
 | issuing_country | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the EUCC. |
 
@@ -339,7 +339,6 @@ Values:
 
 Values:
 - NACE codes (EU)
-- ATECO (Italy)
 
 **registration_member_state**
 
@@ -359,6 +358,7 @@ Values:
 - registration_member_state MUST be a valid ISO 3166-1 alpha-2 code.
 - registration_date MUST be equal to or earlier than the issuance_date of the attestation.
 - legal_person_id MUST follow the EUID structure.
+- issuing_authority_id and authentic_source_id MUST follow the EUID structure.
 - At least one legal_representative MUST be present.
 - signatory_rule MUST be defined for each legal representative.
 
@@ -388,10 +388,10 @@ The . notation is used to indicate the nesting of attributes.
 | --- | --- | --- | --- |
 | attestation_legal_category | attestation_legal_category | string | `Pub-EAA` as defined by eIDAS 2 |
 | issuing_authority | issuing_authority | string | Not mapped to `iss`, see section 4.1 |
-| issuing_authority_id | issuing_authority_id | string |  |
+| issuing_authority_id | issuing_authority_id | string | EUID |
 | expiry_date | expiry_date | string | ISO 8601 date or date and time. Not mapped to `exp`, see section 4.1 |
 | issuance_date | issuance_date | string | ISO 8601 date and time |
-| authentic_source_id | authentic_source_id | string |  |
+| authentic_source_id | authentic_source_id | string | EUID |
 | authentic_source_name | authentic_source_name | string |  |
 | issuing_country | issuing_country | string | ISO 3166-1 alpha-2 |
 | iss | iss | string | RFC 7519. JWT issuer identifier, mandatory |
