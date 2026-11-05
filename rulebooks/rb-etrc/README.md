@@ -139,7 +139,7 @@ The etrc attestation is an attestation provided by an authentic source such as a
  
 *According to Annex V point a) and  Annex VII point a) of the [European Digital Identity Regulation]
 an indication, at least in a form suitable for automated processing, that the attestation
-has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
+has been issued as a QEAA or PuB-EAA SHALL be defined. Similarly, according to ARB_12
 of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.
 
 This document defines the attribute "etrc" which SHALL have
@@ -270,7 +270,7 @@ etrc
 | issuer.etrc_authenticsource | No solution for this yet in Semantics <br> authenticSource | Name of the administrative authority that issued the etrc. This is the authentic source for the etrc, which may differ from the issuer of the attestation| tstr |  |
 | issuer.country | issuing_country | No solution for this yet in Semantics <br> Alpha‑2 country code, as specified in ISO 3166‑2, of the country or territory of the provider of the etrc. | tstr |  |
 | issuer.issuing_authority | [cred:issuer] <br> issuerAuthority | Name of the administrative authority or qualified trust service provider that issued the etrc attestation, in a specific language using  BCP 47 | tstr |  |
-| issuer.attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) <br> issuerLegalCategory | The type of attestation category. (Pub-EAA/QEAA) | tstr | PUB-EAA |
+| issuer.attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) <br> issuerLegalCategory | The type of attestation category. (PuB-EAA/QEAA) | tstr | PuB-EAA |
 | issuer.attestation_issuing_date | [cred:validFrom] <br> iat | The date the attestation was issued | Number (Unix timestamp) | |
 | issuer.attestation_expiry_date | [cred:validUntil] <br> exp | The date the attestation was issued | Number (Unix timestamp) | |
 
@@ -533,7 +533,7 @@ The attestation SHALL be non-device-bound. The relying party SHOULD check the ow
 *Mechanisms for the provision of a trust anchor that SHALL
 be used for the verification of an attestation SHALL be defined in this section.*
 
-*It is noted that the ARF specifies the following for QEAAs and Pub-EAAs:*
+*It is noted that the ARF specifies the following for QEAAs and PuB-EAAs:*
 
 > To do this for [...] QEAAs the Relying Party Instance uses a trust anchor of
 the Provider obtained from a Trusted List. Note that the PID Provider or QEAA
