@@ -4,6 +4,7 @@
   "title": "WE BUILD Power of X Credential",
   "description": "JSON Schema derived from Canonical Model V7",
   "type": "object",
+  "version": "0.9.0",
   "required": [
     "vct",
     "credential",
@@ -37,6 +38,7 @@
           "enum": [
             "QEAA",
             "PubEAA",
+            "PuB-EAA",
             "non-qualified-EAA"
           ]
         }
