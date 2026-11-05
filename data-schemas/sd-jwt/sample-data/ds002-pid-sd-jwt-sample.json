@@ -1,6 +1,6 @@
 {
   "vct": "urn:eudi:pid:de:1",
-  "attestation_legal_category": "PUB-EAA",
+  "attestation_legal_category": "PuB-EAA",
   "given_name": "Jean",
   "family_name": "Dupont",
   "birthdate": "1980-05-23",

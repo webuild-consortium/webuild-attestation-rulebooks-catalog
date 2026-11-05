@@ -241,7 +241,7 @@ CIR 2024/2977.
 | --- | --- | --- |
 | issuance_date | Date (and if possible time) when the person identification data was issued and/or the administrative validity period of the person identification data began. See also the clarification for expiry_date in [Section 2.5](#25-mandatory-metadata-specified-in-cir-20242977). | 19-12-2025 |
 | trust_anchor | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the PID can be found or looked up. *Note: This attribute corresponds to the location meant in Annex V point h) or Annex VII point h) of the [European Digital Identity Regulation], which is mandatory for QEAAs. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.* | <https://example.com/trustanchors/pid/> |
-| attestation_legal_category | This attribute indicates that a PID has indeed been issued as a PID. *Note: According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation] an indication, at least in a form suitable for automated processing, that the attestation has been issued as a QEAA or Pub-EAA SHALL be defined. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.* | PID |
+| attestation_legal_category | This attribute indicates that a PID has indeed been issued as a PID. *Note: According to Annex V point a) and Annex VII point a) of the [European Digital Identity Regulation] an indication, at least in a form suitable for automated processing, that the attestation has been issued as a QEAA or PuB-EAA SHALL be defined. This PID Rulebook adds this as an optional attribute for PIDs as well, so PID Providers are able to ensure that PIDs can be validated by Relying Parties in the same manner as QEAAs.* | PID |
 
 ### 3.4 Conditional attributes
 
@@ -552,7 +552,7 @@ EXAMPLE: The following example shows the payload of a PID in SD-JWT VC format be
 ```json
 {
     "vct": "urn:eudi:pid:de:1",
-    "attestation_legal_category": "PUB-EAA",
+    "attestation_legal_category": "PuB-EAA",
 
     "given_name": "Jean",
     "family_name": "Dupont",
