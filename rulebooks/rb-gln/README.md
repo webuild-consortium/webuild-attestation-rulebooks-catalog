@@ -272,7 +272,7 @@ For a typical European postal addresses, `gs1:streetAddress` **SHOULD** be used 
 | issuance_date | [cred:validFrom](https://www.w3.org/2018/credentials/#validFrom) | The date and time when the attestation was issued (ISO 8601) | DateTime |
 | expiry_date | [cred:validUntil](https://www.w3.org/2018/credentials/#validUntil) | The date and time when the attestation expires (ISO 8601) | DateTime |
 | issuing_entity | [cred:issuer](https://www.w3.org/2018/credentials/#issuer) | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations, or the QTSP identifier for QEAA) | String |
-| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | Indicates the legal category of this attestation ("EAA" or "pubEAA"/"QEAA") | String |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | Indicates the legal category of this attestation ("EAA" or "PuB-EAA"/"QEAA") | String |
 | vct |  | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed | String |
 
 | **Attribute** | **Definition** | **Type** |
