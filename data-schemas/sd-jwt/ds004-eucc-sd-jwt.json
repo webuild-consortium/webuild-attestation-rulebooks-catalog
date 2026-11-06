@@ -1,24 +1,25 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "EWC - EU Company Certificate",
-  "description": "Schema for EU Company Certificate - EWC WP3",
+  "title": "EU Company Certificate (EUCC)",
+  "description": "Schema for the SD-JWT VC payload of an EU Company Certificate, as defined in the EUCC Rulebook (rb-eucc).",
   "type": "object",
+  "version": "1.2.0",
   "additionalProperties": false,
   "properties": {
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'urn:eudi:eucc:1'. Domestic types MAY be of the form 'urn:eudi:eucc:<cc>:1'.",
+      "const": "uri:eu.eudi.eucc.1",
+      "description": "Verifiable Credential Type. For the EUCC this is 'uri:eu.eudi.eucc.1'.",
       "examples": [
-        "urn:eudi:eucc:1",
-        "urn:eudi:eucc:de:1"
+        "uri:eu.eudi.eucc.1"
       ]
     },
     "issuing_authority": {
-      "description": "Name of issuer from the MS that issued the ODI instance",
+      "description": "Name of the administrative authority that issued the EUCC, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EUCC.",
       "type": "string"
     },
     "issuing_authority_id": {
-      "description": "ODI Id of the issuing authority. (Business register identifier for BRIS)",
+      "description": "EUID of the authority that issued the EUCC. This is the EUID of the business register where it issues the EUCC itself, or the EUID of the issuer authorised to issue on its behalf.",
       "type": "string"
     },
     "issuing_country": {
@@ -26,27 +27,39 @@
       "type": "string",
       "pattern": "^[A-Z]{2}$"
     },
-    "issuing_jurisdiction": {
-      "description": "As defined in ISO 3166-2:2020, of the issuing country or territory.",
-      "type": "string"
-    },
     "issuance_date": {
-      "description": "Date and possibly time of issuance",
+      "description": "Date and time when the attestation was issued.",
       "type": "string",
       "format": "date-time"
     },
+    "expiry_date": {
+      "description": "Date (and if possible time) when the attestation will expire. Not mapped to exp.",
+      "type": "string",
+      "anyOf": [
+        {
+          "format": "date"
+        },
+        {
+          "format": "date-time"
+        }
+      ]
+    },
     "authentic_source_id": {
-      "description": "ODI Id of the issuing authority. (Business register identifier for BRIS)",
+      "description": "EUID of the authentic source of the data in the EUCC, which is the company register.",
       "type": "string"
     },
     "authentic_source_name": {
-      "description": "Name of issuer from the MS that issued the ODI instance",
+      "description": "Name of the authentic source of the data in the EUCC.",
       "type": "string"
     },
     "attestation_legal_category": {
       "description": "Legal category of the attestation.",
       "type": "string",
-      "enum": ["EAA", "PUB-EAA","QEAA"]
+      "enum": [
+        "PuB-EAA",
+        "PUB-EAA",
+        "Pub-EAA"
+      ]
     },
     "legal_person_name": {
       "description": "Official current legal person name as registered in the business register.",
@@ -146,16 +159,22 @@
       "type": "string",
       "enum": [
         "active",
-        "inactive"
+        "inactive",
+        "closed",
+        "wound_up",
+        "dissolved",
+        "in_liquidation",
+        "insolvent",
+        "struck_off"
       ]
     },
     "legal_person_activity": {
-      "description": "Object of the company describing its main activity or activities, which must be expressed using the Statistical Classification of Economic Activities in the European Community (NACE)",
+      "description": "Object of the company describing its main activity, expressed using the NACE classification",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "code": {
-          "description": "Legal person activity NACE code",
+          "description": "Legal person activity code (NACE)",
           "type": "string"
         },
         "description": {
@@ -341,45 +360,47 @@
     },
     "status": {
       "type": "object",
-      "description": "Credential status following SD-JWT VC Status List.",
+      "description": "Credential status using a Token Status List. Required when the technical validity period of the attestation exceeds 24 hours (rulebook section 5.1.1).",
       "additionalProperties": false,
       "properties": {
-        "type": {
-          "type": "string",
-          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'."
-        },
-        "status_list_credential": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the Status List Credential that contains the bitstring indicating status."
-        },
-        "status_list_index": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Zero-based index into the status list bitstring for this credential."
-        },
-        "status_purpose": {
-          "type": "string",
-          "description": "Purpose of the status entry. For PID this is 'revocation'."
+        "status_list": {
+          "type": "object",
+          "description": "Reference to this EUCC's entry in a Token Status List.",
+          "additionalProperties": false,
+          "properties": {
+            "idx": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Index of this EUCC in the status list."
+            },
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "description": "URI of the Status List Token."
+            }
+          },
+          "required": [
+            "idx",
+            "uri"
+          ]
         }
       },
       "required": [
-        "type",
-        "status_list_credential",
-        "status_list_index",
-        "status_purpose"
+        "status_list"
       ],
       "examples": [
         {
-          "type": "status-list",
-          "status_list_credential": "https://issuer.example.com/status/1",
-          "status_list_index": 42,
-          "status_purpose": "revocation"
+          "status_list": {
+            "idx": 42,
+            "uri": "https://issuer.example.com/statuslists/1"
+          }
         }
       ]
     }
   },
   "required": [
+    "vct",
+    "attestation_legal_category",
     "legal_person_name",
     "legal_person_id",
     "legal_form_type",
@@ -392,9 +413,12 @@
     "issuing_authority_id",
     "issuing_country",
     "issuance_date",
+    "expiry_date",
     "authentic_source_id",
     "authentic_source_name",
-    "legal_representative"
+    "legal_representative",
+    "iss",
+    "exp"
   ],
   "$defs": {
     "legal_representative": {
@@ -421,6 +445,10 @@
           "type": "string",
           "format": "date"
         },
+        "identifier": {
+          "description": "Natural person representative or national identifier",
+          "type": "string"
+        },
         "nationality": {
           "description": "Nationality of the natural person representing the company",
           "type": "string"
@@ -429,8 +457,11 @@
           "description": "Information if the representative can engage the company alone or jointly",
           "type": "string",
           "enum": [
-            "alone",
-            "joint"
+            "sole",
+            "joint",
+            "joint_two",
+            "joint_all",
+            "limited"
           ]
         }
       },
@@ -461,8 +492,11 @@
           "description": "Information if the representative can engage the company alone or jointly",
           "type": "string",
           "enum": [
-            "alone",
-            "joint"
+            "sole",
+            "joint",
+            "joint_two",
+            "joint_all",
+            "limited"
           ]
         }
       },
