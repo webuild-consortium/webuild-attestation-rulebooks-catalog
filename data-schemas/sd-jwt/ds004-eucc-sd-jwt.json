@@ -3,6 +3,7 @@
   "title": "EWC - EU Company Certificate",
   "description": "Schema for EU Company Certificate - EWC WP3",
   "type": "object",
+  "version": "0.9.0",
   "additionalProperties": false,
   "properties": {
     "vct": {
@@ -46,7 +47,7 @@
     "attestation_legal_category": {
       "description": "Legal category of the attestation.",
       "type": "string",
-      "enum": ["EAA", "PUB-EAA","QEAA"]
+      "enum": ["EAA", "PUB-EAA", "PuB-EAA", "QEAA"]
     },
     "legal_person_name": {
       "description": "Official current legal person name as registered in the business register.",
