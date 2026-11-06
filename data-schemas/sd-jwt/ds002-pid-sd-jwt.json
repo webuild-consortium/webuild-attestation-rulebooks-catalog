@@ -4,7 +4,7 @@
   "title": "ds002 - Person Identification Data (PID) – SD-JWT VC payload",
   "description": "Schema for the SD-JWT VC payload of a PID as defined in the ds002 PID Rulebook (Chapter 4). This models the JSON claims set prior to SD-JWT disclosure/packing.",
   "type": "object",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "additionalProperties": true,
   "properties": {
     "vct": {
@@ -268,8 +268,8 @@
     },
     "attestation_legal_category": {
       "type": "string",
-      "const": "PUB-EAA",
-      "description": "Indication of the attestation legal category, one of QEAA, PUB-EAA or EAA. as required by  ARB_25 in Topic 12 of Annex 2 of the ARF."
+      "enum": ["PUB-EAA", "PuB-EAA"],
+      "description": "Indication of the attestation legal category, one of QEAA, PuB-EAA or EAA. as required by  ARB_25 in Topic 12 of Annex 2 of the ARF."
     },
     "trust_anchor": {
       "type": "string",
