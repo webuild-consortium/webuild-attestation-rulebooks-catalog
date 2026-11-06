@@ -187,7 +187,7 @@ Both the attributes of the address and the economic activity usually are not adm
 
 *According to Annex V point a) and  Annex VII point a) of the [European Digital Identity Regulation]
 an indication, at least in a form suitable for automated processing, that the attestation
-has been issued as a QEAA or Pub-EAA SHALL be defined. Similarly, according to ARB_12
+has been issued as a QEAA or PuB-EAA SHALL be defined. Similarly, according to ARB_12
 of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.
 
 This document defines the attribute "VAT-ID" which SHALL either be issued as QEAA or a PuB-EAA
