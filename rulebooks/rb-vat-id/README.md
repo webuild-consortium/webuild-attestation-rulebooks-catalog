@@ -85,6 +85,8 @@ The VAT-ID attestation also provides information on:
 * The economic activities in which the economic operator engages. These activities are referenced in both NACE codes, local equivalents, and a concise description of the activity.
 * The period in which the VAT-ID is valid.
 
+Sub-type of VAT (i.e. e-commerce) was considered for inclusion, but ultimately a decision was made to leave it out. Instead registered for cross border transaction is included as an optional attribute. The decision to excluse sub-type can be revisited if considered necessary. 
+
 The VAT-ID attestation seeks to replace the traditional paper-based proof with an attestation. The VAT-ID Attestation is expected to enhance both the efficiency and security of the process.
 
 ### 1.2 Document structure
