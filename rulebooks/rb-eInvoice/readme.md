@@ -221,19 +221,18 @@ eInvoiceAttestation
 │   ├── identifier                          (M; at least euid required)
 │   │   ├── euid    (M)                     (European Unique Identifier, verified, IR-EI-06)
 │   │   ├── lei     (O)                     (Legal Entity Identifier, ISO 17442, unverified)
-│   │   ├── tax     (O)                     (national tax/registration number, unverified)
 │   │   ├── gln     (O)                     (GS1 Global Location Number, unverified)
 │   │   ├── duns    (O)                     (Dun & Bradstreet DUNS, unverified)
 │   │   ├── eori    (O)                     (EU customs identifier, unverified)
 │   │   ├── bpnl    (O)                     (Catena-X Business Partner Number Legal, ICD 0243, unverified)
 │   │   └── siren   (O)                     (French national company identifier, unverified)
-│   ├── vat                                 (EN 16931 BT-31)
+│   ├── vat_id                              (EN 16931 BT-31)
 │   └── country                             (EN 16931 BT-40)
 ├── buyer                              (Buyer, the relying party; optional as a whole)
 │   ├── name                                (required within group, EN 16931 BT-44)
 │   ├── identifier                          (required within group; at least euid required)
 │   │   └── (same sub-schema as seller.identifier)
-│   ├── vat                                 (required within group, EN 16931 BT-48)
+│   ├── vat_id                              (required within group, EN 16931 BT-48)
 │   └── country                             (required within group, EN 16931 BT-55)
 ├── BuyerElectronicAddress             (optional)
 ├── amountDueForPayment
@@ -333,7 +332,7 @@ the parent group is present, members marked "M (within group)" SHALL be present 
 | --- | --- | --- | --- | --- |
 | `seller.name` | EN 16931 BT-27 (Seller name), M within group | The registered legal name of the Supplier. | tstr | `Green Flowers B.V.` |
 | `seller.identifier` | EN 16931 BT-30 (Seller legal registration identifier), M within group | Multi-scheme legal-entity identifier group; see the `identifier` group below. At least `euid` SHALL be present. | container | *(see below)* |
-| `seller.vat` | EN 16931 BT-31 (Seller VAT identifier), M within group | The VAT / tax registration identifier of the Supplier. | tstr | `NL853746281B01` |
+| `seller.vat_id` | EN 16931 BT-31 (Seller VAT identifier), M within group | The VAT / tax registration identifier of the Supplier. | tstr | `NL853746281B01` |
 | `seller.country` | EN 16931 BT-40 (Seller country code), M within group | The country code of the Supplier (ISO 3166-1 alpha-2). | tstr | `NL` |
 
 **`buyer` group members** (conditional on `buyer` being present; all members below are M within group
@@ -343,7 +342,7 @@ once `buyer` is present):
 | --- | --- | --- | --- | --- |
 | `buyer.name` | EN 16931 BT-44 (Buyer name), M within group | The registered legal name of the Buyer. | tstr | `Fleurs de Paris S.A.S.` |
 | `buyer.identifier` | EN 16931 BT-47 (Buyer legal registration identifier), M within group | Multi-scheme legal-entity identifier group; see the `identifier` group below. At least `euid` SHALL be present. | container | *(see below)* |
-| `buyer.vat` | EN 16931 BT-48 (Buyer VAT identifier), M within group | The VAT / tax registration identifier of the Buyer. | tstr | `FR59120680088` |
+| `buyer.vat_id` | EN 16931 BT-48 (Buyer VAT identifier), M within group | The VAT / tax registration identifier of the Buyer. | tstr | `FR59120680088` |
 | `buyer.country` | EN 16931 BT-55 (Buyer country code), M within group | The country code of the Buyer (ISO 3166-1 alpha-2). | tstr | `FR` |
 
 **`identifier` group members** (used identically as `seller.identifier` and `buyer.identifier`; conditional
@@ -353,7 +352,6 @@ on the parent `seller`/`buyer` group being present):
 | --- | --- | --- | --- | --- |
 | `identifier.euid` | EN 16931 BT-30/BT-47 (Legal registration identifier), **M within group** | European Unique Identifier. The identifier standardized under the Company Law Directive ((EU) 2017/1132) and resolvable via BRIS; the identifier this Rulebook's trust model verifies against the EBWOID/LoTE chain (IR-EI-06). | tstr | `NL853746281B01` |
 | `identifier.lei` | N/A, O within group | Legal Entity Identifier per ISO 17442. Not independently verified within the WE BUILD pilot scope. | tstr | `724500XU9CQ0FN6RJ782` |
-| `identifier.tax` | N/A, O within group | National tax or registration number, distinct from `vat`. Not independently verified within the WE BUILD pilot scope. | tstr | `NL853746281B01` |
 | `identifier.gln` | N/A, O within group | Global Location Number for legal entities, GS1 identifier. Not independently verified within the WE BUILD pilot scope. | tstr | `5410000000004` |
 | `identifier.duns` | N/A, O within group | Data Universal Numbering System, Dun & Bradstreet identifier. Not independently verified within the WE BUILD pilot scope. | tstr | `123456789` |
 | `identifier.eori` | N/A, O within group | Economic Operators Registration and Identification number, EU customs identifier. Legally mandated only for entities engaged in customs operations, not universally for invoicing; not independently verified within the WE BUILD pilot scope. | tstr | `NL853746281` |
