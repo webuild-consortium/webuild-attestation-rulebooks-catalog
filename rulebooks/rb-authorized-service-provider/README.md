@@ -16,7 +16,8 @@ Provider authorization) and Scenario 3 (SP authorization verifiable by a Tax Adm
 | 0.6     | 2026-07-14 | Review draft for SC5 rulebook review meeting. Aligned with the WE BUILD attestation rulebooks catalog conventions: vct pattern `eu.we-build:<slug>:1`, legal category value `EAA`, EBWOID-anchored EAA trust model per rb-base, issuer and Relying Party obligations referencing the Base Verification rulebook, and Token Status List metadata. |
 | 0.7     | 2026-07-15 | Added issue tracker and cleaned up author list layout        |
 | 1.1     | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
-| 1.2     | 2026-11-09 | Restored the version history dropped in the template migration. Added a W3C VCDM encoding (section 5.3, informative until the proposed vocabulary terms are published). Replaced the placeholders in section 5.1 with an informative issued SD-JWT and a Tax Administration presentation example. Allowed the elements of `authorization_scope` to be individually selectively disclosable. Aligned the `status` claim with the IETF Token Status List structure. Corrected example identifiers (EUID, Peppol ICD, Access Point seat ID) and replaced the real company name in the examples with a fictitious one. Fixed the schema artefact file names, stale section references, traceability vs. body (binding, device binding), dangling text in chapter 9, and missing references. |
+| 1.2     | 2026-11-09 | Restored the version history. Added an informative W3C VCDM encoding, verified SD-JWT examples, the IETF Token Status List structure for `status`, corrected example identifiers, and fixes for inconsistencies introduced by the template migration. |
+| 2.0     | 2026-11-09 | Data model change, vct `eu.we-build:authorizedserviceprovider:2`. One attestation now expresses exactly one mandate: a `mandate` object with the service type, the operations within it and the EU Member State whose regime it fulfils. This reflects that a company may mandate different Service Providers for different services in different jurisdictions. The Peppol-specific `peppol_id` and `peppol_ap_id` are replaced by a scheme-qualified `network_identifier` on each party, required for eInvoicing mandates. `authorization_scope` and `tax_reporting_member_state` are removed; integrity rules IR-ASP-02 to IR-ASP-04 are rewritten. No implementations of version 1 exist. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -75,22 +76,29 @@ This Rulebook defines the **Authorized Service Provider attestation**, an Electr
 Attributes (EAA) used within WE BUILD Use Case SC5 (eInvoicing).
 
 In plain language, the Authorized Service Provider attestation lets a **company** declare, in a
-machine-verifiable way, that a named **Service Provider** (Access Point) is authorised to send and/or
-receive invoices on the company's behalf. The attestation is issued by the company to its Service
-Provider and is presented so that a counterpart Access Point, or, in Scenario 3, a **Tax
-Administration**, can verify that the Access Point handling a given invoice is genuinely mandated by
-the company it acts for. This closes a trust gap in the 4-corner model: it makes the company→provider
-mandate explicit and verifiable rather than assumed from network registration alone.
+machine-verifiable way, that a named **Service Provider** is mandated to perform a specific service on
+the company's behalf in a specific jurisdiction, for example to send and receive invoices in the
+Netherlands, or to perform tax reporting in France. The attestation is issued by the company to its
+Service Provider and is presented so that a counterpart Access Point, or, in Scenario 3, a **Tax
+Administration**, can verify that the Service Provider is genuinely mandated by the company it acts
+for. This closes a trust gap in the 4-corner model: it makes the company→provider mandate explicit and
+verifiable rather than assumed from network registration alone.
 
-* **Real-world fact expressed:** that a named company authorises a named Service Provider (Access
-  Point) to act for it, for a defined set of operations (send / receive / tax reporting) and validity
-  period.
-* **Issuers:** the authorising company, a Supplier (**C1**) or a Buyer (**C4**), acting as a legal
-  person through its European Business Wallet (EBW).
-* **Holders:** the Service Provider / Access Point (**C2** or **C3**), holding the attestation in its
-  wallet.
-* **Relying parties:** the counterpart Access Point (**C3** or **C2**); and, in Scenario 3, a **Tax
-  Administration** verifying the provider's mandate for tax-reporting purposes.
+Mandates are granular in practice. A company may mandate one Service Provider for eInvoicing and
+another for tax reporting, and use different providers in different Member States. Each attestation
+therefore expresses **exactly one mandate**: one company, one Service Provider, one service, one
+jurisdiction. A company with several mandates issues several attestations, possibly to different
+Service Providers, and each can be revoked independently.
+
+* **Real-world fact expressed:** that a named company mandates a named Service Provider to perform a
+  named service, with stated operations, under the regime of a named EU Member State, for a stated
+  validity period.
+* **Issuers:** the authorising company, for example a Supplier (**C1**) or a Buyer (**C4**), acting as
+  a legal person through its European Business Wallet (EBW).
+* **Holders:** the Service Provider, for example an Access Point (**C2** or **C3**) or a tax reporting
+  provider, holding the attestation in its wallet.
+* **Relying parties:** the counterpart Access Point (**C3** or **C2**) for eInvoicing mandates; the
+  **Tax Administration** of the mandate's jurisdiction for tax reporting mandates (Scenario 3).
 * **Use case / user journey:** SC5 Scenario 2 (Service Provider authorization), Scenario 3 (mandate
   verifiable by a Tax Administration), and Scenario 5 (Peppol enhancements).
 * **Source material:** the SC5 eInvoicing scenario descriptions in the
@@ -137,10 +145,10 @@ than the eIDAS production ecosystem (WP4 Blueprint D4.1 §1.2.1). Its normative 
 profiled by [HAIP]; a W3C VCDM encoding is additionally defined (section 5.3). It uses OpenID4VCI for
 issuance and OpenID4VP for presentation per the WE BUILD Conformance Specifications (cs-01, cs-02),
 and the IETF Token Status List for revocation per the WE BUILD ADR on Attestation Revocation. The
-`vida:tax_report` scope and `tax_reporting_member_state` attribute are designed to align with the ViDA
-Digital Reporting Requirements for Scenario 3; their precise mapping to a production digital-reporting
-obligation is out of scope for this pilot version. Escalation to an eIDAS-qualified EAA (QEAA) is out
-of scope for this version.
+jurisdiction of a mandate is an EU Member State, the level at which the [ViDA] Digital Reporting
+Requirements and national eInvoicing obligations apply; the precise mapping of the `tax_reporting`
+service to a production digital-reporting obligation is out of scope for this pilot version.
+Escalation to an eIDAS-qualified EAA (QEAA) is out of scope for this version.
 
 ### 2.2 Regulatory basis
 
@@ -190,35 +198,52 @@ encoding of each attribute is given in chapter 5.
 
 ### 3.1 Introduction
 
-The Authorized Service Provider attestation expresses a mandate: a company authorises a Service
-Provider to act for it in eInvoicing. The design models two parties, the **authorizing company** (C1
-or C4, also the technical issuer) and the **authorized service provider** (C2 or C3, the
-holder/subject), together with the set of authorised operations and the validity period.
+The Authorized Service Provider attestation expresses one mandate. The design models the two parties,
+the **authorizing company** (the mandator, also the technical issuer) and the **authorized service
+provider** (the mandatary, the holder/subject), the **mandate** itself (service, operations and
+jurisdiction), and the validity period.
 
 **Logical model (informative):**
 
 ```
 AuthorizedServiceProviderAttestation
 ├── attestation_legal_category : "EAA"     (metadata, section 4.1)
-├── authorizing_company        (the company, C1 or C4, also the issuer)
+├── authorizing_company         (the mandator, also the issuer)
 │   ├── legal_name
-│   ├── legal_id               (EUID, from the company's EBWOID)
-│   └── peppol_id              (Peppol participant identifier)
-├── authorized_service_provider (the Access Point, C2 or C3, the holder/subject)
+│   ├── legal_id                (EUID, from the company's EBWOID)
+│   └── network_identifier      (conditional: scheme + id, e.g. Peppol participant identifier)
+├── authorized_service_provider (the mandatary, the holder/subject)
 │   ├── legal_name
-│   ├── legal_id               (EUID)
-│   └── peppol_ap_id           (Peppol Access Point seat ID)
-├── authorization_scope        (array of code list values, see 4.4)
-├── authorization_valid_from   (date)
-├── authorization_valid_until  (date; see also the exp metadata claim)
-└── tax_reporting_member_state (conditional, see 3.4)
+│   ├── legal_id                (EUID)
+│   └── network_identifier      (conditional: scheme + id, e.g. Peppol Access Point seat ID)
+├── mandate
+│   ├── service                 (code list, see 4.4)
+│   ├── operations[]            (code list, depends on service, see 4.4)
+│   └── jurisdiction            (EU Member State)
+├── authorization_valid_from    (date)
+└── authorization_valid_until   (date; see also the exp metadata claim)
 ```
+
+**Design decisions.**
+
+* *One mandate per attestation.* Mandates change independently: a company that moves its French tax
+  reporting to another provider must be able to revoke exactly that mandate. One attestation per
+  mandate gives exact revocation, and a Relying Party only ever sees the mandate that concerns it.
+  A company with several mandates issues several attestations, to one or several Service Providers.
+* *Service and operations are separate.* The service names the domain of the mandate (`einvoicing`,
+  `tax_reporting`); the operations name what the provider may do within it (`send`, `receive`,
+  `report`). New services can be added to the code lists without changing the data model.
+* *Jurisdiction is a Member State.* It is the EU Member State whose regime the service fulfils, not
+  necessarily the Member State where the company is established. A Dutch company VAT-registered in
+  France mandates its French tax reporting with jurisdiction `FR`.
+* *Network identifiers are scheme-qualified.* Peppol identifiers only make sense for services
+  delivered over Peppol. Each party therefore carries an optional `network_identifier` with an
+  explicit scheme, and integrity rule IR-ASP-03 states when it is required. This keeps the party
+  objects network-neutral.
 
 This model refines the flat claim list in the SC5 scenario description (issuer_id, issuer_name,
 subject_id, subject_name, authorization_date, expiry_date, scope, company_peppol_id, sp_peppol_ap_id)
-into two grouped party objects, while preserving the same information content. The authorising party
-may be either the Supplier (C1, authorising its sending AP C2) or the Buyer (C4, authorising its
-receiving AP C3); the model is symmetric.
+while preserving its information content.
 
 **Applicable legal category.** Per the SC5 working assumptions, the Authorized Service Provider
 attestation is implemented as a **non-qualified EAA**. Where SC5 material refers to a "WE BUILD QEAA",
@@ -230,12 +255,13 @@ an eIDAS-qualified EAA. The applicable Topic 12 requirements for this category a
 
 | Format    | Identifier                                                   | Schema artefact                                       | Version | Location                                                     |
 | --------- | ------------------------------------------------------------ | ----------------------------------------------------- | ------- | ------------------------------------------------------------ |
-| SD-JWT VC | `eu.we-build:authorizedserviceprovider:1`                    | JSON Schema                                           | 1.0     | [`data-schemas/sd-jwt/service-provider-authorization-sd-jwt.json`](../../data-schemas/sd-jwt/service-provider-authorization-sd-jwt.json), sample [`service-provider-authorization-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/service-provider-authorization-sd-jwt-sample.json) |
+| SD-JWT VC | `eu.we-build:authorizedserviceprovider:2`                    | JSON Schema                                           | 2.0     | [`data-schemas/sd-jwt/service-provider-authorization-sd-jwt.json`](../../data-schemas/sd-jwt/service-provider-authorization-sd-jwt.json), sample [`service-provider-authorization-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/service-provider-authorization-sd-jwt-sample.json) |
 | W3C VCDM  | type `AuthorizedServiceProviderCredential`, context `https://w3id.org/ebwv/v0.1` | JSON-LD context (EBWV), terms proposed in section 5.3 | pending | To be published by the WP4 semantics group                   |
 
 The schema artefact file names differ from the rulebook name because the catalog's sample-matching
 workflow matches on the first five characters of the file name, which would otherwise collide with
-`authorised-signatories`.
+`authorised-signatories`. The JSON Schema enforces integrity rules IR-ASP-02 and IR-ASP-03 and the
+Member State code list.
 
 The schema artefacts referenced above are normative for encoding. Where this document and a
 referenced artefact disagree, the artefact prevails for encoding questions and this document prevails
@@ -247,37 +273,34 @@ states how this is handled.
 
 ### 3.2 Mandatory attributes
 
-| Data identifier                            | Semantic reference                                           | Definition                                                   | Data type              | Selectively disclosable                             | Example value                        |
-| ------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------- | --------------------------------------------------- | ------------------------------------ |
-| `authorizing_company.legal_name`           | N/A (SC5-defined)                                            | Registered legal name of the authorising company.            | string                 | MAY (with `authorizing_company`)                    | `Green Flowers B.V.`                 |
-| `authorizing_company.legal_id`             | EUID (Directive (EU) 2017/1132, Implementing Regulation (EU) 2021/1042) | Unique legal-person identifier of the company, sourced from its EBWOID. | string                 | MAY (with `authorizing_company`)                    | `NLNHR.85374628`                     |
-| `authorizing_company.peppol_id`            | Peppol Participant Identifier                                | Peppol participant identifier of the company, as `ICD:identifier` (the value part of the `iso6523-actorid-upis` scheme). | string                 | MAY (with `authorizing_company`)                    | `0106:85374628`                      |
-| `authorized_service_provider.legal_name`   | N/A (SC5-defined)                                            | Registered legal name of the Service Provider (the holder).  | string                 | MAY (with `authorized_service_provider`)            | `Brabant Access Services N.V.`       |
-| `authorized_service_provider.legal_id`     | EUID (Directive (EU) 2017/1132, Implementing Regulation (EU) 2021/1042) | Unique legal-person identifier of the Service Provider.      | string                 | MAY (with `authorized_service_provider`)            | `BEKBOBCE.0890123456`                |
-| `authorized_service_provider.peppol_ap_id` | Peppol seat ID (CN of the Peppol AP certificate)             | Identifier of the Service Provider's Peppol Access Point.    | string                 | MAY (with `authorized_service_provider`)            | `PBE000123`                          |
-| `authorization_scope`                      | N/A (code list, section 4.4)                                 | One or more authorised operations.                           | array of string (enum) | Elements MAY be individually disclosable, see below | `["peppol:send", "vida:tax_report"]` |
-| `authorization_valid_from`                 | N/A                                                          | Date from which the authorization is valid.                  | full-date (RFC 3339)   | MAY                                                 | `2026-01-01`                         |
+| Data identifier                          | Semantic reference                                           | Definition                                                   | Data type              | Selectively disclosable                  | Example value                  |
+| ---------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------- | ---------------------------------------- | ------------------------------ |
+| `authorizing_company.legal_name`         | N/A (SC5-defined)                                            | Registered legal name of the authorising company.            | string                 | MAY (with `authorizing_company`)         | `Green Flowers B.V.`           |
+| `authorizing_company.legal_id`           | EUID (Directive (EU) 2017/1132, Implementing Regulation (EU) 2021/1042) | Unique legal-person identifier of the company, sourced from its EBWOID. | string                 | MAY (with `authorizing_company`)         | `NLNHR.85374628`               |
+| `authorized_service_provider.legal_name` | N/A (SC5-defined)                                            | Registered legal name of the Service Provider (the holder).  | string                 | MAY (with `authorized_service_provider`) | `Brabant Access Services N.V.` |
+| `authorized_service_provider.legal_id`   | EUID (Directive (EU) 2017/1132, Implementing Regulation (EU) 2021/1042) | Unique legal-person identifier of the Service Provider.      | string                 | MAY (with `authorized_service_provider`) | `BEKBOBCE.0890123456`          |
+| `mandate.service`                        | N/A (code list, section 4.4)                                 | Type of service mandated.                                    | string (enum)          | MAY (with `mandate`)                     | `einvoicing`                   |
+| `mandate.operations`                     | N/A (code list, section 4.4)                                 | One or more operations the Service Provider may perform within the service. | array of string (enum) | MAY (with `mandate`)                     | `["send", "receive"]`          |
+| `mandate.jurisdiction`                   | ISO 3166-1 alpha-2, restricted to EU Member States (code list, section 4.4) | The EU Member State whose regime the mandated service fulfils. | string (enum)          | MAY (with `mandate`)                     | `NL`                           |
+| `authorization_valid_from`               | N/A                                                          | Date from which the mandate is valid.                        | full-date (RFC 3339)   | MAY                                      | `2026-01-01`                   |
 
-The party objects `authorizing_company` and `authorized_service_provider` are disclosed as a whole;
-their sub-claims are not individually selectively disclosable.
-
-An issuer MAY make each element of `authorization_scope` individually selectively disclosable. This
-lets the Service Provider disclose only the operation relevant to a given Relying Party, for example
-`peppol:send` to a counterpart Access Point and `vida:tax_report` to a Tax Administration, without
-revealing its other mandates. The array itself is always present.
+The objects `authorizing_company`, `authorized_service_provider` and `mandate` are disclosed as a
+whole; their sub-claims are not individually selectively disclosable. A Relying Party that receives
+`mandate` therefore always sees the service, the operations and the jurisdiction together.
 
 ### 3.3 Optional attributes
 
 | Data identifier             | Semantic reference | Definition                                                   | Data type            | Selectively disclosable                                      | Example value     |
 | --------------------------- | ------------------ | ------------------------------------------------------------ | -------------------- | ------------------------------------------------------------ | ----------------- |
-| `authorization_valid_until` | N/A                | Date until which the authorization is valid (business validity, distinct from the technical `exp` metadata claim). | full-date (RFC 3339) | MAY                                                          | `2026-12-31`      |
+| `authorization_valid_until` | N/A                | Date until which the mandate is valid (business validity, distinct from the technical `exp` metadata claim). | full-date (RFC 3339) | MAY                                                          | `2026-12-31`      |
 | `authorization_reference`   | N/A                | Company-internal reference for the service agreement underlying the mandate. | string               | MUST, so that the provider can withhold the internal reference | `SLA-2026-AP-007` |
 
 ### 3.4 Conditional attributes
 
-| Data identifier              | Semantic reference | Definition                                                   | Condition                                                    | Data type | Selectively disclosable | Example value |
-| ---------------------------- | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | --------- | ----------------------- | ------------- |
-| `tax_reporting_member_state` | ISO 3166-1 alpha-2 | Member State for which the provider is authorised to perform tax reporting. | SHALL be present if and only if `authorization_scope` contains `vida:tax_report` (IR-ASP-02). | string    | MAY                     | `NL`          |
+| Data identifier                                  | Semantic reference                  | Definition                                                   | Condition                                                    | Data type | Selectively disclosable                  | Example value                                             |
+| ------------------------------------------------ | ----------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | --------- | ---------------------------------------- | --------------------------------------------------------- |
+| `authorizing_company.network_identifier`         | Identifier scheme per code list 4.4 | Identifier of the company in the network used to deliver the service: an object with `scheme` and `id`. | SHALL be present with scheme `peppol-participant` when `mandate.service` is `einvoicing` (IR-ASP-03); MAY be present otherwise. | object    | MAY (with `authorizing_company`)         | `{"scheme": "peppol-participant", "id": "0106:85374628"}` |
+| `authorized_service_provider.network_identifier` | Identifier scheme per code list 4.4 | Identifier of the Service Provider in the network used to deliver the service: an object with `scheme` and `id`. | SHALL be present with scheme `peppol-ap` when `mandate.service` is `einvoicing` (IR-ASP-03); MAY be present otherwise. | object    | MAY (with `authorized_service_provider`) | `{"scheme": "peppol-ap", "id": "PBE000123"}`              |
 
 ## 4 Metadata
 
@@ -289,7 +312,7 @@ disclosable.
 | Data identifier              | Semantic reference               | Definition                                                   | Data type    | Example value                                      |
 | ---------------------------- | -------------------------------- | ------------------------------------------------------------ | ------------ | -------------------------------------------------- |
 | `attestation_legal_category` | EW-DM-12-015 / EW-DM-12-029      | Indicates the legal category of the attestation.             | string       | `EAA`                                              |
-| `vct`                        | [SD-JWT VC]                      | Verifiable Credential Type identifier (see section 5.1).     | string       | `eu.we-build:authorizedserviceprovider:1`          |
+| `vct`                        | [SD-JWT VC]                      | Verifiable Credential Type identifier (see section 5.1).     | string       | `eu.we-build:authorizedserviceprovider:2`          |
 | `iss`                        | [IANA-JWT-Claims]                | Issuer identifier (the authorising company's issuing system / EBW). | string (URI) | `https://wallet.greenflowers.example/issuer`       |
 | `iat`                        | [IANA-JWT-Claims]                | Issuance timestamp.                                          | NumericDate  | `1767225600`                                       |
 | `exp`                        | [IANA-JWT-Claims]                | Technical expiry timestamp of the attestation.               | NumericDate  | `1798761600`                                       |
@@ -310,7 +333,7 @@ left as written and the deviation is recorded for the rulebook quality assurance
 | `cryptographically_bound_to` | EW-DM-12-032       | vct of the attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Service Provider's EBWOID). RECOMMENDED, see section 7.1. | string       | `uri:eu.ebw.oid.1`                    |
 | `nbf`                        | [IANA-JWT-Claims]  | Time before which the attestation SHALL NOT be accepted.     | NumericDate  | `1767225600`                          |
 | `sub`                        | [IANA-JWT-Claims]  | Identifier of the subject (the authorised Service Provider). | string       | `did:example:brabant-access-services` |
-| `schema_version`             | N/A                | Version of the schema artefact used.                         | string       | `1.0`                                 |
+| `schema_version`             | N/A                | Version of the schema artefact used.                         | string       | `2.0`                                 |
 | `trust_anchor_url`           | EW-DM-12-024       | URL at which a machine-readable version of the trust anchor can be found or looked up. For this attestation the trust anchor is the EBWOID provider's entry in the WE BUILD trust list infrastructure (chapter 10). | string (URI) | *(WE BUILD TLOL entry)*               |
 
 ### 4.3 Conditional metadata
@@ -320,30 +343,36 @@ conditional metadata.
 
 ### 4.4 Code lists
 
-| Field                 | Allowed values or vocabulary | Meaning                                                      | Source                                                       | Extensible     |
-| --------------------- | ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------- |
-| `authorization_scope` | `peppol:send`                | The provider is authorised to send (transmit) invoices as the company's sending Access Point (C2). Used by C1 authorising C2. | WE BUILD SC5 vocabulary                                      | Yes, see below |
-| `authorization_scope` | `peppol:receive`             | The provider is authorised to receive invoices as the company's receiving Access Point (C3). Used by C4 authorising C3. | WE BUILD SC5 vocabulary                                      | Yes, see below |
-| `authorization_scope` | `vida:tax_report`            | The provider is authorised to perform tax reporting / digital reporting on the company's behalf (Scenario 3). Requires `tax_reporting_member_state` (section 3.4). | WE BUILD SC5 vocabulary; aligned with the ViDA Digital Reporting Requirements | Yes, see below |
+| Field                                    | Allowed values or vocabulary                                 | Meaning                                                      | Source                                                       | Extensible                        |
+| ---------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------------- |
+| `mandate.service`                        | `einvoicing`                                                 | Exchange of electronic invoices on the company's behalf, in the 4-corner model over Peppol. | WE BUILD SC5 vocabulary                                      | Yes, see below                    |
+| `mandate.service`                        | `tax_reporting`                                              | Tax reporting / digital reporting to the Tax Administration of the jurisdiction on the company's behalf (Scenario 3), aligned with the ViDA Digital Reporting Requirements. | WE BUILD SC5 vocabulary                                      | Yes, see below                    |
+| `mandate.operations` for `einvoicing`    | `send`, `receive`                                            | `send`: transmit invoices as the company's sending Access Point (C2). `receive`: receive invoices as the company's receiving Access Point (C3). Both MAY be present where the same provider acts as C2 and C3. | WE BUILD SC5 vocabulary                                      | Yes, see below                    |
+| `mandate.operations` for `tax_reporting` | `report`                                                     | Submit reports to the Tax Administration of the jurisdiction. | WE BUILD SC5 vocabulary                                      | Yes, see below                    |
+| `mandate.jurisdiction`                   | `AT`, `BE`, `BG`, `CY`, `CZ`, `DE`, `DK`, `EE`, `ES`, `FI`, `FR`, `GR`, `HR`, `HU`, `IE`, `IT`, `LT`, `LU`, `LV`, `MT`, `NL`, `PL`, `PT`, `RO`, `SE`, `SI`, `SK` | The EU Member States, as ISO 3166-1 alpha-2 codes. Greece is `GR`; the VAT prefix `EL` is not used. | [ISO 3166-1]                                                 | Only on a change in EU membership |
+| `network_identifier.scheme`              | `peppol-participant`                                         | Peppol participant identifier, `id` as `ICD:identifier` (the value part of the `iso6523-actorid-upis` scheme), e.g. `0106:85374628`. | WE BUILD SC5 vocabulary; Peppol Policy for use of Identifiers | Yes, see below                    |
+| `network_identifier.scheme`              | `peppol-ap`                                                  | Peppol Access Point seat ID (CN of the Peppol AP certificate), e.g. `PBE000123`. | WE BUILD SC5 vocabulary; Peppol PKI                          | Yes, see below                    |
 
-Additional values SHOULD only be introduced if defined consistently across issuers and verifiers and
-registered in the WE BUILD Attestation Rulebooks catalog.
+Additional services, operations and identifier schemes SHOULD only be introduced if defined
+consistently across issuers and verifiers and registered in the WE BUILD Attestation Rulebooks
+catalog. A new service SHALL state its allowed operations and the network identifier schemes it
+requires, if any.
 
 ### 4.5 Integrity rules
 
 | Rule ID     | Rule statement                                               | Why it exists                                                | Where enforced                                               | Behaviour on failure                                         |
 | ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | `IR-ASP-01` | `authorization_valid_from` SHALL NOT be later than `authorization_valid_until` (when present), and both SHALL fall within the `iat`–`exp` window. | Prevents inconsistent or unusable validity periods.          | Issuer business rules; verifier business validation.         | Issuer SHALL reject; verifier SHALL treat the attestation as invalid. |
-| `IR-ASP-02` | If `authorization_scope` contains `vida:tax_report`, then `tax_reporting_member_state` SHALL be present; otherwise it SHALL be absent. Where scope elements are individually disclosable, a holder that discloses `tax_reporting_member_state` SHALL also disclose the `vida:tax_report` element, and a verifier evaluates the rule against the disclosed elements. | Ensures tax-reporting mandates carry the jurisdiction needed by a Tax Administration relying party (Scenario 3), and that the field is not set spuriously. | Issuer; holder; verifier (Tax Administration) business validation. | Verifier SHALL treat the attestation as invalid for tax-reporting reliance. |
-| `IR-ASP-03` | `authorization_scope` SHALL contain at least one value, and SHALL NOT contain both `peppol:send` and `peppol:receive` unless the same provider genuinely acts as both C2 and C3 for the company. | Keeps the mandate explicit and prevents over-broad authorizations. | Issuer business rules.                                       | Issuer SHALL reject an empty or contradictory scope.         |
-| `IR-ASP-04` | At verification time, the `authorized_service_provider.peppol_ap_id` SHALL match the Access Point actually transmitting/receiving the invoice, and `authorizing_company.peppol_id` SHALL match the corresponding party on the invoice. | Binds the mandate to the specific invoice flow, preventing reuse for an unrelated company/provider pair. | Verifier (counterpart AP, or Tax Administration).            | Verifier SHALL reject.                                       |
+| `IR-ASP-02` | `mandate.operations` SHALL contain only operations allowed for `mandate.service` in code list 4.4. | Keeps each mandate within its service, so that a tax reporting mandate never carries invoice send or receive rights, and vice versa. | Issuer business rules; JSON Schema; verifier business validation. | Issuer SHALL reject; verifier SHALL treat the attestation as invalid. |
+| `IR-ASP-03` | When `mandate.service` is `einvoicing`, `authorizing_company.network_identifier` SHALL be present with scheme `peppol-participant`, and `authorized_service_provider.network_identifier` SHALL be present with scheme `peppol-ap`. | The counterpart Access Point can only bind the mandate to an invoice flow through the Peppol identifiers (IR-ASP-04). | Issuer business rules; JSON Schema.                          | Issuer SHALL reject; verifier SHALL treat the attestation as invalid. |
+| `IR-ASP-04` | At verification time, the Relying Party SHALL bind the mandate to the transaction in hand. For `einvoicing`: the provider's `peppol-ap` identifier SHALL match the Access Point transmitting or receiving the invoice, the company's `peppol-participant` identifier SHALL match the corresponding party on the invoice, and the operation performed SHALL be in `mandate.operations`. For `tax_reporting`: `mandate.jurisdiction` SHALL be the Tax Administration's own Member State, and the company identified by `authorizing_company.legal_id` SHALL be the taxable person on whose behalf the report is submitted. | Prevents reuse of a valid mandate for an unrelated company, provider, operation or jurisdiction. | Verifier (counterpart Access Point, or Tax Administration).  | Verifier SHALL reject the transaction.                       |
 
 ## 5 Formats
 
 | Format               | Supported         | Identifier                                                   | Specification                   | Notes                                                        |
 | -------------------- | ----------------- | ------------------------------------------------------------ | ------------------------------- | ------------------------------------------------------------ |
 | ISO/IEC 18013-5 mdoc | no                |                                                              | [ISO/IEC 18013-5]               | Proximity presentation is not in scope (EW-DM-12-003)        |
-| SD-JWT VC            | yes               | `vct` `eu.we-build:authorizedserviceprovider:1`              | [SD-JWT VC], [HAIP]             | Normative format; SHALL follow the HAIP profile (EW-DM-12-002) |
+| SD-JWT VC            | yes               | `vct` `eu.we-build:authorizedserviceprovider:2`              | [SD-JWT VC], [HAIP]             | Normative format; SHALL follow the HAIP profile (EW-DM-12-002) |
 | W3C VCDM             | yes (informative) | type `AuthorizedServiceProviderCredential`, context `https://w3id.org/ebwv/v0.1` | [W3C VCDM v2.0], [VC-JOSE-COSE] | Permitted for non-qualified EAA (EW-DM-12-001); see section 5.3 |
 
 A Provider SHALL offer the SD-JWT VC format. A Provider MAY additionally offer the W3C VCDM format
@@ -355,10 +384,10 @@ required to accept W3C VCDM.
 This attestation type SHALL be issued in the [SD-JWT VC]-compliant format and SHALL comply with the
 'SD-JWT VCs' profile specified in [HAIP] (EW-DM-12-002).
 
-**Verifiable Credential Type (`vct`):** `eu.we-build:authorizedserviceprovider:1`
+**Verifiable Credential Type (`vct`):** `eu.we-build:authorizedserviceprovider:2`
 
 *(Proposed value; subject to registration in the WE BUILD Attestation Rulebooks catalog by the WP4
-semantics group, EW-DM-12-006.)*
+semantics group, EW-DM-12-006. Version `1` is withdrawn; it was never implemented.)*
 
 A Type Metadata Document SHOULD be defined for this vct per [SD-JWT VC]. Selective disclosure per
 claim is stated in sections 3.2 to 3.4; all metadata claims of chapter 4 are not selectively
@@ -374,20 +403,20 @@ described in chapter 10.
 | `status`                          | status                      | object, `status_list.idx` (integer) and `status_list.uri` (string) | [Token Status List]; chapter 8 |
 | `cnf`                             | cnf                         | object, `jwk`                                                | [SD-JWT VC]; holder binding    |
 | `attestation_legal_category`      | attestation_legal_category  | string                                                       | Section 4.1                    |
-| `authorizing_company`             | authorizing_company         | object                                                       | Section 3.2                    |
-| `authorized_service_provider`     | authorized_service_provider | object                                                       | Section 3.2                    |
-| `authorization_scope`             | authorization_scope         | array of string; elements MAY be array-element disclosures   | Code list 4.4                  |
+| `authorizing_company`             | authorizing_company         | object; `network_identifier` as object with `scheme` and `id` | Sections 3.2, 3.4              |
+| `authorized_service_provider`     | authorized_service_provider | object; `network_identifier` as object with `scheme` and `id` | Sections 3.2, 3.4              |
+| `mandate`                         | mandate                     | object with `service` (string), `operations` (array of string), `jurisdiction` (string) | Section 3.2; code list 4.4     |
 | `authorization_valid_from`        | authorization_valid_from    | string (full-date)                                           | Section 3.2                    |
 | `authorization_valid_until`       | authorization_valid_until   | string (full-date)                                           | Section 3.3                    |
-| `tax_reporting_member_state`      | tax_reporting_member_state  | string                                                       | Section 3.4                    |
 | `authorization_reference`         | authorization_reference     | string                                                       | Section 3.3                    |
 | `cryptographically_bound_to`      | cryptographically_bound_to  | string                                                       | Section 4.2; section 7.1       |
 
-**Logical claim set (informative, synthetic data, all disclosures applied):**
+**Logical claim sets (informative, fictitious data, all disclosures applied).** An eInvoicing mandate,
+used in the examples of sections 5.1.1 to 5.1.3:
 
 ```json
 {
-  "vct": "eu.we-build:authorizedserviceprovider:1",
+  "vct": "eu.we-build:authorizedserviceprovider:2",
   "iss": "https://wallet.greenflowers.example/issuer",
   "iat": 1767225600,
   "exp": 1798761600,
@@ -403,46 +432,103 @@ described in chapter 10.
     "jwk": {
       "kty": "EC",
       "crv": "P-256",
-      "x": "lS2bfVx5fDYiuCcGw2VxHN6hwMhMf9GBbulM8cDoQ3Y",
-      "y": "tCaJoPMr-bAkz-yo_S_3wFoy8gcw5uz2Y58Cf4-VqlM"
+      "x": "9UnMnpFkv0a1i0Ve-u4ZPRyk8oNnUetaYlSPuTUOQjk",
+      "y": "3kfxbzP1OTM3gvNESyEOgqMsiG0TxZwQvzPnMTGq8PY"
     }
   },
   "authorizing_company": {
     "legal_name": "Green Flowers B.V.",
     "legal_id": "NLNHR.85374628",
-    "peppol_id": "0106:85374628"
+    "network_identifier": {
+      "scheme": "peppol-participant",
+      "id": "0106:85374628"
+    }
   },
   "authorized_service_provider": {
     "legal_name": "Brabant Access Services N.V.",
     "legal_id": "BEKBOBCE.0890123456",
-    "peppol_ap_id": "PBE000123"
+    "network_identifier": {
+      "scheme": "peppol-ap",
+      "id": "PBE000123"
+    }
   },
-  "authorization_scope": [
-    "peppol:send",
-    "vida:tax_report"
-  ],
+  "mandate": {
+    "service": "einvoicing",
+    "operations": [
+      "send",
+      "receive"
+    ],
+    "jurisdiction": "NL"
+  },
   "authorization_valid_from": "2026-01-01",
   "authorization_valid_until": "2026-12-31",
-  "tax_reporting_member_state": "NL",
   "authorization_reference": "SLA-2026-AP-007"
+}
+```
+
+A second attestation from the same company, mandating a different Service Provider for tax reporting
+in France (this is also the catalog sample). No network identifiers are needed for this service:
+
+```json
+{
+  "vct": "eu.we-build:authorizedserviceprovider:2",
+  "iss": "https://wallet.greenflowers.example/issuer",
+  "iat": 1767225600,
+  "exp": 1798761600,
+  "nbf": 1767225600,
+  "sub": "did:example:loire-reporting-services",
+  "attestation_legal_category": "EAA",
+  "schema_version": "2.0",
+  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+  "status": {
+    "status_list": {
+      "idx": 88,
+      "uri": "https://wallet.greenflowers.example/status/authorizedserviceprovider"
+    }
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "...",
+      "y": "..."
+    }
+  },
+  "authorizing_company": {
+    "legal_name": "Green Flowers B.V.",
+    "legal_id": "NLNHR.85374628"
+  },
+  "authorized_service_provider": {
+    "legal_name": "Loire Reporting Services SAS",
+    "legal_id": "FRRCS.901234567"
+  },
+  "mandate": {
+    "service": "tax_reporting",
+    "operations": [
+      "report"
+    ],
+    "jurisdiction": "FR"
+  },
+  "authorization_valid_from": "2026-01-01",
+  "authorization_valid_until": "2026-12-31",
+  "authorization_reference": "MANDATE-FR-2026-03"
 }
 ```
 
 #### 5.1.1 Issued SD-JWT (informative)
 
-The example below is a complete issued SD-JWT, signed with a throw-away ES256 test key. All
-organisations, identifiers and keys are fictitious. Every attribute of chapter 3 is selectively
-disclosable in this example: `authorization_reference` because it MUST be, the others to show how the
-Service Provider controls disclosure. Each element of `authorization_scope` is an array-element
-disclosure (section 3.2). A Provider MAY make fewer claims disclosable, as permitted in sections 3.2 to
-3.4. For readability the header carries a `kid`; a production attestation SHALL carry the
-EBWOID-anchored certificate material in `x5c` instead (chapter 10). The example SHALL be regenerated
-if the selective-disclosure structure changes.
+The example below is a complete issued SD-JWT for the eInvoicing mandate, signed with a throw-away
+ES256 test key. All organisations, identifiers and keys are fictitious. Every attribute of chapter 3
+is selectively disclosable in this example: `authorization_reference` because it MUST be, the others to
+show how the Service Provider controls disclosure. A Provider MAY make fewer claims disclosable, as
+permitted in sections 3.2 to 3.4. For readability the header carries a `kid`; a production attestation
+SHALL carry the EBWOID-anchored certificate material in `x5c` instead (chapter 10). The example SHALL
+be regenerated if the selective-disclosure structure changes.
 
 Issued SD-JWT (issuer-signed JWT `~` disclosures `~`):
 
 ```
-eyJhbGciOiJFUzI1NiIsInR5cCI6ImRjK3NkLWp3dCIsImtpZCI6ImdyZWVuZmxvd2Vycy1lYnctaXNzdWVyLXRlc3QifQ.eyJ2Y3QiOiJldS53ZS1idWlsZDphdXRob3JpemVkc2VydmljZXByb3ZpZGVyOjEiLCJpc3MiOiJodHRwczovL3dhbGxldC5ncmVlbmZsb3dlcnMuZXhhbXBsZS9pc3N1ZXIiLCJpYXQiOjE3NjcyMjU2MDAsImV4cCI6MTc5ODc2MTYwMCwiYXR0ZXN0YXRpb25fbGVnYWxfY2F0ZWdvcnkiOiJFQUEiLCJjcnlwdG9ncmFwaGljYWxseV9ib3VuZF90byI6InVyaTpldS5lYncub2lkLjEiLCJzdGF0dXMiOnsic3RhdHVzX2xpc3QiOnsiaWR4Ijo4NywidXJpIjoiaHR0cHM6Ly93YWxsZXQuZ3JlZW5mbG93ZXJzLmV4YW1wbGUvc3RhdHVzL2F1dGhvcml6ZWRzZXJ2aWNlcHJvdmlkZXIifX0sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJsUzJiZlZ4NWZEWWl1Q2NHdzJWeEhONmh3TWhNZjlHQmJ1bE04Y0RvUTNZIiwieSI6InRDYUpvUE1yLWJBa3oteW9fU18zd0ZveThnY3c1dXoyWTU4Q2Y0LVZxbE0ifX0sImF1dGhvcml6YXRpb25fc2NvcGUiOlt7Ii4uLiI6InFKU0RnZVBWQVRjVFg5LW5LRTNyVVB0b2Rsa3M4M3BsT3p2d08xVnlKa2cifSx7Ii4uLiI6InNvQUNxSWloX3g0SXJGZ0Z2QURZXzhQbENkdWcwdkhoNXN4Zk5RZzk0R0kifV0sIl9zZCI6WyJGR0drTkVXbmZDVFE1eS11X2NpOXBWNER3MkVOOWxqdkowcmptTUJnOEFFIiwiSEdrX1hqZTZnVWRxdmNYbjVVdlNzTmZlVmNiLWs1Wm8zV01EaWRXa19pZyIsIk5MUGxfMUd0SzdfbGg5YldkUnV6SmdMQzdtWWUtU09yX2M2VmwzaGJxMW8iLCJnQUpQOXZuTzFxNFF0a2dmY3NrSm5adXNvQ3ZpY0M1aVJwcWhEb01feDQwIiwic3hMTEJrNkdpeVBCVlRkOTVBUHhfYS1rZW1UaE9YdG05c2RDU3BURFdGWSIsIncxenNka2IwQUZNdG9pRmxlYVBaWWllVEtvVkRHZUFiOEdRMWtDcndldkUiXSwiX3NkX2FsZyI6InNoYS0yNTYifQ.haYZrvuzkVZenacr5zrSZUAa-qqJpLaXSFivIn-3BWJdLZ85DHDosv0zSJOCtcxjlCPic72uzNQ6qdbCDIS6vQ~WyJZOFBwMkx3VXdDQ1NDeFYyaXNTWGxRIiwiYXV0aG9yaXppbmdfY29tcGFueSIseyJsZWdhbF9uYW1lIjoiR3JlZW4gRmxvd2VycyBCLlYuIiwibGVnYWxfaWQiOiJOTE5IUi44NTM3NDYyOCIsInBlcHBvbF9pZCI6IjAxMDY6ODUzNzQ2MjgifV0~WyI3bDZwVG1SXzE4QUJacnBEa29GT2JRIiwiYXV0aG9yaXplZF9zZXJ2aWNlX3Byb3ZpZGVyIix7ImxlZ2FsX25hbWUiOiJCcmFiYW50IEFjY2VzcyBTZXJ2aWNlcyBOLlYuIiwibGVnYWxfaWQiOiJCRUtCT0JDRS4wODkwMTIzNDU2IiwicGVwcG9sX2FwX2lkIjoiUEJFMDAwMTIzIn1d~WyJKemRpYVU4OFAyNGNPZUU4bzhhc3lRIiwiYXV0aG9yaXphdGlvbl92YWxpZF9mcm9tIiwiMjAyNi0wMS0wMSJd~WyJwVlZ4bDFVbS14UDZPRFpCVHBLWDRRIiwiYXV0aG9yaXphdGlvbl92YWxpZF91bnRpbCIsIjIwMjYtMTItMzEiXQ~WyJMMU5BU2xCbkxQeGpIWHc5THhyR1ZRIiwidGF4X3JlcG9ydGluZ19tZW1iZXJfc3RhdGUiLCJOTCJd~WyJSb1VvcHZFVzg2M0h0S0lxMHZhT2J3IiwiYXV0aG9yaXphdGlvbl9yZWZlcmVuY2UiLCJTTEEtMjAyNi1BUC0wMDciXQ~WyJPUXA4R3JZOE1MdlBEaWNqWVBLVXR3IiwicGVwcG9sOnNlbmQiXQ~WyJJZkJsd21EZHNNQTd2dmNMNFZyX2xnIiwidmlkYTp0YXhfcmVwb3J0Il0~
+eyJhbGciOiJFUzI1NiIsInR5cCI6ImRjK3NkLWp3dCIsImtpZCI6ImdyZWVuZmxvd2Vycy1lYnctaXNzdWVyLXRlc3QifQ.eyJ2Y3QiOiJldS53ZS1idWlsZDphdXRob3JpemVkc2VydmljZXByb3ZpZGVyOjIiLCJpc3MiOiJodHRwczovL3dhbGxldC5ncmVlbmZsb3dlcnMuZXhhbXBsZS9pc3N1ZXIiLCJpYXQiOjE3NjcyMjU2MDAsImV4cCI6MTc5ODc2MTYwMCwiYXR0ZXN0YXRpb25fbGVnYWxfY2F0ZWdvcnkiOiJFQUEiLCJjcnlwdG9ncmFwaGljYWxseV9ib3VuZF90byI6InVyaTpldS5lYncub2lkLjEiLCJzdGF0dXMiOnsic3RhdHVzX2xpc3QiOnsiaWR4Ijo4NywidXJpIjoiaHR0cHM6Ly93YWxsZXQuZ3JlZW5mbG93ZXJzLmV4YW1wbGUvc3RhdHVzL2F1dGhvcml6ZWRzZXJ2aWNlcHJvdmlkZXIifX0sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiI5VW5NbnBGa3YwYTFpMFZlLXU0WlBSeWs4b05uVWV0YVlsU1B1VFVPUWprIiwieSI6IjNrZnhielAxT1RNM2d2TkVTeUVPZ3FNc2lHMFR4WndRdnpQbk1UR3E4UFkifX0sIl9zZCI6WyI5TlFqeVdZd3hfcUVoR2dkSHpnLWxDYzhRVkRNa0kxYlJJMUVES0dGSXBVIiwiRHZaa19lVmd0aGRQdHAwVlNydnYyeUtKNDA3WHlWRG81ZWpDNjRvTlA1byIsIkw0Z3hGQkJTa24tYzFKZlpVWnFQMS1JZXRUOEJ0WEdsRjF4ZEo3X0tNdWMiLCJYRTNKZVBWQmkwblNEZTBEbkNTMXBnc2FhZFp4LWd4R3hldkg5QXJEVkM0IiwiZWM3amR3cUNDaFYwSFZQMDlaVFZzaWo2Qm9NWmp1cVBoY2l0bm04QUdudyIsInY2SXQ2cTVXc293RTl2c1pRZ1hXYUhSVndvQ25TRkhBb2kyR3ROZEpSalkiXSwiX3NkX2FsZyI6InNoYS0yNTYifQ.JKDdurjNadhH495sBIs0YNhzni6NtitHT53hoJN6R_vnk-KXvBJa-5vasUM1QLsa2Lr9iakhDLXM4NVWPcJz7Q~WyJmenFRTm9jbW9GUmNpTVZobFZwS3VnIiwiYXV0aG9yaXppbmdfY29tcGFueSIseyJsZWdhbF9uYW1lIjoiR3JlZW4gRmxvd2VycyBCLlYuIiwibGVnYWxfaWQiOiJOTE5IUi44NTM3NDYyOCIsIm5ldHdvcmtfaWRlbnRpZmllciI6eyJzY2hlbWUiOiJwZXBwb2wtcGFydGljaXBhbnQiLCJpZCI6IjAxMDY6ODUzNzQ2MjgifX1d~WyJnZXkzZ0hzZlRlMktHZ0xNcGgyQUxRIiwiYXV0aG9yaXplZF9zZXJ2aWNlX3Byb3ZpZGVyIix7ImxlZ2FsX25hbWUiOiJCcmFiYW50IEFjY2VzcyBTZXJ2aWNlcyBOLlYuIiwibGVnYWxfaWQiOiJCRUtCT0JDRS4wODkwMTIzNDU2IiwibmV0d29ya19pZGVudGlmaWVyIjp7InNjaGVtZSI6InBlcHBvbC1hcCIsImlkIjoiUEJFMDAwMTIzIn19XQ~WyJIS2FjdXdlTnRBRnFudEVLRGpGaWZnIiwibWFuZGF0ZSIseyJzZXJ2aWNlIjoiZWludm9pY2luZyIsIm9wZXJhdGlvbnMiOlsic2VuZCIsInJlY2VpdmUiXSwianVyaXNkaWN0aW9uIjoiTkwifV0~WyJIVlJ0Y0FmdThNYVVoMXJqTjM3ZHZRIiwiYXV0aG9yaXphdGlvbl92YWxpZF9mcm9tIiwiMjAyNi0wMS0wMSJd~WyJTNDhYLXVpekV3YlRHN29CZngtaUh3IiwiYXV0aG9yaXphdGlvbl92YWxpZF91bnRpbCIsIjIwMjYtMTItMzEiXQ~WyJFVGRKNzk3VFZKNlRQc1h4NXVlaWRnIiwiYXV0aG9yaXphdGlvbl9yZWZlcmVuY2UiLCJTTEEtMjAyNi1BUC0wMDciXQ~
 ```
 
 #### 5.1.2 Human-readable payload and disclosures (informative)
@@ -461,7 +547,7 @@ Issuer-signed payload:
 
 ```json
 {
-  "vct": "eu.we-build:authorizedserviceprovider:1",
+  "vct": "eu.we-build:authorizedserviceprovider:2",
   "iss": "https://wallet.greenflowers.example/issuer",
   "iat": 1767225600,
   "exp": 1798761600,
@@ -477,113 +563,57 @@ Issuer-signed payload:
     "jwk": {
       "kty": "EC",
       "crv": "P-256",
-      "x": "lS2bfVx5fDYiuCcGw2VxHN6hwMhMf9GBbulM8cDoQ3Y",
-      "y": "tCaJoPMr-bAkz-yo_S_3wFoy8gcw5uz2Y58Cf4-VqlM"
+      "x": "9UnMnpFkv0a1i0Ve-u4ZPRyk8oNnUetaYlSPuTUOQjk",
+      "y": "3kfxbzP1OTM3gvNESyEOgqMsiG0TxZwQvzPnMTGq8PY"
     }
   },
-  "authorization_scope": [
-    {
-      "...": "qJSDgePVATcTX9-nKE3rUPtodlks83plOzvwO1VyJkg"
-    },
-    {
-      "...": "soACqIih_x4IrFgFvADY_8PlCdug0vHh5sxfNQg94GI"
-    }
-  ],
   "_sd": [
-    "FGGkNEWnfCTQ5y-u_ci9pV4Dw2EN9ljvJ0rjmMBg8AE",
-    "HGk_Xje6gUdqvcXn5UvSsNfeVcb-k5Zo3WMDidWk_ig",
-    "NLPl_1GtK7_lh9bWdRuzJgLC7mYe-SOr_c6Vl3hbq1o",
-    "gAJP9vnO1q4QtkgfcskJnZusoCvicC5iRpqhDoM_x40",
-    "sxLLBk6GiyPBVTd95APx_a-kemThOXtm9sdCSpTDWFY",
-    "w1zsdkb0AFMtoiFleaPZYieTKoVDGeAb8GQ1kCrwevE"
+    "9NQjyWYwx_qEhGgdHzg-lCc8QVDMkI1bRI1EDKGFIpU",
+    "DvZk_eVgthdPtp0VSrvv2yKJ407XyVDo5ejC64oNP5o",
+    "L4gxFBBSkn-c1JfZUZqP1-IetT8BtXGlF1xdJ7_KMuc",
+    "XE3JePVBi0nSDe0DnCS1pgsaadZx-gxGxevH9ArDVC4",
+    "ec7jdwqCChV0HVP09ZTVsij6BoMZjuqPhcitnm8AGnw",
+    "v6It6q5WsowE9vsZQgXWaHRVwoCnSFHAoi2GtNdJRjY"
   ],
   "_sd_alg": "sha-256"
 }
 ```
 
-Disclosures and the digest each produces. Object-property disclosures are
-`[salt, claim name, claim value]` and their digests appear in `_sd`; array-element disclosures are
-`[salt, value]` and their digests appear as `{"...": digest}` entries in `authorization_scope`.
+Disclosures (`[salt, claim name, claim value]`) and the digest each produces in `_sd`:
 
-| Claim                           | Disclosure (decoded)                                         | Digest (SHA-256, base64url)                   |
-| ------------------------------- | ------------------------------------------------------------ | --------------------------------------------- |
-| `authorizing_company`           | `["Y8Pp2LwUwCCSCxV2isSXlQ", "authorizing_company", {"legal_name": "Green Flowers B.V.", "legal_id": "NLNHR.85374628", "peppol_id": "0106:85374628"}]` | `HGk_Xje6gUdqvcXn5UvSsNfeVcb-k5Zo3WMDidWk_ig` |
-| `authorized_service_provider`   | `["7l6pTmR_18ABZrpDkoFObQ", "authorized_service_provider", {"legal_name": "Brabant Access Services N.V.", "legal_id": "BEKBOBCE.0890123456", "peppol_ap_id": "PBE000123"}]` | `FGGkNEWnfCTQ5y-u_ci9pV4Dw2EN9ljvJ0rjmMBg8AE` |
-| `authorization_valid_from`      | `["JzdiaU88P24cOeE8o8asyQ", "authorization_valid_from", "2026-01-01"]` | `sxLLBk6GiyPBVTd95APx_a-kemThOXtm9sdCSpTDWFY` |
-| `authorization_valid_until`     | `["pVVxl1Um-xP6ODZBTpKX4Q", "authorization_valid_until", "2026-12-31"]` | `gAJP9vnO1q4QtkgfcskJnZusoCvicC5iRpqhDoM_x40` |
-| `tax_reporting_member_state`    | `["L1NASlBnLPxjHXw9LxrGVQ", "tax_reporting_member_state", "NL"]` | `w1zsdkb0AFMtoiFleaPZYieTKoVDGeAb8GQ1kCrwevE` |
-| `authorization_reference`       | `["RoUopvEW863HtKIq0vaObw", "authorization_reference", "SLA-2026-AP-007"]` | `NLPl_1GtK7_lh9bWdRuzJgLC7mYe-SOr_c6Vl3hbq1o` |
-| `authorization_scope[] element` | `["OQp8GrY8MLvPDicjYPKUtw", "peppol:send"]`                  | `qJSDgePVATcTX9-nKE3rUPtodlks83plOzvwO1VyJkg` |
-| `authorization_scope[] element` | `["IfBlwmDdsMA7vvcL4Vr_lg", "vida:tax_report"]`              | `soACqIih_x4IrFgFvADY_8PlCdug0vHh5sxfNQg94GI` |
+| Claim                         | Disclosure (decoded)                                         | Digest (SHA-256, base64url)                   |
+| ----------------------------- | ------------------------------------------------------------ | --------------------------------------------- |
+| `authorizing_company`         | `["fzqQNocmoFRciMVhlVpKug", "authorizing_company", {"legal_name": "Green Flowers B.V.", "legal_id": "NLNHR.85374628", "network_identifier": {"scheme": "peppol-participant", "id": "0106:85374628"}}]` | `L4gxFBBSkn-c1JfZUZqP1-IetT8BtXGlF1xdJ7_KMuc` |
+| `authorized_service_provider` | `["gey3gHsfTe2KGgLMph2ALQ", "authorized_service_provider", {"legal_name": "Brabant Access Services N.V.", "legal_id": "BEKBOBCE.0890123456", "network_identifier": {"scheme": "peppol-ap", "id": "PBE000123"}}]` | `9NQjyWYwx_qEhGgdHzg-lCc8QVDMkI1bRI1EDKGFIpU` |
+| `mandate`                     | `["HKacuweNtAFqntEKDjFifg", "mandate", {"service": "einvoicing", "operations": ["send", "receive"], "jurisdiction": "NL"}]` | `DvZk_eVgthdPtp0VSrvv2yKJ407XyVDo5ejC64oNP5o` |
+| `authorization_valid_from`    | `["HVRtcAfu8MaUh1rjN37dvQ", "authorization_valid_from", "2026-01-01"]` | `v6It6q5WsowE9vsZQgXWaHRVwoCnSFHAoi2GtNdJRjY` |
+| `authorization_valid_until`   | `["S48X-uizEwbTG7oBfx-iHw", "authorization_valid_until", "2026-12-31"]` | `XE3JePVBi0nSDe0DnCS1pgsaadZx-gxGxevH9ArDVC4` |
+| `authorization_reference`     | `["ETdJ797TVJ6TPsXx5ueidg", "authorization_reference", "SLA-2026-AP-007"]` | `ec7jdwqCChV0HVP09ZTVsij6BoMZjuqPhcitnm8AGnw` |
 
-#### 5.1.3 Presentation to a Tax Administration (informative)
+#### 5.1.3 Presentation to the counterpart Access Point (informative)
 
-In Scenario 3 the Service Provider presents the attestation to a Tax Administration. It discloses the
-two party objects, the validity, the `vida:tax_report` scope element and `tax_reporting_member_state`.
-It withholds the `peppol:send` element and `authorization_reference`, and appends a Key Binding JWT
-signed with the key in `cnf`, binding the presentation to the Tax Administration (`aud`), to the
-request (`nonce`) and to the exact set of disclosures (`sd_hash`):
+The Service Provider, acting as the company's C2, presents the attestation to the receiving Access
+Point (C3). It discloses the two party objects, the mandate and the validity, withholds
+`authorization_reference`, and appends a Key Binding JWT signed with the key in `cnf`, binding the
+presentation to C3 (`aud`), to the request (`nonce`) and to the exact set of disclosures (`sd_hash`):
 
 ```json
 {
   "iat": 1768392000,
-  "aud": "https://reporting.tax-authority.example",
-  "nonce": "t-9Kd2Xq4LmP",
-  "sd_hash": "3voURYu629hBoyXjdUwqUmVg1SuYeL8eN0NJAgZ1l5U"
+  "aud": "https://ap.c3-provider.example",
+  "nonce": "q-4Rt8ZpW1Ns",
+  "sd_hash": "pjBD2mUV46BWtI0TMHcOvHceXoWsq6C6AdsGKBWvDcE"
 }
 ```
 
 Presented SD-JWT+KB:
 
 ```
-eyJhbGciOiJFUzI1NiIsInR5cCI6ImRjK3NkLWp3dCIsImtpZCI6ImdyZWVuZmxvd2Vycy1lYnctaXNzdWVyLXRlc3QifQ.eyJ2Y3QiOiJldS53ZS1idWlsZDphdXRob3JpemVkc2VydmljZXByb3ZpZGVyOjEiLCJpc3MiOiJodHRwczovL3dhbGxldC5ncmVlbmZsb3dlcnMuZXhhbXBsZS9pc3N1ZXIiLCJpYXQiOjE3NjcyMjU2MDAsImV4cCI6MTc5ODc2MTYwMCwiYXR0ZXN0YXRpb25fbGVnYWxfY2F0ZWdvcnkiOiJFQUEiLCJjcnlwdG9ncmFwaGljYWxseV9ib3VuZF90byI6InVyaTpldS5lYncub2lkLjEiLCJzdGF0dXMiOnsic3RhdHVzX2xpc3QiOnsiaWR4Ijo4NywidXJpIjoiaHR0cHM6Ly93YWxsZXQuZ3JlZW5mbG93ZXJzLmV4YW1wbGUvc3RhdHVzL2F1dGhvcml6ZWRzZXJ2aWNlcHJvdmlkZXIifX0sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJsUzJiZlZ4NWZEWWl1Q2NHdzJWeEhONmh3TWhNZjlHQmJ1bE04Y0RvUTNZIiwieSI6InRDYUpvUE1yLWJBa3oteW9fU18zd0ZveThnY3c1dXoyWTU4Q2Y0LVZxbE0ifX0sImF1dGhvcml6YXRpb25fc2NvcGUiOlt7Ii4uLiI6InFKU0RnZVBWQVRjVFg5LW5LRTNyVVB0b2Rsa3M4M3BsT3p2d08xVnlKa2cifSx7Ii4uLiI6InNvQUNxSWloX3g0SXJGZ0Z2QURZXzhQbENkdWcwdkhoNXN4Zk5RZzk0R0kifV0sIl9zZCI6WyJGR0drTkVXbmZDVFE1eS11X2NpOXBWNER3MkVOOWxqdkowcmptTUJnOEFFIiwiSEdrX1hqZTZnVWRxdmNYbjVVdlNzTmZlVmNiLWs1Wm8zV01EaWRXa19pZyIsIk5MUGxfMUd0SzdfbGg5YldkUnV6SmdMQzdtWWUtU09yX2M2VmwzaGJxMW8iLCJnQUpQOXZuTzFxNFF0a2dmY3NrSm5adXNvQ3ZpY0M1aVJwcWhEb01feDQwIiwic3hMTEJrNkdpeVBCVlRkOTVBUHhfYS1rZW1UaE9YdG05c2RDU3BURFdGWSIsIncxenNka2IwQUZNdG9pRmxlYVBaWWllVEtvVkRHZUFiOEdRMWtDcndldkUiXSwiX3NkX2FsZyI6InNoYS0yNTYifQ.haYZrvuzkVZenacr5zrSZUAa-qqJpLaXSFivIn-3BWJdLZ85DHDosv0zSJOCtcxjlCPic72uzNQ6qdbCDIS6vQ~WyJZOFBwMkx3VXdDQ1NDeFYyaXNTWGxRIiwiYXV0aG9yaXppbmdfY29tcGFueSIseyJsZWdhbF9uYW1lIjoiR3JlZW4gRmxvd2VycyBCLlYuIiwibGVnYWxfaWQiOiJOTE5IUi44NTM3NDYyOCIsInBlcHBvbF9pZCI6IjAxMDY6ODUzNzQ2MjgifV0~WyI3bDZwVG1SXzE4QUJacnBEa29GT2JRIiwiYXV0aG9yaXplZF9zZXJ2aWNlX3Byb3ZpZGVyIix7ImxlZ2FsX25hbWUiOiJCcmFiYW50IEFjY2VzcyBTZXJ2aWNlcyBOLlYuIiwibGVnYWxfaWQiOiJCRUtCT0JDRS4wODkwMTIzNDU2IiwicGVwcG9sX2FwX2lkIjoiUEJFMDAwMTIzIn1d~WyJKemRpYVU4OFAyNGNPZUU4bzhhc3lRIiwiYXV0aG9yaXphdGlvbl92YWxpZF9mcm9tIiwiMjAyNi0wMS0wMSJd~WyJwVlZ4bDFVbS14UDZPRFpCVHBLWDRRIiwiYXV0aG9yaXphdGlvbl92YWxpZF91bnRpbCIsIjIwMjYtMTItMzEiXQ~WyJMMU5BU2xCbkxQeGpIWHc5THhyR1ZRIiwidGF4X3JlcG9ydGluZ19tZW1iZXJfc3RhdGUiLCJOTCJd~WyJJZkJsd21EZHNNQTd2dmNMNFZyX2xnIiwidmlkYTp0YXhfcmVwb3J0Il0~eyJhbGciOiJFUzI1NiIsInR5cCI6ImtiK2p3dCJ9.eyJpYXQiOjE3NjgzOTIwMDAsImF1ZCI6Imh0dHBzOi8vcmVwb3J0aW5nLnRheC1hdXRob3JpdHkuZXhhbXBsZSIsIm5vbmNlIjoidC05S2QyWHE0TG1QIiwic2RfaGFzaCI6IjN2b1VSWXU2MjloQm95WGpkVXdxVW1WZzFTdVllTDhlTjBOSkFnWjFsNVUifQ.n_WN_xCUIhWHA9bHtQztgnzpXaLPTbFtUHo12js0QoSYRRFOcHAb4EWdpNfyaJxBzg_O69RbqzAKYsTaMG078Q
+eyJhbGciOiJFUzI1NiIsInR5cCI6ImRjK3NkLWp3dCIsImtpZCI6ImdyZWVuZmxvd2Vycy1lYnctaXNzdWVyLXRlc3QifQ.eyJ2Y3QiOiJldS53ZS1idWlsZDphdXRob3JpemVkc2VydmljZXByb3ZpZGVyOjIiLCJpc3MiOiJodHRwczovL3dhbGxldC5ncmVlbmZsb3dlcnMuZXhhbXBsZS9pc3N1ZXIiLCJpYXQiOjE3NjcyMjU2MDAsImV4cCI6MTc5ODc2MTYwMCwiYXR0ZXN0YXRpb25fbGVnYWxfY2F0ZWdvcnkiOiJFQUEiLCJjcnlwdG9ncmFwaGljYWxseV9ib3VuZF90byI6InVyaTpldS5lYncub2lkLjEiLCJzdGF0dXMiOnsic3RhdHVzX2xpc3QiOnsiaWR4Ijo4NywidXJpIjoiaHR0cHM6Ly93YWxsZXQuZ3JlZW5mbG93ZXJzLmV4YW1wbGUvc3RhdHVzL2F1dGhvcml6ZWRzZXJ2aWNlcHJvdmlkZXIifX0sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiI5VW5NbnBGa3YwYTFpMFZlLXU0WlBSeWs4b05uVWV0YVlsU1B1VFVPUWprIiwieSI6IjNrZnhielAxT1RNM2d2TkVTeUVPZ3FNc2lHMFR4WndRdnpQbk1UR3E4UFkifX0sIl9zZCI6WyI5TlFqeVdZd3hfcUVoR2dkSHpnLWxDYzhRVkRNa0kxYlJJMUVES0dGSXBVIiwiRHZaa19lVmd0aGRQdHAwVlNydnYyeUtKNDA3WHlWRG81ZWpDNjRvTlA1byIsIkw0Z3hGQkJTa24tYzFKZlpVWnFQMS1JZXRUOEJ0WEdsRjF4ZEo3X0tNdWMiLCJYRTNKZVBWQmkwblNEZTBEbkNTMXBnc2FhZFp4LWd4R3hldkg5QXJEVkM0IiwiZWM3amR3cUNDaFYwSFZQMDlaVFZzaWo2Qm9NWmp1cVBoY2l0bm04QUdudyIsInY2SXQ2cTVXc293RTl2c1pRZ1hXYUhSVndvQ25TRkhBb2kyR3ROZEpSalkiXSwiX3NkX2FsZyI6InNoYS0yNTYifQ.JKDdurjNadhH495sBIs0YNhzni6NtitHT53hoJN6R_vnk-KXvBJa-5vasUM1QLsa2Lr9iakhDLXM4NVWPcJz7Q~WyJmenFRTm9jbW9GUmNpTVZobFZwS3VnIiwiYXV0aG9yaXppbmdfY29tcGFueSIseyJsZWdhbF9uYW1lIjoiR3JlZW4gRmxvd2VycyBCLlYuIiwibGVnYWxfaWQiOiJOTE5IUi44NTM3NDYyOCIsIm5ldHdvcmtfaWRlbnRpZmllciI6eyJzY2hlbWUiOiJwZXBwb2wtcGFydGljaXBhbnQiLCJpZCI6IjAxMDY6ODUzNzQ2MjgifX1d~WyJnZXkzZ0hzZlRlMktHZ0xNcGgyQUxRIiwiYXV0aG9yaXplZF9zZXJ2aWNlX3Byb3ZpZGVyIix7ImxlZ2FsX25hbWUiOiJCcmFiYW50IEFjY2VzcyBTZXJ2aWNlcyBOLlYuIiwibGVnYWxfaWQiOiJCRUtCT0JDRS4wODkwMTIzNDU2IiwibmV0d29ya19pZGVudGlmaWVyIjp7InNjaGVtZSI6InBlcHBvbC1hcCIsImlkIjoiUEJFMDAwMTIzIn19XQ~WyJIS2FjdXdlTnRBRnFudEVLRGpGaWZnIiwibWFuZGF0ZSIseyJzZXJ2aWNlIjoiZWludm9pY2luZyIsIm9wZXJhdGlvbnMiOlsic2VuZCIsInJlY2VpdmUiXSwianVyaXNkaWN0aW9uIjoiTkwifV0~WyJIVlJ0Y0FmdThNYVVoMXJqTjM3ZHZRIiwiYXV0aG9yaXphdGlvbl92YWxpZF9mcm9tIiwiMjAyNi0wMS0wMSJd~WyJTNDhYLXVpekV3YlRHN29CZngtaUh3IiwiYXV0aG9yaXphdGlvbl92YWxpZF91bnRpbCIsIjIwMjYtMTItMzEiXQ~eyJhbGciOiJFUzI1NiIsInR5cCI6ImtiK2p3dCJ9.eyJpYXQiOjE3NjgzOTIwMDAsImF1ZCI6Imh0dHBzOi8vYXAuYzMtcHJvdmlkZXIuZXhhbXBsZSIsIm5vbmNlIjoicS00UnQ4WnBXMU5zIiwic2RfaGFzaCI6InBqQkQybVVWNDZCV3RJMFRNSGNPdkhjZVhvV3NxNkM2QWRzR0tCV3ZEY0UifQ.02yV-nfL_gbHB7gmL34hVzwHmD6TD4eD5Z5scnAPsJlRaH_zvjHz-afrPfGk6AK9r2cnQkB1jrQAOBizdbDMsA
 ```
 
-After processing the disclosures, the Tax Administration sees:
-
-```json
-{
-  "vct": "eu.we-build:authorizedserviceprovider:1",
-  "iss": "https://wallet.greenflowers.example/issuer",
-  "iat": 1767225600,
-  "exp": 1798761600,
-  "attestation_legal_category": "EAA",
-  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
-  "status": {
-    "status_list": {
-      "idx": 87,
-      "uri": "https://wallet.greenflowers.example/status/authorizedserviceprovider"
-    }
-  },
-  "cnf": {
-    "jwk": {
-      "kty": "EC",
-      "crv": "P-256",
-      "x": "lS2bfVx5fDYiuCcGw2VxHN6hwMhMf9GBbulM8cDoQ3Y",
-      "y": "tCaJoPMr-bAkz-yo_S_3wFoy8gcw5uz2Y58Cf4-VqlM"
-    }
-  },
-  "authorizing_company": {
-    "legal_name": "Green Flowers B.V.",
-    "legal_id": "NLNHR.85374628",
-    "peppol_id": "0106:85374628"
-  },
-  "authorized_service_provider": {
-    "legal_name": "Brabant Access Services N.V.",
-    "legal_id": "BEKBOBCE.0890123456",
-    "peppol_ap_id": "PBE000123"
-  },
-  "authorization_scope": [
-    "vida:tax_report"
-  ],
-  "authorization_valid_from": "2026-01-01",
-  "authorization_valid_until": "2026-12-31",
-  "tax_reporting_member_state": "NL"
-}
-```
-
-A presentation to a counterpart Access Point would instead disclose the `peppol:send` element and
-withhold `vida:tax_report` and `tax_reporting_member_state`.
+C3 then applies IR-ASP-04: `PBE000123` is the Access Point transmitting the invoice, `0106:85374628`
+is the sender on the invoice, and `send` is in `mandate.operations`.
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
@@ -603,10 +633,12 @@ line with the other catalog rulebooks that define a VCDM encoding and with the A
 rulebook.
 
 **Modelling.** In VCDM the credential subject is the party the claims are about. The
-`credentialSubject` is therefore the Service Provider, and the company's mandate is expressed as
-properties of it (`authorizedBy`, `authorizationScope`, `authorizationValidFrom`,
-`authorizationValidUntil`, `taxReportingMemberState`). This carries the same information as the SD-JWT
-VC claim set; section 5.3.1 gives the mapping.
+`credentialSubject` is therefore the Service Provider. The mandate is expressed as properties of it
+(`authorizedBy`, `mandateService`, `mandateOperation`, `mandateJurisdiction`,
+`authorizationValidFrom`, `authorizationValidUntil`). A network identifier is a typed literal under
+`networkIdentifier`, where the datatype carries the scheme (`PeppolParticipantId`,
+`PeppolAccessPointId`), in the same way as `legalIdentifier` uses `Euid`. This carries the same
+information as the SD-JWT VC claim set; section 5.3.1 gives the mapping.
 
 **Securing mechanism.** The credential SHALL be secured as a JWT according to [VC-JOSE-COSE]. The JOSE
 header SHALL carry the issuer's EBWOID-anchored certificate material in `x5c`, so the trust model of
@@ -614,13 +646,9 @@ chapter 10 applies unchanged. Data Integrity proofs are not used in this version
 trust model anchors the issuer key in X.509 certificate material rather than in a verification method
 resolved from the `issuer` identifier.
 
-**Selective disclosure.** This encoding provides no selective disclosure. Consequently:
-
-* `authorization_reference`, which MUST be selectively disclosable (section 3.3), SHALL NOT be
-  included;
-* every scope in `authorizationScope` is always visible to every Relying Party. An issuer that does not
-  want a counterpart Access Point to learn of a tax-reporting mandate SHOULD issue separate W3C VCDM
-  credentials per scope, or use the SD-JWT VC encoding.
+**Selective disclosure.** This encoding provides no selective disclosure. `authorization_reference`,
+which MUST be selectively disclosable (section 3.3), SHALL NOT be included. Because each attestation
+carries one mandate, the lack of selective disclosure does not expose a provider's other mandates.
 
 **Holder binding.** `credentialSubject.id` SHALL be a `did:jwk` derived from the holder's public key,
 which takes the role of `cnf` in the SD-JWT VC encoding. The Service Provider proves possession of the
@@ -632,46 +660,48 @@ Revocation mandates the IETF Token Status List; confirmation is needed that the 
 List is acceptable for the VCDM encoding, or that the Token Status List shall be used for both.
 
 **Proposed vocabulary terms.** The following terms do not exist in EBWV and are proposed for
-addition. `peppolParticipantId` and `PeppolParticipantId` are shared with the Approved Supplier
-rulebook and proposed once. Existing EBWV terms (`EconomicOperator`, `legalName`, `legalIdentifier`,
-`Euid`, `attestationLegalCategory`, `ElectronicAttestationOfAttributes`) are reused. The existing EBWV
-term `scopeOfAuthorization` is not reused: it describes how a legal representative may sign (for
-example jointly), not which operations a service provider may perform.
+addition. `PeppolParticipantId` is shared with the Approved Supplier rulebook and proposed once.
+Existing EBWV terms (`EconomicOperator`, `legalName`, `legalIdentifier`, `Euid`,
+`attestationLegalCategory`, `ElectronicAttestationOfAttributes`) are reused. The existing EBWV term
+`scopeOfAuthorization` is not reused: it describes how a legal representative may sign (for example
+jointly), not which service a provider may perform.
 
 | Term                                  | Kind     | Definition                                                   |
 | ------------------------------------- | -------- | ------------------------------------------------------------ |
-| `AuthorizedServiceProviderCredential` | class    | A credential stating that an economic operator is mandated by another economic operator to act as its service provider. |
+| `AuthorizedServiceProviderCredential` | class    | A credential stating that an economic operator is mandated by another economic operator to perform a service on its behalf in a jurisdiction. |
 | `authorizedBy`                        | property | The economic operator (the authorising company) that has mandated the subject. |
-| `authorizationScope`                  | property | An operation the subject is authorised to perform; values per code list 4.4. Repeatable. |
-| `authorizationValidFrom`              | property | Date from which the authorization is valid (business validity). |
-| `authorizationValidUntil`             | property | Date until which the authorization is valid (business validity). |
-| `taxReportingMemberState`             | property | ISO 3166-1 alpha-2 code of the Member State for which the subject may perform tax reporting. |
-| `peppolAccessPointId`                 | property | Peppol seat ID of the subject's Access Point.                |
-| `peppolParticipantId`                 | property | Peppol participant identifier of an economic operator, as `ICD:identifier` (shared with the Approved Supplier rulebook). |
-| `PeppolParticipantId`                 | datatype | Datatype for `peppolParticipantId` values, analogous to `Euid` (shared with the Approved Supplier rulebook). |
+| `mandateService`                      | property | The service mandated; values per code list 4.4.              |
+| `mandateOperation`                    | property | An operation the subject may perform within the service; values per code list 4.4. Repeatable. |
+| `mandateJurisdiction`                 | property | ISO 3166-1 alpha-2 code of the EU Member State whose regime the service fulfils. |
+| `authorizationValidFrom`              | property | Date from which the mandate is valid (business validity).    |
+| `authorizationValidUntil`             | property | Date until which the mandate is valid (business validity).   |
+| `networkIdentifier`                   | property | Identifier of an economic operator in the network used to deliver the service, as a typed literal whose datatype names the scheme. |
+| `PeppolParticipantId`                 | datatype | Peppol participant identifier as `ICD:identifier` (shared with the Approved Supplier rulebook). |
+| `PeppolAccessPointId`                 | datatype | Peppol Access Point seat ID.                                 |
 
 #### 5.3.1 Mapping of attestation attributes
 
-| Rulebook attribute                         | SD-JWT VC claim                            | W3C VCDM property                                            |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------------------------ |
-| Credential type                            | `vct`                                      | `type` includes `AuthorizedServiceProviderCredential`        |
-| Legal category                             | `attestation_legal_category`               | `attestationLegalCategory`                                   |
-| Issuer                                     | `iss`                                      | `issuer`                                                     |
-| Technical validity                         | `iat` / `nbf`, `exp`                       | `validFrom`, `validUntil`                                    |
-| Revocation                                 | `status`                                   | `credentialStatus`                                           |
-| Holder binding                             | `cnf`                                      | `credentialSubject.id` (`did:jwk`)                           |
-| Binding to EBWOID                          | `cryptographically_bound_to`               | not used; binding is evaluated at presentation               |
-| `authorized_service_provider.legal_name`   | `authorized_service_provider.legal_name`   | `credentialSubject.legalName`                                |
-| `authorized_service_provider.legal_id`     | `authorized_service_provider.legal_id`     | `credentialSubject.legalIdentifier` (`Euid`)                 |
-| `authorized_service_provider.peppol_ap_id` | `authorized_service_provider.peppol_ap_id` | `credentialSubject.peppolAccessPointId`                      |
-| `authorizing_company.*`                    | `authorizing_company`                      | `credentialSubject.authorizedBy` (`EconomicOperator`, with `legalName`, `legalIdentifier`, `peppolParticipantId`) |
-| `authorization_scope`                      | `authorization_scope`                      | `credentialSubject.authorizationScope`                       |
-| `authorization_valid_from`                 | `authorization_valid_from`                 | `credentialSubject.authorizationValidFrom`                   |
-| `authorization_valid_until`                | `authorization_valid_until`                | `credentialSubject.authorizationValidUntil`                  |
-| `tax_reporting_member_state`               | `tax_reporting_member_state`               | `credentialSubject.taxReportingMemberState`                  |
-| `authorization_reference`                  | `authorization_reference`                  | not included (see selective disclosure above)                |
+| Rulebook attribute                               | SD-JWT VC claim                                  | W3C VCDM property                                            |
+| ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------------------ |
+| Credential type                                  | `vct`                                            | `type` includes `AuthorizedServiceProviderCredential`        |
+| Legal category                                   | `attestation_legal_category`                     | `attestationLegalCategory`                                   |
+| Issuer                                           | `iss`                                            | `issuer`                                                     |
+| Technical validity                               | `iat` / `nbf`, `exp`                             | `validFrom`, `validUntil`                                    |
+| Revocation                                       | `status`                                         | `credentialStatus`                                           |
+| Holder binding                                   | `cnf`                                            | `credentialSubject.id` (`did:jwk`)                           |
+| Binding to EBWOID                                | `cryptographically_bound_to`                     | not used; binding is evaluated at presentation               |
+| `authorized_service_provider.legal_name`         | `authorized_service_provider.legal_name`         | `credentialSubject.legalName`                                |
+| `authorized_service_provider.legal_id`           | `authorized_service_provider.legal_id`           | `credentialSubject.legalIdentifier` (`Euid`)                 |
+| `authorized_service_provider.network_identifier` | `authorized_service_provider.network_identifier` | `credentialSubject.networkIdentifier` (datatype per scheme)  |
+| `authorizing_company.*`                          | `authorizing_company`                            | `credentialSubject.authorizedBy` (`EconomicOperator`, with `legalName`, `legalIdentifier`, `networkIdentifier`) |
+| `mandate.service`                                | `mandate.service`                                | `credentialSubject.mandateService`                           |
+| `mandate.operations`                             | `mandate.operations`                             | `credentialSubject.mandateOperation`                         |
+| `mandate.jurisdiction`                           | `mandate.jurisdiction`                           | `credentialSubject.mandateJurisdiction`                      |
+| `authorization_valid_from`                       | `authorization_valid_from`                       | `credentialSubject.authorizationValidFrom`                   |
+| `authorization_valid_until`                      | `authorization_valid_until`                      | `credentialSubject.authorizationValidUntil`                  |
+| `authorization_reference`                        | `authorization_reference`                        | not included (see selective disclosure above)                |
 
-#### 5.3.2 Illustrative example (informative, synthetic data)
+#### 5.3.2 Illustrative example (informative, fictitious data)
 
 Unsecured credential (the JWT claims set according to [VC-JOSE-COSE], media type `application/vc`):
 
@@ -699,14 +729,17 @@ Unsecured credential (the JWT claims set according to [VC-JOSE-COSE], media type
     "statusListCredential": "https://wallet.greenflowers.example/status/authorizedserviceprovider-bsl"
   },
   "credentialSubject": {
-    "id": "did:jwk:eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwieCI6ImxTMmJmVng1ZkRZaXVDY0d3MlZ4SE42aHdNaE1mOUdCYnVsTThjRG9RM1kiLCJ5IjoidENhSm9QTXItYkFrei15b19TXzN3Rm95OGdjdzV1ejJZNThDZjQtVnFsTSJ9",
+    "id": "did:jwk:eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwieCI6IjlVbk1ucEZrdjBhMWkwVmUtdTRaUFJ5azhvTm5VZXRhWWxTUHVUVU9RamsiLCJ5IjoiM2tmeGJ6UDFPVE0zZ3ZORVN5RU9ncU1zaUcwVHhad1F2elBuTVRHcThQWSJ9",
     "type": "EconomicOperator",
     "legalName": "Brabant Access Services N.V.",
     "legalIdentifier": {
       "@type": "Euid",
       "@value": "BEKBOBCE.0890123456"
     },
-    "peppolAccessPointId": "PBE000123",
+    "networkIdentifier": {
+      "@type": "PeppolAccessPointId",
+      "@value": "PBE000123"
+    },
     "authorizedBy": {
       "type": "EconomicOperator",
       "legalName": "Green Flowers B.V.",
@@ -714,27 +747,27 @@ Unsecured credential (the JWT claims set according to [VC-JOSE-COSE], media type
         "@type": "Euid",
         "@value": "NLNHR.85374628"
       },
-      "peppolParticipantId": {
+      "networkIdentifier": {
         "@type": "PeppolParticipantId",
         "@value": "0106:85374628"
       }
     },
-    "authorizationScope": [
-      "peppol:send",
-      "vida:tax_report"
+    "mandateService": "einvoicing",
+    "mandateOperation": [
+      "send",
+      "receive"
     ],
-    "taxReportingMemberState": "NL",
+    "mandateJurisdiction": "NL",
     "authorizationValidFrom": "2026-01-01",
     "authorizationValidUntil": "2026-12-31"
   }
 }
 ```
 
-The credential reads: *Green Flowers B.V. has mandated Brabant Access Services N.V. to send its Peppol
-invoices and to perform tax reporting in the Netherlands for 2026.* The validity in
-`validFrom`/`validUntil` is the technical validity of the credential;
-`authorizationValidFrom`/`authorizationValidUntil` is the business validity of the mandate, and
-IR-ASP-01 applies to both pairs.
+The credential reads: *Green Flowers B.V. has mandated Brabant Access Services N.V. to send and
+receive its Peppol invoices under the Dutch regime for 2026.* The validity in `validFrom`/`validUntil`
+is the technical validity of the credential; `authorizationValidFrom`/`authorizationValidUntil` is the
+business validity of the mandate, and IR-ASP-01 applies to both pairs.
 
 ## 6 Protocols
 
@@ -748,7 +781,7 @@ IR-ASP-01 applies to both pairs.
 
 | Protocol                   | Supported | Profile or version                             | Specification       | Notes                                                        |
 | -------------------------- | --------- | ---------------------------------------------- | ------------------- | ------------------------------------------------------------ |
-| OpenID4VP, remote          | yes       | WE BUILD Conformance Specification cs-02, DCQL | [OpenID4VP], [HAIP] | Machine-to-machine; the Relying Party requests only the scope elements relevant to its purpose |
+| OpenID4VP, remote          | yes       | WE BUILD Conformance Specification cs-02, DCQL | [OpenID4VP], [HAIP] | Machine-to-machine. A Relying Party SHOULD constrain its query to the service and jurisdiction it needs, so that a provider holding several mandates presents the right attestation. |
 | ISO/IEC 18013-5, proximity | no        |                                                | [ISO/IEC 18013-5]   | Requires the mdoc format, which is not defined               |
 
 Protocols listed here are those referenced in Topic 6 of Annex 2 of the ARF. This Rulebook does not
@@ -781,9 +814,13 @@ authorising party are legal persons; identity assurance is provided by the EBWOI
 
 ### 7.2 Issuance Policy
 
-The issuer is the authorising company (C1 or C4), a legal person self-issuing this EAA through its EBW
-on the basis of a service agreement with the Service Provider. Issuance uses OpenID4VCI as profiled by
-the WE BUILD Conformance Specification cs-01.
+The issuer is the authorising company, a legal person self-issuing this EAA through its EBW on the
+basis of a service agreement with the Service Provider. Issuance uses OpenID4VCI as profiled by the WE
+BUILD Conformance Specification cs-01.
+
+The issuer SHALL issue one attestation per mandate. Where a company mandates the same Service Provider
+for several services or jurisdictions, it SHALL issue a separate attestation for each combination of
+service and jurisdiction.
 
 The Issuer SHALL implement the base issuer obligations defined in the Base Verification specification:
 <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#41-issuer-obligations>
@@ -826,8 +863,10 @@ for the duration of a service agreement).
 ### 8.2 Revocation triggers and business rules
 
 * **Issuer trigger (obligation):** the authorising company SHALL revoke the attestation without undue
-  delay when it changes Service Provider, when the service agreement ends, when the authorised scope
-  changes (issuing a replacement attestation), or when the provider's identity data becomes inaccurate.
+  delay when the mandate ends, when it moves the mandated service in that jurisdiction to another
+  Service Provider, when the mandated operations change (issuing a replacement attestation), or when
+  the provider's identity data becomes inaccurate. Because each attestation carries one mandate, a
+  change to one mandate SHALL NOT require revoking the company's other mandates.
 * **Relying Party action:** a revoked or suspended attestation SHALL be treated as invalid; the
   counterpart AP SHALL reject exchanges relying on it, and a Tax Administration SHALL NOT accept
   reporting mandated by it. The business interpretation of a revocation (e.g. handling of exchanges
@@ -860,14 +899,12 @@ Administration in Scenario 3) SHALL:
   revocation status (4.2.6), wallet integrity via the WUA (4.2.7), and holder key binding (4.2.8);
 * where the attestation carries `cnf`, verify the Key Binding JWT, including `aud`, `nonce` and
   `sd_hash` (see the example in section 5.1.3);
-* apply the integrity rules IR-ASP-01 to IR-ASP-04 defined in section 4.5, and verify that the
-  requested operation is among the disclosed `authorization_scope` elements;
-* as a Tax Administration (Scenario 3), additionally confirm that the `vida:tax_report` element is
-  disclosed and that `tax_reporting_member_state` matches its jurisdiction.
+* request the two party objects, `mandate` and the validity attributes, and apply the integrity rules
+  IR-ASP-01 to IR-ASP-04 defined in section 4.5. A counterpart Access Point SHALL accept only a
+  mandate with service `einvoicing` and the operation in question; a Tax Administration SHALL accept
+  only a mandate with service `tax_reporting` and its own Member State as jurisdiction.
 
-A counterpart Access Point SHOULD request only the scope element for the operation in question
-(`peppol:send` or `peppol:receive`), and a Tax Administration only `vida:tax_report` and
-`tax_reporting_member_state`. Neither SHOULD request `authorization_reference`.
+Neither SHOULD request `authorization_reference`.
 
 Where the Relying Party is itself an EBW-based system, the Mutual Identification & Consent Handshake
 defined in [rb-base, Handshake] SHOULD be applied before presentation.
@@ -908,8 +945,8 @@ issuer's **EBWOID**, following the common WE BUILD EAA trust model:
 
 Authorization of the issuer *as a mandating company* is subsequently determined in accordance with the
 Relying Party's internal policies (e.g. the counterpart AP confirming the company is the Peppol
-participant on the invoice; a Tax Administration confirming the company is a registered taxpayer in its
-jurisdiction), optionally supported by domain-specific trust list services.
+participant on the invoice; a Tax Administration confirming the company is a taxable person registered
+in its Member State), optionally supported by domain-specific trust list services.
 
 **Trust anchor location.** The trust anchor location is the EBWOID provider's entry in the WE BUILD
 trust list infrastructure. Where the optional `trust_anchor_url` metadata (section 4.2) is present, it
@@ -924,6 +961,7 @@ looked up.
 | [ETSI TS 119 472-1]                    | ETSI TS 119 472-1, Electronic Signatures and Trust Infrastructures (ESI); Profiles for Electronic Attestation of Attributes; Part 1: General requirements |
 | [HAIP]                                 | OpenID4VC High Assurance Interoperability Profile, OpenID Foundation |
 | [IANA-JWT-Claims]                      | IANA JSON Web Token Claims Registry. <https://www.iana.org/assignments/jwt/jwt.xhtml> |
+| [ISO 3166-1]                           | ISO 3166-1, Codes for the representation of names of countries and their subdivisions, Part 1: Country code |
 | [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence, Part 5: Mobile driving licence (mDL) application |
 | [RFC 2119]                             | Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
 | [RFC 3339]                             | Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
