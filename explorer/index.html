@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attestation Rulebook Explorer</title>
+<meta name="description" content="Search the WE BUILD attestation rulebooks by category, by format and by attribute, and read any rulebook in full.">
+<link rel="canonical" href="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WE BUILD Attestation Rulebook Explorer">
+<meta property="og:title" content="Attestation Rulebook Explorer">
+<meta property="og:description" content="Search the WE BUILD attestation rulebooks by category, by format and by attribute, and read any rulebook in full.">
+<meta property="og:url" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/">
+<meta property="og:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WE BUILD Attestation Rulebook Explorer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/assets/og.png?v=2">
+<meta name="theme-color" content="#003399">
+<link rel="icon" href="assets/favicon.svg" id="favicon">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="bar">
+    <a class="brand" id="brandLink" href="#">
+      <img id="brandLogo" alt="" height="44">
+    </a>
+    <span class="brand-sep" aria-hidden="true"></span>
+    <span class="brand-product" id="brandProduct">Rulebook Explorer</span>
+    <nav class="masthead-links">
+      <a id="repoLink" class="ghlink" href="#" target="_blank" rel="noopener" title="View the repository on GitHub">
+        <svg viewBox="0 0 16 16" width="19" height="19" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <label class="sr-only" for="q">Search the rulebooks</label>
+    <div class="searchwrap">
+      <svg class="searchicon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4.2-4.2"></path>
+      </svg>
+      <input id="q" type="search" autocomplete="off" spellcheck="false"
+             placeholder="Search an attribute, a rulebook or a vct value">
+      <button id="clear" type="button" class="clear" hidden aria-label="Clear">&times;</button>
+    </div>
+    <p class="hero-hint">
+      <span id="pageTagline"></span>
+      <span class="examples">Try
+        <button type="button" class="eg" data-q="legal_name">legal_name</button>
+        <button type="button" class="eg" data-q="iban">iban</button>
+        <button type="button" class="eg" data-q="birth">birth</button>
+      </span>
+    </p>
+  </div>
+</div>
+
+<main>
+  <section class="controls" aria-label="Filters">
+    <div class="filters">
+      <div class="filtergroup">
+        <span class="filterlabel">Category<button type="button" class="help"
+          aria-label="About the category filter"
+          data-tip="The legal category the rulebook declares for the attestation. A rulebook can declare more than one, so the counts add up to more than the number of rulebooks.">?</button></span>
+        <div id="catFilters" class="chips"></div>
+      </div>
+      <span class="filtersep" aria-hidden="true"></span>
+      <div class="filtergroup">
+        <span class="filterlabel">Format<button type="button" class="help"
+          aria-label="About the format filter"
+          data-tip="The encoding an attestation is issued in. SD-JWT VC and mdoc are the two in common use. A rulebook can support more than one, and the attribute identifiers differ per format.">?</button></span>
+        <div id="fmtFilters" class="chips"></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="resultline">
+    <span id="resultCount"></span>
+    <span id="summary" class="summary"></span>
+    <button id="reset" type="button" class="linkbtn" hidden>Reset</button>
+    <span class="sortwrap">
+      <svg class="sorticon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"></path>
+      </svg>
+      <label class="sr-only" for="sort">Sort</label>
+      <select id="sort">
+        <option value="name">Name A to Z</option>
+        <option value="name-desc">Name Z to A</option>
+        <option value="attrs">Most attributes</option>
+        <option value="attrs-asc">Fewest attributes</option>
+        <option value="category">Category</option>
+      </select>
+      <svg class="selarrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg>
+    </span>
+  </p>
+
+  <section id="results" class="results" aria-live="polite"></section>
+  <p id="empty" class="empty" hidden>Nothing matches. Try a shorter term or clear the filters.</p>
+
+  <nav id="pager" class="pager" aria-label="Pages" hidden>
+    <div class="pagegroup">
+      <button type="button" class="pagebtn" data-step="-1" aria-label="Previous page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <span id="pageList" class="pagelist"></span>
+      <button type="button" class="pagebtn" data-step="1" aria-label="Next page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <span class="pagesize">
+      <label class="sr-only" for="perPage">Results per page</label>
+      <select id="perPage">
+        <option value="12" selected>12 per page</option>
+        <option value="24">24 per page</option>
+        <option value="48">48 per page</option>
+        <option value="0">Show all</option>
+      </select>
+      <svg class="selarrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg>
+    </span>
+  </nav>
+</main>
+
+<footer class="foot">
+  <div class="foot-band">
+    <div class="foot-inner">
+      <a id="footSite" class="foot-logolink" href="#" target="_blank" rel="noopener"><img id="footLogo" class="foot-logo" alt="" height="56"></a>
+      <img id="footEu" class="foot-eu" alt="Co-funded by the European Union" height="46">
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="foot-inner">
+      <span id="copyright" class="copyright"></span>
+      <span class="gen">Index built <span id="generated"></span> from the rulebooks in this <a id="genRepo" href="#" target="_blank" rel="noopener">repository</a>.</span>
+    </div>
+  </div>
+</footer>
+
+<dialog id="detail" class="detail">
+  <div class="detail-top">
+    <button type="button" class="ghsmall" id="backToSummary" hidden aria-label="Back to the summary" title="Back to the summary">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <a class="btn open" id="openRulebook" href="#">Read rulebook</a>
+    <a class="ghsmall" id="openPage" hidden href="#" target="_blank" rel="noopener" aria-label="Open as a page" title="Open as a page">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-8 8M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+    </a>
+    <a class="ghsmall" id="openSource" href="#" target="_blank" rel="noopener" aria-label="View the source on GitHub" title="View the source on GitHub">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+    </a>
+    <button class="close" id="closeDetail" aria-label="Close">Close</button>
+  </div>
+  <header class="detail-head" id="detailHead"></header>
+  <div class="reader-bar" id="readerBar" hidden></div>
+  <div id="detailBody"></div>
+</dialog>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

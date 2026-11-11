@@ -9,6 +9,9 @@ Copy the template into your rulebook folder as `README.md` and fill it in. Do no
 renumber or rename its sections. Sections that do not apply to your attestation type
 are retained with a short note explaining why.
 
+[`rulebooks/README.md`](../README.md) lists the eleven chapters and what each one
+holds, and is the place to start if you have not written a rulebook here before.
+
 ## Markers
 
 The template carries three markers. None of them belong in a finished rulebook.
@@ -38,6 +41,11 @@ use the legacy form. Keep both columns.
    `attestation_legal_category` appears nowhere.
 6. Section 7.1 has no blank rows, and matches the presence or absence of
    `cryptographically_bound_to` in section 4.2.
+7. Every cross reference names the section that actually holds the content. Moving
+   text between chapters without moving the pointers is the most common mistake in a
+   restructure, and the build reports it on every pull request.
+8. The `Category:` line under the title names the legal category, which is what the
+   explorer reads to place the rulebook.
 7. The trust anchor attribute in chapter 10 is the one declared in chapter 4.
 8. If revocable, chapter 8 states the retrieval location.
 9. Proximity presentation in chapter 9 implies mdoc in chapter 5.

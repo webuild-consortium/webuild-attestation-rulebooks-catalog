@@ -8,16 +8,39 @@ This repository hosts the rulebooks and data schemas used across the WE BUILD La
 - Sample data demonstrating expected payload shapes for implementers.
 
 Project structure (high level):
-- `rulebooks/` — Human‑readable rulebooks and regulatory references.
-- `data-schemas/` — Machine‑readable schemas (e.g., JSON Schema for SD‑JWT claims), with samples under `sample-data/`.
+- `rulebooks/` — Human-readable rulebooks and regulatory references.
+- `data-schemas/` — Machine-readable schemas (e.g., JSON Schema for SD-JWT claims), with samples under `sample-data/`.
 - `sample-data/` — Additional example payloads that complement the schemas.
+- `explorer/` — The source of the rulebook explorer website, built and published automatically.
 
 This repository is intended for implementers, partners, and reviewers who need to understand and validate the format and governance of credential data in EUDI Wallet and EBW contexts.
 
-For the official production rulebooks beyond WE BUILD, see the [EUDI Wallet – Attestation Rulebooks Catalog](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog).
+For the official production rulebooks beyond WE BUILD, see the [EUDI Wallet Attestation Rulebooks Catalog](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog).
+
+## Read the rulebooks
+
+**[webuild-consortium.github.io/webuild-attestation-rulebooks-catalog](https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/)**
+
+The rulebook explorer lets you search every rulebook by category, by format or by
+attribute, and read any of them in full, a chapter at a time. Each rulebook has its
+own page and its own address, so a link to one can be shared on its own.
+
+The site is built from this repository on every push to `main`. The catalogue is also
+available as data at
+[`/index.json`](https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog/index.json).
+
+## Writing or changing a rulebook
+
+Every rulebook follows one generic template of eleven chapters, and all of them do
+today. Start at [`rulebooks/README.md`](rulebooks/README.md), which lists the chapters,
+explains how to name the folder, and points at the template.
+
+Nothing needs to be built or generated on your machine. Editing the markdown in the
+GitHub editor is enough.
 
 ## How to contribute
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on how to get started.
+Contributions are welcome. [`CONTRIBUTING.md`](CONTRIBUTING.md) covers how to make a
+change, what the automatic checks do, and how a change gets reviewed.
 
 ## Funding
 

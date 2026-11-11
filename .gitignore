@@ -19,3 +19,10 @@ Gemfile.lock
 
 
 .idea/
+
+# The explorer builds these. They are published by the deploy workflow rather
+# than committed, so that adding a rulebook needs nothing but the rulebook.
+explorer/index.json
+explorer/rulebooks/
+explorer/sitemap.xml
+explorer/robots.txt

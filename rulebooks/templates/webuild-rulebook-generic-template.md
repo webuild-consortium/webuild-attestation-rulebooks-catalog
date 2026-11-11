@@ -561,7 +561,7 @@ TO AGREE. The consortium default for this chapter is an open decision.
 attestation type, in addition to any grounds already imposed by regulation. State the
 expected time from trigger to status list update.
 
-# 9. Request, Presentation and Verification
+## 9 Request, Presentation and Verification
 
 FIXED
 
@@ -583,12 +583,12 @@ FIXED
 >     *   Ensure that the presenter has not submitted a copied or replayed attestation 
 >     *   Validate that the presented attestation was issued to this exact presenting wallet instance.
 
-## 9.1. Relying Party Role ( RP Instance - EUDI Wallet)
+### 9.1 Relying Party Role (RP Instance, EUDI Wallet)
 
 [AUTHOR] Add obligations specific to this attestation type below. Do not edit the
 list above.
 
-## 9.2. EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+### 9.2 EBW Relying Party Role (EBW Wallet, EBW Wallet)
 
 FIXED
 
@@ -691,7 +691,7 @@ FIXED
 
 **Non-qualified EAA (including S-EAA)**
 
-## 10.1. Relying Party Role ( RP Instance - EUDI Wallet)
+### 10.1 Relying Party Role (RP Instance, EUDI Wallet)
 
 FIXED
 
@@ -704,7 +704,7 @@ FIXED
 > ISSU_34 of Topic 10 of Annex 2 of the ARF.
 .
 
-## 10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+### 10.2 EBW Relying Party Role (EBW Wallet, EBW Wallet)
 
 FIXED
 
