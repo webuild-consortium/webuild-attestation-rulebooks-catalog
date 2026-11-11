@@ -222,7 +222,7 @@ This attestation type MAY be classified as:
 | legalBasis | [legalBasis](https://w3id.org/ebwv#legalBasis) | Legal provision or framework under which the attestation is issued | String | Article L243-15 du Code de la sécurité sociale |
 | coveredObligationType | [coveredObligationType](https://w3id.org/ebwv#coveredObligationType) | Type of social security, employment-related contribution, reporting, or payment obligation covered | Array of Strings | ["familyAllowanceContribution", "employmentDeclarationObligation"] |
 | complianceStatus | [complianceStatus](https://w3id.org/ebwv#complianceStatus) | Assessed status of the employer’s fulfilment of the covered obligations | String | upToDate |
-| validAsOfDate | TBD <br> is this a cred: property? | Date on which the facts or status were assessed | Date (YYYY-MM-DD) | 2026-07-01 |
+| validAsOfDate | [cred:validFrom](https://www.w3.org/2018/credentials#validFrom) | Date on which the facts or status were assessed | Date (YYYY-MM-DD) | 2026-07-01 |
 
  **Possible `coveredObligationType` values:**
 
@@ -252,8 +252,8 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| averagePeriodWorkforce | [averagePeriodWorkforce](https://w3id.org/ebwv#averagePeriodWorkforce) | Average number of employed persons for the reporting period. Implies reportingPeriod to be present. | String | 2365 |
-| totalPayroll | [totalPayroll](https://w3id.org/ebwv#totalPayroll) | Total payroll, wage sum, or declared remuneration for the reporting period. Implies reportingPeriod to be present. | String | 129350000.00 EUR |
+| averagePeriodWorkforce | [averagePeriodWorkforce](https://w3id.org/ebwv#averagePeriodWorkforce) | Average number of employed persons for the reporting period. Implies reportingPeriod to be present. | Integer | 2365 |
+| totalPayroll | [totalPayroll](https://w3id.org/ebwv#totalPayroll) | Total payroll, wage sum, or declared remuneration for the reporting period. Implies reportingPeriod to be present. | String or<br>[MonetaryAmount](https://w3id.org/ebwv#MonetaryAmount)| 129350000.00 EUR |
 | hasSite | [hasSite](https://w3id.org/ebwv#hasSite) | A site, establishment, local unit, branch, workplace, or comparable operational location | Object |  |
 | hasSite.siteIdentifier | [identifier](https://w3id.org/ebwv#identifier) | identifier of the site, may be referenced in business register in some MS | String | 34503941600012 |
 | hasSite.registeredAddress | [hasAddress](https://w3id.org/ebwv#hasAddress)<br>OR<br>[registeredAddress](https://w3id.org/ebwv#registeredAddress) <br> the latter can be used only if the Site is considered a legal entity (registered organisation) according to national legislation | Adress of the site | String | 1 Place des Droits de l'Homme, 93200 Saint-Denis, France |
@@ -266,7 +266,7 @@ This attestation type MAY be classified as:
 | --- | --- | --- | --- | --- |
 | reportingPeriod | [reportingPeriod](https://w3id.org/ebwv#reportingPeriod) | Period to which declarations, payroll, workforce, or other reported data relate. Mandatory when averagePeriodWorkforce or totalPayroll are reported. | Object |  |
 | reportingPeriod.startDate | [reportingPeriod](https://w3id.org/ebwv#reportingPeriod).[startDate](https://w3id.org/ebwv#startDate) | Starting date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-01 |
-| reportingPeriod.endDate | [reportingPeriod](https://w3id.org/ebwv#reportingPeriod).[startDate](https://w3id.org/ebwv#endDate) | Ending date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-30 |
+| reportingPeriod.endDate | [reportingPeriod](https://w3id.org/ebwv#reportingPeriod).[endDate](https://w3id.org/ebwv#endDate) | Ending date of the reporting Period | Date (YYYY-MM-DD) | 2026-06-30 |
 
 ## 4 Metadata
 
