@@ -18,7 +18,7 @@ Category: non-qualified EAA
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
-| 1.2 | 2026-11-1 | Remove `aud` claim from rulebook, following ETSI TS 119 472-1 alignment |
+| 1.2 | 2026-11-11 | Remove `aud` claim from rulebook, following ETSI TS 119 472-1 alignment |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
