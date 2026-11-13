@@ -1,12 +1,12 @@
 {
   "vct": "uri:eu.eudi.eucc.1",
-  "attestation_legal_category": "QEAA",
+  "attestation_legal_category": "PuB-EAA",
   "issuing_authority": "Brønnøysundregistrene",
-  "issuing_authority_id": "974760673",
+  "issuing_authority_id": "NOFOR.974760673",
   "issuing_country": "NO",
-  "issuing_jurisdiction": "NO",
   "issuance_date": "2026-01-15T10:00:00Z",
-  "authentic_source_id": "974760673",
+  "expiry_date": "2027-01-15T10:53:20Z",
+  "authentic_source_id": "NOFOR.974760673",
   "authentic_source_name": "Brønnøysundregistrene",
   "legal_person_name": "EUDI WALLET SOLUTIONS AS",
   "legal_person_id": "NOFOR.987654321",
@@ -28,7 +28,7 @@
   },
   "legal_person_status": "active",
   "legal_person_activity": {
-    "code": "62.010",
+    "code": "62.01",
     "description": "Computer programming activities"
   },
   "digital_contact_point": {
@@ -40,13 +40,13 @@
       "full_name": "Lysende Blomst",
       "date_of_birth": "1980-01-01",
       "nationality": "Norwegian",
-      "signatory_rule": "alone"
+      "signatory_rule": "sole"
     },
     {
       "name": "PARENT HOLDING AS",
       "id": "NOFOR.123456789",
       "legal_form_type": "Aksjeselskap (AS)",
-      "signatory_rule": "alone"
+      "signatory_rule": "sole"
     }
   ],
   "trust_anchor": "https://trust.example.org/anchors/eidas",
@@ -67,9 +67,9 @@
   "sub": "did:example:legal-person:NO.987654321",
   "jti": "b3f6f1f2-55a8-4d5f-9a0d-1a3b1a0d0c9e",
   "status": {
-    "type": "status-list",
-    "status_list_credential": "https://issuer.example.no/status/1",
-    "status_list_index": 42,
-    "status_purpose": "revocation"
+    "status_list": {
+      "idx": 42,
+      "uri": "https://issuer.example.no/status/1"
+    }
   }
 }
