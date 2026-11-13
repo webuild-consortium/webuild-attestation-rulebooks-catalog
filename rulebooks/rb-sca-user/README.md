@@ -18,6 +18,7 @@ Category: non-qualified EAA
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-11-11 | Remove `aud` claim from rulebook, following ETSI TS 119 472-1 alignment |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -207,7 +208,6 @@ Metadata describes the attestation rather than its subject.
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
 | iss | https://www.rfc-editor.org/info/rfc7519/#section-4.1.1 | Issuer URL identifying the attestation provider | string (URI) | https://issuer.bank.cz |
-| aud | https://www.rfc-editor.org/info/rfc7519/#section-4.1.3 | Audience of this attestation; SHALL be URL(s) of the RP(s) that will request presentation of this attestation. Because SCA-User is 2-party only, this SHALL always be the issuing bank's own RP URL. | string or array of string | https://banking.bank.cz |
 | iat | https://www.rfc-editor.org/info/rfc7519/#section-4.1.6 | Unix timestamp designating the time when the attestation was issued | integer (Long) | 1748736000 |
 | exp | https://www.rfc-editor.org/info/rfc7519/#section-4.1.4 | Unix timestamp denoting the technical validity expiration of the attestation | integer (Long) | 1751328000 |
 | vct | Section 3.2.1 of [SD-JWT VC] | Denotes type of attestation; SHALL be an issuer-specific URL extending the WE BUILD base VCT | string (URI) | https://issuer.bank.cz/credentials/sca/user/1.0 |
@@ -262,7 +262,6 @@ The SCA-User attestation supports the SD-JWT VC format as specified in [SD-JWT V
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
 | iss | iss | string (URI) | [RFC 7519] §4.1.1 | MUST NOT |
-| aud | aud | string or array of string | [RFC 7519] §4.1.3, SHALL be the issuing bank's own RP URL(s); mandatory for 2-party model | MUST NOT |
 | iat | iat | integer (NumericDate) | [RFC 7519] §4.1.6 | MUST NOT |
 | exp | exp | integer (NumericDate) | [RFC 7519] §4.1.4 | MUST NOT |
 | nbf | nbf | integer (NumericDate) | [RFC 7519] §4.1.5, conditionally mandatory when `nbf` differs from `iat` | MUST NOT |
@@ -283,7 +282,6 @@ The SCA-User attestation supports the SD-JWT VC format as specified in [SD-JWT V
 ```json
 {
   "iss": "https://issuer.bank.cz",
-  "aud": "https://banking.bank.cz",
   "iat": 1748736000,
   "exp": 1748822400,
   "vct": "https://issuer.bank.cz/credentials/sca/user/1.0",
@@ -328,7 +326,6 @@ All claims are always present in the JWT body. There are no disclosures.
 | Claim | Value |
 | --- | --- |
 | `iss` | `https://issuer.bank.cz` |
-| `aud` | `https://banking.bank.cz` |
 | `iat` | `1748736000` (2025-05-31T00:00:00Z) |
 | `exp` | `1748822400` (2025-06-01T00:00:00Z) |
 | `vct` | `https://issuer.bank.cz/credentials/sca/user/1.0` |
@@ -550,7 +547,6 @@ request. Processing of transaction data follows [TS12].
 **Relying Party obligations:**
 
 * The Relying Party (which is always the issuing bank) SHALL verify the issuer signature and the `cnf` key binding.
-* The Relying Party SHALL verify that the `aud` claim matches its own identifier before accepting the attestation.
 * The Relying Party SHALL check the `status_list` claim if present.
 * The Relying Party SHALL verify that transaction data in the presentation request is correctly bound and displayed
   to the user prior to signing, as defined in [Topic 20] and [TS12].
@@ -592,7 +588,7 @@ When issuing the attestation, the Issuer SHALL:
 * Use a sender-constrained token (DPoP) to ensure that only the requesting Wallet may receive the issued credential.
 * Provide means to refresh the attestation (i.e., refresh tokens).
 * Ensure that the attestation is device-bound with sufficient secure storage (AVA_VAN.4 or higher).
-* Include or publish information about allowed verifiers; Embedded Disclosure policies or the `aud` claim SHALL
+* Include or publish information about allowed verifiers; Embedded Disclosure policies SHALL
   be used for this purpose.
 
 Deferred issuance is not recommended, the user is in the loop and banks should be able to process the issuance
