@@ -367,75 +367,75 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `type` | , | Discriminator field, SHALL be `"Person"` or `"Entity"`. Determines which sub-object is present | Enum (String) |
-| `jurisdiction` | , | Country of legal relevance for this controller entry, ISO 3166-1 alpha-2 | String |
-| `address` | , | Address of the controller, residential for `Person`, registered for `Entity` | Address Object |
-| `controls` | , | At least one controls record describing how control is exercised | Array [Object] |
-| `effective_date` | , | Date when this control relationship became legally effective, ISO 8601 YYYY-MM-DD | Date |
-| `evidence` | , | At least one piece of supporting evidence substantiating the declared control | Array [Object] |
+| `type` | [`ebwv:NaturalPerson`](https://w3id.org/ebwv#NaturalPerson) / [`ebwv:LegalPerson`](https://w3id.org/ebwv#LegalPerson) | Discriminator field, SHALL be `"Person"` or `"Entity"`. Determines which sub-object is present | Enum (String) |
+| `jurisdiction` | [`ebwv:citizenship`](https://w3id.org/ebwv#citizenship) (Person) / [`ebwv:jurisdiction`](https://w3id.org/ebwv#jurisdiction) (Entity) | Country of legal relevance for this controller entry, ISO 3166-1 alpha-2 | String |
+| `address` | [`ebwv:Address`](https://w3id.org/ebwv#Address) | Address of the controller, residential for `Person`, registered for `Entity` | Address Object |
+| `controls` | [`bods:interest`](https://vocab.openownership.org/terms#interest) | At least one controls record describing how control is exercised | Array [Object] |
+| `effective_date` | [`bods:startDate`](https://vocab.openownership.org/terms#startDate) | Date when this control relationship became legally effective, ISO 8601 YYYY-MM-DD | Date |
+| `evidence` | [`ebwv:EvidenceData`](https://w3id.org/ebwv#EvidenceData) | At least one piece of supporting evidence substantiating the declared control | Array [Object] |
 
 **Person Controller Mandatory Attributes** *(present when `type = "Person"`)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `person.first_name` | , | First name(s) of the natural person, including middle name(s) where applicable | String |
-| `person.surname` | , | Last name(s) or surname(s) of the natural person controller | String |
+| `person.first_name` | [`ebwv:givenName`](https://w3id.org/ebwv#givenName) | First name(s) of the natural person, including middle name(s) where applicable | String |
+| `person.surname` | [`ebwv:familyName`](https://w3id.org/ebwv#familyName) | Last name(s) or surname(s) of the natural person controller | String |
 
 **Entity Controller Mandatory Attributes** *(present when `type = "Entity"`)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `entity.category` | , | Classification, SHALL be `"legal_entity"` or `"legal_arrangement"` | Enum (String) |
-| `entity.name` | , | Complete official registered name of the entity or legal arrangement | String |
-| `entity.identifier` | , | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present | Object |
-| `entity.jurisdiction` | , | ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled | String |
-| `entity.form` | , | The form of the entity, SHALL use values from Section 4.4.6 | String |
-| `entity.legal_form` | , | Legal form of the entity | String |
+| `entity.category` | [`bods:entityType`](https://vocab.openownership.org/terms#entityType) | Classification, SHALL be `"legal_entity"` or `"legal_arrangement"` | Enum (String) |
+| `entity.name` | [`ebwv:legalName`](https://w3id.org/ebwv#legalName) | Complete official registered name of the entity or legal arrangement | String |
+| `entity.identifier` | [`ebwv:identifier`](https://w3id.org/ebwv#identifier) | At least one of: `euid`, `lei`, `tax`, or `other` SHALL be present | Object |
+| `entity.jurisdiction` | [`ebwv:jurisdiction`](https://w3id.org/ebwv#jurisdiction) | ISO 3166-1 alpha-2 jurisdiction in which the entity is registered or legally domiciled | String |
+| `entity.form` | [`ebwv:legalForm`](https://w3id.org/ebwv#legalForm), [Q-BO-11](../rb-base/ownership-control-ubo-semantic-crosswalk.md#q-bo-11) | The form of the entity, SHALL use values from Section 4.4.6 | String |
+| `entity.legal_form` | [`ebwv:legalForm`](https://w3id.org/ebwv#legalForm) | Legal form of the entity | String |
 
 **Entity Identifier Fields** *(at least one SHALL be present)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `entity.identifier.euid` | , | European Unique Identifier, optional | String |
-| `entity.identifier.lei` | , | Legal Entity Identifier per ISO 17442, optional | String |
-| `entity.identifier.tax` | , | National tax or registration number, optional | String |
-| `entity.identifier.other` | , | Any other applicable legal identifier, optional | String |
+| `entity.identifier.euid` | [`ebwv:Euid`](https://w3id.org/ebwv#Euid) | European Unique Identifier, optional | String |
+| `entity.identifier.lei` | [`ebwv:Lei`](https://w3id.org/ebwv#Lei) | Legal Entity Identifier per ISO 17442, optional | String |
+| `entity.identifier.tax` | [`ebwv:Tin`](https://w3id.org/ebwv#Tin) | National tax or registration number, optional | String |
+| `entity.identifier.other` | [`bods:scheme`](https://vocab.openownership.org/terms#scheme) | Any other applicable legal identifier, optional | String |
 
 **Legal Arrangement Additional Mandatory Attributes** *(present when `entity.category = "legal_arrangement"` or `entity.form = "trust"`)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `entity.subtype_info.settlement` | , | Instrument or document establishing the legal arrangement (e.g., trust deed) | String |
-| `entity.subtype_info.purpose` | , | Declared purpose of the legal arrangement | String |
-| `entity.subtype_info.assets` | , | Description of assets held within the legal arrangement | String |
+| `entity.subtype_info.settlement` | [`bods:entityTypeDetails`](https://vocab.openownership.org/terms#entityTypeDetails) | Instrument or document establishing the legal arrangement (e.g., trust deed) | String |
+| `entity.subtype_info.purpose` | [`bods:entityTypeDetails`](https://vocab.openownership.org/terms#entityTypeDetails) | Declared purpose of the legal arrangement | String |
+| `entity.subtype_info.assets` | none; [Q-BO-07](../rb-base/ownership-control-ubo-semantic-crosswalk.md#q-bo-07) | Description of assets held within the legal arrangement | String |
 
 **Address Mandatory Attributes** *(applies to all Controller entries)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `address.street` | , | Street name of the address | String |
-| `address.house_number` | , | House or building number | String |
-| `address.locality` | , | City or locality | String |
-| `address.region` | , | State, province, or region | String |
-| `address.postal_code` | , | Postal or ZIP code | String |
-| `address.country` | , | ISO 3166-1 alpha-2 country code, SHALL use values from Section 4.4.7 | String |
+| `address.street` | [`ebwv:thoroughfare`](https://w3id.org/ebwv#thoroughfare) | Street name of the address | String |
+| `address.house_number` | [`ebwv:locatorDesignator`](https://w3id.org/ebwv#locatorDesignator) | House or building number | String |
+| `address.locality` | [`ebwv:postName`](https://w3id.org/ebwv#postName) | City or locality | String |
+| `address.region` | [`ebwv:adminUnitL2`](https://w3id.org/ebwv#adminUnitL2) | State, province, or region | String |
+| `address.postal_code` | [`ebwv:postCode`](https://w3id.org/ebwv#postCode) | Postal or ZIP code | String |
+| `address.country` | [`ebwv:adminUnitL1`](https://w3id.org/ebwv#adminUnitL1) | ISO 3166-1 alpha-2 country code, SHALL use values from Section 4.4.7 | String |
 
 **Controls Mandatory Attributes** *(at least one record per Controller entry)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `controls.type` | Section 4.4.3 | Array of one or more control mechanism types, SHALL use values from Section 4.4.3 | Array [Enum] |
-| `controls.level` | Section 4.4.2 | How control is held, SHALL be one of: `"direct"`, `"indirect"`, `"joint"`, or `"unknown"` | Enum (String) |
-| `controls.basis` | Section 4.4.4 | Legal or structural basis for control, SHALL use values from Section 4.4.4 | Enum (String) |
-| `controls.rights` | Section 4.4.5 | Array of economic rights associated with the control, SHALL use values from Section 4.4.5 | Array [Enum] |
-| `controls.voting_percentage` | , | Percentage of voting rights held, decimal value in range 0–100 | Decimal |
+| `controls.type` | [`bods:interest`](https://vocab.openownership.org/terms#interest), [crosswalk 4.2](../rb-base/ownership-control-ubo-semantic-crosswalk.md#42-rb-control-controlstype) | Array of one or more control mechanism types, SHALL use values from Section 4.4.3 | Array [Enum] |
+| `controls.level` | [`bods:directOrIndirect`](https://vocab.openownership.org/terms#directOrIndirect) | How control is held, SHALL be one of: `"direct"`, `"indirect"`, `"joint"`, or `"unknown"` | Enum (String) |
+| `controls.basis` | none; [Q-BO-08](../rb-base/ownership-control-ubo-semantic-crosswalk.md#q-bo-08) | Legal or structural basis for control, SHALL use values from Section 4.4.4 | Enum (String) |
+| `controls.rights` | [crosswalk 4.4](../rb-base/ownership-control-ubo-semantic-crosswalk.md#44-directness-share-and-economic-rights) | Array of economic rights associated with the control, SHALL use values from Section 4.4.5 | Array [Enum] |
+| `controls.voting_percentage` | [`ebwv:relativeVotingRights`](https://w3id.org/ebwv#relativeVotingRights) / [`bods:shareExact`](https://vocab.openownership.org/terms#shareExact) | Percentage of voting rights held, decimal value in range 0–100 | Decimal |
 
 **Evidence Mandatory Attributes** *(at least one entry per Controller entry)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `evidence[n].id` | , | Unique identifier, URI, or URN of the source or evidence document | String |
-| `evidence[n].type` | , | Type of evidence document, SHALL use a value from Section 4.4.9 (e.g., `officialRegister`, `governanceChart`, `trustDeed`, `shareholderAgreement`) | String |
+| `evidence[n].id` | [`dcterms:identifier`](http://purl.org/dc/terms/identifier) | Unique identifier, URI, or URN of the source or evidence document | String |
+| `evidence[n].type` | [`bods:source`](https://vocab.openownership.org/terms#source), [crosswalk 5](../rb-base/ownership-control-ubo-semantic-crosswalk.md#5-evidence-and-provenance) | Type of evidence document, SHALL use a value from Section 4.4.9 (e.g., `officialRegister`, `governanceChart`, `trustDeed`, `shareholderAgreement`) | String |
 
 ### 3.3 Optional attributes
 
@@ -443,27 +443,27 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `person.birth_date` | , | Date of birth of the natural person controller, ISO 8601 YYYY-MM-DD | Date |
+| `person.birth_date` | [`ebwv:dateOfBirth`](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person controller, ISO 8601 YYYY-MM-DD | Date |
 
 **Legal Arrangement Optional Attributes** *(when `entity.category = "legal_arrangement"`)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `entity.subtype_info.reason_for_registration` | , | The reason the legal arrangement was formally registered | String |
+| `entity.subtype_info.reason_for_registration` | none; [Q-BO-07](../rb-base/ownership-control-ubo-semantic-crosswalk.md#q-bo-07) | The reason the legal arrangement was formally registered | String |
 
 **Controls Optional Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `controls.appointment_rights` | , | Free text details on appointment rights | String |
-| `controls.other_details` | , | Free text for other control mechanisms not captured by structured fields | String |
+| `controls.appointment_rights` | [`bods:AppointmentOfBoard`](https://vocab.openownership.org/terms#AppointmentOfBoard) | Free text details on appointment rights | String |
+| `controls.other_details` | [`ebwv:otherControlReason`](https://w3id.org/ebwv#otherControlReason) | Free text for other control mechanisms not captured by structured fields | String |
 
 **Evidence Optional Attributes**
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `evidence[n].url` | , | URI reference to the publicly accessible source or evidence document | URI |
-| `evidence[n].data` | , | Base64-encoded source document, SHALL be provided if `url` is absent or not publicly accessible | String (base64) |
+| `evidence[n].url` | [`bods:url`](https://vocab.openownership.org/terms#url) | URI reference to the publicly accessible source or evidence document | URI |
+| `evidence[n].data` | none; [crosswalk 5](../rb-base/ownership-control-ubo-semantic-crosswalk.md#5-evidence-and-provenance) | Base64-encoded source document, SHALL be provided if `url` is absent or not publicly accessible | String (base64) |
 
 ### 3.4 Conditional attributes
 
