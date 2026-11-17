@@ -208,7 +208,7 @@ vat_id_attestation
 │   │   │   ├─ legal_name                         [1]
 │   │   ├─ natural_person                         [0]
 │   │   │   ├─ family_name                        [1]
-│   │   │   ├─ given_name                         [1]
+│   │   │   ├─ given_name                         [0]
 │   │   │   ├─ birth_date                         [1]
 │   │   │   ├─ birth_place                        [0]
 │   │   │   ├─ tin                                [0]
@@ -270,7 +270,6 @@ There SHALL be a reference from the Administrative Unit to the Economic Operator
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
 | natural_person.family_name | [familyName](https://w3id.org/ebwv#familyName) | Current last name(s) or surname(s) of the user to whom the person identification data relates. | string | Doe |
-| natural_person.given_name | [givenName](https://w3id.org/ebwv#givenName) | Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates. | string | John |
 | natural_person.birth_date | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Day, month, and year on which the user to whom the person identification data relates was born. | Date | 1968-04-27 |
 
 #### 3.2.6 Validity Period
@@ -319,6 +318,7 @@ If the Legal person is filled, there are no optional attributes
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
+| natural_person.given_name | [givenName](https://w3id.org/ebwv#givenName) | Current first name(s), including middle name(s) where applicable, of the user to whom the person identification data relates. | string | John |
 | natural_person.birth_place | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | The country as acountry code as specified in ISO 3166-1 alpha-2, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born. | string | Amsterdam |
 | natural_person.tin | [identifier](https://w3id.org/ebwv#identifier) | tax reference number | string |  |
 | natural_person.personal_administrative_number | [personalAdministrative Number](https://w3id.org/ebwv#personalAdministrativeNumber) | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. The personal Administrative Number may only be used if the local law allows for unrestricted use | string | 123456782 |
