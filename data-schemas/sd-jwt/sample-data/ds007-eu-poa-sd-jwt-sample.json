@@ -1,0 +1,58 @@
+{
+  "vct": "uri:eu.eudi.eu-poa.1",
+  "attestation_legal_category": "QEAA",
+  "issuing_authority": "Kamer van Koophandel",
+  "issuing_country": "NL",
+  "date_of_execution": "2026-01-15",
+  "euid_reference": "NLNHR.12345678",
+  "principal_full_name": "Sacha Novak",
+  "principal_date_of_birth": "1980-03-22",
+  "principal_identification_document_kind": "passport",
+  "principal_identification_document_number": "NZ1234567",
+  "principal_place_of_birth": "Utrecht",
+  "principal_full_address": "Herengracht 100, 1015 AA Amsterdam, Netherlands",
+  "company_statutory_full_name": "FictiveCo B.V.",
+  "company_business_register_name": "Kamer van Koophandel",
+  "company_business_register_location": "The Hague",
+  "company_kind_of_legal_entity": "B.V.",
+  "company_jurisdiction": "NL",
+  "company_registered_office": "Keizersgracht 200, 1016 DW Amsterdam, Netherlands",
+  "attorney_full_name": "Maria Schmidt",
+  "attorney_date_of_birth": "1985-07-10",
+  "attorney_identification_document_kind": "national_id_card",
+  "attorney_identification_document_number": "DE9876543",
+  "attorney_place_of_birth": "Groningen",
+  "attorney_full_address": "Friesestraatweg 3157, 7772CP Groningen, Netherlands",
+  "scope_of_representation_powers": [
+    "The formation of companies",
+    "Registration and closure of branches of the Company"
+  ],
+  "scope_of_representation_power_of_substitution": "not_allowed",
+  "validity_period_valid_from": "2026-01-15",
+  "validity_period_valid_until": "2027-01-15",
+  "applicable_law_jurisdiction": "NL",
+  "signing_place": "Hardenberg",
+  "signing_date": "2026-01-15",
+  "trust_anchor": "https://issuer.example.com/trust-anchor",
+  "status": {
+    "type": "status-list",
+    "status_list_credential": "https://issuer.example.com/status/1",
+    "status_list_index": 42,
+    "status_purpose": "revocation"
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "f83OJ3D2xF4wKJ1i8xWcQWfYVYVxG3lI8p3G5h1D2Vw",
+      "y": "x_FEzRu9H1lq3eV6K0U2f1u3a9eJXl7J8m2bQ9k4oZk",
+      "kid": "key-1",
+      "alg": "ES256"
+    }
+  },
+  "iss": "https://eu-poa-issuer.example.nl",
+  "iat": 1768471200,
+  "nbf": 1768435200,
+  "exp": 1799971200,
+  "jti": "4f0d9a7e-3c2b-4b7e-8b1a-6d5e2c9f1a3b"
+}

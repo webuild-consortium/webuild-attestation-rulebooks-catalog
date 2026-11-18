@@ -1,0 +1,54 @@
+{
+  "credentials": [
+    {
+      "id": "company_info_credential",
+      "format": "dc+sd-jwt",
+      "meta": {
+        "vct_values": ["eu.we-build:companyinfo:1"]
+      },
+      "claims": [
+        {
+          "path": ["attestation_legal_category"],
+          "values": ["EAA","QEEAA"]
+        },
+        {"path": ["legal_entity","legal_person","legal_person_name"]},
+        {"path": ["legal_entity","legal_person","legal_form_type"]},
+        {"path": ["legal_entity","identifier","euid"]},
+        {"path": ["legal_entity","identifier","lei"]},
+        {"path": ["legal_entity","identifier","tax"]},
+        {"path": ["legal_entity","identifier","gln"]},
+        {"path": ["legal_entity","identifier","duns"]},
+        {"path": ["legal_entity","identifier","eori"]},
+        {"path": ["legal_entity","identifier","bpnl"]},
+        {"path": ["legal_entity","identifier","siren"]},
+        {"path": ["trade_alias"]},
+        {"path": ["previous_legal_name"]},
+        {"path": ["number_of_employees"]},
+        {"path": ["financial_statements", "taxonomy"]},
+        {"path": ["financial_statements", "facts", "id"]},
+        {"path": ["financial_statements", "facts", "concept"]},
+        {"path": ["financial_statements", "facts", "value"]},
+        {"path": ["financial_statements", "facts", "unit"]},
+        {"path": ["financial_statements", "facts", "period_start"]},
+        {"path": ["financial_statements", "facts", "period_end"]}
+      ],
+      "claim_sets": [
+        {"claim": "attestation_legal_category", "required": true},
+        {"claim": "number_of_employees", "required": true},
+        {"claim": "legal_entity.identifier.euid", "required": true},
+        {"claim": "legal_entity.legal_person.legal_person_name", "required": true},
+        {"claim": "legal_entity.legal_person.legal_form_type", "required": true},
+        {"claim": "trade_alias", "required": false},
+        {"claim": "financial_statements", "required": false},
+        {"claim": "previous_legal_name", "required": false},
+        {"claim": "legal_entity.identifier.tax", "required": false},
+        {"claim": "legal_entity.identifier.lei", "required": false},
+        {"claim": "legal_entity.identifier.gln", "required": false},
+        {"claim": "legal_entity.identifier.duns", "required": false},
+        {"claim": "legal_entity.identifier.eori", "required": false},
+        {"claim": "legal_entity.identifier.bpnl", "required": false},
+        {"claim": "legal_entity.identifier.siren", "required": false}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "vct": "https://credentials.webuild.eu/power-of-x/v7",
+  "name": "WE BUILD Power of X",
+  "description": "Type Metadata for WE BUILD Power of X credentials",
+  "extends": null,
+  "display": [
+    {
+      "lang": "en",
+      "name": "WE BUILD Power of X",
+      "description": "Power of Attorney, Power of Representation and Power of Employee"
+    }
+  ],
+  "schema_uri": "https://schemas.webuild.eu/power-of-x/power_of_x.schema.v1.json",
+  "cryptographic_binding_methods_supported": [
+    "jwk",
+    "cose_key"
+  ],
+  "credential_signing_alg_values_supported": [
+    "ES256",
+    "EdDSA"
+  ],
+  "hash_alg_values_supported": [
+    "sha-256"
+  ],
+  "claims": [
+    {
+      "path": [
+        "credential",
+        "type"
+      ],
+      "mandatory": true,
+      "sd": "never",
+      "value_type": "string"
+    },
+    {
+      "path": [
+        "credential",
+        "legal_category"
+      ],
+      "mandatory": true,
+      "sd": "never",
+      "value_type": "string"
+    },
+    {
+      "path": [
+        "represented_economic_operator",
+        "identifier",
+        "value"
+      ],
+      "mandatory": true,
+      "sd": "allowed",
+      "value_type": "string"
+    },
+    {
+      "path": [
+        "represented_economic_operator",
+        "legal_name"
+      ],
+      "mandatory": true,
+      "sd": "allowed",
+      "value_type": "string"
+    },
+    {
+      "path": [
+        "proxy",
+        "entity_type"
+      ],
+      "mandatory": true,
+      "sd": "never",
+      "value_type": "string"
+    },
+    {
+      "path": [
+        "proxy",
+        "natural_entity_proxy"
+      ],
+      "mandatory": false,
+      "sd": "allowed",
+      "value_type": "object"
+    },
+    {
+      "path": [
+        "proxy",
+        "legal_entity_proxy"
+      ],
+      "mandatory": false,
+      "sd": "allowed",
+      "value_type": "object"
+    },
+    {
+      "path": [
+        "authority",
+        "authority_source"
+      ],
+      "mandatory": true,
+      "sd": "never",
+      "value_type": "string"
+    },
+    {
+      "path": [
+        "authority",
+        "proxy_position"
+      ],
+      "mandatory": false,
+      "sd": "allowed",
+      "value_type": "object"
+    },
+    {
+      "path": [
+        "authority",
+        "proxy_power_scope"
+      ],
+      "mandatory": false,
+      "sd": "allowed",
+      "value_type": "object"
+    },
+    {
+      "path": [
+        "authority",
+        "proxy_employee_authorisation"
+      ],
+      "mandatory": false,
+      "sd": "allowed",
+      "value_type": "object"
+    },
+    {
+      "path": [
+        "credential_metadata"
+      ],
+      "mandatory": true,
+      "sd": "never",
+      "value_type": "object"
+    }
+  ]
+}

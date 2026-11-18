@@ -106,7 +106,8 @@
           "purpose": "Family wealth management and succession planning",
           "assets": "Real estate, securities portfolios, and cash holdings",
           "reason_for_registration": "Registered for tax transparency under CRS"
-        }
+        },
+        "legal_form": "SA"
       },
       "address": {
         "street": "Rue de la Forêt",

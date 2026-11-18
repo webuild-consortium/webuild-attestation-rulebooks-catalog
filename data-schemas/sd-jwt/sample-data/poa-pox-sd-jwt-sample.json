@@ -1,0 +1,136 @@
+{
+  "iss": "https://issuer.webuild.eu",
+  "vct": "https://credentials.webuild.eu/power-of-x/v7",
+  "iat": 1784023200,
+  "nbf": 1784023200,
+  "exp": 1815559200,
+  "jti": "urn:uuid:11111111-1111-1111-1111-111111111111",
+  "status": {
+    "status_list": "https://status.webuild.eu/statuslists/pox/1",
+    "status_index": 41
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "alg": "ES256"
+    }
+  },
+  "credential": {
+    "type": "power_of_attorney",
+    "legal_category": "QEAA"
+  },
+  "represented_economic_operator": {
+    "identifier": {
+      "scheme": "EBWOID",
+      "value": "EU-DE-HRB-123456"
+    },
+    "legal_name": "Hans Schreiner GmbH"
+  },
+  "proxy": {
+    "entity_type": "natural_entity",
+    "natural_entity_proxy": {
+      "family_name": "Beratung (Counselor)",
+      "given_name": "Bianca",
+      "birth_date": "1987-04-11",
+      "birth_place": "Nuremberg",
+      "nationality": [
+        "DE"
+      ],
+      "personal_administrative_number": "PID-DE-123456789",
+      "pseudonym": "TaxAdvisor01"
+    }
+  },
+  "authority": {
+    "authority_source": "proxy_power_scope",
+    "proxy_power_scope": {
+      "type": "voluntary_representation",
+      "grant_date": "2026-07-01",
+      "expiration_date": "2027-07-01",
+      "limitation": true,
+      "faculty": [
+        "TAX",
+        "FINANCIAL"
+      ],
+      "cardinality": 1,
+      "constraints": [
+        {
+          "type": "Operational",
+          "description": "Tax filings only"
+        },
+        {
+          "type": "Economic",
+          "description": "Maximum transaction amount EUR 100000"
+        }
+      ],
+      "geographical_scope": [
+        "DE",
+        "AT",
+        "NL"
+      ],
+      "mandator": {
+        "family_name": "Schreiner",
+        "given_name": "Hans",
+        "birth_date": "1975-02-18",
+        "birth_place": "Nuremberg",
+        "nationality": [
+          "DE"
+        ]
+      },
+      "service_access": [
+        {
+          "relying_party_name": "DATEV",
+          "relying_party_services": [
+            "Tax Filing",
+            "VAT Declaration"
+          ]
+        },
+        {
+          "relying_party_name": "German Tax Authority",
+          "relying_party_services": [
+            "Corporate Tax",
+            "Income Tax"
+          ]
+        }
+      ],
+      "issuing_authority": {
+        "name": "WE BUILD QTSP",
+        "type": "QEAA",
+        "country": "DE",
+        "region": "BY"
+      },
+      "authentic_source": {
+        "id": "DE-BR-001",
+        "name": "German Business Register"
+      },
+      "evidence": {
+        "uri": "https://example.org/evidence/4711",
+        "description": "Notarial Power of Attorney"
+      },
+      "assurance_level": "HIGH"
+    }
+  },
+  "credential_metadata": {
+    "schema": {
+      "id": "https://schemas.webuild.eu/power-of-x/v7",
+      "version": "7.0.0"
+    },
+    "display": {
+      "language": "en",
+      "name": "WE BUILD Power of Attorney"
+    },
+    "policies": [
+      "https://webuild.eu/policies/pox"
+    ]
+  },
+  "_sd_alg": "sha-256",
+  "_sd": [
+    "<digest:represented_economic_operator.identifier>",
+    "<digest:represented_economic_operator.legal_name>",
+    "<digest:proxy.natural_entity_proxy.family_name>",
+    "<digest:proxy.natural_entity_proxy.given_name>",
+    "<digest:authority.proxy_power_scope>",
+    "<digest:authority.proxy_power_scope.mandator>",
+    "<digest:authority.proxy_power_scope.service_access>"
+  ]
+}

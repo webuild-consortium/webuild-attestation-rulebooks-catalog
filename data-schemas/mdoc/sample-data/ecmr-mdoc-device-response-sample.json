@@ -1,0 +1,80 @@
+{
+    "version": "1.0",
+    "documents": [
+        {
+            "docType": "eu.webuildconsortium.ecmr.attestation.v1",
+            "issuerSigned": {
+                "nameSpaces": {
+                    "eu.webuildconsortium.ecmr.attestation.v1": [
+                        {
+                            "elementIdentifier": "attestation_legal_category",
+                            "elementValue": "non-qualified-EAA"
+                        },
+                        {
+                             "elementIdentifier": "attestation_scheme",
+                             "elementValue": "eCMR-EAA-v1"
+                        },
+                        {
+                            "elementIdentifier": "consignment_identifier",
+                            "elementValue": "CMR-2026-000123"
+                        },
+                        {
+                            "elementIdentifier": "ecmr_platform_url",
+                            "elementValue": "https://platform.example.eu/ecmr/CMR-2026-000123"
+                        },
+                        {
+                            "elementIdentifier": "issuer_ebwoid",
+                            "elementValue": "EU.ebwoid.12345678"
+                        },
+                        {
+                            "elementIdentifier": "carrier_ebwoid",
+                            "elementValue": "NOFOR.123456789"
+                        },
+                        {
+                            "elementIdentifier": "efti_dataset_identifier",
+                            "elementValue": "EFTI-248811"
+                        },
+                        {
+                            "elementIdentifier": "efti_platform_identifier",
+                            "elementValue": "EFTI-PLAT-45"
+                        },
+                        {
+                            "elementIdentifier": "efti_gate_identifier",
+                            "elementValue": "EFTI-GATE-12"
+                        },
+                        {
+                             "elementIdentifier": "trust_anchor_url",
+                             "elementValue": "https://trust.webuild.eu"
+                        },
+                        {
+                           "elementIdentifier": "issuance_date",
+                           "elementValue": "2026-06-30T10:25:00Z"
+                        },
+                        {
+                            "elementIdentifier": "expiry_date",
+                            "elementValue": "2026-07-30T00:00:00Z"
+                        }
+                    ]
+                },
+                "validityInfo": {
+                    "signed": 1782815100,
+                    "validFrom": 1782815100,
+                    "validUntil": 1785407100
+                },
+                "issuerAuth": "COSE_SIGN1_ISSUER"
+            },
+            "deviceSigned": {
+                "nameSpaces": {
+                    "eu.webuildconsortium.ecmr.attestation.v1": [
+                        {
+                            "elementIdentifier": "consignment_identifier",
+                            "elementValue": "CMR-2026-000123"
+                        }
+                    ]
+                },
+                "deviceAuth": "COSE_SIGN1_DEVICE"
+            }
+        }
+    ],
+    "status": "ok"
+}
