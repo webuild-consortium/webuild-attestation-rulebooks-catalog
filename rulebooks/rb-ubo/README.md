@@ -13,17 +13,18 @@ Category: S-EAA or QEAA, selected at issuance per integrity rule IR-24 in sectio
   * [Ricky Lamberty, Robert Bosch GmbH]
   * [ , Bundesanzeiger - TR]
 
+* Contact:
+  * [Florin Coptil](mailto:florin.coptil@bosch.com)
+  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)
+
+* Feedback: [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues), or contact Work Package 4 in WE BUILD.
+
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 15.09.2026 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-10-13 | Migrated to the current generic WE BUILD attestation rulebook template; attestation-specific normative content preserved. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
-
-* Contact:
-  * [Florin Coptil](mailto:florin.coptil@bosch.com)
-  * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com)  
-
-**Feedback:** [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues), or contact Work Package 4 in WE BUILD.
 
 ## Table of contents
 
@@ -48,23 +49,26 @@ Category: S-EAA or QEAA, selected at issuance per integrity rule IR-24 in sectio
    * [4.4 Code lists](#44-code-lists)
    * [4.5 Integrity rules](#45-integrity-rules)
 - [5 Formats](#5-formats)
+   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
 - [6 Protocols](#6-protocols)
    * [6.1 Issuance](#61-issuance)
    * [6.2 Presentation](#62-presentation)
 - [7 Issuance](#7-issuance)
-   * [7.1 Binding](#71-binding)
+   * [7.1 Holder Key Binding at Issuance (Wallet Binding)](#71-holder-key-binding-at-issuance-wallet-binding)
    * [7.2 Issuance Policy](#72-issuance-policy)
    * [7.3 Lifecycle management](#73-lifecycle-management)
    * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
 - [9 Request, Presentation and Verification](#9-request-presentation-and-verification)
-   * [9.1 Relying Party Role ( RP Instance - EUDI Wallet)](#91-relying-party-role--rp-instance---eudi-wallet)
-   * [9.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)](#92-ebw-relying-party-role--ebw-wallet---ebw-wallet)
+   * [9.1 Relying Party Role (RP Instance - EUDI Wallet)](#91-relying-party-role-rp-instance---eudi-wallet)
+   * [9.2 EBW Relying Party Role (EBW Wallet - EBW Wallet)](#92-ebw-relying-party-role-ebw-wallet---ebw-wallet)
    * [9.3 Presentation modes](#93-presentation-modes)
    * [9.4 Transactional data](#94-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
-   * [10.1 Relying Party Role ( RP Instance - EUDI Wallet)](#101-relying-party-role--rp-instance---eudi-wallet)
-   * [10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)](#102-ebw-relying-party-role--ebw-wallet---ebw-wallet)
+   * [10.1 Relying Party Role (RP Instance - EUDI Wallet)](#101-relying-party-role-rp-instance---eudi-wallet)
+   * [10.2 EBW Relying Party Role (EBW Wallet - EBW Wallet)](#102-ebw-relying-party-role-ebw-wallet---ebw-wallet)
 - [11 References](#11-references)
 
 
@@ -674,63 +678,63 @@ The `.` notation is used to indicate the nesting of attributes.
 
 #### Attribute Encoding Table
 
-| **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference / Notes** | **Disclosable** |
-| --- | --- | --- | --- | --- |
-| `ubo` | `ubo` | Array [UBO] | SHALL contain at least one UBO entry | MUST |
-| `jurisdiction` | `ubo[n].jurisdiction` | String (ISO 3166-1 alpha-2) | Jurisdiction of the subject entity — SHALL be non-empty | MUST |
-| **Person** |  |  |  |  |
-| `first_name` | `ubo[n].person.first_name` | String | First name(s) of the natural person — SHALL be non-empty | MUST |
-| `surname` | `ubo[n].person.surname` | String | Surname(s) of the natural person — SHALL be non-empty | MUST |
-| `birth_date` | `ubo[n].person.birth_date` | String (ISO 8601 YYYY-MM-DD) | Date of birth — SHALL be in the past; optional | MAY |
-| **BirthPlace** |  |  |  |  |
-| `locality` | `ubo[n].birth_place.locality` | String | City or locality of birth — SHALL be non-empty | MUST |
-| `country` | `ubo[n].birth_place.country` | String (ISO 3166-1 alpha-2) | Country of birth — SHALL be non-empty | MUST |
-| `region` | `ubo[n].birth_place.region` | String | Region or state of birth — optional | MAY |
-| **Citizenship** |  |  |  |  |
-| `citizenship` | `ubo[n].citizenship` | Array of Strings (ISO 3166-1 alpha-2) | Citizenship(s) — SHALL contain at least one entry | MUST |
-| **ResidentialAddress** |  |  |  |  |
-| `street` | `ubo[n].residential_address.street` | String | Street name — SHALL be non-empty | MUST |
-| `house_number` | `ubo[n].residential_address.house_number` | String | House number — SHALL be non-empty | MUST |
-| `locality` | `ubo[n].residential_address.locality` | String | City or locality — SHALL be non-empty | MUST |
-| `region` | `ubo[n].residential_address.region` | String | Region or state — SHALL be non-empty | MUST |
-| `postal_code` | `ubo[n].residential_address.postal_code` | String | Postal code — SHALL be non-empty | MUST |
-| `country` | `ubo[n].residential_address.country` | String (ISO 3166-1 alpha-2) | Country — SHALL be non-empty | MUST |
-| **ContactAddress** *(optional object)* |  |  |  |  |
-| `street` | `ubo[n].contact_address.street` | String | Street name of the contact address — optional | MAY |
-| `house_number` | `ubo[n].contact_address.house_number` | String | House number of the contact address — optional | MAY |
-| `locality` | `ubo[n].contact_address.locality` | String | Locality of the contact address — optional | MAY |
-| `region` | `ubo[n].contact_address.region` | String | Region of the contact address — optional | MAY |
-| `postal_code` | `ubo[n].contact_address.postal_code` | String | Postal code of the contact address — optional | MAY |
-| `country` | `ubo[n].contact_address.country` | String (ISO 3166-1 alpha-2) | Country of the contact address — optional | MAY |
-| **PersonIdentifier** |  |  |  |  |
-| `document_type` | `ubo[n].person_identifier.document_type` | String (Enum) | SHALL use values from Section 2.8.1 | MUST |
-| `document_number` | `ubo[n].person_identifier.document_number` | String | Document number as printed on the document — SHALL be non-empty | MUST |
-| `issuing_country` | `ubo[n].person_identifier.issuing_country` | String (ISO 3166-1 alpha-2) | Country that issued the document — SHALL be non-empty | MUST |
-| `expiry_date` | `ubo[n].person_identifier.expiry_date` | String (ISO 8601 YYYY-MM-DD) | Expiry date of the document | MUST |
-| **PersonUniqueIdentifier** *(optional object)* |  |  |  |  |
-| `identifier_unique` | `ubo[n].person_unique_identifier.identifier_unique` | String | Unique identifier assigned by an authority — optional | MAY |
-| `identifier_issuing_authority` | `ubo[n].person_unique_identifier.identifier_issuing_authority` | String | Authority that issued the unique identifier — optional | MAY |
-| **Justification** |  |  |  |  |
-| `threshold_met` | `ubo[n].justification.threshold_met` | Array of Strings (Enum) | SHALL use values from Section 2.8.2 — at least one value required | MUST |
-| `ownership_percentage` | `ubo[n].justification.ownership_percentage` | Decimal (0–100) | Total direct/indirect ownership percentage — optional | MAY |
-| `voting_rights_percentage` | `ubo[n].justification.voting_rights_percentage` | Decimal (0–100) | Total direct/indirect voting rights percentage — optional | MAY |
+| **Data Identifier** | **Attribute Identifier** | **Encoding Format** | **Reference / Notes**                                                                               | **Disclosable** |
+| --- | --- | --- |-----------------------------------------------------------------------------------------------------| --- |
+| `ubo` | `ubo` | Array [UBO] | SHALL contain at least one UBO entry                                                                | MUST |
+| `jurisdiction` | `ubo[n].jurisdiction` | String (ISO 3166-1 alpha-2) | Jurisdiction of the subject entity — SHALL be non-empty                                             | MUST |
+| **Person** |  |  |                                                                                                     |  |
+| `first_name` | `ubo[n].person.first_name` | String | First name(s) of the natural person — SHALL be non-empty                                            | MUST |
+| `surname` | `ubo[n].person.surname` | String | Surname(s) of the natural person — SHALL be non-empty                                               | MUST |
+| `birth_date` | `ubo[n].person.birth_date` | String (ISO 8601 YYYY-MM-DD) | Date of birth — SHALL be in the past; optional                                                      | MAY |
+| **BirthPlace** |  |  |                                                                                                     |  |
+| `locality` | `ubo[n].birth_place.locality` | String | City or locality of birth — SHALL be non-empty                                                      | MUST |
+| `country` | `ubo[n].birth_place.country` | String (ISO 3166-1 alpha-2) | Country of birth — SHALL be non-empty                                                               | MUST |
+| `region` | `ubo[n].birth_place.region` | String | Region or state of birth — optional                                                                 | MAY |
+| **Citizenship** |  |  |                                                                                                     |  |
+| `citizenship` | `ubo[n].citizenship` | Array of Strings (ISO 3166-1 alpha-2) | Citizenship(s) — SHALL contain at least one entry                                                   | MUST |
+| **ResidentialAddress** |  |  |                                                                                                     |  |
+| `street` | `ubo[n].residential_address.street` | String | Street name — SHALL be non-empty                                                                    | MUST |
+| `house_number` | `ubo[n].residential_address.house_number` | String | House number — SHALL be non-empty                                                                   | MUST |
+| `locality` | `ubo[n].residential_address.locality` | String | City or locality — SHALL be non-empty                                                               | MUST |
+| `region` | `ubo[n].residential_address.region` | String | Region or state — SHALL be non-empty                                                                | MUST |
+| `postal_code` | `ubo[n].residential_address.postal_code` | String | Postal code — SHALL be non-empty                                                                    | MUST |
+| `country` | `ubo[n].residential_address.country` | String (ISO 3166-1 alpha-2) | Country — SHALL be non-empty                                                                        | MUST |
+| **ContactAddress** *(optional object)* |  |  |                                                                                                     |  |
+| `street` | `ubo[n].contact_address.street` | String | Street name of the contact address — optional                                                       | MAY |
+| `house_number` | `ubo[n].contact_address.house_number` | String | House number of the contact address — optional                                                      | MAY |
+| `locality` | `ubo[n].contact_address.locality` | String | Locality of the contact address — optional                                                          | MAY |
+| `region` | `ubo[n].contact_address.region` | String | Region of the contact address — optional                                                            | MAY |
+| `postal_code` | `ubo[n].contact_address.postal_code` | String | Postal code of the contact address — optional                                                       | MAY |
+| `country` | `ubo[n].contact_address.country` | String (ISO 3166-1 alpha-2) | Country of the contact address — optional                                                           | MAY |
+| **PersonIdentifier** |  |  |                                                                                                     |  |
+| `document_type` | `ubo[n].person_identifier.document_type` | String (Enum) | SHALL use values from Section 2.8.1                                                                 | MUST |
+| `document_number` | `ubo[n].person_identifier.document_number` | String | Document number as printed on the document — SHALL be non-empty                                     | MUST |
+| `issuing_country` | `ubo[n].person_identifier.issuing_country` | String (ISO 3166-1 alpha-2) | Country that issued the document — SHALL be non-empty                                               | MUST |
+| `expiry_date` | `ubo[n].person_identifier.expiry_date` | String (ISO 8601 YYYY-MM-DD) | Expiry date of the document                                                                         | MUST |
+| **PersonUniqueIdentifier** *(optional object)* |  |  |                                                                                                     |  |
+| `identifier_unique` | `ubo[n].person_unique_identifier.identifier_unique` | String | Unique identifier assigned by an authority — optional                                               | MAY |
+| `identifier_issuing_authority` | `ubo[n].person_unique_identifier.identifier_issuing_authority` | String | Authority that issued the unique identifier — optional                                              | MAY |
+| **Justification** |  |  |                                                                                                     |  |
+| `threshold_met` | `ubo[n].justification.threshold_met` | Array of Strings (Enum) | SHALL use values from Section 2.8.2 — at least one value required                                   | MUST |
+| `ownership_percentage` | `ubo[n].justification.ownership_percentage` | Decimal (0–100) | Total direct/indirect ownership percentage — optional                                               | MAY |
+| `voting_rights_percentage` | `ubo[n].justification.voting_rights_percentage` | Decimal (0–100) | Total direct/indirect voting rights percentage — optional                                           | MAY |
 | `control_details` | `ubo[n].justification.control_details` | String | Free text for other means of control — required if `threshold_met` includes `"control_other_means"` | MAY |
-| **Effective Date** |  |  |  |  |
-| `effective_date` | `ubo[n].effective_date` | String (ISO 8601 YYYY-MM-DD) | Date when UBO status became effective — SHALL be non-empty | MUST |
-| **Source** |  |  |  |  |
-| `id` | `ubo[n].source[m].id` | String | Unique source identifier — SHALL be non-empty | MUST |
-| `type` | `ubo[n].source[m].type` | String | Type of source — SHOULD use values from Section 2.8.5 | MUST |
-| `url` | `ubo[n].source[m].url` | URI | URI reference to source document — optional | MAY |
-| `data` | `ubo[n].source[m].data` | String (base64) | Base64-encoded source — required if `url` not publicly accessible | MAY |
-| **Metadata** |  |  |  |  |
-| `issuance_date` | `iat` | Number (Unix timestamp) | Date and time when the attestation was issued (ISO 8601); RFC 7519 | MUST NOT |
-| `expiry_date` | `exp` | Number (Unix timestamp) | Date and time when the attestation expires (ISO 8601); RFC 7519 | MUST NOT |
-| `issuing_entity` | `iss` | String (URI or DID) | Identifier of the competent institution that issued the attestation; RFC 7519 | MUST NOT |
-| `attestation_legal_category` | `attestation_legal_category` | String | One of "EAA" or "QEAA" as defined by eIDAS 2 | MUST NOT |
-| `vct` | `vct` | String | The vct definition | MUST NOT |
-| `cnf` | `cnf` | String | Cryptographic Key Binding | MUST NOT |
-| `schema_version` | `schema_version` | String | Version of the schema used; optional | MAY |
-| `trust_anchor_url` | `trust_anchor_url` | String (URI) | URL where the trust anchor for verifying this attestation can be retrieved; optional | MAY |
+| **Effective Date** |  |  |                                                                                                     |  |
+| `effective_date` | `ubo[n].effective_date` | String (ISO 8601 YYYY-MM-DD) | Date when UBO status became effective — SHALL be non-empty                                          | MUST |
+| **Source** |  |  |                                                                                                     |  |
+| `id` | `ubo[n].source[m].id` | String | Unique source identifier — SHALL be non-empty                                                       | MUST |
+| `type` | `ubo[n].source[m].type` | String | Type of source — SHOULD use values from Section 2.8.5                                               | MUST |
+| `url` | `ubo[n].source[m].url` | URI | URI reference to source document — optional                                                         | MAY |
+| `data` | `ubo[n].source[m].data` | String (base64) | Base64-encoded source — required if `url` not publicly accessible                                   | MAY |
+| **Metadata** |  |  |                                                                                                     |  |
+| `issuance_date` | `iat` | Number (Unix timestamp) | Date and time when the attestation was issued (ISO 8601); RFC 7519                                  | MUST NOT |
+| `expiry_date` | `exp` | Number (Unix timestamp) | Date and time when the attestation expires (ISO 8601); RFC 7519                                     | MUST NOT |
+| `issuing_entity` | `iss` | String (URI or DID) | Identifier of the competent institution that issued the attestation; RFC 7519                       | MUST NOT |
+| `attestation_legal_category` | `attestation_legal_category` | String | One of "S-EAA" or "QEAA" as defined by eIDAS 2                                                      | MUST NOT |
+| `vct` | `vct` | String | The vct definition                                                                                  | MUST NOT |
+| `cnf` | `cnf` | String | Cryptographic Key Binding                                                                           | MUST NOT |
+| `schema_version` | `schema_version` | String | Version of the schema used; optional                                                                | MAY |
+| `trust_anchor_url` | `trust_anchor_url` | String (URI) | URL where the trust anchor for verifying this attestation can be retrieved; optional                | MAY |
 
 **Notes:**
 
@@ -1053,30 +1057,17 @@ Following successful cryptographic verification, the authorisation of the Provid
 
 **Trust anchor location**
 
-The attribute or metadata carrying the trust anchor location contains at least the
-URL at which a machine-readable version can be found or looked up. 
+The metadata carrying the trust anchor location contains at least the URL at
+which a machine-readable version can be found or looked up. The attribute named
+here SHALL be the same attribute declared in chapter 4.
 
 **Deployment profile**
 
-For QEAAs, trust is established through the X.509 Public Key Infrastructure (PKI) and the applicable Trust List of Licensees (TLOL).
-The issuer's certificate chain, including the intermediate certificate contained in the QEAA header, SHALL be validated up to a trusted root certificate. This validation SHALL be performed using the applicable TLOL, taking into account the trust list state applicable at the time of issuance.
+For the EBW deployment, UBO uses the EBWOID chaining model above.
 
-Successful certificate chain validation establishes that:
-- the issuer's certificate was recognized within the applicable trust framework;
-- the issuer's identity has been validated by the supervisory authority during inclusion in the TLOL; and
-- the issuer satisfies the trust requirements applicable to QEAAs.
-
-In addition, the Relying Party MAY apply further authorization checks based on its internal policies, such as maintaining a whitelist of accepted QEAA providers.
-
-For EAAs, trust is established through a cryptographic chain anchored in the Electronic Business Wallet Owner Identity Document (EBWOID).
-The EBWOID SHALL be included in the header of every EAA. During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the Electronic Business Wallet (EBW) owner.
-
-The Relying Party SHALL verify the EBWOID in accordance with the verification procedure defined in this Rulebook. Upon successful verification, the Relying Party obtains:
-- assurance that the EBWOID was issued by an authorized provider and is not self-issued;
-- the verified identity of the issuer, including its name and EUID (or another globally unique EBW owner identifier); and
-- the public key authorized to verify the EAA signature.
-
-Authorization of the issuer is subsequently determined in accordance with the Relying Party's internal policies. Such authorization MAY be based on locally maintained wallet configuration or on trusted jurisdiction- or domain-specific trust list services that identify issuers authorized for a particular type of EAA
+TODO: The source rulebook also contains QEAA/PKI trust material. Because this
+migration declares CompanyInfo as S-EAA, the QEAA branch is not treated as an
+active deployment path. Confirm whether a separate QEAA profile is required.
 
 ## 11 References
 

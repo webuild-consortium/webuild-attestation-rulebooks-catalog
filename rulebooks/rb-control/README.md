@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Control
 
-Category: non-qualified EAA
+Category: S-EAA 
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
