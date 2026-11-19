@@ -9,9 +9,9 @@
   "properties": {
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'uri:eu.ebw.oid.1'.",
+      "description": "Verifiable Credential Type. Base type is 'urn:ebw:oid:1'.",
       "examples": [
-        "uri:eu.ebw.oid.1"
+        "urn:ebw:oid:1"
       ]
     },
     "id": {

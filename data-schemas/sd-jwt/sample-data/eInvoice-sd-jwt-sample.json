@@ -17,7 +17,7 @@
       "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
     }
   },
-  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+  "cryptographically_bound_to": "urn:ebw:oid:1",
   "attestation_legal_category": "non-qualified-EAA",
   "invoicePayloadHash": "sha256:9f2c8b1e7d43a0c5f6e9b2d1a4c7e0f3b6d9a2c5e8f1b4d7a0c3e6f9b2d5a8c1",
   "invoiceFormat": "EN16931",

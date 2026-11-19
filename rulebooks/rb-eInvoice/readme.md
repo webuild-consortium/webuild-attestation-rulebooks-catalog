@@ -415,7 +415,7 @@ left as written and the deviation is recorded for the rulebook quality assurance
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see Chapter 4. | string | `uri:eu.ebw.oid.1` |
+| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see Chapter 4. | string | `urn:ebw:oid:1` |
 
 ### 4.3 Conditional metadata
 
@@ -522,7 +522,7 @@ RFC 3339 full-date strings; `taxSubtotal` and `evidenceReferences` are JSON arra
   "attestation_legal_category": "non-qualified-EAA",
   "status": { "status_list": { "idx": 128, "uri": "https://status.webuild.example/sc5/einvoice" } },
   "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." } },
-  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+  "cryptographically_bound_to": "urn:ebw:oid:1",
   "invoicePayloadHash": "sha256:9f2c8b1e7d43a0c5f6e9b2d1a4c7e0f3b6d9a2c5e8f1b4d7a0c3e6f9b2d5a8c1",
   "invoiceFormat": "EN16931",
   "invoiceNumber": "INV-2026-000123",
@@ -639,7 +639,7 @@ verification step 4.2.8).
 **Binding to another attestation (ARB_28).** An attestation of this type SHOULD be cryptographically
 bound to the Supplier's organisational identity attestation (EBWOID) on the same Wallet Unit. Where
 present, the binding metadata identifier SHALL be `cryptographically_bound_to`, its value SHALL be a
-string containing the bound attestation's vct, and that value SHALL be `uri:eu.ebw.oid.1` (the EBWOID
+string containing the bound attestation's vct, and that value SHALL be `urn:ebw:oid:1` (the EBWOID
 vct defined in [rb-ebwoid]).
 
 **Transactional data ([Topic 20]).** No payment-authentication transactional data is defined for this

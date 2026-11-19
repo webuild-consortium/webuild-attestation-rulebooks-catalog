@@ -7,7 +7,7 @@
   "sub": "did:example:green-flowers-bv-NL853746281B01",
   "attestation_legal_category": "EAA",
   "schema_version": "1.0",
-  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+  "cryptographically_bound_to": "urn:ebw:oid:1",
 
   "cnf": {
     "jwk": {

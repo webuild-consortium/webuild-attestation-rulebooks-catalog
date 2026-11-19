@@ -157,7 +157,7 @@ marked not applicable carry a stated reason.
 | EW-DM-12-002 | ARB_01b | yes | 5.1 | SD-JWT VC following the HAIP profile |
 | EW-DM-12-003 | ARB_02 | no |  | mdoc not included, see section 5.2 |
 | EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined |
-| EW-DM-12-006 | ARB_05 | yes | 5.1 | `uri:eu.eudi.eu-poa.1` |
+| EW-DM-12-006 | ARB_05 | yes | 5.1 | `urn:eudi:eu-poa:1` |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
 | EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined |
 | EW-DM-12-009 | ARB_06b | yes | 5.1 | SD-JWT VC claim naming |
@@ -291,14 +291,14 @@ No conditional metadata are defined for this attestation.
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
 | ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Not included in this version, see section 5.2 |
-| SD-JWT VC | yes | `vct` `uri:eu.eudi.eu-poa.1` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile, see section 5.1 |
+| SD-JWT VC | yes | `vct` `urn:eudi:eu-poa:1` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile, see section 5.1 |
 | W3C VCDM | no |  | [W3C VCDM v2.0] | Not defined in this version |
 
 ### 5.1 SD-JWT VC-based encoding
 
 The EU PoA attestation uses the SD-JWT VC format to allow for selective disclosure of PoA attributes.
 
-**Verifiable Credential Type (`vct`):** `uri:eu.eudi.eu-poa.1`
+**Verifiable Credential Type (`vct`):** `urn:eudi:eu-poa:1`
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |

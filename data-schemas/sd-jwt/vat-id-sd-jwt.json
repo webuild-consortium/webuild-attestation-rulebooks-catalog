@@ -7,10 +7,10 @@
   "properties": {
     "vct": {
       "type": "string",
-      "const": "uri:eu.eudi.vat.2",
+      "const": "urn:eudi:vat:2",
       "description": "Credential type identifier for an EUDI VAT ID Attestation.",
       "examples": [
-        "uri:eu.eudi.vat.2"
+        "urn:eudi:vat:2"
       ]
     },
     "attestation_legal_category": {

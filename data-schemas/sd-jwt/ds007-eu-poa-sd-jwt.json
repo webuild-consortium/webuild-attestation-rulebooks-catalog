@@ -10,9 +10,9 @@
     "vct": {
       "type": "string",
       "format": "uri",
-      "description": "Verifiable Credential Type. For the EU PoA this is 'uri:eu.eudi.eu-poa.1'.",
+      "description": "Verifiable Credential Type. For the EU PoA this is 'urn:eudi:eu-poa:1'.",
       "examples": [
-        "uri:eu.eudi.eu-poa.1"
+        "urn:eudi:eu-poa:1"
       ]
     },
     "attestation_legal_category": {

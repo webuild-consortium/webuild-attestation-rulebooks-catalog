@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "SD-JWT VC Example for VAT ID Attestation",
-    "credential_type": "uri:eu.eudi.vat.2",
+    "credential_type": "urn:eudi:vat:2",
     "format": "SD-JWT VC",
     "issuer": "https://www.belastingdienst.nl"
   },
@@ -12,7 +12,7 @@
     "kid": "https://www.belastingdienst.nl/keys/vat-issuer-2024-01"
   },
 
-  "vct": "uri:eu.eudi.vat.2",
+  "vct": "urn:eudi:vat:2",
   "iss": "https://www.belastingdienst.nl",
   "iat": 1704067200,
   "exp": 1830902400,
