@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Site
 
-Category: non-qualified EAA
+Category: S-EAA 
 
 * **Author(s):**
   * [Dominic Hurni, SBB]
