@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Company Information
 
-Category: S-EAA
+Category: S-EAA or QEAA
 
 * Author(s):
   * [Ana Delmas, DFO]
@@ -233,7 +233,7 @@ The `Legal_Entity` object **SHALL** appear exactly once and contains:
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** self-issued by the legal entity as part of its disclosures.
+- **"S-EAA"** self-issued by the legal entity as part of its disclosures.
 - **"QEAA"** issued by a Qualified Trust Service Provider (QTSP) or authorized competent body that can independently attest the company information (e.g., based on official company register data or audited financial statements).
 
 ### 3.2 Mandatory attributes

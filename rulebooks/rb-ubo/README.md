@@ -351,7 +351,7 @@ UBO [1...n]
 
 This attestation type MAY be classified as:
 
-- **`EAA`** self-issued by the legal entity as part of its Ultimate Beneficial Owner (UBO) disclosure obligations.
+- **`S-EAA`** self-issued by the legal entity as part of its Ultimate Beneficial Owner (UBO) disclosure obligations.
 - **`QEAA`** issued by a Qualified Trust Service Provider (QTSP) or an authorized competent body (e.g., a notary, commercial register authority, or AML-supervised entity).
   body (e.g., a notary, commercial register authority or AML-supervised entity).
   Is the obligation of the QTSP to

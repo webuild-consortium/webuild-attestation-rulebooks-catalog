@@ -261,7 +261,7 @@ PaymentTerms
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** when self-issued by the legal entity subject to the payment terms disclosure.
+- **"S-EAA"** when self-issued by the legal entity subject to the payment terms disclosure.
 
 ### 3.2 Mandatory attributes
 

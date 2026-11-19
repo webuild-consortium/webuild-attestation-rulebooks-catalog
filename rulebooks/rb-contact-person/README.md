@@ -254,7 +254,7 @@ ContactPerson Attestation
 **Attestation Classification:**
 
 This attestation type is classified as:
-- **"EAA"** Self-issued by the legal entity as part of its disclosures.
+- **"S-EAA"** Self-issued by the legal entity as part of its disclosures.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** |
 | --- | --- | --- | --- |
