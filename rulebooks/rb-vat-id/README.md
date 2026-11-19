@@ -148,7 +148,7 @@ marked not applicable carry a stated reason.
 | EW-DM-12-002 | ARB_01b | yes | 5.1 | SD-JWT VC following the HAIP profile |
 | EW-DM-12-003 | ARB_02 | no |  | No proximity use case, see section 5.2 |
 | EW-DM-12-005 | ARB_04 | no |  | W3C VCDM is not permitted for this category |
-| EW-DM-12-006 | ARB_05 | yes | 5.1 | `uri:eu.eudi.vat.1` |
+| EW-DM-12-006 | ARB_05 | yes | 5.1 | `uri:eu.eudi.vat.2` |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
 | EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined |
 | EW-DM-12-009 | ARB_06b | yes | 5.1 | SD-JWT VC claim naming |
@@ -409,14 +409,14 @@ No conditional metadata are defined for this attestation type.
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
 | ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Not defined; no proximity use case, see section 5.2 |
-| SD-JWT VC | yes | `vct` `uri:eu.eudi.vat.1` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile, see section 5.1 |
+| SD-JWT VC | yes | `vct` `uri:eu.eudi.vat.2` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile, see section 5.1 |
 | W3C VCDM | no |  | [W3C VCDM v2.0] | Not permitted for a QEAA or PuB-EAA |
 
 ### 5.1 SD-JWT VC-based encoding
 
 The VAT-ID attestation uses the SD-JWT VC format to allow for selective disclosure of  attributes.
 
-**Verifiable Credential Type (`vct`):** `uri:eu.eudi.vat.1`
+**Verifiable Credential Type (`vct`):** `uri:eu.eudi.vat.2`
 
 #### 5.1.1 Attribute Encoding Table
 

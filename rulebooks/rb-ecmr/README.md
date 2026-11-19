@@ -310,9 +310,9 @@ The eCMR Attestation SHALL be issued exclusively as an ISO/IEC 18013-5 compliant
 - Embedded transport evidence;
 - Selective disclosure mechanisms. 
 
-docType `"eu.webuildconsortium.ecmr.attestation.V1`
+docType `eu.webuildconsortium.ecmr.attestation.v1`
 
-Namespace `"eu.webuildconsortium.ecmr.attestation.V1`
+Namespace `eu.webuildconsortium.ecmr.attestation.v1`
 
 #### Illustrative example
 
@@ -321,10 +321,10 @@ Example for MVP scenario (mandatory fields only). See clarification about MVP an
 
 ```json
 {
-  "docType": "eu.webuildconsortium.ecmr.attestation.V1",
+  "docType": "eu.webuildconsortium.ecmr.attestation.v1",
   "issuerSigned": {
     "namespaces": {
-      "eu.webuild.ecmr.attestation.1": [
+      "eu.webuildconsortium.ecmr.attestation.v1": [
         {"elementIdentifier": "attestation_legal_category", "elementValue": "non-qualified-EAA"},
         {"elementIdentifier": "trust_anchor_url", "elementValue": ""},
         {"elementIdentifier": "attestation_scheme", "elementValue": "TBD"},
