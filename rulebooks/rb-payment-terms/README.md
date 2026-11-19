@@ -548,7 +548,7 @@ The `status` claim SHALL be a JSON object with the following members:
 The following is a non-normative example of a Payment Terms SD-JWT VC payload:
 ```
 {
-  "vct": "eu.we-build.paymentterms.1",
+  "vct": "eu.we-build:paymentterms:1",
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,

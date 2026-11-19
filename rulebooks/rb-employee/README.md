@@ -224,7 +224,7 @@ This attestation type is classified as:
   employing the individual (i.e., the organization issues an attestation about its own employee
   into the employee's Natural Person Wallet).
 
-**VC Type:** `vct: eu.europa.ec.eudi.employee.1`
+**VC Type:** `vct: eu.europa.ec.eudi:employee:1`
 
 ### 3.2 Mandatory attributes
 
