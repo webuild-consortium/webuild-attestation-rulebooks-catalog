@@ -74,6 +74,8 @@ It embodies:
 - The signing details
 - A reference to the EU Company Certificate (EUCC) if applicable
 
+The design of this EU PoA is based on the Company Law Directive, prepared by EBRA members and currently under review by DG Just. For WE BUILD purposes we use this version. In the BU2 use-case, we decided to start with the subset of Economic Operators being the limited liability companies as defined in the Company Law Directive (listed in Annex II to Directive (EU) 2017/1132). These will be tested and piloted first, if time allows, other Economic Operators will also be tested/piloted.
+
 This attestation enables a relying party to verify that an attorney (delegate) has been granted specific powers of representation by a principal acting on behalf of a legal entity. The specific powers are limited to 6: the formation of companies; changes to the instrument of constitution of companies and the statutes if contained in a separate instrument; registration and closure of branches of the company; all legal transactions regarding cross-border conversions involving the company; all legal transactions regarding cross-border mergers involving the company; and all legal transactions regarding cross-border divisions involving the company. The EU PoA complements the EU Company Certificate (EUCC) by providing granular delegation information beyond the company's registered legal representatives.
 
 ### 1.2 Document structure
@@ -106,6 +108,8 @@ In addition to the attributes definition necessary to understand the data schema
 | Attorney (Delegate) | A natural person designated by the principal to act on behalf of the legal entity within the defined scope of representation. |
 | Power of Attorney | A legal instrument by which one person (the principal) authorises another person (the attorney) to act on their behalf in specified legal or business matters. |
 | Scope of Representation | The defined set of powers and authorities granted to the attorney under the Power of Attorney. |
+
+Note: This attestation supports 1 principal and 1 attorney at a time. 
 
 ## 2 Compliance
 
@@ -195,39 +199,41 @@ The encoding format column indicates how the data elements SHALL be encoded, usi
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| attestation_legal_category | TBD | One of EAA, Pub-EAA or QEAA | string | QEAA |
-| date_of_execution | TBD | Date the PoA was executed | string (date) | 2026-01-15 |
-| euid_reference | TBD | EUID reference | string | NLNHR.12345678 |
-| principal_full_name | TBD | Legal full name of the principal | string | Frouke Janssen |
-| principal_date_of_birth | TBD | Date of birth of the principal | string (date) | 1980-03-22 |
-| company_statutory_full_name | TBD | Registered legal name of the company | string | FictiveCo B.V. |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | One of EAA, Pub-EAA or QEAA | string | QEAA |
+| euid_reference | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | EUID reference | string | NLNHR.12345678 |
+| principal_full_name | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[fullName](https://w3id.org/ebwv#fullName) | Legal full name of the principal | string | Frouke Janssen |
+| principal_date_of_birth | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the principal | string (date) | 1980-03-22 |
+| company_statutory_full_name | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalName](https://w3id.org/ebwv#legalName) | Registered legal name of the company | string | FictiveCo B.V. |
 | company_business_register_name | TBD | Name of the business register | string | Kamer van Koophandel |
-| company_jurisdiction | TBD | Country of incorporation | string | NL |
-| attorney_full_name | TBD | Legal full name of the attorney | string | Maria Schmidt |
-| scope_of_representation_powers | TBD | Granted powers | array\<string\> | ["The formation of companies", "Registration and closure of branches of the Company"] |
-| validity_period_valid_from | TBD | Start date of validity | string (date) | 2026-01-15 |
-| validity_period_valid_until | TBD | End date of validity | string (date) | 2027-01-15 |
+| company_jurisdiction | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Country of incorporation | string | NL |
+| attorney_full_name | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[fullName](https://w3id.org/ebwv#fullName) | Legal full name of the attorney | string | Maria Schmidt |
+| scope_of_representation_powers | [scopeOfPower](https://w3id.org/ebwv#scopeOfPower) | Granted powers | array\<string\> | ["The formation of companies", "Registration and closure of branches of the Company"] |
+| validity_period_valid_from | [cred:validFrom](https://www.w3.org/2018/credentials#validFrom) | Start date of validity | string (date) | 2026-01-15 |
 | applicable_law_jurisdiction | TBD | Governing Member State law | string | NL |
-| signing_place | TBD | Place of signing | string | Hardenberg |
-| signing_date | TBD | Date of signing | string (date) | 2026-01-15 |
+| signing_date_attorney | TBD | Date of signing | string (date) | 2026-01-15 |
+| signing_date_principal | TBD | Date of signing | string (date) | 2026-01-15 |
 
 ### 3.3 Optional attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
 | principal_identification_document_kind | TBD | Type of ID document of the principal | string | passport |
-| principal_identification_document_number | TBD | ID document number of the principal | string | NZ1234567 |
-| principal_place_of_birth | TBD | Place of birth of the principal | string | Utrecht |
-| principal_full_address | TBD | Residential address of the principal | string | Herengracht 100, 1015 AA Amsterdam, Netherlands |
+| principal_identification_document_number | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[identifier](https://w3id.org/ebwv#identifier) | ID document number of the principal | string | NZ1234567 |
+| principal_place_of_birth | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Place of birth of the principal | string | Utrecht |
+| principal_full_address | [principal](https://w3id.org/ebwv#principal).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[domicile](https://w3id.org/ebwv#domicile) | Residential address of the principal | string | Herengracht 100, 1015 AA Amsterdam, Netherlands |
 | company_business_register_location | TBD | Location of the business register | string | The Hague |
-| company_kind_of_legal_entity | TBD | Legal form (e.g. GmbH, SARL, SA) | string | B.V. |
-| company_registered_office | TBD | Registered office address | string | Keizersgracht 200, 1016 DW Amsterdam, Netherlands |
-| attorney_date_of_birth | TBD | Date of birth of the attorney | string (date) | 1985-07-10 |
+| company_kind_of_legal_entity | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[legalForm](https://w3id.org/ebwv#legalForm) | Legal form (e.g. GmbH, SARL, SA) | string | B.V. |
+| company_registered_office | [provenanceProof](https://w3id.org/ebwv#provenanceProof).[EconomicOperator](https://w3id.org/ebwv#EconomicOperator).[registeredAddress](https://w3id.org/ebwv#registeredAddress) | Registered office address | string | Keizersgracht 200, 1016 DW Amsterdam, Netherlands |
+| attorney_date_of_birth | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the attorney | string (date) | 1985-07-10 |
 | attorney_identification_document_kind | TBD | Type of ID document of the attorney | string | national_id_card |
-| attorney_identification_document_number | TBD | ID document number of the attorney | string | DE9876543 |
-| attorney_place_of_birth | TBD | Place of birth of the attorney | string | Groningen |
-| attorney_full_address | TBD | Residential address of the attorney | string | Friesestraatweg 3157, 7772CP Groningen, Netherlands |
-| scope_of_representation_power_of_substitution | TBD | Whether substitution is allowed | string | not_allowed |
+| attorney_identification_document_number | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[identifier](https://w3id.org/ebwv#identifier) | ID document number of the attorney | string | DE9876543 |
+| attorney_place_of_birth | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | Place of birth of the attorney | string | Groningen |
+| attorney_full_address | [mandatee](https://w3id.org/ebwv#mandatee).[NaturalPerson](https://w3id.org/ebwv#NaturalPerson).[domicile](https://w3id.org/ebwv#domicile) | Residential address of the attorney | string | Friesestraatweg 3157, 7772CP Groningen, Netherlands |
+| scope_of_representation_power_of_substitution | [delegable](https://w3id.org/ebwv#delegable) | Whether substitution is allowed | string | not_allowed |
+| validity_period_valid_until | TBD | End date of validity | string (date) | 2027-01-15 |
+| attorney_company_statutory_full_name | TBD | Registered legal name of the attorney's company | string | FictiveCo B.V. |
+| attorney_company_business_register_name | TBD | Name of the attorney's business register | string | Kamer van Koophandel |
+
 
 ### 3.4 Conditional attributes
 
@@ -241,9 +247,9 @@ Metadata describes the attestation rather than its subject.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| expiry_date | TBD | Date (and if possible time) when the attestation will expire. Does not need to be an attribute and can be covered by credential format metadata, such as for example the "exp" field on the SD-JWT format (TBD if we can remove this attribute and use the "exp" field only). | date | 2027-01-15 |
-| issuing_authority | TBD | Name of the administrative authority that issued the EU PoA, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EU PoA. | string | Kamer van Koophandel |
-| issuing_country | TBD | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the attestation. | string | NL |
+| expiry_date | [cred:validUntil](https://www.w3.org/2018/credentials#validUntil) | Date (and if possible time) when the attestation will expire. Does not need to be an attribute and can be covered by credential format metadata, such as for example the "exp" field on the SD-JWT format (TBD if we can remove this attribute and use the "exp" field only). | date | 2027-01-15 |
+| issuing_authority | [cred:issuer](https://www.w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName) | Name of the administrative authority that issued the EU PoA, or the ISO 3166 alpha-2 country code of the respective Member State if there is no separate authority entitled to issue the EU PoA. | string | Kamer van Koophandel |
+| issuing_country | [cred:issuer](https://www.w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction) | Alpha-2 country code, as specified in ISO 3166-1, of the country or territory of the provider of the attestation. | string | NL |
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
 Section 4.1 of the generic template replaces it with the `category` attribute of
@@ -256,8 +262,8 @@ assurance group.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| location_status | TBD | The location of validity status information where the providers revoke attestations. This attribute is required when the validity time period of the attestation exceeds 24 hours. | string | https://issuer.example.com/status/1 |
-| trust_anchor | TBD | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EU PoA can be found or looked up. | string | https://issuer.example.com/trust-anchor |
+| location_status | [cred:credentialStatus](https://www.w3.org/2018/credentials#credentialStatus) | The location of validity status information where the providers revoke attestations. This attribute is required when the validity time period of the attestation exceeds 24 hours. | string | https://issuer.example.com/status/1 |
+| trust_anchor | [cred:termsOfUse](https://www.w3.org/2018/credentials#termsOfUse) | This attribute indicates at least the URL at which a machine-readable version of the trust anchor to be used for verifying the EU PoA can be found or looked up. | string | https://issuer.example.com/trust-anchor |
 
 ### 4.3 Conditional metadata
 
@@ -276,7 +282,7 @@ No conditional metadata are defined for this attestation.
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
 | --- | --- | --- | --- | --- |
 | `IR-01` | `validity_period_valid_until` MUST be later than `validity_period_valid_from`. | Prevents nonsensical validity periods where the PoA would expire before it becomes effective. | Issuer business rules, schema validation, and verifier business validation. | Issuer SHALL reject the PoA; verifier SHALL treat the attestation as invalid. |
-| `IR-02` | `date_of_execution` MUST be equal to or earlier than `validity_period_valid_from`. | Ensures the PoA was executed before or on the date it becomes effective. A PoA cannot take effect before it was executed. | Issuer business rules, schema validation, and verifier business validation. | Issuer SHALL reject the PoA; verifier SHALL treat the attestation as invalid. |
+| `IR-02` | `validity_period_valid_until` if not present, the EU PoA is valid indefinite. | To make it possible to have an indefinite EU PoA. Note: the attestation itself will always have a definite validity date | In the attestation | If the verifier does not see this field, the EU PoA is valid indefinite. |
 | `IR-03` | The principal must have legal authority to act on behalf of the company. | Prevents invalid delegation chains where a person without authority grants powers to an attorney. | Issuer business rules (verified during issuance). | Issuer SHALL reject issuance if principal authority cannot be established. |
 | `IR-04` | If `scope_of_representation_power_of_substitution` = `limited`, additional limitation details MUST be included in `scope_of_representation_powers`. | Ensures that when substitution is restricted, the exact limitations are clearly specified and verifiable. | Issuer business rules and schema validation. | Issuer SHALL reject the PoA if limitation details are missing; verifier SHALL treat the scope as ambiguous and request clarification. |
 
@@ -300,7 +306,6 @@ The EU PoA attestation uses the SD-JWT VC format to allow for selective disclosu
 | issuing_authority | iss | string | RFC 7519 / Section 4.1 | MUST NOT |
 | expiry_date | exp | number | RFC 7519 / Section 4.1 (Unix timestamp) | MUST NOT |
 | issuing_country | issuing_country | string | ISO 3166-1 alpha-2 | MUST NOT |
-| date_of_execution | date_of_execution | string | ISO 8601 (YYYY-MM-DD) | MUST |
 | euid_reference | euid_reference | string | EUID | MUST |
 | principal_full_name | principal_full_name | string |  | MUST |
 | principal_date_of_birth | principal_date_of_birth | string | ISO 8601 (YYYY-MM-DD) | MUST |
@@ -325,8 +330,8 @@ The EU PoA attestation uses the SD-JWT VC format to allow for selective disclosu
 | validity_period_valid_from | validity_period_valid_from | string | ISO 8601 (YYYY-MM-DD) | MUST NOT |
 | validity_period_valid_until | validity_period_valid_until | string | ISO 8601 (YYYY-MM-DD) | MUST NOT |
 | applicable_law_jurisdiction | applicable_law_jurisdiction | string | ISO 3166-1 alpha-2 | MUST |
-| signing_place | signing_place | string |  | MUST |
-| signing_date | signing_date | string | ISO 8601 (YYYY-MM-DD) | MUST |
+| signing_date_attorney | signing_date_attorney | string | ISO 8601 (YYYY-MM-DD) | MUST |
+| signing_date_principal | signing_date_principal | string | ISO 8601 (YYYY-MM-DD) | MUST |
 
 #TODO: Provide an example of the issued SD-JWT (in Base64 encoding).
 

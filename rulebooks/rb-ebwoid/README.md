@@ -66,7 +66,7 @@ Primary objectives:
 - Provide a cross‑border unique identifier for the EBW owner (In **WE BUILD** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. SEBOLREG.123456789) and the official name of the EBW owner.
 - Serving as the activation and ownership attestation enabler for the EBW.
 - Support verification of issuer authenticity and attestation integrity based on the EBW proposal (Articles 8–9) and ARF trust requirements.
-- Enable consistent consumption in EBW and EUDI flows as Electronic Attestations of Attributes (QEAA/Pub-EAA) aligned with applicable implementing acts.
+- Enable consistent consumption in EBW and EUDI flows as Electronic Attestations of Attributes (QEAA/PuB-EAA) aligned with applicable implementing acts.
 
 ### 1.2 Document structure
 
@@ -181,7 +181,7 @@ encoding of each attribute per format is given in chapter 5.
 
 ### 3.1 Introduction
 
-The EBW Owner Identification Data (EBWOID) is a structured digital attribute designed to uniquely and verifiably identify economic operators and public sector bodies—within the EBW ecosystem in both national and cross‑border digital interactions. It encapsulates a claim (e.g. “This is the official name and unique identifier of the EBW owner”), metadata about the source of that claim (such as the registry or official record), and cryptographic assurances that validate the claim’s authenticity and issuer. EBWOIDs SHOULD be issued in SD‑JWT and/or W3C VCDM formats as Pub-EAAs/QEAAs.
+The EBW Owner Identification Data (EBWOID) is a structured digital attribute designed to uniquely and verifiably identify economic operators and public sector bodies—within the EBW ecosystem in both national and cross‑border digital interactions. It encapsulates a claim (e.g. “This is the official name and unique identifier of the EBW owner”), metadata about the source of that claim (such as the registry or official record), and cryptographic assurances that validate the claim’s authenticity and issuer. EBWOIDs SHOULD be issued in SD‑JWT and/or W3C VCDM formats as PuB-EAAs/QEAAs.
 This chapter defines the legally required minimum attributes, as well as optional attributes.
 
 
@@ -230,10 +230,10 @@ Metadata describes the attestation rather than its subject.
 | --- | --- |
 | issuing_authority | Name of the administrative authority or qualified trust service provider that issued the EBWOID, or the ISO 3166‑1 alpha‑2 of the Member State where applicable. |
 | issuing_country | Alpha‑2 country code, as specified in ISO 3166‑1, of the country or territory of the provider of the EBWOID. |
-| attestation_legal_category | The type of attestation category. (Pub-EAA/QEAA) |
+| attestation_legal_category | The type of attestation category. (PuB-EAA/QEAA) |
 
 > **Legal category, TO AGREE.** The table above carries
-> `attestation_legal_category` with the values Pub-EAA or QEAA. Section 4.1 of the
+> `attestation_legal_category` with the values PuB-EAA or QEAA. Section 4.1 of the
 > generic template states that this attribute is superseded by the `category`
 > attribute of [ETSI TS 119 472-1] and SHALL NOT be used, and records the `category`
 > value for EBWOID as an open consortium decision. Two questions are therefore open
@@ -259,7 +259,7 @@ This Rulebook defines no conditional metadata.
 
 | Code list | Source | Extensible |
 | --- | --- | --- |
-| `attestation_legal_category` | `QEAA`, `PUB-EAA` as recorded in section 4.1 | no, and subject to the open question in section 4.1 |
+| `attestation_legal_category` | `QEAA`, `PuB-EAA` as recorded in section 4.1 | no, and subject to the open question in section 4.1 |
 | `issuing_country` | ISO 3166-1 alpha-2 | no, follows the source standard |
 | `status.type`, `status.status_purpose` | `status-list` and `revocation` respectively, as recorded in section 5.1 | no |
 
@@ -296,7 +296,7 @@ Claim names and disclosure policy (aligned with Chapter 2 attributes):
 | --- | --- | --- | --- |
 | id | id | string | Cross‑border unique identifier per EBW Article 9. In **WE BUILD** EUID where available, otherwise a similarly constructed, unique per issuer identifier. <CountryCode ISO 3166-1 alpha-2><Issuer-reference>.<unique identifier> e.g. `SE` +  `BOLREG` + `123456789` -> `SEBOLREG.123456789` |
 | name | name | string | Official name from relevant register or official record. |
-| attestation_legal_category | attestation_legal_category | string | The type of attestation category. Can be one of QEAA or PUB-EAA |
+| attestation_legal_category | attestation_legal_category | string | The type of attestation category. Can be one of QEAA or PuB-EAA |
 | expiry_date | date_of_expiry | string | Administrative expiry date given on ISO 8601-1 date format. YYYY‑MM‑DD |
 | issuing_authority | issuing_authority | string | Name of the administrative authority, Commission (for Union entities), or QTSP issuing the EAA/QEAA; or ISO 3166‑1 alpha‑2 where applicable. |
 | issuing_country | issuing_country | string | ISO 3166‑1 alpha‑2 code of the provider’s country/territory. |
@@ -341,7 +341,7 @@ Illustrative examples:
   "vct": "uri:eu.ebw.oid.1",
   "id": "NOFOR.123456789",
   "name": "Example AS",
-  "attestation_legal_category": "PUB-EAA",
+  "attestation_legal_category": "PuB-EAA",
   "issuing_authority": "Brønnøysundregistrene",
   "issuing_country": "NO",
   "date_of_expiry": "2026-12-31",
@@ -511,7 +511,7 @@ from the previous version and needs an author decision.
 
 **Deployment profile**
 
-For EBWOID as a PUB-EAA/QEAA, Relying Parties SHALL verify the EBWOID using the issuer credential:
+For EBWOID as a PuB-EAA/QEAA, Relying Parties SHALL verify the EBWOID using the issuer credential:
 - Public‑body issuer certificate issued by a Qualified Trust Service Provider (QTSP) when provided by or on behalf of a public sector body responsible for an authentic source;
 - Qualified electronic attestation of attributes when provided by a QTSP; or
 - Commission issuance for Union entities (having the same legal effect per EBW Article 8(4)).
