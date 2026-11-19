@@ -76,7 +76,7 @@
 
     "cryptographically_bound_to": {
       "type": "string",
-      "const": "uri:eu.ebw.oid.1",
+      "const": "urn:ebw:oid:1",
       "description": "vct of the attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED per ARB_28. NOT selectively disclosable."
     },
 

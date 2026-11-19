@@ -86,7 +86,7 @@
     },
     "cryptographically_bound_to": {
       "type": "string",
-      "const": "uri:eu.ebw.oid.1",
+      "const": "urn:ebw:oid:1",
       "description": "vct of the Supplier's EBWOID attestation on the same Wallet Unit to which this attestation is bound. RECOMMENDED. Section 2.6 / Chapter 4."
     },
     "attestation_legal_category": {

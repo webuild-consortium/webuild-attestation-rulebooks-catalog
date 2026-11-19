@@ -1,5 +1,5 @@
 {
-  "vct": "uri:eu.ebw.oid.1",
+  "vct": "urn:ebw:oid:1",
   "id": "NOFOR.123456789",
   "name": "Example AS",
   "attestation_legal_category": "QEAA",

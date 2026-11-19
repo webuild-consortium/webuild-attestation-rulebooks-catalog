@@ -153,7 +153,7 @@ category question recorded in section 2.2.
 | EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC |
 | EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope; mdoc is out of scope per section 5.2 |
 | EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
-| EW-DM-12-006 | ARB_05 | yes | 5 | `vct` `uri:eu.ebw.oid.1` |
+| EW-DM-12-006 | ARB_05 | yes | 5 | `vct` `urn:ebw:oid:1` |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
 | EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
 | EW-DM-12-009 | ARB_06b | yes | 5 | SD-JWT VC claim naming |
@@ -194,7 +194,7 @@ The machine-readable schema artefact for this attestation is:
 
 | Format | Identifier | Schema artefact | Version | Location |
 | --- | --- | --- | --- | --- |
-| SD-JWT VC | `vct` `uri:eu.ebw.oid.1` | JSON schema | 1.0.0 | `data-schemas/sd-jwt/ds001-ebwoid-sd-jwt.json` |
+| SD-JWT VC | `vct` `urn:ebw:oid:1` | JSON schema | 1.0.0 | `data-schemas/sd-jwt/ds001-ebwoid-sd-jwt.json` |
 
 Sample data is at `data-schemas/sd-jwt/sample-data/ds001-ebwoid-sd-jwt-sample.json`.
 
@@ -277,7 +277,7 @@ This Rulebook defines no conditional metadata.
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
 | ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Out of scope, see section 5.2 |
-| SD-JWT VC | yes | `vct` `uri:eu.ebw.oid.1` | [SD-JWT VC] |  |
+| SD-JWT VC | yes | `vct` `urn:ebw:oid:1` | [SD-JWT VC] |  |
 | W3C VCDM | named, not specified |  | [W3C VCDM v2.0] | See the note below |
 
 > **Inconsistency carried forward.** Sections 1.1 and 9.1 of this Rulebook state that
@@ -288,7 +288,7 @@ This Rulebook defines no conditional metadata.
 
 ### 5.1 SD-JWT VC-based encoding
 
-Verifiable Credential Type (vct): `uri:eu.ebw.oid.1`
+Verifiable Credential Type (vct): `urn:ebw:oid:1`
 
 Claim names and disclosure policy (aligned with Chapter 2 attributes):
  
@@ -338,7 +338,7 @@ Illustrative examples:
 - Example claim set (human‑readable):
 ```json
 {
-  "vct": "uri:eu.ebw.oid.1",
+  "vct": "urn:ebw:oid:1",
   "id": "NOFOR.123456789",
   "name": "Example AS",
   "attestation_legal_category": "PuB-EAA",

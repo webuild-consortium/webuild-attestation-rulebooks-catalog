@@ -289,7 +289,7 @@ left as written and the deviation is recorded for the rulebook quality assurance
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see section 7.1. | string | `uri:eu.ebw.oid.1` |
+| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see section 7.1. | string | `urn:ebw:oid:1` |
 
 ### 4.3 Conditional metadata
 
@@ -445,7 +445,7 @@ presentation (base verification step 4.2.8).
 **Binding to another attestation (ARB_28).** An attestation of this type SHOULD be cryptographically
 bound to the Supplier's organisational identity attestation (EBWOID) on the same Wallet Unit. Where
 present, the binding metadata identifier SHALL be `cryptographically_bound_to`, its value SHALL be a
-string containing the bound attestation's vct, and that value SHALL be `uri:eu.ebw.oid.1` (the EBWOID
+string containing the bound attestation's vct, and that value SHALL be `urn:ebw:oid:1` (the EBWOID
 vct defined in [rb-ebwoid]).
 
 **Transactional data ([Topic 20]).** No payment-authentication transactional data is defined for this
