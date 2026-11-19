@@ -8,10 +8,10 @@
   "properties": {
     "vct": {
       "type": "string",
-      "const": "uri:eu.eudi.eucc.1",
-      "description": "Verifiable Credential Type. For the EUCC this is 'uri:eu.eudi.eucc.1'.",
+      "const": "urn:eudi:eucc:1",
+      "description": "Verifiable Credential Type. For the EUCC this is 'urn:eudi:eucc:1'.",
       "examples": [
-        "uri:eu.eudi.eucc.1"
+        "urn:eudi:eucc:1"
       ]
     },
     "issuing_authority": {
