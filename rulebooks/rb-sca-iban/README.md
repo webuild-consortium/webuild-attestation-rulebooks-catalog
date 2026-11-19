@@ -18,6 +18,7 @@ Category: non-qualified EAA
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-11-18 | Remove aud claim from rulebook, following ETSI TS 119 472-1 alignment |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -235,7 +236,6 @@ left as written and the deviation is recorded for the rulebook quality assurance
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
 | nbf | https://www.rfc-editor.org/info/rfc7519/#section-4.1.5 | Unix timestamp denoting the first time the attestation may be used. Conditionally mandatory when `nbf` and `iat` differ. | integer (Long) | 1748822400 |
-| aud | https://www.rfc-editor.org/info/rfc7519/#section-4.1.3 | Audience of this attestation; SHALL be URL(s) of RPs allowed for the 2-party model. Not evaluated when attestation is used for payment. | string or array of string | https://pisp.example.eu |
 | status_list | https://www.ietf.org/archive/id/draft-ietf-oauth-status-list-17.html | Status list object for revocation checking | JSON Object | `{"idx": 0, "uri": "https://issuer.bank.cz/statuslists/1"}` |
 
 ### 4.4 Code lists
@@ -287,7 +287,6 @@ The SCA-IBAN attestation supports the SD-JWT VC format as specified in [SD-JWT V
 | iat | iat | integer (NumericDate) | [RFC 7519] §4.1.6 | MUST NOT |
 | exp | exp | integer (NumericDate) | [RFC 7519] §4.1.4 | MUST NOT |
 | nbf | nbf | integer (NumericDate) | [RFC 7519] §4.1.5, conditionally mandatory when `nbf` differs from `iat` | MUST NOT |
-| aud | aud | string or array | [RFC 7519] §4.1.3, optional; not evaluated for payment use case | MUST NOT |
 | sub | sub | string | [RFC 7519] §4.1.2, UUID or prefixed UUID identifying the holder | MUST NOT |
 
 **Private claim names and SD-JWT-specific claims:**
@@ -512,7 +511,6 @@ SCA-IBAN is exclusively used in presentation scenarios where transaction data is
 * The Relying Party SHALL verify the issuer signature and the `cnf` key binding before accepting the attestation.
 * The Relying Party SHALL check the `status_list` claim if present to verify that the attestation has not been revoked.
 * The Relying Party SHALL verify that presented transaction data is bound to the attestation as specified in [Topic 20] and [TS12].
-* The Relying Party SHOULD verify that the `aud` claim, if present, includes the RP's own identifier.
 * Verification of a PID alongside this attestation is not required.
 
 **Presentation requirements:**
@@ -547,7 +545,6 @@ When issuing the attestation, the Issuer SHALL:
 * Use a sender-constrained token (DPoP) to ensure that only the requesting Wallet may receive the issued credential.
 * Provide means to refresh the attestation (i.e., refresh tokens).
 * Ensure that the attestation is device-bound with sufficient secure storage (AVA_VAN.4 or higher).
-* Include or publish information about allowed verifiers; the `aud` claim MAY be used for this purpose.
 
 Deferred issuance is not recommended, the user is in the loop and banks should be able to process the issuance
 request online.

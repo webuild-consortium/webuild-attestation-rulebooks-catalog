@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Open Graph card</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; }
+  /* A link preview is often cropped to the middle square, so everything that
+     matters sits inside the centre and nothing hangs off an edge. */
+  .card {
+    width: 1200px; height: 630px; box-sizing: border-box;
+    background: linear-gradient(135deg, #003399 0%, #001d58 62%);
+    color: #fff; font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 60px; position: relative; overflow: hidden;
+  }
+  .card::after {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 1000px; height: 1000px; transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,204,0,.13), rgba(255,204,0,0) 62%);
+  }
+  .inner { position: relative; z-index: 1; width: 620px; }
+  img { height: 86px; display: block; margin: 0 auto 34px; }
+  h1 {
+    margin: 0; font-size: 58px; line-height: 1.12; font-weight: 700;
+    letter-spacing: -.026em;
+  }
+  h1 .accent { color: #ffcc00; }
+  p {
+    margin: 20px 0 0; font-size: 25px; line-height: 1.45;
+    color: rgba(255,255,255,.86);
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="inner">
+    <img src="../assets/logo.svg" alt="">
+    <h1>Attestation<br>Rulebook <span class="accent">Explorer</span></h1>
+    <p>Search 40 rulebooks.<br>Read any of them in full.</p>
+  </div>
+</div>
+</body>
+</html>
