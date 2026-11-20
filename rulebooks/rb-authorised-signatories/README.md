@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Authorised Signatories
 
-Category: non-qualified EAA
+Category: S-EAA
 
 * **Author(s):**
   * [Ricky Lamberty, Robert Bosch GmbH]
@@ -246,8 +246,7 @@ The `Authorised_Person` object **SHALL** appear at least once and **MAY** be rep
 **Attestation Classification:**
 
 This attestation type **MAY** be classified as:
-- **"EAA"** Self-issued by the legal entity as part of its disclosures.
-- **"QEAA"** issued by a Qualified Trust Service Provider (QTSP) for the legal entity based on the information in the registery ( means contains only the "Statutory Power" list)
+- **"S-EAA"** Self-issued by the legal entity as part of its disclosures.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** |
 | --- | --- | --- | --- |

@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type DUNS
 
-Category: non-qualified EAA
+Category: S-EAA
 
 * **Author(s):**
     * [Werner Folkendt, Robert Bosch GmbH]
@@ -211,7 +211,7 @@ DUNS
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** self-issued by the legal entity as part of its disclosures or authorized competent body that can independently attest the company information (e.g., based on official Dun & Bradstreet registry data).
+- **"S-EAA"** self-issued by the legal entity as part of its disclosures or authorized competent body that can independently attest the company information (e.g., based on official Dun & Bradstreet registry data).
 
 **VC Type:** `vct: eu.we-build:duns:1`
 
