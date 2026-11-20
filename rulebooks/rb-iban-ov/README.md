@@ -17,11 +17,12 @@ Category: non-qualified EAA
 * Contact:
   * [Ricky Lamberty](mailto:Ricky.Lamberty@bosch.com) 
   * [Stephan Fuchs](mailto:stephan-a.fuchs@db.com) 
-* Feedback:
+
 
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-11-19 | Consistency fixes: natural persons in terminology (1.4), binding subject and issuance policy (7.1, 7.2) |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -119,19 +120,20 @@ capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 
 | Term | Description |
 | --- | --- |
-| IBAN-OV | IBAN Ownership Verification (IBAN-OV), the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or sole trader |
+| IBAN-OV | IBAN Ownership Verification (IBAN-OV), the attestation type defined in this Rulebook, providing verified proof that a specific IBAN is owned by a designated legal entity or natural person (e.g. acting as a sole trader) |
 | ASPSP | Account Servicing Payment Service Provider, the financial institution holding and managing the bank account |
 | IBAN | International Bank Account Number, a standardized international numbering system for individual bank accounts, as defined in ISO 13616:2020 |
 | BIC/SWIFT | Bank Identifier Code, an international standard for identifying banks and financial institutions globally, as defined in ISO 9362:2022 |
 | EUID | European Unique Identifier, the unique identifier assigned to legal entities registered within the EU |
 | KYC | Know Your Customer, due diligence process for verifying customer identity and assessing risk in financial relationships |
 | KYS | Know Your Supplier, due diligence process for verifying supplier identity and integrity. |
-| Legal Person | A legal entity registered in a national or EU company register, identified by an appropriate identifier. For IBAN-OV purposes, the account owner in the legal_person case |
-| Sole Trader | A natural person operating a business who is registered in a national register |
+| Legal Person | A legal entity registered in a national or EU company register, identified by an appropriate identifier. For IBAN-OV purposes, the account owner in the `entity` case |
+| Natural Person | An individual human being. For IBAN-OV purposes, the account owner in the `person` case, including a natural person acting as a sole trader |
+| Sole Trader | A natural person operating a business who is registered in a national register. A sole trader is an example of the `person` case |
 | Owner Type | A discriminator attribute within *Account_Ownership* that explicitly identifies whether the account owner is a legal entity or a natural person. |
 | ISO 4217:2015 | International standard defining currency codes (e.g., EUR, USD, GBP) |
 | ISO 13616-1:2020 | International standard defining the IBAN format and validation rules |
-| ISO 9362:2014 | International standard defining the BIC/SWIFT code format |
+| ISO 9362:2022 | International standard defining the BIC/SWIFT code format |
 | ISO 3166-1 | International standard defining country codes (Alpha-3 code) |
 
 ## 2 Compliance
@@ -303,10 +305,10 @@ Metadata describes the attestation rather than its subject.
 | --- | --- | --- |
 | iat | The date and time when the verifiable credential was issued (ISO 8601) | DateTime |
 | exp | The date and time when the attestation expires (ISO 8601) | DateTime |
-| iss | The identifier of the legal entity that issued the attestation (typically the subject entity itself for self-issued attestations) | String |
+| iss | The identifier of the issuing financial institution (ASPSP) that issued the attestation | String |
 | attestation_legal_category | Indicates the legal category of this attestation ("EAA") | String |
 | vct | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed | String |
-| cnf | Cryptographic key binding element | String |
+| cnf | Cryptographic key binding element: confirmation claim carrying the public key of the Holder wallet as a JWK (RFC 7800) | Object |
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
 Section 4.1 of the generic template replaces it with the `category` attribute of
@@ -389,7 +391,7 @@ The IBAN-OV attestation uses the SD-JWT VC format to allow for selective disclos
 
 The `.` notation is used to indicate the nesting of attributes.
 
-**Verifiable Credential Type (`vct`):** `vct: eu.we-build:iban-ov.1`
+**Verifiable Credential Type (`vct`):** `vct: eu.we-build:iban-ov:1`
 
 #### 5.1.1 Attribute Encoding Table
 
@@ -424,6 +426,7 @@ The `.` notation is used to indicate the nesting of attributes.
 | issuing_entity | iss | String | Identifier of the issuing financial institution | MUST NOT |
 | attestation_legal_category | attestation_legal_category | String | "EAA" defined by eIDAS 2 | MUST NOT |
 | vct | vct | String | A URI or other collision-resistant identifier that defines the type of the SD-JWT Verifiable Credential | MUST |
+| cnf | cnf | Object | Confirmation claim (RFC 7800) carrying the public key of the Holder wallet as a JWK; see section 4.5 | MUST NOT |
 | schema_version | schema_version | String | Version of the schema used for this attestation | MAY |
 | trust_anchor_url | trust_anchor_url | String (URI) | URL where the trust anchor for verifying this attestation can be retrieved | MAY |
 
@@ -475,6 +478,14 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
   "issuing_entity": "did:example:bank-123",
   "attestation_legal_category": "EAA",
   "schema_version": "1.0",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM",
+      "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
+    }
+  },
   "bank_account": {
     "account_name": "Company A Main Account",
     "iban": "DE89370400440532013000",
@@ -539,6 +550,14 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
   "issuing_entity": "did:example:bank-123",
   "attestation_legal_category": "EAA",
   "schema_version": "1.0",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM",
+      "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
+    }
+  },
   "bank_account": {
     "account_name": "Maria Müller Consulting",
     "iban": "DE89370400440532013001",
@@ -569,9 +588,10 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
     "clearing_number": "37040044"
   },
   "status": {
-  "status_list": {
-    "idx": 457,
-    "uri": "https://bank.example.com/status/iban-ov/2026"
+    "status_list": {
+      "idx": 457,
+      "uri": "https://bank.example.com/status/iban-ov/2026"
+    }
   }
 }
 ```
@@ -600,7 +620,8 @@ as profiled by [HAIP].
 | Device-bound | MAY | EW-DM-12-038 |
 | Cryptographically bound to | none | EW-DM-12-032 |
 | Relying Party must also verify a PID | no | EW-DM-12-031 |
-| Binding subject | legal person |  |
+| Binding subject | account owner (legal person or natural person, as set by `owner_type`) |  |
+| Binding subject | account owner (legal person or natural person, as set by `owner_type`) |  |
 
 ### 7.2 Issuance Policy
 
@@ -608,9 +629,11 @@ as profiled by [HAIP].
 The IBAN-OV attestation is issued by the bank (ASPSP) holding the account, either:
 
 - Within the RP registration process, or
-- Upon explicit request from the legal entity owning the IBAN account.
+- Upon explicit request from the legal entity or natural person owning the IBAN account.
 
-- The issuer (i.e., the legal entity itself) issues the attestation based on the information and
+- The issuer is the bank (ASPSP) holding the account, for both the `entity` and the `person` case.
+  The account owner is the Holder of the attestation and is not its issuer.
+- The issuer issues the attestation based on the information and
   supporting documentation available at the time of issuance.
 - The issuer is responsible for ensuring that the attested information remains accurate and
   must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
@@ -701,6 +724,7 @@ This chapter will be completed in a future version of this Rulebook.
 | [OIDC] | Sakimura, N. et al., "OpenID Connect Core 1.0", OpenID Foundation. Available: https://openid.net/specs/openid-connect-core-1_0.html |
 | [RFC 2119] | RFC 2119, Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
 | [RFC 3339] | RFC 3339, Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [RFC 7800] | RFC 7800, Proof-of-Possession Key Semantics for JSON Web Tokens (JWTs), M. Jones et al., April 2016 |
 | [RFC 8610] | RFC 8610, Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures, H. Birkholz et al., June 2019 |
 | [RFC 8943] | RFC 8943, Concise Binary Object Representation (CBOR) Tags for Date, M. Jones et al., November 2020 |
 | [RFC 8949] | RFC 8949, Concise Binary Object Representation (CBOR), C. Bormann et al., December 2020 |
