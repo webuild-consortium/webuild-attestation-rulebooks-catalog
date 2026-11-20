@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/lei-sd-jwt.json",
+  "title": "WeBuild – LEI (Legal Entity Identifier) Attestation – SD-JWT VC payload",
+  "description": "Schema for the SD-JWT VC payload of a Legal Entity Identifier (LEI) Attestation as defined in the LEI Attestation Rulebook (rb-lei, Chapter 5.1). This models the JSON claims set prior to SD-JWT disclosure/packing. The attestation provides a verifiable representation of a legal entity's LEI code (ISO 17442) together with its current registration status and next renewal date, as maintained by an accredited Local Operating Unit (LOU). It is a non-qualified Electronic Attestation of Attributes (EAA). No claim requires selective disclosure, as the included data is public.",
+  "type": "object",
+  "version": "0.1.0",
+  "additionalProperties": true,
+  "properties": {
+    "vct": {
+      "type": "string",
+      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:lei:1'.",
+      "const": "eu.we-build:lei:1",
+      "examples": [
+        "eu.we-build:lei:1"
+      ]
+    },
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer of the attestation, i.e. the issuing authority (LEI Issuer / LOU). Carries the rulebook's 'issuing_authority' metadata as the SD-JWT VC 'iss' claim (RFC 7519).",
+      "examples": [
+        "did:example:lei-issuer-001"
+      ]
+    },
+    "iat": {
+      "type": "integer",
+      "description": "Issuance date as a Unix timestamp."
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Expiry date as a Unix timestamp. Carries the rulebook's 'expiry_date' metadata."
+    },
+    "attestation_legal_category": {
+      "type": "string",
+      "description": "Legal category of the attestation. For the LEI attestation this is the non-qualified 'EAA'.",
+      "enum": [
+        "EAA",
+        "QEAA"
+      ],
+      "examples": [
+        "EAA"
+      ]
+    },
+    "issuing_country": {
+      "type": "string",
+      "description": "Alpha-2 country code (ISO 3166-1) of the country or territory of the provider of the attestation data.",
+      "pattern": "^[A-Z]{2}$",
+      "examples": [
+        "DE"
+      ]
+    },
+    "lei": {
+      "type": "string",
+      "description": "Legal Entity Identifier (LEI) code, in the format specified by ISO 17442 (a 20-character alphanumeric code, the last two characters being check digits).",
+      "pattern": "^[0-9A-Z]{18}[0-9]{2}$",
+      "examples": [
+        "5299000J2N45DDNE4Y28"
+      ]
+    },
+    "lei_status": {
+      "type": "string",
+      "description": "Status of the LEI record registration with the managing LOU.",
+      "enum": [
+        "PENDING_VALIDATION",
+        "ISSUED",
+        "DUPLICATE",
+        "LAPSED",
+        "RETIRED",
+        "ANNULLED",
+        "CANCELLED",
+        "TRANSFERRED",
+        "PENDING_TRANSFER",
+        "PENDING_ARCHIVAL"
+      ],
+      "examples": [
+        "ISSUED"
+      ]
+    },
+    "lei_renewal_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Next renewal date of the LEI record, given as a date and time including the timezone (ISO 8601).",
+      "examples": [
+        "2026-05-18T00:00:00Z"
+      ]
+    },
+    "status": {
+      "type": "object",
+      "description": "Status object for revocation checking. Required when the technical validity period of the attestation exceeds 24 hours.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "examples": [
+            "status-list"
+          ]
+        },
+        "status_list_credential": {
+          "type": "string",
+          "format": "uri"
+        },
+        "status_list_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status_purpose": {
+          "type": "string",
+          "examples": [
+            "revocation"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "status_list_credential",
+        "status_list_index",
+        "status_purpose"
+      ]
+    },
+    "cnf": {
+      "type": "object",
+      "description": "Confirmation claims for holder binding.",
+      "properties": {
+        "jwk": {
+          "type": "object",
+          "description": "Public key bound to the holder wallet.",
+          "properties": {
+            "kty": {
+              "type": "string"
+            },
+            "crv": {
+              "type": "string"
+            },
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kty"
+          ]
+        }
+      },
+      "required": [
+        "jwk"
+      ]
+    }
+  },
+  "required": [
+    "vct",
+    "iss",
+    "iat",
+    "exp",
+    "attestation_legal_category",
+    "issuing_country",
+    "lei",
+    "lei_status",
+    "lei_renewal_date",
+    "cnf"
+  ]
+}
