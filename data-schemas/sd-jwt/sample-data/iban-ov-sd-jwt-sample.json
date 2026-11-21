@@ -7,7 +7,7 @@
   "schema_version": "1.0",
   "bank_account": {
     "account_name": "Company A Main Account",
-    "iban": "DE895007002407xxxxxx00",
+    "iban": "DE89500700240700000000",
     "account_type": "CURRENT",
     "account_currency": [
       "EUR"
