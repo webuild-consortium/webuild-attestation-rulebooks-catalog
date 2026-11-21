@@ -488,7 +488,7 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
   },
   "bank_account": {
     "account_name": "Company A Main Account",
-    "iban": "DE89370400440532013000",
+    "iban": "DE895007002407xxxxxx00",
     "account_type": "CURRENT",
     "account_currency": ["EUR"]
   },
@@ -528,9 +528,9 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
     ],
     "provider_country": "DEU",
     "bic_swift": "DEUTDEDB",
-    "national_bank_code": "37040044",
+    "national_bank_code": "50070024",
     "nace_code": "64.19",
-    "clearing_number": "37040044"
+    "clearing_number": "50070024"
   },
   "status": {
     "status_list": {
@@ -560,7 +560,7 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
   },
   "bank_account": {
     "account_name": "Maria Müller Consulting",
-    "iban": "DE89370400440532013001",
+    "iban": "DE895007002407xxxxxx00",
     "account_type": "CURRENT",
     "account_currency": ["EUR"]
   },
@@ -583,9 +583,9 @@ The following is a non-normative example of an IBAN-OV SD-JWT VC payload for a *
     ],
     "provider_country": "DEU",
     "bic_swift": "DEUTDEDB",
-    "national_bank_code": "37040044",
+    "national_bank_code": "50070024",
     "nace_code": "64.19",
-    "clearing_number": "37040044"
+    "clearing_number": "50070024"
   },
   "status": {
     "status_list": {
@@ -617,7 +617,7 @@ as profiled by [HAIP].
 
 | Field | Value | Source |
 | --- | --- | --- |
-| Device-bound | MAY | EW-DM-12-038 |
+| Device-bound | SHALL | EW-DM-12-038 |
 | Cryptographically bound to | none | EW-DM-12-032 |
 | Relying Party must also verify a PID | no | EW-DM-12-031 |
 | Binding subject | account owner (legal person or natural person, as set by `owner_type`) |  |
