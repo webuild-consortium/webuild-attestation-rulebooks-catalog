@@ -10,6 +10,7 @@ Category:  QEAA / PuB-EAA
 
 | Version | Date | Description |
 |---------|------------|------------|
+| 1.3 | 23.11.2026 | Test |
 | 1.2 | 28-10-2026 | Conformance to new template |
 | 1.1 | 08-04-2026 | Added a Semantic Reference column to Chapter 2 attribute and metadata tables. |
 | 1.0 | 02-04-2026 | Added WE BUILD v1 author guidance in Sections 1.1 and 2.1 and introduced Sections 2.8 Code lists and 2.9 Integrity rules. |
