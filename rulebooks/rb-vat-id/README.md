@@ -7,6 +7,7 @@ Category: QEAA or PuB-EAA, as stated in `attestation_legal_category`
 
 | Version | Date | Description |
 |---------|------------|------------|
+| 3 |23-11-2026 | Removed Display, Removed Issuer, Changed name to VAT Registered Unit |
 | 1.0 |08-10-2026 | Removed Display |
 | 0.99 | 05-10-2026 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 | 0.98 |08-09-2026 | Split Legal & natural person |
@@ -190,11 +191,11 @@ an indication, at least in a form suitable for automated processing, that the at
 has been issued as a QEAA or PuB-EAA SHALL be defined. Similarly, according to ARB_12
 of [Topic 12] of Annex 2 of the ARF a similar indication SHOULD be defined for non-qualified EAA.
 
-This document defines the attribute "VAT-ID" which SHALL either be issued as QEAA or a PuB-EAA
+This document defines the attestation "VAT-ID" which SHALL either be issued as QEAA or a PuB-EAA. The the attestation contains one attribute: VAT_registered_unit.
 
 ````
 vat_id_attestation
-├─ administrative_unit                            [1]
+├─ VAT_registered_unit                            [1]
 │   ├─ vat_id                                     [1]       (VAT-ID of the administrative unit)
 │   ├─ name                                       [1]       (name of the administrative unit)
 │   ├─ organisation_type                          [0]       (type of organisation in free text)
@@ -206,13 +207,13 @@ vat_id_attestation
 │   │   ├─ legal_person                           [0]
 │   │   │   ├─ legal_identifier                   [1]
 │   │   │   ├─ legal_name                         [1]
-│   │   ├─ natural_person                         [0]
-│   │   │   ├─ family_name                        [1]
-│   │   │   ├─ given_name                         [1]
-│   │   │   ├─ birth_date                         [1]
-│   │   │   ├─ birth_place                        [0]
-│   │   │   ├─ tin                                [0]
-│   │   │   └─ personal_administrative_number     [0]
+│   │   └─ natural_person                         [0]
+│   │       ├─ family_name                        [1]
+│   │       ├─ given_name                         [1]
+│   │       ├─ birth_date                         [1]
+│   │       ├─ birth_place                        [0]
+│   │       ├─ tin                                [0]
+│   │       └─ personal_administrative_number     [0]
 │   ├─ address                                    [0]       (the postal address registered for the administrative unit)
 │   │   ├─ po_box                                 [0]
 │   │   ├─ thoroughfare                           [0]
@@ -222,15 +223,10 @@ vat_id_attestation
 │   │   ├─ admin_unit_l1                          [0]
 │   │   └─ admin_unit_l2                          [0]
 │   └─ economic_activity                          [0..n]    (reference to the economic operator)
-│       ├─ economic_activity_nomenclature         [1]       (nomenclature used to describe the economic activity)
-│       ├─ economic_activity_nomenclature_version [0]     (version of the nomenclature)
-│       ├─ economic_activity_id                   [1]       (id used in the nomenclature)
-│       └─ economic_activity_description.         [1..n]    (object using language:, value)
-└─ issuer                                         [1]   
-    ├─ issuing_country                            [1]
-    ├─ issuing_authority                          [1]        (the organisation that issues the vat-id, this may differ from the attestation issuing organisation)
-    ├─ attestation_issuing_date                   [1]        (date on which the attestation is issued)
-    └─ attestation_issuing_organisation           [1]
+        ├─ economic_activity_nomenclature         [1]       (nomenclature used to describe the economic activity)
+        ├─ economic_activity_nomenclature_version [0]       (version of the nomenclature)
+        ├─ economic_activity_id                   [1]       (id used in the nomenclature)
+        └─ economic_activity_description.         [1..n]    (object using language:, value)
 ````
 
 ### 3.2 Mandatory attributes
@@ -241,17 +237,17 @@ Mandatory attributes are stated per object of the data model in section 3.1.
 
 | data identifier | Semantic Reference | Definition | Data Type | Example Value |
 | --- | --- | --- | --- | --- |
-| administrative_unit | administrative unit | administrative unit within an economic operator that holds a separate administration to which the VAT-ID is issued | Administrative_unit  Object | .. |
+| VAT_registered_unit | VAT registered unit  | Vat registered unit within an economic operator that holds a separate administration to which the VAT-ID is issued | VAT_registered_unit  Object | .. |
 | issuer | [cred:issuer](https://www.w3.org/2018/credentials#issuer) | Authority that issues the VAT ID | Issuer Object | .. |
 
-#### 3.2.2 administrative_unit
+#### 3.2.2 VAT_registered_unit
 
 | data identifier | Semantic Reference | Definition | Data Type | Example Value |
 | --- | --- | --- | --- | --- |
-| administrative_unit.vat_id | [identifier](https://w3id.org/ebwv#identifier) | Unique identifier for VAT purposes | String | DE123456789 |
-| administrative_unit.name | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[schema:name](https://schema.org/name) | Name of the unit responsible for VAT | String | Siemens |
-| administrative_unit.validity_period | [cred:validFrom](https://www.w3.org/2018/credentials/#validFrom)<br>[cred:validUntil](https://www.w3.org/2018/credentials/#validUntil) | Duration during which the data is valid | Date Range | 2026-01-01 to 2026-12-31 |
-| administrative_unit.economic_operator | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator) | Entity responsible for economic operations | Economic Operator object | .. |
+| VAT_registered_unit.vat_id | [identifier](https://w3id.org/ebwv#identifier) | Unique identifier for VAT purposes | String | DE123456789 |
+| VAT_registered_unit.name | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[schema:name](https://schema.org/name) | Name of the unit responsible for VAT | String | Siemens |
+| VAT_registered_unit.validity_period | [cred:validFrom](https://www.w3.org/2018/credentials/#validFrom)<br>[cred:validUntil](https://www.w3.org/2018/credentials/#validUntil) | Duration during which the data is valid | Date Range | 2026-01-01 to 2026-12-31 |
+| VAT_registered_unit.economic_operator | [EconomicOperator](https://w3id.org/ebwv#EconomicOperator) | Entity responsible for economic operations | Economic Operator object | .. |
 
 #### 3.2.3 Economic Operator
 
@@ -294,14 +290,14 @@ No mandatory attributes
 
 Optional attributes are stated per object of the data model in section 3.1.
 
-#### 3.3.1 administrative_unit
+#### 3.3.1 VAT_registered_unit
 
 | **data identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| administrative_unit.organisation_type | [type](https://w3id.org/ebwv#type) | Type (e.g., Government, Local Authority, B.V, GmbH) | String | GmbH |
-| administrative_unit.address | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[address](https://w3id.org/ebwv#address) | The address where the company is located based on the information from the authentic source of the VAT-ID. This address may differ from the address in the business register. | Address Object | ... |
-| administrative_unit.economic_activity | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[activity](https://w3id.org/ebwv#activity) | Type of business this administrative unit is registered | Economic Activity Type Object | ... |
-| administrative_unit. registered_eu_cross_border_transactions | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[references](https://w3id.org/ebwv#references) | Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services | Boolean | TRUE |
+| VAT_registered_unit.organisation_type | [type](https://w3id.org/ebwv#type) | Type (e.g., Government, Local Authority, B.V, GmbH) | String | GmbH |
+| VAT_registered_unit.address | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[address](https://w3id.org/ebwv#address) | The address where the company is located based on the information from the authentic source of the VAT-ID. This address may differ from the address in the business register. | Address Object | ... |
+| VAT_registered_unit.economic_activity | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[activity](https://w3id.org/ebwv#activity) | Type of business this administrative unit is registered | Economic Activity Type Object | ... |
+| VAT_registered_unit. registered_eu_cross_border_transactions | [VATRegistrationUnit](https://w3id.org/ebwv#VATRegistrationUnit).[references](https://w3id.org/ebwv#references) | Boolean to indicate that the VAT-identification number of the economic operator registered in the European Union for cross border transactions on goods or services | Boolean | TRUE |
 
 #### 3.3.2 Economic Operator
 
@@ -387,18 +383,18 @@ No conditional metadata are defined for this attestation type.
 
 | **field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
 | --- | --- | --- | --- | --- |
-| administrative_unit.economic_activity_type. nomenclature | NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA | Each name refers to the local adaptation of the NACE list. | [Overview of alternative nomenclatures](#81-list-of-alternative-nace-codes) | List SHOULD be used or refer to NACE closest alternative |
+| VAT_registered_unit.economic_activity_type. nomenclature | NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA | Each name refers to the local adaptation of the NACE list. | [Overview of alternative nomenclatures](#81-list-of-alternative-nace-codes) | List SHOULD be used or refer to NACE closest alternative |
 
 ### 4.5 Integrity rules
 
 | **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
 | --- | --- | --- | --- | --- |
 | EO1 | Exactly one of legal_person or natural_person SHALL be present. | There may only be one reference to the holder of the Wallet. If there is more than one, there could be an inconsistency | *Issuer, verifier, schema validation, or business process* | *Describe rejection, warning, or remediation behavior* |
-| VP1 | If 'administrative_unit. validity_Period.end_Date' is not NULL, 'administrative_unit. validity_Period.end_Date' SHALL be higher than 'administrative_unit.validity_Period.start_Date' | Validity periods may not be negative | The VAT-ID attestation may not be issued, because there shouldn't be a negative period in the register |
+| VP1 | If 'VAT_registered_unit. validity_Period.end_Date' is not NULL, 'VAT_registered_unit. validity_Period.end_Date' SHALL be higher than 'VAT_registered_unit.validity_Period.start_Date' | Validity periods may not be negative | The VAT-ID attestation may not be issued, because there shouldn't be a negative period in the register |
 | VP2 | If any 'validity_Period' overlaps with another validity period the attestation SHALL NOT be issued | Validity periods may not overlap because this should not happen and might create problems for relying parties. This rule also takes care of the issue of multiple validity periods without an enddate |  |
-| VP3 | If 'administrative_unit. validity_Period.end_Date' < issuer. attestation_issuing_date - 5 years | Old validity periods are not relevant to relying parties, the limit of 5 years should be used as a rule of thumb |  |
-| VP4 | If there is more than one 'administrative_unit.validity_Period' the issuer MAY omit older validity_Periods | Issuers have the freedom to omit older validity periods, when they find they are not relevant |  |
-| EA1 | If ('administrative_unit. Economic_Activity_Type.ID' AND 'administrative_unit. Economic_Activity_Type.Nomenclature <>"NACE")  is equal ('administrative_unit. Economic_Activity_Type.ID' AND 'administrative_unit. Economic_Activity_Type.Nomenclature == "NACE") Then 'administrative_unit.Economic_Activity_Type.Nomenclature SHOULD be "NACE" | The default Nomenclature is NACE, if the ID in the local Nomenclature directly relates to the NACE ID, the NACE ID and TYPE SHOULD be used. | Issuers SHOULD implement a tranlation table to create mostly NACE codes |
+| VP3 | If 'VAT_registered_unit. validity_Period.end_Date' < issuer. attestation_issuing_date - 5 years | Old validity periods are not relevant to relying parties, the limit of 5 years should be used as a rule of thumb |  |
+| VP4 | If there is more than one 'VAT_registered_unit.validity_Period' the issuer MAY omit older validity_Periods | Issuers have the freedom to omit older validity periods, when they find they are not relevant |  |
+| EA1 | If ('VAT_registered_unit. Economic_Activity_Type.ID' AND 'VAT_registered_unit. Economic_Activity_Type.Nomenclature <>"NACE")  is equal ('VAT_registered_unit. Economic_Activity_Type.ID' AND 'VAT_registered_unit. Economic_Activity_Type.Nomenclature == "NACE") Then 'VAT_registered_unit.Economic_Activity_Type.Nomenclature SHOULD be "NACE" | The default Nomenclature is NACE, if the ID in the local Nomenclature directly relates to the NACE ID, the NACE ID and TYPE SHOULD be used. | Issuers SHOULD implement a tranlation table to create mostly NACE codes |
 | XB1 | If ('issuing_country' is not in EU Then  'registered_eu_ cross_border_transactions' SHOULD be false | Only countries in the EU can take part in the registered_eu_ cross_border_transactions |
 
 
@@ -421,35 +417,35 @@ The VAT-ID attestation uses the SD-JWT VC format to allow for selective disclosu
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/ Notes** | **Disclosable** |
 | --- | --- | --- | --- | --- |
-| administrative_unit.vat_id | vat_id | VAT Identification Number | String |  | MUST NOT |
-| administrative_unit.name | administrative_unit_name | String |  | MUST NOT |
-| administrative_unit.validity_period | validity_period | Array [validity period] |  | MUST NOT |
-| administrative_unit.economic_operator | economic_operator | object | .. | MUST NOT |
+| VAT_registered_unit.vat_id | vat_id | VAT Identification Number | String |  | MUST NOT |
+| VAT_registered_unit.name | VAT_registered_unit_name | String |  | MUST NOT |
+| VAT_registered_unit.validity_period | validity_period | Array [validity period] |  | MUST NOT |
+| VAT_registered_unit.economic_operator | economic_operator | object | .. | MUST NOT |
 | issuer | issuer | Object | .. | MUST NOT |
-| administrative_unit.organisation_type | organisation_type | Object | ... | MUST |
-| administrative_unit.address | administrative_unit_address | Object | ... | MUST |
-| administrative_unit. registered_eu_cross_border_transactions | registered_eu_cross_ border_transactions | Boolean | .. | MUST NOT |
-| administrative_unit. economic_operator.legal_person. legal_identifier | legal_identifier | String | .. | MUST |
-| administrative_unit. economic_operator.legal_person. legal_name | legal_name | String | .. | MUST |
-| administrative_unit. economic_operator.natural_person. family_name | family_name | String | .. | MUST |
-| administrative_unit. economic_operator.natural_person. given_name | given_name | String | .. | MUST |
-| administrative_unit. economic_operator.natural_person. birth_date | birth_date | String (ISO 8601 YYYY-MM-DD) | .. | MUST |
-| administrative_unit. economic_operator.natural_person. birth_place | birth_place | String | .. | MUST |
-| administrative_unit. economic_operator.natural_person. tin | tin | String | .. | MUST |
-| administrative_unit. economic_operator.natural_person. epersonal_administrative_number | personal_administrative_number | String | .. | MUST |
-| administrative_unit. validity_period.start_date | validity_period.start_date | String (ISO 8601 YYYY-MM-DD) | .. | MUST NOT |
-| administrative_unit. validity_period.end_date | validity_period.end_date | String (ISO 8601 YYYY-MM-DD) | .. | MUST NOT |
-| administrative_unit. address.po_box | address.po_box | String | .. | MUST |
-| administrative_unit. address.thoroughfare | address.thoroughfare | String | .. | MUST |
-| administrative_unit. address.location_designator | address.location_designator | String | .. | MUST |
-| administrative_unit. address.post_code | address.post_code | String | .. | MUST |
-| administrative_unit. address.post_name | address.post_name | String | .. | MUST |
-| administrative_unit. address.admin_unit_L1 | address.admin_unit_L1 | String | .. | MUST |
-| administrative_unit. address.admin_unit_L2 | address.admin_unit_L2 | String | .. | MUST |
-| administrative_unit. economic_activity_type | economic_activity_type | Array | .. | MUST |
-| administrative_unit. economic_activity_type. nomenclature | economic_activity_type. nomenclature | String one of(NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA) | .. | MUST NOT |
-| administrative_unit. economic_activity_type. id | economic_activity_type.id | String | .. | MUST |
-| administrative_unit. economic_activity_type. description | economic_activity_type. description | object ("langue code iso 639-1": "description") | .. | MUST |
+| VAT_registered_unit.organisation_type | organisation_type | Object | ... | MUST |
+| VAT_registered_unit.address | VAT_registered_unit_address | Object | ... | MUST |
+| VAT_registered_unit. registered_eu_cross_border_transactions | registered_eu_cross_ border_transactions | Boolean | .. | MUST NOT |
+| VAT_registered_unit. economic_operator.legal_person. legal_identifier | legal_identifier | String | .. | MUST |
+| VAT_registered_unit. economic_operator.legal_person. legal_name | legal_name | String | .. | MUST |
+| VAT_registered_unit. economic_operator.natural_person. family_name | family_name | String | .. | MUST |
+| VAT_registered_unit. economic_operator.natural_person. given_name | given_name | String | .. | MUST |
+| VAT_registered_unit. economic_operator.natural_person. birth_date | birth_date | String (ISO 8601 YYYY-MM-DD) | .. | MUST |
+| VAT_registered_unit. economic_operator.natural_person. birth_place | birth_place | String | .. | MUST |
+| VAT_registered_unit. economic_operator.natural_person. tin | tin | String | .. | MUST |
+| VAT_registered_unit. economic_operator.natural_person. epersonal_administrative_number | personal_administrative_number | String | .. | MUST |
+| VAT_registered_unit. validity_period.start_date | validity_period.start_date | String (ISO 8601 YYYY-MM-DD) | .. | MUST NOT |
+| VAT_registered_unit. validity_period.end_date | validity_period.end_date | String (ISO 8601 YYYY-MM-DD) | .. | MUST NOT |
+| VAT_registered_unit. address.po_box | address.po_box | String | .. | MUST |
+| VAT_registered_unit. address.thoroughfare | address.thoroughfare | String | .. | MUST |
+| VAT_registered_unit. address.location_designator | address.location_designator | String | .. | MUST |
+| VAT_registered_unit. address.post_code | address.post_code | String | .. | MUST |
+| VAT_registered_unit. address.post_name | address.post_name | String | .. | MUST |
+| VAT_registered_unit. address.admin_unit_L1 | address.admin_unit_L1 | String | .. | MUST |
+| VAT_registered_unit. address.admin_unit_L2 | address.admin_unit_L2 | String | .. | MUST |
+| VAT_registered_unit. economic_activity_type | economic_activity_type | Array | .. | MUST |
+| VAT_registered_unit. economic_activity_type. nomenclature | economic_activity_type. nomenclature | String one of(NACE, NACE-BEL, CZ‑NACE, DB07, WZ, KAD, CNAE, NAF, NKD, ATECO, TEAOR, SBI, ONACE, PKD, CAE, CAEN, SKD, OKEC, TOL, SNI, UK SIC, NOGA) | .. | MUST NOT |
+| VAT_registered_unit. economic_activity_type. id | economic_activity_type.id | String | .. | MUST |
+| VAT_registered_unit. economic_activity_type. description | economic_activity_type. description | object ("langue code iso 639-1": "description") | .. | MUST |
 | issuer.authentic_source_country | issuer.authentic_source_country | String (ISO 3166-1 alpha-2) | .. | MUST NOT |
 | issuer.vat_id_authenticsource | issuer.vat_id_authenticsource | String | .. | MUST NOT |
 | issuer.country | issuer.country | String | .. | MUST NOT |
