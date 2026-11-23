@@ -7,7 +7,7 @@
   "properties": {
     "vct": {
       "type": "string",
-      "const": "uri:eu.eudi.vat.2",
+      "const": "uri:eu.eudi.vat.3",
       "description": "Credential type identifier for an EUDI VAT ID Attestation.",
       "examples": [
         "uri:eu.eudi.vat.2"
@@ -46,9 +46,9 @@
         1830902400
       ]
     },
-    "administrative_unit": {
+    "VAT_registered_unit": {
       "type": "object",
-      "description": "Administrative unit that uses the VAT-ID",
+      "description": "VAT registered unit that uses the VAT-ID",
       "properties": {
         "vat_id": {
           "type": "string",
@@ -446,7 +446,7 @@
   },
   "required": [
     "vct",
-    "administrative_unit",
+    "VAT_registered_unit",
     "attestation_legal_category",
     "iss",
     "iat",
