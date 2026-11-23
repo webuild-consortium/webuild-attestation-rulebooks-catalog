@@ -18,7 +18,7 @@
   "exp": 1830902400,
   "attestation_legal_category": "PuB-EAA",
 
-  "administrative_unit": {
+  "VAT_registered_unit": {
     "vat_id": "NL001234567B01",
     "name": "KLM Royal Dutch Airlines",
     "registered_eu_cross_border_transactions": true,
@@ -149,7 +149,7 @@
   },
 
   "holder_presentation_example": {
-    "administrative_unit": {
+    "VAT_registered_unit": {
       "vat_id": "NL001234567B01",
       "name": "KLM Royal Dutch Airlines",
       "validity_period": [
