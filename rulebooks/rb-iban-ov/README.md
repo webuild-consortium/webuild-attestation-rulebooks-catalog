@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type IBAN Ownership Verification
 
-Category: non-qualified EAA
+Category: non-qualified EAA or S-EAA
 
 * Author(s):
   * [Ricky Lamberty, Robert Bosch GmbH]
@@ -23,6 +23,7 @@ Category: non-qualified EAA
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
 | 1.2 | 2026-11-19 | Consistency fixes: natural persons in terminology (1.4), binding subject and issuance policy (7.1, 7.2) |
+| 1.3 | 2026-11-24 | Extension for S-EAA, schema and samples are synced now|
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -211,18 +212,18 @@ IBAN-OV Attestation
 │ │   ├── type					(m)
 │ │   └── value					(m)
 │ ├── given_name				(m)		(mandatory if natural person, 'person')
-│ └── surname					(m)		(mandatory if natural person, 'person')
+│ └── surname					  (m)		(mandatory if natural person, 'person')
 │
-└── Account_Provider			(m)
-  ├── provider_name				(m)
+└── Account_Provider			  (m)
+  ├── provider_name				  (m)
   ├── legal_person_identifiers	(m)     (array of objects)
-  │   ├── type					(m)
-  │   └── value					(m)
+  │   ├── type					    (m)
+  │   └── value					    (m)
   ├── provider_country			(m)
-  ├── bic_swift					(m)
+  ├── bic_swift					    (m)
   ├── national_bank_code		(o)	
-  ├── nace_code					(o)	
-  └── clearing_number			(o)
+  ├── nace_code					    (o)	
+  └── clearing_number			  (o)
 ```
 
 **Explanation:**
@@ -240,6 +241,7 @@ account owner) and the **where & how** (the provider & metadata).
 This attestation type MAY be classified as:
 
 - **"EAA"** when issued by the bank (ASPSP) acting as an authorized issuer within the EUDI  framework according to ETSI 119 478.
+- **"S-EAA"** when the issuer is the legal entity itself. It issues based on company-owned or self-asserted information.
 
 ### 3.2 Mandatory attributes
 
@@ -306,7 +308,7 @@ Metadata describes the attestation rather than its subject.
 | iat | The date and time when the verifiable credential was issued (ISO 8601) | DateTime |
 | exp | The date and time when the attestation expires (ISO 8601) | DateTime |
 | iss | The identifier of the issuing financial institution (ASPSP) that issued the attestation | String |
-| attestation_legal_category | Indicates the legal category of this attestation ("EAA") | String |
+| attestation_legal_category | Indicates the legal category of this attestation ("EAA" or "S-EAA") | String |
 | vct | A unique identifier (URL or URN) for the credential type, indicating which claims must be present and which can be selectively disclosed | String |
 | cnf | Cryptographic key binding element: confirmation claim carrying the public key of the Holder wallet as a JWK (RFC 7800) | Object |
 
@@ -631,10 +633,13 @@ The IBAN-OV attestation is issued by the bank (ASPSP) holding the account, eithe
 - Within the RP registration process, or
 - Upon explicit request from the legal entity or natural person owning the IBAN account.
 
+As "EAA"
 - The issuer is the bank (ASPSP) holding the account, for both the `entity` and the `person` case.
-  The account owner is the Holder of the attestation and is not its issuer.
-- The issuer issues the attestation based on the information and
-  supporting documentation available at the time of issuance.
+- The account owner is the Holder of the attestation and is not its issuer.
+As "S-EAA"
+- S-EAA: The issuer is the company holding the account.
+
+- The issuer issues the attestation based on the information and supporting documentation available at the time of issuance.
 - The issuer is responsible for ensuring that the attested information remains accurate and
   must immediately revoke the attestation if any change occurs that affects the validity or accuracy of the underlying data.
 - The issuer is responsible for ensuring that the device binding is assured
