@@ -196,7 +196,7 @@ The following table combines all attestation attributes for the EUCC (mandatory,
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
 | --- | --- | --- | --- | --- |
-| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | `Pub-EAA`; the EUCC is issued as a public sector body EAA | M | string |
+| attestation_legal_category | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | `PuB-EAA`; the EUCC is issued as a public sector body EAA | M | string |
 | legal_person_name | [legalName](https://w3id.org/ebwv#legalName) | Official current legal person name as registered in the business register. | M | string |
 | legal_person_id | [legalIdentifier](https://w3id.org/ebwv#legalIdentifier) | Unique ID for the legal person in the EUID structure. | M | string |
 | legal_form_type | [legalForm](https://w3id.org/ebwv#legalForm) | Legal form of the company. | M | string |
@@ -370,7 +370,7 @@ The . notation is used to indicate the nesting of attributes.
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** |
 | --- | --- | --- | --- |
-| attestation_legal_category | attestation_legal_category | string | `Pub-EAA` as defined by eIDAS 2 |
+| attestation_legal_category | attestation_legal_category | string | `PuB-EAA` as defined by eIDAS 2 |
 | issuing_authority | iss | string | RFC 7519 / Section 2.6 |
 | expiry_date | exp | number | RFC 7519 / Section 2.6 (Unix timestamp) |
 | issuing_country | issuing_country | string | ISO 3166-1 alpha-2 |
