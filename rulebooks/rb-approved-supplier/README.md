@@ -8,18 +8,15 @@ Approved Supplier attestation used in WE BUILD Use Case SC5 (eInvoicing), Scenar
 pre-approval).*
 
 * Author(s):
-    * Rune Kjørlaug, Emning AS / OpenPeppol (SC5 co-lead)
+  * Rune Kjørlaug, Emning AS / OpenPeppol (SC5 co-lead)
 
-**Feedback:**
-
-* [WE BUILD SC5 issue tracker](https://github.com/webuild-consortium/SC5/issues)
-
-| Version | Date | Description |
-| --- | --- | --- |
-| 0.1 | 2026-06-01 | Initial draft of the Approved Supplier attestation rulebook, derived from the WE BUILD Attestation Rulebook Template v1.1 and aligned with the SC5 eInvoicing scenario specification (Scenario 1). |
-| 0.6 | 2026-07-14 | Review draft for SC5 rulebook review meeting. Aligned with the WE BUILD attestation rulebooks catalog conventions: vct pattern `eu.we-build:<slug>:1`, legal category value `EAA`, EBWOID-anchored EAA trust model per rb-base, issuer and Relying Party obligations referencing the Base Verification rulebook, and Token Status List metadata (`status_list_credential`/`status_list_index`). |
-| 0.7 | 2026-07-15 | Added issue tracker and cleaned up author list layout |
-| 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| Version | Date       | Description                                                  |
+| ------- | ---------- | ------------------------------------------------------------ |
+| 0.1     | 2026-06-01 | Initial draft of the Approved Supplier attestation rulebook, derived from the WE BUILD Attestation Rulebook Template v1.1 and aligned with the SC5 eInvoicing scenario specification (Scenario 1). |
+| 0.6     | 2026-07-14 | Review draft for SC5 rulebook review meeting. Aligned with the WE BUILD attestation rulebooks catalog conventions: vct pattern `eu.we-build:<slug>:1`, legal category value `EAA`, EBWOID-anchored EAA trust model per rb-base, issuer and Relying Party obligations referencing the Base Verification rulebook, and Token Status List metadata. |
+| 0.7     | 2026-07-15 | Added issue tracker and cleaned up author list layout        |
+| 1.1     | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2     | 2026-11-09 | Added a W3C VCDM encoding (section 5.3, informative until the proposed vocabulary terms are published). Replaced the placeholders in section 5.1 with an informative issued SD-JWT and presentation example. Aligned the `status` claim with the IETF Token Status List structure. Corrected example identifiers (EUID and Peppol ICD). Resolved inconsistencies introduced by the template migration: traceability vs. body (binding, device binding), selective disclosure stated in the attribute tables, stale section references, dangling text in chapter 9, missing references. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -28,40 +25,44 @@ pre-approval).*
 ## Table of contents
 
 - [1 Introduction](#1-introduction)
-   * [1.1 Document scope and purpose](#11-document-scope-and-purpose)
-   * [1.2 Document structure](#12-document-structure)
-   * [1.3 Key words](#13-key-words)
-   * [1.4 Terminology](#14-terminology)
+  * [1.1 Document scope and purpose](#11-document-scope-and-purpose)
+  * [1.2 Document structure](#12-document-structure)
+  * [1.3 Key words](#13-key-words)
+  * [1.4 Terminology](#14-terminology)
 - [2 Compliance](#2-compliance)
-   * [2.1 Compliance statement](#21-compliance-statement)
-   * [2.2 Regulatory basis](#22-regulatory-basis)
-   * [2.3 Traceability](#23-traceability)
+  * [2.1 Compliance statement](#21-compliance-statement)
+  * [2.2 Regulatory basis](#22-regulatory-basis)
+  * [2.3 Traceability](#23-traceability)
 - [3 Attestation attributes](#3-attestation-attributes)
-   * [3.1 Introduction](#31-introduction)
-   * [3.2 Mandatory attributes](#32-mandatory-attributes)
-   * [3.3 Optional attributes](#33-optional-attributes)
-   * [3.4 Conditional attributes](#34-conditional-attributes)
+  * [3.1 Introduction](#31-introduction)
+  * [3.2 Mandatory attributes](#32-mandatory-attributes)
+  * [3.3 Optional attributes](#33-optional-attributes)
+  * [3.4 Conditional attributes](#34-conditional-attributes)
 - [4 Metadata](#4-metadata)
-   * [4.1 Mandatory metadata](#41-mandatory-metadata)
-   * [4.2 Optional metadata](#42-optional-metadata)
-   * [4.3 Conditional metadata](#43-conditional-metadata)
-   * [4.4 Code lists](#44-code-lists)
-   * [4.5 Integrity rules](#45-integrity-rules)
+  * [4.1 Mandatory metadata](#41-mandatory-metadata)
+  * [4.2 Optional metadata](#42-optional-metadata)
+  * [4.3 Conditional metadata](#43-conditional-metadata)
+  * [4.4 Code lists](#44-code-lists)
+  * [4.5 Integrity rules](#45-integrity-rules)
 - [5 Formats](#5-formats)
-   * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
-   * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
-   * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
+  * [5.1 SD-JWT VC-based encoding](#51-sd-jwt-vc-based-encoding)
+  * [5.2 ISO/IEC 18013-5-compliant encoding](#52-isoiec-18013-5-compliant-encoding)
+  * [5.3 W3C Verifiable Credentials Data Model-based encoding](#53-w3c-verifiable-credentials-data-model-based-encoding)
 - [6 Protocols](#6-protocols)
+  * [6.1 Issuance](#61-issuance)
+  * [6.2 Presentation](#62-presentation)
 - [7 Issuance](#7-issuance)
-   * [7.1 Binding](#71-binding)
-   * [7.2 Issuance Policy](#72-issuance-policy)
-   * [7.3 Lifecycle management](#73-lifecycle-management)
-   * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
+  * [7.1 Binding](#71-binding)
+  * [7.2 Issuance Policy](#72-issuance-policy)
+  * [7.3 Lifecycle management](#73-lifecycle-management)
+  * [7.4 Embedded disclosure policy](#74-embedded-disclosure-policy)
 - [8 Revocation](#8-revocation)
+  * [8.1 Revocation mechanism](#81-revocation-mechanism)
+  * [8.2 Revocation triggers and business rules](#82-revocation-triggers-and-business-rules)
 - [9 Presentation](#9-presentation)
-   * [9.1 Presentation Policy](#91-presentation-policy)
-   * [9.2 Presentation modes](#92-presentation-modes)
-   * [9.3 Transactional data](#93-transactional-data)
+  * [9.1 Presentation Policy](#91-presentation-policy)
+  * [9.2 Presentation modes](#92-presentation-modes)
+  * [9.3 Transactional data](#93-transactional-data)
 - [10 Trust Framework](#10-trust-framework)
 - [11 References](#11-references)
 
@@ -91,9 +92,10 @@ on behalf of buyers who have no relationship with the sender.
   MVP+ scenarios.
 * **Use case / user journey:** SC5 Scenario 1 (Supplier pre-approval). The attestation is issued once
   (or periodically) and verified on each invoice submission in a machine-to-machine flow.
-* **Source material:** the SC5 eInvoicing scenario specification (SC5_Introduction.md and
-  SC5_Scenario1_SupplierPreApproval.md). Actor terminology (C1–C4, EBW, EBWOID, Access Point) is kept
-  aligned with that specification and with the Peppol Interoperability Framework.
+* **Source material:** the SC5 eInvoicing scenario descriptions in the
+  [SC5 repository](https://github.com/webuild-consortium/SC5/tree/main/Scenario) (`Description.md` and
+  `Scenario1.md`). Actor terminology (C1–C4, EBW, EBWOID, Access Point) is kept aligned with those
+  descriptions and with the Peppol Interoperability Framework.
 
 ### 1.2 Document structure
 
@@ -117,7 +119,7 @@ capability. Other words such as 'will', 'is' and 'are' are statements of fact.
 
 This document uses the terminology specified in Annex 1 of the ARF, supplemented by Peppol terminology
 (C1–C4, Access Point, SMP/SML, Peppol participant identifier) and WE BUILD terminology (EBW, EBWOID,
-WE BUILD LoTL, WE BUILD Trusted List) as defined in the SC5 specification and the WP4 Blueprint.
+WE BUILD LoTL, WE BUILD Trusted List) as defined in the SC5 scenario descriptions and the WP4 Blueprint.
 
 ## 2 Compliance
 
@@ -127,53 +129,55 @@ This Rulebook complies with the applicable requirements of Topic 12, Attestation
 Rulebooks, in Annex 2 of the Architecture and Reference Framework, version 3.0.0. It
 uses the terminology of Annex 1 of the ARF.
 
-This Rulebook follows the structure mandated by [Topic 12] of the ARF and the WE BUILD Attestation
-Rulebook Template v1.1. The Approved Supplier attestation is a **non-qualified EAA** in the sense of
-the [European Digital Identity Regulation] and is implemented within the WE BUILD pilot trust framework
-rather than the eIDAS production ecosystem (WA1.1, WA1.5; WP4 Blueprint D4.1 §1.2.1). It uses the
-SD-JWT VC format profiled by [HAIP], OpenID4VCI for issuance and OpenID4VP for presentation per the WE
-BUILD Conformance Specifications (cs-01, cs-02), and the IETF Token Status List for revocation per the
-WE BUILD ADR on Attestation Revocation. Escalation to an eIDAS-qualified EAA (QEAA), and any associated
-QTSP involvement, is a post-pilot decision and out of scope for this version.
+The Approved Supplier attestation is a **non-qualified EAA** in the sense of the
+[European Digital Identity Regulation] and is implemented within the WE BUILD pilot trust framework
+rather than the eIDAS production ecosystem (WA1.1, WA1.5; WP4 Blueprint D4.1 §1.2.1). Its normative
+format is SD-JWT VC profiled by [HAIP]; a W3C VCDM encoding is additionally defined (section 5.3). It
+uses OpenID4VCI for issuance and OpenID4VP for presentation per the WE BUILD Conformance
+Specifications (cs-01, cs-02), and the IETF Token Status List for revocation per the WE BUILD ADR on
+Attestation Revocation. Escalation to an eIDAS-qualified EAA (QEAA), and any associated QTSP
+involvement, is out of scope for this version.
 
 ### 2.2 Regulatory basis
 
 This attestation is not a qualified electronic attestation of attributes. The data
 described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
-required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
-recommendation is not followed, the reason is stated below.
+required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022: issuer
+identification through `iss` and the EBWOID-anchored certificate material (chapter 10), the
+subject through `approved_supplier`, and the validity period through `iat`/`exp` together with
+`approval_valid_from`/`approval_valid_until`. All recommendations are followed.
 
 ### 2.3 Traceability
 
 Every applicable requirement mapped to the section that satisfies it. Requirements
 marked not applicable carry a stated reason.
 
-| Requirement | Legacy ID | Applies | Satisfied in section | Note |
-| --- | --- | --- | --- | --- |
-| EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM permitted for this category; no encoding defined in this version |
-| EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC following the HAIP profile |
-| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope |
-| EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
-| EW-DM-12-006 | ARB_05 | yes | 5 | Unique vct for this attestation type |
-| EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
-| EW-DM-12-008 | ARB_06a | no |  | No mdoc encoding is defined in this version |
-| EW-DM-12-009 | ARB_06b | yes | 5 | SD-JWT VC claim naming |
-| EW-DM-12-010 | ARB_07 | yes | 3 | Attributes reused from the catalogued vocabulary where one exists |
-| EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
-| EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
-| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA |
-| EW-DM-12-015 | ARB_12 | yes | 4.1 | EAA indication for a non-qualified EAA |
-| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-018 for the non-qualified case |
-| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2 | Point c, recommendation for non-qualified EAA |
-| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 4.2 | Point e, recommendation for non-qualified EAA |
-| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Trust anchor location and the trust framework |
-| EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
-| EW-DM-12-030 | ARB_26 | yes | 10 | Trust anchor publication for non-qualified EAA |
-| EW-DM-12-031 | ARB_27 | no |  | This attestation does not require the Relying Party to verify a PID |
-| EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
-| EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
-| EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
-| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
+| Requirement                                | Legacy ID                | Applies | Satisfied in section | Note                                                         |
+| ------------------------------------------ | ------------------------ | ------- | -------------------- | ------------------------------------------------------------ |
+| EW-DM-12-001                               | ARB_01a                  | yes     | 5.3                  | W3C VCDM permitted for this category, and defined in section 5.3 |
+| EW-DM-12-002                               | ARB_01b                  | yes     | 5.1                  | SD-JWT VC following the HAIP profile                         |
+| EW-DM-12-003                               | ARB_02                   | no      |                      | Proximity presentation is not in scope                       |
+| EW-DM-12-005                               | ARB_04                   | yes     | 5.3                  | W3C VCDM v2.0 secured with VC-JOSE-COSE; informative until the proposed vocabulary terms are published |
+| EW-DM-12-006                               | ARB_05                   | yes     | 5                    | Unique vct and VCDM type for this attestation type           |
+| EW-DM-12-007                               | ARB_06                   | yes     | 3                    | Attributes defined independently of encoding                 |
+| EW-DM-12-008                               | ARB_06a                  | no      |                      | No mdoc encoding is defined in this version                  |
+| EW-DM-12-009                               | ARB_06b                  | yes     | 5.1                  | SD-JWT VC claim naming                                       |
+| EW-DM-12-010                               | ARB_07                   | yes     | 3, 5.3               | EUID and Peppol identifiers reused; VCDM reuses EBWV terms where they exist |
+| EW-DM-12-012                               | ARB_09                   | yes     | 3, 4                 | Mandatory, optional and conditional stated per attribute     |
+| EW-DM-12-013                               | ARB_10                   | no      |                      | No mdoc domestic namespace is defined                        |
+| EW-DM-12-014                               | ARB_11                   | no      |                      | Annex V and VII point a apply to QEAA and PuB-EAA            |
+| EW-DM-12-015                               | ARB_12                   | yes     | 4.1                  | EAA indication for a non-qualified EAA                       |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes     | 2.2, 4.1             | Point b, EW-DM-12-018 for the non-qualified case             |
+| EW-DM-12-019 / EW-DM-12-020                | ARB_16 / ARB_17          | yes     | 2.2, 3.2             | Point c, recommendation for non-qualified EAA                |
+| EW-DM-12-021 / EW-DM-12-022                | ARB_18 / ARB_19          | yes     | 2.2, 3.2, 4.1        | Point e, recommendation for non-qualified EAA                |
+| EW-DM-12-023 / EW-DM-12-024                | ARB_20 / ARB_21          | yes     | 4.2, 10              | Trust anchor location and the trust framework                |
+| EW-DM-12-029                               | ARB_25                   | yes     | 4.1                  | Legal category attribute; see the note in section 4.1        |
+| EW-DM-12-030                               | ARB_26                   | yes     | 10                   | Trust anchor publication for non-qualified EAA               |
+| EW-DM-12-031                               | ARB_27                   | no      |                      | This attestation does not require the Relying Party to verify a PID |
+| EW-DM-12-032                               | ARB_28                   | yes     | 4.2, 7.1             | RECOMMENDED binding to the Supplier's EBWOID through `cryptographically_bound_to` |
+| EW-DM-12-034                               | ARB_30                   | yes     | 3.2, 3.3             | Selective disclosure stated per claim                        |
+| EW-DM-12-035                               | ARB_31                   | no      |                      | No Claim Selective Disclosure Metadata document is used      |
+| EW-DM-12-038                               | ARB_34                   | yes     | 7.1                  | Device binding RECOMMENDED                                   |
 
 ## 3 Attestation attributes
 
@@ -182,80 +186,76 @@ encoding of each attribute is given in chapter 5.
 
 ### 3.1 Introduction
 
-
 The Approved Supplier attestation expresses a single business relationship: a Buyer's approval of a
 Supplier. The design models two parties, the **approving party** (the Buyer, who is also the technical
 issuer) and the **approved supplier** (the Supplier, who is the holder/subject), together with the
 scope and validity of the approval.
 
-Per ARB_12 of [Topic 12], this document defines the attribute **`attestation_legal_category`**, which
-for this attestation type SHALL have the value **`EAA`**.
-
 **Logical model (informative):**
 
 ```
 ApprovedSupplierAttestation
-├── attestation_legal_category : "EAA"
+├── attestation_legal_category : "EAA"     (metadata, section 4.1)
 ├── approving_party            (the Buyer, C4, also the issuer)
 │   ├── legal_name
-│   ├── legal_id               (EUID / LPID, from the Buyer's EBWOID)
+│   ├── legal_id               (EUID, from the Buyer's EBWOID)
 │   └── peppol_id              (Peppol participant identifier)
 ├── approved_supplier          (the Supplier, C1, the holder/subject)
 │   ├── legal_name
-│   ├── legal_id               (EUID / LPID, from the Supplier's EBWOID)
+│   ├── legal_id               (EUID, from the Supplier's EBWOID)
 │   └── peppol_id
 ├── approval_scope             (code list, see 4.4)
 ├── approval_valid_from        (date)
 └── approval_valid_until       (date; see also the exp metadata claim)
 ```
 
-This model refines the flat claim list in the SC5 specification (issuer_id, issuer_name, subject_id,
-subject_name, scope, approval_date, expiry_date, buyer_peppol_id, supplier_peppol_id) into two grouped
-party objects, while preserving the same information content.
-
-Sections 3.2 to 3.4 define the attributes and sections 4.1 to 4.3 the metadata. Section 4.4
-documents the scope code list and section 4.5 the integrity rules.
-
-#### Chapter overview and requirements
-
-This chapter defines all attributes and metadata that an Approved Supplier attestation may contain, in
-an encoding-independent manner (ARB_06 in [Topic 12]). Each attribute is marked mandatory, optional, or
-conditional in its section (ARB_09).
+This model refines the flat claim list in the SC5 scenario description (issuer_id, issuer_name,
+subject_id, subject_name, scope, approval_date, expiry_date, buyer_peppol_id, supplier_peppol_id) into
+two grouped party objects, while preserving the same information content.
 
 **Applicable legal category.** Per SC5 working assumption WA1.1, the Approved Supplier attestation is
-implemented as a **non-qualified EAA** for the WE BUILD pilot. A qualification mandate (QEAA) would
-require QTSP involvement and is treated as a post-pilot decision. Where the SC5 specification refers to
-a "WE BUILD QEAA", this denotes a technically interoperable, ITB-tested attestation within the pilot
-trust framework, not an eIDAS-qualified EAA (WA1.5). The requirements for non-qualified EAA in
-[Topic 12] therefore apply:
+implemented as a **non-qualified EAA**. Where SC5 material refers to a "WE BUILD QEAA", this denotes a
+technically interoperable, ITB-tested attestation within the pilot trust framework, not an
+eIDAS-qualified EAA (WA1.5). The applicable Topic 12 requirements for this category are mapped in
+section 2.3.
 
-* An attribute indicating that the attestation is an EAA SHOULD be included (ARB_12). See section 3.1.
-* One or more attributes or metadata representing identification data of the issuer SHALL be included
-  (ARB_15).
-* One or more attributes representing the subject SHOULD be included (ARB_17).
-* Attributes or metadata representing the validity period SHOULD be defined (ARB_19).
-* Attributes or metadata representing the location of the trust anchor SHOULD be defined (ARB_21); see
-  chapter 10.
+**Schema artefacts.**
+
+| Format    | Identifier                                                   | Schema artefact                                       | Version | Location                                                     |
+| --------- | ------------------------------------------------------------ | ----------------------------------------------------- | ------- | ------------------------------------------------------------ |
+| SD-JWT VC | `eu.we-build:approvedsupplier:1`                             | JSON Schema                                           | 1.0     | [`data-schemas/sd-jwt/approved-supplier-sd-jwt.json`](../../data-schemas/sd-jwt/approved-supplier-sd-jwt.json), sample [`approved-supplier-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/approved-supplier-sd-jwt-sample.json) |
+| W3C VCDM  | type `ApprovedSupplierCredential`, context `https://w3id.org/ebwv/v0.1` | JSON-LD context (EBWV), terms proposed in section 5.3 | pending | To be published by the WP4 semantics group                   |
+
+The schema artefacts referenced above are normative for encoding. Where this document and a
+referenced artefact disagree, the artefact prevails for encoding questions and this document prevails
+for semantics, presence and disclosure rules.
+
+Selective disclosure applies to the SD-JWT VC encoding and is stated per attribute in the tables
+below (EW-DM-12-034). The W3C VCDM encoding of section 5.3 has no selective disclosure; section 5.3
+states how this is handled.
 
 ### 3.2 Mandatory attributes
 
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| `approving_party.legal_name` | N/A (WE BUILD SC5 domestic namespace) | Registered legal name of the Buyer that issues the approval. | string | `Les Roses d'Or SARL` |
-| `approving_party.legal_id` | EUID (Regulation (EU) 2017/1132) | Unique legal-person identifier of the Buyer, sourced from the Buyer's EBWOID. | string | `FR59120680088` |
-| `approving_party.peppol_id` | Peppol Participant Identifier | Peppol participant identifier of the Buyer (scheme::value). | string | `0009:FR59120680088` |
-| `approved_supplier.legal_name` | N/A (WE BUILD SC5 domestic namespace) | Registered legal name of the approved Supplier (the holder). | string | `Green Flowers B.V.` |
-| `approved_supplier.legal_id` | EUID (Regulation (EU) 2017/1132) | Unique legal-person identifier of the Supplier, sourced from the Supplier's EBWOID. | string | `NL853746281B01` |
-| `approved_supplier.peppol_id` | Peppol Participant Identifier | Peppol participant identifier of the Supplier. | string | `0106:853746281` |
-| `approval_scope` | N/A (see code list 2.8) | Scope of the approval. | string (enum) | `peppol:einvoice` |
-| `approval_valid_from` | N/A | Date from which the approval is valid. | full-date (RFC 3339) | `2026-01-01` |
+| Data identifier                | Semantic reference                                           | Definition                                                   | Data type            | Selectively disclosable        | Example value         |
+| ------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------- | ------------------------------ | --------------------- |
+| `approving_party.legal_name`   | N/A (SC5-defined)                                            | Registered legal name of the Buyer that issues the approval. | string               | MAY (with `approving_party`)   | `Les Roses d'Or SARL` |
+| `approving_party.legal_id`     | EUID (Directive (EU) 2017/1132, Implementing Regulation (EU) 2021/1042) | Unique legal-person identifier of the Buyer, sourced from the Buyer's EBWOID. | string               | MAY (with `approving_party`)   | `FRRCS.120680088`     |
+| `approving_party.peppol_id`    | Peppol Participant Identifier                                | Peppol participant identifier of the Buyer, as `ICD:identifier` (the value part of the `iso6523-actorid-upis` scheme). | string               | MAY (with `approving_party`)   | `0002:120680088`      |
+| `approved_supplier.legal_name` | N/A (SC5-defined)                                            | Registered legal name of the approved Supplier (the holder). | string               | MAY (with `approved_supplier`) | `Green Flowers B.V.`  |
+| `approved_supplier.legal_id`   | EUID (Directive (EU) 2017/1132, Implementing Regulation (EU) 2021/1042) | Unique legal-person identifier of the Supplier, sourced from the Supplier's EBWOID. | string               | MAY (with `approved_supplier`) | `NLNHR.85374628`      |
+| `approved_supplier.peppol_id`  | Peppol Participant Identifier                                | Peppol participant identifier of the Supplier, as `ICD:identifier`. | string               | MAY (with `approved_supplier`) | `0106:85374628`       |
+| `approval_scope`               | N/A (code list, section 4.4)                                 | Scope of the approval.                                       | string (enum)        | MAY                            | `peppol:einvoice`     |
+| `approval_valid_from`          | N/A                                                          | Date from which the approval is valid.                       | full-date (RFC 3339) | MAY                            | `2026-01-01`          |
+
+The party objects `approving_party` and `approved_supplier` are disclosed as a whole; their
+sub-claims are not individually selectively disclosable.
 
 ### 3.3 Optional attributes
 
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| `approval_valid_until` | N/A | Date until which the approval is valid (business validity, distinct from the technical `exp` metadata claim). | full-date (RFC 3339) | `2026-12-31` |
-| `approval_reference` | N/A | Buyer-internal reference for the underlying commercial relationship (e.g. framework agreement or contract number). | string | `PO-FRAME-2026-0042` |
+| Data identifier        | Semantic reference | Definition                                                   | Data type            | Selectively disclosable                                      | Example value        |
+| ---------------------- | ------------------ | ------------------------------------------------------------ | -------------------- | ------------------------------------------------------------ | -------------------- |
+| `approval_valid_until` | N/A                | Date until which the approval is valid (business validity, distinct from the technical `exp` metadata claim). | full-date (RFC 3339) | MAY                                                          | `2026-12-31`         |
+| `approval_reference`   | N/A                | Buyer-internal reference for the underlying commercial relationship (e.g. framework agreement or contract number). | string               | MUST, so that the Supplier can withhold the internal reference | `PO-FRAME-2026-0042` |
 
 ### 3.4 Conditional attributes
 
@@ -264,19 +264,20 @@ conditional attributes.
 
 ## 4 Metadata
 
-Metadata describes the attestation rather than its subject.
+Metadata describes the attestation rather than its subject. Metadata claims are not selectively
+disclosable.
 
 ### 4.1 Mandatory metadata
 
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| `attestation_legal_category` | Defined in section 3.1 | Indicates the legal category of the attestation. | string | `EAA` |
-| `vct` | [SD-JWT VC] | Verifiable Credential Type identifier (see section 5.1). | string | `eu.we-build:approvedsupplier:1` |
-| `iss` | [IANA-JWT-Claims] | Issuer identifier (the Buyer's issuing system / EBW). | string (URI) | `https://wallet.lesrosesdor.example/issuer` |
-| `iat` | [IANA-JWT-Claims] | Issuance timestamp. | NumericDate | `1767225600` |
-| `exp` | [IANA-JWT-Claims] | Technical expiry timestamp of the attestation. | NumericDate | `1798761600` |
-| `status` | [SD-JWT VC] / [Token Status List] | Reference to the Token Status List entry for revocation (see chapter 8). | object | *(see chapter 8)* |
-| `cnf` | [SD-JWT VC] | Holder key-binding confirmation (proof of possession by the Supplier's EBW). | object | *(JWK / key reference)* |
+| Data identifier              | Semantic reference               | Definition                                                   | Data type    | Example value                                       |
+| ---------------------------- | -------------------------------- | ------------------------------------------------------------ | ------------ | --------------------------------------------------- |
+| `attestation_legal_category` | EW-DM-12-015 / EW-DM-12-029      | Indicates the legal category of the attestation.             | string       | `EAA`                                               |
+| `vct`                        | [SD-JWT VC]                      | Verifiable Credential Type identifier (see section 5.1).     | string       | `eu.we-build:approvedsupplier:1`                    |
+| `iss`                        | [IANA-JWT-Claims]                | Issuer identifier (the Buyer's issuing system / EBW).        | string (URI) | `https://wallet.lesrosesdor.example/issuer`         |
+| `iat`                        | [IANA-JWT-Claims]                | Issuance timestamp.                                          | NumericDate  | `1767225600`                                        |
+| `exp`                        | [IANA-JWT-Claims]                | Technical expiry timestamp of the attestation.               | NumericDate  | `1798761600`                                        |
+| `status`                     | [SD-JWT VC], [Token Status List] | Reference to the Token Status List entry for revocation, as `status.status_list` with `idx` and `uri` (see chapter 8). | object       | `{"status_list": {"idx": 412, "uri": "https://…"}}` |
+| `cnf`                        | [SD-JWT VC]                      | Holder key-binding confirmation (proof of possession by the Supplier's EBW). | object       | *(JWK)*                                             |
 
 **Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
 Section 4.1 of the generic template replaces it with the `category` attribute of
@@ -287,9 +288,13 @@ left as written and the deviation is recorded for the rulebook quality assurance
 
 ### 4.2 Optional metadata
 
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
-| --- | --- | --- | --- | --- |
-| `cryptographically_bound_to` | ARB_28 / [Topic 12] | vct of another attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see section 7.1. | string | `uri:eu.ebw.oid.1` |
+| Data identifier              | Semantic reference | Definition                                                   | Data type    | Example value               |
+| ---------------------------- | ------------------ | ------------------------------------------------------------ | ------------ | --------------------------- |
+| `cryptographically_bound_to` | EW-DM-12-032       | vct of the attestation on the same Wallet Unit to which this attestation is cryptographically bound (the Supplier's EBWOID). RECOMMENDED, see section 7.1. | string       | `uri:eu.ebw.oid.1`          |
+| `nbf`                        | [IANA-JWT-Claims]  | Time before which the attestation SHALL NOT be accepted.     | NumericDate  | `1767225600`                |
+| `sub`                        | [IANA-JWT-Claims]  | Identifier of the subject (the approved Supplier).           | string       | `did:example:green-flowers` |
+| `schema_version`             | N/A                | Version of the schema artefact used.                         | string       | `1.0`                       |
+| `trust_anchor_url`           | EW-DM-12-024       | URL at which a machine-readable version of the trust anchor can be found or looked up. For this attestation the trust anchor is the EBWOID provider's entry in the WE BUILD trust list infrastructure (chapter 10). | string (URI) | *(WE BUILD TLOL entry)*     |
 
 ### 4.3 Conditional metadata
 
@@ -298,66 +303,67 @@ conditional metadata.
 
 ### 4.4 Code lists
 
-| **Field name** | **Allowed values** | **Meaning** | **Source / vocabulary** | **Notes / extensibility** |
-| --- | --- | --- | --- | --- |
-| `approval_scope` | `peppol:einvoice` | The Buyer approves the Supplier for sending Peppol BIS Billing 3.0 eInvoices. | WE BUILD SC5 domestic vocabulary | Default value for MVP. |
-| `approval_scope` | `all` | The Buyer approves the Supplier for all SC5-relevant document exchange. | WE BUILD SC5 domestic vocabulary | Additional values SHOULD only be introduced if defined consistently across issuer and verifier implementations and registered in the WE BUILD Attestation Rulebooks catalog. |
+| Field            | Allowed values or vocabulary | Meaning                                                      | Source                  | Extensible     |
+| ---------------- | ---------------------------- | ------------------------------------------------------------ | ----------------------- | -------------- |
+| `approval_scope` | `peppol:einvoice`            | The Buyer approves the Supplier for sending Peppol BIS Billing 3.0 eInvoices. Default value for MVP. | WE BUILD SC5 vocabulary | Yes, see below |
+| `approval_scope` | `all`                        | The Buyer approves the Supplier for all SC5-relevant document exchange. | WE BUILD SC5 vocabulary | Yes, see below |
+
+Additional values SHOULD only be introduced if defined consistently across issuer and verifier
+implementations and registered in the WE BUILD Attestation Rulebooks catalog.
 
 ### 4.5 Integrity rules
 
-| **Rule ID** | **Rule statement** | **Why it exists** | **Where enforced** | **Verifier / issuer behavior on failure** |
-| --- | --- | --- | --- | --- |
-| `IR-AS-01` | `approval_valid_from` SHALL NOT be later than `approval_valid_until` (when the latter is present), and both SHALL fall within the `iat`–`exp` window. | Prevents inconsistent or unusable validity periods. | Issuer business rules; verifier business validation. | Issuer SHALL reject; verifier SHALL treat the attestation as invalid for the transaction. |
-| `IR-AS-02` | The `approving_party.peppol_id` SHALL identify the same legal person as `approving_party.legal_id`; likewise for the approved supplier. | Ensures the Peppol identifier and the legal identifier refer to the same party, so verification at C2 is unambiguous. | Issuer; verifier cross-check against EBWOID. | Verifier SHALL treat the attestation as invalid. |
-| `IR-AS-03` | At verification time, the `approved_supplier.peppol_id` SHALL match the C1 participant identifier on the invoice being submitted, and `approving_party.peppol_id` SHALL match the invoice's buyer participant identifier. | Binds the approval to the specific invoice flow, preventing reuse of a valid attestation for an unrelated buyer/supplier pair. | Verifier (C2) business validation. | Verifier SHALL reject the invoice submission. |
-
+| Rule ID    | Rule statement                                               | Why it exists                                                | Where enforced                                       | Behaviour on failure                                         |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------------------ |
+| `IR-AS-01` | `approval_valid_from` SHALL NOT be later than `approval_valid_until` (when the latter is present), and both SHALL fall within the `iat`–`exp` window. | Prevents inconsistent or unusable validity periods.          | Issuer business rules; verifier business validation. | Issuer SHALL reject; verifier SHALL treat the attestation as invalid for the transaction. |
+| `IR-AS-02` | The `approving_party.peppol_id` SHALL identify the same legal person as `approving_party.legal_id`; likewise for the approved supplier. | Ensures the Peppol identifier and the legal identifier refer to the same party, so verification at C2 is unambiguous. | Issuer; verifier cross-check against EBWOID.         | Verifier SHALL treat the attestation as invalid.             |
+| `IR-AS-03` | At verification time, the `approved_supplier.peppol_id` SHALL match the C1 participant identifier on the invoice being submitted, and `approving_party.peppol_id` SHALL match the invoice's buyer participant identifier. | Binds the approval to the specific invoice flow, preventing reuse of a valid attestation for an unrelated buyer/supplier pair. | Verifier (C2) business validation.                   | Verifier SHALL reject the invoice submission.                |
 
 ## 5 Formats
 
+| Format               | Supported         | Identifier                                                   | Specification                   | Notes                                                        |
+| -------------------- | ----------------- | ------------------------------------------------------------ | ------------------------------- | ------------------------------------------------------------ |
+| ISO/IEC 18013-5 mdoc | no                |                                                              | [ISO/IEC 18013-5]               | Proximity presentation is not in scope (EW-DM-12-003)        |
+| SD-JWT VC            | yes               | `vct` `eu.we-build:approvedsupplier:1`                       | [SD-JWT VC], [HAIP]             | Normative format; SHALL follow the HAIP profile (EW-DM-12-002) |
+| W3C VCDM             | yes (informative) | type `ApprovedSupplierCredential`, context `https://w3id.org/ebwv/v0.1` | [W3C VCDM v2.0], [VC-JOSE-COSE] | Permitted for non-qualified EAA (EW-DM-12-001); see section 5.3 |
+
+A Provider SHALL offer the SD-JWT VC format. A Provider MAY additionally offer the W3C VCDM format
+once section 5.3 is normative. A Relying Party in the SC5 Peppol flow SHALL accept SD-JWT VC and is
+not required to accept W3C VCDM.
 
 ### 5.1 SD-JWT VC-based encoding
 
 This attestation type SHALL be issued in the [SD-JWT VC]-compliant format and SHALL comply with the
-'SD-JWT VCs' profile specified in [HAIP] (ARB_01b).
+'SD-JWT VCs' profile specified in [HAIP] (EW-DM-12-002).
 
 **Verifiable Credential Type (`vct`):** `eu.we-build:approvedsupplier:1`
 
 *(Proposed value; subject to registration in the WE BUILD Attestation Rulebooks catalog by the WP4
-semantics group, ARB_05.)*
+semantics group, EW-DM-12-006.)*
 
-For all claims, the table below specifies whether an Attestation Provider MUST, MAY, or MUST NOT make
-the claim selectively disclosable (ARB_30). A Type Metadata Document SHOULD be defined for this vct per
-Chapter 6 of [SD-JWT VC] (ARB_31).
+A Type Metadata Document SHOULD be defined for this vct per [SD-JWT VC]. Selective disclosure per
+claim is stated in sections 3.2 and 3.3; all metadata claims of chapter 4 are not selectively
+disclosable. The JWT header SHALL carry the issuer's EBWOID-anchored certificate material (`x5c`) as
+described in chapter 10.
 
-A JSON Schema for this encoding is published in the catalog at
-`data-schemas/sd-jwt/approved-supplier-sd-jwt.json`, with sample data at
-`data-schemas/sd-jwt/sample-data/approved-supplier-sd-jwt-sample.json`.
+**Claim encoding:**
 
-**Registered / standard claims:**
+| Data identifier                   | Attribute identifier       | Encoding format                                              | Reference / notes              |
+| --------------------------------- | -------------------------- | ------------------------------------------------------------ | ------------------------------ |
+| `iss`, `iat`, `exp`, `nbf`, `sub` | as named                   | per [IANA-JWT-Claims]                                        | Section 4.1, 4.2               |
+| `vct`                             | vct                        | string                                                       | [SD-JWT VC]                    |
+| `status`                          | status                     | object, `status_list.idx` (integer) and `status_list.uri` (string) | [Token Status List]; chapter 8 |
+| `cnf`                             | cnf                        | object, `jwk`                                                | [SD-JWT VC]; holder binding    |
+| `attestation_legal_category`      | attestation_legal_category | string                                                       | Section 4.1                    |
+| `approving_party`                 | approving_party            | object                                                       | Section 3.2                    |
+| `approved_supplier`               | approved_supplier          | object                                                       | Section 3.2                    |
+| `approval_scope`                  | approval_scope             | string                                                       | Code list 4.4                  |
+| `approval_valid_from`             | approval_valid_from        | string (full-date)                                           | Section 3.2                    |
+| `approval_valid_until`            | approval_valid_until       | string (full-date)                                           | Section 3.3                    |
+| `approval_reference`              | approval_reference         | string                                                       | Section 3.3                    |
+| `cryptographically_bound_to`      | cryptographically_bound_to | string                                                       | Section 4.2; section 7.1       |
 
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** | **Disclosable** |
-| --- | --- | --- | --- | --- |
-| `iss` | iss | string | [IANA-JWT-Claims] | MUST NOT |
-| `iat` | iat | number | [IANA-JWT-Claims] | MUST NOT |
-| `exp` | exp | number | [IANA-JWT-Claims] | MUST NOT |
-| `vct` | vct | string | [SD-JWT VC] | MUST NOT |
-| `status` | status | object | [Token Status List]; chapter 8 | MUST NOT |
-| `cnf` | cnf | object | [SD-JWT VC]; holder binding | MUST NOT |
-
-**Private claims specific to this attestation type:**
-
-| **Data Identifier** | **Attribute identifier** | **Encoding format** | **Notes** | **Disclosable** |
-| --- | --- | --- | --- | --- |
-| `attestation_legal_category` | attestation_legal_category | string | Section 3.1 | MUST NOT |
-| `approving_party` | approving_party | object | Buyer (C4) | MAY |
-| `approved_supplier` | approved_supplier | object | Supplier (C1) | MAY |
-| `approval_scope` | approval_scope | string | Code list 2.8 | MAY |
-| `approval_valid_from` | approval_valid_from | string (full-date) |  | MAY |
-| `approval_valid_until` | approval_valid_until | string (full-date) | Optional | MAY |
-| `approval_reference` | approval_reference | string | Optional | MUST, issuer SHALL make selectively disclosable so the Supplier can withhold the internal reference |
-| `cryptographically_bound_to` | cryptographically_bound_to | string | Section 4.2; section 7.1 | MUST NOT |
-
-**Illustrative JWT claim set (informative, synthetic data):**
+**Logical claim set (informative, synthetic data, all disclosures applied):**
 
 ```json
 {
@@ -366,91 +372,305 @@ A JSON Schema for this encoding is published in the catalog at
   "iat": 1767225600,
   "exp": 1798761600,
   "attestation_legal_category": "EAA",
-  "status": { "status_list": { "idx": 412, "uri": "https://status.webuild.example/sc5/approved_supplier" } },
+  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+  "status": { "status_list": { "idx": 412, "uri": "https://wallet.lesrosesdor.example/status/approvedsupplier" } },
   "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." } },
   "approving_party": {
     "legal_name": "Les Roses d'Or SARL",
-    "legal_id": "FR59120680088",
-    "peppol_id": "0009:FR59120680088"
+    "legal_id": "FRRCS.120680088",
+    "peppol_id": "0002:120680088"
   },
   "approved_supplier": {
     "legal_name": "Green Flowers B.V.",
-    "legal_id": "NL853746281B01",
-    "peppol_id": "0106:853746281"
+    "legal_id": "NLNHR.85374628",
+    "peppol_id": "0106:85374628"
   },
   "approval_scope": "peppol:einvoice",
   "approval_valid_from": "2026-01-01",
-  "approval_valid_until": "2026-12-31"
+  "approval_valid_until": "2026-12-31",
+  "approval_reference": "PO-FRAME-2026-0042"
 }
 ```
 
-[RULEBOOK AUTHOR TO PROVIDE AN EXAMPLE OF THE ISSUED SD-JWT IN base64 ENCODING ONCE A REFERENCE
-ISSUER IS AVAILABLE]
+#### 5.1.1 Issued SD-JWT (informative)
 
-[RULEBOOK AUTHOR TO PROVIDE A HUMAN-READABLE VERSION OF THE SD-JWT PAYLOAD WITH THE DISCLOSURES,
-ONCE THE SELECTIVE-DISCLOSURE STRUCTURE IS FINALISED WITH WP4]
+The example below is a complete issued SD-JWT, signed with a throw-away ES256 test key. All
+organisations, identifiers and keys are synthetic. In this example every attribute of chapter 3 is
+selectively disclosable: `approval_reference` because it MUST be, and the others to show how the
+Supplier controls disclosure. A Provider MAY make fewer claims disclosable, as permitted in sections
+3.2 and 3.3. For readability the header carries a `kid`; a production attestation SHALL carry the
+EBWOID-anchored certificate material in `x5c` instead (chapter 10). The example SHALL be regenerated
+if the selective-disclosure structure changes.
+
+Issued SD-JWT (issuer-signed JWT `~` disclosures `~`):
+
+```
+eyJhbGciOiJFUzI1NiIsInR5cCI6ImRjK3NkLWp3dCIsImtpZCI6Imxlc3Jvc2VzZG9yLWVidy1pc3N1ZXItdGVzdCJ9.eyJ2Y3QiOiJldS53ZS1idWlsZDphcHByb3ZlZHN1cHBsaWVyOjEiLCJpc3MiOiJodHRwczovL3dhbGxldC5sZXNyb3Nlc2Rvci5leGFtcGxlL2lzc3VlciIsImlhdCI6MTc2NzIyNTYwMCwiZXhwIjoxNzk4NzYxNjAwLCJhdHRlc3RhdGlvbl9sZWdhbF9jYXRlZ29yeSI6IkVBQSIsImNyeXB0b2dyYXBoaWNhbGx5X2JvdW5kX3RvIjoidXJpOmV1LmVidy5vaWQuMSIsInN0YXR1cyI6eyJzdGF0dXNfbGlzdCI6eyJpZHgiOjQxMiwidXJpIjoiaHR0cHM6Ly93YWxsZXQubGVzcm9zZXNkb3IuZXhhbXBsZS9zdGF0dXMvYXBwcm92ZWRzdXBwbGllciJ9fSwiY25mIjp7Imp3ayI6eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwieCI6ImV1Sk03dm91NmhjTjVNcDZiM1I5NjVNY2FiejNlZG4xWHdoQmdCcDYwMU0iLCJ5IjoieWtTR3IyRG5HTnJuYmNsOHlRLTZHbl9ZSHBqUjlNcEJpWFQ3c21nRW5TUSJ9fSwiX3NkIjpbIjh1a3BuZWFrQjVGTGo1SjNOYkctUE5UbjF1anpSLThVSnZhb2xad3lFMjAiLCJCU3lrTnI2WTFHRDJ0TTJEQmJ5dXBldUxIN0xnaGlsWHVreC1rUjZ4dnBvIiwiREFpSVpDaWVYV2R5cmtaUkwya2liTGliUGRiM1U3eWR2M0pzb0poRlpEbyIsIlBnZlB5dzlCeU80U1hydGRKeExKbHotbTJ3VzRjbGVGbnZEV25RQ0EwMGsiLCJfMkgtTmxBckFQdG1DNldyLXBDMUVZSE5wcl96YVRZZ3dEUmF1WmpydEZFIiwicUl2Z2NzdEg4QjNWeGVJUVlJLVlXTGNta3ExZ29tbHFPdkhpU29JdjFGbyJdLCJfc2RfYWxnIjoic2hhLTI1NiJ9._ppp2liZbMSCiEiwiTDZ-DIHAZLHkW_43Y90yppY3vbOZOq5yfTMZIrqGfmKsRTY70LDQkF3ATKDfo287I5HUw~WyIyTXRtNXFRZkpyNEJfdTJHcWducmZBIiwiYXBwcm92aW5nX3BhcnR5Iix7ImxlZ2FsX25hbWUiOiJMZXMgUm9zZXMgZCdPciBTQVJMIiwibGVnYWxfaWQiOiJGUlJDUy4xMjA2ODAwODgiLCJwZXBwb2xfaWQiOiIwMDAyOjEyMDY4MDA4OCJ9XQ~WyJ6X0UySDRhOUFyRmp3ODN1dzYxczdnIiwiYXBwcm92ZWRfc3VwcGxpZXIiLHsibGVnYWxfbmFtZSI6IkdyZWVuIEZsb3dlcnMgQi5WLiIsImxlZ2FsX2lkIjoiTkxOSFIuODUzNzQ2MjgiLCJwZXBwb2xfaWQiOiIwMTA2Ojg1Mzc0NjI4In1d~WyI1Ql9rNXQyMEx4RUdSU2dRS1lCSWZBIiwiYXBwcm92YWxfc2NvcGUiLCJwZXBwb2w6ZWludm9pY2UiXQ~WyJUSVJZR2JhSEV0by1Hdl9uWFZEa2FBIiwiYXBwcm92YWxfdmFsaWRfZnJvbSIsIjIwMjYtMDEtMDEiXQ~WyJ6bVAyVU05akd2b0RQWkdsWnhEVldBIiwiYXBwcm92YWxfdmFsaWRfdW50aWwiLCIyMDI2LTEyLTMxIl0~WyJSZG9zVy12TWJ3VWlqOUdmOXJxMHBBIiwiYXBwcm92YWxfcmVmZXJlbmNlIiwiUE8tRlJBTUUtMjAyNi0wMDQyIl0~
+```
+
+#### 5.1.2 Human-readable payload and disclosures (informative)
+
+Header:
+
+```json
+{
+  "alg": "ES256",
+  "typ": "dc+sd-jwt",
+  "kid": "lesrosesdor-ebw-issuer-test"
+}
+```
+
+Issuer-signed payload:
+
+```json
+{
+  "vct": "eu.we-build:approvedsupplier:1",
+  "iss": "https://wallet.lesrosesdor.example/issuer",
+  "iat": 1767225600,
+  "exp": 1798761600,
+  "attestation_legal_category": "EAA",
+  "cryptographically_bound_to": "uri:eu.ebw.oid.1",
+  "status": {
+    "status_list": {
+      "idx": 412,
+      "uri": "https://wallet.lesrosesdor.example/status/approvedsupplier"
+    }
+  },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "euJM7vou6hcN5Mp6b3R965Mcabz3edn1XwhBgBp601M",
+      "y": "ykSGr2DnGNrnbcl8yQ-6Gn_YHpjR9MpBiXT7smgEnSQ"
+    }
+  },
+  "_sd": [
+    "8ukpneakB5FLj5J3NbG-PNTn1ujzR-8UJvaolZwyE20",
+    "BSykNr6Y1GD2tM2DBbyupeuLH7LghilXukx-kR6xvpo",
+    "DAiIZCieXWdyrkZRL2kibLibPdb3U7ydv3JsoJhFZDo",
+    "PgfPyw9ByO4SXrtdJxLJlz-m2wW4cleFnvDWnQCA00k",
+    "_2H-NlArAPtmC6Wr-pC1EYHNpr_zaTYgwDRauZjrtFE",
+    "qIvgcstH8B3VxeIQYI-YWLcmkq1gomlqOvHiSoIv1Fo"
+  ],
+  "_sd_alg": "sha-256"
+}
+```
+
+Disclosures (`[salt, claim name, claim value]`) and the digest each produces in `_sd`:
+
+| Claim                  | Disclosure (decoded)                                         | Digest (SHA-256, base64url)                   |
+| ---------------------- | ------------------------------------------------------------ | --------------------------------------------- |
+| `approving_party`      | `["2Mtm5qQfJr4B_u2GqgnrfA", "approving_party", {"legal_name": "Les Roses d'Or SARL", "legal_id": "FRRCS.120680088", "peppol_id": "0002:120680088"}]` | `DAiIZCieXWdyrkZRL2kibLibPdb3U7ydv3JsoJhFZDo` |
+| `approved_supplier`    | `["z_E2H4a9ArFjw83uw61s7g", "approved_supplier", {"legal_name": "Green Flowers B.V.", "legal_id": "NLNHR.85374628", "peppol_id": "0106:85374628"}]` | `BSykNr6Y1GD2tM2DBbyupeuLH7LghilXukx-kR6xvpo` |
+| `approval_scope`       | `["5B_k5t20LxEGRSgQKYBIfA", "approval_scope", "peppol:einvoice"]` | `qIvgcstH8B3VxeIQYI-YWLcmkq1gomlqOvHiSoIv1Fo` |
+| `approval_valid_from`  | `["TIRYGbaHEto-Gv_nXVDkaA", "approval_valid_from", "2026-01-01"]` | `PgfPyw9ByO4SXrtdJxLJlz-m2wW4cleFnvDWnQCA00k` |
+| `approval_valid_until` | `["zmP2UM9jGvoDPZGlZxDVWA", "approval_valid_until", "2026-12-31"]` | `_2H-NlArAPtmC6Wr-pC1EYHNpr_zaTYgwDRauZjrtFE` |
+| `approval_reference`   | `["RdosW-vMbwUij9Gf9rq0pA", "approval_reference", "PO-FRAME-2026-0042"]` | `8ukpneakB5FLj5J3NbG-PNTn1ujzR-8UJvaolZwyE20` |
+
+#### 5.1.3 Presentation to the Access Point (informative)
+
+When the Supplier presents the attestation to its Access Point (C2), it discloses the party objects,
+scope and validity, withholds `approval_reference`, and appends a Key Binding JWT signed with the key
+in `cnf`. The KB-JWT payload binds the presentation to the Access Point (`aud`), to the request
+(`nonce`), and to the exact set of disclosures (`sd_hash`):
+
+```json
+{
+  "iat": 1768392000,
+  "aud": "https://ap.c2-provider.example",
+  "nonce": "n-0S6_WzA2Mj",
+  "sd_hash": "3LVf0NRMisfNvM52Qpz1jZD6f4TNytgYTiJ_rCVNhZA"
+}
+```
+
+Presented SD-JWT+KB:
+
+```
+eyJhbGciOiJFUzI1NiIsInR5cCI6ImRjK3NkLWp3dCIsImtpZCI6Imxlc3Jvc2VzZG9yLWVidy1pc3N1ZXItdGVzdCJ9.eyJ2Y3QiOiJldS53ZS1idWlsZDphcHByb3ZlZHN1cHBsaWVyOjEiLCJpc3MiOiJodHRwczovL3dhbGxldC5sZXNyb3Nlc2Rvci5leGFtcGxlL2lzc3VlciIsImlhdCI6MTc2NzIyNTYwMCwiZXhwIjoxNzk4NzYxNjAwLCJhdHRlc3RhdGlvbl9sZWdhbF9jYXRlZ29yeSI6IkVBQSIsImNyeXB0b2dyYXBoaWNhbGx5X2JvdW5kX3RvIjoidXJpOmV1LmVidy5vaWQuMSIsInN0YXR1cyI6eyJzdGF0dXNfbGlzdCI6eyJpZHgiOjQxMiwidXJpIjoiaHR0cHM6Ly93YWxsZXQubGVzcm9zZXNkb3IuZXhhbXBsZS9zdGF0dXMvYXBwcm92ZWRzdXBwbGllciJ9fSwiY25mIjp7Imp3ayI6eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwieCI6ImV1Sk03dm91NmhjTjVNcDZiM1I5NjVNY2FiejNlZG4xWHdoQmdCcDYwMU0iLCJ5IjoieWtTR3IyRG5HTnJuYmNsOHlRLTZHbl9ZSHBqUjlNcEJpWFQ3c21nRW5TUSJ9fSwiX3NkIjpbIjh1a3BuZWFrQjVGTGo1SjNOYkctUE5UbjF1anpSLThVSnZhb2xad3lFMjAiLCJCU3lrTnI2WTFHRDJ0TTJEQmJ5dXBldUxIN0xnaGlsWHVreC1rUjZ4dnBvIiwiREFpSVpDaWVYV2R5cmtaUkwya2liTGliUGRiM1U3eWR2M0pzb0poRlpEbyIsIlBnZlB5dzlCeU80U1hydGRKeExKbHotbTJ3VzRjbGVGbnZEV25RQ0EwMGsiLCJfMkgtTmxBckFQdG1DNldyLXBDMUVZSE5wcl96YVRZZ3dEUmF1WmpydEZFIiwicUl2Z2NzdEg4QjNWeGVJUVlJLVlXTGNta3ExZ29tbHFPdkhpU29JdjFGbyJdLCJfc2RfYWxnIjoic2hhLTI1NiJ9._ppp2liZbMSCiEiwiTDZ-DIHAZLHkW_43Y90yppY3vbOZOq5yfTMZIrqGfmKsRTY70LDQkF3ATKDfo287I5HUw~WyIyTXRtNXFRZkpyNEJfdTJHcWducmZBIiwiYXBwcm92aW5nX3BhcnR5Iix7ImxlZ2FsX25hbWUiOiJMZXMgUm9zZXMgZCdPciBTQVJMIiwibGVnYWxfaWQiOiJGUlJDUy4xMjA2ODAwODgiLCJwZXBwb2xfaWQiOiIwMDAyOjEyMDY4MDA4OCJ9XQ~WyJ6X0UySDRhOUFyRmp3ODN1dzYxczdnIiwiYXBwcm92ZWRfc3VwcGxpZXIiLHsibGVnYWxfbmFtZSI6IkdyZWVuIEZsb3dlcnMgQi5WLiIsImxlZ2FsX2lkIjoiTkxOSFIuODUzNzQ2MjgiLCJwZXBwb2xfaWQiOiIwMTA2Ojg1Mzc0NjI4In1d~WyI1Ql9rNXQyMEx4RUdSU2dRS1lCSWZBIiwiYXBwcm92YWxfc2NvcGUiLCJwZXBwb2w6ZWludm9pY2UiXQ~WyJUSVJZR2JhSEV0by1Hdl9uWFZEa2FBIiwiYXBwcm92YWxfdmFsaWRfZnJvbSIsIjIwMjYtMDEtMDEiXQ~WyJ6bVAyVU05akd2b0RQWkdsWnhEVldBIiwiYXBwcm92YWxfdmFsaWRfdW50aWwiLCIyMDI2LTEyLTMxIl0~eyJhbGciOiJFUzI1NiIsInR5cCI6ImtiK2p3dCJ9.eyJpYXQiOjE3NjgzOTIwMDAsImF1ZCI6Imh0dHBzOi8vYXAuYzItcHJvdmlkZXIuZXhhbXBsZSIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwic2RfaGFzaCI6IjNMVmYwTlJNaXNmTnZNNTJRcHoxalpENmY0VE55dGdZVGlKX3JDVk5oWkEifQ.XFfHyihUS3tV12ybAuAlJZzVtNOiag7BQH1kqOZtsaY60aAQLGlH8jdq-GZq61xNGb_4N_C9QbXUbmV5tzvMnQ
+```
 
 ### 5.2 ISO/IEC 18013-5-compliant encoding
 
 The Approved Supplier attestation is presented in automated, online, system-to-system flows between
 European Business Wallets and Access Points (see chapter 9). There is no proximity or offline
-presentation use case (ARB_02). Therefore an ISO/IEC 18013-5 (mdoc) encoding is **not specified** in
-this version. If a future use case requires proximity presentation, a document type and mdoc encoding
-would be added here.
+presentation use case (EW-DM-12-003). Therefore an ISO/IEC 18013-5 (mdoc) encoding is **not
+specified** in this version. If a future use case requires proximity presentation, a document type
+and mdoc encoding would be added here.
 
 ### 5.3 W3C Verifiable Credentials Data Model-based encoding
 
-A W3C VCDM encoding is **not specified** for this attestation type. SD-JWT VC (section 5.1) is the
-single normative encoding for SC5, consistent with the WE BUILD Conformance Specifications. (Note that
-only a non-qualified EAA may use the VCDM format, ARB_01a; this attestation is a non-qualified EAA, so
-a VCDM encoding could be added in future if an interoperability need arises.)
+**Status.** This encoding is **informative** until the vocabulary terms proposed below are published
+in the European Business Wallet Vocabulary (EBWV) context by the WP4 semantics group. A Provider SHALL
+NOT issue this encoding before then. SD-JWT VC (section 5.1) remains the normative format for SC5.
+
+The Approved Supplier attestation is a non-qualified EAA, the only legal category permitted to use
+the W3C VCDM format (EW-DM-12-001). The encoding uses [W3C VCDM v2.0] with the EBWV context, in line
+with the other catalog rulebooks that define a VCDM encoding.
+
+**Modelling.** In VCDM the credential subject is the party the claims are about. The
+`credentialSubject` is therefore the approved Supplier, and the Buyer's approval is expressed as
+properties of it (`approvedBy`, `approvalScope`, `approvalValidFrom`, `approvalValidUntil`). This
+carries the same information as the SD-JWT VC claim set; section 5.3.1 gives the mapping.
+
+**Securing mechanism.** The credential SHALL be secured as a JWT according to [VC-JOSE-COSE]. The JOSE
+header SHALL carry the issuer's EBWOID-anchored certificate material in `x5c`, so the trust model of
+chapter 10 applies unchanged. Data Integrity proofs are not used in this version, because the EBWOID
+trust model anchors the issuer key in X.509 certificate material rather than in a verification method
+resolved from the `issuer` identifier.
+
+**Selective disclosure.** This encoding provides no selective disclosure. Because `approval_reference`
+MUST be selectively disclosable (section 3.3), it SHALL NOT be included in the W3C VCDM encoding.
+All other attributes are always disclosed.
+
+**Holder binding.** `credentialSubject.id` SHALL be a `did:jwk` derived from the holder's public key,
+which takes the role of `cnf` in the SD-JWT VC encoding. The Supplier proves possession of the
+corresponding private key when presenting.
+
+**Revocation.** `credentialStatus` SHALL use a `BitstringStatusListEntry` according to [W3C Bitstring
+Status List], with `statusPurpose` `revocation`. *Open point:* the WE BUILD ADR on Attestation
+Revocation mandates the IETF Token Status List; confirmation is needed that the W3C Bitstring Status
+List is acceptable for the VCDM encoding, or that the Token Status List shall be used for both.
+
+**Proposed vocabulary terms.** The following terms do not exist in EBWV and are proposed for
+addition. Existing EBWV terms (`EconomicOperator`, `legalName`, `legalIdentifier`, `Euid`,
+`attestationLegalCategory`, `ElectronicAttestationOfAttributes`) are reused.
+
+| Term                         | Kind     | Definition                                                   |
+| ---------------------------- | -------- | ------------------------------------------------------------ |
+| `ApprovedSupplierCredential` | class    | A credential stating that an economic operator is approved as a supplier by another economic operator. |
+| `approvedBy`                 | property | The economic operator (the Buyer) that has approved the subject as a supplier. |
+| `approvalScope`              | property | Scope of the approval; values per code list 4.4.             |
+| `approvalValidFrom`          | property | Date from which the approval is valid (business validity).   |
+| `approvalValidUntil`         | property | Date until which the approval is valid (business validity).  |
+| `peppolParticipantId`        | property | Peppol participant identifier of an economic operator, as `ICD:identifier`. |
+| `PeppolParticipantId`        | datatype | Datatype for `peppolParticipantId` values, analogous to `Euid`. |
+
+#### 5.3.1 Mapping of attestation attributes
+
+| Rulebook attribute             | SD-JWT VC claim                | W3C VCDM property                                            |
+| ------------------------------ | ------------------------------ | ------------------------------------------------------------ |
+| Credential type                | `vct`                          | `type` includes `ApprovedSupplierCredential`                 |
+| Legal category                 | `attestation_legal_category`   | `attestationLegalCategory`                                   |
+| Issuer                         | `iss`                          | `issuer`                                                     |
+| Technical validity             | `iat` / `nbf`, `exp`           | `validFrom`, `validUntil`                                    |
+| Revocation                     | `status`                       | `credentialStatus`                                           |
+| Holder binding                 | `cnf`                          | `credentialSubject.id` (`did:jwk`)                           |
+| Binding to EBWOID              | `cryptographically_bound_to`   | not used; binding is evaluated at presentation               |
+| `approved_supplier.legal_name` | `approved_supplier.legal_name` | `credentialSubject.legalName`                                |
+| `approved_supplier.legal_id`   | `approved_supplier.legal_id`   | `credentialSubject.legalIdentifier` (`Euid`)                 |
+| `approved_supplier.peppol_id`  | `approved_supplier.peppol_id`  | `credentialSubject.peppolParticipantId`                      |
+| `approving_party.*`            | `approving_party`              | `credentialSubject.approvedBy` (`EconomicOperator`, same three properties) |
+| `approval_scope`               | `approval_scope`               | `credentialSubject.approvalScope`                            |
+| `approval_valid_from`          | `approval_valid_from`          | `credentialSubject.approvalValidFrom`                        |
+| `approval_valid_until`         | `approval_valid_until`         | `credentialSubject.approvalValidUntil`                       |
+| `approval_reference`           | `approval_reference`           | not included (see selective disclosure above)                |
+
+#### 5.3.2 Illustrative example (informative, synthetic data)
+
+Unsecured credential (the JWT claims set according to [VC-JOSE-COSE], media type `application/vc`):
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://w3id.org/ebwv/v0.1"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "ElectronicAttestationOfAttributes",
+    "ApprovedSupplierCredential"
+  ],
+  "id": "urn:uuid:3f1c2d4e-8a6b-4c7d-9e0f-1a2b3c4d5e6f",
+  "issuer": "https://wallet.lesrosesdor.example/issuer",
+  "validFrom": "2026-01-01T00:00:00Z",
+  "validUntil": "2027-01-01T00:00:00Z",
+  "attestationLegalCategory": "EAA",
+  "credentialStatus": {
+    "id": "https://wallet.lesrosesdor.example/status/approvedsupplier-bsl#412",
+    "type": "BitstringStatusListEntry",
+    "statusPurpose": "revocation",
+    "statusListIndex": "412",
+    "statusListCredential": "https://wallet.lesrosesdor.example/status/approvedsupplier-bsl"
+  },
+  "credentialSubject": {
+    "id": "did:jwk:eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwieCI6ImV1Sk03dm91NmhjTjVNcDZiM1I5NjVNY2FiejNlZG4xWHdoQmdCcDYwMU0iLCJ5IjoieWtTR3IyRG5HTnJuYmNsOHlRLTZHbl9ZSHBqUjlNcEJpWFQ3c21nRW5TUSJ9",
+    "type": "EconomicOperator",
+    "legalName": "Green Flowers B.V.",
+    "legalIdentifier": {
+      "@type": "Euid",
+      "@value": "NLNHR.85374628"
+    },
+    "peppolParticipantId": {
+      "@type": "PeppolParticipantId",
+      "@value": "0106:85374628"
+    },
+    "approvedBy": {
+      "type": "EconomicOperator",
+      "legalName": "Les Roses d'Or SARL",
+      "legalIdentifier": {
+        "@type": "Euid",
+        "@value": "FRRCS.120680088"
+      },
+      "peppolParticipantId": {
+        "@type": "PeppolParticipantId",
+        "@value": "0002:120680088"
+      }
+    },
+    "approvalScope": "peppol:einvoice",
+    "approvalValidFrom": "2026-01-01",
+    "approvalValidUntil": "2026-12-31"
+  }
+}
+```
+
+The credential reads: *Les Roses d'Or SARL has approved Green Flowers B.V. as a supplier of Peppol
+eInvoices for 2026.* The validity in `validFrom`/`validUntil` is the technical validity of the
+credential; `approvalValidFrom`/`approvalValidUntil` is the business validity of the approval, and
+IR-AS-01 applies to both pairs.
 
 ## 6 Protocols
 
-This attestation is issued using OpenID for Verifiable Credential Issuance
-[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
-as profiled by [HAIP].
+### 6.1 Issuance
+
+| Protocol   | Supported | Profile or version                       | Specification        | Notes                                                        |
+| ---------- | --------- | ---------------------------------------- | -------------------- | ------------------------------------------------------------ |
+| OpenID4VCI | yes       | WE BUILD Conformance Specification cs-01 | [OpenID4VCI], [HAIP] | Credential format `dc+sd-jwt`. A credential format identifier for the W3C VCDM encoding is not yet profiled in cs-01. |
+
+### 6.2 Presentation
+
+| Protocol                   | Supported | Profile or version                             | Specification       | Notes                                                       |
+| -------------------------- | --------- | ---------------------------------------------- | ------------------- | ----------------------------------------------------------- |
+| OpenID4VP, remote          | yes       | WE BUILD Conformance Specification cs-02, DCQL | [OpenID4VP], [HAIP] | Machine-to-machine, no human in the loop at runtime (WA1.3) |
+| ISO/IEC 18013-5, proximity | no        |                                                | [ISO/IEC 18013-5]   | Requires the mdoc format, which is not defined              |
+
+Protocols listed here are those referenced in Topic 6 of Annex 2 of the ARF. This Rulebook does not
+profile these protocols beyond what is stated in the tables.
 
 ## 7 Issuance
 
 ### 7.1 Binding
 
-| Field | Value | Source |
-| --- | --- | --- |
-| Device-bound | MAY | EW-DM-12-038 |
-| Cryptographically bound to | none | EW-DM-12-032 |
-| Relying Party must also verify a PID | no | EW-DM-12-031 |
-| Binding subject | legal person |  |
+| Field                                | Value                       | Source       |
+| ------------------------------------ | --------------------------- | ------------ |
+| Device-bound                         | SHOULD                      | EW-DM-12-038 |
+| Cryptographically bound to           | `uri:eu.ebw.oid.1` (SHOULD) | EW-DM-12-032 |
+| Relying Party must also verify a PID | no                          | EW-DM-12-031 |
+| Binding subject                      | legal person                |              |
+
+**Device binding.** An attestation of this type SHOULD be device-bound to the holder's Wallet Unit
+(the Supplier's EBW), evidenced by the `cnf` claim and verified through key binding at presentation
+(base verification step 4.2.8).
+
+**Binding to another attestation.** An attestation of this type SHOULD be cryptographically bound to
+the Supplier's organisational identity attestation (EBWOID) on the same Wallet Unit. Where present,
+the binding metadata identifier SHALL be `cryptographically_bound_to`, its value SHALL be a string
+containing the bound attestation's vct, and that value SHALL be `uri:eu.ebw.oid.1` (the EBWOID vct
+defined in [rb-ebwoid]).
+
+**PID.** A Relying Party (C2) does not request or verify a PID. The holder is a legal person, not a
+natural person; identity assurance is provided by the EBWOID binding (chapter 10), not by a PID.
 
 ### 7.2 Issuance Policy
-
-**Primary use case.** SC5 Scenario 1 (Supplier pre-approval). The Supplier (C1) holds the attestation
-in its EBW and presents it, in a machine-to-machine OpenID4VP flow, to its Access Point (C2) so that
-C2 can verify the Buyer's approval before transmitting an invoice into the Peppol network.
-
-**PID verification (ARB_27).** A relying party (C2) **does not** request or verify a PID. The holder is
-a legal person, not a natural person; identity assurance is provided by the EBWOID binding (see
-chapter 10), not by a PID.
-
-**Presentation requirements.** Presentation is online and system-to-system via OpenID4VP, using DCQL
-queries as profiled by the WE BUILD Conformance Specification cs-02. There is no human-in-the-loop
-wallet interaction at runtime (WA1.3). No offline / proximity presentation is supported. Where the
-relying party is itself an EBW-based system, the Mutual Identification & Consent Handshake defined in
-[rb-base, Handshake] SHOULD be applied before presentation.
-
-**Device binding (ARB_34).** An attestation of this type SHOULD be device-bound to the holder's Wallet
-Unit (the Supplier's EBW), evidenced by the `cnf` claim and verified through key binding at
-presentation (base verification step 4.2.8).
-
-**Binding to another attestation (ARB_28).** An attestation of this type SHOULD be cryptographically
-bound to the Supplier's organisational identity attestation (EBWOID) on the same Wallet Unit. Where
-present, the binding metadata identifier SHALL be `cryptographically_bound_to`, its value SHALL be a
-string containing the bound attestation's vct, and that value SHALL be `uri:eu.ebw.oid.1` (the EBWOID
-vct defined in [rb-ebwoid]).
-
-**Transactional data ([Topic 20]).** No payment-authentication transactional data is defined for this
-attestation type. The attestation authorises a *relationship*, not an individual payment, so the
-strong-user-authentication transactional-data mechanism of [Topic 20] does not apply.
 
 The issuer is the Buyer (C4), a legal person self-issuing this EAA through its EBW after having
 established the commercial relationship with the Supplier outside the wallet system (e.g. via a
@@ -479,21 +699,23 @@ An Approved Supplier attestation SHALL remain valid only while the underlying co
 effect. The attestation is **revocable** (it is not a short-lived ≤24h attestation, since approvals
 typically persist for the duration of a commercial relationship).
 
-#### 8.1 Revocation mechanism
+### 8.1 Revocation mechanism
 
 * **Token Status List:** the issuer SHALL maintain an active IETF Token Status List ([Token Status
   List]), aligned with the Attestation Status List mechanism specified by the EU Commission and
   mandated by the WE BUILD ADR on Attestation Revocation.
-* **Credential metadata:** the `status` metadata SHALL be populated in every issued attestation with:
-  * `status_list_credential` (string, URI), the URI of the Status List Credential containing the
-    status bitstring;
-  * `status_list_index` (integer, ≥ 0), the zero-based index into the status list bitstring for this
-    attestation;
-  * `status_purpose` (string), SHALL be `revocation`.
+* **Credential metadata:** the `status` claim SHALL be populated in every issued SD-JWT VC as
+  `status.status_list`, containing:
+  * `idx` (integer, ≥ 0), the index of this attestation in the status list;
+  * `uri` (string, URI), the URI of the Status List Token that contains the status of this
+    attestation.
+* **Status values:** the status `VALID` (0x00) and `INVALID` (0x01) of [Token Status List] are used.
+  `INVALID` denotes revocation.
+* **W3C VCDM encoding:** see section 5.3 for `credentialStatus`.
 * **Authorized authority:** only the issuing Buyer (the self-issuing legal entity) may modify the
   status list entry.
 
-#### 8.2 Revocation triggers and business rules
+### 8.2 Revocation triggers and business rules
 
 * **Issuer trigger (obligation):** the Buyer SHALL revoke the attestation without undue delay when the
   underlying commercial relationship ends, when the approval scope no longer applies, or when the
@@ -503,22 +725,6 @@ typically persist for the duration of a commercial relationship).
   handling for invoices already in flight) is determined by the Relying Party's internal policies.
 
 ## 9 Presentation
-
-#### Base Verification Process
-The Relying Party SHALL perform the base attestation verification process for EAAs as defined in the
-Base Verification specification:
-<https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md#42-relying-party-obligations>
-
-This covers verification of attestation authenticity and issuer identity via the EBWOID chain
-(4.2.2–4.2.4), validity periods (4.2.5), revocation status (4.2.6), wallet integrity via the WUA
-(4.2.7), and holder key binding (4.2.8).
-
-#### Validate attestation-specific integrity rules
-In addition to the base verification, the Relying Party SHALL apply the integrity rules IR-AS-01 to
-IR-AS-03 defined in section 4.5. In particular (IR-AS-03), C2 SHALL match the attestation's
-`approved_supplier.peppol_id` and `approving_party.peppol_id` against, respectively, the sender and
-buyer participant identifiers of the invoice in flight, and SHALL reject the invoice submission on
-mismatch.
 
 ### 9.1 Presentation Policy
 
@@ -535,20 +741,35 @@ following steps SHALL be performed:
    transaction, and, where the trust model for this attestation requires Relying Party
    registration, only those attributes it is registered and authorised to request.
 
-Obligations specific to this attestation type, carried over from the previous version
-of this Rulebook:
+In addition, the following obligations are specific to this attestation type. When receiving and
+processing an Approved Supplier attestation, the Relying Party (C2) SHALL:
 
-When receiving and processing an Approved Supplier attestation, the Relying Party (C2) SHALL perform
-the following verification obligations.
+* perform the base attestation verification process for EAAs as defined in the
+  [rb-base, Base Verification] specification, section 4.2. This covers verification of attestation
+  authenticity and issuer identity via the EBWOID chain (4.2.2–4.2.4), validity periods (4.2.5),
+  revocation status (4.2.6), wallet integrity via the WUA (4.2.7), and holder key binding (4.2.8);
+* where the attestation carries `cnf`, verify the Key Binding JWT, including `aud`, `nonce` and
+  `sd_hash` (see the example in section 5.1.3);
+* apply the integrity rules IR-AS-01 to IR-AS-03 defined in section 4.5. In particular (IR-AS-03),
+  C2 SHALL match the attestation's `approved_supplier.peppol_id` and `approving_party.peppol_id`
+  against, respectively, the sender and buyer participant identifiers of the invoice in flight, and
+  SHALL reject the invoice submission on mismatch;
+* request `approving_party`, `approved_supplier`, `approval_scope` and `approval_valid_from`, and
+  `approval_valid_until` where present. C2 SHOULD NOT request `approval_reference`, which is not
+  needed for the verification purpose.
+
+Where the Relying Party is itself an EBW-based system, the Mutual Identification & Consent Handshake
+defined in [rb-base, Handshake] SHOULD be applied before presentation.
 
 ### 9.2 Presentation modes
 
-Remote presentation is in scope. Proximity presentation is in scope only where
-chapter 5 records an mdoc encoding.
+Remote presentation is in scope. Proximity presentation is not in scope, as no mdoc encoding is
+defined (chapter 5).
 
 ### 9.3 Transactional data
 
-This Rulebook defines no transactional data.
+No transactional data as defined in Topic 20 of Annex 2 of the ARF is associated with this
+attestation type. The attestation authorises a *relationship*, not an individual payment.
 
 ## 10 Trust Framework
 
@@ -561,9 +782,10 @@ not, and cannot practically be, individually registered on a Trusted List. Trust
 established through a cryptographic chain anchored in the issuer's **EBWOID**, following the common
 WE BUILD EAA trust model:
 
-* The issuer's EBWOID SHALL be included in the header of every issued Approved Supplier attestation.
-  During EBWOID issuance, the EBWOID provider verifies that the public key contained in the EBWOID is
-  owned by the EBW owner.
+* The issuer's EBWOID-anchored certificate material SHALL be included in the header (`x5c`) of every
+  issued Approved Supplier attestation, in both the SD-JWT VC and the W3C VCDM encoding. During EBWOID
+  issuance, the EBWOID provider verifies that the public key contained in the EBWOID is owned by the
+  EBW owner.
 * The Relying Party SHALL verify the EBWOID in accordance with [rb-ebwoid] and the Base Verification
   specification. The EBWOID provider's trust anchor is obtained via the WE BUILD trust list
   infrastructure (TLOL) operated under WP4.
@@ -577,35 +799,41 @@ Authorization of the issuer *as a Buyer* is subsequently determined in accordanc
 Party's internal policies (e.g. C2 confirming that the approving party is a registered Peppol
 participant it can route to), optionally supported by domain-specific trust list services.
 
-**Trust anchor location**
-
-The attribute or metadata carrying the trust anchor location contains at least the URL
-at which a machine-readable version can be found or looked up.
+**Trust anchor location.** The trust anchor location is the EBWOID provider's entry in the WE BUILD
+trust list infrastructure. Where the optional `trust_anchor_url` metadata (section 4.2) is present, it
+SHALL contain at least the URL at which a machine-readable version of that entry can be found or
+looked up.
 
 ## 11 References
 
-| **Item Reference** | **Standard name/details** |
-| --- | --- |
+| **Item Reference**                     | **Standard name/details**                                    |
+| -------------------------------------- | ------------------------------------------------------------ |
 | [European Digital Identity Regulation] | [Regulation (EU) 2024/1183](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401183) amending Regulation (EU) No 910/2014 as regards establishing the European Digital Identity Framework |
-| [HAIP] | OpenID4VC High Assurance Interoperability Profile, OpenID Foundation, draft-03 |
-| [IANA-JWT-Claims] | IANA JSON Web Token Claims Registry. <https://www.iana.org/assignments/jwt/jwt.xhtml> |
-| [RFC 2119] | Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
-| [RFC 3339] | Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
-| [SD-JWT VC] | SD-JWT-based Verifiable Credentials. <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/> |
-| [Token Status List] | Token Status List, IETF OAuth WG. <https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/> |
-| [OpenID4VCI] | OpenID for Verifiable Credential Issuance, OpenID Foundation |
-| [OpenID4VP] | OpenID for Verifiable Presentations, OpenID Foundation |
-| [Topic 7] | ARF Annex 2, Topic 7, Attestation revocation and revocation checking |
-| [Topic 10] | ARF Annex 2, Topic 10, Issuing a PID or attestation to a Wallet Unit |
-| [Topic 12] | ARF Annex 2, Topic 12, Attestation Rulebooks |
-| [Topic 20] | ARF Annex 2, Topic 20, Strong User authentication for electronic payments |
-| [Peppol BIS Billing 3.0] | OpenPeppol Business Interoperability Specification, Billing 3.0 |
-| [EN 16931] | European standard on the semantic data model of the core elements of an electronic invoice |
-| [EWC RB001] | EWC LPID Rulebook |
-| [EWC RB002] | EWC EUCC Rulebook |
-| [WP4 Blueprint] | WE BUILD Deliverable D4.1 (trust infrastructure blueprint) |
-| [WBCS] | WE BUILD Conformance Specifications, cs-01 (issuance) and cs-02 (presentation) |
-| [WE BUILD ADR, Revocation] | WE BUILD Architecture Decision Record on Attestation Revocation |
-| [rb-base, Base Verification] | WE BUILD Rulebook for common verification steps for all attestations. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md> |
-| [rb-base, Handshake] | WE BUILD Rulebook for Mutual Identification & Consent Handshake. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/holder-authorization-handshake.md> |
-| [rb-ebwoid] | WE BUILD EBWOID Rulebook. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-ebwoid/README.md> |
+| [ETSI TS 119 472-1]                    | ETSI TS 119 472-1, Electronic Signatures and Trust Infrastructures (ESI); Profiles for Electronic Attestation of Attributes; Part 1: General requirements |
+| [HAIP]                                 | OpenID4VC High Assurance Interoperability Profile, OpenID Foundation |
+| [IANA-JWT-Claims]                      | IANA JSON Web Token Claims Registry. <https://www.iana.org/assignments/jwt/jwt.xhtml> |
+| [ISO/IEC 18013-5]                      | ISO/IEC 18013-5, Personal identification, ISO-compliant driving licence, Part 5: Mobile driving licence (mDL) application |
+| [RFC 2119]                             | Key words for use in RFCs to Indicate Requirement Levels, S. Bradner, March 1997 |
+| [RFC 3339]                             | Date and Time on the Internet: Timestamps, G. Klyne et al., July 2002 |
+| [SD-JWT VC]                            | SD-JWT-based Verifiable Credentials. <https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/> |
+| [Token Status List]                    | Token Status List, IETF OAuth WG. <https://datatracker.ietf.org/doc/draft-ietf-oauth-status-list/> |
+| [W3C VCDM v2.0]                        | Verifiable Credentials Data Model v2.0, W3C. <https://www.w3.org/TR/vc-data-model-2.0/> |
+| [VC-JOSE-COSE]                         | Securing Verifiable Credentials using JOSE and COSE, W3C. <https://www.w3.org/TR/vc-jose-cose/> |
+| [W3C Bitstring Status List]            | Bitstring Status List v1.0, W3C. <https://www.w3.org/TR/vc-bitstring-status-list/> |
+| [EBWV]                                 | European Business Wallet Vocabulary. <https://w3id.org/ebwv> |
+| [OpenID4VCI]                           | OpenID for Verifiable Credential Issuance, OpenID Foundation |
+| [OpenID4VP]                            | OpenID for Verifiable Presentations, OpenID Foundation       |
+| [Topic 7]                              | ARF Annex 2, Topic 7, Attestation revocation and revocation checking |
+| [Topic 10]                             | ARF Annex 2, Topic 10, Issuing a PID or attestation to a Wallet Unit |
+| [Topic 12]                             | ARF Annex 2, Topic 12, Attestation Rulebooks                 |
+| [Topic 20]                             | ARF Annex 2, Topic 20, Strong User authentication for electronic payments |
+| [Peppol BIS Billing 3.0]               | OpenPeppol Business Interoperability Specification, Billing 3.0 |
+| [EN 16931]                             | European standard on the semantic data model of the core elements of an electronic invoice |
+| [EWC RB001]                            | EWC LPID Rulebook                                            |
+| [EWC RB002]                            | EWC EUCC Rulebook                                            |
+| [WP4 Blueprint]                        | WE BUILD Deliverable D4.1 (trust infrastructure blueprint)   |
+| [WBCS]                                 | WE BUILD Conformance Specifications, cs-01 (issuance) and cs-02 (presentation) |
+| [WE BUILD ADR, Revocation]             | WE BUILD Architecture Decision Record on Attestation Revocation |
+| [rb-base, Base Verification]           | WE BUILD Rulebook for common verification steps for all attestations. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/verifier-base-verification.md> |
+| [rb-base, Handshake]                   | WE BUILD Rulebook for Mutual Identification & Consent Handshake. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-base/holder-authorization-handshake.md> |
+| [rb-ebwoid]                            | WE BUILD EBWOID Rulebook. <https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/blob/main/rulebooks/rb-ebwoid/README.md> |
