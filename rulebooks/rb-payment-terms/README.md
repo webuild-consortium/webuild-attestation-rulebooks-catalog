@@ -16,6 +16,7 @@ Category: S-EAA
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-11-24 | Correction vct rulebook - schema - sample |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -548,7 +549,7 @@ The `status` claim SHALL be a JSON object with the following members:
 The following is a non-normative example of a Payment Terms SD-JWT VC payload:
 ```
 {
-  "vct": "eu.we-build.paymentterms.1",
+  "vct": "eu.we-build:paymentterms:1",
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,
