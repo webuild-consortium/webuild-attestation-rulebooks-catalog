@@ -1,5 +1,5 @@
 {
-  "vct": "eu.we-build:lei:1",
+  "vct": "eu.we-build.lei.1",
   "iss": "did:example:lei-issuer-001",
   "iat": 1736935200,
   "exp": 1768471200,

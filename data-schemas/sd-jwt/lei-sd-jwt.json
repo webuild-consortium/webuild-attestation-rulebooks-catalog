@@ -9,10 +9,10 @@
   "properties": {
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build:lei:1'.",
-      "const": "eu.we-build:lei:1",
+      "description": "Verifiable Credential Type identifier. SHALL be 'eu.we-build.lei.1'.",
+      "const": "eu.we-build.lei.1",
       "examples": [
-        "eu.we-build:lei:1"
+        "eu.we-build.lei.1"
       ]
     },
     "iss": {
