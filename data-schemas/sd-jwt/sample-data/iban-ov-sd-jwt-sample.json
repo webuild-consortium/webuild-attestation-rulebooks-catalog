@@ -9,25 +9,20 @@
     "account_name": "Company A Main Account",
     "iban": "DE89500700240700000000",
     "account_type": "CURRENT",
-    "account_currency": [
-      "EUR"
-    ]
+    "account_currency": ["EUR"]
   },
   "account_ownership": {
     "owner_type": "entity",
     "owner_name": "Company A GmbH",
     "legal_person_identifiers": [
       {
-        "type": "EUID",
-        "value": "DE-HRB-123456"
+        "type": "EUID","value": "DE-HRB-123456"
       },
       {
-        "type": "LEI",
-        "value": "529900T8BM49AURSDO55"
+        "type": "LEI","value": "529900T8BM49AURSDO55"
       },
       {
-        "type": "TAX",
-        "value": "123/456/7890"
+        "type": "TAX","value": "123/456/7890"
       }
     ]
   },
@@ -35,12 +30,10 @@
     "provider_name": "Example Bank AG",
     "legal_person_identifiers": [
       {
-        "type": "EUID",
-        "value": "DE12121.HRB654321"
+        "type": "EUID","value": "DE12121.HRB654321"
       },
       {
-        "type": "LEI",
-        "value": "529900XYZ123ABCDEF99"
+        "type": "LEI","value": "529900XYZ123ABCDEF99"
       }
     ],
     "provider_country": "DEU",
