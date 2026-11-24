@@ -352,7 +352,7 @@ Values:
 | Format | Supported | Identifier | Specification | Notes |
 | --- | --- | --- | --- | --- |
 | ISO/IEC 18013-5 mdoc | no |  | [ISO/IEC 18013-5] | Not defined; no proximity presentation requirement, see section 5.2 |
-| SD-JWT VC | yes | `vct` `uri:eu.eudi.eucc.1` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile, see section 5.1 |
+| SD-JWT VC | yes | `vct` `urn:eudi:eucc:1` | [SD-JWT VC], [HAIP] | SHALL follow the HAIP profile, see section 5.1 |
 | W3C VCDM | no |  | [W3C VCDM v2.0] | Not permitted for a PuB-EAA (EW-DM-12-001); section 5.3 is an informative working profile |
 
 
@@ -365,7 +365,7 @@ Selective Disclosure: Claims of EUCC SHALL NOT be selectively disclosable to pre
 The . notation is used to indicate the nesting of attributes.
 
 
-**Verifiable Credential Type (`vct`):** `uri:eu.eudi.eucc.1`
+**Verifiable Credential Type (`vct`):** `urn:eudi:eucc:1`
 
 
 | **Data Identifier** | **Attribute identifier** | **Encoding format** | **Reference/Notes** |
