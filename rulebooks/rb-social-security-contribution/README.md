@@ -210,7 +210,7 @@ This attestation type MAY be classified as:
 
 - **`QEAA`** when issued by a qualified trust service provider (QTSP) or authorised competent
   body (e.g. a social security agency).
-- **`Pub-EAA`** when issued by a member state institution (To be verified).
+- **`PuB-EAA`** when issued by a member state institution (To be verified).
 
 ### 3.2 Mandatory attributes
 
@@ -617,7 +617,7 @@ This Rulebook defines no transactional data.
 *Mechanisms for the provision of a trust anchor that SHALL
 be used for the verification of an attestation SHALL be defined in this section.*
 
-*It is noted that the ARF specifies the following for QEAAs and Pub-EAAs:*
+*It is noted that the ARF specifies the following for QEAAs and PuB-EAAs:*
 
 > To do this for [...] QEAAs the Relying Party Instance uses a trust anchor of
 the Provider obtained from a Trusted List. Note that the PID Provider or QEAA
