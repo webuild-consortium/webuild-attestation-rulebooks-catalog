@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "SD-JWT VC Example for VAT ID Attestation",
-    "credential_type": "uri:eu.eudi.vat.1",
+    "credential_type": "uri:eu.eudi.vat.3",
     "format": "SD-JWT VC",
     "issuer": "https://www.belastingdienst.nl"
   },
@@ -12,13 +12,13 @@
     "kid": "https://www.belastingdienst.nl/keys/vat-issuer-2024-01"
   },
 
-  "vct": "uri:eu.eudi.vat.2",
+  "vct": "uri:eu.eudi.vat.3",
   "iss": "https://www.belastingdienst.nl",
   "iat": 1704067200,
   "exp": 1830902400,
   "attestation_legal_category": "PuB-EAA",
 
-  "administrative_unit": {
+  "VAT_registered_unit": {
     "vat_id": "NL001234567B01",
     "name": "KLM Royal Dutch Airlines",
     "registered_eu_cross_border_transactions": true,
@@ -149,7 +149,7 @@
   },
 
   "holder_presentation_example": {
-    "administrative_unit": {
+    "VAT_registered_unit": {
       "vat_id": "NL001234567B01",
       "name": "KLM Royal Dutch Airlines",
       "validity_period": [
