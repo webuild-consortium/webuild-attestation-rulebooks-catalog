@@ -317,6 +317,7 @@ mark { background: var(--accent); color: var(--ink); padding: 0 2px; border-radi
   border-radius: var(--radius); padding: 15px 17px;
 }
 .detail-block > h3:first-child { margin-top: 0; }
+#credType:empty { display: none; }
 
 /* a block holding one short value does not need a card of its own height */
 .detail-block.lean {
