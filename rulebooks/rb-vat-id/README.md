@@ -214,7 +214,7 @@ vat_id_attestation
 │   │       ├─ birth_place                        [0]
 │   │       ├─ tin                                [0]
 │   │       └─ personal_administrative_number     [0]
-│   ├─ address                                    [0]       (the postal address registered for the administrative unit)
+│   ├─ address                                    [0]       (the postal address registered for the vat registered unit)
 │   │   ├─ po_box                                 [0]
 │   │   ├─ thoroughfare                           [0]
 │   │   ├─ location_designator                    [0]
@@ -222,7 +222,7 @@ vat_id_attestation
 │   │   ├─ post_name                              [0]
 │   │   ├─ admin_unit_l1                          [0]
 │   │   └─ admin_unit_l2                          [0]
-│   └─ economic_activity                          [0..n]    (reference to the economic operator)
+│   └─ economic_activity                          [0..n]    (reference to the VAT registered unit economic activities)
         ├─ economic_activity_nomenclature         [1]       (nomenclature used to describe the economic activity)
         ├─ economic_activity_nomenclature_version [0]       (version of the nomenclature)
         ├─ economic_activity_id                   [1]       (id used in the nomenclature)
