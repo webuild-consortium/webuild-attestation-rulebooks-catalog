@@ -1,5 +1,5 @@
 {
-  "vct": "https://credentials.webuild.eu/power-of-x/v7",
+  "vct": "urn:eudi:pox:1",
   "name": "WE BUILD Power of X",
   "description": "Type Metadata for WE BUILD Power of X credentials",
   "extends": null,

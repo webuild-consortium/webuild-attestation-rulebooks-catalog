@@ -1019,6 +1019,8 @@ Every attestation SHALL include at least the following metadata.
 
 ### 5.1 SD-JWT VC-based encoding
 
+**Verifiable Credential Type (`vct`):** `urn:eudi:pox:1`
+
 #### 5.1.1 Human-readable Payload Example
 
 > PERSONAS & ROLES used in examples
