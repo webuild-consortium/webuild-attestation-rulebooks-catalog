@@ -15,7 +15,10 @@
   "properties": {
     "vct": {
       "type": "string",
-      "format": "uri"
+      "format": "uri",
+      "examples": [
+        "urn:eudi:pox:1"
+      ]
     },
     "credential": {
       "type": "object",
