@@ -966,12 +966,9 @@ support ZKP-based selective disclosure.]*
 
 #### 5.3.2 Semantic verification
 
-A JSON-LD credential can be validated at two levels: the compacted JSON document as it is
-transmitted, and the RDF graph it expands to. Only the second captures what the credential means.
-This Rulebook publishes a supporting, non-normative artefact for each level:
+A JSON-LD credential can be validated at the RDF graph it expands to.
+This Rulebook publishes a supporting, non-normative artefact for comprehensive data graph validation:
 
-* [`ds-membership-jsonld.json`](../../data-schemas/W3C-VC/ds-membership-jsonld.json), a JSON
-  Schema for the compacted form;
 * [`ds-membership-shacl.ttl`](../../data-schemas/W3C-VC/ds-membership-shacl.ttl), SHACL Core shapes
   for the expanded graph, with the companion
   [`ds-membership-shacl-sparql.ttl`](../../data-schemas/W3C-VC/ds-membership-shacl-sparql.ttl) for

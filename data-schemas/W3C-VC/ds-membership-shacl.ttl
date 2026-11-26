@@ -32,10 +32,6 @@
 # attestationLegalCategory from a conformant credential. Convert with jsonld.js
 # or pyld instead (Section 5.3.2).
 #
-# Covers what ds-membership-jsonld.json (JSON Schema) checks, plus the checks
-# only a validation of the expanded graph can make; see Section 5.3.2 of the
-# Rulebook.
-#
 # Engine requirements. This graph is **SHACL Core only**, so every conforming
 # engine can run it, rdf-validate-shacl included. No SHACL Advanced Feature is
 # used either; the commented sh:SPARQLTarget below is the one exception, and it
