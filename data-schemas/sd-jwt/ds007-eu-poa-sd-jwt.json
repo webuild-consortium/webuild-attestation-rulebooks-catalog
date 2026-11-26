@@ -20,7 +20,7 @@
       "description": "Legal category of the attestation as defined by eIDAS 2.",
       "enum": [
         "EAA",
-        "PUB-EAA",
+        "Pub-EAA",
         "QEAA"
       ]
     },
@@ -37,14 +37,6 @@
       "pattern": "^[A-Z]{2}$",
       "examples": [
         "NL"
-      ]
-    },
-    "date_of_execution": {
-      "type": "string",
-      "format": "date",
-      "description": "Date the PoA was executed (ISO 8601, YYYY-MM-DD). Equal to or earlier than validity_period_valid_from (IR-02).",
-      "examples": [
-        "2026-01-15"
       ]
     },
     "euid_reference": {
@@ -128,9 +120,9 @@
         "B.V."
       ]
     },
-    "company_jurisdiction": {
+    "country_of_issuance": {
       "type": "string",
-      "description": "Country of incorporation, alpha-2 country code as specified in ISO 3166-1.",
+      "description": "Country or Member State of issuance of the attestation, alpha-2 country code as specified in ISO 3166-1.",
       "pattern": "^[A-Z]{2}$",
       "examples": [
         "NL"
@@ -189,6 +181,20 @@
         "Friesestraatweg 3157, 7772CP Groningen, Netherlands"
       ]
     },
+    "attorney_company_statutory_full_name": {
+      "type": "string",
+      "description": "Registered legal name of the attorney's company.",
+      "examples": [
+        "FictiveCo B.V."
+      ]
+    },
+    "attorney_company_business_register_name": {
+      "type": "string",
+      "description": "Name of the attorney's business register.",
+      "examples": [
+        "Kamer van Koophandel"
+      ]
+    },
     "scope_of_representation_powers": {
       "type": "array",
       "description": "The powers granted to the attorney, taken from the six powers listed in rulebook section 2.8. If scope_of_representation_power_of_substitution is 'limited', the limitation details are added to this array as well (IR-04); otherwise only the six listed powers are allowed.",
@@ -230,25 +236,18 @@
         "2027-01-15"
       ]
     },
-    "applicable_law_jurisdiction": {
-      "type": "string",
-      "description": "Governing Member State law, alpha-2 country code as specified in ISO 3166-1.",
-      "pattern": "^[A-Z]{2}$",
-      "examples": [
-        "NL"
-      ]
-    },
-    "signing_place": {
-      "type": "string",
-      "description": "Place where the PoA was signed.",
-      "examples": [
-        "Hardenberg"
-      ]
-    },
-    "signing_date": {
+    "signing_date_attorney": {
       "type": "string",
       "format": "date",
-      "description": "Date the PoA was signed (ISO 8601, YYYY-MM-DD).",
+      "description": "Date the PoA was signed by the attorney (ISO 8601, YYYY-MM-DD).",
+      "examples": [
+        "2026-01-15"
+      ]
+    },
+    "signing_date_principal": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the PoA was signed by the principal (ISO 8601, YYYY-MM-DD).",
       "examples": [
         "2026-01-15"
       ]
@@ -411,20 +410,17 @@
     "attestation_legal_category",
     "issuing_authority",
     "issuing_country",
-    "date_of_execution",
     "euid_reference",
     "principal_full_name",
     "principal_date_of_birth",
     "company_statutory_full_name",
     "company_business_register_name",
-    "company_jurisdiction",
+    "country_of_issuance",
     "attorney_full_name",
     "scope_of_representation_powers",
     "validity_period_valid_from",
-    "validity_period_valid_until",
-    "applicable_law_jurisdiction",
-    "signing_place",
-    "signing_date"
+    "signing_date_attorney",
+    "signing_date_principal"
   ],
   "allOf": [
     {
