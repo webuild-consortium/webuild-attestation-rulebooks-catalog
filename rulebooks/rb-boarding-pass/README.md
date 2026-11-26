@@ -208,18 +208,18 @@ The Ferry Boarding Pass Attestation is journey-specific and time-bound. It conta
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| `attestation_legal_category` | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory)<br> ARF Topic 12 / Rulebook legal category indication | Indicates the legal category of the attestation. | string | `non-qualified-EAA` |
-| `identifier` | [BoardingPass](https://w3id.org/ebwv#BoardingPass).[identifier](https://w3id.org/ebwv#identifier)<br>N/A | Unique identifier of the boarding pass. | string | `BP-2026-000123456` |
+| `attestation_legal_category` | [attestationLegalCategory](https://w3id.org/ebwv#attestationLegalCategory) | Indicates the legal category of the attestation. Rulebook legal category indication. ARF Topic 12  | string | `non-qualified-EAA` |
+| `identifier` | [BoardingPass](https://w3id.org/ebwv#BoardingPass).[identifier](https://w3id.org/ebwv#identifier) | Unique identifier of the boarding pass. | string | `BP-2026-000123456` |
 | `ticketQR` | N/A | Encoded ticket representation used for scanning at boarding control. | string | `M1_FASTFERRIES_20260615_000123456` |
-| `ticketNumber` | [TransportTicket](https://w3id.org/ebwv#TransportTicket).[identifier](https://w3id.org/ebwv#identifier)<br>N/A | Ferry ticket number. | string | `000123456` |
-| `firstName` | [givenName](https://w3id.org/ebwv#givenName)<br>OIDC `given_name` where applicable | Passenger given name. | string | `Nikos` |
-| `lastName` | [familyName](https://w3id.org/ebwv#familyName)<br>OIDC `family_name` where applicable | Passenger family name. | string | `Triantafyllou` |
-| `departureDate` | see 'departureTime'<br>ISO 8601 date | Scheduled departure date. | date | `2026-06-15` |
-| `departureTime` | [departureTime](https://w3id.org/ebwv#departureTime)<br>ISO 8601 / local time | Scheduled departure time, expressed in the local time of the departure port. | dateTime | `2026-06-15T07:30` |
-| `arrivalDate` | see 'arrivalTime'<br>ISO 8601 date | Scheduled arrival date. | date | `2026-06-15` |
-| `arrivalTime` | [arrivalTime](https://w3id.org/ebwv#arrivalTime)<br>ISO 8601 / local time | Scheduled arrival time, expressed in the local time of the arrival port. | dateTime | `2026-06-15T12:45` |
-| `arrivalPort` | [arrivalLocation](https://w3id.org/ebwv#arrivalLocation)<br>UN/LOCODE recommended | Destination port. | string | `GRMLO` |
-| `vesselDescription` | [Vessel](https://w3id.org/ebwv#Vessel).[name](https://w3id.org/ebwv#name)<br>N/A | Description or name of the ferry vessel. | string | `Fast Ferries Andros` |
+| `ticketNumber` | N/A | Ferry ticket number. | string | `000123456` |
+| `firstName` | [givenName](https://w3id.org/ebwv#givenName) | Passenger given name. OIDC `given_name` where applicable  | string | `Nikos` |
+| `lastName` | [familyName](https://w3id.org/ebwv#familyName) | Passenger family name. OIDC `family_name` where applicable  | string | `Triantafyllou` |
+| `departureDate` | N/A | Scheduled departure date. ISO 8601 date  | date | `2026-06-15` |
+| `departureTime` | [departureTime](https://w3id.org/ebwv#departureTime) | Scheduled departure time, expressed in the local time of the departure port. ISO 8601 / local time | dateTime | `2026-06-15T07:30:00` |
+| `arrivalDate` | N/A | Scheduled arrival date. ISO 8601 date  | date | `2026-06-15` |
+| `arrivalTime` | [arrivalTime](https://w3id.org/ebwv#arrivalTime) | Scheduled arrival time, expressed in the local time of the arrival port. ISO 8601 / local time | dateTime | `2026-06-15T12:45:00` |
+| `arrivalPort` | [arrivalLocation](https://w3id.org/ebwv#arrivalLocation) | Destination port. UN/LOCODE recommended  | string | `GRMLO` |
+| `vesselDescription` | [Vessel](https://w3id.org/ebwv#Vessel).[name](https://w3id.org/ebwv#name) | Description or name of the ferry vessel. | string | `Fast Ferries Andros` |
 | `issuer.issuing_country` | [cred:issuer](https://w3.org/2018/credentials#issuer).[jurisdiction](https://w3id.org/ebwv#jurisdiction)<br> ISO 3166-1 alpha-2 | Country of the ferry operator or authorised ticketing operator. | string | `GR` |
 | `issuer.issuing_organisation` | [cred:issuer](https://w3.org/2018/credentials#issuer).[legalName](https://w3id.org/ebwv#legalName)<br>N/A | Legal name of the ferry operator or authorised ticketing operator. | string | `Fast Ferries S.A.` |
 | `issuer.issuing_date` | [cred:validFrom](https://w3.org/2018/credentials#validFrom) <br> ISO 8601 date | Date of issuance of the boarding pass. | date | `2026-06-01` |
@@ -228,9 +228,9 @@ The Ferry Boarding Pass Attestation is journey-specific and time-bound. It conta
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
 | --- | --- | --- | --- | --- |
-| `ticketLet` | [TransportTicket](https://w3id.org/ebwv#TransportTicket).[ticketClass](https://w3id.org/ebwv#ticketClass) <br> N/A | Ticket letter, ticket class code, or other operator-specific classification. | string | `A` |
-| `seatType` | [BoardingPass](https://w3id.org/ebwv#BoardingPass).[seatType](https://w3id.org/ebwv#seatType)<br> N/A | Type of seat or accommodation. | string | `AIR_SEAT` |
-| `seatNumber` | [BoardingPass](https://w3id.org/ebwv#BoardingPass).[seatNumber](https://w3id.org/ebwv#seatNumber)<br>N/A | Assigned seat number. | string | `12A` |
+| `ticketLet` | [BoardingPass](https://w3id.org/ebwv#BoardingPass).[ticketClass](https://w3id.org/ebwv#ticketClass) | Ticket letter, ticket class code, or other operator-specific classification. | string | `A` |
+| `seatType` | [BoardingPass](https://w3id.org/ebwv#BoardingPass).[seatType](https://w3id.org/ebwv#seatType) | Type of seat or accommodation. | string | `AIR_SEAT` |
+| `seatNumber` | [BoardingPass](https://w3id.org/ebwv#BoardingPass).[seatNumber](https://w3id.org/ebwv#seatNumber)  | Assigned seat number. | string | `12A` |
 
 ### 3.4 Conditional attributes
 
