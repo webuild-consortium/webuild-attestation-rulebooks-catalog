@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Company Information
 
-Category: non-qualified EAA
+Category: S-EAA or QEAA
 
 * Author(s):
   * [Ana Delmas, DFO]
@@ -17,10 +17,9 @@ Category: non-qualified EAA
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-10-13 | Migrated to the current generic WE BUILD attestation rulebook template; attestation-specific normative content preserved. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
-
-**Feedback:** [GitHub issues](https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog/issues)
 
 ## Table of contents
 
@@ -234,7 +233,7 @@ The `Legal_Entity` object **SHALL** appear exactly once and contains:
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** self-issued by the legal entity as part of its disclosures.
+- **"S-EAA"** self-issued by the legal entity as part of its disclosures.
 - **"QEAA"** issued by a Qualified Trust Service Provider (QTSP) or authorized competent body that can independently attest the company information (e.g., based on official company register data or audited financial statements).
 
 ### 3.2 Mandatory attributes

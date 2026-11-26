@@ -11,6 +11,7 @@ Category: PID
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1.0 | 2026-09-11 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. Requirement references renumbered to the ARF v3.0.0 identifiers. |
+| 2.0.0 | 2026-11-12 | Implements the [WE BUILD ADR for cross-border identity matching](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/002-identity-matching-and-subject-linking.md). |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -67,8 +68,9 @@ how the mandatory and optional person identification data for the natural
 person, as defined in Tables 1 and 2 in the Annex of the Commission Implementing
 Regulation on PID and EAA [CIR 2024/2977], as well as the metadata specified in
 Table 5 of that CIR, will be encoded within the EUDI Wallet ecosystem.
-Additionally, this document specifies further optional PID attributes that are
-not included in the CIR.
+Additionally, this document specifies further mandatory and optional PID
+attributes that are not included in the CIR, and deviates from the CIR where
+required by the decisions of the WE BUILD Architecture group.
 
 This document also specifies how a PID and all attributes in it are encoded if
 the PID complies with [ISO/IEC 18013-5] and if it complies with [SD-JWT VC].
@@ -84,7 +86,12 @@ list based revocation mapping is specified for SD-JWT VC, in line with the
 [WE BUILD Architecture Decision Record on attestation revocation](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/attestation-revocation-mechanism.md),
 see chapter 8. Chapters 6, 7, 9
 and 10 are expanded relative to the ARF PID Rulebook, in particular the deployment
-profile in chapter 10.
+profile in chapter 10. In line with the
+[WE BUILD ADR on PID attributes for cross-border identity matching](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/002-identity-matching-and-subject-linking.md),
+the `personal_administrative_number` attribute is mandatory and a mandatory `nonce`
+attribute is added, see section 3.2. In line with the
+[WE BUILD ADR on exclusion of portrait from the PID profile](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/exlusion-of-portrait-from-pid-profile.md),
+the optional `portrait` attribute is not provided within WE BUILD, see section 3.3.
 
 ### 1.2 Document structure
 
@@ -137,6 +144,17 @@ version 1.5.
 This Rulebook specifies how the mandatory and optional person identification data
 defined in Tables 1 and 2 of the Annex to CIR (EU) 2024/2977, and the metadata
 defined in Table 5 of that CIR, are encoded within the EUDI Wallet ecosystem.
+
+Within WE BUILD, this Rulebook deliberately deviates from the CIR in two respects,
+both following decisions of the WE BUILD Architecture group. First,
+`personal_administrative_number`, which is optional in CIR 2024/2977, is mandatory, and
+a `nonce` attribute not defined in the CIR is added as mandatory
+([WE BUILD ADR — Identity Matching](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/002-identity-matching-and-subject-linking.md)). Second, the `portrait` attribute, which
+Commission Implementing Regulation (EU) 2026/1731 makes mandatory from 11 August 2028,
+is not provided within WE BUILD ([WE BUILD ADR — Portrait](https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/exlusion-of-portrait-from-pid-profile.md)); this Rulebook keeps it
+as an optional attribute, as in CIR 2024/2977. The latter is a
+WE BUILD scope limitation, not a recommendation for production EUDI Wallet
+implementations.
 
 ### 2.3 Traceability
 
@@ -213,6 +231,9 @@ The machine-readable schema artefacts for this attestation are:
 | birth_date | [dateOfBirth](https://w3id.org/ebwv#dateOfBirth) | Day, month, and year on which the user to whom the person identification data relates was born. | 12/02/1978 |
 | birth_place | [placeOfBirth](https://w3id.org/ebwv#placeOfBirth) | The country as an alpha-2 country code as specified in ISO 3166-1, or the state, province, district, or local area or the municipality, city, town, or village where the user to whom the person identification data relates was born. | Amsterdam |
 | nationality | [citizenship](https://w3id.org/ebwv#citizenship) | One or more alpha-2 country codes as specified in ISO 3166-1, representing the nationality of the user to whom the person identification data relates. | NL |
+| personal_administrative_number | [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber) | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. Where Member States opt to include this attribute, they shall describe in their electronic identification schemes under which the person identification data is issued, the policy that they apply to the values of this attribute, including, where applicable, specific conditions for the processing of this value. **Further clarification added in this PID Rulebook:** Mandatory in WE BUILD. The value SHOULD be a government-issued identifier, such as the Norwegian national identity number; otherwise the PID Provider SHALL generate it under the same requirements as for `nonce`. | 123456782 |
+| nonce |  | A value generated by the PID Provider, unique and consistent for an identity across PIDs from said provider. Used by wallets to generate consistent pseudonyms. | 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 |
+
 
 ### 3.3 Optional attributes
 
@@ -225,7 +246,6 @@ The machine-readable schema artefacts for this attestation are:
 | resident_postal_code | [domicile](https://w3id.org/ebwv#domicile).[postCode](https://w3id.org/ebwv#postCode) | The postal code of the place where the user to whom the person identification data relates currently resides. | 2312 JD |  |
 | resident_street | [domicile](https://w3id.org/ebwv#domicile).[thoroughfare](https://w3id.org/ebwv#thoroughfare) | The name of the street where the user to whom the person identification data relates currently resides. | Rietveld |  |
 | resident_house_number |  | The house number where the user to whom the person identification data relates currently resides, including any affix or suffix. | 1 |  |
-| personal_administrative_number | [personalAdministrativeNumber](https://w3id.org/ebwv#personalAdministrativeNumber) | A value assigned to the natural person that is unique among all personal administrative numbers issued by the provider of person identification data. Where Member States opt to include this attribute, they shall describe in their electronic identification schemes under which the person identification data is issued, the policy that they apply to the values of this attribute, including, where applicable, specific conditions for the processing of this value. | 123456782 |  |
 | portrait | [portrait](https://w3id.org/ebwv#portrait) | [Facial image of the wallet user compliant with ISO 19794-5 or ISO 39794 specifications. Further clarification added in this PID Rulebook: The detailed format of the portrait is specified in requirement PID_03 in Annex 2, Topic 3.](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/annexes/annex-2/annex-2.02-high-level-requirements-by-topic.md#a232-topic-3---pid-rulebook) | \- |  |
 | family_name_birth | [birthName](https://w3id.org/ebwv#birthName) | Last name(s) or surname(s) of the user to whom the person identification data relates at the time of birth. | Poepjes |  |
 | given_name_birth | [birthName](https://w3id.org/ebwv#birthName) | First name(s), including middle name(s), of the user to whom the person identification data relates at the time of birth. | Björn |  |
@@ -377,6 +397,7 @@ Note that the presence of each attribute (mandatory or optional) is already spec
 | resident_street | resident_street | ``tstr`` |
 | resident_house_number | resident_house_number | ``tstr`` |
 | personal_administrative_number | personal_administrative_number | ``tstr`` |
+| nonce | nonce | ``tstr`` |
 | portrait | portrait | ``bstr``; see additional information in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977) |
 | family_name_birth | family_name_birth | ``tstr`` |
 | given_name_birth | given_name_birth | ``tstr`` |
@@ -492,6 +513,7 @@ The following Private Names specific to the attestation type defined in this doc
 | expiry_date | date_of_expiry | string | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema] |
 | issuance_date | date_of_issuance | string | ISO 8601-1 [ISO8601‑1] YYYY-MM-DD format, as defined in Section 5.4.4.2 of [EKYC Schema] |
 | personal_administrative_number | personal_administrative_number | string |  |
+| nonce | nonce | string |  |
 | resident_house_number | address.house_number | string | This document extends the specification of ``address`` in [OIDC] with an additional member ``address.house_number`` |
 | sex | sex | number | numeric encoding as described in [Section 2.3](#23-optional-attributes-specified-in-cir-20242977); gender from [OIDC] uses a different value range and is therefore not used |
 | issuing_authority | issuing_authority | string |  |
@@ -582,6 +604,9 @@ EXAMPLE: The following example shows the payload of a PID in SD-JWT VC format be
             "y": "ckhZ-KQ5aXNL91R8Eufg1aOf8Z5pZJnIvuCzNGfdnzo"
         }
     },
+
+    "personal_administrative_number": "DE-19800523-123456",
+    "nonce": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
 
     "issuing_authority": "DE",
     "issuing_country": "DE",
@@ -712,6 +737,9 @@ Issuance requirements and expectations:
 - PID Providers SHALL bind PID to the Wallet Unit key material as defined in Chapter 3 (e.g., `cnf` for SD-JWT VC).
 - PID Providers SHALL set technical validity (`exp`, and `nbf` if present) and SHALL provide status/revocation capability as defined in Chapter 6.
 - For SD-JWT VC PIDs, the PID SHALL include a `status` claim when required by Section 3.2.2 (technical validity period > 25 hours).
+- PID Providers SHALL generate `nonce`.
+- For `personal_administrative_number`, PID Providers SHOULD use a government-issued identifier, and otherwise SHALL generate the value under the same requirements as `nonce`.
+- PID Providers SHALL use the same `nonce` and the same `personal_administrative_number` in all PIDs issued for the same identity, including on renewal, so that identity matching and pseudonyms derived from `nonce` remain stable.
 
 Expected user behaviours:
 - The user SHOULD approve PID presentation only when the Wallet Unit shows the RP identity, intended use, and a privacy policy reference.
@@ -730,6 +758,7 @@ Relying Party (RP) behaviours:
 Presentation requirements:
 - The RP SHOULD request only the minimum attributes needed for the transaction (data minimisation).
 - The RP SHALL NOT rely on non-unique contact attributes (e.g., `email_address`) as unique identifiers, as already stated in Chapter 3.
+- The RP SHOULD request `personal_administrative_number` only where it needs deterministic identity matching and is permitted to process a persistent identifier. Where a stable Relying Party-specific identifier suffices, the RP SHOULD rely on a pseudonym derived from `nonce` instead.
 
 Transactional data:
 - The RP MAY keep minimal logs necessary to demonstrate verification events and security-relevant auditability (e.g., timestamps, verification outcome, issuer identifier, status-check result).
@@ -830,6 +859,9 @@ For information regarding the use of the trust list in WE BUILD, please consult 
 | [Topic 3] | ARF Annex 2 - Topic 3 - Attestation revocation and revocation checking Available: <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/> |
 | [Topic 12] | ARF Annex 2 - Topic 12 - Attestation Rulebooks, Available: <https://eudi.dev/3.0.0/annexes/annex-2/annex-2.02-high-level-requirements-by-topic/> |
 | [W3C VCDM v2.0] | Sporny, M. *et al,* Verifiable Credentials Data Model v2.0, W3C Recommendation. |
+| [WE BUILD ADR — Identity Matching] | WE BUILD Architecture Decision Record: "PID Attributes for Cross-Border Identity Matching". Available: <https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/002-identity-matching-and-subject-linking.md> |
+| [WE BUILD ADR — Portrait] | WE BUILD Architecture Decision Record: "Exclusion of Portrait from the WE BUILD PID Profile". Available: <https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/exlusion-of-portrait-from-pid-profile.md> |
+| [WE BUILD ADR — Pseudonyms] | WE BUILD Architecture Decision Record on pseudonyms. Available: <https://github.com/webuild-consortium/wp4-architecture/blob/main/adr/ar-pseudonyms.md> |
 
 For further references please see [ARF Chapter 10](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/blob/main/docs/architecture-and-reference-framework-main.md#10-references) of the ARF main document.
 | [CIR 2024/2977] | [Commission Implementing Regulation (EU) 2024/2977](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202402977) of 28 November 2024 on person identification data and electronic attestations of attributes |

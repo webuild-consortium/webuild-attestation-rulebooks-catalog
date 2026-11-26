@@ -73,10 +73,7 @@ Category: non-qualified EAA
 
 SCA-Card (DPC) specifies the card-level SUA attestation described in [TS12] published by the European
 Commission. The attestation represents a digitised payment card as a verifiable credential, called a
-Digital Payment Credential (DPC), and is used for payment authentication with multi-factor
-authentication in remote commerce. It supports both authentication of a card already known to the
-merchant (for example a token on file or a recognised returning consumer) and credential discovery
-with card selection in the Wallet, which enables the authenticated guest checkout scenario.
+Digital Payment Credential (DPC), and is used for payment authentication with multi-factor authentication in remote commerce. The presentation can be requested by a third party, such as a merchant or PSP, or by the card issuer itself. It supports authentication of a card already known to the merchant (for example a token on file or a recognised returning consumer), credential discovery with card selection in the Wallet, which enables the authenticated guest checkout scenario, and authentication of the cardholder by the card issuer.
 
 The attestation follows the data minimisation principle: the signed payload identifies the payment
 instrument through opaque identifiers only and never contains the PAN or fragments of it. All
@@ -464,9 +461,12 @@ as profiled by [HAIP].
 
 ### 7.2 Issuance Policy
 
-SCA-Card (DPC) is designed for the 3-party model in remote commerce: the credential issuer and the
-verifier are in different organisations. The verifying side is typically a merchant, PSP, or a payment
-system component acting on their behalf. Integration of DPC presentations into payment system rails,
+SCA-Card (DPC) can be used in both of the following models in remote commerce:
+
+* **3-party model:** the credential issuer and the verifier are in different organisations. The verifying side is typically a merchant, PSP, or a payment system component acting on their behalf.
+* **2-party model:** the card issuer, or an entity acting on its behalf, requests the presentation itself and acts as the verifier.
+
+Integration of DPC presentations into payment system rails,
 for example EMVCo Secure Remote Commerce (Click to Pay), is defined by the respective payment system
 specifications and is out of scope of this Rulebook.
 
@@ -478,8 +478,9 @@ specifications and is out of scope of this Rulebook.
 2. **Authenticated guest checkout with credential discovery:** The verifier does not know the card. The
    presentation request filters by supported networks, the User selects a card in the Wallet, and the
    disclosed `card_id` gives the verifier the network token reference needed to route the transaction.
+3. **Payment authentication by the card issuer (2-party model):** The card issuer, or an entity acting on its behalf, requests a presentation of the attestation to authenticate the cardholder for a remote card payment, typically by `credential_id`.
 
-Both use cases provide multi-factor authentication through device biometrics or PIN plus the
+All use cases provide multi-factor authentication through device biometrics or PIN plus the
 device-bound key, supporting PSD2 Strong Customer Authentication. SCA-Card (DPC) is exclusively used in
 presentation scenarios where transaction data is present in the presentation request.
 

@@ -1,0 +1,42 @@
+{
+  "name": "WE BUILD",
+  "productName": "Attestation Rulebook Explorer",
+  "tagline": "Search the attestation rulebooks, their categories and their attributes",
+  "siteUrl": "https://www.webuildconsortium.eu/",
+  "publicUrl": "https://webuild-consortium.github.io/webuild-attestation-rulebooks-catalog",
+  "repositoryUrl": "https://github.com/webuild-consortium/webuild-attestation-rulebooks-catalog",
+  "logo": "assets/logo.svg",
+  "logoAlt": "WE BUILD Consortium",
+  "logoHeight": 44,
+  "favicon": "assets/favicon.svg",
+  "footerNote": "Co-funded by the European Union",
+  "copyright": "WE BUILD Consortium",
+  "theme": {
+    "brand": "#003399",
+    "brandDark": "#001d58",
+    "brandLight": "#eef2fb",
+    "accent": "#ffcc00",
+    "accentDark": "#f1b40d",
+    "ink": "#1d1d1f",
+    "muted": "#6e6e73",
+    "line": "rgba(0,0,0,.08)",
+    "surface": "#ffffff",
+    "canvas": "#f2f2f5",
+    "radius": "12px",
+    "font": "Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    "headingFont": "Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    "headerGradient": "linear-gradient(90deg, #003399 4.59%, #001d58 36.48%)",
+    "webFonts": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+    "monoFont": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace"
+  },
+  "categoryColours": {
+    "PID": "#003399",
+    "EBWOID": "#2a6bbf",
+    "QEAA": "#1f7a5a",
+    "PuB-EAA": "#9a6b12",
+    "EAA": "#514f59",
+    "S-EAA": "#7a3f8a"
+  },
+  "footerLogo": "assets/logo.svg",
+  "footerEmblem": "assets/logo-eu.svg"
+}

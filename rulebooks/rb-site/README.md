@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Site
 
-Category: non-qualified EAA
+Category: S-EAA 
 
 * **Author(s):**
   * [Dominic Hurni, SBB]
@@ -296,7 +296,7 @@ The data model for the Site Attestation is structured as follows:
 **Attestation Classification:**
 
 This attestation type is classified as:
-- **"EAA"** when self-issued by the economic operator operating the site.
+- **"S-EAA"** when self-issued by the economic operator operating the site.
 
 **Top-Level Data Identifiers:**
 
