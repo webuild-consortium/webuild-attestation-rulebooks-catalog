@@ -25,7 +25,7 @@ Category: non-qualified EAA
 | 12 | 2026-10-07 | Re-applies versions 09 and 10, and the subsequent mapping note for `holderIdentifier`, onto the template structure of version 11: `termsOfUse` at credential level (Section 4.1.1); `onboardedBy` typed `OnboardingDetails`, identified by its own `id` and named by `platform`, with the optional `member` (Section 3.2.1); `holderIdentifier` withdrawn in favour of the repeatable `member.identifier`, with a mapping from the source attestation description (Section 3.1); IR-06 and IR-07 covering both places an identifier of the holder can appear; `KmgMid` in code list 4.4. Also corrects section cross-references left over from the pre-template numbering, removes a reference to a cardinality section that no longer exists, and aligns Section 9.1 with IR-05, which requires IRI rather than string comparison for `role` and `memberOf`. Section references in entries 01 to 10 refer to the numbering in force at the time. |
 | 13 | 2026-10-21 | Aligns the Rulebook with the generic WE BUILD attestation rulebook template. Fixed template text reproduced verbatim where it applies to a non-qualified EAA; schema-artefacts table added (Section 3.1); a selectively-disclosable column added to the attribute tables (Sections 3.2 to 3.4); template columns adopted for the code lists, integrity rules and conditional tables; protocol tables (Chapter 6), embedded disclosure policy table (Section 7.4), issuance policy and lifecycle content (Sections 7.2, 7.3), revocation grounds (Chapter 8) and a deployment profile (Chapter 10) added; terms table added (Section 1.4); reference list completed. Two template fixed texts are deliberately not reproduced, because they conflict with choices this Rulebook retains pending a decision of the rulebook quality assurance group: the `category` attribute of Section 4.1, and the Commission status lists of Chapter 8. No change to attributes, encodings, examples or schemas. |
 | 14 | 2026-10-21 | Aligns the Rulebook with revision #195 of the generic WE BUILD attestation rulebook template. Section 7.1 renamed Holder Key Binding at Issuance (Wallet Binding); Section 7.2 replaced by the new Issuance Policy text, with the parameters for this attestation type: authorised authentic sources, a maximum validity period of 12 months, and batch issuance not permitted; Chapter 8 states that revocation takes effect immediately on the issuer's trigger event; Chapter 9 restructured into Request, Presentation and Verification, with the EBW Relying Party role of Section 9.2 as the applicable one; Chapter 10 split into Sections 10.1 and 10.2. The legal category remains non-qualified EAA. Recorded deviation, pending a decision of the rulebook quality assurance group: attestation chaining through the Provider's EBWOID (Sections 7.2 and 10.2.1) is not yet adopted. |
-| 15 | 2026-10-21 | Adds Section 5.3.2, Semantic verification: the limits of JSON Schema for a JSON-LD credential, the advantages of validating the expanded graph with SHACL, and an example SHACL constraint. Republishes the SHACL shapes next to the JSON Schema in `data-schemas/jsonld/`, renumbered to the template section structure and extended to the status entry and identifier schemes the JSON Schema checks. Section 3.1 lists both as supporting artefacts. No change to attributes, encodings or examples. |
+| 15 | 2026-10-21 | Adds Section 5.3.2, Semantic verification: the limits of JSON Schema for a JSON-LD credential, the advantages of validating the expanded graph with SHACL, and an example SHACL constraint. Republishes the SHACL shapes next to the JSON Schema in `../../data-schemas/W3C-VC`, renumbered to the template section structure and extended to the status entry and identifier schemes the JSON Schema checks. Section 3.1 lists both as supporting artefacts. No change to attributes, encodings or examples. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -314,7 +314,7 @@ Selective Disclosure Metadata document is used (EW-DM-12-035).
 
 Supporting, non-normative artefacts: sample payloads for both formats
 ([`ds-membership-sd-jwt-sample.json`](../../data-schemas/sd-jwt/sample-data/ds-membership-sd-jwt-sample.json),
-[`ds-membership-jsonld-sample.json`](../../data-schemas/jsonld/sample-data/ds-membership-jsonld-sample.json)),
+[`ds-membership-jsonld-sample.json`](../../data-schemas/W3C-VC/sample-data/ds-membership-jsonld-sample.json)),
 and, for the W3C VCDM encoding, a JSON Schema and SHACL shapes described in Section 5.3.2.
 
 ### 3.2 Mandatory attributes
@@ -970,11 +970,11 @@ A JSON-LD credential can be validated at two levels: the compacted JSON document
 transmitted, and the RDF graph it expands to. Only the second captures what the credential means.
 This Rulebook publishes a supporting, non-normative artefact for each level:
 
-* [`ds-membership-jsonld.json`](../../data-schemas/jsonld/ds-membership-jsonld.json), a JSON
+* [`ds-membership-jsonld.json`](../../data-schemas/W3C-VC/ds-membership-jsonld.json), a JSON
   Schema for the compacted form;
-* [`ds-membership-shacl.ttl`](../../data-schemas/jsonld/ds-membership-shacl.ttl), SHACL Core shapes
+* [`ds-membership-shacl.ttl`](../../data-schemas/W3C-VC/ds-membership-shacl.ttl), SHACL Core shapes
   for the expanded graph, with the companion
-  [`ds-membership-shacl-sparql.ttl`](../../data-schemas/jsonld/ds-membership-shacl-sparql.ttl) for
+  [`ds-membership-shacl-sparql.ttl`](../../data-schemas/W3C-VC/ds-membership-shacl-sparql.ttl) for
   the one rule that needs SHACL-SPARQL (IR-06).
 
 The illustrative example in Section 5.3 conforms to both.
