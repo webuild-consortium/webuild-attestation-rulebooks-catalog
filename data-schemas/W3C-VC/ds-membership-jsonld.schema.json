@@ -1,0 +1,498 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webuildconsortium.eu/schemas/ds-membership-jsonld.json",
+  "title": "WE BUILD - Membership Credential - W3C VCDM (JSON-LD) credential",
+  "description": "Schema for the compacted JSON-LD form of a Membership Credential in the W3C VCDM v2.0 encoding, as defined in the rb-ds-membership Rulebook (Section 5.3). It checks structure, presence, types and values. It does not perform JSON-LD processing, and so cannot detect a term that is silently dropped on expansion; it also cannot express the cross-field integrity rules IR-01 (termsOfUse.acceptedAt not after validFrom) and IR-06 (member.identifier not repeating member.legalIdentifier), or that validUntil is later than validFrom.",
+  "type": "object",
+  "version": "0.8.0",
+  "additionalProperties": true,
+  "$defs": {
+    "uri": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1
+    },
+    "identifierScheme": {
+      "description": "Identifier scheme: a named individual published by the European Business Wallet Vocabulary (Rulebook code list 4.4). An unpublished scheme name is not an absolute IRI and aborts JSON-LD expansion, so it is rejected here. Extend this list as the vocabulary publishes further schemes.",
+      "enum": [
+        "Euid",
+        "PublicSectorBodyId",
+        "KmgMid",
+        "VatId",
+        "Lei",
+        "Eori",
+        "Tin",
+        "Iban",
+        "Bic",
+        "PeppolId",
+        "GlobalLocationNumber",
+        "ClearingNumber",
+        "Excise"
+      ]
+    },
+    "typedLiteral": {
+      "description": "An identifier as a JSON-LD typed literal whose datatype is the identifier scheme. The @type keyword may appear as its alias type, which is what JSON-LD compaction produces.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "@type": {
+          "$ref": "#/$defs/identifierScheme"
+        },
+        "type": {
+          "$ref": "#/$defs/identifierScheme"
+        },
+        "@value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "@value"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
+    "identifierValue": {
+      "description": "A typed literal, or an untyped string where the scheme has no published individual (Rulebook Section 4.4).",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/typedLiteral"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    },
+    "identifierValues": {
+      "description": "One identifier value, or an array of them. A single value compacts to a scalar.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/identifierValue"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/identifierValue"
+          }
+        }
+      ]
+    },
+    "typeEconomicOperator": {
+      "anyOf": [
+        {
+          "const": "EconomicOperator"
+        },
+        {
+          "type": "array",
+          "contains": {
+            "const": "EconomicOperator"
+          }
+        }
+      ]
+    },
+    "member": {
+      "description": "The holder, as an economic operator (Rulebook Section 3.2.2).",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/typeEconomicOperator"
+        },
+        "legalName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "legalIdentifier": {
+          "description": "The authoritative, EU-level identifier of the holder. The range of legalIdentifier is Euid or PublicSectorBodyId.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/typedLiteral"
+            },
+            {
+              "properties": {
+                "@type": {
+                  "enum": [
+                    "Euid",
+                    "PublicSectorBodyId"
+                  ]
+                },
+                "type": {
+                  "enum": [
+                    "Euid",
+                    "PublicSectorBodyId"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "identifier": {
+          "description": "Further identifiers of the holder. Not authoritative (IR-07).",
+          "$ref": "#/$defs/identifierValues"
+        }
+      },
+      "required": [
+        "type",
+        "legalName",
+        "legalIdentifier"
+      ]
+    },
+    "operator": {
+      "description": "The economic operator hosting the onboarding platform (Rulebook Section 3.2.2). Its identifier identifies that organisation, not the holder.",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/uri"
+        },
+        "type": {
+          "$ref": "#/$defs/typeEconomicOperator"
+        },
+        "legalName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identifier": {
+          "$ref": "#/$defs/identifierValues"
+        }
+      },
+      "required": [
+        "type",
+        "legalName",
+        "identifier"
+      ]
+    },
+    "platformMember": {
+      "description": "The holder as the onboarding platform knows it (Rulebook Section 3.2.1). Carries only what the platform adds, normally its own identifier; omitted where the platform knows the holder by member.legalIdentifier.",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/typeEconomicOperator"
+        },
+        "legalName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identifier": {
+          "$ref": "#/$defs/identifierValues"
+        }
+      },
+      "required": [
+        "type",
+        "identifier"
+      ]
+    },
+    "evidenceEntry": {
+      "description": "One identification means used to prove the holder's identity during initial onboarding (Rulebook Section 4.2.1).",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/typeEconomicOperator"
+        },
+        "identifier": {
+          "$ref": "#/$defs/identifierValues"
+        }
+      },
+      "required": [
+        "type",
+        "identifier"
+      ]
+    }
+  },
+  "properties": {
+    "@context": {
+      "description": "The VCDM v2 context first, then the European Business Wallet Vocabulary context. No other contexts are used by this Rulebook.",
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "https://www.w3.org/ns/credentials/v2"
+        },
+        {
+          "const": "https://w3id.org/ebwv/v0.1"
+        }
+      ],
+      "minItems": 2,
+      "items": false
+    },
+    "type": {
+      "description": "SHALL include VerifiableCredential and ElectronicAttestationOfAttributes; the latter brings attestationLegalCategory into scope. Membership types the credential subject, never the credential (Rulebook Section 5.3.1).",
+      "type": "array",
+      "allOf": [
+        {
+          "contains": {
+            "const": "VerifiableCredential"
+          }
+        },
+        {
+          "contains": {
+            "const": "ElectronicAttestationOfAttributes"
+          }
+        },
+        {
+          "not": {
+            "contains": {
+              "const": "Membership"
+            }
+          }
+        }
+      ],
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "id": {
+      "description": "Unique identifier of the credential.",
+      "$ref": "#/$defs/uri"
+    },
+    "issuer": {
+      "description": "The issuing onboarding service provider, a DID, from which the trust anchor is resolved (Rulebook Chapter 10).",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/uri"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/uri"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "validFrom": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "validUntil": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "attestationLegalCategory": {
+      "description": "SHALL be EAA (Rulebook Section 4.1).",
+      "const": "EAA"
+    },
+    "credentialStatus": {
+      "description": "Required: the Membership Credential is revocable (Rulebook Chapter 8). A W3C Bitstring Status List entry.",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/uri"
+        },
+        "type": {
+          "const": "BitstringStatusListEntry"
+        },
+        "statusPurpose": {
+          "const": "revocation",
+          "description": "The Membership Credential is revocable; no other status purpose is defined."
+        },
+        "statusListIndex": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "description": "Zero-based index into the status list, as a string of decimal digits."
+        },
+        "statusListCredential": {
+          "$ref": "#/$defs/uri",
+          "description": "URL of the status list credential."
+        }
+      },
+      "required": [
+        "type",
+        "statusPurpose",
+        "statusListIndex",
+        "statusListCredential"
+      ]
+    },
+    "termsOfUse": {
+      "description": "The accepted dataspace governance rulebook, at credential level (Rulebook Section 4.1.1).",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "const": "GovernanceRulebook"
+            },
+            {
+              "type": "array",
+              "contains": {
+                "const": "GovernanceRulebook"
+              }
+            }
+          ]
+        },
+        "url": {
+          "$ref": "#/$defs/uri"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$",
+          "description": "SHA-256 hash of the rulebook, 64 hexadecimal characters."
+        },
+        "acceptedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Not later than validFrom (IR-01; not checkable by JSON Schema)."
+        }
+      },
+      "required": [
+        "type",
+        "url",
+        "version",
+        "hash"
+      ]
+    },
+    "evidence": {
+      "description": "Optional. One entry, or an array of entries; a single entry compacts to an object.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/evidenceEntry"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidenceEntry"
+          }
+        }
+      ]
+    },
+    "credentialSubject": {
+      "description": "Exactly one credential subject, typed Membership (Rulebook Sections 3.2 and 5.3.1).",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "description": "An absolute URI: a DID or a urn:uuid: URN.",
+          "$ref": "#/$defs/uri"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "const": "Membership"
+            },
+            {
+              "type": "array",
+              "contains": {
+                "const": "Membership"
+              }
+            }
+          ]
+        },
+        "member": {
+          "$ref": "#/$defs/member"
+        },
+        "memberOf": {
+          "description": "Absolute IRI registered in Rulebook code list 4.4.",
+          "$ref": "#/$defs/uri",
+          "examples": [
+            "https://agri-x.eu",
+            "https://djustconnect.be"
+          ]
+        },
+        "role": {
+          "description": "Absolute IRIs; a single role compacts to a scalar. Values registered in code list 4.4 are the DataSpaceRole individuals under https://w3id.org/ebwv#; a DSI may mint others under a namespace it owns.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/uri"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/uri"
+              }
+            }
+          ],
+          "examples": [
+            [
+              "https://w3id.org/ebwv#DataRightsHolder",
+              "https://w3id.org/ebwv#DataProvider"
+            ]
+          ]
+        },
+        "onboardedBy": {
+          "description": "The onboarding (Rulebook Section 3.2.1). The platform is identified by this object's own id.",
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/uri"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "const": "OnboardingDetails"
+                },
+                {
+                  "type": "array",
+                  "contains": {
+                    "const": "OnboardingDetails"
+                  }
+                }
+              ]
+            },
+            "platform": {
+              "type": "string",
+              "minLength": 1
+            },
+            "operator": {
+              "$ref": "#/$defs/operator"
+            },
+            "member": {
+              "$ref": "#/$defs/platformMember"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "platform",
+            "operator"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "member",
+        "memberOf",
+        "role",
+        "onboardedBy"
+      ]
+    }
+  },
+  "required": [
+    "@context",
+    "type",
+    "id",
+    "issuer",
+    "validFrom",
+    "attestationLegalCategory",
+    "credentialStatus",
+    "termsOfUse",
+    "credentialSubject"
+  ]
+}
