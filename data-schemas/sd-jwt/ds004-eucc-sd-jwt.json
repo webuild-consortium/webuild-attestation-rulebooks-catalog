@@ -46,7 +46,7 @@
     "attestation_legal_category": {
       "description": "Legal category of the attestation.",
       "type": "string",
-      "enum": ["EAA", "PUB-EAA","QEAA"]
+      "enum": ["EAA", "Pub-EAA","QEAA"]
     },
     "legal_person_name": {
       "description": "Official current legal person name as registered in the business register.",
@@ -143,11 +143,7 @@
     },
     "legal_person_status": {
       "description": "Status of the company as defined in national law and where recorded in the national register",
-      "type": "string",
-      "enum": [
-        "active",
-        "inactive"
-      ]
+      "type": "string"
     },
     "legal_person_activity": {
       "description": "Object of the company describing its main activity or activities, which must be expressed using the Statistical Classification of Economic Activities in the European Community (NACE)",
@@ -344,37 +340,37 @@
       "description": "Credential status following SD-JWT VC Status List.",
       "additionalProperties": false,
       "properties": {
-        "type": {
-          "type": "string",
-          "description": "Status mechanism type. For SD-JWT VC Status List this SHALL be 'status-list'."
-        },
-        "status_list_credential": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the Status List Credential that contains the bitstring indicating status."
-        },
-        "status_list_index": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Zero-based index into the status list bitstring for this credential."
-        },
-        "status_purpose": {
-          "type": "string",
-          "description": "Purpose of the status entry. For PID this is 'revocation'."
+        "status_list": {
+          "type": "object",
+          "description": "Reference to the entry of this EUCC in a Token Status List.",
+          "additionalProperties": false,
+          "properties": {
+            "idx": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Index of this EUCC in the status list."
+            },
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "description": "URI of the Status List Token."
+            }
+          },
+          "required": [
+            "idx",
+            "uri"
+          ]
         }
       },
       "required": [
-        "type",
-        "status_list_credential",
-        "status_list_index",
-        "status_purpose"
+        "status_list"
       ],
       "examples": [
         {
-          "type": "status-list",
-          "status_list_credential": "https://issuer.example.com/status/1",
-          "status_list_index": 42,
-          "status_purpose": "revocation"
+          "status_list": {
+            "idx": 42,
+            "uri": "https://issuer.example.com/statuslists/1"
+          }
         }
       ]
     }
@@ -389,12 +385,10 @@
     "legal_person_status",
     "legal_person_activity",
     "issuing_authority",
-    "issuing_authority_id",
     "issuing_country",
-    "issuance_date",
-    "authentic_source_id",
-    "authentic_source_name",
-    "legal_representative"
+    "legal_representative",
+    "attestation_legal_category",
+    "exp"
   ],
   "$defs": {
     "legal_representative": {
@@ -421,6 +415,10 @@
           "type": "string",
           "format": "date"
         },
+        "identifier": {
+          "description": "Natural person representative or national identifier",
+          "type": "string"
+        },
         "nationality": {
           "description": "Nationality of the natural person representing the company",
           "type": "string"
@@ -429,8 +427,11 @@
           "description": "Information if the representative can engage the company alone or jointly",
           "type": "string",
           "enum": [
-            "alone",
-            "joint"
+            "sole",
+            "joint",
+            "joint_two",
+            "joint_all",
+            "limited"
           ]
         }
       },
@@ -461,8 +462,11 @@
           "description": "Information if the representative can engage the company alone or jointly",
           "type": "string",
           "enum": [
-            "alone",
-            "joint"
+            "sole",
+            "joint",
+            "joint_two",
+            "joint_all",
+            "limited"
           ]
         }
       },
