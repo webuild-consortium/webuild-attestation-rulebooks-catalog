@@ -9,9 +9,9 @@
   "properties": {
     "vct": {
       "type": "string",
-      "description": "Verifiable Credential Type. Base type is 'eu.we-build.iban-ov.1'.",
+      "description": "Verifiable Credential Type. Base type is 'eu.we-build:iban-ov:1'.",
       "examples": [
-        "eu.we-build.iban-ov.1"
+        "eu.we-build:iban-ov:1"
       ]
     },
     "iss": {
@@ -88,7 +88,9 @@
             "pattern": "^[A-Z]{3}$"
           },
           "examples": [
-            ["EUR"]
+            [
+              "EUR"
+            ]
           ]
         }
       },
@@ -107,7 +109,10 @@
         "owner_type": {
           "type": "string",
           "description": "Discriminator identifying whether the account owner is a legal person or a natural person. SHALL be present in all cases.",
-          "enum": ["entity", "person"]
+          "enum": [
+            "entity",
+            "person"
+          ]
         },
         "legal_person_identifiers": {
           "type": "array",
@@ -120,15 +125,25 @@
               "type": {
                 "type": "string",
                 "description": "Scheme or type of the identifier used (e.g., 'EUID', 'LEI', 'TAX').",
-                "examples": ["EUID", "LEI", "TAX"]
+                "examples": [
+                  "EUID",
+                  "LEI",
+                  "TAX"
+                ]
               },
               "value": {
                 "type": "string",
                 "description": "The actual identifier value.",
-                "examples": ["DE-HRB-123456", "529900T8BM49AURSDO55"]
+                "examples": [
+                  "DE-HRB-123456",
+                  "529900T8BM49AURSDO55"
+                ]
               }
             },
-            "required": ["type", "value"]
+            "required": [
+              "type",
+              "value"
+            ]
           }
         },
         "owner_name": {
@@ -153,30 +168,58 @@
           ]
         }
       },
-      "required": ["owner_type"],
+      "required": [
+        "owner_type"
+      ],
       "allOf": [
         {
           "if": {
-            "properties": { "owner_type": { "const": "entity" } },
-            "required": ["owner_type"]
+            "properties": {
+              "owner_type": {
+                "const": "entity"
+              }
+            },
+            "required": [
+              "owner_type"
+            ]
           },
           "then": {
-            "required": ["owner_name", "legal_person_identifiers"],
+            "required": [
+              "owner_name",
+              "legal_person_identifiers"
+            ],
             "not": {
               "anyOf": [
-                { "required": ["given_name"] },
-                { "required": ["surname"] }
+                {
+                  "required": [
+                    "given_name"
+                  ]
+                },
+                {
+                  "required": [
+                    "surname"
+                  ]
+                }
               ]
             }
           }
         },
         {
           "if": {
-            "properties": { "owner_type": { "const": "person" } },
-            "required": ["owner_type"]
+            "properties": {
+              "owner_type": {
+                "const": "person"
+              }
+            },
+            "required": [
+              "owner_type"
+            ]
           },
           "then": {
-            "required": ["given_name", "surname"]
+            "required": [
+              "given_name",
+              "surname"
+            ]
           }
         }
       ]
@@ -204,15 +247,25 @@
               "type": {
                 "type": "string",
                 "description": "Scheme or type of the identifier used (e.g., 'EUID', 'LEI', 'BIC').",
-                "examples": ["EUID", "LEI", "BIC"]
+                "examples": [
+                  "EUID",
+                  "LEI",
+                  "BIC"
+                ]
               },
               "value": {
                 "type": "string",
                 "description": "The actual identifier value.",
-                "examples": ["DE12121.HRB654321", "DEUTDEDB"]
+                "examples": [
+                  "DE12121.HRB654321",
+                  "DEUTDEDB"
+                ]
               }
             },
-            "required": ["type", "value"]
+            "required": [
+              "type",
+              "value"
+            ]
           }
         },
         "provider_country": {
@@ -273,19 +326,28 @@
               "type": "integer",
               "minimum": 0,
               "description": "Zero-based index into the status list bitstring for this credential.",
-              "examples": [456]
+              "examples": [
+                456
+              ]
             },
             "uri": {
               "type": "string",
               "format": "uri",
               "description": "URI of the Status List Token that contains the bitstring indicating revocation status.",
-              "examples": ["https://bank.example.com/status/iban-ov/2026"]
+              "examples": [
+                "https://bank.example.com/status/iban-ov/2026"
+              ]
             }
           },
-          "required": ["idx", "uri"]
+          "required": [
+            "idx",
+            "uri"
+          ]
         }
       },
-      "required": ["status_list"]
+      "required": [
+        "status_list"
+      ]
     },
     "trust_anchor_url": {
       "type": "string",
@@ -305,12 +367,24 @@
           "description": "Public key bound to the holder.",
           "additionalProperties": true,
           "properties": {
-            "kty": { "type": "string" },
-            "crv": { "type": "string" },
-            "x": { "type": "string" },
-            "y": { "type": "string" },
-            "n": { "type": "string" },
-            "e": { "type": "string" }
+            "kty": {
+              "type": "string"
+            },
+            "crv": {
+              "type": "string"
+            },
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            },
+            "n": {
+              "type": "string"
+            },
+            "e": {
+              "type": "string"
+            }
           }
         }
       },

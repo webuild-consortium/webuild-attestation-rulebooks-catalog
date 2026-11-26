@@ -1,9 +1,9 @@
-# Attestation Rulebook for attestations of type Power of Attorney and Proof of Existence
+# Attestation Rulebook for attestations of type Power of Attorney
 
-Category: non-qualified EAA
+Category: non-qualified EAA, QEAA or PuB-EAA, see section 3.1
 
 
-**Authors of the previous version:**
+**Author(s):**
 * Boris Lingl
 * Sofia Lucas
 * Alexander Manecke
@@ -23,6 +23,7 @@ Category: non-qualified EAA
 | 0.7 | 2026-07-14 | Added references to rulebook sections within SD-JWT |
 | 0.8 | 2026-09-04 | Remaining JSON examples and type metadata moved to data-schemas, canonical model and specification bundle removed |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-11-06 | Content aligned with version 0.8. Values that version 1.1 added are replaced with the version 0.8 content, the removed sentences of the old section 1.2 are restored, and section references use the new chapter numbers. |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -380,6 +381,9 @@ the formats in which this attestation is issued. Chapters 6 to 9 cover protocols
 issuance, revocation and presentation. Chapter 10 sets out the trust framework, and
 chapter 11 lists references.
 
+Each encoding SHALL be specified in a separate section, or even in a separate chapter.
+> Within our MVP scenarios we will focus on SD-JWT VC, all others are postponed or might be used in MVP+ scenarios)
+
 ### 1.3 Key words
 
 This document uses the capitalised key words 'SHALL', 'SHOULD' and 'MAY' as specified
@@ -429,10 +433,31 @@ general EUDI framework, ARF, and relevant regulations*
 
 ### 2.2 Regulatory basis
 
-This attestation is not a qualified electronic attestation of attributes. The data
-described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
-required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022. Where a
-recommendation is not followed, the reason is stated below.
+The regulatory basis below is the one applicable to the legal category of this
+attestation. This Rulebook does not choose one legal category. Section 3.1 states the
+requirements for non-qualified EAA, QEAA and PuB-EAA, so the regulatory basis for each
+of these categories is given.
+
+**Non-qualified EAA**
+
+> This attestation is not a qualified electronic attestation of attributes. The data
+> described in Annex V points b, c and e of Regulation (EU) 2024/1183 is addressed as
+> required by EW-DM-12-018 and as recommended by EW-DM-12-020 and EW-DM-12-022.
+> Where a recommendation is not followed, the reason is stated below.
+
+**QEAA**
+
+> This attestation includes the data required by Annex V of Regulation (EU)
+> 2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-016,
+> EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by a
+> qualified trust service provider.
+
+**PuB-EAA**
+
+> This attestation includes the data required by Annex VII of Regulation (EU)
+> 2024/1183, points a, b, c, e and h, satisfying EW-DM-12-014, EW-DM-12-017,
+> EW-DM-12-019, EW-DM-12-021 and EW-DM-12-023 respectively. It is issued by or on
+> behalf of a public sector body responsible for an authentic source.
 
 ### 2.3 Traceability
 
@@ -441,9 +466,9 @@ marked not applicable carry a stated reason.
 
 | Requirement | Legacy ID | Applies | Satisfied in section | Note |
 | --- | --- | --- | --- | --- |
-| EW-DM-12-001 | ARB_01a | yes | 5 | W3C VCDM permitted for this category; no encoding defined in this version |
-| EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC following the HAIP profile |
-| EW-DM-12-003 | ARB_02 | no |  | Proximity presentation is not in scope |
+| EW-DM-12-001 | ARB_01a | yes | 5 | SD-JWT VC is used. W3C VCDM is not part of this attestation (section 5.3) |
+| EW-DM-12-002 | ARB_01b | yes | 5 | SD-JWT VC encoding (section 5.1) |
+| EW-DM-12-003 | ARB_02 | yes | 5.2, 9.10 | Presentation MAY be in proximity where ISO/IEC 18013-5 is supported (section 9.10). No mdoc encoding is defined in this version (section 5.2) |
 | EW-DM-12-005 | ARB_04 | no |  | No W3C VCDM encoding is defined in this version |
 | EW-DM-12-006 | ARB_05 | yes | 5 | Unique vct for this attestation type |
 | EW-DM-12-007 | ARB_06 | yes | 3 | Attributes defined independently of encoding |
@@ -452,19 +477,19 @@ marked not applicable carry a stated reason.
 | EW-DM-12-010 | ARB_07 | yes | 3 | Attributes reused from the catalogued vocabulary where one exists |
 | EW-DM-12-012 | ARB_09 | yes | 3, 4 | Mandatory, optional and conditional stated per attribute |
 | EW-DM-12-013 | ARB_10 | no |  | No domestic namespace is defined |
-| EW-DM-12-014 | ARB_11 | no |  | Annex V and VII point a apply to QEAA and PuB-EAA |
-| EW-DM-12-015 | ARB_12 | yes | 4.1 | EAA indication for a non-qualified EAA |
-| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 4.1 | Point b, EW-DM-12-018 for the non-qualified case |
-| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2 | Point c, recommendation for non-qualified EAA |
-| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 4.2 | Point e, recommendation for non-qualified EAA |
-| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 4.2, 10 | Trust anchor location and the trust framework |
-| EW-DM-12-029 | ARB_25 | yes | 4.1 | Legal category attribute; see the note in section 4.1 |
-| EW-DM-12-030 | ARB_26 | yes | 10 | Trust anchor publication for non-qualified EAA |
-| EW-DM-12-031 | ARB_27 | no |  | This attestation does not require the Relying Party to verify a PID |
-| EW-DM-12-032 | ARB_28 | no |  | cryptographically_bound_to is not used by this attestation |
+| EW-DM-12-014 | ARB_11 | yes | 2.2, 3.1 | Annex V or VII point a, for QEAA and PuB-EAA |
+| EW-DM-12-015 | ARB_12 | yes | 3.1 | EAA indication, for non-qualified EAA |
+| EW-DM-12-016 / EW-DM-12-017 / EW-DM-12-018 | ARB_13 / ARB_14 / ARB_15 | yes | 2.2, 3.1 | Point b, for each category |
+| EW-DM-12-019 / EW-DM-12-020 | ARB_16 / ARB_17 | yes | 2.2, 3.1 | Point c, for each category |
+| EW-DM-12-021 / EW-DM-12-022 | ARB_18 / ARB_19 | yes | 2.2, 3.1 | Point e, for each category |
+| EW-DM-12-023 / EW-DM-12-024 | ARB_20 / ARB_21 | yes | 3.1, 4.1, 10 | Trust anchor location and the trust framework |
+| EW-DM-12-029 | ARB_25 | yes |  | No attestation_legal_category attribute is defined in this version |
+| EW-DM-12-030 | ARB_26 | yes | 10 | Trust anchor publication for each category (sections 10.3 to 10.6) |
+| EW-DM-12-031 | ARB_27 | yes | 7.2, 9.13 | PID or LPID verification: SHALL for use cases 1a and 1b, SHOULD for 1c (section 7.2) |
+| EW-DM-12-032 | ARB_28 | yes | 4.3, 9.14 | cryptographically_bound_to where the attestation is device-bound |
 | EW-DM-12-034 | ARB_30 | yes | 5 | Selective disclosure stated per claim |
 | EW-DM-12-035 | ARB_31 | no |  | No Claim Selective Disclosure Metadata document is used |
-| EW-DM-12-038 | ARB_34 | yes | 7.1 | Device binding |
+| EW-DM-12-038 | ARB_34 | yes | 7.1, 9.14 | Device binding MAY be used |
 
 ### 2.4 Purpose
 
@@ -495,10 +520,10 @@ Implementations conforming to this Rulebook SHALL support interoperable issuance
 
 An Issuer claiming compliance with this Rulebook SHALL:
 
-- issue attestations according to the semantic model defined in Chapter 2;
-- use one of the encoding formats defined in Chapter 3;
-- implement the trust framework defined in Chapter 5;
-- implement revocation mechanisms defined in Chapter 6;
+- issue attestations according to the semantic model defined in Chapters 3 and 4;
+- use one of the encoding formats defined in Chapter 5;
+- implement the trust framework defined in Chapter 10;
+- implement revocation mechanisms defined in Chapter 8;
 - issue globally unique attestation identifiers;
 - maintain issuer metadata;
 - publish attestation status information.
@@ -533,7 +558,7 @@ The Holder SHOULD regularly synchronize attestation status and remove obsolete a
 
 ### 2.11 Semantic Compliance
 
-Implementations SHALL preserve the semantic meaning of every attribute defined in Chapter 2. Encoding transformations SHALL NOT alter legal meaning, business interpretation, delegated authority, validity or scope.
+Implementations SHALL preserve the semantic meaning of every attribute defined in Chapter 3. Encoding transformations SHALL NOT alter legal meaning, business interpretation, delegated authority, validity or scope.
 
 Semantic interoperability SHALL take precedence over implementation-specific optimizations.
 
@@ -679,7 +704,7 @@ The semantic model defined in this chapter SHALL remain independent of the chose
 **Requirements for non-qualified EAA**
 
 * An attribute indicating that the attestation is an EAA SHOULD be included (see ARB_12 in [Topic 12]).
-See also section 2.1.
+See also section 3.1.
 * One or more attributes or metadata representing the set of data meant in Annex
 V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_15 in [Topic 12]).
 * One or more attributes representing the set of data meant in Annex V point c) of the
@@ -689,14 +714,14 @@ the [European Digital Identity Regulation] SHOULD be defined (see ARB_19 in [Top
 * One or more attributes or metadata representing the location at which a machine-readable
 version of the trust anchor to be used for verifying the EAA can be found or
 looked up SHOULD be defined. What this location indicates precisely is dependent
-on the nature of the mechanism used for distributing trust anchors, detailed in section
-5 (see ARB_21 in [Topic 12])
+on the nature of the mechanism used for distributing trust anchors, detailed in chapter
+10 (see ARB_21 in [Topic 12])
 * Non-qualified EAA MAY be self-issued without the perticipation of an authentic source in the issuance process.
 
 **Requirements for QEAA**
 
 * An attribute as meant in Annex V point a)  of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
+SHALL be included (see ARB_11 in [Topic 12]). See also section 3.1.
 * One or more attributes or metadata representing the set of data meant in Annex
 V point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_13 in [Topic 12])
 * One or more attributes representing the set of data meant in Annex V point c)  
@@ -712,7 +737,7 @@ used for verifying the QEAA can be found or looked up (see ARB_20 in [Topic 12])
 **Requirements for PuB-EAA**
 
 * An attribute as meant in  Annex VII point a) of the [European Digital Identity Regulation]
-SHALL be included (see ARB_11 in [Topic 12]). See also section 2.1.
+SHALL be included (see ARB_11 in [Topic 12]). See also section 3.1.
 * One or more attributes or metadata representing the set of data meant in Annex
  VII point b) of the [European Digital Identity Regulation] SHALL be included (see ARB_14 in [Topic 12]).
 * One or more attributes representing the set of data meant in Annex VII point c)
@@ -858,7 +883,7 @@ This certifies the optional information regerding a specific position or role he
 | --- | --- | --- | --- | --- |
 | *ProxyPosition.ExpirationDate* | *TBD* | *Specific date of expiration Issuanceof the power and the faculty it enables in the Proxy. The absence of this field implies that there is no expiration date.* | *date-time or full-date as specified in RFC 3339* | *2030-07-08T10:30:21.000Z* |
 | *ProxyPosition.Cardinality* | *TBD* | *Number of concurrent proxies with the same Position required to carry out the operations referred to in the scope of execution of the operation that is intended to be performed. If not included, it is assumed that only one Proxy is needed to perform the action.* | *Integer* | *3* |
-| *ProxyPosition.IssuingRegion* | *TBD* | *Region of a specific country where the attestation is being issued.* | *alpha-2 region code as specified in ISO 3166-2* | *MD* |
+| *ProxyPosition.IssuingRegion* | *TBD* | *Region of a specific country where the attestation is being issued.* | *alpha-2 region code as specified in ISO 3166-1* | *MD* |
 
 #### Domain 3.3 ProxyPowerScope (Power of Attorney | PoA )
 
@@ -870,7 +895,7 @@ This certifies the optional information regerding a specific scope and faculties
 | *ProxyPowerScope.Cardinality* | *TBD* | *Number of concurrent proxies with the same faculties required to carry out the operations referred to in the scope of execution of the power. If not included, it is assumed that only one Proxy is needed to perform the action.* | *Integer* | *3* |
 | *ProxyPowerScope.Constraints* | *TBD* | *In the cases where the Power is limited in its nature include the constraints. See Power.Constraints data structure. If not included, it is assumed that there are no constraints to be considered.* | *Json Object* | *See Constraints data structures below* |
 | *ProxyPowerScope.GeographicalScope* | *TBD* | *Country where the attestation is enabled to be used. Exception is made for the case that the power is usable in the EU will use the labels “EU” that are not conformant with the ISO 3166-1. If not included, it is assumed that there are no limitations in this regard.* | *List of alpha-2 country code as specified in ISO 3166-1* | *DE,ES,NL* |
-| *ProxyPowerScope.IssuingRegion* | *TBD* | *Region of a specific country where the attestation is being issued.* | *alpha-2 region code as specified in ISO 3166-2* | *MD* |
+| *ProxyPowerScope.IssuingRegion* | *TBD* | *Region of a specific country where the attestation is being issued.* | *alpha-2 region code as specified in ISO 3166-1* | *MD* |
 | *ProxyPowerScope.Mandator* | *TBD* | *The Mandator is the natural person that holds de PoR or PoA that entitles the empowerment of the subject.* | *Json Object* | *See Mandator data structures below* |
 | *ProxyPowerScope.ServiceAccess* | *TBD* | *List of all the (digital) services to which the power holder is entitled to access.* | *Json Object* | *See ServiceAccess data structures below* |
 | *ProxyPowerScope.AuthenticSourceId* | *TBD* | *Identification information with regard the authentic source that has the power and faculties registered.* | *String* | *VATES-E81458556* |
@@ -931,13 +956,6 @@ Every attestation SHALL include at least the following metadata.
 | *Schema Location* | *TBD* | *Internet address where information about the schema and the rulebook can be found in a trustworthy manner.* | *String* | *https://eidas.ec.europa.eu/efda/trust-services/browse/schema* |
 | *Trust Anchor* | *TBD* | *Authoritative, inherently trusted entity that serves as the starting point for validating a chain of trust.* | *String* | *https://eidas.ec.europa.eu/efda/trust-services/browse/anchor* |
 
-**Legal category.** This Rulebook retains the `attestation_legal_category` attribute.
-Section 4.1 of the generic template replaces it with the `category` attribute of
-[ETSI TS 119 472-1], whose value for this category is `eaa:eu:non-qualified`.
-EW-DM-12-029, legacy ARB_25, of ARF version 3.0.0 is a SHALL that still requires
-`attestation_legal_category`, so the template and the ARF disagree. The attribute is
-left as written and the deviation is recorded for the rulebook quality assurance group.
-
 ### 4.2 Optional metadata
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data type** | **Example value** |
@@ -989,7 +1007,7 @@ left as written and the deviation is recorded for the rulebook quality assurance
 | *IR-13* | *In the `validity` attribute in the attestation's metadata the value `notBefore` SHALL precede `notAfter`* | *The attestation needts to be valid within an specific timeframe* | *Verification* | *Reject attestation* |
 | *IR-14* | *Revoked attestations SHALL NOT be accepted by a Relying Party* | *Powers of Attorney and Powers of Representation need to be current and valid to generate legally binding actions* | *Verification* | *Reject attestation* |
 | *IR-15* | *Expired attestations SHALL NOT be accepted by a Relying Party* | *Powers of Attorney and Powers of Representation need to be current and valid to generate legally binding actions* | *Verification* | *Reject attestation* |
-| *IR-16* | *Issuer SHALL be trusted according to Section 5* | *There needs to be a correlation with the trust framework defined in the eIDAS regulation* | *-* | *-* |
+| *IR-16* | *Issuer SHALL be trusted according to Chapter 10* | *There needs to be a correlation with the trust framework defined in the eIDAS regulation* | *-* | *-* |
 | *IR-17* | *Attestation signature SHALL validate successfully* | *Integrity of the attestation as well as the binding with the trust anchor is vital to mantain trustworthiness in the ecosystem* | *Verification* | *Reject attestation* |
 | *IR-18* | *A mandate SHALL NOT authorize actions outside its defined scope* | *Based on business rules a Proxy is authorized to do a limited set of acctions according to risk and operational requirements* | *Verification* | *Reject action* |
 | *IR-19* | *Every attestation SHALL reference exactly one issuing authority* | *Operationaly there can not be a binding with more than one authority* | *Verification* | *Reject attestation* |
@@ -1113,9 +1131,11 @@ Wallets MAY internally convert between supported encodings provided that no sema
 
 ## 6 Protocols
 
-This attestation is issued using OpenID for Verifiable Credential Issuance
-[OpenID4VCI] and presented using OpenID for Verifiable Presentations [OpenID4VP], both
-as profiled by [HAIP].
+This chapter identifies the protocols used to issue and present this attestation.
+The substantive issuance rules are in chapter 7 and the presentation rules are in
+chapter 9.
+
+[RULEBOOK AUTHOR TO DEFINE]
 
 ## 7 Issuance
 
@@ -1124,9 +1144,9 @@ as profiled by [HAIP].
 | Field | Value | Source |
 | --- | --- | --- |
 | Device-bound | MAY | EW-DM-12-038 |
-| Cryptographically bound to | none | EW-DM-12-032 |
-| Relying Party must also verify a PID | no | EW-DM-12-031 |
-| Binding subject | legal person |  |
+| Cryptographically bound to | MAY, `urn:eudi:pid:1` recommended, where the attestation is device-bound (sections 7.2 and 9.14) | EW-DM-12-032 |
+| Relying Party must also verify a PID | yes: SHALL for use cases 1a and 1b, SHOULD for 1c (sections 7.2 and 9.13) | EW-DM-12-031 |
+| Binding subject | natural or legal person: the attorney-in-fact (PoA) or the person with a position in the company (PoR) (section 1.1) |  |
 
 ### 7.2 Issuance Policy
 
@@ -1141,12 +1161,11 @@ For detailed scenario description please review https://github.com/webuild-conso
 
 ### 7.3 Lifecycle management
 
-The issuer sets the validity period of the attestation and reissues it when the
-underlying facts change, revoking the superseded attestation as described in chapter 8.
+The attestation lifecycle, expiration and revocation are specified in chapter 8.
 
 ### 7.4 Embedded disclosure policy
 
-This attestation defines no embedded disclosure policy.
+[RULEBOOK AUTHOR TO DEFINE]
 
 ## 8 Revocation
 
@@ -1166,9 +1185,9 @@ Issued
   |
   ▼
 Active
-|  |
-| --- |
-|  |
+  |
+  | 
+  |
   ▼
 Revoked
   |
@@ -1347,8 +1366,7 @@ following steps SHALL be performed:
    transaction, and, where the trust model for this attestation requires Relying Party
    registration, only those attributes it is registered and authorised to request.
 
-Obligations specific to this attestation type, carried over from the previous version
-of this Rulebook:
+#### Relying Party Obligations
 
 Before accepting a Power of Attorney, the Relying Party SHALL verify:
 
@@ -1364,12 +1382,12 @@ Where required by applicable legislation, a PID SHALL be requested and verified.
 
 ### 9.2 Presentation modes
 
-Remote presentation is in scope. Proximity presentation is in scope only where
-chapter 5 records an mdoc encoding.
+Presentation modes are specified in section 9.10.
 
 ### 9.3 Transactional data
 
-This Rulebook defines no transactional data.
+No transactional data as defined in Topic 20 of Annex 2 of the ARF is associated
+with this attestation type.
 
 ### 9.4 Usecase 1a A person action on behalf of an organisation with PoA
 
@@ -1444,7 +1462,7 @@ The Relying Party SHALL evaluate whether the presented mandate authorizes the re
 
 ### 9.10 Presentation Requirements
 
-Presentation SHALL occur through a wallet supporting one of the attestation formats specified in Chapter 3.
+Presentation SHALL occur through a wallet supporting one of the attestation formats specified in Chapter 5.
 
 Presentation MAY be performed online, cross-device, same-device or in proximity where supported by ISO/IEC 18013-5.
 
@@ -1726,8 +1744,6 @@ Implementations SHOULD additionally support automatic trust anchor updates, meta
 Attestation lifespan defined in `validity` attribute SHALL NOT exceed the lifespan of the trust anchor.
 
 ## 11 References
-
-Draft of the PoA example is available in [poa-pox-sd-jwt-sample.json](../../data-schemas/sd-jwt/sample-data/poa-pox-sd-jwt-sample.json).
 
 | **Item Reference** | **Standard name/details** |
 | --- | --- |

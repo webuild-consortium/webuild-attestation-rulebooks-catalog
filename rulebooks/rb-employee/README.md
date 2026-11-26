@@ -16,6 +16,7 @@ Category: non-qualified EAA
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-11-24 | Correction Employee, creation of the schema and Sample file |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -224,7 +225,7 @@ This attestation type is classified as:
   employing the individual (i.e., the organization issues an attestation about its own employee
   into the employee's Natural Person Wallet).
 
-**VC Type:** `vct: eu.europa.ec.eudi.employee.1`
+**VC Type:** `vct: eu.europa.ec.eudi:employee:1`
 
 ### 3.2 Mandatory attributes
 

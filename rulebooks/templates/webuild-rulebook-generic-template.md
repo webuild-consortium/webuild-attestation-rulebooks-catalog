@@ -561,7 +561,7 @@ TO AGREE. The consortium default for this chapter is an open decision.
 attestation type, in addition to any grounds already imposed by regulation. State the
 expected time from trigger to status list update.
 
-# 9. Request, Presentation and Verification
+## 9 Request, Presentation and Verification
 
 FIXED
 
@@ -571,7 +571,7 @@ FIXED
 > 1.  **Cryptographic Integrity Verification (Tamper Proof):**
 >     The Verifier **MUST** verify that the received attestation data has not been altered or tampered with since its issuance. The wallet shall validate the digital signature over the attestation using a trusted public key (trust anchor) obtained according to the framework detailed in Chapter 10.
 > 2.  **Issuer Authentication and Trust Evaluation:**
->      The Verifier **MUST** verify the identity and regulatory standing of the Attestation Provider. The Verifier **MUST** verify that a trust anchor (Qualified Trust Service Provider (QTSP) for EAAs or the designated national Supervisory Body for other attestation), has confirmed that the attestation issuer owned the public key corresponding to the private key used to sign the verified attestation at the time of issuance.
+>      The Verifier **MUST** verify the identity and regulatory standing of the Attestation Provider. The Verifier **MUST** verify that an organization included in the EBWOID Provider trust list or another trust anchor (e.g. Qualified Trust Service Provider (QTSP) for EAAs or the designated national Supervisory Body for other attestation), has confirmed that the attestation issuer owned the public key corresponding to the private key used to sign the verified attestation at the time of issuance.
 > 3.  **Temporal Validity Verification:**
 >      The Verifier **MUST** verify that the attestation is within its stated validity window. An attestation that has not yet taken effect or has already expired **SHALL NOT** be accepted, regardless of any other successful checks.
 > 4.  **Revocation Status Verification:**
@@ -583,12 +583,12 @@ FIXED
 >     *   Ensure that the presenter has not submitted a copied or replayed attestation 
 >     *   Validate that the presented attestation was issued to this exact presenting wallet instance.
 
-## 9.1. Relying Party Role ( RP Instance - EUDI Wallet)
+### 9.1 Relying Party Role (RP Instance, EUDI Wallet)
 
 [AUTHOR] Add obligations specific to this attestation type below. Do not edit the
 list above.
 
-## 9.2. EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+### 9.2 EBW Relying Party Role (EBW Wallet, EBW Wallet)
 
 FIXED
 
@@ -691,7 +691,7 @@ FIXED
 
 **Non-qualified EAA (including S-EAA)**
 
-## 10.1. Relying Party Role ( RP Instance - EUDI Wallet)
+### 10.1 Relying Party Role (RP Instance, EUDI Wallet)
 
 FIXED
 
@@ -704,7 +704,7 @@ FIXED
 > ISSU_34 of Topic 10 of Annex 2 of the ARF.
 .
 
-## 10.2 EBW Relying Party Role ( EBW Wallet - EBW Wallet)
+### 10.2 EBW Relying Party Role (EBW Wallet, EBW Wallet)
 
 FIXED
 

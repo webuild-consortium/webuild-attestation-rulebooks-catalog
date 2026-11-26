@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Ownership
 
-Category: non-qualified EAA
+Category: S-EAA
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
@@ -324,12 +324,7 @@ Owner [1..n]                                    // The person or entity that hol
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **`EAA`** within the EUBW Wallet ecosystem, when self-issued by the legal entity subject to
-  the ownership disclosure (i.e., the entity issues an attestation about its own ownership
-  structure).
-- **`QEAA`** when issued by a qualified trust service provider (QTSP) or authorized competent
-  body that can independently attest the ownership structure (e.g., based on official company
-  register data, audited financial statements, or notarized documentation).
+- **`S-EAA`** within the EUBW Wallet ecosystem, when self-issued by the legal entity subject to  the ownership disclosure (i.e., the entity issues an attestation about its own ownership structure).
 
 #### Terms primarily relevant to a `Person` Owner
 
