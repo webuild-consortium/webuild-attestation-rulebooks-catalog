@@ -348,9 +348,13 @@ its own `bods:subject` and `bods:interestedParty` — which is what makes a chai
 traversable. See [Q-BO-12](#q-bo-12).
 
 Second, `ebwv:interestType` is declared as a plain `xsd:string` with no enumeration,
-while all three rulebooks and BODS enumerate the same concept. If the rulebooks are to
-point their `interests.type` column at an `ebwv` term, that term needs a code list; the
-BODS 23-value list is one candidate for it.
+while all three rulebooks and BODS enumerate the same concept. The semantics group has
+decided that its code list is the BODS v0.4 list of 23 values (see
+[section 7](#7-open-questions)), and the `controls.type` and `threshold_met` columns now
+point at it. Two things follow for the later vocabulary work: the term is domained on
+`ebwv:TransparencyRegisterEntry` and described as the economic interest of a natural
+person, while the rulebooks also use it for control interests and for entities as
+interested parties.
 
 A question the semantics group is better placed than this document to answer:
 `ebwv:accG10`, `ebwv:accG25`, `ebwv:dom10` and `ebwv:dom25` carry 10% thresholds and the
@@ -364,6 +368,21 @@ officials. All three rulebooks name AMLR, not `GwG`, as their regulatory basis. 
 
 Numbering continues from the semantic intake submission for this use case, filed as
 `webuild-consortium/wp4-semantics-group` PR #59.
+
+### Status after review on issue #315
+
+The semantics group reviewed these questions on issue #315 on 27.11.2026. Recorded here
+so the list below is read with its outcome:
+
+| Item | Outcome |
+| --- | --- |
+| Convention for the Semantic Reference column | Decided: an `ebwv:` term where one exists, an external IRI such as BODS v0.4 where none does, as `rb-company-info` does. The external BODS references are to be replaced later by `ebwv:` terms that keep the BODS alignment; the scope of that work is not yet agreed |
+| Code list for `ebwv:interestType` | Decided: the BODS v0.4 interest type list of 23 values. `rb-ownership` `interests.type` is to use the same list. Directness and magnitude stay in separate fields |
+| [Q-BO-01](#q-bo-01), [Q-BO-02](#q-bo-02), [Q-BO-07](#q-bo-07) | To be taken forward as proposals to the rulebook owners. For Q-BO-02 the role codes are to be one shared code list, aligned with BODS, usable by more than one rulebook |
+| [Q-BO-12](#q-bo-12) | Taken forward with a partial disagreement: the attestation states the result, for example 30% indirect ownership, and not the route to it. A hybrid path, where ownership and control by other means alternate along the chain, needs analysis — see the note under the question |
+| [Q-BO-13](#q-bo-13), [Q-BO-14](#q-bo-14) | With the rulebook owners |
+| Internal consistency items listed on issue #315 | To be taken forward |
+| Q-BO-03 to Q-BO-06, Q-BO-08 to Q-BO-11 | Open, not yet discussed |
 
 <a name="q-bo-01"></a>
 **Q-BO-01 — no beneficial owners, and withheld owners.** `rb-ownership` IR-02 and
@@ -449,12 +468,31 @@ by applying the 25% threshold to the Ownership and Control lists, which only wor
 the path is traversable. Should an interest reference the intermediary it is held
 through, as `ebwv:shareInFocusAlongBranch` and BODS relationship statements both do?
 
+*Note after review.* The reviewers' position is that the attestation states the result
+the issuer calculated, not the route. BODS takes the same approach: the beneficial owner
+is declared by one primary relationship carrying the interests that qualify them, marked
+indirect, and the chain of intermediaries is optional detail in separate component
+relationships. So a reference to the intermediary would be optional at most. On hybrid
+paths, BODS does not classify a result as ownership or control and does not calculate
+along a chain. It types each interest, and a relationship can carry several, so a person
+who qualifies through an indirect shareholding and also through a right to appoint a
+board is recorded with both interests. How a hybrid path is classified, and whether it
+belongs in the Ownership attestation or only in Control and UBO, is for the rulebook
+owners.
+
 <a name="q-bo-13"></a>
 **Q-BO-13 — `GwG` methods under an AMLR basis.** The `ebwv` beneficial-ownership module
 encodes German `GwG` calculation methods and 10% thresholds, and a notional-owner
 fallback that AMLR does not have. The three rulebooks name AMLR as their basis. Which
 governs where they differ, and should the rulebooks reference the `ebwv` module at all
 until that is settled?
+
+*Note after review.* The reviewers' position is that the rulebooks must not fix one
+threshold, and that the attestation must state which threshold and calculation method
+the issuer applied. BODS records neither: it carries each interest's share, exact or as
+a range, and whether the interest amounts to beneficial ownership or control, and leaves
+the test to the publisher's legal basis. `rb-ubo` `threshold_met` currently carries the
+threshold inside its codes, as in `ownership_25_plus`.
 
 <a name="q-bo-14"></a>
 **Q-BO-14 — the AMLR citation in `rb-ubo`.** `rb-ubo` section 1 and section 4.4.2 both

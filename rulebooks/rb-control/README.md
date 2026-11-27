@@ -424,7 +424,7 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `controls.type` | [`bods:interest`](https://vocab.openownership.org/terms#interest), [crosswalk 4.2](../rb-base/ownership-control-ubo-semantic-crosswalk.md#42-rb-control-controlstype) | Array of one or more control mechanism types, SHALL use values from Section 4.4.3 | Array [Enum] |
+| `controls.type` | [`ebwv:interestType`](https://w3id.org/ebwv#interestType), [crosswalk 4.2](../rb-base/ownership-control-ubo-semantic-crosswalk.md#42-rb-control-controlstype) | Array of one or more control mechanism types, SHALL use values from Section 4.4.3 | Array [Enum] |
 | `controls.level` | [`bods:directOrIndirect`](https://vocab.openownership.org/terms#directOrIndirect) | How control is held, SHALL be one of: `"direct"`, `"indirect"`, `"joint"`, or `"unknown"` | Enum (String) |
 | `controls.basis` | none; [Q-BO-08](../rb-base/ownership-control-ubo-semantic-crosswalk.md#q-bo-08) | Legal or structural basis for control, SHALL use values from Section 4.4.4 | Enum (String) |
 | `controls.rights` | [crosswalk 4.4](../rb-base/ownership-control-ubo-semantic-crosswalk.md#44-directness-share-and-economic-rights) | Array of economic rights associated with the control, SHALL use values from Section 4.4.5 | Array [Enum] |

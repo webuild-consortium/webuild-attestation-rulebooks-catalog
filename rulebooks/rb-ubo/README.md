@@ -429,7 +429,7 @@ Attributes that SHALL be present in every attestation of this type.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `threshold_met` | [`bods:beneficialOwnershipOrControl`](https://vocab.openownership.org/terms#beneficialOwnershipOrControl), [crosswalk 4.3](../rb-base/ownership-control-ubo-semantic-crosswalk.md#43-rb-ubo-justificationthreshold_met) | Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required | Array of Strings (Enum) |
+| `threshold_met` | [crosswalk 4.3](../rb-base/ownership-control-ubo-semantic-crosswalk.md#43-rb-ubo-justificationthreshold_met); [`ebwv:interestType`](https://w3id.org/ebwv#interestType) where the code is an interest type | Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required | Array of Strings (Enum) |
 | `ownership_percentage` | [`ebwv:relativeShare`](https://w3id.org/ebwv#relativeShare) / [`bods:shareExact`](https://vocab.openownership.org/terms#shareExact) | Total direct and indirect ownership percentage held (0–100) | Decimal |
 | `voting_rights_percentage` | [`ebwv:relativeVotingRights`](https://w3id.org/ebwv#relativeVotingRights) / [`bods:shareExact`](https://vocab.openownership.org/terms#shareExact) | Total direct and indirect voting rights percentage held (0–100) | Decimal |
 
