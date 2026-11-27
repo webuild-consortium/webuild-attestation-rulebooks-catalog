@@ -362,15 +362,15 @@ This attestation type MAY be classified as:
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `person` | — | Personal identity attributes of the UBO | Object |
-| `birth_place` | — | Place of birth of the UBO | Object |
-| `citizenship` | - | Citizenship(s) held by the UBO (one or more nationalities) | Array of Strings (ISO 3166-1 alpha-2) |
-| `residential_address` | — | Registered residential address of the UBO | Object |
-| `contact_address` | — | Optional alternative contact address of the UBO | Object |
-| `person_identifier` | — | Government-issued identity document details of the UBO | Object |
-| `person_unique_identifier` | — | Optional unique identifier assigned by an authority | Object |
-| `justification` | — | How and why this person qualifies as UBO under AMLR | Object |
-| `source` | — | Supporting evidence for the UBO determination | Array of Objects |
+| `person` | [`ebwv:NaturalPerson`](https://w3id.org/ebwv#NaturalPerson) | Personal identity attributes of the UBO | Object |
+| `birth_place` | [`ebwv:placeOfBirth`](https://w3id.org/ebwv#placeOfBirth) | Place of birth of the UBO | Object |
+| `citizenship` | [`ebwv:citizenship`](https://w3id.org/ebwv#citizenship) | Citizenship(s) held by the UBO (one or more nationalities) | Array of Strings (ISO 3166-1 alpha-2) |
+| `residential_address` | [`ebwv:domicile`](https://w3id.org/ebwv#domicile) | Registered residential address of the UBO | Object |
+| `contact_address` | [`ebwv:temporaryAddress`](https://w3id.org/ebwv#temporaryAddress) | Optional alternative contact address of the UBO | Object |
+| `person_identifier` | [`ebwv:identifier`](https://w3id.org/ebwv#identifier) | Government-issued identity document details of the UBO | Object |
+| `person_unique_identifier` | [`bods:identifier`](https://vocab.openownership.org/terms#identifier) | Optional unique identifier assigned by an authority | Object |
+| `justification` | [`bods:interest`](https://vocab.openownership.org/terms#interest) | How and why this person qualifies as UBO under AMLR | Object |
+| `source` | [`ebwv:EvidenceData`](https://w3id.org/ebwv#EvidenceData) | Supporting evidence for the UBO determination | Array of Objects |
 
 The machine-readable schema artefact for this attestation is:
 
@@ -392,64 +392,64 @@ Attributes that SHALL be present in every attestation of this type.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `first_name` | — | First name(s) / given name(s) of the natural person, including middle names where applicable | String |
-| `surname` | — | Surname(s) / family name(s) of the natural person | String |
-| `birth_date` | — | Date of birth of the natural person (ISO 8601 YYYY-MM-DD) | String (ISO 8601) |
+| `first_name` | [`ebwv:givenName`](https://w3id.org/ebwv#givenName) | First name(s) / given name(s) of the natural person, including middle names where applicable | String |
+| `surname` | [`ebwv:familyName`](https://w3id.org/ebwv#familyName) | Surname(s) / family name(s) of the natural person | String |
+| `birth_date` | [`ebwv:dateOfBirth`](https://w3id.org/ebwv#dateOfBirth) | Date of birth of the natural person (ISO 8601 YYYY-MM-DD) | String (ISO 8601) |
 
 #### BirthPlace Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `locality` | — | City or locality of birth | String |
-| `country` | — | Country of birth (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
+| `locality` | [`ebwv:placeOfBirth`](https://w3id.org/ebwv#placeOfBirth) | City or locality of birth | String |
+| `country` | [`ebwv:countryOfBirth`](https://w3id.org/ebwv#countryOfBirth) | Country of birth (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
 
 #### Citizenship Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `citizenship` | — | Nationality or nationalities held by the natural person; SHALL use ISO 3166-1 alpha-2 codes; SHALL contain at least one entry | Array of Strings [1..n] |
+| `citizenship` | [`ebwv:citizenship`](https://w3id.org/ebwv#citizenship) | Nationality or nationalities held by the natural person; SHALL use ISO 3166-1 alpha-2 codes; SHALL contain at least one entry | Array of Strings [1..n] |
 
 #### ResidentialAddress Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `street` | — | Street name of the residential address | String |
-| `house_number` | — | House or building number of the residential address | String |
-| `locality` | — | City or locality of the residential address | String |
-| `region` | — | Region or state of the residential address | String |
-| `postal_code` | — | Postal code of the residential address | String |
-| `country` | — | Country of the residential address (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
+| `street` | [`ebwv:thoroughfare`](https://w3id.org/ebwv#thoroughfare) | Street name of the residential address | String |
+| `house_number` | [`ebwv:locatorDesignator`](https://w3id.org/ebwv#locatorDesignator) | House or building number of the residential address | String |
+| `locality` | [`ebwv:postName`](https://w3id.org/ebwv#postName) | City or locality of the residential address | String |
+| `region` | [`ebwv:adminUnitL2`](https://w3id.org/ebwv#adminUnitL2) | Region or state of the residential address | String |
+| `postal_code` | [`ebwv:postCode`](https://w3id.org/ebwv#postCode) | Postal code of the residential address | String |
+| `country` | [`ebwv:adminUnitL1`](https://w3id.org/ebwv#adminUnitL1) | Country of the residential address (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
 
 #### PersonIdentifier Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `document_type` | — | Type of identity document — SHALL use values from Section 2.8.1 | String (Enum) |
-| `document_number` | — | Number of the identity document as printed on the document | String |
-| `issuing_country` | — | Country that issued the identity document (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
-| `expiry_date` | — | Expiry date of the identity document (ISO 8601 YYYY-MM-DD) | String (ISO 8601) |
+| `document_type` | [`bods:scheme`](https://vocab.openownership.org/terms#scheme), [Q-BO-09](../rb-base/ownership-control-ubo-semantic-crosswalk.md#q-bo-09) | Type of identity document — SHALL use values from Section 2.8.1 | String (Enum) |
+| `document_number` | [`bods:idString`](https://vocab.openownership.org/terms#idString) | Number of the identity document as printed on the document | String |
+| `issuing_country` | [`bods:scheme`](https://vocab.openownership.org/terms#scheme), [Q-BO-09](../rb-base/ownership-control-ubo-semantic-crosswalk.md#q-bo-09) | Country that issued the identity document (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
+| `expiry_date` | none; [Q-BO-09](../rb-base/ownership-control-ubo-semantic-crosswalk.md#q-bo-09) | Expiry date of the identity document (ISO 8601 YYYY-MM-DD) | String (ISO 8601) |
 
 #### Justification Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `threshold_met` | — | Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required | Array of Strings (Enum) |
-| `ownership_percentage` | — | Total direct and indirect ownership percentage held (0–100) | Decimal |
-| `voting_rights_percentage` | — | Total direct and indirect voting rights percentage held (0–100) | Decimal |
+| `threshold_met` | [crosswalk 4.3](../rb-base/ownership-control-ubo-semantic-crosswalk.md#43-rb-ubo-justificationthreshold_met); [`ebwv:interestType`](https://w3id.org/ebwv#interestType) where the code is an interest type | Array of applicable AML thresholds or control criteria met — SHALL use values from Section 2.8.2 — at least one value required | Array of Strings (Enum) |
+| `ownership_percentage` | [`ebwv:relativeShare`](https://w3id.org/ebwv#relativeShare) / [`bods:shareExact`](https://vocab.openownership.org/terms#shareExact) | Total direct and indirect ownership percentage held (0–100) | Decimal |
+| `voting_rights_percentage` | [`ebwv:relativeVotingRights`](https://w3id.org/ebwv#relativeVotingRights) / [`bods:shareExact`](https://vocab.openownership.org/terms#shareExact) | Total direct and indirect voting rights percentage held (0–100) | Decimal |
 
 #### Source Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `id` | — | Unique identifier for the source document | String |
-| `type` | — | Type of source document (e.g., `"Evidence"`, `"Register"`, `"TrustDeed"`) | String |
+| `id` | [`dcterms:identifier`](http://purl.org/dc/terms/identifier) | Unique identifier for the source document | String |
+| `type` | [`bods:source`](https://vocab.openownership.org/terms#source), [crosswalk 5](../rb-base/ownership-control-ubo-semantic-crosswalk.md#5-evidence-and-provenance) | Type of source document (e.g., `"Evidence"`, `"Register"`, `"TrustDeed"`) | String |
 
 #### UBO Mandatory Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `effective_date` | — | Date when this ownership or control relationship became legally effective — ISO 8601 YYYY-MM-DD | Date |
-| `evidence` | — | At least one piece of supporting evidence substantiating the declared ownership or control | Array [Object] |
+| `effective_date` | [`bods:startDate`](https://vocab.openownership.org/terms#startDate) | Date when this ownership or control relationship became legally effective — ISO 8601 YYYY-MM-DD | Date |
+| `evidence` | [`ebwv:EvidenceData`](https://w3id.org/ebwv#EvidenceData) | At least one piece of supporting evidence substantiating the declared ownership or control | Array [Object] |
 
 ### 3.3 Optional attributes
 
@@ -459,38 +459,38 @@ Attributes the Provider MAY include at its discretion.
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `region` | — | Region or state of birth — optional | String |
+| `region` | [`ebwv:adminUnitL2`](https://w3id.org/ebwv#adminUnitL2) | Region or state of birth — optional | String |
 
 #### ContactAddress Attributes *(entire object is optional)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `street` | — | Street name of the contact address | String |
-| `house_number` | — | House or building number of the contact address | String |
-| `locality` | — | City or locality of the contact address | String |
-| `region` | — | Region or state of the contact address | String |
-| `postal_code` | — | Postal code of the contact address | String |
-| `country` | — | Country of the contact address (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
+| `street` | [`ebwv:thoroughfare`](https://w3id.org/ebwv#thoroughfare) | Street name of the contact address | String |
+| `house_number` | [`ebwv:locatorDesignator`](https://w3id.org/ebwv#locatorDesignator) | House or building number of the contact address | String |
+| `locality` | [`ebwv:postName`](https://w3id.org/ebwv#postName) | City or locality of the contact address | String |
+| `region` | [`ebwv:adminUnitL2`](https://w3id.org/ebwv#adminUnitL2) | Region or state of the contact address | String |
+| `postal_code` | [`ebwv:postCode`](https://w3id.org/ebwv#postCode) | Postal code of the contact address | String |
+| `country` | [`ebwv:adminUnitL1`](https://w3id.org/ebwv#adminUnitL1) | Country of the contact address (ISO 3166-1 alpha-2) | String (ISO 3166-1) |
 
 #### PersonUniqueIdentifier Attributes *(entire object is optional)*
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `identifier_unique` | — | A unique identifier assigned to the natural person by an issuing authority | String |
-| `identifier_issuing_authority` | — | The authority that issued the unique identifier | String |
+| `identifier_unique` | [`bods:idString`](https://vocab.openownership.org/terms#idString) | A unique identifier assigned to the natural person by an issuing authority | String |
+| `identifier_issuing_authority` | [`bods:schemeName`](https://vocab.openownership.org/terms#schemeName) | The authority that issued the unique identifier | String |
 
 #### Justification Optional Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `control_details` | — | Free text description of control exercised through means other than ownership percentage | String |
+| `control_details` | [`ebwv:otherControlReason`](https://w3id.org/ebwv#otherControlReason) | Free text description of control exercised through means other than ownership percentage | String |
 
 #### Source Optional Attributes
 
 | **Data Identifier** | **Semantic Reference** | **Definition** | **Data Type** |
 | --- | --- | --- | --- |
-| `url` | — | URI reference to the source or evidence document | URI |
-| `data` | — | Base64-encoded source document — SHALL be provided if `url` is not a publicly accessible URI | String (base64) |
+| `url` | [`bods:url`](https://vocab.openownership.org/terms#url) | URI reference to the source or evidence document | URI |
+| `data` | none; [crosswalk 5](../rb-base/ownership-control-ubo-semantic-crosswalk.md#5-evidence-and-provenance) | Base64-encoded source document — SHALL be provided if `url` is not a publicly accessible URI | String (base64) |
 
 ### 3.4 Conditional attributes
 
@@ -514,8 +514,8 @@ Metadata describes the attestation rather than its subject.
 
 | **Data Identifier** | **Semantic reference**|**Definition** |**Data type**| **Example value** |                   
 | --- |-----------------------------------------------------------| --- | -- |-------------------|
-| attestation_legal_category | |Indicates the legal category of the Attestation | String | S-EAA , QEAA      |
-| cnf | | cryptographic Key Binding                                  | String |                   |
+| attestation_legal_category | [`ebwv:attestationLegalCategory`](https://w3id.org/ebwv#attestationLegalCategory) |Indicates the legal category of the Attestation | String | S-EAA , QEAA      |
+| cnf | N/A, protocol claim defined by [RFC 7800](https://www.rfc-editor.org/rfc/rfc7800) | cryptographic Key Binding                                  | String |                   |
 
 ### 4.2 Optional metadata
 
