@@ -514,8 +514,8 @@ Metadata describes the attestation rather than its subject.
 
 | **Data Identifier** | **Semantic reference**|**Definition** |**Data type**| **Example value** |                   
 | --- |-----------------------------------------------------------| --- | -- |-------------------|
-| attestation_legal_category | |Indicates the legal category of the Attestation | String | S-EAA , QEAA      |
-| cnf | | cryptographic Key Binding                                  | String |                   |
+| attestation_legal_category | [`ebwv:attestationLegalCategory`](https://w3id.org/ebwv#attestationLegalCategory) |Indicates the legal category of the Attestation | String | S-EAA , QEAA      |
+| cnf | N/A, protocol claim defined by [RFC 7800](https://www.rfc-editor.org/rfc/rfc7800) | cryptographic Key Binding                                  | String |                   |
 
 ### 4.2 Optional metadata
 
