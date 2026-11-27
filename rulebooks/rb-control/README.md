@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Control
 
-Category: non-qualified EAA
+Category: S-EAA 
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
@@ -206,6 +206,8 @@ legal entities (`Entity` with `category = "legal_entity"`), and legal arrangemen
 with `category = "legal_arrangement"`, e.g., trusts, foundations).
 
 **Controller type classification:**
+This attestation type is classified as:
+- **"S-EAA"** Self-issued by the legal entity as part of its disclosures.
 
 | Controller Type | Description |
 | --- | --- |

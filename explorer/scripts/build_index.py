@@ -337,6 +337,21 @@ def traceability_of(text):
     return rows
 
 
+def find_const(node, key):
+    """The first const declared for a property of this name, at any depth."""
+    if isinstance(node, dict):
+        hit = node.get(key)
+        if isinstance(hit, dict) and isinstance(hit.get("const"), str):
+            return hit["const"]
+        node = list(node.values())
+    if isinstance(node, list):
+        for child in node:
+            found = find_const(child, key)
+            if found:
+                return found
+    return ""
+
+
 def schema_index():
     """vct -> schema file, plus every schema file keyed by basename."""
     by_vct, files = {}, {}
@@ -363,6 +378,10 @@ def schema_index():
             const = props.get("vct", {}).get("const")
             if const:
                 by_vct[const] = rel
+            files[fn]["identifier"] = const or ""
+            if fmt == "mdoc":
+                files[fn]["identifier"] = find_const(doc, "docType")
+                files[fn]["namespace"] = find_const(doc, "namespace")
     return by_vct, files
 
 
@@ -386,6 +405,62 @@ def vct_of(text, schemas):
     block = section(text, r"^## 5 Formats", r"^## 6 ")
     m = re.search(r"`(eu\.we-build[.:][A-Za-z0-9.:_-]+|urn:eudi:[A-Za-z0-9:._-]+)`", block)
     return m.group(1) if m else ""
+
+
+IDENT_KIND = {"SD-JWT VC": "vct", "mdoc": "doctype"}
+SCHEMA_FORMAT = {"SD-JWT VC": "sd-jwt", "mdoc": "mdoc"}
+
+
+def identifiers_of(text, formats, schemas, vct):
+    """The credential type identifier of each supported format.
+
+    An SD-JWT VC is identified by its vct and an mdoc by its doctype, so a
+    rulebook carrying both has two identifiers. A vct already resolved for the
+    rulebook is kept. Otherwise the chapter 5 formats table is read first,
+    then the schema, then the text of chapter 5.
+    """
+    whole = section(text, r"^## 5 Formats", r"^## 6 ")
+    out = {}
+    if vct:
+        out["SD-JWT VC"] = {"kind": "vct", "value": vct}
+
+    def tick(word, cell):
+        m = re.search(r"`?" + word + r"`?:?\s+`([^`\s]+)`", cell, re.I)
+        return m.group(1) if m else ""
+
+    for t in tables(whole):
+        head = [clean(h).lower() for h in t["header"]]
+        if not head or "format" not in head[0] or "identifier" not in head:
+            continue
+        col = head.index("identifier")
+        for row in t["rows"]:
+            if col >= len(row):
+                continue
+            for fmt, kind in IDENT_KIND.items():
+                if fmt in out or not re.search(FORMAT_ROWS[fmt], row[0], re.I):
+                    continue
+                value = tick(kind, row[col])
+                if value:
+                    out[fmt] = {"kind": kind, "value": value}
+                    ns = tick("namespace", row[col])
+                    if ns:
+                        out[fmt]["namespace"] = ns
+
+    for fmt, kind in IDENT_KIND.items():
+        if fmt in out:
+            continue
+        for s in schemas:
+            if s["format"] == SCHEMA_FORMAT[fmt] and s.get("identifier"):
+                out[fmt] = {"kind": kind, "value": s["identifier"]}
+                if s.get("namespace"):
+                    out[fmt]["namespace"] = s["namespace"]
+                break
+
+    if "mdoc" not in out:
+        m = re.search(r"\bdocType\b[\"*:\s]*[`\"]+([A-Za-z0-9._:-]+)", whole, re.I)
+        if m:
+            out["mdoc"] = {"kind": "doctype", "value": m.group(1)}
+    return {k: v for k, v in out.items() if k in formats}
 
 
 # ------------------------------------------------------------- rulebook pages
@@ -638,6 +713,9 @@ def build():
         trace = traceability_of(text)
         fmts = formats_of(text)
         encodings = encodings_of(text, fmts)
+        identifiers = identifiers_of(text, fmts, schemas, vct)
+        if not vct:
+            vct = identifiers.get("SD-JWT VC", {}).get("value", "")
 
         if not on_template:
             problems.append(f"{slug}: not on the 11-chapter template")
@@ -656,6 +734,7 @@ def build():
             "onTemplate": on_template,
             "vct": vct,
             "formats": fmts,
+            "identifiers": identifiers,
             "encodings": encodings,
             "attributes": attrs,
             "attributeCount": len(attrs),

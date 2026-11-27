@@ -1,6 +1,6 @@
 # Attestation Rulebook for attestations of type Payment Terms
 
-Category: non-qualified EAA
+Category: S-EAA 
 
 * Author(s):
   * [Florin Coptil, Robert Bosch GmbH]
@@ -16,6 +16,7 @@ Category: non-qualified EAA
 | Version | Date | Description |
 | --- | --- | --- |
 | 1.1 | 2026-10-02 | Restructured onto the generic WE BUILD attestation rulebook template (11 chapters). No normative content removed. |
+| 1.2 | 2026-11-24 | Correction vct rulebook - schema - sample |
 
 **Written against:** ARF version 3.0.0, WE BUILD template version 1.0 (generic)
 
@@ -261,20 +262,20 @@ PaymentTerms
 **Attestation Classification:**
 
 This attestation type MAY be classified as:
-- **"EAA"** when self-issued by the legal entity subject to the payment terms disclosure.
+- **"S-EAA"** when self-issued by the legal entity subject to the payment terms disclosure.
 
 ### 3.2 Mandatory attributes
 
 #### 3.2.1 PaymentTerms Attributes
 
-| **Data Identifier** | **Semantic Reference** | **Definition** | **Optionality** | **Encoding format** |
-| --- | --- | --- | --- | --- |
-| payment_due | -- | The number of days within which payment must be made, defined as a duration (e.g., P30D) | M | ISO 8601 duration (PnD) |
-| currency | -- | The currency in which the payment is to be executed, following international standards | M | String (ISO 4217) |
-| incoterm | -- | The delivery and risk transfer term agreed between buyer and seller | M | String (3-letter ICC code) |
-| buyer_identifier | -- | Unique identifier of the buyer party (e.g., EUID, VAT number, or DUNS number) | M | String |
-| supplier_identifier | -- | Unique identifier of the supplier party (e.g., EUID, VAT number, or DUNS number) | M | String |
-| agreement_date | -- | Date when the payment terms were agreed upon | M | String (ISO 8601 YYYY-MM-DD) |
+| **Data Identifier** | **Semantic Reference** | **Definition**                                                                              | **Optionality** | **Encoding format**          |
+|---------------------|------------------------|---------------------------------------------------------------------------------------------|-----------------|------------------------------|
+| payment_due         | [paymentDueDuration](https://w3id.org/ebwv#paymentDueDuration) | The number of days within which payment must be made, defined as a duration (e.g., P30D)    | M               | ISO 8601 duration (PnD)      |
+| currency            | [currency](https://w3id.org/ebwv#currency) | The currency in which the payment is to be executed, following international standards      | M               | String (ISO 4217)            |
+| incoterm            | [DeliveryTerms](https://w3id.org/ebwv#DeliveryTerms).[dct:type](https://w3id.org/ebwv#type) | The delivery and risk transfer term agreed between buyer and seller                         | M               | String (3-letter ICC code)   |
+| buyer_identifier    | [identifier](https://w3id.org/ebwv#identifier) | Unique identifier of the buyer party (e.g., EUID, VAT number, or DUNS number)              | M               | String                       |
+| supplier_identifier | [identifier](https://w3id.org/ebwv#identifier) | Unique identifier of the supplier party (e.g., EUID, VAT number, or DUNS number)           | M               | String                       |
+| agreement_date      | --                     | Date when the payment terms were agreed upon                                                | M               | String (ISO 8601 YYYY-MM-DD) |
 
 ### 3.3 Optional attributes
 
@@ -548,7 +549,7 @@ The `status` claim SHALL be a JSON object with the following members:
 The following is a non-normative example of a Payment Terms SD-JWT VC payload:
 ```
 {
-  "vct": "eu.we-build.paymentterms.1",
+  "vct": "eu.we-build:paymentterms:1",
   "iss": "https://issuer.example.com",
   "iat": 1736935200,
   "exp": 1768471200,

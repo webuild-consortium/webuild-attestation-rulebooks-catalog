@@ -175,6 +175,9 @@
       rb.title.toLowerCase().indexOf(q) !== -1 ||
       rb.slug.toLowerCase().indexOf(q) !== -1 ||
       (rb.vct || "").toLowerCase().indexOf(q) !== -1 ||
+      Object.keys(rb.identifiers || {}).some(function (f) {
+        return rb.identifiers[f].value.toLowerCase().indexOf(q) !== -1;
+      }) ||
       rb.categories.join(" ").toLowerCase().indexOf(q) !== -1;
 
     if (inDoc || attrHits.length) return { attrs: attrHits };
@@ -282,6 +285,27 @@
            "</thead><tbody>" + rows + "</tbody></table>";
   }
 
+  /* a vct identifies an SD-JWT VC and a doctype identifies an mdoc, so the
+     credential type follows the selected format as well */
+  function credentialType(rb, fmt, choice) {
+    var id = fmt ? (rb.identifiers || {})[fmt] : null;
+    if (!id && rb.vct && !choice) { id = { kind: "vct", value: rb.vct }; }
+    if (!id && !choice) { return ""; }
+    var inner = '<span class="sub">not declared for this format</span>';
+    if (id) {
+      inner = copyable(id.value, "<code>" + esc(id.value) + "</code>") +
+              '<span class="sub">' + esc(id.kind) + "</span>";
+      if (id.namespace && id.namespace !== id.value) {
+        inner += '<span class="sub">namespace ' + esc(id.namespace) + "</span>";
+      }
+    }
+    return '<section class="detail-block lean"><h3>Credential type' +
+           help("The value that identifies this attestation type to a wallet or " +
+                "a relying party in the selected format: the vct of an SD-JWT VC " +
+                "or the doctype of an mdoc.") +
+           "</h3><p>" + inner + "</p></section>";
+  }
+
   function renderSummary(rb) {
     var body = $("detailBody");
     var fmts = (rb.formats || []).filter(function (f) {
@@ -314,11 +338,7 @@
           ? block("Category as declared", "<p>" + esc(rb.categoryDeclared) + "</p>",
                   "The Category line as written at the top of the rulebook, before it " +
                   "is matched to the six known categories.", true) : "") +
-        (rb.vct
-          ? block("Credential type",
-                  "<p>" + copyable(rb.vct, "<code>" + esc(rb.vct) + "</code>") + "</p>",
-                  "The vct value that identifies this attestation type to a wallet " +
-                  "or a relying party.", true) : "") +
+        '<div id="credType">' + credentialType(rb, fmt, fmts.length > 1) + "</div>" +
         (rb.schemas.length
           ? block("Schema artefacts", "<ul>" + rb.schemas.map(function (s) {
               return '<li><a href="' + fileUrl(s.path) + '" target="_blank" rel="noopener"><code>' +
@@ -345,6 +365,7 @@
           x.classList.toggle("on", x === b);
         });
         $("attrTable").innerHTML = attrTable(rb, detailFmt);
+        $("credType").innerHTML = credentialType(rb, detailFmt, true);
       });
     }
 
